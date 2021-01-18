@@ -1,0 +1,19 @@
+project "Windows" {
+  Bootable FileSystem FAT32 {
+     BootSector 2Stage {
+        Loader: NTOSLDR
+     }
+     Loader NTOSLDR {
+     }
+  }
+}
+
+project "Linux" {
+  Bootable FileSystem EXT4 {
+     BootSector 2Stage {
+        Loader: NTOSLDR
+     }
+     Loader NTOSLDR {
+     }
+  }
+}

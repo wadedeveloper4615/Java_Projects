@@ -1,0 +1,3 @@
+com\wade\springmvc\SpringmvcApplication.class
+com\wade\springmvc\GreetingController.class
+com\wade\springmvc\ServletInitializer.class

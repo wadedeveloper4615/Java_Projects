@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head lang="en">
+		<title>Mars Pics</title>
+		<!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+	</head>
+	<body>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Sol</th>
+					<th>Image Src</th>
+					<th>Earth Date</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="photo : ${data.photos}">
+					<td th:text="${photo.id}"></td>
+					<td th:text="${photo.sol}"></td>
+					<td th:text="${photo.earth_date}"></td>
+					<td><img style="width:100px;" th:src="${photo.img_src}"/></td>
+				</tr>
+			</tbody>
+		</table>
+	</body>
+</html>

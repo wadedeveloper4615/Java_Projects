@@ -1,6 +1,0 @@
-bin/
-build/bootWarMainClassName
-build/classes/java/main/com/wade/spring/mvc/GreetingController.class
-target/
-build/
-.gradle/

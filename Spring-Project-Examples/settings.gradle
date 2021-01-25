@@ -12,6 +12,6 @@ pluginManagement {
 		}
 	}
 }
-rootProject.name = 'Spring-project-Examples'
-include 'FullStack'
+rootProject.name = 'Spring-Project-Examples'
+
 include 'SpringMVC'

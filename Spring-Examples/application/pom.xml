@@ -8,7 +8,7 @@
 		<version>2.3.2.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.example</groupId>
+	<groupId>com.wade.spring.examples</groupId>
 	<artifactId>Application</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>multi-module-application</name>

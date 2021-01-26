@@ -1,0 +1,4 @@
+rootProject.name = 'Spring-Examples'
+
+include 'Library'
+include 'Application'

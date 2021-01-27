@@ -26,3 +26,6 @@ Spring-Project-Examples/SpringMVC/bin/
 Spring-Project-Examples/SpringMVC/build/
 Spring-Project-Examples/.gradle/6.5.1/javaCompile/
 mvc/target/
+Spring-Examples/.gradle/
+Spring-Examples/SpringMVC/target/
+Spring-Examples/build/

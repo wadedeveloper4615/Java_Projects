@@ -10,5 +10,6 @@
 
     <modules>
         <module>SpringMVC</module>
+        <module>SpringJPAMVC</module>
     </modules>
 </project>

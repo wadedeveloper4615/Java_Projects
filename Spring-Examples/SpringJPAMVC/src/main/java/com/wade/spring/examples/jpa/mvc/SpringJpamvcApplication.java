@@ -1,13 +1,13 @@
-package com.wade.spring.examples.mvc;
+package com.wade.spring.examples.jpa.mvc;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MvcApplication {
+public class SpringJpamvcApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MvcApplication.class, args);
+		SpringApplication.run(SpringJpamvcApplication.class, args);
 	}
 
 }

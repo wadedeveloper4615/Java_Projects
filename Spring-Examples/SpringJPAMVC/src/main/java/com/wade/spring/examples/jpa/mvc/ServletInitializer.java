@@ -1,4 +1,4 @@
-package com.wade.spring.examples.mvc;
+package com.wade.spring.examples.jpa.mvc;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
@@ -7,7 +7,7 @@ public class ServletInitializer extends SpringBootServletInitializer {
 
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-		return application.sources(MvcApplication.class);
+		return application.sources(SpringJpamvcApplication.class);
 	}
 
 }

@@ -1,5 +1,7 @@
 package com.wade.test;
 
-public class Test1 {
+import java.io.Serializable;
+
+public class Test1 implements Serializable {
 
 }

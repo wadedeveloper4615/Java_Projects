@@ -87,6 +87,13 @@ public class ExtractInfo {
 		} else {
 			System.out.println(" {");
 		}
+		for (int i = 0; i < fields.length; i++) {
+			System.out.println(fields[i]);
+		}
+		System.out.println("");
+		for (int i = 0; i < methods.length; i++) {
+			System.out.println(methods[i]);
+		}
 		System.out.println("}");
 	}
 }

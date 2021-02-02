@@ -24,7 +24,6 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
     implementation 'com.google.guava:guava:29.0-jre'
-	compile 'org.apache.bcel:bcel:6.5.0'
 }
 
 jar {

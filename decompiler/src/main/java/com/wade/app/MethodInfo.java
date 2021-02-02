@@ -27,15 +27,20 @@ public class MethodInfo {
 
     private String constructorName;
 
+    private Code code;
+
     public MethodInfo(ConstantPool constantPool, Method method, String constructorName) {
         access = Utility.accessToString(method.getAccessFlags());
-        // access = access.isEmpty() ? "" : (access + " ");
         signature = ((ConstantUtf8) method.getConstantPool().getConstant(method.getSignatureIndex(), Const.CONSTANT_Utf8)).getBytes();
         name = ((ConstantUtf8) method.getConstantPool().getConstant(method.getNameIndex(), Const.CONSTANT_Utf8)).getBytes();
         this.constructorName = constructorName;
         isConstructor = name.contains("<init>");
         localVariables = method.getLocalVariableTable();
-        attributes = method.getAttributes();
+        code = method.getCode();
+//        Attribute[] attributes = method.getAttributes();
+//        for (Attribute attr : attributes) {
+//            System.out.println(attr.toString());
+//        }
         exceptionTable = method.getExceptionTable();
     }
 
@@ -82,18 +87,18 @@ public class MethodInfo {
         } else {
             type = " " + type;
         }
-        return access + access + type + " " + name + buf.toString();
+        return access + type + " " + name + buf.toString();
     }
 
     @Override
     public String toString() {
         String temp = methodSignatureToString(signature, name, access, true, localVariables);
         final StringBuilder buf = new StringBuilder().append("\t").append(temp);
-        for (final Attribute attribute : attributes) {
-            if (!((attribute instanceof Code) || (attribute instanceof ExceptionTable))) {
-                buf.append(" [").append(attribute).append("]");
-            }
-        }
+        buf.append("{\n");
+        buf.append("\t/*\n");
+        buf.append(code.toString2());
+        buf.append("\n\t*/\n");
+        buf.append("\n\t}\n");
         if (exceptionTable != null) {
             final String str = exceptionTable.toString();
             if (!str.isEmpty()) {

@@ -1,0 +1,20 @@
+package com.wade.app.constantpool;
+
+import java.io.DataInputStream;
+import java.io.IOException;
+
+import com.wade.app.Const;
+
+public class ConstantInterfaceMethodref extends ConstantCP {
+    public ConstantInterfaceMethodref(final ConstantInterfaceMethodref c) {
+        super(Const.CONSTANT_InterfaceMethodref, c.getClassIndex(), c.getNameAndTypeIndex());
+    }
+
+    public ConstantInterfaceMethodref(final DataInputStream input) throws IOException {
+        super(Const.CONSTANT_InterfaceMethodref, input);
+    }
+
+    public ConstantInterfaceMethodref(final int class_index, final int name_and_type_index) {
+        super(Const.CONSTANT_InterfaceMethodref, class_index, name_and_type_index);
+    }
+}

@@ -1,0 +1,39 @@
+package com.wade.app.constantpool;
+
+import java.io.DataInputStream;
+import java.io.IOException;
+
+import com.wade.app.ClassFormatException;
+import com.wade.app.Const;
+
+public abstract class Constant {
+    protected byte tag;
+
+    public Constant(byte tag) {
+        this.tag = tag;
+    }
+
+    public byte getTag() {
+        return tag;
+    }
+
+    public static Constant readConstant(DataInputStream dataInput) throws IOException, ClassFormatException {
+        byte b = dataInput.readByte();
+        switch (b) {
+            case Const.CONSTANT_Class:
+                return new ConstantClass(dataInput);
+            case Const.CONSTANT_Fieldref:
+                return new ConstantFieldref(dataInput);
+            case Const.CONSTANT_Methodref:
+                return new ConstantMethodref(dataInput);
+            case Const.CONSTANT_InterfaceMethodref:
+                return new ConstantInterfaceMethodref(dataInput);
+            case Const.CONSTANT_String:
+                return new ConstantString(dataInput);
+            case Const.CONSTANT_Integer:
+                return new ConstantInteger(dataInput);
+            default:
+                throw new ClassFormatException("Invalid byte tag in constant pool: " + b);
+        }
+    }
+}

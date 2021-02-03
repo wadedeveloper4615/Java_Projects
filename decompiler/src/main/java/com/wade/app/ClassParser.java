@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import com.wade.app.attribute.Attribute;
 import com.wade.app.constantpool.ConstantPool;
 
 public class ClassParser {

@@ -1,4 +1,4 @@
-package com.wade.app.constantpool;
+package com.wade.app.util;
 
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;

@@ -1,4 +1,4 @@
-package com.wade.app.constantpool;
+package com.wade.app.util;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -19,6 +19,8 @@ import java.util.zip.GZIPOutputStream;
 
 import com.wade.app.ClassFormatException;
 import com.wade.app.Const;
+import com.wade.app.constantpool.Constant;
+import com.wade.app.constantpool.ConstantPool;
 
 public class Utility {
     private static class JavaReader extends FilterReader {

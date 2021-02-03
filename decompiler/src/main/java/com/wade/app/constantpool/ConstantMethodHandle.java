@@ -1,6 +1,6 @@
 package com.wade.app.constantpool;
 
-import java.io.DataInput;
+import java.io.DataInputStream;
 import java.io.IOException;
 
 import com.wade.app.Const;
@@ -13,7 +13,7 @@ public final class ConstantMethodHandle extends Constant {
         this(c.getReferenceKind(), c.getReferenceIndex());
     }
 
-    public ConstantMethodHandle(final DataInput file) throws IOException {
+    public ConstantMethodHandle(final DataInputStream file) throws IOException {
         this(file.readUnsignedByte(), file.readUnsignedShort());
     }
 

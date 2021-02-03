@@ -1,6 +1,6 @@
 package com.wade.app.constantpool;
 
-import java.io.DataInput;
+import java.io.DataInputStream;
 import java.io.IOException;
 
 import com.wade.app.ClassFormatException;
@@ -10,7 +10,7 @@ import com.wade.app.attribute.Attribute;
 public final class SourceFile extends Attribute {
     private int sourceFileIndex;
 
-    public SourceFile(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
+    public SourceFile(final int name_index, final int length, final DataInputStream input, final ConstantPool constant_pool) throws IOException {
         this(name_index, length, input.readUnsignedShort(), constant_pool);
     }
 

@@ -8,8 +8,8 @@ import com.wade.app.Const;
 public class ConstantClass extends Constant {
     private final int nameIndex;
 
-    public ConstantClass(DataInputStream dataInput) throws IOException {
-        this(dataInput.readUnsignedShort());
+    public ConstantClass(DataInputStream in) throws IOException {
+        this(in.readUnsignedShort());
     }
 
     public ConstantClass(final int nameIndex) {

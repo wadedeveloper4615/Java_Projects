@@ -1,6 +1,6 @@
 package com.wade.app.constantpool;
 
-import java.io.DataInput;
+import java.io.DataInputStream;
 import java.io.IOException;
 
 import com.wade.app.Const;
@@ -12,7 +12,7 @@ public final class ConstantDouble extends Constant implements ConstantObject {
         this(c.getBytes());
     }
 
-    public ConstantDouble(final DataInput file) throws IOException {
+    public ConstantDouble(final DataInputStream file) throws IOException {
         this(file.readDouble());
     }
 

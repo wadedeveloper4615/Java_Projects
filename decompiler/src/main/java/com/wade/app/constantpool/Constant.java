@@ -17,43 +17,43 @@ public abstract class Constant {
         return tag;
     }
 
-    public static Constant readConstant(DataInputStream dataInput) throws IOException, ClassFormatException {
-        byte b = dataInput.readByte();
+    public static Constant readConstant(DataInputStream in) throws IOException, ClassFormatException {
+        byte b = in.readByte();
         switch (b) {
             case Const.CONSTANT_Class:
-                return new ConstantClass(dataInput);
+                return new ConstantClass(in);
             case Const.CONSTANT_Fieldref:
-                return new ConstantFieldref(dataInput);
+                return new ConstantFieldref(in);
             case Const.CONSTANT_Methodref:
-                return new ConstantMethodref(dataInput);
+                return new ConstantMethodref(in);
             case Const.CONSTANT_InterfaceMethodref:
-                return new ConstantInterfaceMethodref(dataInput);
+                return new ConstantInterfaceMethodref(in);
             case Const.CONSTANT_String:
-                return new ConstantString(dataInput);
+                return new ConstantString(in);
             case Const.CONSTANT_Integer:
-                return new ConstantInteger(dataInput);
+                return new ConstantInteger(in);
             case Const.CONSTANT_Float:
-                return new ConstantFloat(dataInput);
+                return new ConstantFloat(in);
             case Const.CONSTANT_Long:
-                return new ConstantLong(dataInput);
+                return new ConstantLong(in);
             case Const.CONSTANT_Double:
-                return new ConstantDouble(dataInput);
+                return new ConstantDouble(in);
             case Const.CONSTANT_NameAndType:
-                return new ConstantNameAndType(dataInput);
+                return new ConstantNameAndType(in);
             case Const.CONSTANT_Utf8:
-                return ConstantUtf8.getInstance(dataInput);
+                return ConstantUtf8.getInstance(in);
             case Const.CONSTANT_MethodHandle:
-                return new ConstantMethodHandle(dataInput);
+                return new ConstantMethodHandle(in);
             case Const.CONSTANT_MethodType:
-                return new ConstantMethodType(dataInput);
+                return new ConstantMethodType(in);
             case Const.CONSTANT_Dynamic:
-                return new ConstantDynamic(dataInput);
+                return new ConstantDynamic(in);
             case Const.CONSTANT_InvokeDynamic:
-                return new ConstantInvokeDynamic(dataInput);
+                return new ConstantInvokeDynamic(in);
             case Const.CONSTANT_Module:
-                return new ConstantModule(dataInput);
+                return new ConstantModule(in);
             case Const.CONSTANT_Package:
-                return new ConstantPackage(dataInput);
+                return new ConstantPackage(in);
             default:
                 throw new ClassFormatException("Invalid byte tag in constant pool: " + b);
         }

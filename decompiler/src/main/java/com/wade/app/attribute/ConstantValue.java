@@ -1,6 +1,6 @@
 package com.wade.app.attribute;
 
-import java.io.DataInput;
+import java.io.DataInputStream;
 import java.io.IOException;
 
 import com.wade.app.Const;
@@ -13,7 +13,7 @@ public final class ConstantValue extends Attribute {
         this(c.getNameIndex(), c.getLength(), c.getConstantValueIndex(), c.getConstantPool());
     }
 
-    ConstantValue(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
+    ConstantValue(final int name_index, final int length, final DataInputStream input, final ConstantPool constant_pool) throws IOException {
         this(name_index, length, input.readUnsignedShort(), constant_pool);
     }
 

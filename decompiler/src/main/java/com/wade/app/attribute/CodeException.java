@@ -1,6 +1,6 @@
 package com.wade.app.attribute;
 
-import java.io.DataInput;
+import java.io.DataInputStream;
 import java.io.IOException;
 
 import com.wade.app.Constants;
@@ -16,7 +16,7 @@ public final class CodeException implements Cloneable, Node, Constants {
         this(c.getStartPC(), c.getEndPC(), c.getHandlerPC(), c.getCatchType());
     }
 
-    public CodeException(final DataInput file) throws IOException {
+    public CodeException(final DataInputStream file) throws IOException {
         this(file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort());
     }
 

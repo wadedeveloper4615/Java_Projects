@@ -1,6 +1,6 @@
 package com.wade.app.attribute;
 
-import java.io.DataInput;
+import java.io.DataInputStream;
 import java.io.IOException;
 
 import com.wade.app.Const;
@@ -14,7 +14,7 @@ public final class Synthetic extends Attribute {
         this.bytes = bytes;
     }
 
-    public Synthetic(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
+    public Synthetic(final int name_index, final int length, final DataInputStream input, final ConstantPool constant_pool) throws IOException {
         this(name_index, length, (byte[]) null, constant_pool);
         if (length > 0) {
             bytes = new byte[length];

@@ -5,11 +5,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.bcel.classfile.ModuleMainClass;
-import org.apache.bcel.classfile.ModulePackages;
-import org.apache.bcel.classfile.NestHost;
-import org.apache.bcel.classfile.NestMembers;
-
 import com.wade.app.ClassFormatException;
 import com.wade.app.Const;
 import com.wade.app.constantpool.ConstantPool;
@@ -17,7 +12,7 @@ import com.wade.app.constantpool.ConstantUtf8;
 import com.wade.app.constantpool.Node;
 import com.wade.app.constantpool.SourceFile;
 
-public abstract class Attribute implements Cloneable, Node {
+public abstract class Attribute implements Node {
     private static final boolean debug = Boolean.getBoolean(Attribute.class.getCanonicalName() + ".debug"); // Debugging on/off
     private static final Map<String, Object> readers = new HashMap<>();
     protected int name_index;
@@ -30,17 +25,6 @@ public abstract class Attribute implements Cloneable, Node {
         this.name_index = name_index;
         this.length = length;
         this.constant_pool = constant_pool;
-    }
-
-    @Override
-    public Object clone() {
-        Attribute attr = null;
-        try {
-            attr = (Attribute) super.clone();
-        } catch (final CloneNotSupportedException e) {
-            throw new Error("Clone Not Supported"); // never happens
-        }
-        return attr;
     }
 
     public final ConstantPool getConstantPool() {

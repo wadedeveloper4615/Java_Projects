@@ -1,6 +1,5 @@
 package com.wade.app.constantpool;
 
-import java.io.DataInput;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.HashMap;
@@ -62,9 +61,9 @@ public final class ConstantUtf8 extends Constant {
         this(constantUtf8.getBytes());
     }
 
-    ConstantUtf8(final DataInputStream dataInput) throws IOException {
+    ConstantUtf8(final DataInputStream in) throws IOException {
         super(Const.CONSTANT_Utf8);
-        value = dataInput.readUTF();
+        value = in.readUTF();
         created++;
     }
 
@@ -107,36 +106,14 @@ public final class ConstantUtf8 extends Constant {
         }
     }
 
-    /**
-     * Gets a new or cached instance of the given value.
-     * <p>
-     * See {@link ConstantUtf8} class Javadoc for details.
-     * </p>
-     *
-     * @param dataInput the value.
-     * @return a new or cached instance of the given value.
-     * @throws IOException if an I/O error occurs.
-     * @since 6.0
-     */
-    public static ConstantUtf8 getInstance(final DataInput dataInput) throws IOException {
-        return getInstance(dataInput.readUTF());
+    public static ConstantUtf8 getInstance(final DataInputStream in) throws IOException {
+        return getInstance(in.readUTF());
     }
 
-    /**
-     * Gets a new or cached instance of the given value.
-     * <p>
-     * See {@link ConstantUtf8} class Javadoc for details.
-     * </p>
-     *
-     * @param value the value.
-     * @return a new or cached instance of the given value.
-     * @since 6.0
-     */
     public static ConstantUtf8 getInstance(final String value) {
         return Cache.isEnabled() ? getCachedInstance(value) : new ConstantUtf8(value);
     }
 
-    // for accesss by test code
     static void printStats() {
         final String prefix = "[Apache Commons BCEL]";
         System.err.printf("%s Cache hit %,d/%,d, %d skipped.%n", prefix, hits, considered, skipped);

@@ -32,6 +32,16 @@ public abstract class Constant {
                 return new ConstantString(dataInput);
             case Const.CONSTANT_Integer:
                 return new ConstantInteger(dataInput);
+            case Const.CONSTANT_Float:
+                return new ConstantFloat(dataInput);
+            case Const.CONSTANT_Long:
+                return new ConstantLong(dataInput);
+            case Const.CONSTANT_Double:
+                return new ConstantDouble(dataInput);
+            case Const.CONSTANT_NameAndType:
+                return new ConstantNameAndType(dataInput);
+            case Const.CONSTANT_Utf8:
+                return ConstantUtf8.getInstance(dataInput);
             default:
                 throw new ClassFormatException("Invalid byte tag in constant pool: " + b);
         }

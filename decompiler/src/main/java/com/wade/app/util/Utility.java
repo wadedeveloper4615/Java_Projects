@@ -17,6 +17,7 @@ import java.util.Locale;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
+import com.wade.app.AccessFlags;
 import com.wade.app.Const;
 import com.wade.app.constantpool.Constant;
 import com.wade.app.constantpool.ConstantPool;
@@ -152,44 +153,38 @@ public class Utility {
         MAP_CHAR['_'] = j;
     }
 
-    /**
-     * Convert bit field of flags into string such as `static final'.
-     *
-     * @param access_flags Access flags
-     * @return String representation of flags
-     */
-    public static String accessToString(final int access_flags) {
+    public static String accessToString(AccessFlags access_flags) {
         return accessToString(access_flags, false);
     }
 
-    /**
-     * Convert bit field of flags into string such as `static final'.
-     *
-     * Special case: Classes compiled with new compilers and with the `ACC_SUPER'
-     * flag would be said to be "synchronized". This is because SUN used the same
-     * value for the flags `ACC_SUPER' and `ACC_SYNCHRONIZED'.
-     *
-     * @param access_flags Access flags
-     * @param for_class    access flags are for class qualifiers ?
-     * @return String representation of flags
-     */
-    public static String accessToString(final int access_flags, final boolean for_class) {
+    public static String accessToString(AccessFlags access_flags, final boolean for_class) {
         final StringBuilder buf = new StringBuilder();
-        int p = 0;
-        for (int i = 0; p < Const.MAX_ACC_FLAG_I; i++) { // Loop through known flags
-            p = pow2(i);
-            if ((access_flags & p) != 0) {
-                /*
-                 * Special case: Classes compiled with new compilers and with the `ACC_SUPER'
-                 * flag would be said to be "synchronized". This is because SUN used the same
-                 * value for the flags `ACC_SUPER' and `ACC_SYNCHRONIZED'.
-                 */
-                if (for_class && ((p == Const.ACC_SUPER) || (p == Const.ACC_INTERFACE))) {
+//        int p = 0;
+
+        for (AccessFlags flag : AccessFlags.values()) {
+            if (access_flags.isSet(flag)) {
+                if (for_class && (flag.isSet(AccessFlags.ACC_SUPER) || flag.isSet(AccessFlags.ACC_INTERFACE))) {
                     continue;
                 }
-                buf.append(Const.getAccessName(i)).append(" ");
+                buf.append(access_flags.getName()).append(" ");
             }
         }
+//
+//        for (int i = 0; p < AccessFlags.MAX_ACC_FLAG_I.getFlag(); i++) {
+//            p = pow2(i);
+//            if (access_flags.isSet(p)) {
+//                /*
+//                 * Special case: Classes compiled with new compilers and with the `ACC_SUPER'
+//                 * flag would be said to be "synchronized". This is because SUN used the same
+//                 * value for the flags `ACC_SUPER' and `ACC_SYNCHRONIZED'.
+//                 */
+//                if (for_class && ((p == AccessFlags.ACC_SUPER.getFlag()) || (p == AccessFlags.ACC_INTERFACE.getFlag()))) {
+//                    continue;
+//                }
+//                // buf.append(Const.getAccessName(i)).append(" ");
+//                buf.append(access_flags.getName()).append(" ");
+//            }
+//        }
         return buf.toString().trim();
     }
 
@@ -206,8 +201,8 @@ public class Utility {
      *
      * @return "class" or "interface", depending on the ACC_INTERFACE flag
      */
-    public static String classOrInterface(final int access_flags) {
-        return ((access_flags & Const.ACC_INTERFACE) != 0) ? "interface" : "class";
+    public static String classOrInterface(final AccessFlags access_flags) {
+        return access_flags.isInterface() ? "interface" : "class";
     }
 
     /**

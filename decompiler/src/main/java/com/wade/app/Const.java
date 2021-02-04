@@ -7,37 +7,40 @@ public final class Const {
     public static final int JVM_CLASSFILE_MAGIC = 0xCAFEBABE;
     public static final int MAX_SHORT = 65535; // 2^16 - 1
     public static final int MAX_BYTE = 255; // 2^8 - 1
-    public static final short ACC_PUBLIC = 0x0001;
-    public static final short ACC_PRIVATE = 0x0002;
-    public static final short ACC_PROTECTED = 0x0004;
-    public static final short ACC_STATIC = 0x0008;
-    public static final short ACC_FINAL = 0x0010;
-    public static final short ACC_OPEN = 0x0020;
-    public static final short ACC_SUPER = 0x0020;
-    public static final short ACC_SYNCHRONIZED = 0x0020;
-    public static final short ACC_TRANSITIVE = 0x0020;
-    public static final short ACC_BRIDGE = 0x0040;
-    public static final short ACC_STATIC_PHASE = 0x0040;
-    public static final short ACC_VOLATILE = 0x0040;
-    public static final short ACC_TRANSIENT = 0x0080;
-    public static final short ACC_VARARGS = 0x0080;
-    public static final short ACC_NATIVE = 0x0100;
-    public static final short ACC_INTERFACE = 0x0200;
-    public static final short ACC_ABSTRACT = 0x0400;
-    public static final short ACC_STRICT = 0x0800;
-    public static final short ACC_SYNTHETIC = 0x1000;
-    public static final short ACC_ANNOTATION = 0x2000;
-    public static final short ACC_ENUM = 0x4000;
-    public static final short ACC_MANDATED = (short) 0x8000;
-    public static final short ACC_MODULE = (short) 0x8000;
-    @Deprecated
-    public static final short MAX_ACC_FLAG = ACC_ENUM;
-    public static final int MAX_ACC_FLAG_I = 0x8000; // ACC_MODULE is negative as a short
-    private static final String[] ACCESS_NAMES = { "public", "private", "protected", "static", "final", "synchronized", "volatile", "transient", "native", "interface", "abstract", "strictfp", "synthetic", "annotation", "enum", "module" };
 
-    public static final int ACCESS_NAMES_LENGTH = ACCESS_NAMES.length;
+//    public static final short ACC_PUBLIC = 0x0001;
+//    public static final short ACC_PRIVATE = 0x0002;
+//    public static final short ACC_PROTECTED = 0x0004;
+//    public static final short ACC_STATIC = 0x0008;
+//    public static final short ACC_FINAL = 0x0010;
+//    public static final short ACC_OPEN = 0x0020;
+//    public static final short ACC_SUPER = 0x0020;
+//    public static final short ACC_SYNCHRONIZED = 0x0020;
+//    public static final short ACC_TRANSITIVE = 0x0020;
+//    public static final short ACC_BRIDGE = 0x0040;
+//    public static final short ACC_STATIC_PHASE = 0x0040;
+//    public static final short ACC_VOLATILE = 0x0040;
+//    public static final short ACC_TRANSIENT = 0x0080;
+//    public static final short ACC_VARARGS = 0x0080;
+//    public static final short ACC_NATIVE = 0x0100;
+//    public static final short ACC_INTERFACE = 0x0200;
+//    public static final short ACC_ABSTRACT = 0x0400;
+//    public static final short ACC_STRICT = 0x0800;
+//    public static final short ACC_SYNTHETIC = 0x1000;
+//    public static final short ACC_ANNOTATION = 0x2000;
+//    public static final short ACC_ENUM = 0x4000;
+//    public static final short ACC_MANDATED = (short) 0x8000;
+//    public static final short ACC_MODULE = (short) 0x8000;
+//    @Deprecated
+//    public static final short MAX_ACC_FLAG = ACC_ENUM;
+//    public static final int MAX_ACC_FLAG_I = 0x8000; // ACC_MODULE is negative as a short
+    // private static final String[] ACCESS_NAMES = { "public", "private",
+    // "protected", "static", "final", "synchronized", "volatile", "transient",
+    // "native", "interface", "abstract", "strictfp", "synthetic", "annotation",
+    // "enum", "module" };
+
+    // public static final int ACCESS_NAMES_LENGTH = ACCESS_NAMES.length;
     public static final byte CONSTANT_Utf8 = 1;
-
     public static final byte CONSTANT_Integer = 3;
     public static final byte CONSTANT_Float = 4;
     public static final byte CONSTANT_Long = 5;
@@ -55,6 +58,7 @@ public final class Const {
     public static final byte CONSTANT_Module = 19;
     public static final byte CONSTANT_Package = 20;
     private static final String[] CONSTANT_NAMES = { "", "CONSTANT_Utf8", "", "CONSTANT_Integer", "CONSTANT_Float", "CONSTANT_Long", "CONSTANT_Double", "CONSTANT_Class", "CONSTANT_String", "CONSTANT_Fieldref", "CONSTANT_Methodref", "CONSTANT_InterfaceMethodref", "CONSTANT_NameAndType", "", "", "CONSTANT_MethodHandle", "CONSTANT_MethodType", "CONSTANT_Dynamic", "CONSTANT_InvokeDynamic", "CONSTANT_Module", "CONSTANT_Package" };
+
     public static final String STATIC_INITIALIZER_NAME = "<clinit>";
     public static final String CONSTRUCTOR_NAME = "<init>";
     private static final String[] INTERFACES_IMPLEMENTED_BY_ARRAYS = { "java.lang.Cloneable", "java.io.Serializable" };
@@ -427,11 +431,11 @@ public final class Const {
     private static final String[] METHODHANDLE_NAMES = { "", "getField", "getStatic", "putField", "putStatic", "invokeVirtual", "invokeStatic", "invokeSpecial", "newInvokeSpecial", "invokeInterface" };
 
     private Const() {
-    } // not instantiable
-
-    public static String getAccessName(final int index) {
-        return ACCESS_NAMES[index];
     }
+
+//    public static String getAccessName(final int index) {
+//        return ACCESS_NAMES[index];
+//    }
 
     public static String getAttributeName(final int index) {
         return ATTRIBUTE_NAMES[index];

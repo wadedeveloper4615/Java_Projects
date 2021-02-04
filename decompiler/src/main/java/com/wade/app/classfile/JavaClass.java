@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import com.wade.app.AccessFlags;
 import com.wade.app.Const;
 import com.wade.app.Version;
 import com.wade.app.attribute.Attribute;
@@ -16,7 +17,7 @@ import com.wade.app.util.ClassQueue;
 import com.wade.app.util.Repository;
 import com.wade.app.util.Utility;
 
-public class JavaClass extends AccessFlags implements Node, Comparable<JavaClass> {
+public class JavaClass extends AbstractAccessFlags implements Node, Comparable<JavaClass> {
     public static byte HEAP = 1;
     public static byte FILE = 2;
     public static byte ZIP = 3;
@@ -37,7 +38,7 @@ public class JavaClass extends AccessFlags implements Node, Comparable<JavaClass
     private String[] interfaceNames;
     private Repository repository;
 
-    public JavaClass(int classNameIndex, int superclassNameIndex, String fileName, Version version, int access_flags, ConstantPool constantPool, int[] interfaces, Field[] fields, Method[] methods, Attribute[] attributes, byte source) throws ClassFormatException {
+    public JavaClass(int classNameIndex, int superclassNameIndex, String fileName, Version version, AccessFlags access_flags, ConstantPool constantPool, int[] interfaces, Field[] fields, Method[] methods, Attribute[] attributes, byte source) throws ClassFormatException {
         super(access_flags);
         if (interfaces == null) {
             interfaces = new int[0];
@@ -238,11 +239,11 @@ public class JavaClass extends AccessFlags implements Node, Comparable<JavaClass
     }
 
     public boolean isClass() {
-        return (super.getAccessFlags() & Const.ACC_INTERFACE) == 0;
+        return !super.getAccessFlags().isInterface();
     }
 
     public boolean isSuper() {
-        return (super.getAccessFlags() & Const.ACC_SUPER) != 0;
+        return super.getAccessFlags().isSuper();
     }
 
     public void setRepository(com.wade.app.util.Repository repository) {

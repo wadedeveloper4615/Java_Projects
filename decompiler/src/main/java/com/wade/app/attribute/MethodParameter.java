@@ -3,6 +3,7 @@ package com.wade.app.attribute;
 import java.io.DataInputStream;
 import java.io.IOException;
 
+import com.wade.app.AccessFlags;
 import com.wade.app.Const;
 import com.wade.app.constantpool.ConstantPool;
 import com.wade.app.constantpool.ConstantUtf8;
@@ -10,17 +11,17 @@ import com.wade.app.exception.ClassFormatException;
 
 public class MethodParameter {
     private int nameIndex;
-    private int accessFlags;
+    private AccessFlags accessFlags;
 
     public MethodParameter() {
     }
 
     public MethodParameter(final DataInputStream input) throws IOException {
         nameIndex = input.readUnsignedShort();
-        accessFlags = input.readUnsignedShort();
+        accessFlags = AccessFlags.read(input);
     }
 
-    public int getAccessFlags() {
+    public AccessFlags getAccessFlags() {
         return accessFlags;
     }
 
@@ -36,18 +37,18 @@ public class MethodParameter {
     }
 
     public boolean isFinal() {
-        return (accessFlags & Const.ACC_FINAL) != 0;
+        return accessFlags.isFinal();
     }
 
     public boolean isMandated() {
-        return (accessFlags & Const.ACC_MANDATED) != 0;
+        return accessFlags.isMandated();
     }
 
     public boolean isSynthetic() {
-        return (accessFlags & Const.ACC_SYNTHETIC) != 0;
+        return accessFlags.isSynthetic();
     }
 
-    public void setAccessFlags(final int access_flags) {
+    public void setAccessFlags(AccessFlags access_flags) {
         this.accessFlags = access_flags;
     }
 }

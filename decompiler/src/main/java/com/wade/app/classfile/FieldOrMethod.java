@@ -3,6 +3,7 @@ package com.wade.app.classfile;
 import java.io.DataInputStream;
 import java.io.IOException;
 
+import com.wade.app.AccessFlags;
 import com.wade.app.Const;
 import com.wade.app.attribute.AnnotationEntry;
 import com.wade.app.attribute.Attribute;
@@ -12,7 +13,7 @@ import com.wade.app.constantpool.ConstantUtf8;
 import com.wade.app.constantpool.Node;
 import com.wade.app.exception.ClassFormatException;
 
-public abstract class FieldOrMethod extends AccessFlags implements Node {
+public abstract class FieldOrMethod extends AbstractAccessFlags implements Node {
     protected int name_index;
     protected int signature_index;
     protected Attribute[] attributes;
@@ -32,15 +33,15 @@ public abstract class FieldOrMethod extends AccessFlags implements Node {
         for (int i = 0; i < attributes_count; i++) {
             attributes[i] = Attribute.readAttribute(file, constant_pool);
         }
-        this.attributes_count = attributes_count; // init deprecated field
+        this.attributes_count = attributes_count;
     }
 
     protected FieldOrMethod(final FieldOrMethod c) {
-        this(c.getAccessFlags(), c.getNameIndex(), c.getSignatureIndex(), c.getAttributes(), c.getConstantPool());
+        this(c.getAccessFlags().getFlag(), c.getNameIndex(), c.getSignatureIndex(), c.getAttributes(), c.getConstantPool());
     }
 
-    protected FieldOrMethod(final int access_flags, final int name_index, final int signature_index, final Attribute[] attributes, final ConstantPool constant_pool) {
-        super(access_flags);
+    protected FieldOrMethod(int access_flags, final int name_index, final int signature_index, final Attribute[] attributes, final ConstantPool constant_pool) {
+        super(AccessFlags.ACC_DUMMY.setFlag(access_flags));
         this.name_index = name_index;
         this.signature_index = signature_index;
         this.constant_pool = constant_pool;

@@ -24,7 +24,7 @@ public class ClassParser {
     private int classNameIndex;
     private int superclassNameIndex;
     private Version version;
-    private int accessFlags;
+    private AccessFlags accessFlags;
     private int[] interfaces;
     private ConstantPool constantPool;
     private Field[] fields;
@@ -50,7 +50,7 @@ public class ClassParser {
         fileOwned = true;
     }
 
-    public int getAccessFlags() {
+    public AccessFlags getAccessFlags() {
         return accessFlags;
     }
 
@@ -161,11 +161,11 @@ public class ClassParser {
     }
 
     private void readClassInfo() throws IOException, ClassFormatException {
-        accessFlags = dataInputStream.readUnsignedShort();
-        if ((accessFlags & Const.ACC_INTERFACE) != 0) {
-            accessFlags |= Const.ACC_ABSTRACT;
+        accessFlags = AccessFlags.read(dataInputStream);
+        if (accessFlags.isInterface()) {
+            accessFlags.setFlag(accessFlags.getFlag() | AccessFlags.ACC_ABSTRACT.getFlag());
         }
-        if (((accessFlags & Const.ACC_ABSTRACT) != 0) && ((accessFlags & Const.ACC_FINAL) != 0)) {
+        if (accessFlags.isAbstract() && accessFlags.isFinal()) {
             throw new ClassFormatException("Class " + fileName + " can't be both final and abstract");
         }
         classNameIndex = dataInputStream.readUnsignedShort();

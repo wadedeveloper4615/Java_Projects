@@ -1,5 +1,6 @@
-package com.wade.app;
+package com.wade.app.classfile;
 
+import com.wade.app.Const;
 import com.wade.app.exception.ClassGenException;
 
 public final class ArrayType extends ReferenceType {

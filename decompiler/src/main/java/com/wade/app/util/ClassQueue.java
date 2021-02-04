@@ -2,7 +2,7 @@ package com.wade.app.util;
 
 import java.util.LinkedList;
 
-import com.wade.app.JavaClass;
+import com.wade.app.classfile.JavaClass;
 
 public class ClassQueue {
     protected LinkedList<JavaClass> vec = new LinkedList<>();

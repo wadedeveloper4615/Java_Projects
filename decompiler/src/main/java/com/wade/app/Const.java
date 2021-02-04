@@ -5,40 +5,6 @@ import java.util.Collections;
 
 public final class Const {
     public static final int JVM_CLASSFILE_MAGIC = 0xCAFEBABE;
-    public static final short MAJOR_1_1 = 45;
-    public static final short MINOR_1_1 = 3;
-    public static final short MAJOR_1_2 = 46;
-    public static final short MINOR_1_2 = 0;
-    public static final short MAJOR_1_3 = 47;
-    public static final short MINOR_1_3 = 0;
-    public static final short MAJOR_1_4 = 48;
-    public static final short MINOR_1_4 = 0;
-    public static final short MAJOR_1_5 = 49;
-    public static final short MINOR_1_5 = 0;
-    public static final short MAJOR_1_6 = 50;
-    public static final short MINOR_1_6 = 0;
-    public static final short MAJOR_1_7 = 51;
-    public static final short MINOR_1_7 = 0;
-    public static final short MAJOR_1_8 = 52;
-    public static final short MINOR_1_8 = 0;
-    public static final short MAJOR_9 = 53;
-    public static final short MINOR_9 = 0;
-    @Deprecated
-    public static final short MAJOR_1_9 = MAJOR_9;
-    @Deprecated
-    public static final short MINOR_1_9 = MINOR_9;
-    public static final short MAJOR_10 = 54;
-    public static final short MINOR_10 = 0;
-    public static final short MAJOR_11 = 55;
-    public static final short MINOR_11 = 0;
-    public static final short MAJOR_12 = 56;
-    public static final short MINOR_12 = 0;
-    public static final short MAJOR_13 = 57;
-    public static final short MINOR_13 = 0;
-    public static final short MAJOR_14 = 58;
-    public static final short MINOR_14 = 0;
-    public static final short MAJOR = MAJOR_1_1;
-    public static final short MINOR = MINOR_1_1;
     public static final int MAX_SHORT = 65535; // 2^16 - 1
     public static final int MAX_BYTE = 255; // 2^8 - 1
     public static final short ACC_PUBLIC = 0x0001;

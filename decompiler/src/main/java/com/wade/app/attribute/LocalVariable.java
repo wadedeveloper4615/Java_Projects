@@ -4,7 +4,7 @@ import java.io.DataInputStream;
 import java.io.IOException;
 
 import com.wade.app.Const;
-import com.wade.app.Constants;
+import com.wade.app.classfile.Constants;
 import com.wade.app.constantpool.ConstantPool;
 import com.wade.app.constantpool.ConstantUtf8;
 import com.wade.app.constantpool.Node;

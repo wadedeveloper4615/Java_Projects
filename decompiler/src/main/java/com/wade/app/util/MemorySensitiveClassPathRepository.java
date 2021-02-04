@@ -4,7 +4,7 @@ import java.lang.ref.SoftReference;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.wade.app.JavaClass;
+import com.wade.app.classfile.JavaClass;
 
 public class MemorySensitiveClassPathRepository extends AbstractClassPathRepository {
 

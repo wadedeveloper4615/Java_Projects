@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import com.wade.app.ClassParser;
-import com.wade.app.JavaClass;
+import com.wade.app.classfile.JavaClass;
 import com.wade.app.exception.ClassFormatException;
 
 abstract class AbstractClassPathRepository implements Repository {

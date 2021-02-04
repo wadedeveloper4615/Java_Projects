@@ -1,4 +1,4 @@
-package com.wade.app;
+package com.wade.app.classfile;
 
 public interface Constants {
 

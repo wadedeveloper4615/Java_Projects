@@ -1,8 +1,9 @@
-package com.wade.app;
+package com.wade.app.classfile;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.wade.app.Const;
 import com.wade.app.exception.ClassFormatException;
 import com.wade.app.util.Utility;
 

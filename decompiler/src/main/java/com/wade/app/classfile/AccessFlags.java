@@ -1,4 +1,6 @@
-package com.wade.app;
+package com.wade.app.classfile;
+
+import com.wade.app.Const;
 
 public abstract class AccessFlags {
     protected int access_flags;

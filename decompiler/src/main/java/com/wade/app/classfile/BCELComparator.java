@@ -1,4 +1,4 @@
-package com.wade.app;
+package com.wade.app.classfile;
 
 public interface BCELComparator {
     boolean equals(Object THIS, Object THAT);

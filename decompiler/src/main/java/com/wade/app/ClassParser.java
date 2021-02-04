@@ -9,31 +9,33 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import com.wade.app.attribute.Attribute;
+import com.wade.app.classfile.Field;
+import com.wade.app.classfile.JavaClass;
+import com.wade.app.classfile.Method;
 import com.wade.app.constantpool.ConstantPool;
 import com.wade.app.exception.ClassFormatException;
 
 public class ClassParser {
     private static final int BUFSIZE = 8192;
     private DataInputStream dataInputStream;
-    private final boolean fileOwned;
-    private final String fileName;
+    private boolean fileOwned;
+    private String fileName;
     private String zipFile;
     private int classNameIndex;
     private int superclassNameIndex;
-    private int major; // Compiler version
-    private int minor; // Compiler version
-    private int accessFlags; // Access rights of parsed class
-    private int[] interfaces; // Names of implemented interfaces
-    private ConstantPool constantPool; // collection of constants
-    private Field[] fields; // class fields, i.e., its variables
-    private Method[] methods; // methods defined in the class
-    private Attribute[] attributes; // attributes defined in the class
-    private final boolean isZip; // Loaded from zip file
+    private Version version;
+    private int accessFlags;
+    private int[] interfaces;
+    private ConstantPool constantPool;
+    private Field[] fields;
+    private Method[] methods;
+    private Attribute[] attributes;
+    private boolean isZip;
 
-    public ClassParser(final InputStream inputStream, final String fileName) {
+    public ClassParser(InputStream inputStream, String fileName) {
         this.fileName = fileName;
         fileOwned = false;
-        final String clazz = inputStream.getClass().getName(); // Not a very clean solution ...
+        String clazz = inputStream.getClass().getName();
         isZip = clazz.startsWith("java.util.zip.") || clazz.startsWith("java.util.jar.");
         if (inputStream instanceof DataInputStream) {
             this.dataInputStream = (DataInputStream) inputStream;
@@ -46,6 +48,62 @@ public class ClassParser {
         isZip = false;
         this.fileName = fileName;
         fileOwned = true;
+    }
+
+    public int getAccessFlags() {
+        return accessFlags;
+    }
+
+    public Attribute[] getAttributes() {
+        return attributes;
+    }
+
+    public int getClassNameIndex() {
+        return classNameIndex;
+    }
+
+    public ConstantPool getConstantPool() {
+        return constantPool;
+    }
+
+    public DataInputStream getDataInputStream() {
+        return dataInputStream;
+    }
+
+    public Field[] getFields() {
+        return fields;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public int[] getInterfaces() {
+        return interfaces;
+    }
+
+    public Method[] getMethods() {
+        return methods;
+    }
+
+    public int getSuperclassNameIndex() {
+        return superclassNameIndex;
+    }
+
+    public Version getVersion() {
+        return version;
+    }
+
+    public String getZipFile() {
+        return zipFile;
+    }
+
+    public boolean isFileOwned() {
+        return fileOwned;
+    }
+
+    public boolean isZip() {
+        return isZip;
     }
 
     public JavaClass parse() throws IOException, ClassFormatException {
@@ -80,21 +138,26 @@ public class ClassParser {
                         if (dataInputStream != null) {
                             dataInputStream.close();
                         }
-                    } catch (final IOException ioe) {
+                    } catch (IOException ioe) {
                     }
                 }
                 try {
                     if (zip != null) {
                         zip.close();
                     }
-                } catch (final IOException ioe) {
+                } catch (IOException ioe) {
                 }
             }
         }
-        return new JavaClass(classNameIndex, superclassNameIndex, fileName, major, minor, accessFlags, constantPool, interfaces, fields, methods, attributes, isZip ? JavaClass.ZIP : JavaClass.FILE);
+        return new JavaClass(classNameIndex, superclassNameIndex, fileName, version, accessFlags, constantPool, interfaces, fields, methods, attributes, isZip ? JavaClass.ZIP : JavaClass.FILE);
     }
 
-    private void readAttributes() {
+    private void readAttributes() throws IOException {
+        int attributes_count = dataInputStream.readUnsignedShort();
+        attributes = new Attribute[attributes_count];
+        for (int i = 0; i < attributes_count; i++) {
+            attributes[i] = Attribute.readAttribute(dataInputStream, constantPool);
+        }
     }
 
     private void readClassInfo() throws IOException, ClassFormatException {
@@ -135,11 +198,15 @@ public class ClassParser {
         }
     }
 
-    private void readMethods() {
+    private void readMethods() throws IOException {
+        final int fields_count = dataInputStream.readUnsignedShort();
+        fields = new Field[fields_count];
+        for (int i = 0; i < fields_count; i++) {
+            fields[i] = new Field(dataInputStream, constantPool);
+        }
     }
 
     private void readVersion() throws IOException {
-        minor = dataInputStream.readUnsignedShort();
-        major = dataInputStream.readUnsignedShort();
+        version = Version.read(dataInputStream);
     }
 }

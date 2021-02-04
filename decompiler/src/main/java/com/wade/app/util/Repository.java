@@ -1,6 +1,6 @@
 package com.wade.app.util;
 
-import com.wade.app.JavaClass;
+import com.wade.app.classfile.JavaClass;
 import com.wade.app.exception.ClassFormatException;
 
 public interface Repository {

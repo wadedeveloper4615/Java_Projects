@@ -3,7 +3,7 @@ package com.wade.app.attribute;
 import java.io.DataInputStream;
 import java.io.IOException;
 
-import com.wade.app.Constants;
+import com.wade.app.classfile.Constants;
 import com.wade.app.constantpool.Node;
 
 public final class CodeException implements Cloneable, Node, Constants {

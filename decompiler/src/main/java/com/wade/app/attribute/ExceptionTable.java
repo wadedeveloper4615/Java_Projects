@@ -3,9 +3,9 @@ package com.wade.app.attribute;
 import java.io.DataInputStream;
 import java.io.IOException;
 
-import com.wade.app.ClassFormatException;
 import com.wade.app.Const;
 import com.wade.app.constantpool.ConstantPool;
+import com.wade.app.exception.ClassFormatException;
 
 public final class ExceptionTable extends Attribute {
     private int[] exceptionIndexTable;

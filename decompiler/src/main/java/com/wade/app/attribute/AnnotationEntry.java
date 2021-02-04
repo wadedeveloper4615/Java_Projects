@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.wade.app.ClassFormatException;
 import com.wade.app.Const;
 import com.wade.app.constantpool.ConstantPool;
 import com.wade.app.constantpool.ConstantUtf8;
 import com.wade.app.constantpool.Node;
+import com.wade.app.exception.ClassFormatException;
 
 public class AnnotationEntry implements Node {
     private final int typeIndex;

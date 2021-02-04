@@ -1,7 +1,7 @@
 package com.wade.app;
 
 public abstract class AccessFlags {
-    protected int access_flags; // TODO not used externally at present
+    protected int access_flags;
 
     public AccessFlags() {
     }

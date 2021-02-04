@@ -2482,7 +2482,6 @@ public interface Constants {
 
     short KNOWN_ATTRIBUTES = 12;// should be 17
 
-    // TODO: mutable public array!!
     String[] ATTRIBUTE_NAMES = { "SourceFile", "ConstantValue", "Code", "Exceptions", "LineNumberTable", "LocalVariableTable", "InnerClasses", "Synthetic", "Deprecated", "PMGClass", "Signature", "StackMap", "RuntimeVisibleAnnotations", "RuntimeInvisibleAnnotations", "RuntimeVisibleParameterAnnotations", "RuntimeInvisibleParameterAnnotations", "AnnotationDefault" };
 
     /**

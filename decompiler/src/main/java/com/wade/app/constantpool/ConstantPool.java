@@ -3,8 +3,8 @@ package com.wade.app.constantpool;
 import java.io.DataInputStream;
 import java.io.IOException;
 
-import com.wade.app.ClassFormatException;
 import com.wade.app.Const;
+import com.wade.app.exception.ClassFormatException;
 import com.wade.app.util.Utility;
 
 public class ConstantPool {

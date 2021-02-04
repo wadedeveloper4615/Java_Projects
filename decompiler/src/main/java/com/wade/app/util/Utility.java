@@ -17,10 +17,10 @@ import java.util.Locale;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
-import com.wade.app.ClassFormatException;
 import com.wade.app.Const;
 import com.wade.app.constantpool.Constant;
 import com.wade.app.constantpool.ConstantPool;
+import com.wade.app.exception.ClassFormatException;
 
 public class Utility {
     private static class JavaReader extends FilterReader {

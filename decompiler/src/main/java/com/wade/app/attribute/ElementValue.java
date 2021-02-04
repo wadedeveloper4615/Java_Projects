@@ -36,7 +36,7 @@ public abstract class ElementValue {
         this.cpool = cpool;
     }
 
-    final ConstantPool getConstantPool() {
+    protected final ConstantPool getConstantPool() {
         return cpool;
     }
 
@@ -44,7 +44,7 @@ public abstract class ElementValue {
         return type;
     }
 
-    final int getType() {
+    protected final int getType() {
         return type;
     }
 

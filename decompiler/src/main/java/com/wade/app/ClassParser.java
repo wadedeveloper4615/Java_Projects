@@ -10,10 +10,11 @@ import java.util.zip.ZipFile;
 
 import com.wade.app.attribute.Attribute;
 import com.wade.app.constantpool.ConstantPool;
+import com.wade.app.exception.ClassFormatException;
 
 public class ClassParser {
     private static final int BUFSIZE = 8192;
-    // private DataInputStream dataInputStream;
+    private DataInputStream dataInputStream;
     private final boolean fileOwned;
     private final String fileName;
     private String zipFile;
@@ -29,6 +30,18 @@ public class ClassParser {
     private Attribute[] attributes; // attributes defined in the class
     private final boolean isZip; // Loaded from zip file
 
+    public ClassParser(final InputStream inputStream, final String fileName) {
+        this.fileName = fileName;
+        fileOwned = false;
+        final String clazz = inputStream.getClass().getName(); // Not a very clean solution ...
+        isZip = clazz.startsWith("java.util.zip.") || clazz.startsWith("java.util.jar.");
+        if (inputStream instanceof DataInputStream) {
+            this.dataInputStream = (DataInputStream) inputStream;
+        } else {
+            this.dataInputStream = new DataInputStream(new BufferedInputStream(inputStream, BUFSIZE));
+        }
+    }
+
     public ClassParser(String fileName) {
         isZip = false;
         this.fileName = fileName;
@@ -37,59 +50,95 @@ public class ClassParser {
 
     public JavaClass parse() throws IOException, ClassFormatException {
         InputStream istream = null;
+        ZipFile zip = null;
         if (fileOwned) {
-            if (isZip) {
-                ZipFile zip = new ZipFile(zipFile);
-                ZipEntry entry = zip.getEntry(fileName);
+            try {
+                if (isZip) {
+                    zip = new ZipFile(zipFile);
+                    ZipEntry entry = zip.getEntry(fileName);
 
-                if (entry == null) {
-                    throw new IOException("File " + fileName + " not found");
+                    if (entry == null) {
+                        throw new IOException("File " + fileName + " not found");
+                    }
+
+                    istream = zip.getInputStream(entry);
+                } else {
+                    istream = new FileInputStream(fileName);
                 }
-
-                istream = zip.getInputStream(entry);
-            } else {
-                istream = new FileInputStream(fileName);
-            }
-            try (DataInputStream dataInputStream = new DataInputStream(new BufferedInputStream(istream, BUFSIZE))) {
-                readID(dataInputStream);
-                readVersion(dataInputStream);
-                readConstantPool(dataInputStream);
-                readClassInfo(dataInputStream);
-                readInterfaces(dataInputStream);
-                readFields(dataInputStream);
-                readMethods(dataInputStream);
-                readAttributes(dataInputStream);
+                dataInputStream = new DataInputStream(new BufferedInputStream(istream, BUFSIZE));
+                readID();
+                readVersion();
+                readConstantPool();
+                readClassInfo();
+                readInterfaces();
+                readFields();
+                readMethods();
+                readAttributes();
+            } finally {
+                if (fileOwned) {
+                    try {
+                        if (dataInputStream != null) {
+                            dataInputStream.close();
+                        }
+                    } catch (final IOException ioe) {
+                    }
+                }
+                try {
+                    if (zip != null) {
+                        zip.close();
+                    }
+                } catch (final IOException ioe) {
+                }
             }
         }
         return new JavaClass(classNameIndex, superclassNameIndex, fileName, major, minor, accessFlags, constantPool, interfaces, fields, methods, attributes, isZip ? JavaClass.ZIP : JavaClass.FILE);
     }
 
-    private void readAttributes(DataInputStream dataInputStream) {
+    private void readAttributes() {
     }
 
-    private void readClassInfo(DataInputStream dataInputStream) {
+    private void readClassInfo() throws IOException, ClassFormatException {
+        accessFlags = dataInputStream.readUnsignedShort();
+        if ((accessFlags & Const.ACC_INTERFACE) != 0) {
+            accessFlags |= Const.ACC_ABSTRACT;
+        }
+        if (((accessFlags & Const.ACC_ABSTRACT) != 0) && ((accessFlags & Const.ACC_FINAL) != 0)) {
+            throw new ClassFormatException("Class " + fileName + " can't be both final and abstract");
+        }
+        classNameIndex = dataInputStream.readUnsignedShort();
+        superclassNameIndex = dataInputStream.readUnsignedShort();
     }
 
-    private void readConstantPool(DataInputStream dataInputStream) throws IOException, ClassFormatException {
+    private void readConstantPool() throws IOException, ClassFormatException {
         constantPool = new ConstantPool(dataInputStream);
     }
 
-    private void readFields(DataInputStream dataInputStream) {
+    private void readFields() throws IOException {
+        final int fields_count = dataInputStream.readUnsignedShort();
+        fields = new Field[fields_count];
+        for (int i = 0; i < fields_count; i++) {
+            fields[i] = new Field(dataInputStream, constantPool);
+        }
     }
 
-    private void readID(DataInputStream dataInputStream) throws IOException, ClassFormatException {
+    private void readID() throws IOException, ClassFormatException {
         if (dataInputStream.readInt() != Const.JVM_CLASSFILE_MAGIC) {
             throw new ClassFormatException(fileName + " is not a Java .class file");
         }
     }
 
-    private void readInterfaces(DataInputStream dataInputStream) {
+    private void readInterfaces() throws IOException {
+        final int interfaces_count = dataInputStream.readUnsignedShort();
+        interfaces = new int[interfaces_count];
+        for (int i = 0; i < interfaces_count; i++) {
+            interfaces[i] = dataInputStream.readUnsignedShort();
+        }
     }
 
-    private void readMethods(DataInputStream dataInputStream) {
+    private void readMethods() {
     }
 
-    private void readVersion(DataInputStream dataInputStream) throws IOException {
+    private void readVersion() throws IOException {
         minor = dataInputStream.readUnsignedShort();
         major = dataInputStream.readUnsignedShort();
     }

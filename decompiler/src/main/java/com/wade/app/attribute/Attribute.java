@@ -5,20 +5,20 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.wade.app.ClassFormatException;
 import com.wade.app.Const;
 import com.wade.app.constantpool.ConstantPool;
 import com.wade.app.constantpool.ConstantUtf8;
 import com.wade.app.constantpool.Node;
 import com.wade.app.constantpool.SourceFile;
+import com.wade.app.exception.ClassFormatException;
 
 public abstract class Attribute implements Node {
-    private static final boolean debug = Boolean.getBoolean(Attribute.class.getCanonicalName() + ".debug"); // Debugging on/off
+    private static final boolean debug = Boolean.getBoolean(Attribute.class.getCanonicalName() + ".debug");
     private static final Map<String, Object> readers = new HashMap<>();
     protected int name_index;
     protected int length;
     protected byte tag;
-    protected ConstantPool constant_pool; // TODO make private (has getter & setter)
+    protected ConstantPool constant_pool;
 
     protected Attribute(final byte tag, final int name_index, final int length, final ConstantPool constant_pool) {
         this.tag = tag;
@@ -58,11 +58,6 @@ public abstract class Attribute implements Node {
 
     public final void setNameIndex(final int name_index) {
         this.name_index = name_index;
-    }
-
-    @Override
-    public String toString() {
-        return Const.getAttributeName(tag);
     }
 
     public static void addAttributeReader(final String name, final AttributeReader r) {
@@ -148,7 +143,7 @@ public abstract class Attribute implements Node {
             case Const.ATTR_METHOD_PARAMETERS:
                 return new MethodParameters(name_index, length, file, constant_pool);
             case Const.ATTR_MODULE:
-                return new Module(name_index, length, file, constant_pool);
+                return new com.wade.app.attribute.Module(name_index, length, file, constant_pool);
             case Const.ATTR_MODULE_PACKAGES:
                 return new ModulePackages(name_index, length, file, constant_pool);
             case Const.ATTR_MODULE_MAIN_CLASS:
@@ -163,11 +158,6 @@ public abstract class Attribute implements Node {
         }
     }
 
-    /**
-     * Remove attribute reader
-     *
-     * @param name the name of the attribute as stored in the class file
-     */
     public static void removeAttributeReader(final String name) {
         readers.remove(name);
     }

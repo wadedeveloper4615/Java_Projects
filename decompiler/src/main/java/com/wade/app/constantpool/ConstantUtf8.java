@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import com.wade.app.Const;
+import com.wade.app.ClassFileConstants;
 
 public final class ConstantUtf8 extends Constant {
 
@@ -61,14 +61,14 @@ public final class ConstantUtf8 extends Constant {
         this(constantUtf8.getBytes());
     }
 
-    ConstantUtf8(final DataInputStream in) throws IOException {
-        super(Const.CONSTANT_Utf8);
+    public ConstantUtf8(final DataInputStream in) throws IOException {
+        super(ClassFileConstants.CONSTANT_Utf8);
         value = in.readUTF();
         created++;
     }
 
     public ConstantUtf8(final String value) {
-        super(Const.CONSTANT_Utf8);
+        super(ClassFileConstants.CONSTANT_Utf8);
         if (value == null) {
             throw new IllegalArgumentException("Value must not be null.");
         }

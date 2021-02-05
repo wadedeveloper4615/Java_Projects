@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.wade.app.ClassFileConstants;
 import com.wade.app.Const;
 import com.wade.app.constantpool.ConstantPool;
 import com.wade.app.constantpool.ConstantUtf8;
@@ -36,7 +37,7 @@ public abstract class Attribute implements Node {
     }
 
     public String getName() throws ClassFormatException {
-        final ConstantUtf8 c = (ConstantUtf8) constant_pool.getConstant(name_index, Const.CONSTANT_Utf8);
+        final ConstantUtf8 c = (ConstantUtf8) constant_pool.getConstant(name_index, ClassFileConstants.CONSTANT_Utf8);
         return c.getBytes();
     }
 
@@ -77,7 +78,7 @@ public abstract class Attribute implements Node {
     public static Attribute readAttribute(final DataInputStream file, final ConstantPool constant_pool) throws IOException, ClassFormatException {
         byte tag = Const.ATTR_UNKNOWN;
         final int name_index = file.readUnsignedShort();
-        final ConstantUtf8 c = (ConstantUtf8) constant_pool.getConstant(name_index, Const.CONSTANT_Utf8);
+        final ConstantUtf8 c = (ConstantUtf8) constant_pool.getConstant(name_index, ClassFileConstants.CONSTANT_Utf8);
         final String name = c.getBytes();
         final int length = file.readInt();
         for (byte i = 0; i < Const.KNOWN_ATTRIBUTES; i++) {

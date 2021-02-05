@@ -3,7 +3,7 @@ package com.wade.app.attribute;
 import java.io.DataInputStream;
 import java.io.IOException;
 
-import com.wade.app.Const;
+import com.wade.app.ClassFileConstants;
 import com.wade.app.classfile.Constants;
 import com.wade.app.constantpool.ConstantPool;
 import com.wade.app.constantpool.ConstantUtf8;
@@ -62,7 +62,7 @@ public final class LocalVariable implements Cloneable, Node, Constants {
 
     public String getName() throws ClassFormatException {
         ConstantUtf8 c;
-        c = (ConstantUtf8) constantPool.getConstant(nameIndex, Const.CONSTANT_Utf8);
+        c = (ConstantUtf8) constantPool.getConstant(nameIndex, ClassFileConstants.CONSTANT_Utf8);
         return c.getBytes();
     }
 
@@ -76,7 +76,7 @@ public final class LocalVariable implements Cloneable, Node, Constants {
 
     public String getSignature() throws ClassFormatException {
         ConstantUtf8 c;
-        c = (ConstantUtf8) constantPool.getConstant(signatureIndex, Const.CONSTANT_Utf8);
+        c = (ConstantUtf8) constantPool.getConstant(signatureIndex, ClassFileConstants.CONSTANT_Utf8);
         return c.getBytes();
     }
 

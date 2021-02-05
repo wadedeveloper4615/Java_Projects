@@ -3,6 +3,7 @@ package com.wade.app.attribute;
 import java.io.DataInputStream;
 import java.io.IOException;
 
+import com.wade.app.ClassFileConstants;
 import com.wade.app.Const;
 import com.wade.app.constantpool.ConstantClass;
 import com.wade.app.constantpool.ConstantNameAndType;
@@ -24,7 +25,7 @@ public class EnclosingMethod extends Attribute {
     }
 
     public final ConstantClass getEnclosingClass() throws ClassFormatException {
-        final ConstantClass c = (ConstantClass) super.getConstantPool().getConstant(classIndex, Const.CONSTANT_Class);
+        final ConstantClass c = (ConstantClass) super.getConstantPool().getConstant(classIndex, ClassFileConstants.CONSTANT_Class);
         return c;
     }
 
@@ -36,7 +37,7 @@ public class EnclosingMethod extends Attribute {
         if (methodIndex == 0) {
             return null;
         }
-        final ConstantNameAndType nat = (ConstantNameAndType) super.getConstantPool().getConstant(methodIndex, Const.CONSTANT_NameAndType);
+        final ConstantNameAndType nat = (ConstantNameAndType) super.getConstantPool().getConstant(methodIndex, ClassFileConstants.CONSTANT_NameAndType);
         return nat;
     }
 

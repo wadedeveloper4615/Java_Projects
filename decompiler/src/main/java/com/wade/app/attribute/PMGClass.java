@@ -3,6 +3,7 @@ package com.wade.app.attribute;
 import java.io.DataInputStream;
 import java.io.IOException;
 
+import com.wade.app.ClassFileConstants;
 import com.wade.app.Const;
 import com.wade.app.constantpool.ConstantPool;
 import com.wade.app.constantpool.ConstantUtf8;
@@ -31,7 +32,7 @@ public final class PMGClass extends Attribute {
     }
 
     public String getPMGClassName() throws ClassFormatException {
-        final ConstantUtf8 c = (ConstantUtf8) super.getConstantPool().getConstant(pmgClassIndex, Const.CONSTANT_Utf8);
+        final ConstantUtf8 c = (ConstantUtf8) super.getConstantPool().getConstant(pmgClassIndex, ClassFileConstants.CONSTANT_Utf8);
         return c.getBytes();
     }
 
@@ -40,7 +41,7 @@ public final class PMGClass extends Attribute {
     }
 
     public String getPMGName() throws ClassFormatException {
-        final ConstantUtf8 c = (ConstantUtf8) super.getConstantPool().getConstant(pmgIndex, Const.CONSTANT_Utf8);
+        final ConstantUtf8 c = (ConstantUtf8) super.getConstantPool().getConstant(pmgIndex, ClassFileConstants.CONSTANT_Utf8);
         return c.getBytes();
     }
 }

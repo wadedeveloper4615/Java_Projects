@@ -1,6 +1,6 @@
 package com.wade.app.attribute;
 
-import com.wade.app.Const;
+import com.wade.app.ClassFileConstants;
 import com.wade.app.constantpool.ConstantPool;
 import com.wade.app.constantpool.ConstantUtf8;
 import com.wade.app.exception.ClassFormatException;
@@ -23,7 +23,7 @@ public class ElementValuePair {
     }
 
     public String getNameString() throws ClassFormatException {
-        final ConstantUtf8 c = (ConstantUtf8) constantPool.getConstant(elementNameIndex, Const.CONSTANT_Utf8);
+        final ConstantUtf8 c = (ConstantUtf8) constantPool.getConstant(elementNameIndex, ClassFileConstants.CONSTANT_Utf8);
         return c.getBytes();
     }
 

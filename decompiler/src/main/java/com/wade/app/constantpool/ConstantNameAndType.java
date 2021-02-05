@@ -3,7 +3,7 @@ package com.wade.app.constantpool;
 import java.io.DataInputStream;
 import java.io.IOException;
 
-import com.wade.app.Const;
+import com.wade.app.ClassFileConstants;
 import com.wade.app.exception.ClassFormatException;
 
 public final class ConstantNameAndType extends Constant {
@@ -19,21 +19,21 @@ public final class ConstantNameAndType extends Constant {
     }
 
     public ConstantNameAndType(final int nameIndex, final int signatureIndex) {
-        super(Const.CONSTANT_NameAndType);
+        super(ClassFileConstants.CONSTANT_NameAndType);
         this.nameIndex = nameIndex;
         this.signatureIndex = signatureIndex;
     }
 
-    public String getName(ConstantPool cp) throws ClassFormatException {
-        return cp.constantToString(getNameIndex(), Const.CONSTANT_Utf8);
+    public String getName(ConstantPool cp) throws ClassFormatException, IOException {
+        return cp.constantToString(getNameIndex(), ClassFileConstants.CONSTANT_Utf8);
     }
 
     public int getNameIndex() {
         return nameIndex;
     }
 
-    public String getSignature(ConstantPool cp) throws ClassFormatException {
-        return cp.constantToString(getSignatureIndex(), Const.CONSTANT_Utf8);
+    public String getSignature(ConstantPool cp) throws ClassFormatException, IOException {
+        return cp.constantToString(getSignatureIndex(), ClassFileConstants.CONSTANT_Utf8);
     }
 
     public int getSignatureIndex() {

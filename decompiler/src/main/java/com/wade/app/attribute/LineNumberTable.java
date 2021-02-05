@@ -7,10 +7,9 @@ import com.wade.app.Const;
 import com.wade.app.constantpool.ConstantPool;
 
 public final class LineNumberTable extends Attribute {
-    private static final int MAX_LINE_LENGTH = 72;
     private LineNumber[] lineNumberTable;
 
-    LineNumberTable(final int name_index, final int length, final DataInputStream input, final ConstantPool constant_pool) throws IOException {
+    public LineNumberTable(final int name_index, final int length, final DataInputStream input, final ConstantPool constant_pool) throws IOException {
         this(name_index, length, (LineNumber[]) null, constant_pool);
         final int line_number_table_length = input.readUnsignedShort();
         lineNumberTable = new LineNumber[line_number_table_length];

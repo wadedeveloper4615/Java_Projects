@@ -3,6 +3,7 @@ package com.wade.app.attribute;
 import java.io.DataInputStream;
 import java.io.IOException;
 
+import com.wade.app.ClassFileConstants;
 import com.wade.app.Const;
 import com.wade.app.constantpool.ConstantPool;
 import com.wade.app.exception.ClassFormatException;
@@ -39,7 +40,7 @@ public final class ModulePackages extends Attribute {
     public String[] getPackageNames() throws ClassFormatException {
         final String[] names = new String[packageIndexTable.length];
         for (int i = 0; i < packageIndexTable.length; i++) {
-            names[i] = super.getConstantPool().getConstantString(packageIndexTable[i], Const.CONSTANT_Package).replace('/', '.');
+            names[i] = super.getConstantPool().getConstantString(packageIndexTable[i], ClassFileConstants.CONSTANT_Package).replace('/', '.');
         }
         return names;
     }

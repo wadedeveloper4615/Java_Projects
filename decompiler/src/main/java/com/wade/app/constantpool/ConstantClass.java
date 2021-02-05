@@ -3,7 +3,7 @@ package com.wade.app.constantpool;
 import java.io.DataInputStream;
 import java.io.IOException;
 
-import com.wade.app.Const;
+import com.wade.app.ClassFileConstants;
 
 public class ConstantClass extends Constant {
     private final int nameIndex;
@@ -13,7 +13,7 @@ public class ConstantClass extends Constant {
     }
 
     public ConstantClass(final int nameIndex) {
-        super(Const.CONSTANT_Class);
+        super(ClassFileConstants.CONSTANT_Class);
         this.nameIndex = nameIndex;
     }
 

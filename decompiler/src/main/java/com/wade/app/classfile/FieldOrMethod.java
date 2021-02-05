@@ -4,7 +4,7 @@ import java.io.DataInputStream;
 import java.io.IOException;
 
 import com.wade.app.AccessFlags;
-import com.wade.app.Const;
+import com.wade.app.ClassFileConstants;
 import com.wade.app.attribute.AnnotationEntry;
 import com.wade.app.attribute.Attribute;
 import com.wade.app.attribute.Signature;
@@ -88,7 +88,7 @@ public abstract class FieldOrMethod extends AbstractAccessFlags implements Node 
 
     public final String getName() throws ClassFormatException {
         ConstantUtf8 c;
-        c = (ConstantUtf8) constant_pool.getConstant(name_index, Const.CONSTANT_Utf8);
+        c = (ConstantUtf8) constant_pool.getConstant(name_index, ClassFileConstants.CONSTANT_Utf8);
         return c.getBytes();
     }
 
@@ -102,7 +102,7 @@ public abstract class FieldOrMethod extends AbstractAccessFlags implements Node 
 
     public final String getSignature() throws ClassFormatException {
         ConstantUtf8 c;
-        c = (ConstantUtf8) constant_pool.getConstant(signature_index, Const.CONSTANT_Utf8);
+        c = (ConstantUtf8) constant_pool.getConstant(signature_index, ClassFileConstants.CONSTANT_Utf8);
         return c.getBytes();
     }
 

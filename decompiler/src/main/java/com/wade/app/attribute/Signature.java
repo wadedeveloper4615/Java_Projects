@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 
+import com.wade.app.ClassFileConstants;
 import com.wade.app.Const;
 import com.wade.app.constantpool.ConstantPool;
 import com.wade.app.constantpool.ConstantUtf8;
@@ -43,7 +44,7 @@ public final class Signature extends Attribute {
     }
 
     public String getSignature() throws ClassFormatException {
-        final ConstantUtf8 c = (ConstantUtf8) super.getConstantPool().getConstant(signatureIndex, Const.CONSTANT_Utf8);
+        final ConstantUtf8 c = (ConstantUtf8) super.getConstantPool().getConstant(signatureIndex, ClassFileConstants.CONSTANT_Utf8);
         return c.getBytes();
     }
 

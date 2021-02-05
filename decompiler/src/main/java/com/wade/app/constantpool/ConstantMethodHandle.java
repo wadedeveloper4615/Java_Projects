@@ -3,7 +3,7 @@ package com.wade.app.constantpool;
 import java.io.DataInputStream;
 import java.io.IOException;
 
-import com.wade.app.Const;
+import com.wade.app.ClassFileConstants;
 
 public final class ConstantMethodHandle extends Constant {
     private int referenceKind;
@@ -18,7 +18,7 @@ public final class ConstantMethodHandle extends Constant {
     }
 
     public ConstantMethodHandle(final int reference_kind, final int reference_index) {
-        super(Const.CONSTANT_MethodHandle);
+        super(ClassFileConstants.CONSTANT_MethodHandle);
         this.referenceKind = reference_kind;
         this.referenceIndex = reference_index;
     }

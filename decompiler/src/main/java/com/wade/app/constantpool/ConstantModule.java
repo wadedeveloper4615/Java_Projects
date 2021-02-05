@@ -3,7 +3,7 @@ package com.wade.app.constantpool;
 import java.io.DataInputStream;
 import java.io.IOException;
 
-import com.wade.app.Const;
+import com.wade.app.ClassFileConstants;
 import com.wade.app.exception.ClassFormatException;
 
 public final class ConstantModule extends Constant implements ConstantObject {
@@ -18,7 +18,7 @@ public final class ConstantModule extends Constant implements ConstantObject {
     }
 
     public ConstantModule(final int nameIndex) {
-        super(Const.CONSTANT_Module);
+        super(ClassFileConstants.CONSTANT_Module);
         this.nameIndex = nameIndex;
     }
 
@@ -28,7 +28,7 @@ public final class ConstantModule extends Constant implements ConstantObject {
 
     @Override
     public Object getConstantValue(final ConstantPool cp) throws ClassFormatException {
-        final Constant c = cp.getConstant(nameIndex, Const.CONSTANT_Utf8);
+        final Constant c = cp.getConstant(nameIndex, ClassFileConstants.CONSTANT_Utf8);
         return ((ConstantUtf8) c).getBytes();
     }
 

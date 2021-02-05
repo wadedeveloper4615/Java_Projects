@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.wade.app.Const;
+import com.wade.app.ClassFileConstants;
 import com.wade.app.constantpool.ConstantPool;
 import com.wade.app.constantpool.ConstantUtf8;
 import com.wade.app.constantpool.Node;
@@ -30,7 +30,7 @@ public class AnnotationEntry implements Node {
     }
 
     public String getAnnotationType() throws ClassFormatException {
-        final ConstantUtf8 c = (ConstantUtf8) constantPool.getConstant(typeIndex, Const.CONSTANT_Utf8);
+        final ConstantUtf8 c = (ConstantUtf8) constantPool.getConstant(typeIndex, ClassFileConstants.CONSTANT_Utf8);
         return c.getBytes();
     }
 

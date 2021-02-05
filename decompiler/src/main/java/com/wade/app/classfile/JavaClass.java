@@ -6,7 +6,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import com.wade.app.AccessFlags;
-import com.wade.app.Const;
+import com.wade.app.ClassFileConstants;
 import com.wade.app.Version;
 import com.wade.app.attribute.Attribute;
 import com.wade.app.constantpool.ConstantPool;
@@ -68,7 +68,7 @@ public class JavaClass extends AbstractAccessFlags implements Node, Comparable<J
                 break;
             }
         }
-        className = constantPool.getConstantString(classNameIndex, Const.CONSTANT_Class);
+        className = constantPool.getConstantString(classNameIndex, ClassFileConstants.CONSTANT_Class);
         className = Utility.compactClassName(className, false);
         int index = className.lastIndexOf('.');
         if (index < 0) {
@@ -78,14 +78,14 @@ public class JavaClass extends AbstractAccessFlags implements Node, Comparable<J
         }
         if (superclassNameIndex > 0) {
             // May be zero -> class is java.lang.Object
-            superclassName = constantPool.getConstantString(superclassNameIndex, Const.CONSTANT_Class);
+            superclassName = constantPool.getConstantString(superclassNameIndex, ClassFileConstants.CONSTANT_Class);
             superclassName = Utility.compactClassName(superclassName, false);
         } else {
             superclassName = "java.lang.Object";
         }
         interfaceNames = new String[interfaces.length];
         for (int i = 0; i < interfaces.length; i++) {
-            String str = constantPool.getConstantString(interfaces[i], Const.CONSTANT_Class);
+            String str = constantPool.getConstantString(interfaces[i], ClassFileConstants.CONSTANT_Class);
             interfaceNames[i] = Utility.compactClassName(str, false);
         }
     }

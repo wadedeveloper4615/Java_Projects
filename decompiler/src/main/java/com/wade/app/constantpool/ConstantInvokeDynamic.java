@@ -3,10 +3,10 @@ package com.wade.app.constantpool;
 import java.io.DataInputStream;
 import java.io.IOException;
 
-import com.wade.app.Const;
+import com.wade.app.ClassFileConstants;
 
 public final class ConstantInvokeDynamic extends ConstantCP {
-    public ConstantInvokeDynamic(final ConstantInvokeDynamic c) {
+    public ConstantInvokeDynamic(final ConstantInvokeDynamic c) throws IOException {
         this(c.getBootstrapMethodAttrIndex(), c.getNameAndTypeIndex());
     }
 
@@ -14,8 +14,8 @@ public final class ConstantInvokeDynamic extends ConstantCP {
         this(file.readShort(), file.readShort());
     }
 
-    public ConstantInvokeDynamic(final int bootstrap_method_attr_index, final int name_and_type_index) {
-        super(Const.CONSTANT_InvokeDynamic, bootstrap_method_attr_index, name_and_type_index);
+    public ConstantInvokeDynamic(final int bootstrap_method_attr_index, final int name_and_type_index) throws IOException {
+        super(ClassFileConstants.CONSTANT_InvokeDynamic, bootstrap_method_attr_index, name_and_type_index);
     }
 
     public int getBootstrapMethodAttrIndex() {

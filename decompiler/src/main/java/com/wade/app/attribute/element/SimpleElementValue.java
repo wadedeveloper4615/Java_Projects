@@ -1,6 +1,6 @@
 package com.wade.app.attribute.element;
 
-import com.wade.app.Const;
+import com.wade.app.ClassFileConstants;
 import com.wade.app.attribute.ElementValue;
 import com.wade.app.constantpool.ConstantDouble;
 import com.wade.app.constantpool.ConstantFloat;
@@ -37,7 +37,7 @@ public class SimpleElementValue extends ElementValue {
         if (super.getType() != PRIMITIVE_BYTE) {
             throw new IllegalStateException("Dont call getValueByte() on a non BYTE ElementValue");
         }
-        final ConstantInteger c = (ConstantInteger) super.getConstantPool().getConstant(getIndex(), Const.CONSTANT_Integer);
+        final ConstantInteger c = (ConstantInteger) super.getConstantPool().getConstant(getIndex(), ClassFileConstants.CONSTANT_Integer);
         return (byte) c.getBytes();
     }
 
@@ -45,7 +45,7 @@ public class SimpleElementValue extends ElementValue {
         if (super.getType() != PRIMITIVE_CHAR) {
             throw new IllegalStateException("Dont call getValueChar() on a non CHAR ElementValue");
         }
-        final ConstantInteger c = (ConstantInteger) super.getConstantPool().getConstant(getIndex(), Const.CONSTANT_Integer);
+        final ConstantInteger c = (ConstantInteger) super.getConstantPool().getConstant(getIndex(), ClassFileConstants.CONSTANT_Integer);
         return (char) c.getBytes();
     }
 
@@ -69,7 +69,7 @@ public class SimpleElementValue extends ElementValue {
         if (super.getType() != PRIMITIVE_INT) {
             throw new IllegalStateException("Dont call getValueString() on a non STRING ElementValue");
         }
-        final ConstantInteger c = (ConstantInteger) super.getConstantPool().getConstant(getIndex(), Const.CONSTANT_Integer);
+        final ConstantInteger c = (ConstantInteger) super.getConstantPool().getConstant(getIndex(), ClassFileConstants.CONSTANT_Integer);
         return c.getBytes();
     }
 
@@ -93,7 +93,7 @@ public class SimpleElementValue extends ElementValue {
         if (super.getType() != STRING) {
             throw new IllegalStateException("Dont call getValueString() on a non STRING ElementValue");
         }
-        final ConstantUtf8 c = (ConstantUtf8) super.getConstantPool().getConstant(getIndex(), Const.CONSTANT_Utf8);
+        final ConstantUtf8 c = (ConstantUtf8) super.getConstantPool().getConstant(getIndex(), ClassFileConstants.CONSTANT_Utf8);
         return c.getBytes();
     }
 

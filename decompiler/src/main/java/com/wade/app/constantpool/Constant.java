@@ -3,56 +3,56 @@ package com.wade.app.constantpool;
 import java.io.DataInputStream;
 import java.io.IOException;
 
-import com.wade.app.Const;
+import com.wade.app.ClassFileConstants;
 import com.wade.app.exception.ClassFormatException;
 
 public abstract class Constant {
-    protected byte tag;
+    protected ClassFileConstants tag;
 
-    public Constant(byte tag) {
+    public Constant(ClassFileConstants tag) {
         this.tag = tag;
     }
 
-    public byte getTag() {
+    public ClassFileConstants getTag() {
         return tag;
     }
 
     public static Constant readConstant(DataInputStream in) throws IOException, ClassFormatException {
-        byte b = in.readByte();
+        ClassFileConstants b = ClassFileConstants.read(in.readByte());
         switch (b) {
-            case Const.CONSTANT_Class:
+            case CONSTANT_Class:
                 return new ConstantClass(in);
-            case Const.CONSTANT_Fieldref:
+            case CONSTANT_Fieldref:
                 return new ConstantFieldref(in);
-            case Const.CONSTANT_Methodref:
+            case CONSTANT_Methodref:
                 return new ConstantMethodref(in);
-            case Const.CONSTANT_InterfaceMethodref:
+            case CONSTANT_InterfaceMethodref:
                 return new ConstantInterfaceMethodref(in);
-            case Const.CONSTANT_String:
+            case CONSTANT_String:
                 return new ConstantString(in);
-            case Const.CONSTANT_Integer:
+            case CONSTANT_Integer:
                 return new ConstantInteger(in);
-            case Const.CONSTANT_Float:
+            case CONSTANT_Float:
                 return new ConstantFloat(in);
-            case Const.CONSTANT_Long:
+            case CONSTANT_Long:
                 return new ConstantLong(in);
-            case Const.CONSTANT_Double:
+            case CONSTANT_Double:
                 return new ConstantDouble(in);
-            case Const.CONSTANT_NameAndType:
+            case CONSTANT_NameAndType:
                 return new ConstantNameAndType(in);
-            case Const.CONSTANT_Utf8:
+            case CONSTANT_Utf8:
                 return ConstantUtf8.getInstance(in);
-            case Const.CONSTANT_MethodHandle:
+            case CONSTANT_MethodHandle:
                 return new ConstantMethodHandle(in);
-            case Const.CONSTANT_MethodType:
+            case CONSTANT_MethodType:
                 return new ConstantMethodType(in);
-            case Const.CONSTANT_Dynamic:
+            case CONSTANT_Dynamic:
                 return new ConstantDynamic(in);
-            case Const.CONSTANT_InvokeDynamic:
+            case CONSTANT_InvokeDynamic:
                 return new ConstantInvokeDynamic(in);
-            case Const.CONSTANT_Module:
+            case CONSTANT_Module:
                 return new ConstantModule(in);
-            case Const.CONSTANT_Package:
+            case CONSTANT_Package:
                 return new ConstantPackage(in);
             default:
                 throw new ClassFormatException("Invalid byte tag in constant pool: " + b);

@@ -4,7 +4,7 @@ import java.io.DataInputStream;
 import java.io.IOException;
 
 import com.wade.app.AccessFlags;
-import com.wade.app.Const;
+import com.wade.app.ClassFileConstants;
 import com.wade.app.constantpool.ConstantPool;
 import com.wade.app.constantpool.ConstantUtf8;
 import com.wade.app.exception.ClassFormatException;
@@ -33,7 +33,7 @@ public class MethodParameter {
         if (nameIndex == 0) {
             return null;
         }
-        return ((ConstantUtf8) constant_pool.getConstant(nameIndex, Const.CONSTANT_Utf8)).getBytes();
+        return ((ConstantUtf8) constant_pool.getConstant(nameIndex, ClassFileConstants.CONSTANT_Utf8)).getBytes();
     }
 
     public boolean isFinal() {

@@ -3,7 +3,7 @@ package com.wade.app.constantpool;
 import java.io.DataInputStream;
 import java.io.IOException;
 
-import com.wade.app.Const;
+import com.wade.app.ClassFileConstants;
 
 public class ConstantInteger extends Constant implements ConstantObject {
     private int bytes;
@@ -17,7 +17,7 @@ public class ConstantInteger extends Constant implements ConstantObject {
     }
 
     public ConstantInteger(final int bytes) {
-        super(Const.CONSTANT_Integer);
+        super(ClassFileConstants.CONSTANT_Integer);
         this.bytes = bytes;
     }
 

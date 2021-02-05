@@ -3,6 +3,7 @@ package com.wade.app.attribute;
 import java.io.DataInputStream;
 import java.io.IOException;
 
+import com.wade.app.ClassFileConstants;
 import com.wade.app.Const;
 import com.wade.app.constantpool.ConstantPool;
 import com.wade.app.exception.ClassFormatException;
@@ -35,7 +36,7 @@ public final class NestMembers extends Attribute {
     public String[] getClassNames() throws ClassFormatException {
         final String[] names = new String[classes.length];
         for (int i = 0; i < classes.length; i++) {
-            names[i] = super.getConstantPool().getConstantString(classes[i], Const.CONSTANT_Class).replace('/', '.');
+            names[i] = super.getConstantPool().getConstantString(classes[i], ClassFileConstants.CONSTANT_Class).replace('/', '.');
         }
         return names;
     }

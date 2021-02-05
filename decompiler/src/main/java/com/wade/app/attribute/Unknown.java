@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.wade.app.ClassFileConstants;
 import com.wade.app.Const;
 import com.wade.app.constantpool.ConstantPool;
 import com.wade.app.constantpool.ConstantUtf8;
@@ -18,7 +19,7 @@ public final class Unknown extends Attribute {
     public Unknown(final int name_index, final int length, final byte[] bytes, final ConstantPool constant_pool) throws ClassFormatException {
         super(Const.ATTR_UNKNOWN, name_index, length, constant_pool);
         this.bytes = bytes;
-        name = ((ConstantUtf8) constant_pool.getConstant(name_index, Const.CONSTANT_Utf8)).getBytes();
+        name = ((ConstantUtf8) constant_pool.getConstant(name_index, ClassFileConstants.CONSTANT_Utf8)).getBytes();
         unknownAttributes.put(name, this);
     }
 

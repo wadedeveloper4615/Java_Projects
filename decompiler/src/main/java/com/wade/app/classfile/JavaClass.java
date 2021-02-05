@@ -5,13 +5,13 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import com.wade.app.AccessFlags;
-import com.wade.app.ClassFileConstants;
-import com.wade.app.Version;
 import com.wade.app.attribute.Attribute;
 import com.wade.app.constantpool.ConstantPool;
 import com.wade.app.constantpool.Node;
 import com.wade.app.constantpool.SourceFile;
+import com.wade.app.enums.AccessFlags;
+import com.wade.app.enums.ClassFileConstants;
+import com.wade.app.enums.Version;
 import com.wade.app.exception.ClassFormatException;
 import com.wade.app.util.ClassQueue;
 import com.wade.app.util.Repository;

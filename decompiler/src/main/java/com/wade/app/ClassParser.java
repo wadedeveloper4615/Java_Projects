@@ -13,6 +13,8 @@ import com.wade.app.classfile.Field;
 import com.wade.app.classfile.JavaClass;
 import com.wade.app.classfile.Method;
 import com.wade.app.constantpool.ConstantPool;
+import com.wade.app.enums.AccessFlags;
+import com.wade.app.enums.Version;
 import com.wade.app.exception.ClassFormatException;
 
 public class ClassParser {

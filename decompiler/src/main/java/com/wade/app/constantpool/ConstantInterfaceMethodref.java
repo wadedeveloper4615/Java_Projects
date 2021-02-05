@@ -3,7 +3,7 @@ package com.wade.app.constantpool;
 import java.io.DataInputStream;
 import java.io.IOException;
 
-import com.wade.app.ClassFileConstants;
+import com.wade.app.enums.ClassFileConstants;
 
 public class ConstantInterfaceMethodref extends ConstantCP {
     public ConstantInterfaceMethodref(final ConstantInterfaceMethodref c) throws IOException {

@@ -3,14 +3,14 @@ package com.wade.app.classfile;
 import java.io.DataInputStream;
 import java.io.IOException;
 
-import com.wade.app.AccessFlags;
-import com.wade.app.ClassFileConstants;
 import com.wade.app.attribute.AnnotationEntry;
 import com.wade.app.attribute.Attribute;
 import com.wade.app.attribute.Signature;
 import com.wade.app.constantpool.ConstantPool;
 import com.wade.app.constantpool.ConstantUtf8;
 import com.wade.app.constantpool.Node;
+import com.wade.app.enums.AccessFlags;
+import com.wade.app.enums.ClassFileConstants;
 import com.wade.app.exception.ClassFormatException;
 
 public abstract class FieldOrMethod extends AbstractAccessFlags implements Node {

@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import com.wade.app.ClassFileConstants;
+import com.wade.app.enums.ClassFileConstants;
 
 public final class ConstantUtf8 extends Constant {
 

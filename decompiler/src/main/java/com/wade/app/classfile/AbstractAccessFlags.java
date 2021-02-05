@@ -1,6 +1,6 @@
 package com.wade.app.classfile;
 
-import com.wade.app.AccessFlags;
+import com.wade.app.enums.AccessFlags;
 
 public abstract class AbstractAccessFlags {
     protected AccessFlags access_flags;

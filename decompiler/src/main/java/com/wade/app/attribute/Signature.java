@@ -4,10 +4,10 @@ import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 
-import com.wade.app.ClassFileConstants;
 import com.wade.app.Const;
 import com.wade.app.constantpool.ConstantPool;
 import com.wade.app.constantpool.ConstantUtf8;
+import com.wade.app.enums.ClassFileConstants;
 import com.wade.app.exception.ClassFormatException;
 
 public final class Signature extends Attribute {

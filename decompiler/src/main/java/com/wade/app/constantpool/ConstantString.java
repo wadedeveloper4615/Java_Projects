@@ -3,7 +3,7 @@ package com.wade.app.constantpool;
 import java.io.DataInputStream;
 import java.io.IOException;
 
-import com.wade.app.ClassFileConstants;
+import com.wade.app.enums.ClassFileConstants;
 import com.wade.app.exception.ClassFormatException;
 
 public final class ConstantString extends Constant implements ConstantObject {

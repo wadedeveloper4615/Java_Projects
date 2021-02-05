@@ -1,6 +1,5 @@
 package com.wade.app.attribute.element;
 
-import com.wade.app.ClassFileConstants;
 import com.wade.app.attribute.ElementValue;
 import com.wade.app.constantpool.ConstantDouble;
 import com.wade.app.constantpool.ConstantFloat;
@@ -8,6 +7,7 @@ import com.wade.app.constantpool.ConstantInteger;
 import com.wade.app.constantpool.ConstantLong;
 import com.wade.app.constantpool.ConstantPool;
 import com.wade.app.constantpool.ConstantUtf8;
+import com.wade.app.enums.ClassFileConstants;
 import com.wade.app.exception.ClassFormatException;
 
 public class SimpleElementValue extends ElementValue {

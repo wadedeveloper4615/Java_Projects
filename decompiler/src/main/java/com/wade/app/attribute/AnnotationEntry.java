@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.wade.app.ClassFileConstants;
 import com.wade.app.constantpool.ConstantPool;
 import com.wade.app.constantpool.ConstantUtf8;
 import com.wade.app.constantpool.Node;
+import com.wade.app.enums.ClassFileConstants;
 import com.wade.app.exception.ClassFormatException;
 
 public class AnnotationEntry implements Node {

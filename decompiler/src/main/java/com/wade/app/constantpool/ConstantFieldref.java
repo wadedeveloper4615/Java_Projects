@@ -5,12 +5,13 @@ import java.io.IOException;
 
 import com.wade.app.enums.ClassFileConstants;
 
-public class ConstantFieldref extends ConstantCP {
-    public ConstantFieldref(DataInputStream input) throws IOException {
-        super(ClassFileConstants.CONSTANT_Fieldref, input);
+public class ConstantFieldRef extends ConstantCP {
+    public ConstantFieldRef(DataInputStream in) throws IOException {
+        super(ClassFileConstants.CONSTANT_Fieldref, in);
     }
 
-    public ConstantFieldref(final int class_index, final int name_and_type_index) throws IOException {
-        super(ClassFileConstants.CONSTANT_Fieldref, class_index, name_and_type_index);
+    @Override
+    public String toString() {
+        return "ConstantFieldRef(class_index = " + class_index + ", name_and_type_index = " + name_and_type_index + ")";
     }
 }

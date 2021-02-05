@@ -5,14 +5,10 @@ import java.io.IOException;
 
 import com.wade.app.enums.ClassFileConstants;
 
-public class ConstantLong extends Constant implements ConstantObject {
+public class ConstantLong extends Constant {
     private long bytes;
 
-    public ConstantLong(final ConstantLong c) {
-        this(c.getBytes());
-    }
-
-    public ConstantLong(final DataInputStream file) throws IOException {
+    public ConstantLong(DataInputStream file) throws IOException {
         this(file.readLong());
     }
 
@@ -21,12 +17,8 @@ public class ConstantLong extends Constant implements ConstantObject {
         this.bytes = bytes;
     }
 
-    public long getBytes() {
-        return bytes;
-    }
-
     @Override
-    public Object getConstantValue(final ConstantPool cp) {
-        return Long.valueOf(bytes);
+    public String toString() {
+        return "ConstantLong(bytes = " + bytes + ")";
     }
 }

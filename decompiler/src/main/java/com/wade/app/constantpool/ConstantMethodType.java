@@ -1,18 +1,14 @@
 package com.wade.app.constantpool;
 
-import java.io.DataInputStream;
+import java.io.DataInput;
 import java.io.IOException;
 
 import com.wade.app.enums.ClassFileConstants;
 
-public final class ConstantMethodType extends Constant {
+public class ConstantMethodType extends Constant {
     private int descriptorIndex;
 
-    public ConstantMethodType(final ConstantMethodType c) {
-        this(c.getDescriptorIndex());
-    }
-
-    public ConstantMethodType(final DataInputStream file) throws IOException {
+    public ConstantMethodType(final DataInput file) throws IOException {
         this(file.readUnsignedShort());
     }
 
@@ -21,7 +17,8 @@ public final class ConstantMethodType extends Constant {
         this.descriptorIndex = descriptor_index;
     }
 
-    public int getDescriptorIndex() {
-        return descriptorIndex;
+    @Override
+    public String toString() {
+        return "ConstantMethodType(descriptorIndex = " + descriptorIndex + ")";
     }
 }

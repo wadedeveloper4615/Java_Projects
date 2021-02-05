@@ -1,33 +1,26 @@
 package com.wade.app.constantpool;
 
-import java.io.DataInputStream;
+import java.io.DataInput;
 import java.io.IOException;
 
 import com.wade.app.enums.ClassFileConstants;
 
-public final class ConstantMethodHandle extends Constant {
+public class ConstantMethodHandle extends Constant {
     private int referenceKind;
     private int referenceIndex;
 
-    public ConstantMethodHandle(final ConstantMethodHandle c) {
-        this(c.getReferenceKind(), c.getReferenceIndex());
-    }
-
-    public ConstantMethodHandle(final DataInputStream file) throws IOException {
+    public ConstantMethodHandle(final DataInput file) throws IOException {
         this(file.readUnsignedByte(), file.readUnsignedShort());
     }
 
-    public ConstantMethodHandle(final int reference_kind, final int reference_index) {
+    public ConstantMethodHandle(int reference_kind, int reference_index) {
         super(ClassFileConstants.CONSTANT_MethodHandle);
         this.referenceKind = reference_kind;
         this.referenceIndex = reference_index;
     }
 
-    public int getReferenceIndex() {
-        return referenceIndex;
-    }
-
-    public int getReferenceKind() {
-        return referenceKind;
+    @Override
+    public String toString() {
+        return "ConstantMethodHandle(referenceKind = " + referenceKind + ", referenceIndex = " + referenceIndex + ")";
     }
 }

@@ -3,8 +3,8 @@ package com.wade.app.constantpool;
 import java.io.DataInputStream;
 import java.io.IOException;
 
+import com.wade.app.ClassFormatException;
 import com.wade.app.enums.ClassFileConstants;
-import com.wade.app.exception.ClassFormatException;
 
 public abstract class Constant {
     protected ClassFileConstants tag;
@@ -17,17 +17,17 @@ public abstract class Constant {
         return tag;
     }
 
-    public static Constant readConstant(DataInputStream in) throws IOException, ClassFormatException {
+    public static Constant readConstant(DataInputStream in) throws IOException {
         ClassFileConstants b = ClassFileConstants.read(in.readByte());
         switch (b) {
             case CONSTANT_Class:
                 return new ConstantClass(in);
             case CONSTANT_Fieldref:
-                return new ConstantFieldref(in);
+                return new ConstantFieldRef(in);
             case CONSTANT_Methodref:
-                return new ConstantMethodref(in);
+                return new ConstantMethodRef(in);
             case CONSTANT_InterfaceMethodref:
-                return new ConstantInterfaceMethodref(in);
+                return new ConstantInterfaceMethodRef(in);
             case CONSTANT_String:
                 return new ConstantString(in);
             case CONSTANT_Integer:
@@ -41,7 +41,7 @@ public abstract class Constant {
             case CONSTANT_NameAndType:
                 return new ConstantNameAndType(in);
             case CONSTANT_Utf8:
-                return ConstantUtf8.getInstance(in);
+                return new ConstantUtf8(in);
             case CONSTANT_MethodHandle:
                 return new ConstantMethodHandle(in);
             case CONSTANT_MethodType:

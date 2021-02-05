@@ -12,12 +12,17 @@ public class ConstantClass extends Constant {
         this(in.readUnsignedShort());
     }
 
-    public ConstantClass(final int nameIndex) {
+    public ConstantClass(int nameIndex) {
         super(ClassFileConstants.CONSTANT_Class);
         this.nameIndex = nameIndex;
     }
 
     public int getNameIndex() {
         return nameIndex;
+    }
+
+    @Override
+    public String toString() {
+        return "ConstantClass(nameIndex = " + nameIndex + ")";
     }
 }

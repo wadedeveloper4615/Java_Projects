@@ -1,4 +1,4 @@
-package com.wade.app.enums;
+package com.wade.app;
 
 import java.io.DataInputStream;
 import java.io.IOException;

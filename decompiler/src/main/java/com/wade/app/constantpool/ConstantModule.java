@@ -6,7 +6,7 @@ import java.io.IOException;
 import com.wade.app.enums.ClassFileConstants;
 
 public class ConstantModule extends Constant {
-    private int nameIndex;
+    private final int nameIndex;
 
     public ConstantModule(final DataInput file) throws IOException {
         this(file.readUnsignedShort());
@@ -15,6 +15,10 @@ public class ConstantModule extends Constant {
     public ConstantModule(final int nameIndex) {
         super(ClassFileConstants.CONSTANT_Module);
         this.nameIndex = nameIndex;
+    }
+
+    public int getNameIndex() {
+        return nameIndex;
     }
 
     @Override

@@ -6,11 +6,15 @@ import java.io.IOException;
 import com.wade.app.enums.ClassFileConstants;
 
 public class ConstantUtf8 extends Constant {
-    private String value;
+    private final String value;
 
     public ConstantUtf8(DataInputStream dataInput) throws IOException {
         super(ClassFileConstants.CONSTANT_Utf8);
         value = dataInput.readUTF();
+    }
+
+    public String getBytes() {
+        return value;
     }
 
     @Override

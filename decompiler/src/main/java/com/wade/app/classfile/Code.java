@@ -2,12 +2,13 @@ package com.wade.app.classfile;
 
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.util.Arrays;
 
 import com.wade.app.classfile.attribute.CodeException;
 import com.wade.app.constantpool.ConstantPool;
 import com.wade.app.enums.ClassFileAttributes;
 
-public  class Code extends Attribute {
+public class Code extends Attribute {
     private int maxStack;
     private int maxLocals;
     private byte[] code;
@@ -45,7 +46,7 @@ public  class Code extends Attribute {
     private int calculateLength() {
         int len = 0;
         if (attributes != null) {
-            for ( Attribute attribute : attributes) {
+            for (Attribute attribute : attributes) {
                 len += attribute.getLength() + 6 /* attribute header size */;
             }
         }
@@ -78,5 +79,10 @@ public  class Code extends Attribute {
 
     public int getMaxStack() {
         return maxStack;
+    }
+
+    @Override
+    public String toString() {
+        return "Code [maxStack=" + maxStack + ", maxLocals=" + maxLocals + ", code=" + code.length + "bytes , exceptionTable=" + Arrays.toString(exceptionTable) + ", attributes=" + Arrays.toString(attributes) + "]";
     }
 }

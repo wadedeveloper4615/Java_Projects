@@ -10,7 +10,12 @@ public class FieldVariable extends FieldOrMethod {
         super(in, constantPool);
     }
 
-    public FieldVariable(int accessFlags, int nameIndex, int signatureIndex, Attribute[] attributes, ConstantPool constant_pool) {
+    public FieldVariable(int accessFlags, int nameIndex, int signatureIndex, Attribute[] attributes, ConstantPool constant_pool) throws IOException {
         super(accessFlags, nameIndex, signatureIndex, attributes, constant_pool);
+    }
+
+    @Override
+    public String toString() {
+        return "FieldVariable=[" + super.toString() + "]";
     }
 }

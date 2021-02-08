@@ -9,7 +9,7 @@ import com.wade.app.constantpool.ConstantUtf8;
 import com.wade.app.enums.ClassFileAttributes;
 import com.wade.app.enums.ClassFileConstants;
 
-public  class Unknown extends Attribute {
+public class Unknown extends Attribute {
     private byte[] bytes;
     private String name;
 
@@ -33,5 +33,10 @@ public  class Unknown extends Attribute {
 
     public String getName() {
         return name;
+    }
+
+    @Override
+    public String toString() {
+        return "Unknown [name=" + name + "]";
     }
 }

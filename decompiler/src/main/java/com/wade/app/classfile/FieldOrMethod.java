@@ -2,16 +2,22 @@ package com.wade.app.classfile;
 
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.util.Arrays;
 
 import com.wade.app.constantpool.ConstantPool;
+import com.wade.app.constantpool.ConstantUtf8;
+import com.wade.app.enums.ClassAccessFlags;
+import com.wade.app.enums.ClassFileConstants;
 
 public class FieldOrMethod {
-    private  int accessFlags;
-    private  int nameIndex;
-    private  int signatureIndex;
+    private ClassAccessFlags[] accessFlags;
+    private int nameIndex;
+    private int signatureIndex;
     private Attribute[] attributes;
-    private  ConstantPool constantPool;
+    private ConstantPool constantPool;
     private int attributesCount;
+    private String name;
+    private String signature;
 
     public FieldOrMethod(DataInputStream in, ConstantPool constantPool) throws IOException {
         this(in.readUnsignedShort(), in.readUnsignedShort(), in.readUnsignedShort(), null, constantPool);
@@ -22,15 +28,17 @@ public class FieldOrMethod {
         }
     }
 
-    protected FieldOrMethod(int accessFlags, int nameIndex, int signatureIndex, Attribute[] attributes, ConstantPool constantPool) {
-        this.accessFlags = accessFlags;
+    protected FieldOrMethod(int accessFlags, int nameIndex, int signatureIndex, Attribute[] attributes, ConstantPool constantPool) throws IOException {
+        this.accessFlags = ClassAccessFlags.read(accessFlags);
         this.nameIndex = nameIndex;
         this.signatureIndex = signatureIndex;
         this.attributes = attributes;
         this.constantPool = constantPool;
+        this.name = ((ConstantUtf8) constantPool.getConstant(nameIndex, ClassFileConstants.CONSTANT_Utf8)).getBytes();
+        this.signature = ((ConstantUtf8) constantPool.getConstant(signatureIndex, ClassFileConstants.CONSTANT_Utf8)).getBytes();
     }
 
-    public int getAccessFlags() {
+    public ClassAccessFlags[] getAccessFlags() {
         return accessFlags;
     }
 
@@ -48,5 +56,10 @@ public class FieldOrMethod {
 
     public int getSignatureIndex() {
         return signatureIndex;
+    }
+
+    @Override
+    public String toString() {
+        return "accessFlags=" + Arrays.toString(accessFlags) + ", name=" + name + ", signature=" + signature + ", attributes=" + Arrays.toString(attributes);
     }
 }

@@ -1,19 +1,19 @@
 package com.wade.app.enums;
 
 public enum ClassFileAttributes {
-    ATTR_UNKNOWN(-1, "ATTR_UNKNOWN"),
+    ATTR_UNKNOWN(-1, "Unknown"),
 
-    ATTR_SOURCE_FILE(0, "ATTR_SOURCE_FILE"),
+    ATTR_SOURCE_FILE(0, "SourceFile"),
 
-    ATTR_CONSTANT_VALUE(1, "ATTR_CONSTANT_VALUE"),
+    ATTR_CONSTANT_VALUE(1, "ConstantValue"),
 
-    ATTR_CODE(2, "ATTR_CODE"),
+    ATTR_CODE(2, "Code"),
 
-    ATTR_EXCEPTIONS(3, "ATTR_EXCEPTIONS"),
+    ATTR_EXCEPTIONS(3, "ExceptionTable"),
 
-    ATTR_LINE_NUMBER_TABLE(4, "ATTR_LINE_NUMBER_TABLE"),
+    ATTR_LINE_NUMBER_TABLE(4, "LineNumberTable"),
 
-    ATTR_LOCAL_VARIABLE_TABLE(5, "ATTR_LOCAL_VARIABLE_TABLE"),
+    ATTR_LOCAL_VARIABLE_TABLE(5, "LocalVariableTable"),
 
     ATTR_INNER_CLASSES(6, "ATTR_INNER_CLASSES"),
 
@@ -57,8 +57,8 @@ public enum ClassFileAttributes {
 
     ATTR_NEST_MEMBERS(26, "ATTR_NEST_MEMBERS");
 
-    private  int tag;
-    private  String name;
+    private int tag;
+    private String name;
 
     ClassFileAttributes(int tag, String name) {
         this.tag = tag;

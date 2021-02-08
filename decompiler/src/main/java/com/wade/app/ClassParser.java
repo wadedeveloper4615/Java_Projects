@@ -6,9 +6,12 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import com.wade.app.classfile.Attribute;
 import com.wade.app.classfile.ClassFileName;
 import com.wade.app.classfile.FieldVariable;
 import com.wade.app.classfile.JavaClass;
+import com.wade.app.classfile.MethodCode;
+import com.wade.app.classfile.MethodsList;
 import com.wade.app.constantpool.ConstantPool;
 import com.wade.app.enums.ClassAccessFlags;
 import com.wade.app.enums.Version;
@@ -26,6 +29,8 @@ public class ClassParser {
     private ClassFileName superclassName;
     private InterfacesList interfaces;
     private FieldsList fields;
+    private MethodsList methods;
+    private Attribute[] attributes;
 
     public ClassParser(String fileName) {
         this.fileName = fileName;
@@ -71,8 +76,18 @@ public class ClassParser {
             readClassInfo(in);
             readInterfaces(in);
             readFields(in);
+            readMethods(in);
+            readAttributes(in);
         }
-        return new JavaClass(version, constantPool, accessFlags, className, superclassName, interfaces);
+        return new JavaClass(version, constantPool, accessFlags, className, superclassName, interfaces, fields, methods, attributes);
+    }
+
+    private void readAttributes(DataInputStream in) throws IOException {
+        final int attributes_count = in.readUnsignedShort();
+        attributes = new Attribute[attributes_count];
+        for (int i = 0; i < attributes_count; i++) {
+            attributes[i] = Attribute.readAttribute(in, constantPool);
+        }
     }
 
     private void readClassInfo(DataInputStream in) throws IOException {
@@ -108,6 +123,15 @@ public class ClassParser {
             interfaces[i] = new ClassFileName(in, constantPool);
         }
         this.interfaces = new InterfacesList(interfaces);
+    }
+
+    private void readMethods(DataInputStream in) throws IOException {
+        int methodsCount = in.readUnsignedShort();
+        MethodCode[] methods = new MethodCode[methodsCount];
+        for (int i = 0; i < methodsCount; i++) {
+            methods[i] = new MethodCode(in, constantPool);
+        }
+        this.methods = new MethodsList(methods);
     }
 
     private void readVersion(DataInputStream in) throws IOException {

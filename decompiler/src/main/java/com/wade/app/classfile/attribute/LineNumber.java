@@ -3,11 +3,11 @@ package com.wade.app.classfile.attribute;
 import java.io.DataInputStream;
 import java.io.IOException;
 
-public  class LineNumber {
+public class LineNumber {
     private short startPc;
     private short lineNumber;
 
-    public LineNumber( DataInputStream file) throws IOException {
+    public LineNumber(DataInputStream file) throws IOException {
         this(file.readUnsignedShort(), file.readUnsignedShort());
     }
 
@@ -22,5 +22,10 @@ public  class LineNumber {
 
     public short getStartPc() {
         return startPc;
+    }
+
+    @Override
+    public String toString() {
+        return "LineNumber [startPc=" + startPc + ", lineNumber=" + lineNumber + "]";
     }
 }

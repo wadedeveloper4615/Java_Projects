@@ -14,7 +14,7 @@ public enum ClassAccessFlags {
 
     ACC_STATIC(0x0008, "static"),
 
-    ACC_(0x0010, ""),
+    ACC_FINAL(0x0010, "final"),
 
     ACC_OPEN(0x0020, "open"),
 
@@ -78,19 +78,19 @@ public enum ClassAccessFlags {
         return (flag & ACC_ABSTRACT.getFlag()) != 0;
     }
 
-    public  boolean isAnnotation() {
+    public boolean isAnnotation() {
         return (flag & ACC_ANNOTATION.getFlag()) != 0;
     }
 
-    public  boolean isEnum() {
+    public boolean isEnum() {
         return (flag & ACC_ENUM.getFlag()) != 0;
     }
 
-    public  boolean is() {
-        return (flag & ACC_.getFlag()) != 0;
+    public boolean isFinal() {
+        return (flag & ACC_FINAL.getFlag()) != 0;
     }
 
-    public  boolean isInterface() {
+    public boolean isInterface() {
         return (flag & ACC_INTERFACE.getFlag()) != 0;
     }
 
@@ -98,55 +98,55 @@ public enum ClassAccessFlags {
         return (flag & ACC_MANDATED.getFlag()) != 0;
     }
 
-    public  boolean isNative() {
+    public boolean isNative() {
         return (flag & ACC_NATIVE.getFlag()) != 0;
     }
 
-    public  boolean isPrivate() {
+    public boolean isPrivate() {
         return (flag & ACC_PRIVATE.getFlag()) != 0;
     }
 
-    public  boolean isProtected() {
+    public boolean isProtected() {
         return (flag & ACC_PROTECTED.getFlag()) != 0;
     }
 
-    public  boolean isPublic() {
+    public boolean isPublic() {
         return (flag & ACC_PUBLIC.getFlag()) != 0;
     }
 
-    public  boolean isSet(int p) {
+    public boolean isSet(int p) {
         return (flag & p) != 0;
     }
 
-    public  boolean isStatic() {
+    public boolean isStatic() {
         return (flag & ACC_STATIC.getFlag()) != 0;
     }
 
-    public  boolean isStrictfp() {
+    public boolean isStrictfp() {
         return (flag & ACC_STRICT.getFlag()) != 0;
     }
 
-    public  boolean isSuper() {
+    public boolean isSuper() {
         return (flag & ACC_SUPER.getFlag()) != 0;
     }
 
-    public  boolean isSynchronized() {
+    public boolean isSynchronized() {
         return (flag & ACC_SYNCHRONIZED.getFlag()) != 0;
     }
 
-    public  boolean isSynthetic() {
+    public boolean isSynthetic() {
         return (flag & ACC_SYNTHETIC.getFlag()) != 0;
     }
 
-    public  boolean isTransient() {
+    public boolean isTransient() {
         return (flag & ACC_TRANSIENT.getFlag()) != 0;
     }
 
-    public  boolean isVarArgs() {
+    public boolean isVarArgs() {
         return (flag & ACC_VARARGS.getFlag()) != 0;
     }
 
-    public  boolean isVolatile() {
+    public boolean isVolatile() {
         return (flag & ACC_VOLATILE.getFlag()) != 0;
     }
 
@@ -155,7 +155,7 @@ public enum ClassAccessFlags {
         return this;
     }
 
-    public static  boolean isSet(int flag, ClassAccessFlags p) {
+    public static boolean isSet(int flag, ClassAccessFlags p) {
         return (flag & p.getFlag()) != 0;
     }
 
@@ -168,5 +168,15 @@ public enum ClassAccessFlags {
             }
         }
         return list;
+    }
+
+    public static ClassAccessFlags[] read(int accessFlags) throws IOException {
+        List<ClassAccessFlags> list = new ArrayList<>();
+        for (ClassAccessFlags v : ClassAccessFlags.values()) {
+            if (ClassAccessFlags.isSet(accessFlags, v)) {
+                list.add(v);
+            }
+        }
+        return list.toArray(new ClassAccessFlags[list.size()]);
     }
 }

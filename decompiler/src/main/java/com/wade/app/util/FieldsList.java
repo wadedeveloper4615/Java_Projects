@@ -13,6 +13,6 @@ public class FieldsList {
 
     @Override
     public String toString() {
-        return "FieldsList [fields=" + Arrays.toString(fields) + "]";
+        return "FieldsList=[" + Arrays.toString(fields) + "]";
     }
 }

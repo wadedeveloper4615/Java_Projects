@@ -12,9 +12,13 @@ public class ConstantInteger extends Constant {
         this(file.readInt());
     }
 
-    public ConstantInteger( int bytes) {
+    public ConstantInteger(int bytes) {
         super(ClassFileConstants.CONSTANT_Integer);
         this.bytes = bytes;
+    }
+
+    public int getBytes() {
+        return bytes;
     }
 
     @Override

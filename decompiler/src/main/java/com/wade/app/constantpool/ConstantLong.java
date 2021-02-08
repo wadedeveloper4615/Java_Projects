@@ -12,9 +12,13 @@ public class ConstantLong extends Constant {
         this(file.readLong());
     }
 
-    public ConstantLong( long bytes) {
+    public ConstantLong(long bytes) {
         super(ClassFileConstants.CONSTANT_Long);
         this.bytes = bytes;
+    }
+
+    public long getBytes() {
+        return bytes;
     }
 
     @Override

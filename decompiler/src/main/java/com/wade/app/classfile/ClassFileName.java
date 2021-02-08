@@ -7,8 +7,8 @@ import com.wade.app.constantpool.ConstantPool;
 import com.wade.app.enums.ClassFileConstants;
 
 public class ClassFileName {
-    private final int nameIndex;
-    private final String name;
+    private  int nameIndex;
+    private  String name;
 
     public ClassFileName(DataInputStream in, ConstantPool constantPool) throws IOException {
         this.nameIndex = in.readUnsignedShort();

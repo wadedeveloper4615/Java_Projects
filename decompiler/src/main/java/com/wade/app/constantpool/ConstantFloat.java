@@ -8,11 +8,11 @@ import com.wade.app.enums.ClassFileConstants;
 public class ConstantFloat extends Constant {
     private float bytes;
 
-    public ConstantFloat(final DataInputStream file) throws IOException {
+    public ConstantFloat( DataInputStream file) throws IOException {
         this(file.readFloat());
     }
 
-    public ConstantFloat(final float bytes) {
+    public ConstantFloat( float bytes) {
         super(ClassFileConstants.CONSTANT_Float);
         this.bytes = bytes;
     }

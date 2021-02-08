@@ -6,7 +6,7 @@ import java.io.IOException;
 import com.wade.app.enums.ClassFileConstants;
 
 public class ConstantInterfaceMethodRef extends ConstantCP {
-    public ConstantInterfaceMethodRef(final DataInputStream input) throws IOException {
+    public ConstantInterfaceMethodRef( DataInputStream input) throws IOException {
         super(ClassFileConstants.CONSTANT_InterfaceMethodref, input);
     }
 

@@ -6,7 +6,7 @@ import java.io.IOException;
 import com.wade.app.enums.ClassFileConstants;
 
 public class ConstantClass extends Constant {
-    private final int nameIndex;
+    private  int nameIndex;
 
     public ConstantClass(DataInputStream in) throws IOException {
         this(in.readUnsignedShort());

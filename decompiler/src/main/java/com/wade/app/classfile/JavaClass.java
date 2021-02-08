@@ -3,6 +3,7 @@ package com.wade.app.classfile;
 import com.wade.app.constantpool.ConstantPool;
 import com.wade.app.enums.Version;
 import com.wade.app.util.ClassAccessFlagsList;
+import com.wade.app.util.InterfacesList;
 
 public class JavaClass {
     private Version version;
@@ -10,9 +11,9 @@ public class JavaClass {
     private ClassFileName className;
     private ClassFileName superclassName;
     private ClassAccessFlagsList accessFlags;
-    private ClassFileName[] interfaces;
+    private InterfacesList interfaces;
 
-    public JavaClass(Version version, ConstantPool constantPool, ClassAccessFlagsList accessFlags, ClassFileName className, ClassFileName superclassName, ClassFileName[] interfaces) {
+    public JavaClass(Version version, ConstantPool constantPool, ClassAccessFlagsList accessFlags, ClassFileName className, ClassFileName superclassName, InterfacesList interfaces) {
         this.version = version;
         this.constantPool = constantPool;
         this.accessFlags = accessFlags;

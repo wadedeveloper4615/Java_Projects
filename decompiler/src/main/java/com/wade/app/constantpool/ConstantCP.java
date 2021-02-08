@@ -9,7 +9,7 @@ public class ConstantCP extends Constant {
     protected int class_index;
     protected int name_and_type_index;
 
-    public ConstantCP(ClassFileConstants tag, final DataInputStream file) throws IOException {
+    public ConstantCP(ClassFileConstants tag,  DataInputStream file) throws IOException {
         this(tag, file.readUnsignedShort(), file.readUnsignedShort());
     }
 

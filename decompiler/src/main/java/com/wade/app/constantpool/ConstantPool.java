@@ -4,7 +4,6 @@ import java.io.DataInputStream;
 import java.io.IOException;
 
 import com.wade.app.ClassFormatException;
-import com.wade.app.Const;
 import com.wade.app.enums.ClassFileConstants;
 
 public class ConstantPool {
@@ -23,7 +22,7 @@ public class ConstantPool {
         }
     }
 
-    public Constant getConstant(final int index) {
+    public Constant getConstant(int index) {
         if (index >= constantPool.length || index < 0) {
             throw new ClassFormatException("Invalid constant pool reference: " + index + ". Constant pool size is: " + constantPool.length);
         }
@@ -36,7 +35,7 @@ public class ConstantPool {
             throw new ClassFormatException("Constant pool at index " + index + " is null.");
         }
         if (c.getTag() != tag) {
-            throw new ClassFormatException("Expected class `" + Const.getConstantName(tag) + "' at index " + index + " and got " + c);
+            throw new ClassFormatException("Expected class `" + tag.getName() + "' at index " + index + " and got " + c);
         }
         return c;
     }
@@ -66,7 +65,7 @@ public class ConstantPool {
 
     @Override
     public String toString() {
-        final StringBuilder buf = new StringBuilder();
+        StringBuilder buf = new StringBuilder();
         buf.append(constantPool.length + " Entries,\n");
         for (int i = 0; i < constantPool.length; i++) {
             buf.append(i).append(")").append(constantPool[i]).append("\n");

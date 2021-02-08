@@ -58,6 +58,6 @@ public class LocalVariable {
 
     @Override
     public String toString() {
-        return "LocalVariable [startPc=" + startPc + ", length=" + length + ", nameIndex=" + nameIndex + ", signatureIndex=" + signatureIndex + ", index=" + index + ", name=" + name + ", signature=" + signature + "]";
+        return "[startPc=" + startPc + ", length=" + length + ", nameIndex=" + nameIndex + ", signatureIndex=" + signatureIndex + ", index=" + index + ", name=" + name + ", signature=" + signature + "]";
     }
 }

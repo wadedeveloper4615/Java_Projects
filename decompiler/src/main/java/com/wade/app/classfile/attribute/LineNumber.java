@@ -26,6 +26,6 @@ public class LineNumber {
 
     @Override
     public String toString() {
-        return "LineNumber [startPc=" + startPc + ", lineNumber=" + lineNumber + "]";
+        return "[startPc=" + startPc + ", lineNumber=" + lineNumber + "]";
     }
 }

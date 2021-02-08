@@ -26,7 +26,7 @@ public class LocalVariableTable extends Attribute {
 
     @Override
     public String toString() {
-        return "LocalVariableTable [localVariableTable=" + Arrays.toString(localVariableTable) + "]";
+        return "LocalVariableTable=" + Arrays.toString(localVariableTable);
     }
 
 }

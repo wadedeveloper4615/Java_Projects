@@ -27,7 +27,7 @@ public class LineNumberTable extends Attribute {
 
     @Override
     public String toString() {
-        return "LineNumberTable [lineNumberTable=" + Arrays.toString(lineNumberTable) + "]";
+        return "LineNumberTable=" + Arrays.toString(lineNumberTable);
     }
 
 }

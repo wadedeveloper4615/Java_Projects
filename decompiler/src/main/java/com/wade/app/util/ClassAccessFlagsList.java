@@ -11,6 +11,10 @@ public class ClassAccessFlagsList {
         this.list = list;
     }
 
+    public List<ClassAccessFlags> getList() {
+        return list;
+    }
+
     @Override
     public String toString() {
         return list.toString();

@@ -33,6 +33,42 @@ public class JavaClass {
         this.attributes = attributes;
     }
 
+    public ClassAccessFlagsList getAccessFlags() {
+        return accessFlags;
+    }
+
+    public Attribute[] getAttributes() {
+        return attributes;
+    }
+
+    public ClassFileName getClassName() {
+        return className;
+    }
+
+    public ConstantPool getConstantPool() {
+        return constantPool;
+    }
+
+    public FieldsList getFields() {
+        return fields;
+    }
+
+    public InterfacesList getInterfaces() {
+        return interfaces;
+    }
+
+    public MethodsList getMethods() {
+        return methods;
+    }
+
+    public ClassFileName getSuperclassName() {
+        return superclassName;
+    }
+
+    public Version getVersion() {
+        return version;
+    }
+
     @Override
     public String toString() {
         StringBuilder buffer = new StringBuilder("JavaClass [\n");

@@ -5,6 +5,7 @@ import com.wade.app.classfile.JavaClass;
 public class Decompiler {
     private void decompile(JavaClass javaClass) {
         System.out.println(javaClass.toString());
+        DecompilerData data = new DecompilerData(javaClass);
     }
 
     public static void main(String[] argv) {

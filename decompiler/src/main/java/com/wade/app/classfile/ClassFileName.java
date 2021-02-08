@@ -15,6 +15,10 @@ public class ClassFileName {
         this.name = constantPool.getConstantString(nameIndex, ClassFileConstants.CONSTANT_Class);
     }
 
+    public String getName() {
+        return name;
+    }
+
     @Override
     public String toString() {
         return "name=" + name;

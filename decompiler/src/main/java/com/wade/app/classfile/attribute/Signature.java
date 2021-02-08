@@ -1,4 +1,4 @@
-package com.wade.app.classfile;
+package com.wade.app.classfile.attribute;
 
 import java.io.DataInputStream;
 import java.io.IOException;

@@ -6,18 +6,18 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import com.wade.app.classfile.Attribute;
 import com.wade.app.classfile.ClassFileName;
 import com.wade.app.classfile.FieldVariable;
 import com.wade.app.classfile.JavaClass;
 import com.wade.app.classfile.MethodCode;
-import com.wade.app.classfile.MethodsList;
+import com.wade.app.classfile.attribute.Attribute;
 import com.wade.app.constantpool.ConstantPool;
 import com.wade.app.enums.ClassAccessFlags;
 import com.wade.app.enums.Version;
 import com.wade.app.util.ClassAccessFlagsList;
 import com.wade.app.util.FieldsList;
 import com.wade.app.util.InterfacesList;
+import com.wade.app.util.MethodsList;
 
 public class ClassParser {
     private static int BUFSIZE = 8192;

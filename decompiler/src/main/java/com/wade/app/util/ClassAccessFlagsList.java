@@ -13,6 +13,6 @@ public class ClassAccessFlagsList {
 
     @Override
     public String toString() {
-        return "ClassAccessFlagsList [flagsList=" + list + "]";
+        return list.toString();
     }
 }

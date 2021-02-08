@@ -2,11 +2,13 @@ package com.wade.app.classfile;
 
 import java.util.Arrays;
 
+import com.wade.app.classfile.attribute.Attribute;
 import com.wade.app.constantpool.ConstantPool;
 import com.wade.app.enums.Version;
 import com.wade.app.util.ClassAccessFlagsList;
 import com.wade.app.util.FieldsList;
 import com.wade.app.util.InterfacesList;
+import com.wade.app.util.MethodsList;
 
 public class JavaClass {
     private Version version;
@@ -33,6 +35,17 @@ public class JavaClass {
 
     @Override
     public String toString() {
-        return "JavaClass [version=" + version + ", \nconstantPool=" + constantPool + ", \nclassName=" + className + ", \nsuperclassName=" + superclassName + ", \naccessFlags=" + accessFlags + ", \ninterfaces=" + interfaces + ", \nfields=" + fields + ", \nmethods=" + methods + ", \nattributes=" + Arrays.toString(attributes) + "]";
+        StringBuilder buffer = new StringBuilder("JavaClass [\n");
+        buffer.append("\tVersion=" + version + ",\n");
+        buffer.append("\tConstantPool=" + constantPool + ",\n");
+        buffer.append("\tClassName=" + className + ",\n");
+        buffer.append("\tSuperClassName=" + superclassName + ",\n");
+        buffer.append("\tAccessFlags=" + accessFlags + ",\n");
+        buffer.append("\tInterfaces=" + interfaces + ",\n");
+        buffer.append("\tFields=" + fields + ",\n");
+        buffer.append("\tMethods=" + methods + ",\n");
+        buffer.append("\tAttributes=" + Arrays.toString(attributes) + ",\n");
+        buffer.append("]\n");
+        return buffer.toString();
     }
 }

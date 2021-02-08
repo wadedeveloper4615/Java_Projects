@@ -4,6 +4,7 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.Arrays;
 
+import com.wade.app.classfile.attribute.Attribute;
 import com.wade.app.constantpool.ConstantPool;
 import com.wade.app.constantpool.ConstantUtf8;
 import com.wade.app.enums.ClassAccessFlags;
@@ -60,6 +61,6 @@ public class FieldOrMethod {
 
     @Override
     public String toString() {
-        return "accessFlags=" + Arrays.toString(accessFlags) + ", name=" + name + ", signature=" + signature + ", attributes=" + Arrays.toString(attributes);
+        return "\n\t\taccessFlags=" + Arrays.toString(accessFlags) + ", name=" + name + ", signature=" + signature + ", attributes=" + Arrays.toString(attributes);
     }
 }

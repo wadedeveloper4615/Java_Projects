@@ -66,10 +66,7 @@ public class ConstantPool {
     @Override
     public String toString() {
         StringBuilder buf = new StringBuilder();
-        buf.append(constantPool.length + " Entries,\n");
-        for (int i = 0; i < constantPool.length; i++) {
-            buf.append(i).append(")").append(constantPool[i]).append("\n");
-        }
+        buf.append(constantPool.length + " Entries");
         return buf.toString();
     }
 }

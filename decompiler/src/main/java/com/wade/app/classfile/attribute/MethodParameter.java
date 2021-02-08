@@ -1,9 +1,9 @@
-package com.wade.app.classfile;
+package com.wade.app.classfile.attribute;
 
 import java.io.DataInputStream;
 import java.io.IOException;
 
-public class MethodParameter implements Cloneable {
+public class MethodParameter {
     private int nameIndex;
     private int accessFlags;
 

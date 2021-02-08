@@ -1,10 +1,9 @@
-package com.wade.app.classfile;
+package com.wade.app.classfile.attribute;
 
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.Arrays;
 
-import com.wade.app.classfile.attribute.CodeException;
 import com.wade.app.constantpool.ConstantPool;
 import com.wade.app.enums.ClassFileAttributes;
 
@@ -83,6 +82,6 @@ public class Code extends Attribute {
 
     @Override
     public String toString() {
-        return "Code [maxStack=" + maxStack + ", maxLocals=" + maxLocals + ", code=" + code.length + "bytes , exceptionTable=" + Arrays.toString(exceptionTable) + ", attributes=" + Arrays.toString(attributes) + "]";
+        return "Code [maxStack=" + maxStack + ", maxLocals=" + maxLocals + ", code=" + code.length + " bytes , exceptionTable=" + Arrays.toString(exceptionTable) + ", attributes=" + Arrays.toString(attributes) + "]";
     }
 }

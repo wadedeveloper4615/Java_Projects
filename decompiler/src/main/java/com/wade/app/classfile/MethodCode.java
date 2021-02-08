@@ -4,6 +4,7 @@ import java.io.DataInputStream;
 import java.io.IOException;
 
 import com.wade.app.ClassFormatException;
+import com.wade.app.classfile.attribute.Attribute;
 import com.wade.app.constantpool.ConstantPool;
 
 public class MethodCode extends FieldOrMethod {

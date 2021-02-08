@@ -4,7 +4,6 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.Arrays;
 
-import com.wade.app.classfile.Attribute;
 import com.wade.app.constantpool.ConstantPool;
 import com.wade.app.enums.ClassFileAttributes;
 

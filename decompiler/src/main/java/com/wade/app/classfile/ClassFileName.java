@@ -17,6 +17,6 @@ public class ClassFileName {
 
     @Override
     public String toString() {
-        return "ClassFileName [name=" + name + "]";
+        return "name=" + name;
     }
 }

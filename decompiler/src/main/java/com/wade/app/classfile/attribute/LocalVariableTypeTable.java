@@ -1,9 +1,8 @@
-package com.wade.app.classfile;
+package com.wade.app.classfile.attribute;
 
 import java.io.DataInputStream;
 import java.io.IOException;
 
-import com.wade.app.classfile.attribute.LocalVariable;
 import com.wade.app.constantpool.ConstantPool;
 import com.wade.app.enums.ClassFileAttributes;
 

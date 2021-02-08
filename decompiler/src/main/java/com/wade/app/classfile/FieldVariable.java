@@ -3,6 +3,7 @@ package com.wade.app.classfile;
 import java.io.DataInputStream;
 import java.io.IOException;
 
+import com.wade.app.classfile.attribute.Attribute;
 import com.wade.app.constantpool.ConstantPool;
 
 public class FieldVariable extends FieldOrMethod {
@@ -16,6 +17,6 @@ public class FieldVariable extends FieldOrMethod {
 
     @Override
     public String toString() {
-        return "FieldVariable=[" + super.toString() + "]";
+        return super.toString();
     }
 }

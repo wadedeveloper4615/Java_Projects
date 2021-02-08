@@ -3,7 +3,6 @@ package com.wade.app.classfile.attribute;
 import java.io.DataInput;
 import java.io.IOException;
 
-import com.wade.app.classfile.Attribute;
 import com.wade.app.constantpool.Constant;
 import com.wade.app.constantpool.ConstantDouble;
 import com.wade.app.constantpool.ConstantFloat;

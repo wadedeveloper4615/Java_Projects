@@ -1,6 +1,8 @@
-package com.wade.app.classfile;
+package com.wade.app.util;
 
 import java.util.Arrays;
+
+import com.wade.app.classfile.MethodCode;
 
 public class MethodsList {
     private MethodCode[] methods;
@@ -15,6 +17,6 @@ public class MethodsList {
 
     @Override
     public String toString() {
-        return "MethodsList [methods=" + Arrays.toString(methods) + "]";
+        return Arrays.toString(methods);
     }
 }

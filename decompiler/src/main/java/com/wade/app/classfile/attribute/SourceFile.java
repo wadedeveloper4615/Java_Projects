@@ -3,7 +3,6 @@ package com.wade.app.classfile.attribute;
 import java.io.DataInputStream;
 import java.io.IOException;
 
-import com.wade.app.classfile.Attribute;
 import com.wade.app.constantpool.ConstantPool;
 import com.wade.app.constantpool.ConstantUtf8;
 import com.wade.app.enums.ClassFileAttributes;

@@ -13,6 +13,6 @@ public class InterfacesList {
 
     @Override
     public String toString() {
-        return "InterfacesList [interfaces=" + Arrays.toString(interfaces) + "]";
+        return Arrays.toString(interfaces);
     }
 }

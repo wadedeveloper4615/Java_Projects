@@ -5,6 +5,7 @@ import java.io.IOException;
 
 public class InnerClass {
     private int innerClassIndex;
+
     private int outerClassIndex;
     private int innerNameIndex;
     private int innerAccessFlags;
@@ -34,5 +35,10 @@ public class InnerClass {
 
     public int getOuterClassIndex() {
         return outerClassIndex;
+    }
+
+    @Override
+    public String toString() {
+        return "InnerClass [innerClassIndex=" + innerClassIndex + ", outerClassIndex=" + outerClassIndex + ", innerNameIndex=" + innerNameIndex + ", innerAccessFlags=" + innerAccessFlags + "]";
     }
 }

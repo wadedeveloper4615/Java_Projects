@@ -19,4 +19,9 @@ public class MethodParameter {
     public int getNameIndex() {
         return nameIndex;
     }
+
+    @Override
+    public String toString() {
+        return "MethodParameter [nameIndex=" + nameIndex + ", accessFlags=" + accessFlags + "]";
+    }
 }

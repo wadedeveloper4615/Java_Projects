@@ -2,6 +2,7 @@ package com.wade.app.classfile.attribute;
 
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.util.Arrays;
 
 import com.wade.app.constantpool.ConstantPool;
 import com.wade.app.enums.ClassFileAttributes;
@@ -22,5 +23,10 @@ public class BootstrapMethods extends Attribute {
         for (int i = 0; i < num_bootstrap_methods; i++) {
             bootstrapMethods[i] = new BootstrapMethod(input);
         }
+    }
+
+    @Override
+    public String toString() {
+        return "BootstrapMethods [bootstrapMethods=" + Arrays.toString(bootstrapMethods) + "]";
     }
 }

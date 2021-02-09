@@ -2,13 +2,14 @@ package com.wade.app.classfile.attribute;
 
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.util.Arrays;
 
-public  class ModuleProvides {
-    private  int providesIndex;
-    private  int providesWithCount;
-    private  int[] providesWithIndex;
+public class ModuleProvides {
+    private int providesIndex;
+    private int providesWithCount;
+    private int[] providesWithIndex;
 
-    public ModuleProvides( DataInputStream file) throws IOException {
+    public ModuleProvides(DataInputStream file) throws IOException {
         providesIndex = file.readUnsignedShort();
         providesWithCount = file.readUnsignedShort();
         providesWithIndex = new int[providesWithCount];
@@ -27,5 +28,10 @@ public  class ModuleProvides {
 
     public int[] getProvidesWithIndex() {
         return providesWithIndex;
+    }
+
+    @Override
+    public String toString() {
+        return "ModuleProvides [providesIndex=" + providesIndex + ", providesWithCount=" + providesWithCount + ", providesWithIndex=" + Arrays.toString(providesWithIndex) + "]";
     }
 }

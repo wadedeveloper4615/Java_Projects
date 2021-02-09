@@ -43,4 +43,9 @@ public class StackMapType {
     public boolean hasIndex() {
         return type == ItemNamesEnum.ITEM_Object || type == ItemNamesEnum.ITEM_NewObject;
     }
+
+    @Override
+    public String toString() {
+        return "StackMapType [type=" + type + ", index=" + index + "]";
+    }
 }

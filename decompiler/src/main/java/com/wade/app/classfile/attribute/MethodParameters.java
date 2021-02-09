@@ -2,6 +2,7 @@ package com.wade.app.classfile.attribute;
 
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.util.Arrays;
 
 import com.wade.app.constantpool.ConstantPool;
 import com.wade.app.enums.ClassFileAttributes;
@@ -17,5 +18,10 @@ public class MethodParameters extends Attribute {
         for (int i = 0; i < parameters_count; i++) {
             parameters[i] = new MethodParameter(input);
         }
+    }
+
+    @Override
+    public String toString() {
+        return "MethodParameters [parameters=" + Arrays.toString(parameters) + "]";
     }
 }

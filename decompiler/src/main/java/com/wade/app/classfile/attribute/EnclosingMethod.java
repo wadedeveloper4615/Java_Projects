@@ -28,4 +28,9 @@ public class EnclosingMethod extends Attribute {
         return methodIndex;
     }
 
+    @Override
+    public String toString() {
+        return "EnclosingMethod [classIndex=" + classIndex + ", methodIndex=" + methodIndex + "]";
+    }
+
 }

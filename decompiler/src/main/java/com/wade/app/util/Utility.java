@@ -19,7 +19,7 @@ public abstract class Utility {
 
     private static int FREE_CHARS = 48;
     private static int[] CHAR_MAP = new int[FREE_CHARS];
-    private static int[] MAP_CHAR = new int[256]; // Reverse map
+    private static int[] MAP_CHAR = new int[256];
 
     static {
         int j = 0;
@@ -127,36 +127,6 @@ public abstract class Utility {
         return buf.toString();
     }
 
-    private static int countBrackets(String brackets) {
-        char[] chars = brackets.toCharArray();
-        int count = 0;
-        boolean open = false;
-        for (char c : chars) {
-            switch (c) {
-                case '[':
-                    if (open) {
-                        throw new IllegalArgumentException("Illegally nested brackets:" + brackets);
-                    }
-                    open = true;
-                    break;
-                case ']':
-                    if (!open) {
-                        throw new IllegalArgumentException("Illegally nested brackets:" + brackets);
-                    }
-                    open = false;
-                    count++;
-                    break;
-                default:
-                    // Don't care
-                    break;
-            }
-        }
-        if (open) {
-            throw new IllegalArgumentException("Illegally nested brackets:" + brackets);
-        }
-        return count;
-    }
-
     static boolean equals(byte[] a, byte[] b) {
         int size;
         if ((size = a.length) != b.length) {
@@ -184,58 +154,6 @@ public abstract class Utility {
 
     public static String format(int i, int length, boolean left_justify, char fill) {
         return fillup(Integer.toString(i), length, left_justify, fill);
-    }
-
-    public static String getSignature(String type) {
-        StringBuilder buf = new StringBuilder();
-        char[] chars = type.toCharArray();
-        boolean char_found = false;
-        boolean delim = false;
-        int index = -1;
-        loop: for (int i = 0; i < chars.length; i++) {
-            switch (chars[i]) {
-                case ' ':
-                case '\t':
-                case '\n':
-                case '\r':
-                case '\f':
-                    if (char_found) {
-                        delim = true;
-                    }
-                    break;
-                case '[':
-                    if (!char_found) {
-                        throw new IllegalArgumentException("Illegal type: " + type);
-                    }
-                    index = i;
-                    break loop;
-                default:
-                    char_found = true;
-                    if (!delim) {
-                        buf.append(chars[i]);
-                    }
-            }
-        }
-        int brackets = 0;
-        if (index > 0) {
-            brackets = countBrackets(type.substring(index));
-        }
-        type = buf.toString();
-        buf.setLength(0);
-        for (int i = 0; i < brackets; i++) {
-            buf.append('[');
-        }
-        boolean found = false;
-        for (int i = Const.T_BOOLEAN; (i <= Const.T_VOID) && !found; i++) {
-            if (Const.getTypeName(i).equals(type)) {
-                found = true;
-                buf.append(Const.getShortTypeName(i));
-            }
-        }
-        if (!found) {
-            buf.append('L').append(type.replace('.', '/')).append(';');
-        }
-        return buf.toString();
     }
 
     public static boolean isJavaIdentifierPart(char ch) {
@@ -342,22 +260,22 @@ public abstract class Utility {
         return access + type + " " + name + buf.toString();
     }
 
-    public static String methodTypeToSignature(String ret, String[] argv) throws ClassFormatException {
-        StringBuilder buf = new StringBuilder("(");
-        String str;
-        if (argv != null) {
-            for (String element : argv) {
-                str = getSignature(element);
-                if (str.endsWith("V")) {
-                    throw new ClassFormatException("Invalid type: " + element);
-                }
-                buf.append(str);
-            }
-        }
-        str = getSignature(ret);
-        buf.append(")").append(str);
-        return buf.toString();
-    }
+//    public static String methodTypeToSignature(String ret, String[] argv) throws ClassFormatException {
+//        StringBuilder buf = new StringBuilder("(");
+//        String str;
+//        if (argv != null) {
+//            for (String element : argv) {
+//                str = getSignature(element);
+//                if (str.endsWith("V")) {
+//                    throw new ClassFormatException("Invalid type: " + element);
+//                }
+//                buf.append(str);
+//            }
+//        }
+//        str = getSignature(ret);
+//        buf.append(")").append(str);
+//        return buf.toString();
+//    }
 
     private static int pow2(int n) {
         return 1 << n;

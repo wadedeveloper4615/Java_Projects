@@ -2,11 +2,12 @@ package com.wade.app.classfile.attribute;
 
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.util.Arrays;
 
 import com.wade.app.constantpool.ConstantPool;
 import com.wade.app.enums.ClassFileAttributes;
 
-public  class Deprecated extends Attribute {
+public class Deprecated extends Attribute {
     private byte[] bytes;
 
     public Deprecated(int name_index, int length, byte[] bytes, ConstantPool constant_pool) {
@@ -21,6 +22,11 @@ public  class Deprecated extends Attribute {
             input.readFully(bytes);
             System.out.println("Deprecated attribute with length > 0");
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Deprecated [bytes=" + Arrays.toString(bytes) + "]";
     }
 
 }

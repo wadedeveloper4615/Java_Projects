@@ -2,6 +2,7 @@ package com.wade.app.classfile.attribute;
 
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.util.Arrays;
 
 import com.wade.app.constantpool.ConstantPool;
 import com.wade.app.enums.ClassFileAttributes;
@@ -89,5 +90,10 @@ public class Module extends Attribute {
 
     public int[] getUsesIndex() {
         return usesIndex;
+    }
+
+    @Override
+    public String toString() {
+        return "Module [moduleNameIndex=" + moduleNameIndex + ", moduleFlags=" + moduleFlags + ", moduleVersionIndex=" + moduleVersionIndex + ", requiresTable=" + Arrays.toString(requiresTable) + ", exportsTable=" + Arrays.toString(exportsTable) + ", opensTable=" + Arrays.toString(opensTable) + ", usesCount=" + usesCount + ", usesIndex=" + Arrays.toString(usesIndex) + ", providesTable=" + Arrays.toString(providesTable) + "]";
     }
 }

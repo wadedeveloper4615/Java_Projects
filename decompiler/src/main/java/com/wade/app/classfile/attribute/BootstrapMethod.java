@@ -2,6 +2,7 @@ package com.wade.app.classfile.attribute;
 
 import java.io.DataInput;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class BootstrapMethod implements Cloneable {
     private int bootstrapMethodRef;
@@ -29,5 +30,10 @@ public class BootstrapMethod implements Cloneable {
 
     public int getBootstrapMethodRef() {
         return bootstrapMethodRef;
+    }
+
+    @Override
+    public String toString() {
+        return "BootstrapMethod [bootstrapMethodRef=" + bootstrapMethodRef + ", bootstrapArguments=" + Arrays.toString(bootstrapArguments) + "]";
     }
 }

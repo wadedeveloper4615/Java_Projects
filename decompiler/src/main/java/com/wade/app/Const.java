@@ -2,7 +2,6 @@ package com.wade.app;
 
 import com.wade.app.enums.ClassAccessFlags;
 
-@SuppressWarnings("unused")
 public class Const {
     public static int JVM_CLASSFILE_MAGIC = 0xCAFEBABE;
 
@@ -38,11 +37,6 @@ public class Const {
     public static final byte T_ADDRESS = 16;
 
     private static final String[] TYPE_NAMES = { ILLEGAL_TYPE, ILLEGAL_TYPE, ILLEGAL_TYPE, ILLEGAL_TYPE, "boolean", "char", "float", "double", "byte", "short", "int", "long", "void", "array", "object", "unknown", "address" };
-    private static final String[] SHORT_TYPE_NAMES = { ILLEGAL_TYPE, ILLEGAL_TYPE, ILLEGAL_TYPE, ILLEGAL_TYPE, "Z", "C", "F", "D", "B", "S", "I", "J", "V", ILLEGAL_TYPE, ILLEGAL_TYPE, ILLEGAL_TYPE };
-
-    public static String getShortTypeName(final int index) {
-        return SHORT_TYPE_NAMES[index];
-    }
 
     public static String getTypeName(final int index) {
         return TYPE_NAMES[index];

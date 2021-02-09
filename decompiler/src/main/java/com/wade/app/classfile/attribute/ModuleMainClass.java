@@ -6,20 +6,25 @@ import java.io.IOException;
 import com.wade.app.constantpool.ConstantPool;
 import com.wade.app.enums.ClassFileAttributes;
 
-public  class ModuleMainClass extends Attribute {
+public class ModuleMainClass extends Attribute {
     private int mainClassIndex;
 
-    public ModuleMainClass( int nameIndex,  int length,  DataInputStream input,  ConstantPool constantPool) throws IOException {
+    public ModuleMainClass(int nameIndex, int length, DataInputStream input, ConstantPool constantPool) throws IOException {
         this(nameIndex, length, 0, constantPool);
         mainClassIndex = input.readUnsignedShort();
     }
 
-    public ModuleMainClass( int name_index,  int length,  int mainClassIndex,  ConstantPool constantPool) {
+    public ModuleMainClass(int name_index, int length, int mainClassIndex, ConstantPool constantPool) {
         super(ClassFileAttributes.ATTR_NEST_MEMBERS, name_index, length, constantPool);
         this.mainClassIndex = mainClassIndex;
     }
 
     public int getMainClassIndex() {
         return mainClassIndex;
+    }
+
+    @Override
+    public String toString() {
+        return "ModuleMainClass [mainClassIndex=" + mainClassIndex + "]";
     }
 }

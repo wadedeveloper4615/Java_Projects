@@ -19,4 +19,9 @@ public class AnnotationElementValue extends ElementValue {
         return annotationEntry;
     }
 
+    @Override
+    public String toString() {
+        return "AnnotationElementValue [annotationEntry=" + annotationEntry + "]";
+    }
+
 }

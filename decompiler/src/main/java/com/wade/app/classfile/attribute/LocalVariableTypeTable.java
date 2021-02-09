@@ -2,6 +2,7 @@ package com.wade.app.classfile.attribute;
 
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.util.Arrays;
 
 import com.wade.app.constantpool.ConstantPool;
 import com.wade.app.enums.ClassFileAttributes;
@@ -9,10 +10,10 @@ import com.wade.app.enums.ClassFileAttributes;
 public class LocalVariableTypeTable extends Attribute {
     private LocalVariable[] localVariableTypeTable;
 
-    public LocalVariableTypeTable( int nameIdx,  int len,  DataInputStream input,  ConstantPool cpool) throws IOException {
+    public LocalVariableTypeTable(int nameIdx, int len, DataInputStream input, ConstantPool cpool) throws IOException {
         this(nameIdx, len, (LocalVariable[]) null, cpool);
 
-         int local_variable_type_table_length = input.readUnsignedShort();
+        int local_variable_type_table_length = input.readUnsignedShort();
         localVariableTypeTable = new LocalVariable[local_variable_type_table_length];
 
         for (int i = 0; i < local_variable_type_table_length; i++) {
@@ -20,9 +21,14 @@ public class LocalVariableTypeTable extends Attribute {
         }
     }
 
-    public LocalVariableTypeTable( int name_index,  int length,  LocalVariable[] local_variable_table,  ConstantPool constant_pool) {
+    public LocalVariableTypeTable(int name_index, int length, LocalVariable[] local_variable_table, ConstantPool constant_pool) {
         super(ClassFileAttributes.ATTR_LOCAL_VARIABLE_TYPE_TABLE, name_index, length, constant_pool);
         this.localVariableTypeTable = local_variable_table;
+    }
+
+    @Override
+    public String toString() {
+        return "LocalVariableTypeTable [localVariableTypeTable=" + Arrays.toString(localVariableTypeTable) + "]";
     }
 
 }

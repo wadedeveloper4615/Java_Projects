@@ -23,4 +23,9 @@ public class EnumElementValue extends ElementValue {
     public int getValueIdx() {
         return valueIdx;
     }
+
+    @Override
+    public String toString() {
+        return "EnumElementValue [typeIdx=" + typeIdx + ", valueIdx=" + valueIdx + "]";
+    }
 }

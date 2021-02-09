@@ -14,4 +14,9 @@ public class SimpleElementValue extends ElementValue {
     public int getIndex() {
         return index;
     }
+
+    @Override
+    public String toString() {
+        return "SimpleElementValue [index=" + index + "]";
+    }
 }

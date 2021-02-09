@@ -65,11 +65,7 @@ public class Code extends Attribute {
     }
 
     private int getInternalLength() {
-        return 2 /* maxStack */ + 2 /* maxLocals */ + 4 /* code length */
-                + code.length /* byte-code */
-                + 2 /* exception-table length */
-                + 8 * (exceptionTable == null ? 0 : exceptionTable.length) /* exception table */
-                + 2 /* attributes count */;
+        return 2 + 2 + 4 + code.length + 2 + 8 * (exceptionTable == null ? 0 : exceptionTable.length) + 2;
     }
 
     public LineNumberTable getLineNumberTable() {

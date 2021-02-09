@@ -2,7 +2,6 @@ package com.wade.app.classfile.attribute;
 
 import java.io.DataInputStream;
 import java.io.IOException;
-import java.util.Arrays;
 
 import com.wade.app.constantpool.ConstantPool;
 import com.wade.app.enums.ClassFileAttributes;
@@ -14,6 +13,6 @@ public class RuntimeInvisibleAnnotations extends Annotations {
 
     @Override
     public String toString() {
-        return "RuntimeInvisibleAnnotations [getAnnotationTable()=" + Arrays.toString(getAnnotationTable()) + ", isRuntimeVisible()=" + isRuntimeVisible() + ", getConstant_pool()=" + getConstant_pool() + ", getLength()=" + getLength() + ", getName_index()=" + getName_index() + ", getTag()=" + getTag() + "]";
+        return "RuntimeInvisibleAnnotations [" + super.toString() + "]";
     }
 }

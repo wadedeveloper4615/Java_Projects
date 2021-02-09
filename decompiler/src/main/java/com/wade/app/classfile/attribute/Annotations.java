@@ -33,4 +33,9 @@ public abstract class Annotations extends Attribute {
         return isRuntimeVisible;
     }
 
+    @Override
+    public String toString() {
+        return super.toString();
+    }
+
 }

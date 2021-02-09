@@ -35,6 +35,11 @@ public class AnnotationEntry {
         return isRuntimeVisible;
     }
 
+    @Override
+    public String toString() {
+        return "AnnotationEntry [typeIndex=" + typeIndex + ", isRuntimeVisible=" + isRuntimeVisible + ", elementValuePairs=" + elementValuePairs + "]";
+    }
+
     public static AnnotationEntry read(DataInputStream input, ConstantPool constant_pool, boolean isRuntimeVisible) throws IOException {
         AnnotationEntry annotationEntry = new AnnotationEntry(input.readUnsignedShort(), constant_pool, isRuntimeVisible);
         int num_element_value_pairs = input.readUnsignedShort();

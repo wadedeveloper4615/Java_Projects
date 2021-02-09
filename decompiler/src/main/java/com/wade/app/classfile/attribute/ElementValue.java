@@ -32,6 +32,11 @@ public abstract class ElementValue {
         this.cpool = cpool;
     }
 
+    @Override
+    public String toString() {
+        return "ElementValue [type=" + type + "]";
+    }
+
     public static ElementValue readElementValue(DataInputStream input, ConstantPool cpool) throws IOException {
         byte type = input.readByte();
         switch (type) {

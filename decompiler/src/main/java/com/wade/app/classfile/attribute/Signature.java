@@ -21,4 +21,9 @@ public class Signature extends Attribute {
     public int getSignatureIndex() {
         return signatureIndex;
     }
+
+    @Override
+    public String toString() {
+        return "Signature [signatureIndex=" + signatureIndex + "]";
+    }
 }

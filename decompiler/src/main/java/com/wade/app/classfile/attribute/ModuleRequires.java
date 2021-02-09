@@ -4,9 +4,9 @@ import java.io.DataInputStream;
 import java.io.IOException;
 
 public class ModuleRequires {
-    private  int requiresIndex;
-    private  int requiresFlags;
-    private  int requiresVersionIndex;
+    private int requiresIndex;
+    private int requiresFlags;
+    private int requiresVersionIndex;
 
     public ModuleRequires(DataInputStream file) throws IOException {
         requiresIndex = file.readUnsignedShort();
@@ -24,6 +24,11 @@ public class ModuleRequires {
 
     public int getRequiresVersionIndex() {
         return requiresVersionIndex;
+    }
+
+    @Override
+    public String toString() {
+        return "ModuleRequires [requiresIndex=" + requiresIndex + ", requiresFlags=" + requiresFlags + ", requiresVersionIndex=" + requiresVersionIndex + "]";
     }
 
 }

@@ -2,6 +2,7 @@ package com.wade.app.classfile.attribute;
 
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.util.Arrays;
 
 import com.wade.app.ClassFormatException;
 import com.wade.app.Const;
@@ -89,5 +90,10 @@ public class StackMapEntry {
 
     public StackMapType[] getTypesOfStackItems() {
         return typesOfStackItems;
+    }
+
+    @Override
+    public String toString() {
+        return "StackMapEntry [frameType=" + frameType + ", byteCodeOffset=" + byteCodeOffset + ", typesOfLocals=" + Arrays.toString(typesOfLocals) + ", typesOfStackItems=" + Arrays.toString(typesOfStackItems) + "]";
     }
 }

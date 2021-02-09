@@ -1,5 +1,7 @@
 package com.wade.app.classfile.element;
 
+import java.util.Arrays;
+
 import com.wade.app.classfile.attribute.ElementValue;
 import com.wade.app.constantpool.ConstantPool;
 
@@ -16,6 +18,11 @@ public class ArrayElementValue extends ElementValue {
 
     public ElementValue[] getElementValues() {
         return elementValues;
+    }
+
+    @Override
+    public String toString() {
+        return "ArrayElementValue [elementValues=" + Arrays.toString(elementValues) + "]";
     }
 
 }

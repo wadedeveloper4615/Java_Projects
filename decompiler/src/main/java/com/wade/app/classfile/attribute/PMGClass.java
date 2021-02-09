@@ -28,4 +28,9 @@ public class PMGClass extends Attribute {
         return pmgIndex;
     }
 
+    @Override
+    public String toString() {
+        return "PMGClass [pmgClassIndex=" + pmgClassIndex + ", pmgIndex=" + pmgIndex + "]";
+    }
+
 }

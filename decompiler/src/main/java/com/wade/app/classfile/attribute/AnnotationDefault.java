@@ -22,4 +22,9 @@ public class AnnotationDefault extends Attribute {
     public ElementValue getDefaultValue() {
         return defaultValue;
     }
+
+    @Override
+    public String toString() {
+        return "AnnotationDefault [defaultValue=" + defaultValue + "]";
+    }
 }

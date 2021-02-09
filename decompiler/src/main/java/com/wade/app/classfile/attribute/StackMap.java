@@ -2,6 +2,7 @@ package com.wade.app.classfile.attribute;
 
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.util.Arrays;
 
 import com.wade.app.constantpool.ConstantPool;
 import com.wade.app.enums.ClassFileAttributes;
@@ -23,4 +24,8 @@ public class StackMap extends Attribute {
         this.map = map;
     }
 
+    @Override
+    public String toString() {
+        return "StackMap [map=" + Arrays.toString(map) + "]";
+    }
 }

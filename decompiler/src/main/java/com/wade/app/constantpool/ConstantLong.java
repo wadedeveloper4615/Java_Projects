@@ -23,6 +23,6 @@ public class ConstantLong extends Constant {
 
     @Override
     public String toString() {
-        return "ConstantLong(bytes = " + bytes + ")";
+        return "ConstantLong(bytes = " + bytes + ")\n";
     }
 }

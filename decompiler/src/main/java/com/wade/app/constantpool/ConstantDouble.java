@@ -23,6 +23,6 @@ public class ConstantDouble extends Constant {
 
     @Override
     public String toString() {
-        return "ConstantDouble(bytes = " + bytes + ")";
+        return "ConstantDouble(bytes = " + bytes + ")\n";
     }
 }

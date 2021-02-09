@@ -12,6 +12,6 @@ public class ConstantFieldRef extends ConstantCP {
 
     @Override
     public String toString() {
-        return "ConstantFieldRef(class_index = " + class_index + ", name_and_type_index = " + name_and_type_index + ")";
+        return "ConstantFieldRef(class_index = " + class_index + ", name_and_type_index = " + name_and_type_index + ")\n";
     }
 }

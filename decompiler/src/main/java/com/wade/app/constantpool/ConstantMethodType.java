@@ -8,17 +8,17 @@ import com.wade.app.enums.ClassFileConstants;
 public class ConstantMethodType extends Constant {
     private int descriptorIndex;
 
-    public ConstantMethodType( DataInput file) throws IOException {
+    public ConstantMethodType(DataInput file) throws IOException {
         this(file.readUnsignedShort());
     }
 
-    public ConstantMethodType( int descriptor_index) {
+    public ConstantMethodType(int descriptor_index) {
         super(ClassFileConstants.CONSTANT_MethodType);
         this.descriptorIndex = descriptor_index;
     }
 
     @Override
     public String toString() {
-        return "ConstantMethodType(descriptorIndex = " + descriptorIndex + ")";
+        return "ConstantMethodType(descriptorIndex = " + descriptorIndex + ")\n";
     }
 }

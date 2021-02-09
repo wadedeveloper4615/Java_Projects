@@ -9,7 +9,7 @@ public class ConstantCP extends Constant {
     protected int class_index;
     protected int name_and_type_index;
 
-    public ConstantCP(ClassFileConstants tag,  DataInputStream file) throws IOException {
+    public ConstantCP(ClassFileConstants tag, DataInputStream file) throws IOException {
         this(tag, file.readUnsignedShort(), file.readUnsignedShort());
     }
 
@@ -17,5 +17,10 @@ public class ConstantCP extends Constant {
         super(tag);
         this.class_index = class_index;
         this.name_and_type_index = name_and_type_index;
+    }
+
+    @Override
+    public String toString() {
+        return "ConstantCP [class_index=" + class_index + ", name_and_type_index=" + name_and_type_index + "]\n";
     }
 }

@@ -2,6 +2,7 @@ package com.wade.app.classfile.attribute;
 
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.util.Arrays;
 
 import com.wade.app.constantpool.ConstantPool;
 import com.wade.app.enums.ClassFileAttributes;
@@ -35,7 +36,7 @@ public abstract class Annotations extends Attribute {
 
     @Override
     public String toString() {
-        return super.toString();
+        return "Annotations [annotationTable=" + Arrays.toString(annotationTable) + ", isRuntimeVisible=" + isRuntimeVisible + "]";
     }
 
 }

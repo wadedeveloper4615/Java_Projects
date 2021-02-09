@@ -6,12 +6,12 @@ import java.io.IOException;
 import com.wade.app.enums.ClassFileConstants;
 
 public class ConstantMethodRef extends ConstantCP {
-    public ConstantMethodRef( DataInputStream input) throws IOException {
+    public ConstantMethodRef(DataInputStream input) throws IOException {
         super(ClassFileConstants.CONSTANT_Methodref, input);
     }
 
     @Override
     public String toString() {
-        return "ConstantMethodRef(class_index = " + class_index + ", name_and_type_index = " + name_and_type_index + ")";
+        return "ConstantMethodRef(class_index = " + class_index + ", name_and_type_index = " + name_and_type_index + ")\n";
     }
 }

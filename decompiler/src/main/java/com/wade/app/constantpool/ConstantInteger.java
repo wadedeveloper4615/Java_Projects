@@ -23,6 +23,6 @@ public class ConstantInteger extends Constant {
 
     @Override
     public String toString() {
-        return "ConstantInteger(bytes = " + bytes + ")";
+        return "ConstantInteger(bytes = " + bytes + ")\n";
     }
 }

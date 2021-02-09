@@ -6,13 +6,13 @@ import java.io.IOException;
 import com.wade.app.enums.ClassFileConstants;
 
 public class ConstantModule extends Constant {
-    private  int nameIndex;
+    private int nameIndex;
 
-    public ConstantModule( DataInput file) throws IOException {
+    public ConstantModule(DataInput file) throws IOException {
         this(file.readUnsignedShort());
     }
 
-    public ConstantModule( int nameIndex) {
+    public ConstantModule(int nameIndex) {
         super(ClassFileConstants.CONSTANT_Module);
         this.nameIndex = nameIndex;
     }
@@ -23,6 +23,6 @@ public class ConstantModule extends Constant {
 
     @Override
     public String toString() {
-        return "ConstantModule(nameIndex = " + nameIndex + ")";
+        return "ConstantModule(nameIndex = " + nameIndex + ")\n";
     }
 }

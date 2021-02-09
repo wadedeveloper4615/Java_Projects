@@ -9,7 +9,7 @@ public class ConstantMethodHandle extends Constant {
     private int referenceKind;
     private int referenceIndex;
 
-    public ConstantMethodHandle( DataInput file) throws IOException {
+    public ConstantMethodHandle(DataInput file) throws IOException {
         this(file.readUnsignedByte(), file.readUnsignedShort());
     }
 
@@ -21,6 +21,6 @@ public class ConstantMethodHandle extends Constant {
 
     @Override
     public String toString() {
-        return "ConstantMethodHandle(referenceKind = " + referenceKind + ", referenceIndex = " + referenceIndex + ")";
+        return "ConstantMethodHandle(referenceKind = " + referenceKind + ", referenceIndex = " + referenceIndex + ")\n";
     }
 }

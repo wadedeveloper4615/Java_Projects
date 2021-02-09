@@ -23,6 +23,6 @@ public class ConstantFloat extends Constant {
 
     @Override
     public String toString() {
-        return "ConstantFloat(bytes = " + bytes + ")";
+        return "ConstantFloat(bytes = " + bytes + ")\n";
     }
 }

@@ -13,7 +13,7 @@ public class ConstantNameAndType extends Constant {
         this(file.readUnsignedShort(), file.readUnsignedShort());
     }
 
-    public ConstantNameAndType( int nameIndex,  int signatureIndex) {
+    public ConstantNameAndType(int nameIndex, int signatureIndex) {
         super(ClassFileConstants.CONSTANT_NameAndType);
         this.nameIndex = nameIndex;
         this.signatureIndex = signatureIndex;
@@ -21,6 +21,6 @@ public class ConstantNameAndType extends Constant {
 
     @Override
     public String toString() {
-        return "ConstantNameAndType(nameIndex = " + nameIndex + ", signatureIndex = " + signatureIndex + ")";
+        return "ConstantNameAndType(nameIndex = " + nameIndex + ", signatureIndex = " + signatureIndex + ")\n";
     }
 }

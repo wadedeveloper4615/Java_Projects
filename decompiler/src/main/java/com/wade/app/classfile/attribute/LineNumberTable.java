@@ -8,6 +8,7 @@ import com.wade.app.constantpool.ConstantPool;
 import com.wade.app.enums.ClassFileAttributes;
 
 public class LineNumberTable extends Attribute {
+    @SuppressWarnings("unused")
     private static int MAX_LINE_LENGTH = 72;
     private LineNumber[] lineNumberTable;
 

@@ -3,9 +3,9 @@ package com.wade.app.classfile.attribute;
 import com.wade.app.constantpool.ConstantPool;
 
 public class ElementValuePair {
-    private  ElementValue elementValue;
-    private  ConstantPool constantPool;
-    private  int elementNameIndex;
+    private ElementValue elementValue;
+    private ConstantPool constantPool;
+    private int elementNameIndex;
 
     public ElementValuePair(int elementNameIndex, ElementValue elementValue, ConstantPool constantPool) {
         this.elementValue = elementValue;
@@ -23,5 +23,10 @@ public class ElementValuePair {
 
     public ElementValue getElementValue() {
         return elementValue;
+    }
+
+    @Override
+    public String toString() {
+        return "ElementValuePair [elementValue=" + elementValue + ", elementNameIndex=" + elementNameIndex + "]";
     }
 }

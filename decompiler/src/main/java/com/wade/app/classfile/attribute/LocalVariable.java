@@ -44,8 +44,16 @@ public class LocalVariable {
         return length;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public int getNameIndex() {
         return nameIndex;
+    }
+
+    public String getSignature() {
+        return signature;
     }
 
     public int getSignatureIndex() {

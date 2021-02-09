@@ -72,6 +72,24 @@ public class Code extends Attribute {
                 + 2 /* attributes count */;
     }
 
+    public LineNumberTable getLineNumberTable() {
+        for (Attribute attribute : attributes) {
+            if (attribute instanceof LineNumberTable) {
+                return (LineNumberTable) attribute;
+            }
+        }
+        return null;
+    }
+
+    public LocalVariableTable getLocalVariableTable() {
+        for (Attribute attribute : attributes) {
+            if (attribute instanceof LocalVariableTable) {
+                return (LocalVariableTable) attribute;
+            }
+        }
+        return null;
+    }
+
     public int getMaxLocals() {
         return maxLocals;
     }

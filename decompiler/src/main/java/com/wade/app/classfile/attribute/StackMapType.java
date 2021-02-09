@@ -3,19 +3,19 @@ package com.wade.app.classfile.attribute;
 import java.io.DataInput;
 import java.io.IOException;
 
-import com.wade.app.Const;
 import com.wade.app.constantpool.ConstantPool;
+import com.wade.app.enums.ItemNamesEnum;
 
 public class StackMapType {
-    private byte type;
+    private ItemNamesEnum type;
     private int index = -1;
     private ConstantPool constantPool;
 
     public StackMapType(byte type, int index, ConstantPool constant_pool) {
-        if ((type < Const.ITEM_Bogus) || (type > Const.ITEM_NewObject)) {
+        if ((type < ItemNamesEnum.ITEM_Bogus.getTag()) || (type > ItemNamesEnum.ITEM_NewObject.getTag())) {
             throw new IllegalArgumentException("Illegal type for StackMapType: " + type);
         }
-        this.type = type;
+        this.type = ItemNamesEnum.read(type);
         this.index = index;
         this.constantPool = constant_pool;
     }
@@ -36,11 +36,11 @@ public class StackMapType {
         return index;
     }
 
-    public byte getType() {
+    public ItemNamesEnum getType() {
         return type;
     }
 
     public boolean hasIndex() {
-        return type == Const.ITEM_Object || type == Const.ITEM_NewObject;
+        return type == ItemNamesEnum.ITEM_Object || type == ItemNamesEnum.ITEM_NewObject;
     }
 }

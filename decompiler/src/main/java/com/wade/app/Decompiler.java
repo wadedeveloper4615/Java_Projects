@@ -4,8 +4,8 @@ import com.wade.app.classfile.JavaClass;
 
 public class Decompiler {
     private void decompile(JavaClass javaClass) {
-        System.out.println(javaClass.toString());
         DecompilerData data = new DecompilerData(javaClass);
+        data.output();
     }
 
     public static void main(String[] argv) {

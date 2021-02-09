@@ -10,6 +10,7 @@ import com.wade.app.constantpool.ConstantUtf8;
 import com.wade.app.enums.ClassAccessFlags;
 import com.wade.app.enums.ClassFileConstants;
 
+@SuppressWarnings("unused")
 public class FieldOrMethod {
     private ClassAccessFlags[] accessFlags;
     private int nameIndex;
@@ -47,16 +48,12 @@ public class FieldOrMethod {
         return attributes;
     }
 
-    public ConstantPool getConstantPool() {
-        return constantPool;
+    public String getName() {
+        return name;
     }
 
-    public int getNameIndex() {
-        return nameIndex;
-    }
-
-    public int getSignatureIndex() {
-        return signatureIndex;
+    public String getSignature() {
+        return signature;
     }
 
     @Override

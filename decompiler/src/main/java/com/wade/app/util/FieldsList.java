@@ -11,6 +11,10 @@ public class FieldsList {
         this.fields = fields;
     }
 
+    public FieldVariable[] getFields() {
+        return fields;
+    }
+
     @Override
     public String toString() {
         return Arrays.toString(fields);

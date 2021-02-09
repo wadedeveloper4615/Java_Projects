@@ -30,7 +30,6 @@ public class ConstantValue extends Attribute {
         Constant c = super.getConstant_pool().getConstant(constantValueIndex);
         String buf;
         int i;
-        // Print constant to string depending on its type
         switch (c.getTag()) {
             case CONSTANT_Long:
                 buf = String.valueOf(((ConstantLong) c).getBytes());

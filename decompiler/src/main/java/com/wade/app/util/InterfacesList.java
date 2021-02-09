@@ -11,6 +11,10 @@ public class InterfacesList {
         this.interfaces = interfaces;
     }
 
+    public ClassFileName[] getInterfaces() {
+        return interfaces;
+    }
+
     @Override
     public String toString() {
         return Arrays.toString(interfaces);

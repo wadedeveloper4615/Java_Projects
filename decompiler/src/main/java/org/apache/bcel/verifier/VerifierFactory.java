@@ -22,25 +22,27 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
+import org.apache.bcel.ClassFileName;
+
 /**
  * This class produces instances of the Verifier class. Its purpose is to make
  * sure that they are singleton instances with respect to the class name they
- * operate on. That means, for every class (represented by a unique fully qualified
- * class name) there is exactly one Verifier.
+ * operate on. That means, for every class (represented by a unique fully
+ * qualified class name) there is exactly one Verifier.
  *
  * @see Verifier
  */
 public class VerifierFactory {
 
     /**
-     * The HashMap that holds the data about the already-constructed Verifier instances.
+     * The HashMap that holds the data about the already-constructed Verifier
+     * instances.
      */
-    private static final Map<String, Verifier> hashMap = new HashMap<>();
+    private static Map<String, Verifier> hashMap = new HashMap<>();
     /**
      * The VerifierFactoryObserver instances that observe the VerifierFactory.
      */
-    private static final List<VerifierFactoryObserver> observers = new Vector<>();
-
+    private static List<VerifierFactoryObserver> observers = new Vector<>();
 
     /**
      * The VerifierFactory is not instantiable.
@@ -48,13 +50,31 @@ public class VerifierFactory {
     private VerifierFactory() {
     }
 
+    /**
+     * Adds the VerifierFactoryObserver o to the list of observers.
+     */
+    public static void attach(VerifierFactoryObserver o) {
+        observers.add(o);
+    }
 
     /**
-     * Returns the (only) verifier responsible for the class with the given name.
-     * Possibly a new Verifier object is transparently created.
-     * @return the (only) verifier responsible for the class with the given name.
+     * Removes the VerifierFactoryObserver o from the list of observers.
      */
-    public static Verifier getVerifier( final String fullyQualifiedClassName ) {
+    public static void detach(VerifierFactoryObserver o) {
+        observers.remove(o);
+    }
+
+    public static Verifier getVerifier(ClassFileName fullyQualifiedClassName) {
+        Verifier v = hashMap.get(fullyQualifiedClassName.getName());
+        if (v == null) {
+            v = new Verifier(fullyQualifiedClassName);
+            hashMap.put(fullyQualifiedClassName.getName(), v);
+            notify(fullyQualifiedClassName.getName());
+        }
+        return v;
+    }
+
+    public static Verifier getVerifier(String fullyQualifiedClassName) {
         Verifier v = hashMap.get(fullyQualifiedClassName);
         if (v == null) {
             v = new Verifier(fullyQualifiedClassName);
@@ -64,43 +84,23 @@ public class VerifierFactory {
         return v;
     }
 
+    /**
+     * Returns all Verifier instances created so far. This is useful when a Verifier
+     * recursively lets the VerifierFactory create other Verifier instances and if
+     * you want to verify the transitive hull of referenced class files.
+     */
+    public static Verifier[] getVerifiers() {
+        Verifier[] vs = new Verifier[hashMap.size()];
+        return hashMap.values().toArray(vs); // Because vs is big enough, vs is used to store the values into and returned!
+    }
 
     /**
      * Notifies the observers of a newly generated Verifier.
      */
-    private static void notify( final String fullyQualifiedClassName ) {
+    private static void notify(String fullyQualifiedClassName) {
         // notify the observers
-        for (final VerifierFactoryObserver vfo : observers) {
+        for (VerifierFactoryObserver vfo : observers) {
             vfo.update(fullyQualifiedClassName);
         }
-    }
-
-
-    /**
-     * Returns all Verifier instances created so far.
-     * This is useful when a Verifier recursively lets
-     * the VerifierFactory create other Verifier instances
-     * and if you want to verify the transitive hull of
-     * referenced class files.
-     */
-    public static Verifier[] getVerifiers() {
-        final Verifier[] vs = new Verifier[hashMap.size()];
-        return hashMap.values().toArray(vs); // Because vs is big enough, vs is used to store the values into and returned!
-    }
-
-
-    /**
-     * Adds the VerifierFactoryObserver o to the list of observers.
-     */
-    public static void attach( final VerifierFactoryObserver o ) {
-        observers.add(o);
-    }
-
-
-    /**
-     * Removes the VerifierFactoryObserver o from the list of observers.
-     */
-    public static void detach( final VerifierFactoryObserver o ) {
-        observers.remove(o);
     }
 }

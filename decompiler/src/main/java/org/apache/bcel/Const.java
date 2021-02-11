@@ -7,244 +7,36 @@ import org.apache.bcel.enums.Version;
 
 public final class Const {
     public static final int JVM_CLASSFILE_MAGIC = 0xCAFEBABE;
-//    public static final short MAJOR_1_1 = 45;
-//    public static final short MINOR_1_1 = 3;
-//    public static final short MAJOR_1_2 = 46;
-//    public static final short MINOR_1_2 = 0;
-//    public static final short MAJOR_1_3 = 47;
-//    public static final short MINOR_1_3 = 0;
-//    public static final short MAJOR_1_4 = 48;
-//    public static final short MINOR_1_4 = 0;
-//    public static final short MAJOR_1_5 = 49;
-//    public static final short MINOR_1_5 = 0;
-//    public static final short MAJOR_1_6 = 50;
-//    public static final short MINOR_1_6 = 0;
-//    public static final short MAJOR_1_7 = 51;
-//    public static final short MINOR_1_7 = 0;
-//    public static final short MAJOR_1_8 = 52;
-//    public static final short MINOR_1_8 = 0;
-//    public static final short MAJOR_9 = 53;
-//    public static final short MINOR_9 = 0;
-//    public static final short MAJOR_1_9 = MAJOR_9;
-//    public static final short MINOR_1_9 = MINOR_9;
-//    public static final short MAJOR_10 = 54;
-//    public static final short MINOR_10 = 0;
-//    public static final short MAJOR_11 = 55;
-//    public static final short MINOR_11 = 0;
-//    public static final short MAJOR_12 = 56;
-//    public static final short MINOR_12 = 0;
-//    public static final short MAJOR_13 = 57;
-//    public static final short MINOR_13 = 0;
-//    public static final short MAJOR_14 = 58;
-//    public static final short MINOR_14 = 0;
-//
     public static final short MAJOR = (short) Version.Version_1_1.getMajor();
     public static final short MINOR = (short) Version.Version_1_1.getMajor();
 
-    /**
-     * Maximum value for an unsigned short.
-     */
     public static final int MAX_SHORT = 65535; // 2^16 - 1
-
-    /**
-     * Maximum value for an unsigned byte.
-     */
     public static final int MAX_BYTE = 255; // 2^8 - 1
 
-    /**
-     * One of the access flags for fields, methods, or classes.
-     *
-     * @see <a href=
-     *      "https://docs.oracle.com/javase/specs/jvms/se9/html/jvms-4.html#jvms-4.1-200-E.1">
-     *      Flag definitions for Classes in the Java Virtual Machine Specification
-     *      (Java SE 9 Edition).</a>
-     * @see <a href=
-     *      "https://docs.oracle.com/javase/specs/jvms/se9/html/jvms-4.html#jvms-4.5">
-     *      Flag definitions for Fields in the Java Virtual Machine Specification
-     *      (Java SE 9 Edition).</a>
-     * @see <a href=
-     *      "https://docs.oracle.com/javase/specs/jvms/se9/html/jvms-4.html#jvms-4.6">
-     *      Flag definitions for Methods in the Java Virtual Machine Specification
-     *      (Java SE 9 Edition).</a>
-     * @see <a href=
-     *      "https://docs.oracle.com/javase/specs/jvms/se9/html/jvms-4.html#jvms-4.7.6-300-D.1-D.1">
-     *      Flag definitions for Inner Classes in the Java Virtual Machine
-     *      Specification (Java SE 9 Edition).</a>
-     */
     public static final short ACC_PUBLIC = 0x0001;
-
-    /**
-     * One of the access flags for fields, methods, or classes.
-     *
-     * @see #ACC_PUBLIC
-     */
     public static final short ACC_PRIVATE = 0x0002;
-
-    /**
-     * One of the access flags for fields, methods, or classes.
-     *
-     * @see #ACC_PUBLIC
-     */
     public static final short ACC_PROTECTED = 0x0004;
-
-    /**
-     * One of the access flags for fields, methods, or classes.
-     *
-     * @see #ACC_PUBLIC
-     */
     public static final short ACC_STATIC = 0x0008;
-
-    /**
-     * One of the access flags for fields, methods, or classes.
-     *
-     * @see #ACC_PUBLIC
-     */
     public static final short ACC_FINAL = 0x0010;
-
-    /**
-     * One of the access flags for the Module attribute.
-     *
-     * @see #ACC_PUBLIC
-     */
     public static final short ACC_OPEN = 0x0020;
-
-    /**
-     * One of the access flags for classes.
-     *
-     * @see #ACC_PUBLIC
-     */
     public static final short ACC_SUPER = 0x0020;
-
-    /**
-     * One of the access flags for methods.
-     *
-     * @see #ACC_PUBLIC
-     */
     public static final short ACC_SYNCHRONIZED = 0x0020;
-
-    /**
-     * One of the access flags for the Module attribute.
-     *
-     * @see #ACC_PUBLIC
-     */
     public static final short ACC_TRANSITIVE = 0x0020;
-
-    /**
-     * One of the access flags for methods.
-     *
-     * @see #ACC_PUBLIC
-     */
     public static final short ACC_BRIDGE = 0x0040;
-
-    /**
-     * One of the access flags for the Module attribute.
-     *
-     * @see #ACC_PUBLIC
-     */
     public static final short ACC_STATIC_PHASE = 0x0040;
-
-    /**
-     * One of the access flags for fields.
-     *
-     * @see #ACC_PUBLIC
-     */
     public static final short ACC_VOLATILE = 0x0040;
-
-    /**
-     * One of the access flags for fields.
-     *
-     * @see #ACC_PUBLIC
-     */
     public static final short ACC_TRANSIENT = 0x0080;
-
-    /**
-     * One of the access flags for methods.
-     *
-     * @see #ACC_PUBLIC
-     */
     public static final short ACC_VARARGS = 0x0080;
-
-    /**
-     * One of the access flags for methods.
-     *
-     * @see #ACC_PUBLIC
-     */
     public static final short ACC_NATIVE = 0x0100;
-
-    /**
-     * One of the access flags for classes.
-     *
-     * @see #ACC_PUBLIC
-     */
     public static final short ACC_INTERFACE = 0x0200;
-
-    /**
-     * One of the access flags for methods or classes.
-     *
-     * @see #ACC_PUBLIC
-     */
     public static final short ACC_ABSTRACT = 0x0400;
-
-    /**
-     * One of the access flags for methods.
-     *
-     * @see #ACC_PUBLIC
-     */
     public static final short ACC_STRICT = 0x0800;
-
-    /**
-     * One of the access flags for fields, methods, classes, MethodParameter
-     * attribute, or Module attribute.
-     *
-     * @see #ACC_PUBLIC
-     */
     public static final short ACC_SYNTHETIC = 0x1000;
-
-    /**
-     * One of the access flags for classes.
-     *
-     * @see #ACC_PUBLIC
-     */
     public static final short ACC_ANNOTATION = 0x2000;
-
-    /**
-     * One of the access flags for fields or classes.
-     *
-     * @see #ACC_PUBLIC
-     */
     public static final short ACC_ENUM = 0x4000;
-
-    // Applies to classes compiled by new compilers only
-    /**
-     * One of the access flags for MethodParameter or Module attributes.
-     *
-     * @see #ACC_PUBLIC
-     */
     public static final short ACC_MANDATED = (short) 0x8000;
-
-    /**
-     * One of the access flags for classes.
-     *
-     * @see #ACC_PUBLIC
-     */
     public static final short ACC_MODULE = (short) 0x8000;
-
-    /**
-     * One of the access flags for fields, methods, or classes.
-     *
-     * @see #ACC_PUBLIC
-     * @deprecated Use {@link #MAX_ACC_FLAG_I}
-     */
-    @Deprecated
     public static final short MAX_ACC_FLAG = ACC_ENUM;
-
-    /**
-     * One of the access flags for fields, methods, or classes. ACC_MODULE is
-     * negative as a short.
-     *
-     * @see #ACC_PUBLIC
-     * @since 6.4.0
-     */
     public static final int MAX_ACC_FLAG_I = 0x8000; // ACC_MODULE is negative as a short
 
     // Note that do to overloading:

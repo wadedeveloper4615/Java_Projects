@@ -23,8 +23,10 @@ import java.util.Map;
 import org.apache.bcel.classfile.JavaClass;
 
 /**
- * This repository is used in situations where a Class is created outside the realm of a ClassLoader. Classes are loaded from the file systems using the paths
- * specified in the given class path. By default, this is the value returned by ClassPath.getClassPath().
+ * This repository is used in situations where a Class is created outside the
+ * realm of a ClassLoader. Classes are loaded from the file systems using the
+ * paths specified in the given class path. By default, this is the value
+ * returned by ClassPath.getClassPath().
  *
  * @see org.apache.bcel.Repository
  */
@@ -37,20 +39,11 @@ public class ClassPathRepository extends AbstractClassPathRepository {
     }
 
     /**
-     * Stores a new JavaClass instance into this Repository.
+     * Clears all entries from cache.
      */
     @Override
-    public void storeClass(final JavaClass javaClass) {
-        _loadedClasses.put(javaClass.getClassName(), javaClass);
-        javaClass.setRepository(this);
-    }
-
-    /**
-     * Removes class from repository.
-     */
-    @Override
-    public void removeClass(final JavaClass javaClass) {
-        _loadedClasses.remove(javaClass.getClassName());
+    public void clear() {
+        _loadedClasses.clear();
     }
 
     /**
@@ -62,10 +55,19 @@ public class ClassPathRepository extends AbstractClassPathRepository {
     }
 
     /**
-     * Clears all entries from cache.
+     * Removes class from repository.
      */
     @Override
-    public void clear() {
-        _loadedClasses.clear();
+    public void removeClass(final JavaClass javaClass) {
+        _loadedClasses.remove(javaClass.getClassName());
+    }
+
+    /**
+     * Stores a new JavaClass instance into this Repository.
+     */
+    @Override
+    public void storeClass(final JavaClass javaClass) {
+        _loadedClasses.put(javaClass.getClassName().getName(), javaClass);
+        javaClass.setRepository(this);
     }
 }

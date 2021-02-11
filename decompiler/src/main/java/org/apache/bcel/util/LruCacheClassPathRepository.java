@@ -23,11 +23,14 @@ import java.util.Map;
 import org.apache.bcel.classfile.JavaClass;
 
 /**
- * Maintains a least-recently-used (LRU) cache of {@link JavaClass} with maximum size {@code cacheSize}.
+ * Maintains a least-recently-used (LRU) cache of {@link JavaClass} with maximum
+ * size {@code cacheSize}.
  *
  * <p>
- * This repository supports a class path consisting of too many JAR files to handle in {@link ClassPathRepository} or
- * {@link MemorySensitiveClassPathRepository} without causing {@code OutOfMemoryError}.
+ * This repository supports a class path consisting of too many JAR files to
+ * handle in {@link ClassPathRepository} or
+ * {@link MemorySensitiveClassPathRepository} without causing
+ * {@code OutOfMemoryError}.
  * </p>
  *
  * @since 6.4.0
@@ -56,15 +59,13 @@ public class LruCacheClassPathRepository extends AbstractClassPathRepository {
     }
 
     @Override
-    public JavaClass findClass(final String className) {
-        return loadedClasses.get(className);
+    public void clear() {
+        loadedClasses.clear();
     }
 
     @Override
-    public void storeClass(final JavaClass javaClass) {
-        // Not storing parent's _loadedClass
-        loadedClasses.put(javaClass.getClassName(), javaClass);
-        javaClass.setRepository(this);
+    public JavaClass findClass(final String className) {
+        return loadedClasses.get(className);
     }
 
     @Override
@@ -73,7 +74,9 @@ public class LruCacheClassPathRepository extends AbstractClassPathRepository {
     }
 
     @Override
-    public void clear() {
-        loadedClasses.clear();
+    public void storeClass(final JavaClass javaClass) {
+        // Not storing parent's _loadedClass
+        loadedClasses.put(javaClass.getClassName().getName(), javaClass);
+        javaClass.setRepository(this);
     }
 }

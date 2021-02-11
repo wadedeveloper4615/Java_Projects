@@ -26,11 +26,10 @@ import org.apache.bcel.classfile.ClassParser;
 import org.apache.bcel.classfile.JavaClass;
 
 /**
- * The repository maintains information about which classes have
- * been loaded.
+ * The repository maintains information about which classes have been loaded.
  *
- * It loads its data from the ClassLoader implementation
- * passed into its constructor.
+ * It loads its data from the ClassLoader implementation passed into its
+ * constructor.
  *
  * @see org.apache.bcel.Repository
  *
@@ -40,39 +39,38 @@ public class ClassLoaderRepository implements Repository {
     private final java.lang.ClassLoader loader;
     private final Map<String, JavaClass> loadedClasses = new HashMap<>(); // CLASSNAME X JAVACLASS
 
-
     public ClassLoaderRepository(final java.lang.ClassLoader loader) {
         this.loader = loader;
     }
 
-
     /**
-     * Store a new JavaClass into this Repository.
+     * Clear all entries from cache.
      */
     @Override
-    public void storeClass( final JavaClass clazz ) {
-        loadedClasses.put(clazz.getClassName(), clazz);
-        clazz.setRepository(this);
+    public void clear() {
+        loadedClasses.clear();
     }
-
-
-    /**
-     * Remove class from repository
-     */
-    @Override
-    public void removeClass( final JavaClass clazz ) {
-        loadedClasses.remove(clazz.getClassName());
-    }
-
 
     /**
      * Find an already defined JavaClass.
      */
     @Override
-    public JavaClass findClass( final String className ) {
+    public JavaClass findClass(final String className) {
         return loadedClasses.containsKey(className) ? loadedClasses.get(className) : null;
     }
 
+    /*
+     * @return null
+     */
+    @Override
+    public ClassPath getClassPath() {
+        return null;
+    }
+
+    @Override
+    public JavaClass loadClass(final Class<?> clazz) throws ClassNotFoundException {
+        return loadClass(clazz.getName());
+    }
 
     /**
      * Lookup a JavaClass object from the Class Name provided.
@@ -97,26 +95,20 @@ public class ClassLoaderRepository implements Repository {
         }
     }
 
-
-    @Override
-    public JavaClass loadClass( final Class<?> clazz ) throws ClassNotFoundException {
-        return loadClass(clazz.getName());
-    }
-
-
-    /** Clear all entries from cache.
+    /**
+     * Remove class from repository
      */
     @Override
-    public void clear() {
-        loadedClasses.clear();
+    public void removeClass(final JavaClass clazz) {
+        loadedClasses.remove(clazz.getClassName());
     }
 
-
-    /*
-     * @return null
+    /**
+     * Store a new JavaClass into this Repository.
      */
     @Override
-    public ClassPath getClassPath() {
-        return null;
+    public void storeClass(final JavaClass clazz) {
+        loadedClasses.put(clazz.getClassName().getName(), clazz);
+        clazz.setRepository(this);
     }
 }

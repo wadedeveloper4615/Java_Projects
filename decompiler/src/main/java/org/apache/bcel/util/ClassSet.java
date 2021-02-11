@@ -24,9 +24,9 @@ import java.util.Map;
 import org.apache.bcel.classfile.JavaClass;
 
 /**
- * Utility class implementing a (typesafe) set of JavaClass objects.
- * Since JavaClass has no equals() method, the name of the class is
- * used for comparison.
+ * Utility class implementing a (typesafe) set of JavaClass objects. Since
+ * JavaClass has no equals() method, the name of the class is used for
+ * comparison.
  *
  * @see ClassStack
  */
@@ -34,36 +34,31 @@ public class ClassSet {
 
     private final Map<String, JavaClass> map = new HashMap<>();
 
-
-    public boolean add( final JavaClass clazz ) {
+    public boolean add(final JavaClass clazz) {
         boolean result = false;
         if (!map.containsKey(clazz.getClassName())) {
             result = true;
-            map.put(clazz.getClassName(), clazz);
+            map.put(clazz.getClassName().getName(), clazz);
         }
         return result;
     }
-
-
-    public void remove( final JavaClass clazz ) {
-        map.remove(clazz.getClassName());
-    }
-
 
     public boolean empty() {
         return map.isEmpty();
     }
 
+    public String[] getClassNames() {
+        return map.keySet().toArray(new String[map.size()]);
+    }
+
+    public void remove(final JavaClass clazz) {
+        map.remove(clazz.getClassName());
+    }
 
     public JavaClass[] toArray() {
         final Collection<JavaClass> values = map.values();
         final JavaClass[] classes = new JavaClass[values.size()];
         values.toArray(classes);
         return classes;
-    }
-
-
-    public String[] getClassNames() {
-        return map.keySet().toArray(new String[map.size()]);
     }
 }

@@ -210,22 +210,18 @@ public final class Pass2Verifier extends PassVerifier implements Constants {
                                 break; // It's a subclass of Throwable, OKAY, leave.
                             }
 
-                            v = VerifierFactory.getVerifier(e.getSuperclassName());
+                            v = VerifierFactory.getVerifier(e.getSuperClassName().getName());
                             vr = v.doPass1();
                             if (vr != VerificationResult.VR_OK) {
-                                throw new ClassConstraintException("Code attribute '" + tostring(obj) + "' (method '" + m + "') has an exception_table entry '" + tostring(element) + "' that references '" + cname + "' as an Exception but '" + e.getSuperclassName() + "' in the ancestor hierachy does not pass verification pass 1: " + vr);
+                                throw new ClassConstraintException("Code attribute '" + tostring(obj) + "' (method '" + m + "') has an exception_table entry '" + tostring(element) + "' that references '" + cname + "' as an Exception but '" + e.getSuperClassName().getName() + "' in the ancestor hierachy does not pass verification pass 1: " + vr);
                             }
-                            e = Repository.lookupClass(e.getSuperclassName());
+                            e = Repository.lookupClass(e.getSuperClassName().getName());
                         }
                         if (e != t) {
                             throw new ClassConstraintException("Code attribute '" + tostring(obj) + "' (method '" + m + "') has an exception_table entry '" + tostring(element) + "' that references '" + cname + "' as an Exception but it is not a subclass of '" + t.getClassName() + "'.");
                         }
                     }
                 }
-
-                // Create object for local variables information
-                // This is highly unelegant due to usage of the Visitor pattern.
-                // TODO: rework it.
                 int method_number = -1;
                 final Method[] ms = Repository.lookupClass(myOwner.getClassName()).getMethods();
                 for (int mn = 0; mn < ms.length; mn++) {
@@ -306,10 +302,8 @@ public final class Pass2Verifier extends PassVerifier implements Constants {
                 } // for all attributes atts[a] END
 
             } catch (final ClassNotFoundException e) {
-                // FIXME: this might not be the best way to handle missing classes.
                 throw new AssertionViolatedException("Missing class: " + e, e);
             }
-
         }// visitCode(Code) END
 
         @Override
@@ -522,12 +516,12 @@ public final class Pass2Verifier extends PassVerifier implements Constants {
                             break; // It's a subclass of Throwable, OKAY, leave.
                         }
 
-                        v = VerifierFactory.getVerifier(e.getSuperclassName());
+                        v = VerifierFactory.getVerifier(e.getSuperClassName().getName());
                         vr = v.doPass1();
                         if (vr != VerificationResult.VR_OK) {
-                            throw new ClassConstraintException("Exceptions attribute '" + tostring(obj) + "' references '" + cname + "' as an Exception but '" + e.getSuperclassName() + "' in the ancestor hierachy does not pass verification pass 1: " + vr);
+                            throw new ClassConstraintException("Exceptions attribute '" + tostring(obj) + "' references '" + cname + "' as an Exception but '" + e.getSuperClassName().getName() + "' in the ancestor hierachy does not pass verification pass 1: " + vr);
                         }
-                        e = Repository.lookupClass(e.getSuperclassName());
+                        e = Repository.lookupClass(e.getSuperClassName().getName());
                     }
                     if (e != t) {
                         throw new ClassConstraintException("Exceptions attribute '" + tostring(obj) + "' references '" + cname + "' as an Exception but it is not a subclass of '" + t.getClassName() + "'.");
@@ -535,14 +529,10 @@ public final class Pass2Verifier extends PassVerifier implements Constants {
                 }
 
             } catch (final ClassNotFoundException e) {
-                // FIXME: this might not be the best way to handle missing classes.
                 throw new AssertionViolatedException("Missing class: " + e, e);
             }
         }
 
-        //////////////////////////
-        // FIELDS (vmspec2 4.5) //
-        //////////////////////////
         @Override
         public void visitField(final Field obj) {
 
@@ -656,13 +646,8 @@ public final class Pass2Verifier extends PassVerifier implements Constants {
                     addMessage("Unknown access flag for inner class '" + tostring(ic) + "' set (InnerClasses attribute '" + tostring(obj) + "').");
                 }
             }
-            // Semantical consistency is not yet checked by Sun, see vmspec2 4.7.5.
-            // [marked TODO in JustIce]
         }
 
-        ///////////////////////////////////////
-        // ClassFile structure (vmspec2 4.1) //
-        ///////////////////////////////////////
         @Override
         public void visitJavaClass(final JavaClass obj) {
             final Attribute[] atts = obj.getAttributes();
@@ -1074,86 +1059,41 @@ public final class Pass2Verifier extends PassVerifier implements Constants {
 
     }
 
-    /**
-     * This class serves for finding out if a given JavaClass' ConstantPool
-     * references an Inner Class. The Java Virtual Machine Specification, Second
-     * Edition is not very precise about when an "InnerClasses" attribute has to
-     * appear. However, it states that there has to be exactly one InnerClasses
-     * attribute in the ClassFile structure if the constant pool of a class or
-     * interface refers to any class or interface "that is not a member of a
-     * package". Sun does not mean "member of the default package". In "Inner
-     * Classes Specification" they point out how a "bytecode name" is derived so one
-     * has to deduce what a class name of a class "that is not a member of a
-     * package" looks like: there is at least one character in the byte- code name
-     * that cannot be part of a legal Java Language Class name (and not equal to
-     * '/'). This assumption is wrong as the delimiter is '$' for which
-     * Character.isJavaIdentifierPart() == true. Hence, you really run into trouble
-     * if you have a toplevel class called "A$XXX" and another toplevel class called
-     * "A" with in inner class called "XXX". JustIce cannot repair this; please note
-     * that existing verifiers at this time even fail to detect missing InnerClasses
-     * attributes in pass 2.
-     */
     private static class InnerClassDetector extends EmptyVisitor {
         private boolean hasInnerClass = false;
         private final JavaClass jc;
         private final ConstantPool cp;
 
-        /** Constructs an InnerClassDetector working on the JavaClass _jc. */
         public InnerClassDetector(final JavaClass javaClass) {
             this.jc = javaClass;
             this.cp = jc.getConstantPool();
             (new DescendingVisitor(jc, this)).visit();
         }
 
-        /**
-         * Returns if the JavaClass this InnerClassDetector is working on has an Inner
-         * Class reference in its constant pool.
-         *
-         * @return Whether this InnerClassDetector is working on has an Inner Class
-         *         reference in its constant pool.
-         */
         public boolean innerClassReferenced() {
             return hasInnerClass;
         }
 
-        /** This method casually visits ConstantClass references. */
         @Override
         public void visitConstantClass(final ConstantClass obj) {
             final Constant c = cp.getConstant(obj.getNameIndex());
             if (c instanceof ConstantUtf8) { // Ignore the case where it's not a ConstantUtf8 here, we'll find out later.
                 final String classname = ((ConstantUtf8) c).getBytes();
-                if (classname.startsWith(jc.getClassName().replace('.', '/') + "$")) {
+                if (classname.startsWith(jc.getClassName().getName().replace('.', '/') + "$")) {
                     hasInnerClass = true;
                 }
             }
         }
     }
 
-    /**
-     * The LocalVariableInfo instances used by Pass3bVerifier.
-     * localVariablesInfos[i] denotes the information for the local variables of
-     * method number i in the JavaClass this verifier operates on.
-     */
     private LocalVariablesInfo[] localVariablesInfos;
 
-    /** The Verifier that created this. */
     private final Verifier myOwner;
 
-    /**
-     * Should only be instantiated by a Verifier.
-     *
-     * @see Verifier
-     */
     public Pass2Verifier(final Verifier owner) {
         myOwner = owner;
     }
 
-    /**
-     * Ensures that the constant pool entries satisfy the static constraints as
-     * described in The Java Virtual Machine Specification, 2nd Edition.
-     *
-     * @throws ClassConstraintException otherwise.
-     */
     private void constant_pool_entries_satisfy_static_constraints() {
         try {
             // Most of the consistency is handled internally by BCEL; here
@@ -1163,27 +1103,10 @@ public final class Pass2Verifier extends PassVerifier implements Constants {
             new CPESSC_Visitor(jc); // constructor implicitly traverses jc
 
         } catch (final ClassNotFoundException e) {
-            // FIXME: this might not be the best way to handle missing classes.
             throw new AssertionViolatedException("Missing class: " + e, e);
         }
     }
 
-    /**
-     * Pass 2 is the pass where static properties of the class file are checked
-     * without looking into "Code" arrays of methods. This verification pass is
-     * usually invoked when a class is resolved; and it may be possible that this
-     * verification pass has to load in other classes such as superclasses or
-     * implemented interfaces. Therefore, Pass 1 is run on them.<BR>
-     * Note that most referenced classes are <B>not</B> loaded in for verification
-     * or for an existance check by this pass; only the syntactical correctness of
-     * their names and descriptors (a.k.a. signatures) is checked.<BR>
-     * Very few checks that conceptually belong here are delayed until pass 3a in
-     * JustIce. JustIce does not only check for syntactical correctness but also for
-     * semantical sanity - therefore it needs access to the "Code" array of methods
-     * in a few cases. Please see the pass 3a documentation, too.
-     *
-     * @see Pass3aVerifier
-     */
     @Override
     public VerificationResult do_verify() {
         try {
@@ -1209,7 +1132,6 @@ public final class Pass2Verifier extends PassVerifier implements Constants {
             return VerificationResult.VR_NOTYET;
 
         } catch (final ClassNotFoundException e) {
-            // FIXME: this might not be the best way to handle missing classes.
             throw new AssertionViolatedException("Missing class: " + e, e);
         }
     }
@@ -1231,14 +1153,14 @@ public final class Pass2Verifier extends PassVerifier implements Constants {
             int supidx = -1;
 
             while (supidx != 0) {
-                supidx = jc.getSuperclassNameIndex();
+                supidx = jc.getSuperClassName().getNameIndex();
 
                 if (supidx == 0) {
                     if (jc != Repository.lookupClass(Type.OBJECT.getClassName())) {
                         throw new ClassConstraintException("Superclass of '" + jc.getClassName() + "' missing but not " + Type.OBJECT.getClassName() + " itself!");
                     }
                 } else {
-                    final String supername = jc.getSuperclassName();
+                    final String supername = jc.getSuperClassName().getName();
                     if (!hs.add(supername)) { // If supername already is in the list
                         throw new ClassConstraintException("Circular superclass hierarchy detected.");
                     }
@@ -1257,23 +1179,10 @@ public final class Pass2Verifier extends PassVerifier implements Constants {
             }
 
         } catch (final ClassNotFoundException e) {
-            // FIXME: this might not be the best way to handle missing classes.
             throw new AssertionViolatedException("Missing class: " + e, e);
         }
     }
 
-    /**
-     * Ensures that the ConstantCP-subclassed entries of the constant pool are
-     * valid. According to "Yellin: Low Level Security in Java", this method does
-     * not verify the existence of referenced entities (such as classes) but only
-     * the formal correctness (such as well-formed signatures). The visitXXX()
-     * methods throw ClassConstraintException instances otherwise. <B>Precondition:
-     * index-style cross referencing in the constant pool must be valid. Simply
-     * invoke constant_pool_entries_satisfy_static_constraints() before.</B>
-     *
-     * @throws ClassConstraintException otherwise.
-     * @see #constant_pool_entries_satisfy_static_constraints()
-     */
     private void field_and_method_refs_are_valid() {
         try {
             final JavaClass jc = Repository.lookupClass(myOwner.getClassName());
@@ -1281,21 +1190,10 @@ public final class Pass2Verifier extends PassVerifier implements Constants {
             v.visit();
 
         } catch (final ClassNotFoundException e) {
-            // FIXME: this might not be the best way to handle missing classes.
             throw new AssertionViolatedException("Missing class: " + e, e);
         }
     }
 
-    /**
-     * Ensures that <B>final</B> methods are not overridden. <B>Precondition to run
-     * this method: constant_pool_entries_satisfy_static_constraints() and
-     * every_class_has_an_accessible_superclass() have to be invoked before (in that
-     * order).</B>
-     *
-     * @throws ClassConstraintException otherwise.
-     * @see #constant_pool_entries_satisfy_static_constraints()
-     * @see #every_class_has_an_accessible_superclass()
-     */
     private void final_methods_are_not_overridden() {
         try {
             final Map<String, String> hashmap = new HashMap<>();
@@ -1303,7 +1201,7 @@ public final class Pass2Verifier extends PassVerifier implements Constants {
 
             int supidx = -1;
             while (supidx != 0) {
-                supidx = jc.getSuperclassNameIndex();
+                supidx = jc.getSuperClassName().getNameIndex();
 
                 final Method[] methods = jc.getMethods();
                 for (final Method method : methods) {
@@ -1317,36 +1215,25 @@ public final class Pass2Verifier extends PassVerifier implements Constants {
                             addMessage("Method '" + nameAndSig + "' in class '" + hashmap.get(nameAndSig) + "' overrides the final (not-overridable) definition in class '" + jc.getClassName() + "'. This is okay, as the original definition was private; however this constraint leverage" + " was introduced by JLS 8.4.6 (not vmspec2) and the behavior of the Sun verifiers.");
                         } else {
                             if (!method.isStatic()) { // static methods don't inherit
-                                hashmap.put(nameAndSig, jc.getClassName());
+                                hashmap.put(nameAndSig, jc.getClassName().getName());
                             }
                         }
                     } else {
                         if (!method.isStatic()) { // static methods don't inherit
-                            hashmap.put(nameAndSig, jc.getClassName());
+                            hashmap.put(nameAndSig, jc.getClassName().getName());
                         }
                     }
                 }
 
-                jc = Repository.lookupClass(jc.getSuperclassName());
-                // Well, for OBJECT this returns OBJECT so it works (could return anything but
-                // must not throw an Exception).
+                jc = Repository.lookupClass(jc.getSuperClassName().getName());
             }
 
         } catch (final ClassNotFoundException e) {
-            // FIXME: this might not be the best way to handle missing classes.
             throw new AssertionViolatedException("Missing class: " + e, e);
         }
 
     }
 
-    /**
-     * Returns a LocalVariablesInfo object containing information about the usage of
-     * the local variables in the Code attribute of the said method or <B>null</B>
-     * if the class file this Pass2Verifier operates on could not be pass-2-verified
-     * correctly. The method number method_nr is the method you get using
-     * <B>Repository.lookupClass(myOwner.getClassname()).getMethods()[method_nr];</B>.
-     * You should not add own information. Leave that to JustIce.
-     */
     public LocalVariablesInfo getLocalVariablesInfo(final int methodNr) {
         if (this.verify() != VerificationResult.VR_OK) {
             return null; // It's cached, don't worry.
@@ -1377,9 +1264,6 @@ public final class Pass2Verifier extends PassVerifier implements Constants {
      * valid Java class name.
      */
     private static boolean validClassName(final String name) {
-        /*
-         * TODO: implement. Are there any restrictions?
-         */
         return true;
     }
 

@@ -86,7 +86,7 @@ public class BCELifier extends org.apache.bcel.classfile.EmptyVisitor {
     }
 
     private void printMain() {
-        final String class_name = _clazz.getClassName();
+        final String class_name = _clazz.getClassName().getName();
         _out.println("  public static void main(String[] args) throws Exception {");
         _out.println("    " + class_name + "Creator creator = new " + class_name + "Creator();");
         _out.println("    creator.create(new FileOutputStream(\"" + class_name + ".class\"));");
@@ -115,8 +115,8 @@ public class BCELifier extends org.apache.bcel.classfile.EmptyVisitor {
 
     @Override
     public void visitJavaClass(final JavaClass clazz) {
-        String class_name = clazz.getClassName();
-        final String super_name = clazz.getSuperclassName();
+        String class_name = clazz.getClassName().getName();
+        final String super_name = clazz.getSuperClassName().getName();
         final String package_name = clazz.getPackageName();
         final String inter = Utility.printArray(clazz.getInterfaceNames(), false, true);
         if (!"".equals(package_name)) {

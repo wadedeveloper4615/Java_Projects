@@ -1,20 +1,3 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- *
- */
 package org.apache.bcel.classfile;
 
 import java.io.ByteArrayOutputStream;
@@ -25,12 +8,13 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.TreeSet;
 
+import org.apache.bcel.ClassFileName;
 import org.apache.bcel.Const;
+import org.apache.bcel.JavaClassComparator;
 import org.apache.bcel.enums.Version;
 import org.apache.bcel.generic.Type;
 import org.apache.bcel.util.BCELComparator;
@@ -41,32 +25,16 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
     public static byte HEAP = 1;
     public static byte FILE = 2;
     public static byte ZIP = 3;
-    private static boolean debug = Boolean.getBoolean("JavaClass.debug"); // Debugging on/off
-    private static BCELComparator bcelComparator = new BCELComparator() {
-
-        @Override
-        public boolean equals(Object o1, Object o2) {
-            JavaClass THIS = (JavaClass) o1;
-            JavaClass THAT = (JavaClass) o2;
-            return Objects.equals(THIS.getClassName(), THAT.getClassName());
-        }
-
-        @Override
-        public int hashCode(Object o) {
-            JavaClass THIS = (JavaClass) o;
-            return THIS.getClassName().hashCode();
-        }
-    };
+    private static boolean debug = Boolean.getBoolean("JavaClass.debug");
+    private BCELComparator bcelComparator = new JavaClassComparator();
     private String fileName;
     private String packageName;
     private String sourceFileName = "<Unknown>";
-    private int classNameIndex;
-    private int superclassNameIndex;
-    private String className;
-    private String superclassName;
+    private ClassFileName className;
+    private ClassFileName superClassName;
     private Version version;
     private ConstantPool constantPool;
-    private int[] interfaces;
+    private ClassFileName[] interfaces;
     private String[] interfaceNames;
     private Field[] fields;
     private Method[] methods;
@@ -78,14 +46,14 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
     private boolean computedNestedTypeStatus = false;
     private transient org.apache.bcel.util.Repository repository = SyntheticRepository.getInstance();
 
-    public JavaClass(int classNameIndex, int superclassNameIndex, String fileName, Version version, int access_flags, ConstantPool constantPool, int[] interfaces, Field[] fields, Method[] methods, Attribute[] attributes) {
-        this(classNameIndex, superclassNameIndex, fileName, version, access_flags, constantPool, interfaces, fields, methods, attributes, HEAP);
+    public JavaClass(ClassFileName className, ClassFileName superclassName, String fileName, Version version, int access_flags, ConstantPool constantPool, ClassFileName[] interfaces, Field[] fields, Method[] methods, Attribute[] attributes) {
+        this(className, superclassName, fileName, version, access_flags, constantPool, interfaces, fields, methods, attributes, HEAP);
     }
 
-    public JavaClass(int classNameIndex, int superclassNameIndex, String fileName, Version version, int access_flags, ConstantPool constantPool, int[] interfaces, Field[] fields, Method[] methods, Attribute[] attributes, byte source) {
+    public JavaClass(ClassFileName className, ClassFileName superClassName, String fileName, Version version, int access_flags, ConstantPool constantPool, ClassFileName[] interfaces, Field[] fields, Method[] methods, Attribute[] attributes, byte source) {
         super(access_flags);
         if (interfaces == null) {
-            interfaces = new int[0];
+            interfaces = new ClassFileName[0];
         }
         if (attributes == null) {
             attributes = new Attribute[0];
@@ -96,8 +64,8 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
         if (methods == null) {
             methods = new Method[0];
         }
-        this.classNameIndex = classNameIndex;
-        this.superclassNameIndex = superclassNameIndex;
+        this.className = className;
+        this.superClassName = superClassName;
         this.fileName = fileName;
         this.version = version;
         this.constantPool = constantPool;
@@ -106,61 +74,40 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
         this.methods = methods;
         this.attributes = attributes;
         this.source = source;
-        // Get source file name if available
         for (Attribute attribute : attributes) {
             if (attribute instanceof SourceFile) {
                 sourceFileName = ((SourceFile) attribute).getSourceFileName();
                 break;
             }
         }
-        /*
-         * According to the specification the following entries must be of type
-         * `ConstantClass' but we check that anyway via the `ConstPool.getConstant'
-         * method.
-         */
-        className = constantPool.getConstantString(classNameIndex, Const.CONSTANT_Class);
-        className = Utility.compactClassName(className, false);
-        int index = className.lastIndexOf('.');
+        className.setName(Utility.compactClassName(className.getName(), false));
+        int index = className.getName().lastIndexOf('.');
         if (index < 0) {
             packageName = "";
         } else {
-            packageName = className.substring(0, index);
+            packageName = className.getName().substring(0, index);
         }
-        if (superclassNameIndex > 0) {
-            // May be zero -> class is java.lang.Object
-            superclassName = constantPool.getConstantString(superclassNameIndex, Const.CONSTANT_Class);
-            superclassName = Utility.compactClassName(superclassName, false);
+        if (superClassName.getNameIndex() > 0) {
+            superClassName.setName(Utility.compactClassName(superClassName.getName(), false));
         } else {
-            superclassName = "java.lang.Object";
+            superClassName.setName("java.lang.Object");
+            superClassName.setNameIndex(-1);
+
         }
         interfaceNames = new String[interfaces.length];
         for (int i = 0; i < interfaces.length; i++) {
-            String str = constantPool.getConstantString(interfaces[i], Const.CONSTANT_Class);
-            interfaceNames[i] = Utility.compactClassName(str, false);
+            interfaceNames[i] = Utility.compactClassName(this.interfaces[i].getName(), false);
         }
     }
 
-    /**
-     * Called by objects that are traversing the nodes of the tree implicitely
-     * defined by the contents of a Java class. I.e., the hierarchy of methods,
-     * fields, attributes, etc. spawns a tree of objects.
-     *
-     * @param v Visitor object
-     */
     @Override
     public void accept(Visitor v) {
         v.visitJavaClass(this);
     }
 
-    /**
-     * Return the natural ordering of two JavaClasses. This ordering is based on the
-     * class name
-     *
-     * @since 6.0
-     */
     @Override
     public int compareTo(JavaClass obj) {
-        return getClassName().compareTo(obj.getClassName());
+        return getClassName().getName().compareTo(obj.getClassName().getName());
     }
 
     private void computeNestedTypeStatus() {
@@ -174,7 +121,7 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
                     boolean innerClassAttributeRefersToMe = false;
                     String inner_class_name = constantPool.getConstantString(innerClasse.getInnerClassIndex(), Const.CONSTANT_Class);
                     inner_class_name = Utility.compactClassName(inner_class_name, false);
-                    if (inner_class_name.equals(getClassName())) {
+                    if (inner_class_name.equals(getClassName().getName())) {
                         innerClassAttributeRefersToMe = true;
                     }
                     if (innerClassAttributeRefersToMe) {
@@ -189,9 +136,6 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
         this.computedNestedTypeStatus = true;
     }
 
-    /**
-     * @return deep copy of this class
-     */
     public JavaClass copy() {
         JavaClass c = null;
         try {
@@ -212,7 +156,6 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
                 c.attributes[i] = attributes[i].copy(c.constantPool);
             }
         } catch (CloneNotSupportedException e) {
-            // TODO should this throw?
         }
         return c;
     }
@@ -223,11 +166,11 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
         file.writeShort(version.getMajor());
         constantPool.dump(file);
         file.writeShort(super.getAccessFlags());
-        file.writeShort(classNameIndex);
-        file.writeShort(superclassNameIndex);
+        file.writeShort(className.getNameIndex());
+        file.writeShort(superClassName.getNameIndex());
         file.writeShort(interfaces.length);
-        for (int interface1 : interfaces) {
-            file.writeShort(interface1);
+        for (ClassFileName interface1 : interfaces) {
+            file.writeShort(interface1.getNameIndex());
         }
         file.writeShort(fields.length);
         for (Field field : fields) {
@@ -248,12 +191,6 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
         file.flush();
     }
 
-    /**
-     * Dump class to a file.
-     *
-     * @param file Output file
-     * @throws IOException
-     */
     public void dump(File file) throws IOException {
         String parent = file.getParent();
         if (parent != null) {
@@ -269,40 +206,19 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
         }
     }
 
-    /**
-     * Dump Java class to output stream in binary format.
-     *
-     * @param file Output stream
-     * @throws IOException
-     */
     public void dump(OutputStream file) throws IOException {
         dump(new DataOutputStream(file));
     }
 
-    /**
-     * Dump class to a file named fileName.
-     *
-     * @param _file_name Output file name
-     * @throws IOException
-     */
     public void dump(String _file_name) throws IOException {
         dump(new File(_file_name));
     }
 
-    /**
-     * Return value as defined by given BCELComparator strategy. By default two
-     * JavaClass objects are said to be equal when their class names are equal.
-     *
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         return bcelComparator.equals(this, obj);
     }
 
-    /**
-     * Get all interfaces implemented by this JavaClass (transitively).
-     */
     public JavaClass[] getAllInterfaces() throws ClassNotFoundException {
         ClassQueue queue = new ClassQueue();
         Set<JavaClass> allInterfaces = new TreeSet<>();
@@ -310,7 +226,7 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
         while (!queue.empty()) {
             JavaClass clazz = queue.dequeue();
             JavaClass souper = clazz.getSuperClass();
-            JavaClass[] _interfaces = clazz.getInterfaces();
+            JavaClass[] _interfaces = clazz.getInterfaceJavaClass();
             if (clazz.isInterface()) {
                 allInterfaces.add(clazz);
             } else {
@@ -325,10 +241,6 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
         return allInterfaces.toArray(new JavaClass[allInterfaces.size()]);
     }
 
-    /**
-     * @return Annotations on the class
-     * @since 6.0
-     */
     public AnnotationEntry[] getAnnotationEntries() {
         if (annotations == null) {
             annotations = AnnotationEntry.createAnnotationEntries(getAttributes());
@@ -337,16 +249,10 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
         return annotations;
     }
 
-    /**
-     * @return Attributes of the class.
-     */
     public Attribute[] getAttributes() {
         return attributes;
     }
 
-    /**
-     * @return class in binary format
-     */
     public byte[] getBytes() {
         ByteArrayOutputStream s = new ByteArrayOutputStream();
         DataOutputStream ds = new DataOutputStream(s);
@@ -364,67 +270,41 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
         return s.toByteArray();
     }
 
-    /**
-     * @return Class name.
-     */
-    public String getClassName() {
+    public ClassFileName getClassName() {
         return className;
     }
 
-    /**
-     * @return Class name index.
-     */
-    public int getClassNameIndex() {
-        return classNameIndex;
+    public BCELComparator getComparator() {
+        return bcelComparator;
     }
 
-    /**
-     * @return Constant pool.
-     */
     public ConstantPool getConstantPool() {
         return constantPool;
     }
 
-    /**
-     * @return Fields, i.e., variables of the class. Like the JVM spec mandates for
-     *         the classfile format, these fields are those specific to this class,
-     *         and not those of the superclass or superinterfaces.
-     */
     public Field[] getFields() {
         return fields;
     }
 
-    /**
-     * @return File name of class, aka SourceFile attribute value
-     */
     public String getFileName() {
         return fileName;
     }
 
-    /**
-     * @return Indices in constant pool of implemented interfaces.
-     */
-    public int[] getInterfaceIndices() {
-        return interfaces;
-    }
-
-    /**
-     * @return Names of implemented interfaces.
-     */
-    public String[] getInterfaceNames() {
-        return interfaceNames;
-    }
-
-    /**
-     * Get interfaces directly implemented by this JavaClass.
-     */
-    public JavaClass[] getInterfaces() throws ClassNotFoundException {
+    public JavaClass[] getInterfaceJavaClass() throws ClassNotFoundException {
         String[] _interfaces = getInterfaceNames();
         JavaClass[] classes = new JavaClass[_interfaces.length];
         for (int i = 0; i < _interfaces.length; i++) {
             classes[i] = repository.loadClass(_interfaces[i]);
         }
         return classes;
+    }
+
+    public String[] getInterfaceNames() {
+        return interfaceNames;
+    }
+
+    public ClassFileName[] getInterfaces() {
+        return interfaces;
     }
 
     public Method getMethod(java.lang.reflect.Method m) {
@@ -456,23 +336,13 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
         return sourceFileName;
     }
 
-    /**
-     * @return the superclass for this JavaClass object, or null if this is
-     *         java.lang.Object
-     * @throws ClassNotFoundException if the superclass can't be found
-     */
     public JavaClass getSuperClass() throws ClassNotFoundException {
-        if ("java.lang.Object".equals(getClassName())) {
+        if ("java.lang.Object".equals(getClassName().getName())) {
             return null;
         }
-        return repository.loadClass(getSuperclassName());
+        return repository.loadClass(getSuperClassName().getName());
     }
 
-    /**
-     * @return list of super classes of this class in ascending order, i.e.,
-     *         java.lang.Object is always the last element
-     * @throws ClassNotFoundException if any of the superclasses can't be found
-     */
     public JavaClass[] getSuperClasses() throws ClassNotFoundException {
         JavaClass clazz = this;
         List<JavaClass> allSuperClasses = new ArrayList<>();
@@ -482,44 +352,19 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
         return allSuperClasses.toArray(new JavaClass[allSuperClasses.size()]);
     }
 
-    /**
-     * returns the super class name of this class. In the case that this class is
-     * java.lang.Object, it will return itself (java.lang.Object). This is probably
-     * incorrect but isn't fixed at this time to not break existing clients.
-     *
-     * @return Superclass name.
-     */
-    public String getSuperclassName() {
-        return superclassName;
-    }
-
-    /**
-     * @return Class name index.
-     */
-    public int getSuperclassNameIndex() {
-        return superclassNameIndex;
+    public ClassFileName getSuperClassName() {
+        return superClassName;
     }
 
     public Version getVersion() {
         return version;
     }
 
-    /**
-     * Return value as defined by given BCELComparator strategy. By default return
-     * the hashcode of the class name.
-     *
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         return bcelComparator.hashCode(this);
     }
 
-    /**
-     * @return true, if this class is an implementation of interface inter
-     * @throws ClassNotFoundException if superclasses or superinterfaces of this
-     *                                class can't be found
-     */
     public boolean implementationOf(JavaClass inter) throws ClassNotFoundException {
         if (!inter.isInterface()) {
             throw new IllegalArgumentException(inter.getClassName() + " is no interface");
@@ -536,13 +381,6 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
         return false;
     }
 
-    /**
-     * Equivalent to runtime "instanceof" operator.
-     *
-     * @return true if this JavaClass is derived from the super class
-     * @throws ClassNotFoundException if superclasses or superinterfaces of this
-     *                                object can't be found
-     */
     public boolean instanceOf(JavaClass super_class) throws ClassNotFoundException {
         if (this.equals(super_class)) {
             return true;
@@ -559,9 +397,6 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
         return false;
     }
 
-    /**
-     * @since 6.0
-     */
     public boolean isAnonymous() {
         computeNestedTypeStatus();
         return this.isAnonymous;
@@ -571,9 +406,6 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
         return (super.getAccessFlags() & Const.ACC_INTERFACE) == 0;
     }
 
-    /**
-     * @since 6.0
-     */
     public boolean isNested() {
         computeNestedTypeStatus();
         return this.isNested;
@@ -583,59 +415,35 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
         return (super.getAccessFlags() & Const.ACC_SUPER) != 0;
     }
 
-    /**
-     * @param attributes .
-     */
     public void setAttributes(Attribute[] attributes) {
         this.attributes = attributes;
     }
 
-    /**
-     * @param className .
-     */
-    public void setClassName(String className) {
+    public void setClassName(ClassFileName className) {
         this.className = className;
     }
 
-    /**
-     * @param classNameIndex .
-     */
-    public void setClassNameIndex(int classNameIndex) {
-        this.classNameIndex = classNameIndex;
+    public void setComparator(BCELComparator comparator) {
+        bcelComparator = comparator;
     }
 
-    /**
-     * @param constantPool .
-     */
     public void setConstantPool(ConstantPool constantPool) {
         this.constantPool = constantPool;
     }
 
-    /**
-     * @param fields .
-     */
     public void setFields(Field[] fields) {
         this.fields = fields;
     }
 
-    /**
-     * Set File name of class, aka SourceFile attribute value
-     */
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }
 
-    /**
-     * @param interfaceNames .
-     */
     public void setInterfaceNames(String[] interfaceNames) {
         this.interfaceNames = interfaceNames;
     }
 
-    /**
-     * @param interfaces .
-     */
-    public void setInterfaces(int[] interfaces) {
+    public void setInterfaces(ClassFileName[] interfaces) {
         this.interfaces = interfaces;
     }
 
@@ -643,7 +451,7 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
         this.methods = methods;
     }
 
-    public void setRepository(org.apache.bcel.util.Repository repository) { // TODO make protected?
+    public void setRepository(org.apache.bcel.util.Repository repository) {
         this.repository = repository;
     }
 
@@ -651,30 +459,20 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
         this.sourceFileName = sourceFileName;
     }
 
-    public void setSuperclassName(String superclassName) {
-        this.superclassName = superclassName;
-    }
-
-    /**
-     * @param superclassNameIndex .
-     */
-    public void setSuperclassNameIndex(int superclassNameIndex) {
-        this.superclassNameIndex = superclassNameIndex;
+    public void setSuperClassName(ClassFileName superClassName) {
+        this.superClassName = superClassName;
     }
 
     public void setVersion(Version version) {
         this.version = version;
     }
 
-    /**
-     * @return String representing class contents.
-     */
     @Override
     public String toString() {
         String access = Utility.accessToString(super.getAccessFlags(), true);
         access = access.isEmpty() ? "" : (access + " ");
         StringBuilder buf = new StringBuilder(128);
-        buf.append(access).append(Utility.classOrInterface(super.getAccessFlags())).append(" ").append(className).append(" extends ").append(Utility.compactClassName(superclassName, false)).append('\n');
+        buf.append(access).append(Utility.classOrInterface(super.getAccessFlags())).append(" ").append(className).append(" extends ").append(Utility.compactClassName(superClassName.getName(), false)).append('\n');
         int size = interfaces.length;
         if (size > 0) {
             buf.append("implements\t\t");
@@ -720,20 +518,10 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
         return buf.toString();
     }
 
-    /*
-     * Print debug information depending on `JavaClass.debug'
-     */
     static void Debug(String str) {
         if (debug) {
             System.out.println(str);
         }
-    }
-
-    /**
-     * @return Comparison strategy object
-     */
-    public static BCELComparator getComparator() {
-        return bcelComparator;
     }
 
     private static String indent(Object obj) {
@@ -743,12 +531,5 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
             buf.append("\t").append(tok.nextToken()).append("\n");
         }
         return buf.toString();
-    }
-
-    /**
-     * @param comparator Comparison strategy object
-     */
-    public static void setComparator(BCELComparator comparator) {
-        bcelComparator = comparator;
     }
 }

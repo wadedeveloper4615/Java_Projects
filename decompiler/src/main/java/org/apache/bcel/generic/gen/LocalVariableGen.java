@@ -15,10 +15,16 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.bcel.generic.gen;
 
 import org.apache.bcel.Const;
 import org.apache.bcel.classfile.LocalVariable;
+import org.apache.bcel.generic.BranchInstruction;
+import org.apache.bcel.generic.ClassGenException;
+import org.apache.bcel.generic.NamedAndTyped;
+import org.apache.bcel.generic.Type;
+import org.apache.bcel.generic.control.InstructionHandle;
+import org.apache.bcel.generic.control.InstructionTargeter;
 
 /**
  * Represents a local variable within a method. It contains its

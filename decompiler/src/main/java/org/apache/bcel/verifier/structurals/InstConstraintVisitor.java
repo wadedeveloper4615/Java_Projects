@@ -29,8 +29,11 @@ import org.apache.bcel.classfile.ConstantLong;
 import org.apache.bcel.classfile.ConstantString;
 import org.apache.bcel.classfile.Field;
 import org.apache.bcel.classfile.JavaClass;
+import org.apache.bcel.enums.ClassAccessFlags;
 //CHECKSTYLE:OFF (there are lots of references!)
 import org.apache.bcel.generic.*;
+import org.apache.bcel.generic.gen.ConstantPoolGen;
+import org.apache.bcel.generic.gen.MethodGen;
 //CHECKSTYLE:ON
 import org.apache.bcel.verifier.VerificationResult;
 import org.apache.bcel.verifier.Verifier;
@@ -1090,7 +1093,7 @@ public class InstConstraintVisitor extends EmptyVisitor {
                             final Type o_type = o.getType(cpg);
                             if (f_type.equals(o_type)) {
                                 f = field;
-                                if ((f.getAccessFlags() & (Const.ACC_PUBLIC | Const.ACC_PROTECTED)) == 0) {
+                                if ((f.getAccessFlags() & (ClassAccessFlags.ACC_PUBLIC.getFlag() | ClassAccessFlags.ACC_PROTECTED.getFlag())) == 0) {
                                     f = null;
                                 }
                                 break outer;

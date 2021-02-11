@@ -15,9 +15,10 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.bcel.generic.control;
 
 import org.apache.bcel.Const;
+import org.apache.bcel.generic.*;
 
 /**
  * This interface contains shareable instruction objects.

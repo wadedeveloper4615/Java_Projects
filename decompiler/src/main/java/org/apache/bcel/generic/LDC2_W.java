@@ -17,6 +17,8 @@
  */
 package org.apache.bcel.generic;
 
+import org.apache.bcel.generic.gen.ConstantPoolGen;
+
 /**
  * LDC2_W - Push long or double from constant pool
  *

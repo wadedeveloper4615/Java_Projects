@@ -61,6 +61,7 @@ import org.apache.bcel.classfile.Node;
 import org.apache.bcel.classfile.SourceFile;
 import org.apache.bcel.classfile.Synthetic;
 import org.apache.bcel.classfile.Unknown;
+import org.apache.bcel.enums.ClassAccessFlags;
 import org.apache.bcel.enums.Version;
 import org.apache.bcel.generic.ArrayType;
 import org.apache.bcel.generic.ObjectType;
@@ -566,7 +567,7 @@ public final class Pass2Verifier extends PassVerifier implements Constants {
                 }
             }
 
-            if ((obj.getAccessFlags() & ~(Const.ACC_PUBLIC | Const.ACC_PRIVATE | Const.ACC_PROTECTED | Const.ACC_STATIC | Const.ACC_FINAL | Const.ACC_VOLATILE | Const.ACC_TRANSIENT)) > 0) {
+            if ((obj.getAccessFlags() & ~(ClassAccessFlags.ACC_PUBLIC.getFlag() | ClassAccessFlags.ACC_PRIVATE.getFlag() | ClassAccessFlags.ACC_PROTECTED.getFlag() | ClassAccessFlags.ACC_STATIC.getFlag() | ClassAccessFlags.ACC_FINAL.getFlag() | ClassAccessFlags.ACC_VOLATILE.getFlag() | ClassAccessFlags.ACC_TRANSIENT.getFlag())) > 0) {
                 addMessage("Field '" + tostring(obj) + "' has access flag(s) other than ACC_PUBLIC, ACC_PRIVATE, ACC_PROTECTED," + " ACC_STATIC, ACC_FINAL, ACC_VOLATILE, ACC_TRANSIENT set (ignored).");
             }
 
@@ -641,7 +642,7 @@ public final class Pass2Verifier extends PassVerifier implements Constants {
                     checkIndex(obj, innername_idx, CONST_Utf8);
                 }
                 int acc = ic.getInnerAccessFlags();
-                acc = acc & (~(Const.ACC_PUBLIC | Const.ACC_PRIVATE | Const.ACC_PROTECTED | Const.ACC_STATIC | Const.ACC_FINAL | Const.ACC_INTERFACE | Const.ACC_ABSTRACT));
+                acc = acc & (~(ClassAccessFlags.ACC_PUBLIC.getFlag() | ClassAccessFlags.ACC_PRIVATE.getFlag() | ClassAccessFlags.ACC_PROTECTED.getFlag() | ClassAccessFlags.ACC_STATIC.getFlag() | ClassAccessFlags.ACC_FINAL.getFlag() | ClassAccessFlags.ACC_INTERFACE.getFlag() | ClassAccessFlags.ACC_ABSTRACT.getFlag()));
                 if (acc != 0) {
                     addMessage("Unknown access flag for inner class '" + tostring(ic) + "' set (InnerClasses attribute '" + tostring(obj) + "').");
                 }
@@ -873,7 +874,7 @@ public final class Pass2Verifier extends PassVerifier implements Constants {
                 }
             }
 
-            if ((obj.getAccessFlags() & ~(Const.ACC_PUBLIC | Const.ACC_PRIVATE | Const.ACC_PROTECTED | Const.ACC_STATIC | Const.ACC_FINAL | Const.ACC_SYNCHRONIZED | Const.ACC_NATIVE | Const.ACC_ABSTRACT | Const.ACC_STRICT)) > 0) {
+            if ((obj.getAccessFlags() & ~(ClassAccessFlags.ACC_PUBLIC.getFlag() | ClassAccessFlags.ACC_PRIVATE.getFlag() | ClassAccessFlags.ACC_PROTECTED.getFlag() | ClassAccessFlags.ACC_STATIC.getFlag() | ClassAccessFlags.ACC_FINAL.getFlag() | ClassAccessFlags.ACC_SYNCHRONIZED.getFlag() | ClassAccessFlags.ACC_NATIVE.getFlag() | ClassAccessFlags.ACC_ABSTRACT.getFlag() | ClassAccessFlags.ACC_STRICT.getFlag())) > 0) {
                 addMessage("Method '" + tostring(obj) + "' has access flag(s) other than" + " ACC_PUBLIC, ACC_PRIVATE, ACC_PROTECTED, ACC_STATIC, ACC_FINAL," + " ACC_SYNCHRONIZED, ACC_NATIVE, ACC_ABSTRACT, ACC_STRICT set (ignored).");
             }
 

@@ -18,6 +18,7 @@
 package org.apache.bcel.generic;
 
 import org.apache.bcel.classfile.ConstantPool;
+import org.apache.bcel.generic.gen.ConstantPoolGen;
 
 /**
  * Super class for the GET/PUTxxx family of instructions.

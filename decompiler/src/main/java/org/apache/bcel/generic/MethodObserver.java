@@ -17,6 +17,8 @@
  */
 package org.apache.bcel.generic;
 
+import org.apache.bcel.generic.gen.MethodGen;
+
 /**
  * Implement this interface if you're interested in changes to a MethodGen object
  * and register yourself with addObserver().

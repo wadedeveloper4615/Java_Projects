@@ -17,6 +17,8 @@
  */
 package org.apache.bcel.generic;
 
+import org.apache.bcel.generic.gen.ConstantPoolGen;
+
 /**
  * FCONST - Push 0.0, 1.0 or 2.0, other values cause an exception
  *

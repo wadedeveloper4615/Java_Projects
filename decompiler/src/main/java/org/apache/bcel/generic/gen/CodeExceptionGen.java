@@ -15,9 +15,14 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.bcel.generic.gen;
 
 import org.apache.bcel.classfile.CodeException;
+import org.apache.bcel.generic.BranchInstruction;
+import org.apache.bcel.generic.ClassGenException;
+import org.apache.bcel.generic.ObjectType;
+import org.apache.bcel.generic.control.InstructionHandle;
+import org.apache.bcel.generic.control.InstructionTargeter;
 
 /**
  * This class represents an exception handler, i.e., specifies the  region where

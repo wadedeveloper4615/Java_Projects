@@ -17,6 +17,8 @@
  */
 package org.apache.bcel.generic;
 
+import org.apache.bcel.generic.gen.ConstantPoolGen;
+
 /**
  * Get the type associated with an instruction, int for ILOAD, or the type
  * of the field of a PUTFIELD instruction, e.g..

@@ -17,6 +17,8 @@
  */
 package org.apache.bcel.generic;
 
+import org.apache.bcel.generic.gen.ConstantPoolGen;
+
 /**
  * ICONST - Push value between -1, ..., 5, other values cause an exception
  *

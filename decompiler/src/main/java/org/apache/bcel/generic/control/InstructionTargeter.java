@@ -16,7 +16,12 @@
  *
  */
 
-package org.apache.bcel.generic;
+package org.apache.bcel.generic.control;
+
+import org.apache.bcel.generic.BranchHandle;
+import org.apache.bcel.generic.ClassGenException;
+import org.apache.bcel.generic.gen.CodeExceptionGen;
+import org.apache.bcel.generic.gen.LocalVariableGen;
 
 /**
  * Denote that a class targets InstructionHandles within an InstructionList. Namely

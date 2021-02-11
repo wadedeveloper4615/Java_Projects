@@ -17,6 +17,8 @@
  */
 package org.apache.bcel.generic;
 
+import org.apache.bcel.generic.gen.ConstantPoolGen;
+
 /**
  * LCONST - Push 0 or 1, other values cause an exception
  *

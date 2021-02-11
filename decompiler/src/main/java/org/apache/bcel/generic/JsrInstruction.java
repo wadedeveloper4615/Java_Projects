@@ -17,6 +17,9 @@
  */
 package org.apache.bcel.generic;
 
+import org.apache.bcel.generic.control.InstructionHandle;
+import org.apache.bcel.generic.gen.ConstantPoolGen;
+
 /**
  * Super class for JSR - Jump to subroutine
  *

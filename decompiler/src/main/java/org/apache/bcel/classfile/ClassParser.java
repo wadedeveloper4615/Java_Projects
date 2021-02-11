@@ -11,6 +11,7 @@ import java.util.zip.ZipFile;
 import org.apache.bcel.ClassFileName;
 import org.apache.bcel.Const;
 import org.apache.bcel.enums.Version;
+import org.apache.bcel.util.ClassAccessFlagsList;
 
 public class ClassParser {
     private static int BUFSIZE = 8192;
@@ -21,7 +22,7 @@ public class ClassParser {
     private ClassFileName className;
     private ClassFileName superClassName;
     private Version version;
-    private int accessFlags;
+    private ClassAccessFlagsList accessFlags;
     private ClassFileName[] interfaces;
     private ConstantPool constantPool;
     private Field[] fields;
@@ -107,13 +108,9 @@ public class ClassParser {
     }
 
     private void readClassInfo() throws IOException, ClassFormatException {
-        accessFlags = dataInputStream.readUnsignedShort();
-        if ((accessFlags & Const.ACC_INTERFACE) != 0) {
-            accessFlags |= Const.ACC_ABSTRACT;
-        }
-        if (((accessFlags & Const.ACC_ABSTRACT) != 0) && ((accessFlags & Const.ACC_FINAL) != 0)) {
-            throw new ClassFormatException("Class " + fileName + " can't be both  and abstract");
-        }
+        accessFlags = new ClassAccessFlagsList(dataInputStream.readUnsignedShort());
+        accessFlags.ifInterfaceThenAbstract();
+        accessFlags.IfAbstractAndFinalThenError(fileName);
         className = new ClassFileName(dataInputStream, constantPool);
         superClassName = new ClassFileName(dataInputStream, constantPool);
     }

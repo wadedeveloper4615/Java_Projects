@@ -1,4 +1,4 @@
-package org.apache.bcel.generic;
+package org.apache.bcel.generic.gen;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,6 +25,26 @@ import org.apache.bcel.classfile.ParameterAnnotationEntry;
 import org.apache.bcel.classfile.ParameterAnnotations;
 import org.apache.bcel.classfile.RuntimeVisibleParameterAnnotations;
 import org.apache.bcel.classfile.Utility;
+import org.apache.bcel.enums.ClassAccessFlags;
+import org.apache.bcel.generic.AnnotationEntryGen;
+import org.apache.bcel.generic.BranchInstruction;
+import org.apache.bcel.generic.ClassGenException;
+import org.apache.bcel.generic.IINC;
+import org.apache.bcel.generic.IfInstruction;
+import org.apache.bcel.generic.IndexedInstruction;
+import org.apache.bcel.generic.Instruction;
+import org.apache.bcel.generic.LocalVariableInstruction;
+import org.apache.bcel.generic.MethodObserver;
+import org.apache.bcel.generic.NOP;
+import org.apache.bcel.generic.ObjectType;
+import org.apache.bcel.generic.RET;
+import org.apache.bcel.generic.Select;
+import org.apache.bcel.generic.TargetLostException;
+import org.apache.bcel.generic.Type;
+import org.apache.bcel.generic.TypedInstruction;
+import org.apache.bcel.generic.control.InstructionHandle;
+import org.apache.bcel.generic.control.InstructionList;
+import org.apache.bcel.generic.control.InstructionTargeter;
 import org.apache.bcel.util.BCELComparator;
 
 public class MethodGen extends FieldGenOrMethodGen {
@@ -156,7 +176,7 @@ public class MethodGen extends FieldGenOrMethodGen {
     }
 
     public MethodGen(Method method, ClassFileName className, ConstantPoolGen cp) {
-        this(method.getAccessFlags(), Type.getReturnType(method.getSignature()), Type.getArgumentTypes(method.getSignature()), null, method.getName(), className, ((method.getAccessFlags() & (Const.ACC_ABSTRACT | Const.ACC_NATIVE)) == 0) ? new InstructionList(getByteCodes(method)) : null, cp);
+        this(method.getAccessFlags(), Type.getReturnType(method.getSignature()), Type.getArgumentTypes(method.getSignature()), null, method.getName(), className, ((method.getAccessFlags() & (ClassAccessFlags.ACC_ABSTRACT.getFlag() | ClassAccessFlags.ACC_NATIVE.getFlag())) == 0) ? new InstructionList(getByteCodes(method)) : null, cp);
         Attribute[] attributes = method.getAttributes();
         for (Attribute attribute : attributes) {
             Attribute a = attribute;

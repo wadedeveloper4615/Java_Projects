@@ -29,6 +29,7 @@ import org.apache.bcel.classfile.ConstantString;
 // CHECKSTYLE:OFF (there are lots of references!)
 import org.apache.bcel.generic.*;
 //CHECKSTYLE:ON
+import org.apache.bcel.generic.gen.ConstantPoolGen;
 
 /**
  * This Visitor class may be used for a type-based Java Virtual Machine

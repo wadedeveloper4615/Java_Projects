@@ -14,10 +14,12 @@ import java.util.TreeSet;
 
 import org.apache.bcel.ClassFileName;
 import org.apache.bcel.Const;
-import org.apache.bcel.JavaClassComparator;
+import org.apache.bcel.compare.JavaClassComparator;
+import org.apache.bcel.enums.ClassAccessFlags;
 import org.apache.bcel.enums.Version;
 import org.apache.bcel.generic.Type;
 import org.apache.bcel.util.BCELComparator;
+import org.apache.bcel.util.ClassAccessFlagsList;
 import org.apache.bcel.util.ClassQueue;
 import org.apache.bcel.util.SyntheticRepository;
 
@@ -46,11 +48,11 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
     private boolean computedNestedTypeStatus = false;
     private transient org.apache.bcel.util.Repository repository = SyntheticRepository.getInstance();
 
-    public JavaClass(ClassFileName className, ClassFileName superclassName, String fileName, Version version, int access_flags, ConstantPool constantPool, ClassFileName[] interfaces, Field[] fields, Method[] methods, Attribute[] attributes) {
+    public JavaClass(ClassFileName className, ClassFileName superclassName, String fileName, Version version, ClassAccessFlagsList access_flags, ConstantPool constantPool, ClassFileName[] interfaces, Field[] fields, Method[] methods, Attribute[] attributes) {
         this(className, superclassName, fileName, version, access_flags, constantPool, interfaces, fields, methods, attributes, HEAP);
     }
 
-    public JavaClass(ClassFileName className, ClassFileName superClassName, String fileName, Version version, int access_flags, ConstantPool constantPool, ClassFileName[] interfaces, Field[] fields, Method[] methods, Attribute[] attributes, byte source) {
+    public JavaClass(ClassFileName className, ClassFileName superClassName, String fileName, Version version, ClassAccessFlagsList access_flags, ConstantPool constantPool, ClassFileName[] interfaces, Field[] fields, Method[] methods, Attribute[] attributes, byte source) {
         super(access_flags);
         if (interfaces == null) {
             interfaces = new ClassFileName[0];
@@ -403,7 +405,7 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
     }
 
     public boolean isClass() {
-        return (super.getAccessFlags() & Const.ACC_INTERFACE) == 0;
+        return (super.getAccessFlags() & ClassAccessFlags.ACC_INTERFACE.getFlag()) == 0;
     }
 
     public boolean isNested() {
@@ -412,7 +414,7 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
     }
 
     public boolean isSuper() {
-        return (super.getAccessFlags() & Const.ACC_SUPER) != 0;
+        return (super.getAccessFlags() & ClassAccessFlags.ACC_SUPER.getFlag()) != 0;
     }
 
     public void setAttributes(Attribute[] attributes) {

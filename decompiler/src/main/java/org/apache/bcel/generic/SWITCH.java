@@ -17,6 +17,9 @@
  */
 package org.apache.bcel.generic;
 
+import org.apache.bcel.generic.control.InstructionHandle;
+import org.apache.bcel.generic.control.InstructionList;
+
 /**
  * SWITCH - Branch depending on int value, generates either LOOKUPSWITCH or
  * TABLESWITCH instruction, depending on whether the match values (int[]) can be

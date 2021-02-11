@@ -17,6 +17,8 @@
  */
 package org.apache.bcel.generic;
 
+import org.apache.bcel.generic.control.InstructionHandle;
+
 /**
  * IF_ICMPNE - Branch if int comparison doesn't succeed
  *

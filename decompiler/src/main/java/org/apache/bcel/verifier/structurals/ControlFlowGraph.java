@@ -27,12 +27,12 @@ import org.apache.bcel.generic.ATHROW;
 import org.apache.bcel.generic.BranchInstruction;
 import org.apache.bcel.generic.GotoInstruction;
 import org.apache.bcel.generic.Instruction;
-import org.apache.bcel.generic.InstructionHandle;
 import org.apache.bcel.generic.JsrInstruction;
-import org.apache.bcel.generic.MethodGen;
 import org.apache.bcel.generic.RET;
 import org.apache.bcel.generic.ReturnInstruction;
 import org.apache.bcel.generic.Select;
+import org.apache.bcel.generic.control.InstructionHandle;
+import org.apache.bcel.generic.gen.MethodGen;
 import org.apache.bcel.verifier.exc.AssertionViolatedException;
 import org.apache.bcel.verifier.exc.StructuralCodeConstraintException;
 

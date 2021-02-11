@@ -1,4 +1,4 @@
-package org.apache.bcel;
+package org.apache.bcel.compare;
 
 import java.util.Objects;
 

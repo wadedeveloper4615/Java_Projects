@@ -20,45 +20,51 @@ package org.apache.bcel.generic;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import org.apache.bcel.generic.control.InstructionHandle;
+import org.apache.bcel.generic.control.InstructionList;
+import org.apache.bcel.generic.control.InstructionTargeter;
 import org.apache.bcel.util.ByteSequence;
 
 /**
- * Abstract super class for branching instructions like GOTO, IFEQ, etc..
- * Branch instructions may have a variable length, namely GOTO, JSR,
- * LOOKUPSWITCH and TABLESWITCH.
+ * Abstract super class for branching instructions like GOTO, IFEQ, etc.. Branch
+ * instructions may have a variable length, namely GOTO, JSR, LOOKUPSWITCH and
+ * TABLESWITCH.
  *
  * @see InstructionList
  */
 public abstract class BranchInstruction extends Instruction implements InstructionTargeter {
 
     /**
-     * @deprecated (since 6.0) will be made private; do not access directly, use getter/setter
+     * @deprecated (since 6.0) will be made private; do not access directly, use
+     *             getter/setter
      */
     @Deprecated
     protected int index; // Branch target relative to this instruction
 
     /**
-     * @deprecated (since 6.0) will be made private; do not access directly, use getter/setter
+     * @deprecated (since 6.0) will be made private; do not access directly, use
+     *             getter/setter
      */
     @Deprecated
     protected InstructionHandle target; // Target object in instruction list
 
     /**
-     * @deprecated (since 6.0) will be made private; do not access directly, use getter/setter
+     * @deprecated (since 6.0) will be made private; do not access directly, use
+     *             getter/setter
      */
     @Deprecated
     protected int position; // Byte code offset
 
-
     /**
-     * Empty constructor needed for Instruction.readInstruction.
-     * Not to be used otherwise.
+     * Empty constructor needed for Instruction.readInstruction. Not to be used
+     * otherwise.
      */
     BranchInstruction() {
     }
 
-
-    /** Common super constructor
+    /**
+     * Common super constructor
+     *
      * @param opcode Instruction opcode
      * @param target instruction to branch to
      */
@@ -67,13 +73,31 @@ public abstract class BranchInstruction extends Instruction implements Instructi
         setTarget(target);
     }
 
+    /**
+     * @return true, if ih is target of this instruction
+     */
+    @Override
+    public boolean containsTarget(final InstructionHandle ih) {
+        return target == ih;
+    }
+
+    /**
+     * Inform target that it's not targeted anymore.
+     */
+    @Override
+    public void dispose() {
+        setTarget(null);
+        index = -1;
+        position = -1;
+    }
 
     /**
      * Dump instruction as byte code to stream out.
+     *
      * @param out Output stream
      */
     @Override
-    public void dump( final DataOutputStream out ) throws IOException {
+    public void dump(final DataOutputStream out) throws IOException {
         out.writeByte(super.getOpcode());
         index = getTargetOffset();
         if (!isValidShort(index)) {
@@ -82,24 +106,27 @@ public abstract class BranchInstruction extends Instruction implements Instructi
         out.writeShort(index); // May be negative, i.e., point backwards
     }
 
-
     /**
-     * @param _target branch target
-     * @return the offset to  `target' relative to this instruction
+     * @return target offset in byte code
      */
-    protected int getTargetOffset( final InstructionHandle _target ) {
-        if (_target == null) {
-            throw new ClassGenException("Target of " + super.toString(true)
-                    + " is invalid null handle");
-        }
-        final int t = _target.getPosition();
-        if (t < 0) {
-            throw new ClassGenException("Invalid branch target position offset for "
-                    + super.toString(true) + ":" + t + ":" + _target);
-        }
-        return t - position;
+    public final int getIndex() {
+        return index;
     }
 
+    /**
+     * @return the position
+     * @since 6.0
+     */
+    public int getPosition() {
+        return position;
+    }
+
+    /**
+     * @return target of branch instruction
+     */
+    public InstructionHandle getTarget() {
+        return target;
+    }
 
     /**
      * @return the offset to this instruction's target
@@ -108,36 +135,73 @@ public abstract class BranchInstruction extends Instruction implements Instructi
         return getTargetOffset(target);
     }
 
-
     /**
-     * Called by InstructionList.setPositions when setting the position for every
-     * instruction. In the presence of variable length instructions `setPositions'
-     * performs multiple passes over the instruction list to calculate the
-     * correct (byte) positions and offsets by calling this function.
-     *
-     * @param offset additional offset caused by preceding (variable length) instructions
-     * @param max_offset the maximum offset that may be caused by these instructions
-     * @return additional offset caused by possible change of this instruction's length
+     * @param _target branch target
+     * @return the offset to `target' relative to this instruction
      */
-    protected int updatePosition( final int offset, final int max_offset ) {
-        position += offset;
-        return 0;
+    protected int getTargetOffset(final InstructionHandle _target) {
+        if (_target == null) {
+            throw new ClassGenException("Target of " + super.toString(true) + " is invalid null handle");
+        }
+        final int t = _target.getPosition();
+        if (t < 0) {
+            throw new ClassGenException("Invalid branch target position offset for " + super.toString(true) + ":" + t + ":" + _target);
+        }
+        return t - position;
     }
 
+    /**
+     * Read needed data (e.g. index) from file. Conversion to a InstructionHandle is
+     * done in InstructionList(byte[]).
+     *
+     * @param bytes input stream
+     * @param wide  wide prefix?
+     * @see InstructionList
+     */
+    @Override
+    protected void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
+        super.setLength(3);
+        index = bytes.readShort();
+    }
+
+    /**
+     * @param index the index to set
+     * @since 6.0
+     */
+    protected void setIndex(final int index) {
+        this.index = index;
+    }
+
+    /**
+     * @param position the position to set
+     * @since 6.0
+     */
+    protected void setPosition(final int position) {
+        this.position = position;
+    }
+
+    /**
+     * Set branch target
+     *
+     * @param target branch target
+     */
+    public void setTarget(final InstructionHandle target) {
+        notifyTarget(this.target, target, this);
+        this.target = target;
+    }
 
     /**
      * Long output format:
      *
-     * &lt;position in byte code&gt;
-     * &lt;name of opcode&gt; "["&lt;opcode number&gt;"]"
-     * "("&lt;length of instruction&gt;")"
-     * "&lt;"&lt;target instruction&gt;"&gt;" "@"&lt;branch target offset&gt;
+     * &lt;position in byte code&gt; &lt;name of opcode&gt; "["&lt;opcode
+     * number&gt;"]" "("&lt;length of instruction&gt;")" "&lt;"&lt;target
+     * instruction&gt;"&gt;" "@"&lt;branch target offset&gt;
      *
      * @param verbose long/short format switch
      * @return mnemonic for instruction
      */
     @Override
-    public String toString( final boolean verbose ) {
+    public String toString(final boolean verbose) {
         final String s = super.toString(verbose);
         String t = "null";
         if (verbose) {
@@ -149,14 +213,14 @@ public abstract class BranchInstruction extends Instruction implements Instructi
                 } else {
                     // I'm more interested in the address of the target then
                     // the instruction located there.
-                    //t = target.getInstruction().toString(false); // Avoid circles
+                    // t = target.getInstruction().toString(false); // Avoid circles
                     t = "" + target.getPosition();
                 }
             }
         } else {
             if (target != null) {
                 index = target.getPosition();
-                // index = getTargetOffset();  crashes if positions haven't been set
+                // index = getTargetOffset(); crashes if positions haven't been set
                 // t = "" + (index + position);
                 t = "" + index;
             }
@@ -164,68 +228,29 @@ public abstract class BranchInstruction extends Instruction implements Instructi
         return s + " -> " + t;
     }
 
-
     /**
-     * Read needed data (e.g. index) from file. Conversion to a InstructionHandle
-     * is done in InstructionList(byte[]).
+     * Called by InstructionList.setPositions when setting the position for every
+     * instruction. In the presence of variable length instructions `setPositions'
+     * performs multiple passes over the instruction list to calculate the correct
+     * (byte) positions and offsets by calling this function.
      *
-     * @param bytes input stream
-     * @param wide wide prefix?
-     * @see InstructionList
+     * @param offset     additional offset caused by preceding (variable length)
+     *                   instructions
+     * @param max_offset the maximum offset that may be caused by these instructions
+     * @return additional offset caused by possible change of this instruction's
+     *         length
      */
-    @Override
-    protected void initFromFile( final ByteSequence bytes, final boolean wide ) throws IOException {
-        super.setLength(3);
-        index = bytes.readShort();
+    protected int updatePosition(final int offset, final int max_offset) {
+        position += offset;
+        return 0;
     }
-
-
-    /**
-     * @return target offset in byte code
-     */
-    public final int getIndex() {
-        return index;
-    }
-
-
-    /**
-     * @return target of branch instruction
-     */
-    public InstructionHandle getTarget() {
-        return target;
-    }
-
-
-    /**
-     * Set branch target
-     * @param target branch target
-     */
-    public void setTarget( final InstructionHandle target ) {
-        notifyTarget(this.target, target, this);
-        this.target = target;
-    }
-
-
-    /**
-     * Used by BranchInstruction, LocalVariableGen, CodeExceptionGen, LineNumberGen
-     */
-    static void notifyTarget( final InstructionHandle old_ih, final InstructionHandle new_ih,
-            final InstructionTargeter t ) {
-        if (old_ih != null) {
-            old_ih.removeTargeter(t);
-        }
-        if (new_ih != null) {
-            new_ih.addTargeter(t);
-        }
-    }
-
 
     /**
      * @param old_ih old target
      * @param new_ih new target
      */
     @Override
-    public void updateTarget( final InstructionHandle old_ih, final InstructionHandle new_ih ) {
+    public void updateTarget(final InstructionHandle old_ih, final InstructionHandle new_ih) {
         if (target == old_ih) {
             setTarget(new_ih);
         } else {
@@ -233,51 +258,16 @@ public abstract class BranchInstruction extends Instruction implements Instructi
         }
     }
 
-
     /**
-     * @return true, if ih is target of this instruction
+     * Used by BranchInstruction, LocalVariableGen, CodeExceptionGen, LineNumberGen
      */
-    @Override
-    public boolean containsTarget( final InstructionHandle ih ) {
-        return target == ih;
-    }
-
-
-    /**
-     * Inform target that it's not targeted anymore.
-     */
-    @Override
-    void dispose() {
-        setTarget(null);
-        index = -1;
-        position = -1;
-    }
-
-
-    /**
-     * @return the position
-     * @since 6.0
-     */
-    protected int getPosition() {
-        return position;
-    }
-
-
-    /**
-     * @param position the position to set
-     * @since 6.0
-     */
-    protected void setPosition(final int position) {
-        this.position = position;
-    }
-
-
-    /**
-     * @param index the index to set
-     * @since 6.0
-     */
-    protected void setIndex(final int index) {
-        this.index = index;
+    public static void notifyTarget(final InstructionHandle old_ih, final InstructionHandle new_ih, final InstructionTargeter t) {
+        if (old_ih != null) {
+            old_ih.removeTargeter(t);
+        }
+        if (new_ih != null) {
+            new_ih.addTargeter(t);
+        }
     }
 
 }

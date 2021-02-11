@@ -23,6 +23,7 @@ import org.apache.bcel.Const;
 import org.apache.bcel.classfile.Constant;
 import org.apache.bcel.classfile.ConstantCP;
 import org.apache.bcel.classfile.ConstantPool;
+import org.apache.bcel.generic.gen.ConstantPoolGen;
 
 /**
  * Super class for the INVOKExxx family of instructions.

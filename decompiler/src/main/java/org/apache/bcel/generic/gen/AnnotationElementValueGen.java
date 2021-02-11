@@ -15,13 +15,14 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.bcel.generic.gen;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
 
 import org.apache.bcel.classfile.AnnotationElementValue;
 import org.apache.bcel.classfile.ElementValue;
+import org.apache.bcel.generic.AnnotationEntryGen;
 
 /**
  * @since 6.0

@@ -15,9 +15,72 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.bcel.generic.control;
 
 import org.apache.bcel.Const;
+import org.apache.bcel.generic.ALOAD;
+import org.apache.bcel.generic.ANEWARRAY;
+import org.apache.bcel.generic.ASTORE;
+import org.apache.bcel.generic.ArithmeticInstruction;
+import org.apache.bcel.generic.ArrayInstruction;
+import org.apache.bcel.generic.ArrayType;
+import org.apache.bcel.generic.BasicType;
+import org.apache.bcel.generic.BranchInstruction;
+import org.apache.bcel.generic.CHECKCAST;
+import org.apache.bcel.generic.ClassGenException;
+import org.apache.bcel.generic.DLOAD;
+import org.apache.bcel.generic.DSTORE;
+import org.apache.bcel.generic.FLOAD;
+import org.apache.bcel.generic.FSTORE;
+import org.apache.bcel.generic.FieldInstruction;
+import org.apache.bcel.generic.GETFIELD;
+import org.apache.bcel.generic.GETSTATIC;
+import org.apache.bcel.generic.GOTO;
+import org.apache.bcel.generic.GOTO_W;
+import org.apache.bcel.generic.IFEQ;
+import org.apache.bcel.generic.IFGE;
+import org.apache.bcel.generic.IFGT;
+import org.apache.bcel.generic.IFLE;
+import org.apache.bcel.generic.IFLT;
+import org.apache.bcel.generic.IFNE;
+import org.apache.bcel.generic.IFNONNULL;
+import org.apache.bcel.generic.IFNULL;
+import org.apache.bcel.generic.IF_ACMPEQ;
+import org.apache.bcel.generic.IF_ACMPNE;
+import org.apache.bcel.generic.IF_ICMPEQ;
+import org.apache.bcel.generic.IF_ICMPGE;
+import org.apache.bcel.generic.IF_ICMPGT;
+import org.apache.bcel.generic.IF_ICMPLE;
+import org.apache.bcel.generic.IF_ICMPLT;
+import org.apache.bcel.generic.IF_ICMPNE;
+import org.apache.bcel.generic.ILOAD;
+import org.apache.bcel.generic.INSTANCEOF;
+import org.apache.bcel.generic.INVOKEDYNAMIC;
+import org.apache.bcel.generic.INVOKEINTERFACE;
+import org.apache.bcel.generic.INVOKESPECIAL;
+import org.apache.bcel.generic.INVOKESTATIC;
+import org.apache.bcel.generic.INVOKEVIRTUAL;
+import org.apache.bcel.generic.ISTORE;
+import org.apache.bcel.generic.Instruction;
+import org.apache.bcel.generic.InvokeInstruction;
+import org.apache.bcel.generic.JSR;
+import org.apache.bcel.generic.JSR_W;
+import org.apache.bcel.generic.LLOAD;
+import org.apache.bcel.generic.LSTORE;
+import org.apache.bcel.generic.LocalVariableInstruction;
+import org.apache.bcel.generic.MULTIANEWARRAY;
+import org.apache.bcel.generic.NEW;
+import org.apache.bcel.generic.NEWARRAY;
+import org.apache.bcel.generic.ObjectType;
+import org.apache.bcel.generic.PUSH;
+import org.apache.bcel.generic.PUTFIELD;
+import org.apache.bcel.generic.PUTSTATIC;
+import org.apache.bcel.generic.ReferenceType;
+import org.apache.bcel.generic.ReturnInstruction;
+import org.apache.bcel.generic.StackInstruction;
+import org.apache.bcel.generic.Type;
+import org.apache.bcel.generic.gen.ClassGen;
+import org.apache.bcel.generic.gen.ConstantPoolGen;
 
 /**
  * Instances of this class may be used, e.g., to generate typed

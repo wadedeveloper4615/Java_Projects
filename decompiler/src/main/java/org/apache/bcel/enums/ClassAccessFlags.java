@@ -16,13 +16,13 @@ public enum ClassAccessFlags {
 
     ACC_FINAL(0x0010, 4),
 
-    // ACC_OPEN(0x0020, 5),
+    ACC_OPEN(0x0020, 5),
 
     ACC_SUPER(0x0020, 5),
 
-    // ACC_SYNCHRONIZED(0x0020, 5),
+    ACC_SYNCHRONIZED(0x0020, 5),
 
-    // ACC_TRANSITIVE(0x0020, 6),
+    ACC_TRANSITIVE(0x0020, 6),
 
     ACC_BRIDGE(0x0040, 6),
 
@@ -143,9 +143,9 @@ public enum ClassAccessFlags {
         return (flag & ACC_TRANSIENT.getFlag()) != 0;
     }
 
-    // public boolean isVarArgs() {
-    // return (flag & ACC_VARARGS.getFlag()) != 0;
-    // }
+    public boolean isVarArgs() {
+        return (flag & ACC_VARARGS.getFlag()) != 0;
+    }
 
     public boolean isVolatile() {
         return (flag & ACC_VOLATILE.getFlag()) != 0;

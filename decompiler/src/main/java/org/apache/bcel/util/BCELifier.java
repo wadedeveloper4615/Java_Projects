@@ -30,10 +30,11 @@ import org.apache.bcel.classfile.Field;
 import org.apache.bcel.classfile.JavaClass;
 import org.apache.bcel.classfile.Method;
 import org.apache.bcel.classfile.Utility;
+import org.apache.bcel.enums.ClassAccessFlags;
 import org.apache.bcel.generic.ArrayType;
-import org.apache.bcel.generic.ConstantPoolGen;
-import org.apache.bcel.generic.MethodGen;
 import org.apache.bcel.generic.Type;
+import org.apache.bcel.generic.gen.ConstantPoolGen;
+import org.apache.bcel.generic.gen.MethodGen;
 
 /**
  * This class takes a given JavaClass object and converts it to a Java program
@@ -235,11 +236,11 @@ public class BCELifier extends org.apache.bcel.classfile.EmptyVisitor {
         final StringBuilder buf = new StringBuilder();
         for (int i = 0, pow = 1; pow <= Const.MAX_ACC_FLAG_I; i++) {
             if ((flags & pow) != 0) {
-                if ((pow == Const.ACC_SYNCHRONIZED) && (location == FLAGS.CLASS)) {
+                if ((pow == ClassAccessFlags.ACC_SYNCHRONIZED.getFlag()) && (location == FLAGS.CLASS)) {
                     buf.append(CONSTANT_PREFIX + "ACC_SUPER | ");
-                } else if ((pow == Const.ACC_VOLATILE) && (location == FLAGS.METHOD)) {
+                } else if ((pow == ClassAccessFlags.ACC_VOLATILE.getFlag()) && (location == FLAGS.METHOD)) {
                     buf.append(CONSTANT_PREFIX + "ACC_BRIDGE | ");
-                } else if ((pow == Const.ACC_TRANSIENT) && (location == FLAGS.METHOD)) {
+                } else if ((pow == ClassAccessFlags.ACC_TRANSIENT.getFlag()) && (location == FLAGS.METHOD)) {
                     buf.append(CONSTANT_PREFIX + "ACC_VARARGS | ");
                 } else {
                     if (i < Const.ACCESS_NAMES_LENGTH) {

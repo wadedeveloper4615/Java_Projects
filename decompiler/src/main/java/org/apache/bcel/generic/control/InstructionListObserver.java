@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.bcel.generic.control;
 
 /**
  * Implement this interface if you're interested in changes to an InstructionList object

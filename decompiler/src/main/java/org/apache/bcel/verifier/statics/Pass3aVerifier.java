@@ -24,6 +24,7 @@ import org.apache.bcel.classfile.LineNumberTable;
 import org.apache.bcel.classfile.LocalVariable;
 import org.apache.bcel.classfile.LocalVariableTable;
 import org.apache.bcel.classfile.Method;
+import org.apache.bcel.enums.ClassAccessFlags;
 import org.apache.bcel.generic.ALOAD;
 import org.apache.bcel.generic.ANEWARRAY;
 import org.apache.bcel.generic.ASTORE;
@@ -31,7 +32,6 @@ import org.apache.bcel.generic.ATHROW;
 import org.apache.bcel.generic.ArrayType;
 import org.apache.bcel.generic.BREAKPOINT;
 import org.apache.bcel.generic.CHECKCAST;
-import org.apache.bcel.generic.ConstantPoolGen;
 import org.apache.bcel.generic.DLOAD;
 import org.apache.bcel.generic.DSTORE;
 import org.apache.bcel.generic.FLOAD;
@@ -51,8 +51,6 @@ import org.apache.bcel.generic.INVOKESTATIC;
 import org.apache.bcel.generic.INVOKEVIRTUAL;
 import org.apache.bcel.generic.ISTORE;
 import org.apache.bcel.generic.Instruction;
-import org.apache.bcel.generic.InstructionHandle;
-import org.apache.bcel.generic.InstructionList;
 import org.apache.bcel.generic.InvokeInstruction;
 import org.apache.bcel.generic.JsrInstruction;
 import org.apache.bcel.generic.LDC;
@@ -71,6 +69,9 @@ import org.apache.bcel.generic.ReferenceType;
 import org.apache.bcel.generic.ReturnInstruction;
 import org.apache.bcel.generic.TABLESWITCH;
 import org.apache.bcel.generic.Type;
+import org.apache.bcel.generic.control.InstructionHandle;
+import org.apache.bcel.generic.control.InstructionList;
+import org.apache.bcel.generic.gen.ConstantPoolGen;
 import org.apache.bcel.verifier.PassVerifier;
 import org.apache.bcel.verifier.VerificationResult;
 import org.apache.bcel.verifier.Verifier;
@@ -317,7 +318,7 @@ public final class Pass3aVerifier extends PassVerifier {
                                 final Type o_type = o.getType(constantPoolGen);
                                 if (f_type.equals(o_type)) {
                                     f = field;
-                                    if ((f.getAccessFlags() & (Const.ACC_PUBLIC | Const.ACC_PROTECTED)) == 0) {
+                                    if ((f.getAccessFlags() & (ClassAccessFlags.ACC_PUBLIC.getFlag() | ClassAccessFlags.ACC_PROTECTED.getFlag())) == 0) {
                                         f = null;
                                     }
                                     break outer;

@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.bcel.generic.gen;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,6 +36,8 @@ import org.apache.bcel.classfile.ConstantNameAndType;
 import org.apache.bcel.classfile.ConstantPool;
 import org.apache.bcel.classfile.ConstantString;
 import org.apache.bcel.classfile.ConstantUtf8;
+import org.apache.bcel.generic.ArrayType;
+import org.apache.bcel.generic.ObjectType;
 
 /**
  * This class is used to build up a constant pool. The user adds constants via

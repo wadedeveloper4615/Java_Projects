@@ -23,9 +23,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.bcel.generic.CodeExceptionGen;
-import org.apache.bcel.generic.InstructionHandle;
-import org.apache.bcel.generic.MethodGen;
+import org.apache.bcel.generic.control.InstructionHandle;
+import org.apache.bcel.generic.gen.CodeExceptionGen;
+import org.apache.bcel.generic.gen.MethodGen;
 
 /**
  * This class allows easy access to ExceptionHandler objects.

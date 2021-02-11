@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.bcel.generic.gen;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +23,9 @@ import java.util.List;
 import org.apache.bcel.Const;
 import org.apache.bcel.classfile.AccessFlags;
 import org.apache.bcel.classfile.Attribute;
+import org.apache.bcel.generic.AnnotationEntryGen;
+import org.apache.bcel.generic.NamedAndTyped;
+import org.apache.bcel.generic.Type;
 
 /**
  * Super class for FieldGen and MethodGen objects, since they have

@@ -15,11 +15,15 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.bcel.generic.gen;
 
 import java.util.Objects;
 
 import org.apache.bcel.classfile.LineNumber;
+import org.apache.bcel.generic.BranchInstruction;
+import org.apache.bcel.generic.ClassGenException;
+import org.apache.bcel.generic.control.InstructionHandle;
+import org.apache.bcel.generic.control.InstructionTargeter;
 
 /**
  * This class represents a line number within a method, i.e., give an instruction

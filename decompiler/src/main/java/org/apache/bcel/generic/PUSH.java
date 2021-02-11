@@ -18,6 +18,10 @@
 package org.apache.bcel.generic;
 
 import org.apache.bcel.Const;
+import org.apache.bcel.generic.control.InstructionConst;
+import org.apache.bcel.generic.control.InstructionConstants;
+import org.apache.bcel.generic.control.InstructionList;
+import org.apache.bcel.generic.gen.ConstantPoolGen;
 
 /**
  * Wrapper class for push operations, which are implemented either as BIPUSH,

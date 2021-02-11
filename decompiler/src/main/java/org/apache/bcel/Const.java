@@ -3,6 +3,7 @@ package org.apache.bcel;
 import java.util.Arrays;
 import java.util.Collections;
 
+import org.apache.bcel.enums.ClassAccessFlags;
 import org.apache.bcel.enums.Version;
 
 public final class Const {
@@ -13,30 +14,30 @@ public final class Const {
     public static final int MAX_SHORT = 65535; // 2^16 - 1
     public static final int MAX_BYTE = 255; // 2^8 - 1
 
-    public static final short ACC_PUBLIC = 0x0001;
-    public static final short ACC_PRIVATE = 0x0002;
-    public static final short ACC_PROTECTED = 0x0004;
-    public static final short ACC_STATIC = 0x0008;
-    public static final short ACC_FINAL = 0x0010;
-    public static final short ACC_OPEN = 0x0020;
-    public static final short ACC_SUPER = 0x0020;
-    public static final short ACC_SYNCHRONIZED = 0x0020;
-    public static final short ACC_TRANSITIVE = 0x0020;
-    public static final short ACC_BRIDGE = 0x0040;
-    public static final short ACC_STATIC_PHASE = 0x0040;
-    public static final short ACC_VOLATILE = 0x0040;
-    public static final short ACC_TRANSIENT = 0x0080;
-    public static final short ACC_VARARGS = 0x0080;
-    public static final short ACC_NATIVE = 0x0100;
-    public static final short ACC_INTERFACE = 0x0200;
-    public static final short ACC_ABSTRACT = 0x0400;
-    public static final short ACC_STRICT = 0x0800;
-    public static final short ACC_SYNTHETIC = 0x1000;
-    public static final short ACC_ANNOTATION = 0x2000;
-    public static final short ACC_ENUM = 0x4000;
-    public static final short ACC_MANDATED = (short) 0x8000;
-    public static final short ACC_MODULE = (short) 0x8000;
-    public static final short MAX_ACC_FLAG = ACC_ENUM;
+//    public static final short ACC_PUBLIC = 0x0001;
+//    public static final short ACC_PRIVATE = 0x0002;
+//    public static final short ACC_PROTECTED = 0x0004;
+//    public static final short ACC_STATIC = 0x0008;
+//    public static final short ACC_FINAL = 0x0010;
+//    public static final short ACC_OPEN = 0x0020;
+//    public static final short ACC_SUPER = 0x0020;
+//    public static final short ACC_SYNCHRONIZED = 0x0020;
+//    public static final short ACC_TRANSITIVE = 0x0020;
+//    public static final short ACC_BRIDGE = 0x0040;
+//    public static final short ACC_STATIC_PHASE = 0x0040;
+//    public static final short ACC_VOLATILE = 0x0040;
+//    public static final short ACC_TRANSIENT = 0x0080;
+//    public static final short ACC_VARARGS = 0x0080;
+//    public static final short ACC_NATIVE = 0x0100;
+//    public static final short ACC_INTERFACE = 0x0200;
+//    public static final short ACC_ABSTRACT = 0x0400;
+//    public static final short ACC_STRICT = 0x0800;
+//    public static final short ACC_SYNTHETIC = 0x1000;
+//    public static final short ACC_ANNOTATION = 0x2000;
+//    public static final short ACC_ENUM = 0x4000;
+//    public static final short ACC_MANDATED = (short) 0x8000;
+//    public static final short ACC_MODULE = (short) 0x8000;
+    public static final short MAX_ACC_FLAG = (short) ClassAccessFlags.ACC_ENUM.getFlag();
     public static final int MAX_ACC_FLAG_I = 0x8000; // ACC_MODULE is negative as a short
 
     // Note that do to overloading:
@@ -4303,55 +4304,26 @@ public final class Const {
         return NO_OF_OPERANDS[index];
     }
 
-    /**
-     * @since 6.0
-     */
     public static String getOpcodeName(final int index) {
         return OPCODE_NAMES[index];
     }
 
-    /**
-     * @since 6.0
-     */
     public static short getOperandType(final int opcode, final int index) {
         return TYPE_OF_OPERANDS[opcode][index];
     }
 
-    /**
-     * @since 6.0
-     */
     public static long getOperandTypeCount(final int opcode) {
         return TYPE_OF_OPERANDS[opcode].length;
     }
 
-    /**
-     *
-     * @param index
-     * @return Number of words produced onto operand stack
-     * @since 6.0
-     */
     public static int getProduceStack(final int index) {
         return PRODUCE_STACK[index];
     }
 
-    /**
-     *
-     * @param index
-     * @return the short type name
-     * @since 6.0
-     */
     public static String getShortTypeName(final int index) {
         return SHORT_TYPE_NAMES[index];
     }
 
-    /**
-     * The primitive type names corresponding to the T_XX constants, e.g.,
-     * TYPE_NAMES[T_INT] = "int"
-     *
-     * @param index
-     * @return the type name
-     * @since 6.0
-     */
     public static String getTypeName(final int index) {
         return TYPE_NAMES[index];
     }

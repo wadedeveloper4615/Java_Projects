@@ -33,28 +33,28 @@ import org.apache.bcel.generic.BranchHandle;
 import org.apache.bcel.generic.BranchInstruction;
 import org.apache.bcel.generic.CHECKCAST;
 import org.apache.bcel.generic.CPInstruction;
-import org.apache.bcel.generic.CodeExceptionGen;
-import org.apache.bcel.generic.ConstantPoolGen;
 import org.apache.bcel.generic.ConstantPushInstruction;
 import org.apache.bcel.generic.EmptyVisitor;
 import org.apache.bcel.generic.FieldInstruction;
 import org.apache.bcel.generic.IINC;
 import org.apache.bcel.generic.INSTANCEOF;
 import org.apache.bcel.generic.Instruction;
-import org.apache.bcel.generic.InstructionConst;
-import org.apache.bcel.generic.InstructionHandle;
 import org.apache.bcel.generic.InvokeInstruction;
 import org.apache.bcel.generic.LDC;
 import org.apache.bcel.generic.LDC2_W;
 import org.apache.bcel.generic.LocalVariableInstruction;
 import org.apache.bcel.generic.MULTIANEWARRAY;
-import org.apache.bcel.generic.MethodGen;
 import org.apache.bcel.generic.NEWARRAY;
 import org.apache.bcel.generic.ObjectType;
 import org.apache.bcel.generic.RET;
 import org.apache.bcel.generic.ReturnInstruction;
 import org.apache.bcel.generic.Select;
 import org.apache.bcel.generic.Type;
+import org.apache.bcel.generic.control.InstructionConst;
+import org.apache.bcel.generic.control.InstructionHandle;
+import org.apache.bcel.generic.gen.CodeExceptionGen;
+import org.apache.bcel.generic.gen.ConstantPoolGen;
+import org.apache.bcel.generic.gen.MethodGen;
 
 /**
  * Factory creates il.append() statements, and sets instruction targets.

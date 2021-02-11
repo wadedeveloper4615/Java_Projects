@@ -20,7 +20,7 @@ package org.apache.bcel.verifier.structurals;
 
 import java.util.ArrayList;
 
-import org.apache.bcel.generic.InstructionHandle;
+import org.apache.bcel.generic.control.InstructionHandle;
 
 /**
  * An InstructionContext offers convenient access

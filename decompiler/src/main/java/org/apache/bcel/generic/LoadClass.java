@@ -17,6 +17,8 @@
  */
 package org.apache.bcel.generic;
 
+import org.apache.bcel.generic.gen.ConstantPoolGen;
+
 /**
  * Denotes that an instruction may start the process of loading and resolving
  * the referenced class in the Virtual Machine.

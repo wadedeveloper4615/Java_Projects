@@ -15,8 +15,9 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.bcel.generic.gen;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -35,7 +36,15 @@ import org.apache.bcel.classfile.RuntimeInvisibleAnnotations;
 import org.apache.bcel.classfile.RuntimeVisibleAnnotations;
 import org.apache.bcel.classfile.SourceFile;
 import org.apache.bcel.enums.Version;
+import org.apache.bcel.generic.AnnotationEntryGen;
+import org.apache.bcel.generic.ClassGenException;
+import org.apache.bcel.generic.ClassObserver;
+import org.apache.bcel.generic.INVOKESPECIAL;
+import org.apache.bcel.generic.Type;
+import org.apache.bcel.generic.control.InstructionConst;
+import org.apache.bcel.generic.control.InstructionList;
 import org.apache.bcel.util.BCELComparator;
+import org.apache.bcel.util.ClassAccessFlagsList;
 
 /**
  * Template class for building up a java class. May be initialized with an
@@ -269,7 +278,7 @@ public class ClassGen extends AccessFlags implements Cloneable {
         return interfaces;
     }
 
-    public JavaClass getJavaClass() {
+    public JavaClass getJavaClass() throws IOException {
         ClassFileName[] interfaces = interfaceList.toArray(new ClassFileName[interfaceList.size()]);
         Field[] fields = getFields();
         Method[] methods = getMethods();
@@ -283,7 +292,8 @@ public class ClassGen extends AccessFlags implements Cloneable {
             System.arraycopy(annAttributes, 0, attributes, attributeList.size(), annAttributes.length);
         }
         ConstantPool _cp = this.cp.getConstantPool();
-        return new JavaClass(className, superClassName, fileName, version, super.getAccessFlags(), _cp, interfaces, fields, methods, attributes);
+        ClassAccessFlagsList accessFlags = new ClassAccessFlagsList(super.getAccessFlags());
+        return new JavaClass(className, superClassName, fileName, version, accessFlags, _cp, interfaces, fields, methods, attributes);
     }
 
     public Method getMethodAt(int pos) {

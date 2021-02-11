@@ -17,6 +17,8 @@
  */
 package org.apache.bcel.generic;
 
+import org.apache.bcel.generic.control.InstructionHandle;
+
 /**
  * IFNONNULL - Branch if reference is not null
  *

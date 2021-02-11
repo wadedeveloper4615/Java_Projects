@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.bcel.generic.control;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -29,6 +29,18 @@ import java.util.NoSuchElementException;
 
 import org.apache.bcel.Const;
 import org.apache.bcel.classfile.Constant;
+import org.apache.bcel.generic.BranchHandle;
+import org.apache.bcel.generic.BranchInstruction;
+import org.apache.bcel.generic.CPInstruction;
+import org.apache.bcel.generic.ClassGenException;
+import org.apache.bcel.generic.CompoundInstruction;
+import org.apache.bcel.generic.Instruction;
+import org.apache.bcel.generic.Select;
+import org.apache.bcel.generic.TargetLostException;
+import org.apache.bcel.generic.gen.CodeExceptionGen;
+import org.apache.bcel.generic.gen.ConstantPoolGen;
+import org.apache.bcel.generic.gen.LocalVariableGen;
+import org.apache.bcel.generic.gen.MethodGen;
 import org.apache.bcel.util.ByteSequence;
 
 /**

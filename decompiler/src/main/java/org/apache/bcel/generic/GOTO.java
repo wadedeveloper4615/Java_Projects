@@ -20,6 +20,8 @@ package org.apache.bcel.generic;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import org.apache.bcel.generic.control.InstructionHandle;
+
 /**
  * GOTO - Branch always (to relative offset, not absolute address)
  *

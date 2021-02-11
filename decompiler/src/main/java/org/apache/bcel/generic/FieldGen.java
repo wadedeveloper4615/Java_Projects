@@ -31,6 +31,8 @@ import org.apache.bcel.classfile.ConstantPool;
 import org.apache.bcel.classfile.ConstantValue;
 import org.apache.bcel.classfile.Field;
 import org.apache.bcel.classfile.Utility;
+import org.apache.bcel.generic.gen.ConstantPoolGen;
+import org.apache.bcel.generic.gen.FieldGenOrMethodGen;
 import org.apache.bcel.util.BCELComparator;
 
 /**

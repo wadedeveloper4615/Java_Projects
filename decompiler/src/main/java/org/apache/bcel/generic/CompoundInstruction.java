@@ -17,6 +17,8 @@
  */
 package org.apache.bcel.generic;
 
+import org.apache.bcel.generic.control.InstructionList;
+
 /**
  * Wrapper class for `compound' operations, virtual instructions that
  * don't exist as byte code, but give a useful meaning. For example,

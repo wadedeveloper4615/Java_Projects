@@ -22,6 +22,7 @@ import org.apache.bcel.classfile.ConstantCP;
 import org.apache.bcel.classfile.ConstantNameAndType;
 import org.apache.bcel.classfile.ConstantPool;
 import org.apache.bcel.classfile.ConstantUtf8;
+import org.apache.bcel.generic.gen.ConstantPoolGen;
 
 /**
  * Super class for InvokeInstruction and FieldInstruction, since they have

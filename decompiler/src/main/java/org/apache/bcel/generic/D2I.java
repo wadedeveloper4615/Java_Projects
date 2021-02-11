@@ -18,6 +18,7 @@
 package org.apache.bcel.generic;
 
 import org.apache.bcel.generic.base.ConversionInstruction;
+import org.apache.bcel.generic.base.Visitor;
 
 /**
  * D2I - Convert double to int

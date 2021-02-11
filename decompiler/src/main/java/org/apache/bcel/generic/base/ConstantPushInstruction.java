@@ -19,7 +19,6 @@ package org.apache.bcel.generic.base;
 
 import org.apache.bcel.generic.ICONST;
 import org.apache.bcel.generic.SIPUSH;
-import org.apache.bcel.generic.TypedInstruction;
 
 /**
  * Denotes a push instruction that produces a literal on the stack

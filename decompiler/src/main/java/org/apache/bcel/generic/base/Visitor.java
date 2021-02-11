@@ -15,27 +15,9 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.bcel.generic.base;
 
-import org.apache.bcel.generic.base.AllocationInstruction;
-import org.apache.bcel.generic.base.ArithmeticInstruction;
-import org.apache.bcel.generic.base.ArrayInstruction;
-import org.apache.bcel.generic.base.BranchInstruction;
-import org.apache.bcel.generic.base.CPInstruction;
-import org.apache.bcel.generic.base.ConstantPushInstruction;
-import org.apache.bcel.generic.base.ConversionInstruction;
-import org.apache.bcel.generic.base.ExceptionThrower;
-import org.apache.bcel.generic.base.FieldInstruction;
-import org.apache.bcel.generic.base.FieldOrMethod;
-import org.apache.bcel.generic.base.GotoInstruction;
-import org.apache.bcel.generic.base.IfInstruction;
-import org.apache.bcel.generic.base.JsrInstruction;
-import org.apache.bcel.generic.base.LoadClass;
-import org.apache.bcel.generic.base.LoadInstruction;
-import org.apache.bcel.generic.base.LocalVariableInstruction;
-import org.apache.bcel.generic.base.PopInstruction;
-import org.apache.bcel.generic.base.PushInstruction;
-import org.apache.bcel.generic.base.ReturnInstruction;
+import org.apache.bcel.generic.*;
 
 /**
  * Interface implementing the Visitor pattern programming style.

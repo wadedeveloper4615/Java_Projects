@@ -15,16 +15,17 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.bcel.generic.base;
 
 import org.apache.bcel.generic.gen.ConstantPoolGen;
 
 /**
- * Get the type associated with an instruction, int for ILOAD, or the type
- * of the field of a PUTFIELD instruction, e.g..
+ * Denote an instruction that may consume a value from the stack.
  *
  */
-public interface TypedInstruction {
+public interface StackConsumer {
 
-    Type getType( ConstantPoolGen cpg );
+    /** @return how many words are consumed from stack
+     */
+    int consumeStack( ConstantPoolGen cpg );
 }

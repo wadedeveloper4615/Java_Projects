@@ -25,6 +25,7 @@ import org.apache.bcel.generic.base.AllocationInstruction;
 import org.apache.bcel.generic.base.ArrayType;
 import org.apache.bcel.generic.base.ExceptionThrower;
 import org.apache.bcel.generic.base.Instruction;
+import org.apache.bcel.generic.base.Visitor;
 import org.apache.bcel.util.ByteSequence;
 
 /**

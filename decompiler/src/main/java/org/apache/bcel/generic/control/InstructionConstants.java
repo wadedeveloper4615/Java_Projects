@@ -25,6 +25,7 @@ import org.apache.bcel.generic.base.ConversionInstruction;
 import org.apache.bcel.generic.base.Instruction;
 import org.apache.bcel.generic.base.LocalVariableInstruction;
 import org.apache.bcel.generic.base.ReturnInstruction;
+import org.apache.bcel.generic.base.StackInstruction;
 
 /**
  * This interface contains shareable instruction objects.

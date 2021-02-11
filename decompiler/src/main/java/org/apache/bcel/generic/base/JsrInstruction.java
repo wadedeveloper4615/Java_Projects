@@ -19,8 +19,6 @@ package org.apache.bcel.generic.base;
 
 import org.apache.bcel.generic.StackProducer;
 import org.apache.bcel.generic.Type;
-import org.apache.bcel.generic.TypedInstruction;
-import org.apache.bcel.generic.UnconditionalBranch;
 import org.apache.bcel.generic.control.InstructionHandle;
 import org.apache.bcel.generic.gen.ConstantPoolGen;
 

@@ -22,6 +22,8 @@ import java.io.IOException;
 
 import org.apache.bcel.Const;
 import org.apache.bcel.ExceptionConst;
+import org.apache.bcel.generic.base.InvokeInstruction;
+import org.apache.bcel.generic.base.Visitor;
 
 /**
  * INVOKESTATIC - Invoke a class (static) method

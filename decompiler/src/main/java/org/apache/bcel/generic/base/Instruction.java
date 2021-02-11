@@ -79,7 +79,6 @@ import org.apache.bcel.generic.PUTSTATIC;
 import org.apache.bcel.generic.RET;
 import org.apache.bcel.generic.SIPUSH;
 import org.apache.bcel.generic.TABLESWITCH;
-import org.apache.bcel.generic.Visitor;
 import org.apache.bcel.generic.control.InstructionComparator;
 import org.apache.bcel.generic.control.InstructionConst;
 import org.apache.bcel.generic.gen.ConstantPoolGen;

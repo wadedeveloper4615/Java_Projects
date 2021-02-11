@@ -18,6 +18,7 @@
 package org.apache.bcel.generic;
 
 import org.apache.bcel.generic.base.LoadInstruction;
+import org.apache.bcel.generic.base.Visitor;
 
 /**
  * FLOAD - Load float from local variable

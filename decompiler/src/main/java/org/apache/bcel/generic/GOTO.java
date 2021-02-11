@@ -21,6 +21,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import org.apache.bcel.generic.base.GotoInstruction;
+import org.apache.bcel.generic.base.VariableLengthInstruction;
+import org.apache.bcel.generic.base.Visitor;
 import org.apache.bcel.generic.control.InstructionHandle;
 
 /**

@@ -24,6 +24,7 @@ import org.apache.bcel.ExceptionConst;
 import org.apache.bcel.generic.base.CPInstruction;
 import org.apache.bcel.generic.base.ExceptionThrower;
 import org.apache.bcel.generic.base.PushInstruction;
+import org.apache.bcel.generic.base.Visitor;
 import org.apache.bcel.generic.gen.ConstantPoolGen;
 import org.apache.bcel.util.ByteSequence;
 

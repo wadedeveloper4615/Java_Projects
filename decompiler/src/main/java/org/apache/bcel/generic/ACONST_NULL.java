@@ -19,6 +19,8 @@ package org.apache.bcel.generic;
 
 import org.apache.bcel.generic.base.Instruction;
 import org.apache.bcel.generic.base.PushInstruction;
+import org.apache.bcel.generic.base.TypedInstruction;
+import org.apache.bcel.generic.base.Visitor;
 import org.apache.bcel.generic.gen.ConstantPoolGen;
 
 /**

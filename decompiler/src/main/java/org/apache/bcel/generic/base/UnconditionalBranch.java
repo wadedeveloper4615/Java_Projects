@@ -15,17 +15,17 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.bcel.generic.base;
+
+import org.apache.bcel.generic.GOTO;
+import org.apache.bcel.generic.JSR;
 
 /**
- * Denotes an instruction to be a variable length instruction, such as
- * GOTO, JSR, LOOKUPSWITCH and TABLESWITCH.
+ * Denotes an instruction to perform an unconditional branch, i.e., GOTO, JSR.
  *
 
  * @see GOTO
  * @see JSR
- * @see LOOKUPSWITCH
- * @see TABLESWITCH
  */
-public interface VariableLengthInstruction {
+public interface UnconditionalBranch {
 }

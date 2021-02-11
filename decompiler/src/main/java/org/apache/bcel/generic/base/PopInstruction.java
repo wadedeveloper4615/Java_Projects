@@ -19,7 +19,6 @@ package org.apache.bcel.generic.base;
 
 import org.apache.bcel.generic.ISTORE;
 import org.apache.bcel.generic.POP;
-import org.apache.bcel.generic.StackConsumer;
 
 /**
  * Denotes an unparameterized instruction to pop a value on top from the stack,

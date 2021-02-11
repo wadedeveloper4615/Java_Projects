@@ -25,7 +25,9 @@ import org.apache.bcel.ExceptionConst;
 import org.apache.bcel.classfile.ConstantInvokeDynamic;
 import org.apache.bcel.classfile.ConstantNameAndType;
 import org.apache.bcel.classfile.ConstantPool;
+import org.apache.bcel.generic.base.InvokeInstruction;
 import org.apache.bcel.generic.base.ReferenceType;
+import org.apache.bcel.generic.base.Visitor;
 import org.apache.bcel.generic.gen.ConstantPoolGen;
 import org.apache.bcel.util.ByteSequence;
 

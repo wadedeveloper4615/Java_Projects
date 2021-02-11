@@ -18,6 +18,7 @@
 package org.apache.bcel.generic;
 
 import org.apache.bcel.generic.base.ArrayInstruction;
+import org.apache.bcel.generic.base.Visitor;
 
 /**
  * DALOAD - Load double from array

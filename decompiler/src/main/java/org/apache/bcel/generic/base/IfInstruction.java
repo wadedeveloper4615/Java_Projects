@@ -17,7 +17,6 @@
  */
 package org.apache.bcel.generic.base;
 
-import org.apache.bcel.generic.StackConsumer;
 import org.apache.bcel.generic.control.InstructionHandle;
 
 /**

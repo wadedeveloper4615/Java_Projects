@@ -18,6 +18,7 @@
 package org.apache.bcel.generic;
 
 import org.apache.bcel.generic.base.ConversionInstruction;
+import org.apache.bcel.generic.base.Visitor;
 
 /**
  * I2D - Convert int to double

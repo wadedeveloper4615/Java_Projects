@@ -17,6 +17,9 @@
  */
 package org.apache.bcel.generic;
 
+import org.apache.bcel.generic.base.StoreInstruction;
+import org.apache.bcel.generic.base.Visitor;
+
 /**
  * DSTORE - Store double into local variable
  *

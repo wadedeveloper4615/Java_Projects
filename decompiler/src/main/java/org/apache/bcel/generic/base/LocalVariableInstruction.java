@@ -22,7 +22,6 @@ import java.io.IOException;
 
 import org.apache.bcel.Const;
 import org.apache.bcel.generic.Type;
-import org.apache.bcel.generic.TypedInstruction;
 import org.apache.bcel.generic.gen.ConstantPoolGen;
 import org.apache.bcel.util.ByteSequence;
 

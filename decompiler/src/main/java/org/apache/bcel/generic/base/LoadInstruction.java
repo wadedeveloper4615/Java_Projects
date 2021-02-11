@@ -17,8 +17,6 @@
  */
 package org.apache.bcel.generic.base;
 
-import org.apache.bcel.generic.Visitor;
-
 /**
  * Denotes an unparameterized instruction to load a value from a local variable,
  * e.g. ILOAD.

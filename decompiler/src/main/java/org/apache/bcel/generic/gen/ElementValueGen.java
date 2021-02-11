@@ -28,7 +28,6 @@ import org.apache.bcel.classfile.ClassElementValue;
 import org.apache.bcel.classfile.ElementValue;
 import org.apache.bcel.classfile.EnumElementValue;
 import org.apache.bcel.classfile.SimpleElementValue;
-import org.apache.bcel.generic.SimpleElementValueGen;
 
 /**
  * @since 6.0

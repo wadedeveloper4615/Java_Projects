@@ -24,6 +24,8 @@ import org.apache.bcel.generic.base.ClassGenException;
 import org.apache.bcel.generic.base.IndexedInstruction;
 import org.apache.bcel.generic.base.Instruction;
 import org.apache.bcel.generic.base.ReturnaddressType;
+import org.apache.bcel.generic.base.TypedInstruction;
+import org.apache.bcel.generic.base.Visitor;
 import org.apache.bcel.generic.gen.ConstantPoolGen;
 import org.apache.bcel.util.ByteSequence;
 

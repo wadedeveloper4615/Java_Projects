@@ -200,7 +200,7 @@ public abstract class Type {
         return types;
     }
 
-    static int getArgumentTypesSize(final String signature) {
+    public static int getArgumentTypesSize(final String signature) {
         int res = 0;
         int index;
         try {
@@ -256,7 +256,7 @@ public abstract class Type {
         }
     }
 
-    static int getReturnTypeSize(final String signature) {
+    public static int getReturnTypeSize(final String signature) {
         final int index = signature.lastIndexOf(')') + 1;
         return Type.size(getTypeSize(signature.substring(index)));
     }

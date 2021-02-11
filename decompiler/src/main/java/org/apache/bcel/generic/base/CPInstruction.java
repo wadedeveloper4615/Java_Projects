@@ -26,7 +26,6 @@ import org.apache.bcel.classfile.ConstantPool;
 import org.apache.bcel.generic.INVOKEVIRTUAL;
 import org.apache.bcel.generic.LDC;
 import org.apache.bcel.generic.Type;
-import org.apache.bcel.generic.TypedInstruction;
 import org.apache.bcel.generic.gen.ConstantPoolGen;
 import org.apache.bcel.util.ByteSequence;
 

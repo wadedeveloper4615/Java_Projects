@@ -17,6 +17,10 @@
  */
 package org.apache.bcel.generic;
 
+import org.apache.bcel.generic.base.StackConsumer;
+import org.apache.bcel.generic.base.StackInstruction;
+import org.apache.bcel.generic.base.Visitor;
+
 /**
  * SWAP - Swa top operand stack word
  * <PRE>Stack: ..., word2, word1 -&gt; ..., word1, word2</PRE>

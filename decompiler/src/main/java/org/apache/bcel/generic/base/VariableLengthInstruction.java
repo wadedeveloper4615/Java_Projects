@@ -15,17 +15,22 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.bcel.generic.base;
 
-import org.apache.bcel.generic.gen.ConstantPoolGen;
+import org.apache.bcel.generic.GOTO;
+import org.apache.bcel.generic.JSR;
+import org.apache.bcel.generic.LOOKUPSWITCH;
+import org.apache.bcel.generic.TABLESWITCH;
 
 /**
- * Denote an instruction that may consume a value from the stack.
+ * Denotes an instruction to be a variable length instruction, such as
+ * GOTO, JSR, LOOKUPSWITCH and TABLESWITCH.
  *
- */
-public interface StackConsumer {
 
-    /** @return how many words are consumed from stack
-     */
-    int consumeStack( ConstantPoolGen cpg );
+ * @see GOTO
+ * @see JSR
+ * @see LOOKUPSWITCH
+ * @see TABLESWITCH
+ */
+public interface VariableLengthInstruction {
 }

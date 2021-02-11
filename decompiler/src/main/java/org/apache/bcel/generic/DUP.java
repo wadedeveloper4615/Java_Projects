@@ -18,6 +18,8 @@
 package org.apache.bcel.generic;
 
 import org.apache.bcel.generic.base.PushInstruction;
+import org.apache.bcel.generic.base.StackInstruction;
+import org.apache.bcel.generic.base.Visitor;
 
 /**
  * DUP - Duplicate top operand stack word

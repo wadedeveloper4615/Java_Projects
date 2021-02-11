@@ -18,6 +18,7 @@
 package org.apache.bcel.generic;
 
 import org.apache.bcel.generic.base.ArithmeticInstruction;
+import org.apache.bcel.generic.base.Visitor;
 
 /**
  * LAND - Bitwise AND longs

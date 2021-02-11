@@ -22,6 +22,8 @@ import java.io.IOException;
 
 import org.apache.bcel.generic.base.BranchInstruction;
 import org.apache.bcel.generic.base.ClassGenException;
+import org.apache.bcel.generic.base.StackConsumer;
+import org.apache.bcel.generic.base.VariableLengthInstruction;
 import org.apache.bcel.generic.control.InstructionHandle;
 import org.apache.bcel.generic.control.InstructionList;
 import org.apache.bcel.util.ByteSequence;

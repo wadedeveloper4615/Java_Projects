@@ -15,14 +15,17 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.bcel.generic.base;
+
+import org.apache.bcel.generic.Type;
+import org.apache.bcel.generic.gen.ConstantPoolGen;
 
 /**
- * Denotes an instruction to perform an unconditional branch, i.e., GOTO, JSR.
+ * Get the type associated with an instruction, int for ILOAD, or the type
+ * of the field of a PUTFIELD instruction, e.g..
  *
-
- * @see GOTO
- * @see JSR
  */
-public interface UnconditionalBranch {
+public interface TypedInstruction {
+
+    Type getType( ConstantPoolGen cpg );
 }

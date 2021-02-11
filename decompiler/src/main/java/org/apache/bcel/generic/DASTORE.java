@@ -18,6 +18,8 @@
 package org.apache.bcel.generic;
 
 import org.apache.bcel.generic.base.ArrayInstruction;
+import org.apache.bcel.generic.base.StackConsumer;
+import org.apache.bcel.generic.base.Visitor;
 
 /**
  * DASTORE -  Store into double array

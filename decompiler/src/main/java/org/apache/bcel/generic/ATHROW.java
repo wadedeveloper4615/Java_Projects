@@ -20,6 +20,8 @@ package org.apache.bcel.generic;
 import org.apache.bcel.ExceptionConst;
 import org.apache.bcel.generic.base.ExceptionThrower;
 import org.apache.bcel.generic.base.Instruction;
+import org.apache.bcel.generic.base.UnconditionalBranch;
+import org.apache.bcel.generic.base.Visitor;
 
 /**
  * ATHROW -  Throw exception

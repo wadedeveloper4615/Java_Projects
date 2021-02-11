@@ -17,6 +17,9 @@
  */
 package org.apache.bcel.generic;
 
+import org.apache.bcel.generic.base.StackInstruction;
+import org.apache.bcel.generic.base.Visitor;
+
 /**
  * DUP2_X1 - Duplicate two top operand stack words and put three down
  * <PRE>Stack: ..., word3, word2, word1 -&gt; ..., word2, word1, word3, word2, word1</PRE>

@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.bcel.generic.base;
 
 import java.util.StringTokenizer;
 
@@ -23,8 +23,8 @@ import org.apache.bcel.Const;
 import org.apache.bcel.classfile.Constant;
 import org.apache.bcel.classfile.ConstantCP;
 import org.apache.bcel.classfile.ConstantPool;
-import org.apache.bcel.generic.base.ExceptionThrower;
-import org.apache.bcel.generic.base.FieldOrMethod;
+import org.apache.bcel.generic.StackProducer;
+import org.apache.bcel.generic.Type;
 import org.apache.bcel.generic.gen.ConstantPoolGen;
 
 /**

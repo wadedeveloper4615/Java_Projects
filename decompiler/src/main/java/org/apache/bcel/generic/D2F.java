@@ -17,6 +17,8 @@
  */
 package org.apache.bcel.generic;
 
+import org.apache.bcel.generic.base.ConversionInstruction;
+
 /**
  * D2F - Convert double to float
  * <PRE>Stack: ..., value.word1, value.word2 -&gt; ..., result</PRE>

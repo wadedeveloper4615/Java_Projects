@@ -17,6 +17,8 @@
  */
 package org.apache.bcel.generic;
 
+import org.apache.bcel.generic.base.ArrayInstruction;
+
 /**
  * LALOAD - Load long from array
  * <PRE>Stack: ..., arrayref, index -&gt; ..., value1, value2</PRE>

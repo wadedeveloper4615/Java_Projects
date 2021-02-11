@@ -17,11 +17,11 @@
  */
 package org.apache.bcel.generic.control;
 
-import org.apache.bcel.generic.BranchInstruction;
-import org.apache.bcel.generic.ConstantPushInstruction;
-import org.apache.bcel.generic.IndexedInstruction;
-import org.apache.bcel.generic.Instruction;
 import org.apache.bcel.generic.NEWARRAY;
+import org.apache.bcel.generic.base.BranchInstruction;
+import org.apache.bcel.generic.base.ConstantPushInstruction;
+import org.apache.bcel.generic.base.IndexedInstruction;
+import org.apache.bcel.generic.base.Instruction;
 
 /**
  * Equality of instructions isn't clearly to be defined. You might

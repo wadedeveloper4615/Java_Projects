@@ -27,7 +27,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.bcel.Const;
-import org.apache.bcel.generic.ClassGenException;
+import org.apache.bcel.generic.base.ClassGenException;
 import org.apache.bcel.generic.control.InstructionHandle;
 import org.apache.bcel.generic.control.InstructionList;
 
@@ -60,7 +60,7 @@ import org.apache.bcel.generic.control.InstructionList;
  *
  * </pre>
  *
- * @see org.apache.bcel.generic.Instruction
+ * @see org.apache.bcel.generic.base.Instruction
  * @see InstructionList
  */
 public class InstructionFinder {

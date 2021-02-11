@@ -17,6 +17,8 @@
  */
 package org.apache.bcel.generic;
 
+import org.apache.bcel.generic.base.Instruction;
+
 /**
  * BREAKPOINT, JVM dependent, ignored by default
  *

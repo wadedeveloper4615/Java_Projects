@@ -18,53 +18,43 @@
 package org.apache.bcel.generic;
 
 import org.apache.bcel.ExceptionConst;
+import org.apache.bcel.generic.base.AllocationInstruction;
+import org.apache.bcel.generic.base.CPInstruction;
+import org.apache.bcel.generic.base.ExceptionThrower;
+import org.apache.bcel.generic.base.LoadClass;
 import org.apache.bcel.generic.gen.ConstantPoolGen;
 
 /**
  * NEW - Create new object
- * <PRE>Stack: ... -&gt; ..., objectref</PRE>
+ *
+ * <PRE>
+ * Stack: ... -&gt; ..., objectref
+ * </PRE>
  *
  */
-public class NEW extends CPInstruction implements LoadClass, AllocationInstruction,
-        ExceptionThrower, StackProducer {
+public class NEW extends CPInstruction implements LoadClass, AllocationInstruction, ExceptionThrower, StackProducer {
 
     /**
-     * Empty constructor needed for Instruction.readInstruction.
-     * Not to be used otherwise.
+     * Empty constructor needed for Instruction.readInstruction. Not to be used
+     * otherwise.
      */
-    NEW() {
+    public NEW() {
     }
-
 
     public NEW(final int index) {
         super(org.apache.bcel.Const.NEW, index);
     }
 
-
-    @Override
-    public Class<?>[] getExceptions() {
-        return ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_CLASS_AND_INTERFACE_RESOLUTION,
-            ExceptionConst.ILLEGAL_ACCESS_ERROR,
-            ExceptionConst.INSTANTIATION_ERROR);
-    }
-
-
-    @Override
-    public ObjectType getLoadClassType( final ConstantPoolGen cpg ) {
-        return (ObjectType) getType(cpg);
-    }
-
-
     /**
-     * Call corresponding visitor method(s). The order is:
-     * Call visitor methods of implemented interfaces first, then
-     * call methods according to the class hierarchy in descending order,
-     * i.e., the most specific visitXXX() call comes last.
+     * Call corresponding visitor method(s). The order is: Call visitor methods of
+     * implemented interfaces first, then call methods according to the class
+     * hierarchy in descending order, i.e., the most specific visitXXX() call comes
+     * last.
      *
      * @param v Visitor object
      */
     @Override
-    public void accept( final Visitor v ) {
+    public void accept(final Visitor v) {
         v.visitLoadClass(this);
         v.visitAllocationInstruction(this);
         v.visitExceptionThrower(this);
@@ -72,5 +62,15 @@ public class NEW extends CPInstruction implements LoadClass, AllocationInstructi
         v.visitTypedInstruction(this);
         v.visitCPInstruction(this);
         v.visitNEW(this);
+    }
+
+    @Override
+    public Class<?>[] getExceptions() {
+        return ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_CLASS_AND_INTERFACE_RESOLUTION, ExceptionConst.ILLEGAL_ACCESS_ERROR, ExceptionConst.INSTANTIATION_ERROR);
+    }
+
+    @Override
+    public ObjectType getLoadClassType(final ConstantPoolGen cpg) {
+        return (ObjectType) getType(cpg);
     }
 }

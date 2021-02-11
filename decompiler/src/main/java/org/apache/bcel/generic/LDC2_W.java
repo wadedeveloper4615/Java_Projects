@@ -17,31 +17,50 @@
  */
 package org.apache.bcel.generic;
 
+import org.apache.bcel.generic.base.CPInstruction;
+import org.apache.bcel.generic.base.PushInstruction;
 import org.apache.bcel.generic.gen.ConstantPoolGen;
 
 /**
  * LDC2_W - Push long or double from constant pool
  *
- * <PRE>Stack: ... -&gt; ..., item.word1, item.word2</PRE>
+ * <PRE>
+ * Stack: ... -&gt; ..., item.word1, item.word2
+ * </PRE>
  *
  */
 public class LDC2_W extends CPInstruction implements PushInstruction {
 
     /**
-     * Empty constructor needed for Instruction.readInstruction.
-     * Not to be used otherwise.
+     * Empty constructor needed for Instruction.readInstruction. Not to be used
+     * otherwise.
      */
-    LDC2_W() {
+    public LDC2_W() {
     }
-
 
     public LDC2_W(final int index) {
         super(org.apache.bcel.Const.LDC2_W, index);
     }
 
+    /**
+     * Call corresponding visitor method(s). The order is: Call visitor methods of
+     * implemented interfaces first, then call methods according to the class
+     * hierarchy in descending order, i.e., the most specific visitXXX() call comes
+     * last.
+     *
+     * @param v Visitor object
+     */
+    @Override
+    public void accept(final Visitor v) {
+        v.visitStackProducer(this);
+        v.visitPushInstruction(this);
+        v.visitTypedInstruction(this);
+        v.visitCPInstruction(this);
+        v.visitLDC2_W(this);
+    }
 
     @Override
-    public Type getType( final ConstantPoolGen cpg ) {
+    public Type getType(final ConstantPoolGen cpg) {
         switch (cpg.getConstantPool().getConstant(super.getIndex()).getTag()) {
             case org.apache.bcel.Const.CONSTANT_Long:
                 return Type.LONG;
@@ -52,8 +71,7 @@ public class LDC2_W extends CPInstruction implements PushInstruction {
         }
     }
 
-
-    public Number getValue( final ConstantPoolGen cpg ) {
+    public Number getValue(final ConstantPoolGen cpg) {
         final org.apache.bcel.classfile.Constant c = cpg.getConstantPool().getConstant(super.getIndex());
         switch (c.getTag()) {
             case org.apache.bcel.Const.CONSTANT_Long:
@@ -63,23 +81,5 @@ public class LDC2_W extends CPInstruction implements PushInstruction {
             default: // Never reached
                 throw new IllegalArgumentException("Unknown or invalid constant type at " + super.getIndex());
         }
-    }
-
-
-    /**
-     * Call corresponding visitor method(s). The order is:
-     * Call visitor methods of implemented interfaces first, then
-     * call methods according to the class hierarchy in descending order,
-     * i.e., the most specific visitXXX() call comes last.
-     *
-     * @param v Visitor object
-     */
-    @Override
-    public void accept( final Visitor v ) {
-        v.visitStackProducer(this);
-        v.visitPushInstruction(this);
-        v.visitTypedInstruction(this);
-        v.visitCPInstruction(this);
-        v.visitLDC2_W(this);
     }
 }

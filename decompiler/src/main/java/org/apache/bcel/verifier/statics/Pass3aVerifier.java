@@ -29,16 +29,13 @@ import org.apache.bcel.generic.ALOAD;
 import org.apache.bcel.generic.ANEWARRAY;
 import org.apache.bcel.generic.ASTORE;
 import org.apache.bcel.generic.ATHROW;
-import org.apache.bcel.generic.ArrayType;
 import org.apache.bcel.generic.BREAKPOINT;
 import org.apache.bcel.generic.CHECKCAST;
 import org.apache.bcel.generic.DLOAD;
 import org.apache.bcel.generic.DSTORE;
 import org.apache.bcel.generic.FLOAD;
 import org.apache.bcel.generic.FSTORE;
-import org.apache.bcel.generic.FieldInstruction;
 import org.apache.bcel.generic.GETSTATIC;
-import org.apache.bcel.generic.GotoInstruction;
 import org.apache.bcel.generic.IINC;
 import org.apache.bcel.generic.ILOAD;
 import org.apache.bcel.generic.IMPDEP1;
@@ -50,25 +47,28 @@ import org.apache.bcel.generic.INVOKESPECIAL;
 import org.apache.bcel.generic.INVOKESTATIC;
 import org.apache.bcel.generic.INVOKEVIRTUAL;
 import org.apache.bcel.generic.ISTORE;
-import org.apache.bcel.generic.Instruction;
 import org.apache.bcel.generic.InvokeInstruction;
-import org.apache.bcel.generic.JsrInstruction;
 import org.apache.bcel.generic.LDC;
 import org.apache.bcel.generic.LDC2_W;
 import org.apache.bcel.generic.LLOAD;
 import org.apache.bcel.generic.LOOKUPSWITCH;
 import org.apache.bcel.generic.LSTORE;
-import org.apache.bcel.generic.LoadClass;
 import org.apache.bcel.generic.MULTIANEWARRAY;
 import org.apache.bcel.generic.NEW;
 import org.apache.bcel.generic.NEWARRAY;
 import org.apache.bcel.generic.ObjectType;
 import org.apache.bcel.generic.PUTSTATIC;
 import org.apache.bcel.generic.RET;
-import org.apache.bcel.generic.ReferenceType;
-import org.apache.bcel.generic.ReturnInstruction;
 import org.apache.bcel.generic.TABLESWITCH;
 import org.apache.bcel.generic.Type;
+import org.apache.bcel.generic.base.ArrayType;
+import org.apache.bcel.generic.base.FieldInstruction;
+import org.apache.bcel.generic.base.GotoInstruction;
+import org.apache.bcel.generic.base.Instruction;
+import org.apache.bcel.generic.base.JsrInstruction;
+import org.apache.bcel.generic.base.LoadClass;
+import org.apache.bcel.generic.base.ReferenceType;
+import org.apache.bcel.generic.base.ReturnInstruction;
 import org.apache.bcel.generic.control.InstructionHandle;
 import org.apache.bcel.generic.control.InstructionList;
 import org.apache.bcel.generic.gen.ConstantPoolGen;
@@ -84,7 +84,7 @@ import org.apache.bcel.verifier.exc.StaticCodeInstructionConstraintException;
 import org.apache.bcel.verifier.exc.StaticCodeInstructionOperandConstraintException;
 
 public final class Pass3aVerifier extends PassVerifier {
-    private class InstOperandConstraintVisitor extends org.apache.bcel.generic.EmptyVisitor {
+    private class InstOperandConstraintVisitor extends org.apache.bcel.generic.base.EmptyVisitor {
         private final ConstantPoolGen constantPoolGen;
 
         InstOperandConstraintVisitor(final ConstantPoolGen constantPoolGen) {

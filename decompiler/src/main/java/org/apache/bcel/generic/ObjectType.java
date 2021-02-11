@@ -20,6 +20,7 @@ package org.apache.bcel.generic;
 import org.apache.bcel.Const;
 import org.apache.bcel.Repository;
 import org.apache.bcel.classfile.JavaClass;
+import org.apache.bcel.generic.base.ReferenceType;
 
 /**
  * Denotes reference such as java.lang.String.

@@ -17,6 +17,8 @@
  */
 package org.apache.bcel.generic;
 
+import org.apache.bcel.generic.base.ReturnInstruction;
+
 /**
  * IRETURN -  Return int from method
  * <PRE>Stack: ..., value -&gt; &lt;empty&gt;</PRE>

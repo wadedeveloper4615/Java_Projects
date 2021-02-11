@@ -18,6 +18,7 @@
 package org.apache.bcel.generic;
 
 import org.apache.bcel.Const;
+import org.apache.bcel.generic.base.ClassGenException;
 
 /**
  * Denotes basic type such as int.

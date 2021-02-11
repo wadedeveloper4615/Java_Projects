@@ -20,6 +20,8 @@ package org.apache.bcel.generic;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import org.apache.bcel.generic.base.BranchInstruction;
+import org.apache.bcel.generic.base.ClassGenException;
 import org.apache.bcel.generic.control.InstructionHandle;
 import org.apache.bcel.generic.control.InstructionList;
 import org.apache.bcel.util.ByteSequence;
@@ -82,7 +84,7 @@ public abstract class Select extends BranchInstruction implements VariableLength
      * Empty constructor needed for Instruction.readInstruction. Not to be used
      * otherwise.
      */
-    Select() {
+    public Select() {
     }
 
     /**

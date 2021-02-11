@@ -17,28 +17,45 @@
  */
 package org.apache.bcel.generic;
 
+import org.apache.bcel.generic.base.IfInstruction;
 import org.apache.bcel.generic.control.InstructionHandle;
 
 /**
  * IFNULL - Branch if reference is not null
  *
- * <PRE>Stack: ..., reference -&gt; ...</PRE>
+ * <PRE>
+ * Stack: ..., reference -&gt; ...
+ * </PRE>
  *
  */
 public class IFNULL extends IfInstruction {
 
     /**
-     * Empty constructor needed for Instruction.readInstruction.
-     * Not to be used otherwise.
+     * Empty constructor needed for Instruction.readInstruction. Not to be used
+     * otherwise.
      */
-    IFNULL() {
+    public IFNULL() {
     }
-
 
     public IFNULL(final InstructionHandle target) {
         super(org.apache.bcel.Const.IFNULL, target);
     }
 
+    /**
+     * Call corresponding visitor method(s). The order is: Call visitor methods of
+     * implemented interfaces first, then call methods according to the class
+     * hierarchy in descending order, i.e., the most specific visitXXX() call comes
+     * last.
+     *
+     * @param v Visitor object
+     */
+    @Override
+    public void accept(final Visitor v) {
+        v.visitStackConsumer(this);
+        v.visitBranchInstruction(this);
+        v.visitIfInstruction(this);
+        v.visitIFNULL(this);
+    }
 
     /**
      * @return negation of instruction
@@ -46,22 +63,5 @@ public class IFNULL extends IfInstruction {
     @Override
     public IfInstruction negate() {
         return new IFNONNULL(super.getTarget());
-    }
-
-
-    /**
-     * Call corresponding visitor method(s). The order is:
-     * Call visitor methods of implemented interfaces first, then
-     * call methods according to the class hierarchy in descending order,
-     * i.e., the most specific visitXXX() call comes last.
-     *
-     * @param v Visitor object
-     */
-    @Override
-    public void accept( final Visitor v ) {
-        v.visitStackConsumer(this);
-        v.visitBranchInstruction(this);
-        v.visitIfInstruction(this);
-        v.visitIFNULL(this);
     }
 }

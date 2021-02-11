@@ -17,6 +17,8 @@
  */
 package org.apache.bcel.generic;
 
+import org.apache.bcel.generic.base.ArithmeticInstruction;
+
 /**
  * FNEG - Negate float
  * <PRE>Stack: ..., value -&gt; ..., result</PRE>

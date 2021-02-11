@@ -17,6 +17,8 @@
  */
 package org.apache.bcel.generic;
 
+import org.apache.bcel.generic.base.ArithmeticInstruction;
+
 /**
  * IOR - Bitwise OR int
  * <PRE>Stack: ..., value1, value2 -&gt; ..., result</PRE>

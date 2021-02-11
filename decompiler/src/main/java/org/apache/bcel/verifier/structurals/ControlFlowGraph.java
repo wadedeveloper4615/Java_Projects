@@ -24,13 +24,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.bcel.generic.ATHROW;
-import org.apache.bcel.generic.BranchInstruction;
-import org.apache.bcel.generic.GotoInstruction;
-import org.apache.bcel.generic.Instruction;
-import org.apache.bcel.generic.JsrInstruction;
 import org.apache.bcel.generic.RET;
-import org.apache.bcel.generic.ReturnInstruction;
 import org.apache.bcel.generic.Select;
+import org.apache.bcel.generic.base.BranchInstruction;
+import org.apache.bcel.generic.base.GotoInstruction;
+import org.apache.bcel.generic.base.Instruction;
+import org.apache.bcel.generic.base.JsrInstruction;
+import org.apache.bcel.generic.base.ReturnInstruction;
 import org.apache.bcel.generic.control.InstructionHandle;
 import org.apache.bcel.generic.gen.MethodGen;
 import org.apache.bcel.verifier.exc.AssertionViolatedException;

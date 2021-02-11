@@ -17,6 +17,8 @@
  */
 package org.apache.bcel.generic;
 
+import org.apache.bcel.generic.base.ConversionInstruction;
+
 /**
  * I2L - Convert int to long
  * <PRE>Stack: ..., value -&gt; ..., result.word1, result.word2</PRE>

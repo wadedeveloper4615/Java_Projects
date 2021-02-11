@@ -18,6 +18,8 @@
 package org.apache.bcel.generic;
 
 import org.apache.bcel.ExceptionConst;
+import org.apache.bcel.generic.base.ExceptionThrower;
+import org.apache.bcel.generic.base.Instruction;
 
 /**
  * MONITOREXIT - Exit monitor for object

@@ -18,6 +18,9 @@
 package org.apache.bcel.generic;
 
 import org.apache.bcel.Const;
+import org.apache.bcel.generic.base.ClassGenException;
+import org.apache.bcel.generic.base.CompoundInstruction;
+import org.apache.bcel.generic.base.Instruction;
 import org.apache.bcel.generic.control.InstructionConst;
 import org.apache.bcel.generic.control.InstructionConstants;
 import org.apache.bcel.generic.control.InstructionList;

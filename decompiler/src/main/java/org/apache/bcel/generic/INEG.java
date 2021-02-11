@@ -17,6 +17,8 @@
  */
 package org.apache.bcel.generic;
 
+import org.apache.bcel.generic.base.ArithmeticInstruction;
+
 /**
  * INEG - Negate int
  * <PRE>Stack: ..., value -&gt; ..., result</PRE>

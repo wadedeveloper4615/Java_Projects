@@ -17,6 +17,9 @@
  */
 package org.apache.bcel.generic;
 
+import org.apache.bcel.generic.base.LocalVariableInstruction;
+import org.apache.bcel.generic.base.PopInstruction;
+
 /**
  * Denotes an unparameterized instruction to store a value into a local variable,
  * e.g. ISTORE.

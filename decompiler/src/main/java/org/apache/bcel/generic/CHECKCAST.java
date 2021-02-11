@@ -18,61 +18,48 @@
 package org.apache.bcel.generic;
 
 import org.apache.bcel.ExceptionConst;
+import org.apache.bcel.generic.base.ArrayType;
+import org.apache.bcel.generic.base.CPInstruction;
+import org.apache.bcel.generic.base.ExceptionThrower;
+import org.apache.bcel.generic.base.LoadClass;
 import org.apache.bcel.generic.gen.ConstantPoolGen;
 
 /**
  * CHECKCAST - Check whether object is of given type
- * <PRE>Stack: ..., objectref -&gt; ..., objectref</PRE>
+ *
+ * <PRE>
+ * Stack: ..., objectref -&gt; ..., objectref
+ * </PRE>
  *
  */
-public class CHECKCAST extends CPInstruction implements LoadClass, ExceptionThrower, StackProducer,
-        StackConsumer {
+public class CHECKCAST extends CPInstruction implements LoadClass, ExceptionThrower, StackProducer, StackConsumer {
 
     /**
-     * Empty constructor needed for Instruction.readInstruction.
-     * Not to be used otherwise.
+     * Empty constructor needed for Instruction.readInstruction. Not to be used
+     * otherwise.
      */
-    CHECKCAST() {
+    public CHECKCAST() {
     }
 
-
-    /** Check whether object is of given type
+    /**
+     * Check whether object is of given type
+     *
      * @param index index to class in constant pool
      */
     public CHECKCAST(final int index) {
         super(org.apache.bcel.Const.CHECKCAST, index);
     }
 
-
-    /** @return exceptions this instruction may cause
-     */
-    @Override
-    public Class<?>[] getExceptions() {
-        return ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_CLASS_AND_INTERFACE_RESOLUTION,
-            ExceptionConst.CLASS_CAST_EXCEPTION);
-    }
-
-
-    @Override
-    public ObjectType getLoadClassType( final ConstantPoolGen cpg ) {
-        Type t = getType(cpg);
-        if (t instanceof ArrayType) {
-            t = ((ArrayType) t).getBasicType();
-        }
-        return (t instanceof ObjectType) ? (ObjectType) t : null;
-    }
-
-
     /**
-     * Call corresponding visitor method(s). The order is:
-     * Call visitor methods of implemented interfaces first, then
-     * call methods according to the class hierarchy in descending order,
-     * i.e., the most specific visitXXX() call comes last.
+     * Call corresponding visitor method(s). The order is: Call visitor methods of
+     * implemented interfaces first, then call methods according to the class
+     * hierarchy in descending order, i.e., the most specific visitXXX() call comes
+     * last.
      *
      * @param v Visitor object
      */
     @Override
-    public void accept( final Visitor v ) {
+    public void accept(final Visitor v) {
         v.visitLoadClass(this);
         v.visitExceptionThrower(this);
         v.visitStackProducer(this);
@@ -80,5 +67,22 @@ public class CHECKCAST extends CPInstruction implements LoadClass, ExceptionThro
         v.visitTypedInstruction(this);
         v.visitCPInstruction(this);
         v.visitCHECKCAST(this);
+    }
+
+    /**
+     * @return exceptions this instruction may cause
+     */
+    @Override
+    public Class<?>[] getExceptions() {
+        return ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_CLASS_AND_INTERFACE_RESOLUTION, ExceptionConst.CLASS_CAST_EXCEPTION);
+    }
+
+    @Override
+    public ObjectType getLoadClassType(final ConstantPoolGen cpg) {
+        Type t = getType(cpg);
+        if (t instanceof ArrayType) {
+            t = ((ArrayType) t).getBasicType();
+        }
+        return (t instanceof ObjectType) ? (ObjectType) t : null;
     }
 }

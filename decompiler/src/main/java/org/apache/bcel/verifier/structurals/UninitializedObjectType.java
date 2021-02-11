@@ -21,7 +21,7 @@ package org.apache.bcel.verifier.structurals;
 import org.apache.bcel.Const;
 import org.apache.bcel.Constants;
 import org.apache.bcel.generic.ObjectType;
-import org.apache.bcel.generic.ReferenceType;
+import org.apache.bcel.generic.base.ReferenceType;
 
 /**
  * This class represents an uninitialized object type; see The Java

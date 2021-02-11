@@ -17,6 +17,8 @@
  */
 package org.apache.bcel.generic;
 
+import org.apache.bcel.generic.base.ConversionInstruction;
+
 /**
  * I2B - Convert int to byte
  * <PRE>Stack: ..., value -&gt; ..., result</PRE>

@@ -32,6 +32,17 @@ import org.apache.bcel.classfile.JavaClass;
 import org.apache.bcel.enums.ClassAccessFlags;
 //CHECKSTYLE:OFF (there are lots of references!)
 import org.apache.bcel.generic.*;
+import org.apache.bcel.generic.base.ArrayType;
+import org.apache.bcel.generic.base.CPInstruction;
+import org.apache.bcel.generic.base.EmptyVisitor;
+import org.apache.bcel.generic.base.FieldInstruction;
+import org.apache.bcel.generic.base.Instruction;
+import org.apache.bcel.generic.base.LoadClass;
+import org.apache.bcel.generic.base.LoadInstruction;
+import org.apache.bcel.generic.base.LocalVariableInstruction;
+import org.apache.bcel.generic.base.ReferenceType;
+import org.apache.bcel.generic.base.ReturnInstruction;
+import org.apache.bcel.generic.base.ReturnaddressType;
 import org.apache.bcel.generic.gen.ConstantPoolGen;
 import org.apache.bcel.generic.gen.MethodGen;
 //CHECKSTYLE:ON

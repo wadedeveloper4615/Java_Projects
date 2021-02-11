@@ -18,9 +18,9 @@
 package org.apache.bcel.generic.gen;
 
 import org.apache.bcel.classfile.CodeException;
-import org.apache.bcel.generic.BranchInstruction;
-import org.apache.bcel.generic.ClassGenException;
 import org.apache.bcel.generic.ObjectType;
+import org.apache.bcel.generic.base.BranchInstruction;
+import org.apache.bcel.generic.base.ClassGenException;
 import org.apache.bcel.generic.control.InstructionHandle;
 import org.apache.bcel.generic.control.InstructionTargeter;
 

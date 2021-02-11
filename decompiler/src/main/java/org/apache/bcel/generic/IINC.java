@@ -20,6 +20,8 @@ package org.apache.bcel.generic;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import org.apache.bcel.generic.base.ClassGenException;
+import org.apache.bcel.generic.base.LocalVariableInstruction;
 import org.apache.bcel.generic.gen.ConstantPoolGen;
 import org.apache.bcel.util.ByteSequence;
 
@@ -32,14 +34,12 @@ public class IINC extends LocalVariableInstruction {
     private boolean wide;
     private int c;
 
-
     /**
-     * Empty constructor needed for Instruction.readInstruction.
-     * Not to be used otherwise.
+     * Empty constructor needed for Instruction.readInstruction. Not to be used
+     * otherwise.
      */
-    IINC() {
+    public IINC() {
     }
-
 
     /**
      * @param n index of local variable
@@ -53,13 +53,27 @@ public class IINC extends LocalVariableInstruction {
         setIncrement(c);
     }
 
+    /**
+     * Call corresponding visitor method(s). The order is: Call visitor methods of
+     * implemented interfaces first, then call methods according to the class
+     * hierarchy in descending order, i.e., the most specific visitXXX() call comes
+     * last.
+     *
+     * @param v Visitor object
+     */
+    @Override
+    public void accept(final Visitor v) {
+        v.visitLocalVariableInstruction(this);
+        v.visitIINC(this);
+    }
 
     /**
      * Dump instruction as byte code to stream out.
+     *
      * @param out Output stream
      */
     @Override
-    public void dump( final DataOutputStream out ) throws IOException {
+    public void dump(final DataOutputStream out) throws IOException {
         if (wide) {
             out.writeByte(org.apache.bcel.Const.WIDE);
         }
@@ -73,6 +87,57 @@ public class IINC extends LocalVariableInstruction {
         }
     }
 
+    /**
+     * @return increment factor
+     */
+    public final int getIncrement() {
+        return c;
+    }
+
+    /**
+     * @return int type
+     */
+    @Override
+    public Type getType(final ConstantPoolGen cp) {
+        return Type.INT;
+    }
+
+    /**
+     * Read needed data (e.g. index) from file.
+     */
+    @Override
+    protected void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
+        this.wide = wide;
+        if (wide) {
+            super.setLength(6);
+            super.setIndexOnly(bytes.readUnsignedShort());
+            c = bytes.readShort();
+        } else {
+            super.setLength(3);
+            super.setIndexOnly(bytes.readUnsignedByte());
+            c = bytes.readByte();
+        }
+    }
+
+    /**
+     * Set increment factor.
+     */
+    public final void setIncrement(final int c) {
+        this.c = c;
+        setWide();
+    }
+
+    /**
+     * Set index of local variable.
+     */
+    @Override
+    public final void setIndex(final int n) {
+        if (n < 0) {
+            throw new ClassGenException("Negative index value: " + n);
+        }
+        super.setIndexOnly(n);
+        setWide();
+    }
 
     private void setWide() {
         wide = super.getIndex() > org.apache.bcel.Const.MAX_BYTE;
@@ -88,83 +153,11 @@ public class IINC extends LocalVariableInstruction {
         }
     }
 
-
-    /**
-     * Read needed data (e.g. index) from file.
-     */
-    @Override
-    protected void initFromFile( final ByteSequence bytes, final boolean wide ) throws IOException {
-        this.wide = wide;
-        if (wide) {
-            super.setLength(6);
-            super.setIndexOnly(bytes.readUnsignedShort());
-            c = bytes.readShort();
-        } else {
-            super.setLength(3);
-            super.setIndexOnly(bytes.readUnsignedByte());
-            c = bytes.readByte();
-        }
-    }
-
-
     /**
      * @return mnemonic for instruction
      */
     @Override
-    public String toString( final boolean verbose ) {
+    public String toString(final boolean verbose) {
         return super.toString(verbose) + " " + c;
-    }
-
-
-    /**
-     * Set index of local variable.
-     */
-    @Override
-    public final void setIndex( final int n ) {
-        if (n < 0) {
-            throw new ClassGenException("Negative index value: " + n);
-        }
-        super.setIndexOnly(n);
-        setWide();
-    }
-
-
-    /**
-     * @return increment factor
-     */
-    public final int getIncrement() {
-        return c;
-    }
-
-
-    /**
-     * Set increment factor.
-     */
-    public final void setIncrement( final int c ) {
-        this.c = c;
-        setWide();
-    }
-
-
-    /** @return int type
-     */
-    @Override
-    public Type getType( final ConstantPoolGen cp ) {
-        return Type.INT;
-    }
-
-
-    /**
-     * Call corresponding visitor method(s). The order is:
-     * Call visitor methods of implemented interfaces first, then
-     * call methods according to the class hierarchy in descending order,
-     * i.e., the most specific visitXXX() call comes last.
-     *
-     * @param v Visitor object
-     */
-    @Override
-    public void accept( final Visitor v ) {
-        v.visitLocalVariableInstruction(this);
-        v.visitIINC(this);
     }
 }

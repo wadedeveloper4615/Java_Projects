@@ -17,6 +17,8 @@
  */
 package org.apache.bcel.generic;
 
+import org.apache.bcel.generic.base.ReturnInstruction;
+
 /**
  * ARETURN -  Return reference from method
  * <PRE>Stack: ..., objectref -&gt; &lt;empty&gt;</PRE>

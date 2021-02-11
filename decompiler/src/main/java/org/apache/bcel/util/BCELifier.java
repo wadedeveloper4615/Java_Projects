@@ -31,8 +31,8 @@ import org.apache.bcel.classfile.JavaClass;
 import org.apache.bcel.classfile.Method;
 import org.apache.bcel.classfile.Utility;
 import org.apache.bcel.enums.ClassAccessFlags;
-import org.apache.bcel.generic.ArrayType;
 import org.apache.bcel.generic.Type;
+import org.apache.bcel.generic.base.ArrayType;
 import org.apache.bcel.generic.gen.ConstantPoolGen;
 import org.apache.bcel.generic.gen.MethodGen;
 

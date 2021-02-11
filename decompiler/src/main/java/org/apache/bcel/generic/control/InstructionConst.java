@@ -19,6 +19,12 @@ package org.apache.bcel.generic.control;
 
 import org.apache.bcel.Const;
 import org.apache.bcel.generic.*;
+import org.apache.bcel.generic.base.ArithmeticInstruction;
+import org.apache.bcel.generic.base.ArrayInstruction;
+import org.apache.bcel.generic.base.ConversionInstruction;
+import org.apache.bcel.generic.base.Instruction;
+import org.apache.bcel.generic.base.LocalVariableInstruction;
+import org.apache.bcel.generic.base.ReturnInstruction;
 
 /**
  * This interface contains shareable instruction objects.

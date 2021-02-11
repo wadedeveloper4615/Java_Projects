@@ -17,6 +17,8 @@
  */
 package org.apache.bcel.generic;
 
+import org.apache.bcel.generic.base.ConversionInstruction;
+
 /**
  * I2S - Convert int to short
  * <PRE>Stack: ..., value -&gt; ..., result</PRE>

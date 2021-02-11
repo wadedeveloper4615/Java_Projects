@@ -17,6 +17,8 @@
  */
 package org.apache.bcel.generic;
 
+import org.apache.bcel.generic.base.ArrayInstruction;
+
 /**
  * CASTORE -  Store into char array
  * <PRE>Stack: ..., arrayref, index, value -&gt; ...</PRE>

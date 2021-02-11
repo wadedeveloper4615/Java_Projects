@@ -17,6 +17,8 @@
  */
 package org.apache.bcel.generic;
 
+import org.apache.bcel.generic.base.Instruction;
+
 /**
  * IMPDEP1 - Implementation dependent
  *

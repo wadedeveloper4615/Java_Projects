@@ -23,9 +23,8 @@ import java.util.List;
 import org.apache.bcel.Const;
 import org.apache.bcel.classfile.AccessFlags;
 import org.apache.bcel.classfile.Attribute;
-import org.apache.bcel.generic.AnnotationEntryGen;
-import org.apache.bcel.generic.NamedAndTyped;
 import org.apache.bcel.generic.Type;
+import org.apache.bcel.generic.base.NamedAndTyped;
 
 /**
  * Super class for FieldGen and MethodGen objects, since they have

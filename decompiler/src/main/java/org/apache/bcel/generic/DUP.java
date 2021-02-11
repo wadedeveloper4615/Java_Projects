@@ -17,6 +17,8 @@
  */
 package org.apache.bcel.generic;
 
+import org.apache.bcel.generic.base.PushInstruction;
+
 /**
  * DUP - Duplicate top operand stack word
  * <PRE>Stack: ..., word -&gt; ..., word, word</PRE>

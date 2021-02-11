@@ -28,6 +28,9 @@ import org.apache.bcel.classfile.ConstantLong;
 import org.apache.bcel.classfile.ConstantString;
 // CHECKSTYLE:OFF (there are lots of references!)
 import org.apache.bcel.generic.*;
+import org.apache.bcel.generic.base.ArrayType;
+import org.apache.bcel.generic.base.EmptyVisitor;
+import org.apache.bcel.generic.base.ReturnaddressType;
 //CHECKSTYLE:ON
 import org.apache.bcel.generic.gen.ConstantPoolGen;
 

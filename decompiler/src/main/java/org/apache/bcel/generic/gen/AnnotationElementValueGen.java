@@ -22,7 +22,6 @@ import java.io.IOException;
 
 import org.apache.bcel.classfile.AnnotationElementValue;
 import org.apache.bcel.classfile.ElementValue;
-import org.apache.bcel.generic.AnnotationEntryGen;
 
 /**
  * @since 6.0

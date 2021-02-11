@@ -24,11 +24,11 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.bcel.classfile.Utility;
-import org.apache.bcel.generic.BranchHandle;
-import org.apache.bcel.generic.BranchInstruction;
-import org.apache.bcel.generic.ClassGenException;
-import org.apache.bcel.generic.Instruction;
 import org.apache.bcel.generic.Visitor;
+import org.apache.bcel.generic.base.BranchHandle;
+import org.apache.bcel.generic.base.BranchInstruction;
+import org.apache.bcel.generic.base.ClassGenException;
+import org.apache.bcel.generic.base.Instruction;
 
 /**
  * Instances of this class give users a handle to the instructions contained in

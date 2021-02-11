@@ -1,20 +1,4 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- *
- */
+
 package org.apache.bcel.verifier.statics;
 
 import java.util.HashMap;
@@ -74,28 +58,11 @@ import org.apache.bcel.verifier.exc.AssertionViolatedException;
 import org.apache.bcel.verifier.exc.ClassConstraintException;
 import org.apache.bcel.verifier.exc.LocalVariableInfoInconsistentException;
 
-/**
- * This PassVerifier verifies a class file according to pass 2 as described in
- * The Java Virtual Machine Specification, 2nd edition. More detailed
- * information is to be found at the do_verify() method's documentation.
- *
- * @see #do_verify()
- */
 public final class Pass2Verifier extends PassVerifier implements Constants {
 
-    /**
-     * A Visitor class that ensures the constant pool satisfies the static
-     * constraints. The visitXXX() methods throw ClassConstraintException instances
-     * otherwise.
-     *
-     * @see #constant_pool_entries_satisfy_static_constraints()
-     */
     private final class CPESSC_Visitor extends org.apache.bcel.classfile.EmptyVisitor {
         private final Class<?> CONST_Class;
-        /*
-         * private Class<?> CONST_Fieldref; private Class<?> CONST_Methodref; private
-         * Class<?> CONST_InterfaceMethodref;
-         */
+
         private final Class<?> CONST_String;
         private final Class<?> CONST_Integer;
         private final Class<?> CONST_Float;
@@ -119,11 +86,7 @@ public final class Pass2Verifier extends PassVerifier implements Constants {
             cplen = cp.getLength();
 
             CONST_Class = ConstantClass.class;
-            /*
-             * CONST_Fieldref = ConstantFieldref.class; CONST_Methodref =
-             * ConstantMethodref.class; CONST_InterfaceMethodref =
-             * ConstantInterfaceMethodref.class;
-             */
+
             CONST_String = ConstantString.class;
             CONST_Integer = ConstantInteger.class;
             CONST_Float = ConstantFloat.class;
@@ -142,11 +105,7 @@ public final class Pass2Verifier extends PassVerifier implements Constants {
             }
             final Constant c = cp.getConstant(index);
             if (!shouldbe.isInstance(c)) {
-                /*
-                 * String isnot =
-                 * shouldbe.toString().substring(shouldbe.toString().lastIndexOf(".")+1); //Cut
-                 * all before last "."
-                 */
+
                 throw new ClassCastException("Illegal constant '" + tostring(c) + "' at index '" + index + "'. '" + tostring(referrer) + "' expects a '" + shouldbe + "'.");
             }
         }
@@ -584,7 +543,7 @@ public final class Pass2Verifier extends PassVerifier implements Constants {
             final String sig = ((ConstantUtf8) (cp.getConstant(obj.getSignatureIndex()))).getBytes(); // Field or Method sig.(=descriptor)
 
             try {
-                Type.getType(sig); /* Don't need the return value */
+                Type.getType(sig);
             } catch (final ClassFormatException cfe) {
                 throw new ClassConstraintException("Illegal descriptor (==signature) '" + sig + "' used by '" + tostring(obj) + "'.", cfe);
             }
@@ -952,14 +911,6 @@ public final class Pass2Verifier extends PassVerifier implements Constants {
         }
     }
 
-    /**
-     * A Visitor class that ensures the ConstantCP-subclassed entries of the
-     * constant pool are valid. <B>Precondition: index-style cross referencing in
-     * the constant pool must be valid.</B>
-     *
-     * @see #constant_pool_entries_satisfy_static_constraints()
-     * @see org.apache.bcel.classfile.ConstantCP
-     */
     private final class FAMRAV_Visitor extends EmptyVisitor {
         private final ConstantPool cp; // ==jc.getConstantPool() -- only here to save typing work.
 
@@ -989,7 +940,7 @@ public final class Pass2Verifier extends PassVerifier implements Constants {
             final String sig = ((ConstantUtf8) (cp.getConstant(cnat.getSignatureIndex()))).getBytes(); // Field or Method sig.(=descriptor)
 
             try {
-                Type.getType(sig); /* Don't need the return value */
+                Type.getType(sig);
             } catch (final ClassFormatException cfe) {
                 throw new ClassConstraintException("Illegal descriptor (==signature) '" + sig + "' used by '" + tostring(obj) + "'.", cfe);
             }
@@ -1137,16 +1088,6 @@ public final class Pass2Verifier extends PassVerifier implements Constants {
         }
     }
 
-    /**
-     * Ensures that every class has a super class and that <B>final</B> classes are
-     * not subclassed. This means, the class this Pass2Verifier operates on has
-     * proper super classes (transitively) up to java.lang.Object. The reason for
-     * really loading (and Pass1-verifying) all of those classes here is that we
-     * need them in Pass2 anyway to verify no final methods are overridden (that
-     * could be declared anywhere in the ancestor hierarchy).
-     *
-     * @throws ClassConstraintException otherwise.
-     */
     private void every_class_has_an_accessible_superclass() {
         try {
             final Set<String> hs = new HashSet<>(); // save class names to detect circular inheritance
@@ -1245,43 +1186,23 @@ public final class Pass2Verifier extends PassVerifier implements Constants {
         return localVariablesInfos[methodNr];
     }
 
-    /**
-     * This method is here to save typing work and improve code readability.
-     */
     private static String tostring(final Node n) {
         return new StringRepresentation(n).toString();
     }
 
-    /**
-     * This method returns true if and only if the supplied String represents a
-     * valid method name that may be referenced by ConstantMethodref objects.
-     */
     private static boolean validClassMethodName(final String name) {
         return validMethodName(name, false);
     }
 
-    /**
-     * This method returns true if and only if the supplied String represents a
-     * valid Java class name.
-     */
     private static boolean validClassName(final String name) {
         return true;
     }
 
-    /**
-     * This method returns true if and only if the supplied String represents a
-     * valid Java field name.
-     */
     private static boolean validFieldName(final String name) {
         // vmspec2 2.7, vmspec2 2.2
         return validJavaIdentifier(name);
     }
 
-    /**
-     * This method returns true if and only if the supplied String represents a
-     * valid Java interface method name that may be referenced by
-     * ConstantInterfaceMethodref objects.
-     */
     private static boolean validInterfaceMethodName(final String name) {
         // I guess we should assume special names forbidden here.
         if (name.startsWith("<")) {
@@ -1290,10 +1211,6 @@ public final class Pass2Verifier extends PassVerifier implements Constants {
         return validJavaLangMethodName(name);
     }
 
-    /**
-     * This method returns true if and only if the supplied String represents a
-     * valid Java identifier (so-called simple name).
-     */
     private static boolean validJavaIdentifier(final String name) {
         if (name.length() == 0) {
             return false; // must not be empty, reported by <francis.andre@easynet.fr>, thanks!
@@ -1312,12 +1229,6 @@ public final class Pass2Verifier extends PassVerifier implements Constants {
         return true;
     }
 
-    /**
-     * This method returns true if and only if the supplied String represents a
-     * valid Java programming language method name stored as a simple
-     * (non-qualified) name. Conforming to: The Java Virtual Machine Specification,
-     * Second Edition, �2.7, �2.7.1, �2.2.
-     */
     private static boolean validJavaLangMethodName(final String name) {
         if (!Character.isJavaIdentifierStart(name.charAt(0))) {
             return false;
@@ -1331,13 +1242,6 @@ public final class Pass2Verifier extends PassVerifier implements Constants {
         return true;
     }
 
-    /**
-     * This method returns true if and only if the supplied String represents a
-     * valid method name. This is basically the same as a valid identifier name in
-     * the Java programming language, but the special name for the instance
-     * initialization method is allowed and the special name for the class/interface
-     * initialization method may be allowed.
-     */
     private static boolean validMethodName(final String name, final boolean allowStaticInit) {
         if (validJavaLangMethodName(name)) {
             return true;

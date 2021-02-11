@@ -192,10 +192,6 @@ public final class Pass3aVerifier extends PassVerifier {
             }
         }
 
-        /**
-         * Checks if the constraints of operands of the said instruction(s) are
-         * satisfied.
-         */
         @Override
         public void visitANEWARRAY(final ANEWARRAY o) {
             indexValid(o, o.getIndex());
@@ -212,10 +208,6 @@ public final class Pass3aVerifier extends PassVerifier {
             }
         }
 
-        /**
-         * Checks if the constraints of operands of the said instruction(s) are
-         * satisfied.
-         */
         @Override
         public void visitASTORE(final ASTORE o) {
             final int idx = o.getIndex();
@@ -229,10 +221,6 @@ public final class Pass3aVerifier extends PassVerifier {
             }
         }
 
-        /**
-         * Checks if the constraints of operands of the said instruction(s) are
-         * satisfied.
-         */
         @Override
         public void visitCHECKCAST(final CHECKCAST o) {
             indexValid(o, o.getIndex());
@@ -242,10 +230,6 @@ public final class Pass3aVerifier extends PassVerifier {
             }
         }
 
-        /**
-         * Checks if the constraints of operands of the said instruction(s) are
-         * satisfied.
-         */
         @Override
         public void visitDLOAD(final DLOAD o) {
             final int idx = o.getIndex();
@@ -259,10 +243,6 @@ public final class Pass3aVerifier extends PassVerifier {
             }
         }
 
-        /**
-         * Checks if the constraints of operands of the said instruction(s) are
-         * satisfied.
-         */
         @Override
         public void visitDSTORE(final DSTORE o) {
             final int idx = o.getIndex();
@@ -276,10 +256,6 @@ public final class Pass3aVerifier extends PassVerifier {
             }
         }
 
-        /**
-         * Checks if the constraints of operands of the said instruction(s) are
-         * satisfied.
-         */
         // getfield, putfield, getstatic, putstatic
         @Override
         public void visitFieldInstruction(final FieldInstruction o) {
@@ -299,9 +275,7 @@ public final class Pass3aVerifier extends PassVerifier {
                     if (field.getName().equals(field_name)) {
                         final Type f_type = Type.getType(field.getSignature());
                         final Type o_type = o.getType(constantPoolGen);
-                        /*
-                         * TODO: Check if assignment compatibility is sufficient. What does Sun do?
-                         */
+
                         if (f_type.equals(o_type)) {
                             f = field;
                             break;
@@ -330,9 +304,7 @@ public final class Pass3aVerifier extends PassVerifier {
                         constraintViolated(o, "Referenced field '" + field_name + "' does not exist in class '" + jc.getClassName() + "'.");
                     }
                 } else {
-                    /*
-                     * TODO: Check if assignment compatibility is sufficient. What does Sun do?
-                     */
+
                     Type.getType(f.getSignature());
                     o.getType(constantPoolGen);
 //                Type f_type = Type.getType(f.getSignature());
@@ -346,7 +318,6 @@ public final class Pass3aVerifier extends PassVerifier {
                     // '"+o_type+"' as expected.");
                     // }
 
-                    /* TODO: Check for access modifiers here. */
                 }
             } catch (final ClassNotFoundException e) {
                 // FIXME: maybe not the best way to handle this
@@ -354,10 +325,6 @@ public final class Pass3aVerifier extends PassVerifier {
             }
         }
 
-        /**
-         * Checks if the constraints of operands of the said instruction(s) are
-         * satisfied.
-         */
         @Override
         public void visitFLOAD(final FLOAD o) {
             final int idx = o.getIndex();
@@ -371,10 +338,6 @@ public final class Pass3aVerifier extends PassVerifier {
             }
         }
 
-        /**
-         * Checks if the constraints of operands of the said instruction(s) are
-         * satisfied.
-         */
         @Override
         public void visitFSTORE(final FSTORE o) {
             final int idx = o.getIndex();
@@ -388,10 +351,6 @@ public final class Pass3aVerifier extends PassVerifier {
             }
         }
 
-        /**
-         * Checks if the constraints of operands of the said instruction(s) are
-         * satisfied.
-         */
         @Override
         public void visitGETSTATIC(final GETSTATIC o) {
             try {
@@ -418,10 +377,6 @@ public final class Pass3aVerifier extends PassVerifier {
             }
         }
 
-        /**
-         * Checks if the constraints of operands of the said instruction(s) are
-         * satisfied.
-         */
         @Override
         public void visitIINC(final IINC o) {
             final int idx = o.getIndex();
@@ -435,10 +390,6 @@ public final class Pass3aVerifier extends PassVerifier {
             }
         }
 
-        /**
-         * Checks if the constraints of operands of the said instruction(s) are
-         * satisfied.
-         */
         @Override
         public void visitILOAD(final ILOAD o) {
             final int idx = o.getIndex();
@@ -452,10 +403,6 @@ public final class Pass3aVerifier extends PassVerifier {
             }
         }
 
-        /**
-         * Checks if the constraints of operands of the said instruction(s) are
-         * satisfied.
-         */
         @Override
         public void visitINSTANCEOF(final INSTANCEOF o) {
             indexValid(o, o.getIndex());
@@ -465,19 +412,11 @@ public final class Pass3aVerifier extends PassVerifier {
             }
         }
 
-        /**
-         * Checks if the constraints of operands of the said instruction(s) are
-         * satisfied.
-         */
         @Override
         public void visitINVOKEDYNAMIC(final INVOKEDYNAMIC o) {
             throw new UnsupportedOperationException("INVOKEDYNAMIC instruction is not supported at this time");
         }
 
-        /**
-         * Checks if the constraints of operands of the said instruction(s) are
-         * satisfied.
-         */
         @Override
         public void visitInvokeInstruction(final InvokeInstruction o) {
             indexValid(o, o.getIndex());
@@ -549,10 +488,6 @@ public final class Pass3aVerifier extends PassVerifier {
 
         }
 
-        /**
-         * Checks if the constraints of operands of the said instruction(s) are
-         * satisfied.
-         */
         @Override
         public void visitINVOKEINTERFACE(final INVOKEINTERFACE o) {
             try {
@@ -577,10 +512,6 @@ public final class Pass3aVerifier extends PassVerifier {
             }
         }
 
-        /**
-         * Checks if the constraints of operands of the said instruction(s) are
-         * satisfied.
-         */
         @Override
         public void visitINVOKESPECIAL(final INVOKESPECIAL o) {
             try {
@@ -637,10 +568,6 @@ public final class Pass3aVerifier extends PassVerifier {
 
         }
 
-        /**
-         * Checks if the constraints of operands of the said instruction(s) are
-         * satisfied.
-         */
         @Override
         public void visitINVOKESTATIC(final INVOKESTATIC o) {
             try {
@@ -665,10 +592,6 @@ public final class Pass3aVerifier extends PassVerifier {
             }
         }
 
-        /**
-         * Checks if the constraints of operands of the said instruction(s) are
-         * satisfied.
-         */
         @Override
         public void visitINVOKEVIRTUAL(final INVOKEVIRTUAL o) {
             try {
@@ -694,10 +617,6 @@ public final class Pass3aVerifier extends PassVerifier {
             }
         }
 
-        /**
-         * Checks if the constraints of operands of the said instruction(s) are
-         * satisfied.
-         */
         @Override
         public void visitISTORE(final ISTORE o) {
             final int idx = o.getIndex();
@@ -711,10 +630,6 @@ public final class Pass3aVerifier extends PassVerifier {
             }
         }
 
-        /**
-         * Checks if the constraints of operands of the said instruction(s) are
-         * satisfied.
-         */
         // LDC and LDC_W (LDC_W is a subclass of LDC in BCEL's model)
         @Override
         public void visitLDC(final LDC ldc) {
@@ -729,10 +644,6 @@ public final class Pass3aVerifier extends PassVerifier {
             }
         }
 
-        /**
-         * Checks if the constraints of operands of the said instruction(s) are
-         * satisfied.
-         */
         // LDC2_W
         @Override
         public void visitLDC2_W(final LDC2_W o) {
@@ -748,10 +659,6 @@ public final class Pass3aVerifier extends PassVerifier {
             }
         }
 
-        /**
-         * Checks if the constraints of operands of the said instruction(s) are
-         * satisfied.
-         */
         @Override
         public void visitLLOAD(final LLOAD o) {
             final int idx = o.getIndex();
@@ -768,10 +675,7 @@ public final class Pass3aVerifier extends PassVerifier {
         ///////////////////////////////////////////////////////////
         // The Java Virtual Machine Specification, pages 134-137 //
         ///////////////////////////////////////////////////////////
-        /**
-         * Assures the generic preconditions of a LoadClass instance. The referenced
-         * class is loaded and pass2-verified.
-         */
+
         @Override
         public void visitLoadClass(final LoadClass loadClass) {
             final ObjectType t = loadClass.getLoadClassType(constantPoolGen);
@@ -784,26 +688,14 @@ public final class Pass3aVerifier extends PassVerifier {
             }
         }
 
-        /*
-         * Checks if the constraints of operands of the said instruction(s) are
-         * satisfied.
-         */
         // public void visitPUTFIELD(PUTFIELD o) {
         // for performance reasons done in Pass 3b
         // }
 
-        /*
-         * Checks if the constraints of operands of the said instruction(s) are
-         * satisfied.
-         */
         // public void visitGETFIELD(GETFIELD o) {
         // for performance reasons done in Pass 3b
         // }
 
-        /**
-         * Checks if the constraints of operands of the said instruction(s) are
-         * satisfied.
-         */
         @Override
         public void visitLOOKUPSWITCH(final LOOKUPSWITCH o) {
             final int[] matchs = o.getMatchs();
@@ -820,10 +712,6 @@ public final class Pass3aVerifier extends PassVerifier {
             }
         }
 
-        /**
-         * Checks if the constraints of operands of the said instruction(s) are
-         * satisfied.
-         */
         @Override
         public void visitLSTORE(final LSTORE o) {
             final int idx = o.getIndex();
@@ -837,10 +725,6 @@ public final class Pass3aVerifier extends PassVerifier {
             }
         }
 
-        /**
-         * Checks if the constraints of operands of the said instruction(s) are
-         * satisfied.
-         */
         @Override
         public void visitMULTIANEWARRAY(final MULTIANEWARRAY o) {
             indexValid(o, o.getIndex());
@@ -863,10 +747,6 @@ public final class Pass3aVerifier extends PassVerifier {
             }
         }
 
-        /**
-         * Checks if the constraints of operands of the said instruction(s) are
-         * satisfied.
-         */
         @Override
         public void visitNEW(final NEW o) {
             indexValid(o, o.getIndex());
@@ -883,10 +763,6 @@ public final class Pass3aVerifier extends PassVerifier {
 
         }
 
-        /**
-         * Checks if the constraints of operands of the said instruction(s) are
-         * satisfied.
-         */
         @Override
         public void visitNEWARRAY(final NEWARRAY o) {
             final byte t = o.getTypecode();
@@ -895,10 +771,6 @@ public final class Pass3aVerifier extends PassVerifier {
             }
         }
 
-        /**
-         * Checks if the constraints of operands of the said instruction(s) are
-         * satisfied.
-         */
         @Override
         public void visitPUTSTATIC(final PUTSTATIC o) {
             try {
@@ -938,10 +810,6 @@ public final class Pass3aVerifier extends PassVerifier {
             }
         }
 
-        /**
-         * Checks if the constraints of operands of the said instruction(s) are
-         * satisfied.
-         */
         @Override
         public void visitRET(final RET o) {
             final int idx = o.getIndex();
@@ -957,10 +825,6 @@ public final class Pass3aVerifier extends PassVerifier {
 
         // WIDE stuff is BCEL-internal and cannot be checked here.
 
-        /**
-         * Checks if the constraints of operands of the said instruction(s) are
-         * satisfied.
-         */
         @Override
         public void visitTABLESWITCH(final TABLESWITCH o) {
             // "high" must be >= "low". We cannot check this, as BCEL hides
@@ -969,42 +833,19 @@ public final class Pass3aVerifier extends PassVerifier {
 
     }
 
-    /** The Verifier that created this. */
     private final Verifier myOwner;
 
-    /**
-     * The method number to verify. This is the index in the array returned by
-     * JavaClass.getMethods().
-     */
     private final int methodNo;
 
-    /**
-     * The one and only InstructionList object used by an instance of this class.
-     * It's here for performance reasons by do_verify() and its callees.
-     */
     private InstructionList instructionList;
 
-    /**
-     * The one and only Code object used by an instance of this class. It's here for
-     * performance reasons by do_verify() and its callees.
-     */
     private Code code;
 
-    /** Should only be instantiated by a Verifier. */
     public Pass3aVerifier(final Verifier owner, final int methodNo) {
         myOwner = owner;
         this.methodNo = methodNo;
     }
 
-    /**
-     * These are the checks that could be done in pass 2 but are delayed to pass 3
-     * for performance reasons. Also, these checks need access to the code array of
-     * the Code attribute of a Method so it's okay to perform them here. Also see
-     * the description of the do_verify() method.
-     *
-     * @throws ClassConstraintException if the verification fails.
-     * @see #do_verify()
-     */
     private void delayedPass2Checks() {
 
         final int[] instructionPositions = instructionList.getInstructionPositions();
@@ -1038,10 +879,7 @@ public final class Pass3aVerifier extends PassVerifier {
         ///////////////////////////
         // LocalVariableTable(s) //
         ///////////////////////////
-        /*
-         * We cannot use code.getLocalVariableTable() because there could be more than
-         * only one. This is a bug in BCEL.
-         */
+
         final Attribute[] atts = code.getAttributes();
         for (final Attribute att : atts) {
             if (att instanceof LocalVariableTable) {
@@ -1087,19 +925,6 @@ public final class Pass3aVerifier extends PassVerifier {
         }
     }
 
-    /**
-     * Pass 3a is the verification of static constraints of JVM code (such as legal
-     * targets of branch instructions). This is the part of pass 3 where you do not
-     * need data flow analysis. JustIce also delays the checks for a correct
-     * exception table of a Code attribute and correct line number entries in a
-     * LineNumberTable attribute of a Code attribute (which conceptually belong to
-     * pass 2) to this pass. Also, most of the check for valid local variable
-     * entries in a LocalVariableTable attribute of a Code attribute is delayed
-     * until this pass. All these checks need access to the code array of the Code
-     * attribute.
-     *
-     * @throws InvalidMethodException if the method to verify does not exist.
-     */
     @Override
     public VerificationResult do_verify() {
         try {
@@ -1162,18 +987,10 @@ public final class Pass3aVerifier extends PassVerifier {
         }
     }
 
-    /** Returns the method number as supplied when instantiating. */
     public int getMethodNo() {
         return methodNo;
     }
 
-    /**
-     * These are the checks if constraints are satisfied which are described in the
-     * Java Virtual Machine Specification, Second Edition as Static Constraints on
-     * the instructions of Java Virtual Machine Code (chapter 4.8.1).
-     *
-     * @throws StaticCodeConstraintException if the verification fails.
-     */
     private void pass3StaticInstructionChecks() {
 
         // Code array must not be empty:
@@ -1230,16 +1047,6 @@ public final class Pass3aVerifier extends PassVerifier {
         }
     }
 
-    /**
-     * These are the checks for the satisfaction of constraints which are described
-     * in the Java Virtual Machine Specification, Second Edition as Static
-     * Constraints on the operands of instructions of Java Virtual Machine Code
-     * (chapter 4.8.1). BCEL parses the code array to create an InstructionList and
-     * therefore has to check some of these constraints. Additional checks are also
-     * implemented here.
-     *
-     * @throws StaticCodeConstraintException if the verification fails.
-     */
     private void pass3StaticInstructionOperandsChecks() {
         try {
             // When building up the InstructionList, BCEL has already done all those checks
@@ -1286,9 +1093,6 @@ public final class Pass3aVerifier extends PassVerifier {
         }
     }
 
-    /**
-     * A small utility method returning if a given int i is in the given int[] ints.
-     */
     private static boolean contains(final int[] ints, final int i) {
         for (final int k : ints) {
             if (k == i) {

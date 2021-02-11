@@ -1,20 +1,4 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- *
- */
+
 package org.apache.bcel.generic;
 
 import org.apache.bcel.Const;
@@ -27,22 +11,10 @@ import org.apache.bcel.generic.control.InstructionConstants;
 import org.apache.bcel.generic.control.InstructionList;
 import org.apache.bcel.generic.gen.ConstantPoolGen;
 
-/**
- * Wrapper class for push operations, which are implemented either as BIPUSH,
- * LDC or xCONST_n instructions.
- *
- */
 public final class PUSH implements CompoundInstruction, VariableLengthInstruction, InstructionConstants {
 
     private Instruction instruction;
 
-
-    /**
-     * This constructor also applies for values of type short, char, byte
-     *
-     * @param cp Constant pool
-     * @param value to be pushed
-     */
     public PUSH(final ConstantPoolGen cp, final int value) {
         if ((value >= -1) && (value <= 5)) {
             instruction = InstructionConst.getInstruction(Const.ICONST_0 + value);
@@ -55,20 +27,10 @@ public final class PUSH implements CompoundInstruction, VariableLengthInstructio
         }
     }
 
-
-    /**
-     * @param cp Constant pool
-     * @param value to be pushed
-     */
     public PUSH(final ConstantPoolGen cp, final boolean value) {
         instruction = InstructionConst.getInstruction(Const.ICONST_0 + (value ? 1 : 0));
     }
 
-
-    /**
-     * @param cp Constant pool
-     * @param value to be pushed
-     */
     public PUSH(final ConstantPoolGen cp, final float value) {
         if (value == 0.0) {
             instruction = InstructionConst.FCONST_0;
@@ -81,11 +43,6 @@ public final class PUSH implements CompoundInstruction, VariableLengthInstructio
         }
     }
 
-
-    /**
-     * @param cp Constant pool
-     * @param value to be pushed
-     */
     public PUSH(final ConstantPoolGen cp, final long value) {
         if (value == 0) {
             instruction = InstructionConst.LCONST_0;
@@ -96,11 +53,6 @@ public final class PUSH implements CompoundInstruction, VariableLengthInstructio
         }
     }
 
-
-    /**
-     * @param cp Constant pool
-     * @param value to be pushed
-     */
     public PUSH(final ConstantPoolGen cp, final double value) {
         if (value == 0.0) {
             instruction = InstructionConst.DCONST_0;
@@ -111,11 +63,6 @@ public final class PUSH implements CompoundInstruction, VariableLengthInstructio
         }
     }
 
-
-    /**
-     * @param cp Constant pool
-     * @param value to be pushed
-     */
     public PUSH(final ConstantPoolGen cp, final String value) {
         if (value == null) {
             instruction = InstructionConst.ACONST_NULL;
@@ -124,12 +71,6 @@ public final class PUSH implements CompoundInstruction, VariableLengthInstructio
         }
     }
 
-    /**
-     *
-     * @param cp
-     * @param value
-     * @since 6.0
-     */
     public PUSH(final ConstantPoolGen cp, final ObjectType value) {
         if (value == null) {
             instruction = InstructionConst.ACONST_NULL;
@@ -138,10 +79,6 @@ public final class PUSH implements CompoundInstruction, VariableLengthInstructio
         }
     }
 
-    /**
-     * @param cp Constant pool
-     * @param value to be pushed
-     */
     public PUSH(final ConstantPoolGen cp, final Number value) {
         if ((value instanceof Integer) || (value instanceof Short) || (value instanceof Byte)) {
             instruction = new PUSH(cp, value.intValue()).instruction;
@@ -156,42 +93,23 @@ public final class PUSH implements CompoundInstruction, VariableLengthInstructio
         }
     }
 
-
-    /**
-     * creates a push object from a Character value. Warning: Make sure not to attempt to allow
-     * autoboxing to create this value parameter, as an alternative constructor will be called
-     *
-     * @param cp Constant pool
-     * @param value to be pushed
-     */
     public PUSH(final ConstantPoolGen cp, final Character value) {
         this(cp, value.charValue());
     }
 
-
-    /**
-     * @param cp Constant pool
-     * @param value to be pushed
-     */
     public PUSH(final ConstantPoolGen cp, final Boolean value) {
         this(cp, value.booleanValue());
     }
-
 
     @Override
     public InstructionList getInstructionList() {
         return new InstructionList(instruction);
     }
 
-
     public Instruction getInstruction() {
         return instruction;
     }
 
-
-    /**
-     * @return mnemonic for instruction
-     */
     @Override
     public String toString() {
         return instruction + " (PUSH)";

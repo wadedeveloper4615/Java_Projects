@@ -1,20 +1,4 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- *
- */
+
 package org.apache.bcel.verifier.structurals;
 
 import org.apache.bcel.Const;
@@ -56,66 +40,19 @@ import org.apache.bcel.verifier.VerifierFactory;
 import org.apache.bcel.verifier.exc.AssertionViolatedException;
 import org.apache.bcel.verifier.exc.StructuralCodeConstraintException;
 
-/**
- * A Visitor class testing for valid preconditions of JVM instructions. The
- * instance of this class will throw a StructuralCodeConstraintException
- * instance if an instruction is visitXXX()ed which has preconditions that are
- * not satisfied. TODO: Currently, the JVM's behavior concerning monitors
- * (MONITORENTER, MONITOREXIT) is not modeled in JustIce.
- *
- * @see StructuralCodeConstraintException
- */
 public class InstConstraintVisitor extends EmptyVisitor {
 
     private static final ObjectType GENERIC_ARRAY = ObjectType.getInstance(GenericArray.class.getName());
 
-    /**
-     * The Execution Frame we're working on.
-     *
-     * @see #setFrame(Frame f)
-     * @see #locals()
-     * @see #stack()
-     */
     private Frame frame = null;
 
-    /**
-     * The ConstantPoolGen we're working on.
-     *
-     * @see #setConstantPoolGen(ConstantPoolGen cpg)
-     */
     private ConstantPoolGen cpg = null;
 
-    /**
-     * The MethodGen we're working on.
-     *
-     * @see #setMethodGen(MethodGen mg)
-     */
     private MethodGen mg = null;
 
-    /**
-     * The constructor. Constructs a new instance of this class.
-     */
     public InstConstraintVisitor() {
     }
 
-    /***************************************************************/
-    /* MISC */
-    /***************************************************************/
-    /**
-     * Ensures the general preconditions of an instruction that accesses the stack.
-     * This method is here because BCEL has no such superinterface for the stack
-     * accessing instructions; and there are funny unexpected exceptions in the
-     * semantices of the superinterfaces and superclasses provided. E.g. SWAP is a
-     * StackConsumer, but DUP_X1 is not a StackProducer. Therefore, this method is
-     * called by all StackProducer, StackConsumer, and StackInstruction instances
-     * via their visitXXX() method. Unfortunately, as the superclasses and
-     * superinterfaces overlap, some instructions cause this method to be called two
-     * or three times. [TODO: Fix this.]
-     *
-     * @see #visitStackConsumer(StackConsumer o)
-     * @see #visitStackProducer(StackProducer o)
-     * @see #visitStackInstruction(StackInstruction o)
-     */
     private void _visitStackAccessor(final Instruction o) {
         final int consume = o.consumeStack(cpg); // Stack values are always consumed first; then produced.
         if (consume > stack().slotsUsed()) {
@@ -128,13 +65,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Assures arrayref is of ArrayType or NULL; returns true if and only if
-     * arrayref is non-NULL.
-     *
-     * @throws StructuralCodeConstraintException if the above constraint is
-     *                                           violated.
-     */
     private boolean arrayrefOfArrayType(final Instruction o, final Type arrayref) {
         if (!((arrayref instanceof ArrayType) || arrayref.equals(Type.NULL))) {
             constraintViolated(o, "The 'arrayref' does not refer to an array but is of type " + arrayref + ".");
@@ -142,13 +72,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         return arrayref instanceof ArrayType;
     }
 
-    /**
-     * This method is called by the visitXXX() to notify the acceptor of this
-     * InstConstraintVisitor that a constraint violation has occured. This is done
-     * by throwing an instance of a StructuralCodeConstraintException.
-     *
-     * @throws StructuralCodeConstraintException always.
-     */
     private void constraintViolated(final Instruction violator, final String description) {
         final String fq_classname = violator.getClass().getName();
         throw new StructuralCodeConstraintException("Instruction " + fq_classname.substring(fq_classname.lastIndexOf('.') + 1) + " constraint violated: " + description);
@@ -163,57 +86,26 @@ public class InstConstraintVisitor extends EmptyVisitor {
         return null;
     }
 
-    /**
-     * Assures index is of type INT.
-     *
-     * @throws StructuralCodeConstraintException if the above constraint is not
-     *                                           satisfied.
-     */
     private void indexOfInt(final Instruction o, final Type index) {
         if (!index.equals(Type.INT)) {
             constraintViolated(o, "The 'index' is not of type int but of type " + index + ".");
         }
     }
 
-    /**
-     * The LocalVariables we're working on.
-     *
-     * @see #setFrame(Frame f)
-     */
     private LocalVariables locals() {
         return frame.getLocals();
     }
 
-    /**
-     * Assures the ReferenceType r is initialized (or Type.NULL). Formally, this
-     * means (!(r instanceof UninitializedObjectType)), because there are no
-     * uninitialized array types.
-     *
-     * @throws StructuralCodeConstraintException if the above constraint is not
-     *                                           satisfied.
-     */
     private void referenceTypeIsInitialized(final Instruction o, final ReferenceType r) {
         if (r instanceof UninitializedObjectType) {
             constraintViolated(o, "Working on an uninitialized object '" + r + "'.");
         }
     }
 
-    /**
-     * Sets the ConstantPoolGen instance needed for constraint checking prior to
-     * execution.
-     */
     public void setConstantPoolGen(final ConstantPoolGen cpg) { // TODO could be package-protected?
         this.cpg = cpg;
     }
 
-    /**
-     * This returns the single instance of the InstConstraintVisitor class. To
-     * operate correctly, other values must have been set before actually using the
-     * instance. Use this method for performance reasons.
-     *
-     * @see #setConstantPoolGen(ConstantPoolGen cpg)
-     * @see #setMethodGen(MethodGen mg)
-     */
     public void setFrame(final Frame f) { // TODO could be package-protected?
         this.frame = f;
         // if (singleInstance.mg == null || singleInstance.cpg == null)
@@ -221,39 +113,20 @@ public class InstConstraintVisitor extends EmptyVisitor {
         // first.");
     }
 
-    /**
-     * Sets the MethodGen instance needed for constraint checking prior to
-     * execution.
-     */
     public void setMethodGen(final MethodGen mg) {
         this.mg = mg;
     }
 
-    /**
-     * The OperandStack we're working on.
-     *
-     * @see #setFrame(Frame f)
-     */
     private OperandStack stack() {
         return frame.getStack();
     }
 
-    /***************************************************************/
-    /* "generic"visitXXXX methods where XXXX is an interface */
-    /* therefore, we don't know the order of visiting; but we know */
-    /* these methods are called before the visitYYYY methods below */
-    /***************************************************************/
-
-    /** Assures value is of type INT. */
     private void valueOfInt(final Instruction o, final Type value) {
         if (!value.equals(Type.INT)) {
             constraintViolated(o, "The 'value' is not of type int but of type " + value + ".");
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitAALOAD(final AALOAD o) {
         final Type arrayref = stack().peek(1);
@@ -269,9 +142,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitAASTORE(final AASTORE o) {
         final Type arrayref = stack().peek(2);
@@ -294,17 +164,11 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitACONST_NULL(final ACONST_NULL o) {
         // Nothing needs to be done here.
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitALOAD(final ALOAD o) {
         // visitLoadInstruction(LoadInstruction) is called before.
@@ -312,9 +176,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         // Nothing else needs to be done here.
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitANEWARRAY(final ANEWARRAY o) {
         if (!stack().peek().equals(Type.INT)) {
@@ -325,9 +186,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitARETURN(final ARETURN o) {
         if (!(stack().peek() instanceof ReferenceType)) {
@@ -347,18 +205,12 @@ public class InstConstraintVisitor extends EmptyVisitor {
         // }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitARRAYLENGTH(final ARRAYLENGTH o) {
         final Type arrayref = stack().peek(0);
         arrayrefOfArrayType(o, arrayref);
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitASTORE(final ASTORE o) {
         if (!((stack().peek() instanceof ReferenceType) || (stack().peek() instanceof ReturnaddressType))) {
@@ -369,9 +221,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         // }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitATHROW(final ATHROW o) {
         try {
@@ -399,9 +248,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitBALOAD(final BALOAD o) {
         final Type arrayref = stack().peek(1);
@@ -414,13 +260,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /***************************************************************/
-    /* "special"visitXXXX methods for one type of instruction each */
-    /***************************************************************/
-
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitBASTORE(final BASTORE o) {
         final Type arrayref = stack().peek(2);
@@ -436,25 +275,16 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitBIPUSH(final BIPUSH o) {
         // Nothing to do...
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitBREAKPOINT(final BREAKPOINT o) {
         throw new AssertionViolatedException("In this JustIce verification pass there should not occur an illegal instruction such as BREAKPOINT.");
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitCALOAD(final CALOAD o) {
         final Type arrayref = stack().peek(1);
@@ -464,9 +294,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         arrayrefOfArrayType(o, arrayref);
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitCASTORE(final CASTORE o) {
         final Type arrayref = stack().peek(2);
@@ -482,9 +309,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitCHECKCAST(final CHECKCAST o) {
         // The objectref must be of type reference.
@@ -507,14 +331,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /***************************************************************/
-    /* "generic" visitYYYY methods where YYYY is a superclass. */
-    /* therefore, we know the order of visiting; we know */
-    /* these methods are called after the visitXXXX methods above. */
-    /***************************************************************/
-    /**
-     * Ensures the general preconditions of a CPInstruction instance.
-     */
     @Override
     public void visitCPInstruction(final CPInstruction o) {
         final int idx = o.getIndex();
@@ -523,9 +339,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitD2F(final D2F o) {
         if (stack().peek() != Type.DOUBLE) {
@@ -533,9 +346,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitD2I(final D2I o) {
         if (stack().peek() != Type.DOUBLE) {
@@ -543,9 +353,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitD2L(final D2L o) {
         if (stack().peek() != Type.DOUBLE) {
@@ -553,9 +360,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitDADD(final DADD o) {
         if (stack().peek() != Type.DOUBLE) {
@@ -566,9 +370,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitDALOAD(final DALOAD o) {
         indexOfInt(o, stack().peek());
@@ -584,9 +385,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitDASTORE(final DASTORE o) {
         if (stack().peek() != Type.DOUBLE) {
@@ -605,9 +403,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitDCMPG(final DCMPG o) {
         if (stack().peek() != Type.DOUBLE) {
@@ -618,9 +413,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitDCMPL(final DCMPL o) {
         if (stack().peek() != Type.DOUBLE) {
@@ -631,17 +423,11 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitDCONST(final DCONST o) {
         // There's nothing to be done here.
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitDDIV(final DDIV o) {
         if (stack().peek() != Type.DOUBLE) {
@@ -652,9 +438,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitDLOAD(final DLOAD o) {
         // visitLoadInstruction(LoadInstruction) is called before.
@@ -662,9 +445,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         // Nothing else needs to be done here.
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitDMUL(final DMUL o) {
         if (stack().peek() != Type.DOUBLE) {
@@ -675,9 +455,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitDNEG(final DNEG o) {
         if (stack().peek() != Type.DOUBLE) {
@@ -685,9 +462,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitDREM(final DREM o) {
         if (stack().peek() != Type.DOUBLE) {
@@ -698,9 +472,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitDRETURN(final DRETURN o) {
         if (stack().peek() != Type.DOUBLE) {
@@ -708,9 +479,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitDSTORE(final DSTORE o) {
         // visitStoreInstruction(StoreInstruction) is called before.
@@ -718,9 +486,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         // Nothing else needs to be done here.
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitDSUB(final DSUB o) {
         if (stack().peek() != Type.DOUBLE) {
@@ -731,9 +496,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitDUP(final DUP o) {
         if (stack().peek().getSize() != 1) {
@@ -741,9 +503,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitDUP_X1(final DUP_X1 o) {
         if (stack().peek().getSize() != 1) {
@@ -754,9 +513,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitDUP_X2(final DUP_X2 o) {
         if (stack().peek().getSize() != 1) {
@@ -771,9 +527,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitDUP2(final DUP2 o) {
         if (stack().peek().getSize() == 2) {
@@ -785,9 +538,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitDUP2_X1(final DUP2_X1 o) {
         if (stack().peek().getSize() == 2) {
@@ -806,9 +556,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitDUP2_X2(final DUP2_X2 o) {
 
@@ -835,9 +582,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         constraintViolated(o, "The operand sizes on the stack do not match any of the four forms of usage of this instruction.");
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitF2D(final F2D o) {
         if (stack().peek() != Type.FLOAT) {
@@ -845,9 +589,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitF2I(final F2I o) {
         if (stack().peek() != Type.FLOAT) {
@@ -855,9 +596,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitF2L(final F2L o) {
         if (stack().peek() != Type.FLOAT) {
@@ -865,9 +603,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitFADD(final FADD o) {
         if (stack().peek() != Type.FLOAT) {
@@ -878,9 +613,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitFALOAD(final FALOAD o) {
         indexOfInt(o, stack().peek());
@@ -896,9 +628,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitFASTORE(final FASTORE o) {
         if (stack().peek() != Type.FLOAT) {
@@ -917,9 +646,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitFCMPG(final FCMPG o) {
         if (stack().peek() != Type.FLOAT) {
@@ -930,9 +656,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitFCMPL(final FCMPL o) {
         if (stack().peek() != Type.FLOAT) {
@@ -943,17 +666,11 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitFCONST(final FCONST o) {
         // nothing to do here.
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitFDIV(final FDIV o) {
         if (stack().peek() != Type.FLOAT) {
@@ -964,9 +681,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the general preconditions of a FieldInstruction instance.
-     */
     @Override
     public void visitFieldInstruction(final FieldInstruction o) {
         // visitLoadClass(o) has been called before: Every FieldOrMethod
@@ -989,9 +703,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitFLOAD(final FLOAD o) {
         // visitLoadInstruction(LoadInstruction) is called before.
@@ -999,9 +710,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         // Nothing else needs to be done here.
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitFMUL(final FMUL o) {
         if (stack().peek() != Type.FLOAT) {
@@ -1012,9 +720,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitFNEG(final FNEG o) {
         if (stack().peek() != Type.FLOAT) {
@@ -1022,9 +727,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitFREM(final FREM o) {
         if (stack().peek() != Type.FLOAT) {
@@ -1035,9 +737,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitFRETURN(final FRETURN o) {
         if (stack().peek() != Type.FLOAT) {
@@ -1045,9 +744,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitFSTORE(final FSTORE o) {
         // visitStoreInstruction(StoreInstruction) is called before.
@@ -1055,9 +751,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         // Nothing else needs to be done here.
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitFSUB(final FSUB o) {
         if (stack().peek() != Type.FLOAT) {
@@ -1068,9 +761,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitGETFIELD(final GETFIELD o) {
         try {
@@ -1088,9 +778,7 @@ public class InstConstraintVisitor extends EmptyVisitor {
                 if (field.getName().equals(field_name)) {
                     final Type f_type = Type.getType(field.getSignature());
                     final Type o_type = o.getType(cpg);
-                    /*
-                     * TODO: Check if assignment compatibility is sufficient. What does Sun do?
-                     */
+
                     if (f_type.equals(o_type)) {
                         f = field;
                         break;
@@ -1160,33 +848,21 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitGETSTATIC(final GETSTATIC o) {
         // Field must be static: see Pass 3a.
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitGOTO(final GOTO o) {
         // nothing to do here.
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitGOTO_W(final GOTO_W o) {
         // nothing to do here.
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitI2B(final I2B o) {
         if (stack().peek() != Type.INT) {
@@ -1194,9 +870,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitI2C(final I2C o) {
         if (stack().peek() != Type.INT) {
@@ -1204,9 +877,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitI2D(final I2D o) {
         if (stack().peek() != Type.INT) {
@@ -1214,9 +884,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitI2F(final I2F o) {
         if (stack().peek() != Type.INT) {
@@ -1224,9 +891,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitI2L(final I2L o) {
         if (stack().peek() != Type.INT) {
@@ -1234,9 +898,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitI2S(final I2S o) {
         if (stack().peek() != Type.INT) {
@@ -1244,9 +905,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitIADD(final IADD o) {
         if (stack().peek() != Type.INT) {
@@ -1257,9 +915,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitIALOAD(final IALOAD o) {
         indexOfInt(o, stack().peek());
@@ -1275,9 +930,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitIAND(final IAND o) {
         if (stack().peek() != Type.INT) {
@@ -1288,9 +940,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitIASTORE(final IASTORE o) {
         if (stack().peek() != Type.INT) {
@@ -1309,17 +958,11 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitICONST(final ICONST o) {
         // nothing to do here.
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitIDIV(final IDIV o) {
         if (stack().peek() != Type.INT) {
@@ -1330,9 +973,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitIF_ACMPEQ(final IF_ACMPEQ o) {
         if (!(stack().peek() instanceof ReferenceType)) {
@@ -1347,9 +987,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
 
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitIF_ACMPNE(final IF_ACMPNE o) {
         if (!(stack().peek() instanceof ReferenceType)) {
@@ -1362,9 +999,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitIF_ICMPEQ(final IF_ICMPEQ o) {
         if (stack().peek() != Type.INT) {
@@ -1375,9 +1009,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitIF_ICMPGE(final IF_ICMPGE o) {
         if (stack().peek() != Type.INT) {
@@ -1388,9 +1019,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitIF_ICMPGT(final IF_ICMPGT o) {
         if (stack().peek() != Type.INT) {
@@ -1401,9 +1029,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitIF_ICMPLE(final IF_ICMPLE o) {
         if (stack().peek() != Type.INT) {
@@ -1414,9 +1039,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitIF_ICMPLT(final IF_ICMPLT o) {
         if (stack().peek() != Type.INT) {
@@ -1427,9 +1049,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitIF_ICMPNE(final IF_ICMPNE o) {
         if (stack().peek() != Type.INT) {
@@ -1440,9 +1059,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitIFEQ(final IFEQ o) {
         if (stack().peek() != Type.INT) {
@@ -1450,9 +1066,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitIFGE(final IFGE o) {
         if (stack().peek() != Type.INT) {
@@ -1460,9 +1073,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitIFGT(final IFGT o) {
         if (stack().peek() != Type.INT) {
@@ -1470,9 +1080,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitIFLE(final IFLE o) {
         if (stack().peek() != Type.INT) {
@@ -1480,9 +1087,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitIFLT(final IFLT o) {
         if (stack().peek() != Type.INT) {
@@ -1490,9 +1094,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitIFNE(final IFNE o) {
         if (stack().peek() != Type.INT) {
@@ -1500,9 +1101,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitIFNONNULL(final IFNONNULL o) {
         if (!(stack().peek() instanceof ReferenceType)) {
@@ -1511,9 +1109,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         referenceTypeIsInitialized(o, (ReferenceType) (stack().peek()));
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitIFNULL(final IFNULL o) {
         if (!(stack().peek() instanceof ReferenceType)) {
@@ -1522,9 +1117,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         referenceTypeIsInitialized(o, (ReferenceType) (stack().peek()));
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitIINC(final IINC o) {
         // Mhhh. In BCEL, at this time "IINC" is not a LocalVariableInstruction.
@@ -1535,33 +1127,21 @@ public class InstConstraintVisitor extends EmptyVisitor {
         indexOfInt(o, locals().get(o.getIndex()));
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitILOAD(final ILOAD o) {
         // All done by visitLocalVariableInstruction(), visitLoadInstruction()
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitIMPDEP1(final IMPDEP1 o) {
         throw new AssertionViolatedException("In this JustIce verification pass there should not occur an illegal instruction such as IMPDEP1.");
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitIMPDEP2(final IMPDEP2 o) {
         throw new AssertionViolatedException("In this JustIce verification pass there should not occur an illegal instruction such as IMPDEP2.");
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitIMUL(final IMUL o) {
         if (stack().peek() != Type.INT) {
@@ -1572,9 +1152,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitINEG(final INEG o) {
         if (stack().peek() != Type.INT) {
@@ -1582,9 +1159,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitINSTANCEOF(final INSTANCEOF o) {
         // The objectref must be of type reference.
@@ -1607,19 +1181,11 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     *
-     * @since 6.0
-     */
     @Override
     public void visitINVOKEDYNAMIC(final INVOKEDYNAMIC o) {
         throw new UnsupportedOperationException("INVOKEDYNAMIC instruction is not supported at this time");
     }
 
-    /**
-     * Ensures the general preconditions of an InvokeInstruction instance.
-     */
     @Override
     public void visitInvokeInstruction(final InvokeInstruction o) {
         // visitLoadClass(o) has been called before: Every FieldOrMethod
@@ -1628,9 +1194,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         // TODO
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitINVOKEINTERFACE(final INVOKEINTERFACE o) {
         // Method is not native, otherwise pass 3 would not happen.
@@ -1718,9 +1281,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitINVOKESPECIAL(final INVOKESPECIAL o) {
         try {
@@ -1804,9 +1364,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitINVOKESTATIC(final INVOKESTATIC o) {
         try {
@@ -1853,9 +1410,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitINVOKEVIRTUAL(final INVOKEVIRTUAL o) {
         try {
@@ -1926,9 +1480,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitIOR(final IOR o) {
         if (stack().peek() != Type.INT) {
@@ -1939,9 +1490,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitIREM(final IREM o) {
         if (stack().peek() != Type.INT) {
@@ -1952,9 +1500,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitIRETURN(final IRETURN o) {
         if (stack().peek() != Type.INT) {
@@ -1962,9 +1507,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitISHL(final ISHL o) {
         if (stack().peek() != Type.INT) {
@@ -1975,9 +1517,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitISHR(final ISHR o) {
         if (stack().peek() != Type.INT) {
@@ -1988,9 +1527,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitISTORE(final ISTORE o) {
         // visitStoreInstruction(StoreInstruction) is called before.
@@ -1998,9 +1534,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         // Nothing else needs to be done here.
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitISUB(final ISUB o) {
         if (stack().peek() != Type.INT) {
@@ -2011,9 +1544,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitIUSHR(final IUSHR o) {
         if (stack().peek() != Type.INT) {
@@ -2024,9 +1554,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitIXOR(final IXOR o) {
         if (stack().peek() != Type.INT) {
@@ -2037,25 +1564,16 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitJSR(final JSR o) {
         // nothing to do here.
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitJSR_W(final JSR_W o) {
         // nothing to do here.
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitL2D(final L2D o) {
         if (stack().peek() != Type.LONG) {
@@ -2063,9 +1581,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitL2F(final L2F o) {
         if (stack().peek() != Type.LONG) {
@@ -2073,9 +1588,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitL2I(final L2I o) {
         if (stack().peek() != Type.LONG) {
@@ -2083,9 +1595,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitLADD(final LADD o) {
         if (stack().peek() != Type.LONG) {
@@ -2096,9 +1605,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitLALOAD(final LALOAD o) {
         indexOfInt(o, stack().peek());
@@ -2114,9 +1620,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitLAND(final LAND o) {
         if (stack().peek() != Type.LONG) {
@@ -2127,9 +1630,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitLASTORE(final LASTORE o) {
         if (stack().peek() != Type.LONG) {
@@ -2148,9 +1648,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitLCMP(final LCMP o) {
         if (stack().peek() != Type.LONG) {
@@ -2161,17 +1658,11 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitLCONST(final LCONST o) {
         // Nothing to do here.
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitLDC(final LDC o) {
         // visitCPInstruction is called first.
@@ -2182,9 +1673,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     public void visitLDC_W(final LDC_W o) {
         // visitCPInstruction is called first.
 
@@ -2194,9 +1682,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitLDC2_W(final LDC2_W o) {
         // visitCPInstruction is called first.
@@ -2207,9 +1692,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitLDIV(final LDIV o) {
         if (stack().peek() != Type.LONG) {
@@ -2220,9 +1702,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitLLOAD(final LLOAD o) {
         // visitLoadInstruction(LoadInstruction) is called before.
@@ -2230,9 +1709,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         // Nothing else needs to be done here.
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitLMUL(final LMUL o) {
         if (stack().peek() != Type.LONG) {
@@ -2243,9 +1719,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitLNEG(final LNEG o) {
         if (stack().peek() != Type.LONG) {
@@ -2253,10 +1726,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Assures the generic preconditions of a LoadClass instance. The referenced
-     * class is loaded and pass2-verified.
-     */
     @Override
     public void visitLoadClass(final LoadClass o) {
         final ObjectType t = o.getLoadClassType(cpg);
@@ -2269,9 +1738,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Assures the generic preconditions of a LoadInstruction instance.
-     */
     @Override
     public void visitLoadInstruction(final LoadInstruction o) {
         // visitLocalVariableInstruction(o) is called before, because it is more
@@ -2310,10 +1776,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Assures the generic preconditions of a LocalVariableInstruction instance.
-     * That is, the index of the local variable must be valid.
-     */
     @Override
     public void visitLocalVariableInstruction(final LocalVariableInstruction o) {
         if (locals().maxLocals() <= (o.getType(cpg).getSize() == 1 ? o.getIndex() : o.getIndex() + 1)) {
@@ -2321,9 +1783,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitLOOKUPSWITCH(final LOOKUPSWITCH o) {
         if (stack().peek() != Type.INT) {
@@ -2332,9 +1791,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         // See also pass 3a.
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitLOR(final LOR o) {
         if (stack().peek() != Type.LONG) {
@@ -2345,9 +1801,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitLREM(final LREM o) {
         if (stack().peek() != Type.LONG) {
@@ -2358,9 +1811,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitLRETURN(final LRETURN o) {
         if (stack().peek() != Type.LONG) {
@@ -2368,9 +1818,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitLSHL(final LSHL o) {
         if (stack().peek() != Type.INT) {
@@ -2381,9 +1828,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitLSHR(final LSHR o) {
         if (stack().peek() != Type.INT) {
@@ -2394,9 +1838,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitLSTORE(final LSTORE o) {
         // visitStoreInstruction(StoreInstruction) is called before.
@@ -2404,9 +1845,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         // Nothing else needs to be done here.
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitLSUB(final LSUB o) {
         if (stack().peek() != Type.LONG) {
@@ -2417,9 +1855,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitLUSHR(final LUSHR o) {
         if (stack().peek() != Type.INT) {
@@ -2430,9 +1865,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitLXOR(final LXOR o) {
         if (stack().peek() != Type.LONG) {
@@ -2443,9 +1875,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitMONITORENTER(final MONITORENTER o) {
         if (!((stack().peek()) instanceof ReferenceType)) {
@@ -2454,9 +1883,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         // referenceTypeIsInitialized(o, (ReferenceType) (stack().peek()) );
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitMONITOREXIT(final MONITOREXIT o) {
         if (!((stack().peek()) instanceof ReferenceType)) {
@@ -2465,9 +1891,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         // referenceTypeIsInitialized(o, (ReferenceType) (stack().peek()) );
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitMULTIANEWARRAY(final MULTIANEWARRAY o) {
         final int dimensions = o.getDimensions();
@@ -2482,9 +1905,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         // array, or interface type. See Pass 3a.
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitNEW(final NEW o) {
         // visitCPInstruction(CPInstruction) has been called before.
@@ -2509,9 +1929,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitNEWARRAY(final NEWARRAY o) {
         if (stack().peek() != Type.INT) {
@@ -2519,17 +1936,11 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitNOP(final NOP o) {
         // nothing is to be done here.
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitPOP(final POP o) {
         if (stack().peek().getSize() != 1) {
@@ -2537,9 +1948,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitPOP2(final POP2 o) {
         if (stack().peek().getSize() != 2) {
@@ -2547,9 +1955,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitPUTFIELD(final PUTFIELD o) {
         try {
@@ -2568,9 +1973,7 @@ public class InstConstraintVisitor extends EmptyVisitor {
                 if (field.getName().equals(field_name)) {
                     final Type f_type = Type.getType(field.getSignature());
                     final Type o_type = o.getType(cpg);
-                    /*
-                     * TODO: Check if assignment compatibility is sufficient. What does Sun do?
-                     */
+
                     if (f_type.equals(o_type)) {
                         f = field;
                         break;
@@ -2639,9 +2042,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitPUTSTATIC(final PUTSTATIC o) {
         try {
@@ -2653,9 +2053,7 @@ public class InstConstraintVisitor extends EmptyVisitor {
                 if (field.getName().equals(field_name)) {
                     final Type f_type = Type.getType(field.getSignature());
                     final Type o_type = o.getType(cpg);
-                    /*
-                     * TODO: Check if assignment compatibility is sufficient. What does Sun do?
-                     */
+
                     if (f_type.equals(o_type)) {
                         f = field;
                         break;
@@ -2701,9 +2099,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitRET(final RET o) {
         if (!(locals().get(o.getIndex()) instanceof ReturnaddressType)) {
@@ -2716,9 +2111,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         // while building the Subroutines data structure.
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitRETURN(final RETURN o) {
         if (mg.getName().equals(Const.CONSTRUCTOR_NAME)) {// If we leave an <init> method
@@ -2728,9 +2120,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Assures the generic preconditions of a ReturnInstruction instance.
-     */
     @Override
     public void visitReturnInstruction(final ReturnInstruction o) {
         Type method_type = mg.getType();
@@ -2773,9 +2162,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitSALOAD(final SALOAD o) {
         indexOfInt(o, stack().peek());
@@ -2791,9 +2177,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitSASTORE(final SASTORE o) {
         if (stack().peek() != Type.INT) {
@@ -2812,41 +2195,26 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitSIPUSH(final SIPUSH o) {
         // nothing to do here. Generic visitXXX() methods did the trick before.
     }
 
-    /**
-     * Ensures the general preconditions of a StackConsumer instance.
-     */
     @Override
     public void visitStackConsumer(final StackConsumer o) {
         _visitStackAccessor((Instruction) o);
     }
 
-    /**
-     * Ensures the general preconditions of a StackInstruction instance.
-     */
     @Override
     public void visitStackInstruction(final StackInstruction o) {
         _visitStackAccessor(o);
     }
 
-    /**
-     * Ensures the general preconditions of a StackProducer instance.
-     */
     @Override
     public void visitStackProducer(final StackProducer o) {
         _visitStackAccessor((Instruction) o);
     }
 
-    /**
-     * Assures the generic preconditions of a StoreInstruction instance.
-     */
     @Override
     public void visitStoreInstruction(final StoreInstruction o) {
         // visitLocalVariableInstruction(o) is called before, because it is more
@@ -2872,9 +2240,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitSWAP(final SWAP o) {
         if (stack().peek().getSize() != 1) {
@@ -2885,9 +2250,6 @@ public class InstConstraintVisitor extends EmptyVisitor {
         }
     }
 
-    /**
-     * Ensures the specific preconditions of the said instruction.
-     */
     @Override
     public void visitTABLESWITCH(final TABLESWITCH o) {
         indexOfInt(o, stack().peek());

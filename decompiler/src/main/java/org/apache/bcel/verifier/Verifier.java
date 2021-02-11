@@ -1,20 +1,4 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- *
- */
+
 package org.apache.bcel.verifier;
 
 import java.util.ArrayList;
@@ -71,7 +55,6 @@ public class Verifier {
         return p3av.verify();
     }
 
-    /** Returns the VerificationResult for the given pass. */
     public VerificationResult doPass3b(int method_no) {
         String key = Integer.toString(method_no);
         Pass3bVerifier p3bv;
@@ -83,11 +66,6 @@ public class Verifier {
         return p3bv.verify();
     }
 
-    /**
-     * Forget everything known about the class file; that means, really start a new
-     * verification of a possibly different class file from BCEL's repository.
-     *
-     */
     public void flush() {
         p1v = null;
         p2v = null;
@@ -95,22 +73,10 @@ public class Verifier {
         p3bvs.clear();
     }
 
-    /**
-     * Returns the name of the class this verifier operates on. This is particularly
-     * interesting when this verifier was created recursively by another Verifier
-     * and you got a reference to this Verifier by the getVerifiers() method of the
-     * VerifierFactory.
-     *
-     * @see VerifierFactory
-     */
     public ClassFileName getClassName() {
         return classname;
     }
 
-    /**
-     * This returns all the (warning) messages collected during verification. A
-     * prefix shows from which verifying pass a message originates.
-     */
     public String[] getMessages() throws ClassNotFoundException {
         List<String> messages = new ArrayList<>();
         if (p1v != null) {
@@ -143,14 +109,6 @@ public class Verifier {
         return messages.toArray(new String[messages.size()]);
     }
 
-    /**
-     * Verifies class files. This is a simple demonstration of how the API of BCEL's
-     * class file verifier "JustIce" may be used. You should supply command-line
-     * arguments which are fully qualified namea of the classes to verify. These
-     * class files must be somewhere in your CLASSPATH (refer to Sun's documentation
-     * for questions about this) or you must have put the classes into the BCEL
-     * Repository yourself (via 'addClass(JavaClass)').
-     */
     public static void main(String[] args) {
         System.out.println("JustIce by Enver Haase, (C) 2001-2002.\n<http://bcel.sourceforge.net>\n<https://commons.apache.org/bcel>\n");
         for (int index = 0; index < args.length; index++) {

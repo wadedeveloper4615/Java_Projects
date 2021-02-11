@@ -1,20 +1,4 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- *
- */
+
 package org.apache.bcel.generic.gen;
 
 import java.io.IOException;
@@ -45,12 +29,6 @@ import org.apache.bcel.generic.control.InstructionList;
 import org.apache.bcel.util.BCELComparator;
 import org.apache.bcel.util.ClassAccessFlagsList;
 
-/**
- * Template class for building up a java class. May be initialized with an
- * existing java class (file).
- *
- * @see JavaClass
- */
 public class ClassGen extends AccessFlags implements Cloneable {
 
     private static BCELComparator bcelComparator = new BCELComparator() {
@@ -140,11 +118,6 @@ public class ClassGen extends AccessFlags implements Cloneable {
         annotationList.add(a);
     }
 
-    /**
-     * Add an attribute to this class.
-     *
-     * @param a attribute to add
-     */
     public void addAttribute(Attribute a) {
         attributeList.add(a);
     }
@@ -167,18 +140,10 @@ public class ClassGen extends AccessFlags implements Cloneable {
         interfaceList.add(name);
     }
 
-    /**
-     * Add a method to this class.
-     *
-     * @param m method to add
-     */
     public void addMethod(Method m) {
         methodList.add(m);
     }
 
-    /**
-     * Add observer for this object.
-     */
     public void addObserver(ClassObserver o) {
         if (observers == null) {
             observers = new ArrayList<>();
@@ -199,9 +164,6 @@ public class ClassGen extends AccessFlags implements Cloneable {
         return fieldList.contains(f);
     }
 
-    /**
-     * @return field object with given name, or null
-     */
     public Field containsField(String name) {
         for (Field f : fieldList) {
             if (f.getName().equals(name)) {
@@ -211,9 +173,6 @@ public class ClassGen extends AccessFlags implements Cloneable {
         return null;
     }
 
-    /**
-     * @return method object with given name and signature, or null
-     */
     public Method containsMethod(String name, String signature) {
         for (Method m : methodList) {
             if (m.getName().equals(name) && m.getSignature().equals(signature)) {
@@ -223,12 +182,6 @@ public class ClassGen extends AccessFlags implements Cloneable {
         return null;
     }
 
-    /**
-     * Return value as defined by given BCELComparator strategy. By default two
-     * ClassGen objects are said to be equal when their class names are equal.
-     *
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         return bcelComparator.equals(this, obj);
@@ -307,66 +260,33 @@ public class ClassGen extends AccessFlags implements Cloneable {
         return version;
     }
 
-    /**
-     * Return value as defined by given BCELComparator strategy. By default return
-     * the hashcode of the class name.
-     *
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         return bcelComparator.hashCode(this);
     }
 
-    /**
-     * Remove an attribute from this class.
-     *
-     * @param a attribute to remove
-     */
     public void removeAttribute(Attribute a) {
         attributeList.remove(a);
     }
 
-    /**
-     * Remove a field to this class.
-     *
-     * @param f field to remove
-     */
     public void removeField(Field f) {
         fieldList.remove(f);
     }
 
-    /**
-     * Remove an interface from this class.
-     *
-     * @param name interface to remove (fully qualified name)
-     */
     public void removeInterface(String name) {
         interfaceList.remove(name);
     }
 
-    /**
-     * Remove a method from this class.
-     *
-     * @param m method to remove
-     */
     public void removeMethod(Method m) {
         methodList.remove(m);
     }
 
-    /**
-     * Remove observer for this object.
-     */
     public void removeObserver(ClassObserver o) {
         if (observers != null) {
             observers.remove(o);
         }
     }
 
-    /**
-     * Replace given field with new one. If the old one does not exist add the new_
-     * field to the class anyway.
-     */
     public void replaceField(Field old, Field new_) {
         if (new_ == null) {
             throw new ClassGenException("Replacement method must not be null");
@@ -379,10 +299,6 @@ public class ClassGen extends AccessFlags implements Cloneable {
         }
     }
 
-    /**
-     * Replace given method with new one. If the old one does not exist add the new_
-     * method to the class anyway.
-     */
     public void replaceMethod(Method old, Method new_) {
         if (new_ == null) {
             throw new ClassGenException("Replacement method must not be null");
@@ -458,11 +374,6 @@ public class ClassGen extends AccessFlags implements Cloneable {
         return annotationGenObjs.toArray(new AnnotationEntryGen[annotationGenObjs.size()]);
     }
 
-    /**
-     * Call notify() method on all observers. This method is not called
-     * automatically whenever the state has changed, but has to be called by the
-     * user after he has finished editing the object.
-     */
     public void update() {
         if (observers != null) {
             for (ClassObserver observer : observers) {
@@ -471,16 +382,10 @@ public class ClassGen extends AccessFlags implements Cloneable {
         }
     }
 
-    /**
-     * @return Comparison strategy object
-     */
     public static BCELComparator getComparator() {
         return bcelComparator;
     }
 
-    /**
-     * @param comparator Comparison strategy object
-     */
     public static void setComparator(BCELComparator comparator) {
         bcelComparator = comparator;
     }

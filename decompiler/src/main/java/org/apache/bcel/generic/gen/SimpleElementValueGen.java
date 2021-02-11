@@ -1,20 +1,4 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- *
- */
+
 package org.apache.bcel.generic.gen;
 
 import java.io.DataOutputStream;
@@ -28,9 +12,6 @@ import org.apache.bcel.classfile.ConstantUtf8;
 import org.apache.bcel.classfile.ElementValue;
 import org.apache.bcel.classfile.SimpleElementValue;
 
-/**
- * @since 6.0
- */
 public class SimpleElementValueGen extends ElementValueGen {
     // For primitive types and string type, this points to the value entry in
     // the cpGen
@@ -88,20 +69,12 @@ public class SimpleElementValueGen extends ElementValueGen {
 
     // ctors for each supported type... type could be inferred but for now lets
     // force it to be passed
-    /**
-     * Protected ctor used for deserialization, doesn't *put* an entry in the
-     * constant pool, assumes the one at the supplied index is correct.
-     */
+
     public SimpleElementValueGen(final int type, final int idx, final ConstantPoolGen cpGen) {
         super(type, cpGen);
         this.idx = idx;
     }
 
-    /**
-     * The boolean controls whether we copy info from the 'old' constant pool to the
-     * 'new'. You need to use this ctor if the annotation is being copied from one
-     * file to another.
-     */
     public SimpleElementValueGen(final SimpleElementValue value, final ConstantPoolGen cpool, final boolean copyPoolEntries) {
         super(value.getElementValueType(), cpool);
         if (!copyPoolEntries) {
@@ -167,9 +140,6 @@ public class SimpleElementValueGen extends ElementValueGen {
         }
     }
 
-    /**
-     * Return immutable variant
-     */
     @Override
     public ElementValue getElementValue() {
         return new SimpleElementValue(super.getElementValueType(), idx, getConstantPool().getConstantPool());

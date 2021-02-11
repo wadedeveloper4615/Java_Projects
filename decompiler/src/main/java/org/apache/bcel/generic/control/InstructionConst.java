@@ -1,20 +1,4 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- *
- */
+
 package org.apache.bcel.generic.control;
 
 import org.apache.bcel.Const;
@@ -27,30 +11,8 @@ import org.apache.bcel.generic.base.LocalVariableInstruction;
 import org.apache.bcel.generic.base.ReturnInstruction;
 import org.apache.bcel.generic.base.StackInstruction;
 
-/**
- * This interface contains shareable instruction objects.
- *
- * In order to save memory you can use some instructions multiply,
- * since they have an immutable state and are directly derived from
- * Instruction.  I.e. they have no instance fields that could be
- * changed. Since some of these instructions like ICONST_0 occur
- * very frequently this can save a lot of time and space. This
- * feature is an adaptation of the FlyWeight design pattern, we
- * just use an array instead of a factory.
- *
- * The Instructions can also accessed directly under their names, so
- * it's possible to write il.append(Instruction.ICONST_0);
- *
- */
 public final class InstructionConst {
 
-    /**
-     * Predefined instruction objects
-     */
-    /*
-     * NOTE these are not currently immutable, because Instruction
-     * has mutable protected fields opcode and length.
-     */
     public static final Instruction NOP = new NOP();
     public static final Instruction ACONST_NULL = new ACONST_NULL();
     public static final Instruction ICONST_M1 = new ICONST(-1);
@@ -159,9 +121,6 @@ public final class InstructionConst {
     public static final Instruction MONITORENTER = new MONITORENTER();
     public static final Instruction MONITOREXIT = new MONITOREXIT();
 
-    /** You can use these constants in multiple places safely, if you can guarantee
-     * that you will never alter their internal values, e.g. call setIndex().
-     */
     public static final LocalVariableInstruction THIS = new ALOAD(0);
     public static final LocalVariableInstruction ALOAD_0 = THIS;
     public static final LocalVariableInstruction ALOAD_1 = new ALOAD(1);
@@ -176,9 +135,6 @@ public final class InstructionConst {
     public static final LocalVariableInstruction ISTORE_1 = new ISTORE(1);
     public static final LocalVariableInstruction ISTORE_2 = new ISTORE(2);
 
-    /** Get object via its opcode, for immutable instructions like
-     * branch instructions entries are set to null.
-     */
     private static final Instruction[] INSTRUCTIONS = new Instruction[256];
 
     static {
@@ -291,13 +247,9 @@ public final class InstructionConst {
         INSTRUCTIONS[Const.MONITOREXIT] = MONITOREXIT;
     }
 
-    private InstructionConst() { } // non-instantiable
+    private InstructionConst() {
+    } // non-instantiable
 
-    /**
-     * Gets the Instruction.
-     * @param index the index, e.g. {@link Const#RETURN}
-     * @return the entry from the private INSTRUCTIONS table
-     */
     public static Instruction getInstruction(final int index) {
         return INSTRUCTIONS[index];
     }

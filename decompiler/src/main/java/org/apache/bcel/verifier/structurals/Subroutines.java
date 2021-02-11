@@ -1,20 +1,4 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- *
- */
+
 package org.apache.bcel.verifier.structurals;
 
 import java.util.ArrayList;
@@ -41,77 +25,25 @@ import org.apache.bcel.generic.gen.MethodGen;
 import org.apache.bcel.verifier.exc.AssertionViolatedException;
 import org.apache.bcel.verifier.exc.StructuralCodeConstraintException;
 
-/**
- * Instances of this class contain information about the subroutines
- * found in a code array of a method.
- * This implementation considers the top-level (the instructions
- * reachable without a JSR or JSR_W starting off from the first
- * instruction in a code array of a method) being a special subroutine;
- * see getTopLevel() for that.
- * Please note that the definition of subroutines in the Java Virtual
- * Machine Specification, Second Edition is somewhat incomplete.
- * Therefore, JustIce uses an own, more rigid notion.
- * Basically, a subroutine is a piece of code that starts at the target
- * of a JSR of JSR_W instruction and ends at a corresponding RET
- * instruction. Note also that the control flow of a subroutine
- * may be complex and non-linear; and that subroutines may be nested.
- * JustIce also mandates subroutines not to be protected by exception
- * handling code (for the sake of control flow predictability).
- * To understand JustIce's notion of subroutines, please read
- *
- * TODO: refer to the paper.
- *
- * @see #getTopLevel()
- */
-public class Subroutines{
-    /**
-     * This inner class implements the Subroutine interface.
-     */
-    private class SubroutineImpl implements Subroutine{
-        /**
-         * UNSET, a symbol for an uninitialized localVariable
-         * field. This is used for the "top-level" Subroutine;
-         * i.e. no subroutine.
-         */
+public class Subroutines {
+
+    private class SubroutineImpl implements Subroutine {
+
         private static final int UNSET = -1;
 
-        /**
-         * The Local Variable slot where the first
-         * instruction of this subroutine (an ASTORE) stores
-         * the JsrInstruction's ReturnAddress in and
-         * the RET of this subroutine operates on.
-         */
         private int localVariable = UNSET;
 
-        /** The instructions that belong to this subroutine. */
         private final Set<InstructionHandle> instructions = new HashSet<>(); // Elements: InstructionHandle
 
-        /*
-         * Refer to the Subroutine interface for documentation.
-         */
         @Override
         public boolean contains(final InstructionHandle inst) {
             return instructions.contains(inst);
         }
 
-        /**
-         * The JSR or JSR_W instructions that define this
-         * subroutine by targeting it.
-         */
         private final Set<InstructionHandle> theJSRs = new HashSet<>();
 
-        /**
-         * The RET instruction that leaves this subroutine.
-         */
         private InstructionHandle theRET;
 
-        /**
-         * Returns a String representation of this object, merely
-         * for debugging purposes.
-         * (Internal) Warning: Verbosity on a problematic subroutine may cause
-         * stack overflow errors due to recursive subSubs() calls.
-         * Don't use this, then.
-         */
         @Override
         public String toString() {
             final StringBuilder ret = new StringBuilder();
@@ -123,35 +55,31 @@ public class Subroutines{
             ret.append(" Accessed local variable slots: '");
             int[] alv = getAccessedLocalsIndices();
             for (final int element : alv) {
-                ret.append(element);ret.append(" ");
+                ret.append(element);
+                ret.append(" ");
             }
             ret.append("'.");
 
             ret.append(" Recursively (via subsub...routines) accessed local variable slots: '");
             alv = getRecursivelyAccessedLocalsIndices();
             for (final int element : alv) {
-                ret.append(element);ret.append(" ");
+                ret.append(element);
+                ret.append(" ");
             }
             ret.append("'.");
 
             return ret.toString();
         }
 
-        /**
-         * Sets the leaving RET instruction. Must be invoked after all instructions are added.
-         * Must not be invoked for top-level 'subroutine'.
-         */
         void setLeavingRET() {
             if (localVariable == UNSET) {
-                throw new AssertionViolatedException(
-                    "setLeavingRET() called for top-level 'subroutine' or forgot to set local variable first.");
+                throw new AssertionViolatedException("setLeavingRET() called for top-level 'subroutine' or forgot to set local variable first.");
             }
             InstructionHandle ret = null;
             for (final InstructionHandle actual : instructions) {
                 if (actual.getInstruction() instanceof RET) {
                     if (ret != null) {
-                        throw new StructuralCodeConstraintException(
-                            "Subroutine with more then one RET detected: '"+ret+"' and '"+actual+"'.");
+                        throw new StructuralCodeConstraintException("Subroutine with more then one RET detected: '" + ret + "' and '" + actual + "'.");
                     }
                     ret = actual;
                 }
@@ -160,15 +88,11 @@ public class Subroutines{
                 throw new StructuralCodeConstraintException("Subroutine without a RET detected.");
             }
             if (((RET) ret.getInstruction()).getIndex() != localVariable) {
-                throw new StructuralCodeConstraintException(
-                    "Subroutine uses '"+ret+"' which does not match the correct local variable '"+localVariable+"'.");
+                throw new StructuralCodeConstraintException("Subroutine uses '" + ret + "' which does not match the correct local variable '" + localVariable + "'.");
             }
             theRET = ret;
         }
 
-        /*
-         * Refer to the Subroutine interface for documentation.
-         */
         @Override
         public InstructionHandle[] getEnteringJsrInstructions() {
             if (this == getTopLevel()) {
@@ -178,17 +102,15 @@ public class Subroutines{
             return theJSRs.toArray(jsrs);
         }
 
-        /**
-         * Adds a new JSR or JSR_W that has this subroutine as its target.
-         */
         public void addEnteringJsrInstruction(final InstructionHandle jsrInst) {
-            if ( (jsrInst == null) || (! (jsrInst.getInstruction() instanceof JsrInstruction))) {
+            if ((jsrInst == null) || (!(jsrInst.getInstruction() instanceof JsrInstruction))) {
                 throw new AssertionViolatedException("Expecting JsrInstruction InstructionHandle.");
             }
             if (localVariable == UNSET) {
                 throw new AssertionViolatedException("Set the localVariable first!");
             }
-            // Something is wrong when an ASTORE is targeted that does not operate on the same local variable than the rest of the
+            // Something is wrong when an ASTORE is targeted that does not operate on the
+            // same local variable than the rest of the
             // JsrInstruction-targets and the RET.
             // (We don't know out leader here so we cannot check if we're really targeted!)
             if (localVariable != ((ASTORE) (((JsrInstruction) jsrInst.getInstruction()).getTarget().getInstruction())).getIndex()) {
@@ -197,9 +119,6 @@ public class Subroutines{
             theJSRs.add(jsrInst);
         }
 
-        /*
-         * Refer to the Subroutine interface for documentation.
-         */
         @Override
         public InstructionHandle getLeavingRET() {
             if (this == getTopLevel()) {
@@ -208,20 +127,12 @@ public class Subroutines{
             return theRET;
         }
 
-        /*
-         * Refer to the Subroutine interface for documentation.
-         */
         @Override
         public InstructionHandle[] getInstructions() {
             final InstructionHandle[] ret = new InstructionHandle[instructions.size()];
             return instructions.toArray(ret);
         }
 
-        /*
-         * Adds an instruction to this subroutine.
-         * All instructions must have been added before invoking setLeavingRET().
-         * @see #setLeavingRET
-         */
         void addInstruction(final InstructionHandle ih) {
             if (theRET != null) {
                 throw new AssertionViolatedException("All instructions must have been added before invoking setLeavingRET().");
@@ -229,7 +140,6 @@ public class Subroutines{
             instructions.add(ih);
         }
 
-        /* Satisfies Subroutine.getRecursivelyAccessedLocalsIndices(). */
         @Override
         public int[] getRecursivelyAccessedLocalsIndices() {
             final Set<Integer> s = new HashSet<>();
@@ -239,7 +149,7 @@ public class Subroutines{
             }
             _getRecursivelyAccessedLocalsIndicesHelper(s, this.subSubs());
             final int[] ret = new int[s.size()];
-            int j=-1;
+            int j = -1;
             for (final Integer index : s) {
                 j++;
                 ret[j] = index.intValue();
@@ -247,32 +157,24 @@ public class Subroutines{
             return ret;
         }
 
-        /**
-         * A recursive helper method for getRecursivelyAccessedLocalsIndices().
-         * @see #getRecursivelyAccessedLocalsIndices()
-         */
         private void _getRecursivelyAccessedLocalsIndicesHelper(final Set<Integer> s, final Subroutine[] subs) {
             for (final Subroutine sub : subs) {
                 final int[] lvs = sub.getAccessedLocalsIndices();
                 for (final int lv : lvs) {
                     s.add(Integer.valueOf(lv));
                 }
-                if(sub.subSubs().length != 0) {
+                if (sub.subSubs().length != 0) {
                     _getRecursivelyAccessedLocalsIndicesHelper(s, sub.subSubs());
                 }
             }
         }
 
-        /*
-         * Satisfies Subroutine.getAccessedLocalIndices().
-         */
         @Override
         public int[] getAccessedLocalsIndices() {
-            //TODO: Implement caching.
+            // TODO: Implement caching.
             final Set<Integer> acc = new HashSet<>();
             if (theRET == null && this != getTopLevel()) {
-                throw new AssertionViolatedException(
-                    "This subroutine object must be built up completely before calculating accessed locals.");
+                throw new AssertionViolatedException("This subroutine object must be built up completely before calculating accessed locals.");
             }
             {
                 for (final InstructionHandle ih : instructions) {
@@ -281,17 +183,16 @@ public class Subroutines{
                         final int idx = ((IndexedInstruction) (ih.getInstruction())).getIndex();
                         acc.add(Integer.valueOf(idx));
                         // LONG? DOUBLE?.
-                        try{
+                        try {
                             // LocalVariableInstruction instances are typed without the need to look into
                             // the constant pool.
                             if (ih.getInstruction() instanceof LocalVariableInstruction) {
                                 final int s = ((LocalVariableInstruction) ih.getInstruction()).getType(null).getSize();
-                                if (s==2) {
-                                    acc.add(Integer.valueOf(idx+1));
+                                if (s == 2) {
+                                    acc.add(Integer.valueOf(idx + 1));
                                 }
                             }
-                        }
-                        catch(final RuntimeException re) {
+                        } catch (final RuntimeException re) {
                             throw new AssertionViolatedException("BCEL did not like NULL as a ConstantPoolGen object.", re);
                         }
                     }
@@ -300,7 +201,7 @@ public class Subroutines{
 
             {
                 final int[] ret = new int[acc.size()];
-                int j=-1;
+                int j = -1;
                 for (final Integer accessedLocal : acc) {
                     j++;
                     ret[j] = accessedLocal.intValue();
@@ -309,9 +210,6 @@ public class Subroutines{
             }
         }
 
-        /*
-         * Satisfies Subroutine.subSubs().
-         */
         @Override
         public Subroutine[] subSubs() {
             final Set<Subroutine> h = new HashSet<>();
@@ -327,12 +225,6 @@ public class Subroutines{
             return h.toArray(ret);
         }
 
-        /*
-         * Sets the local variable slot the ASTORE that is targeted
-         * by the JsrInstructions of this subroutine operates on.
-         * This subroutine's RET operates on that same local variable
-         * slot, of course.
-         */
         void setLocalVariable(final int i) {
             if (localVariable != UNSET) {
                 throw new AssertionViolatedException("localVariable set twice.");
@@ -340,55 +232,26 @@ public class Subroutines{
             localVariable = i;
         }
 
-        /**
-         * The default constructor.
-         */
         public SubroutineImpl() {
         }
 
     }// end Inner Class SubrouteImpl
 
-    //Node coloring constants
-    private enum ColourConstants{
-        WHITE,
-        GRAY,
-        BLACK
+    // Node coloring constants
+    private enum ColourConstants {
+        WHITE, GRAY, BLACK
     }
 
-    /**
-     * The map containing the subroutines found.
-     * Key: InstructionHandle of the leader of the subroutine.
-     * Elements: SubroutineImpl objects.
-     */
     private final Map<InstructionHandle, Subroutine> subroutines = new HashMap<>();
 
-    /**
-     * This is referring to a special subroutine, namely the
-     * top level. This is not really a subroutine but we use
-     * it to distinguish between top level instructions and
-     * unreachable instructions.
-     */
     // CHECKSTYLE:OFF
     public final Subroutine TOPLEVEL; // TODO can this be made private?
     // CHECKSTYLE:ON
 
-    /**
-     * Constructor.
-     * @param mg A MethodGen object representing method to
-     * create the Subroutine objects of.
-     * Assumes that JustIce strict checks are needed.
-     */
     public Subroutines(final MethodGen mg) {
         this(mg, true);
     }
 
-    /**
-     * Constructor.
-     * @param mg A MethodGen object representing method to
-     * create the Subroutine objects of.
-     * @param enableJustIceCheck whether to enable additional JustIce checks
-     * @since 6.0
-     */
     public Subroutines(final MethodGen mg, final boolean enableJustIceCheck) {
         final InstructionHandle[] all = mg.getInstructionList().getInstructionHandles();
         final CodeExceptionGen[] handlers = mg.getExceptionHandlers();
@@ -408,7 +271,7 @@ public class Subroutines{
         // Build up the database.
         for (final InstructionHandle astore : sub_leaders) {
             final SubroutineImpl sr = new SubroutineImpl();
-            sr.setLocalVariable( ((ASTORE) (astore.getInstruction())).getIndex() );
+            sr.setLocalVariable(((ASTORE) (astore.getInstruction())).getIndex());
             subroutines.put(astore, sr);
         }
 
@@ -434,7 +297,7 @@ public class Subroutines{
         // we don't want to assign an instruction to two or more Subroutine objects.
         final Set<InstructionHandle> instructions_assigned = new HashSet<>();
 
-        //Graph colouring. Key: InstructionHandle, Value: ColourConstants enum .
+        // Graph colouring. Key: InstructionHandle, Value: ColourConstants enum .
         final Map<InstructionHandle, ColourConstants> colors = new HashMap<>();
 
         final List<InstructionHandle> Q = new ArrayList<>();
@@ -450,19 +313,12 @@ public class Subroutines{
             Q.clear();
             Q.add(actual); // add(Obj) adds to the end, remove(0) removes from the start.
 
-            /*
-             * BFS ALGORITHM MODIFICATION:
-             * Start out with multiple "root" nodes, as exception handlers are starting points of top-level code, too.
-             * [why top-level?
-             * TODO: Refer to the special JustIce notion of subroutines.]
-             */
             if (actual == all[0]) {
                 for (final CodeExceptionGen handler : handlers) {
                     colors.put(handler.getHandlerPC(), ColourConstants.GRAY);
                     Q.add(handler.getHandlerPC());
                 }
             }
-            /* CONTINUE NORMAL BFS ALGORITHM */
 
             // Loop until Queue is empty
             while (Q.size() != 0) {
@@ -479,10 +335,9 @@ public class Subroutines{
             // BFS ended above.
             for (final InstructionHandle element : all) {
                 if (colors.get(element) == ColourConstants.BLACK) {
-                    ((SubroutineImpl) (actual==all[0]?getTopLevel():getSubroutine(actual))).addInstruction(element);
+                    ((SubroutineImpl) (actual == all[0] ? getTopLevel() : getSubroutine(actual))).addInstruction(element);
                     if (instructions_assigned.contains(element)) {
-                        throw new StructuralCodeConstraintException("Instruction '"+element+
-                            "' is part of more than one subroutine (or of the top level and a subroutine).");
+                        throw new StructuralCodeConstraintException("Instruction '" + element + "' is part of more than one subroutine (or of the top level and a subroutine).");
                     }
                     instructions_assigned.add(element);
                 }
@@ -493,18 +348,17 @@ public class Subroutines{
         }
 
         if (enableJustIceCheck) {
-            // Now make sure no instruction of a Subroutine is protected by exception handling code
+            // Now make sure no instruction of a Subroutine is protected by exception
+            // handling code
             // as is mandated by JustIces notion of subroutines.
             for (final CodeExceptionGen handler : handlers) {
                 InstructionHandle _protected = handler.getStartPC();
                 while (_protected != handler.getEndPC().getNext()) {
                     // Note the inclusive/inclusive notation of "generic API" exception handlers!
                     for (final Subroutine sub : subroutines.values()) {
-                        if (sub != subroutines.get(all[0])) {    // We don't want to forbid top-level exception handlers.
+                        if (sub != subroutines.get(all[0])) { // We don't want to forbid top-level exception handlers.
                             if (sub.contains(_protected)) {
-                                throw new StructuralCodeConstraintException("Subroutine instruction '"+_protected+
-                                    "' is protected by an exception handler, '"+handler+
-                                    "'. This is forbidden by the JustIce verifier due to its clear definition of subroutines.");
+                                throw new StructuralCodeConstraintException("Subroutine instruction '" + _protected + "' is protected by an exception handler, '" + handler + "'. This is forbidden by the JustIce verifier due to its clear definition of subroutines.");
                             }
                         }
                     }
@@ -523,17 +377,6 @@ public class Subroutines{
 
     }
 
-    /**
-     * This (recursive) utility method makes sure that
-     * no subroutine is calling a subroutine
-     * that uses the same local variable for the RET as themselves
-     * (recursively).
-     * This includes that subroutines may not call themselves
-     * recursively, even not through intermediate calls to other
-     * subroutines.
-     *
-     * @throws StructuralCodeConstraintException if the above constraint is not satisfied.
-     */
     private void noRecursiveCalls(final Subroutine sub, final Set<Integer> set) {
         final Subroutine[] subs = sub.subSubs();
 
@@ -541,12 +384,10 @@ public class Subroutines{
             final int index = ((RET) (sub2.getLeavingRET().getInstruction())).getIndex();
 
             if (!set.add(Integer.valueOf(index))) {
-                // Don't use toString() here because of possibly infinite recursive subSubs() calls then.
+                // Don't use toString() here because of possibly infinite recursive subSubs()
+                // calls then.
                 final SubroutineImpl si = (SubroutineImpl) sub2;
-                throw new StructuralCodeConstraintException("Subroutine with local variable '"+si.localVariable+"', JSRs '"+
-                si.theJSRs+"', RET '"+si.theRET+
-                "' is called by a subroutine which uses the same local variable index as itself; maybe even a recursive call?"+
-                " JustIce's clean definition of a subroutine forbids both.");
+                throw new StructuralCodeConstraintException("Subroutine with local variable '" + si.localVariable + "', JSRs '" + si.theJSRs + "', RET '" + si.theRET + "' is called by a subroutine which uses the same local variable index as itself; maybe even a recursive call?" + " JustIce's clean definition of a subroutine forbids both.");
             }
 
             noRecursiveCalls(sub2, set);
@@ -555,20 +396,11 @@ public class Subroutines{
         }
     }
 
-    /**
-     * Returns the Subroutine object associated with the given
-     * leader (that is, the first instruction of the subroutine).
-     * You must not use this to get the top-level instructions
-     * modeled as a Subroutine object.
-     *
-     * @see #getTopLevel()
-     */
     public Subroutine getSubroutine(final InstructionHandle leader) {
         final Subroutine ret = subroutines.get(leader);
 
         if (ret == null) {
-            throw new AssertionViolatedException(
-                "Subroutine requested for an InstructionHandle that is not a leader of a subroutine.");
+            throw new AssertionViolatedException("Subroutine requested for an InstructionHandle that is not a leader of a subroutine.");
         }
 
         if (ret == TOPLEVEL) {
@@ -578,47 +410,22 @@ public class Subroutines{
         return ret;
     }
 
-    /**
-     * Returns the subroutine object associated with the
-     * given instruction. This is a costly operation, you
-     * should consider using getSubroutine(InstructionHandle).
-     * Returns 'null' if the given InstructionHandle lies
-     * in so-called 'dead code', i.e. code that can never
-     * be executed.
-     *
-     * @see #getSubroutine(InstructionHandle)
-     * @see #getTopLevel()
-     */
     public Subroutine subroutineOf(final InstructionHandle any) {
         for (final Subroutine s : subroutines.values()) {
             if (s.contains(any)) {
                 return s;
             }
         }
-        System.err.println("DEBUG: Please verify '"+any.toString(true)+"' lies in dead code.");
+        System.err.println("DEBUG: Please verify '" + any.toString(true) + "' lies in dead code.");
         return null;
-        //throw new AssertionViolatedException("No subroutine for InstructionHandle found (DEAD CODE?).");
+        // throw new AssertionViolatedException("No subroutine for InstructionHandle
+        // found (DEAD CODE?).");
     }
 
-    /**
-     * For easy handling, the piece of code that is <B>not</B> a
-     * subroutine, the top-level, is also modeled as a Subroutine
-     * object.
-     * It is a special Subroutine object where <B>you must not invoke
-     * getEnteringJsrInstructions() or getLeavingRET()</B>.
-     *
-     * @see Subroutine#getEnteringJsrInstructions()
-     * @see Subroutine#getLeavingRET()
-     */
     public Subroutine getTopLevel() {
         return TOPLEVEL;
     }
-    /**
-     * A utility method that calculates the successors of a given InstructionHandle
-     * <B>in the same subroutine</B>. That means, a RET does not have any successors
-     * as defined here. A JsrInstruction has its physical successor as its successor
-     * (opposed to its target) as defined here.
-     */
+
     private static InstructionHandle[] getSuccessors(final InstructionHandle instruction) {
         final InstructionHandle[] empty = new InstructionHandle[0];
         final InstructionHandle[] single = new InstructionHandle[1];
@@ -656,7 +463,7 @@ public class Subroutines{
                 // BCEL's getTargets() returns only the non-default targets,
                 // thanks to Eli Tilevich for reporting.
                 final InstructionHandle[] matchTargets = ((Select) inst).getTargets();
-                final InstructionHandle[] ret = new InstructionHandle[matchTargets.length+1];
+                final InstructionHandle[] ret = new InstructionHandle[matchTargets.length + 1];
                 ret[0] = ((Select) inst).getTarget();
                 System.arraycopy(matchTargets, 0, ret, 1, matchTargets.length);
                 return ret;
@@ -672,11 +479,8 @@ public class Subroutines{
         return single;
     }
 
-    /**
-     * Returns a String representation of this object; merely for debugging puposes.
-     */
     @Override
     public String toString() {
-        return "---\n"+subroutines+"\n---\n";
+        return "---\n" + subroutines + "\n---\n";
     }
 }

@@ -24,7 +24,7 @@ public final class Pass1Verifier extends PassVerifier {
             jc = getJavaClass(); // loads in the class file if not already done.
 
             if (jc != null) {
-                /* If we find more constraints to check, we should do this in an own method. */
+
                 if (!myOwner.getClassName().equals(jc.getClassName())) {
                     // This should maybe caught by BCEL: In case of renamed .class files we get
                     // wrong
@@ -62,13 +62,6 @@ public final class Pass1Verifier extends PassVerifier {
         return jc;
     }
 
-    /**
-     * Currently this returns an empty array of String. One could parse the error
-     * messages of BCEL (written to java.lang.System.err) when loading a class file
-     * such as detecting unknown attributes or trailing garbage at the end of a
-     * class file. However, Markus Dahm does not like the idea so this method is
-     * currently useless and therefore marked as <B>TODO</B>.
-     */
     @Override
     public String[] getMessages() {
         // This method is only here to override the javadoc-comment.

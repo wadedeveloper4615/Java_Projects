@@ -19,6 +19,7 @@ import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 import org.apache.bcel.Const;
+import org.apache.bcel.classfile.attribute.LocalVariableTable;
 import org.apache.bcel.classfile.constant.Constant;
 import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.enums.ClassAccessFlags;

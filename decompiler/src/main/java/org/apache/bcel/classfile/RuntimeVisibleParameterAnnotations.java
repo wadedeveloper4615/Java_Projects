@@ -5,6 +5,7 @@ import java.io.DataInput;
 import java.io.IOException;
 
 import org.apache.bcel.Const;
+import org.apache.bcel.classfile.attribute.ParameterAnnotations;
 import org.apache.bcel.classfile.constant.ConstantPool;
 
 public class RuntimeVisibleParameterAnnotations extends ParameterAnnotations {

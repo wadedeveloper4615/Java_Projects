@@ -4,6 +4,10 @@ import java.io.DataInputStream;
 import java.io.IOException;
 
 import org.apache.bcel.classfile.attribute.Attribute;
+import org.apache.bcel.classfile.attribute.Code;
+import org.apache.bcel.classfile.attribute.ExceptionTable;
+import org.apache.bcel.classfile.attribute.LineNumberTable;
+import org.apache.bcel.classfile.attribute.LocalVariableTable;
 import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.compare.MethdComparator;
 import org.apache.bcel.generic.Type;

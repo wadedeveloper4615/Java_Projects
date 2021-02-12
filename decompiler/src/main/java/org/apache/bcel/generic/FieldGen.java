@@ -7,10 +7,10 @@ import java.util.Objects;
 
 import org.apache.bcel.Const;
 import org.apache.bcel.classfile.AnnotationEntry;
-import org.apache.bcel.classfile.Annotations;
 import org.apache.bcel.classfile.ConstantObject;
 import org.apache.bcel.classfile.Field;
 import org.apache.bcel.classfile.Utility;
+import org.apache.bcel.classfile.attribute.Annotations;
 import org.apache.bcel.classfile.attribute.Attribute;
 import org.apache.bcel.classfile.constant.Constant;
 import org.apache.bcel.classfile.constant.ConstantPool;

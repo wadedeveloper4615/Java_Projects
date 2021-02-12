@@ -15,7 +15,7 @@ public final class ModuleOpens implements Cloneable, Node {
     private final int opensToCount;
     private final int[] opensToIndex; // points to CONSTANT_Module_info
 
-    ModuleOpens(final DataInput file) throws IOException {
+    public ModuleOpens(final DataInput file) throws IOException {
         opensIndex = file.readUnsignedShort();
         opensFlags = file.readUnsignedShort();
         opensToCount = file.readUnsignedShort();

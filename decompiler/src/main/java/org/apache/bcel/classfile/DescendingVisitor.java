@@ -3,7 +3,28 @@ package org.apache.bcel.classfile;
 
 import java.util.Stack;
 
+import org.apache.bcel.classfile.attribute.AnnotationDefault;
+import org.apache.bcel.classfile.attribute.Annotations;
 import org.apache.bcel.classfile.attribute.Attribute;
+import org.apache.bcel.classfile.attribute.BootstrapMethods;
+import org.apache.bcel.classfile.attribute.Code;
+import org.apache.bcel.classfile.attribute.Deprecated;
+import org.apache.bcel.classfile.attribute.EnclosingMethod;
+import org.apache.bcel.classfile.attribute.ExceptionTable;
+import org.apache.bcel.classfile.attribute.InnerClasses;
+import org.apache.bcel.classfile.attribute.LineNumberTable;
+import org.apache.bcel.classfile.attribute.LocalVariableTable;
+import org.apache.bcel.classfile.attribute.LocalVariableTypeTable;
+import org.apache.bcel.classfile.attribute.MethodParameters;
+import org.apache.bcel.classfile.attribute.Module;
+import org.apache.bcel.classfile.attribute.ModuleMainClass;
+import org.apache.bcel.classfile.attribute.ModulePackages;
+import org.apache.bcel.classfile.attribute.NestHost;
+import org.apache.bcel.classfile.attribute.ParameterAnnotations;
+import org.apache.bcel.classfile.attribute.Signature;
+import org.apache.bcel.classfile.attribute.SourceFile;
+import org.apache.bcel.classfile.attribute.StackMap;
+import org.apache.bcel.classfile.attribute.Synthetic;
 import org.apache.bcel.classfile.constant.Constant;
 import org.apache.bcel.classfile.constant.ConstantClass;
 import org.apache.bcel.classfile.constant.ConstantDouble;
@@ -24,6 +45,7 @@ import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.classfile.constant.ConstantString;
 import org.apache.bcel.classfile.constant.ConstantUtf8;
 import org.apache.bcel.classfile.constant.ConstantValue;
+import org.apache.bcel.classfile.constant.Unknown;
 
 public class DescendingVisitor implements Visitor {
     private final JavaClass clazz;

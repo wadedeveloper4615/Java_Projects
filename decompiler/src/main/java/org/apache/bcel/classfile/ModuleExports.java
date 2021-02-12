@@ -15,7 +15,7 @@ public final class ModuleExports implements Cloneable, Node {
     private final int exportsToCount;
     private final int[] exportsToIndex; // points to CONSTANT_Module_info
 
-    ModuleExports(final DataInput file) throws IOException {
+    public ModuleExports(final DataInput file) throws IOException {
         exportsIndex = file.readUnsignedShort();
         exportsFlags = file.readUnsignedShort();
         exportsToCount = file.readUnsignedShort();

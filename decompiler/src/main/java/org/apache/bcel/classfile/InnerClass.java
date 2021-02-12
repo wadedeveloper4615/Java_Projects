@@ -16,7 +16,7 @@ public final class InnerClass implements Cloneable, Node {
     private int innerNameIndex;
     private int innerAccessFlags;
 
-    InnerClass(final DataInput file) throws IOException {
+    public InnerClass(final DataInput file) throws IOException {
         this(file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort());
     }
 

@@ -19,7 +19,7 @@ public class MethodParameter implements Cloneable {
     public MethodParameter() {
     }
 
-    MethodParameter(final DataInput input) throws IOException {
+    public MethodParameter(final DataInput input) throws IOException {
         nameIndex = input.readUnsignedShort();
         accessFlags = input.readUnsignedShort();
     }

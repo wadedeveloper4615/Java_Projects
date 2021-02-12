@@ -15,6 +15,8 @@ import java.util.TreeSet;
 import org.apache.bcel.ClassFileName;
 import org.apache.bcel.Const;
 import org.apache.bcel.classfile.attribute.Attribute;
+import org.apache.bcel.classfile.attribute.InnerClasses;
+import org.apache.bcel.classfile.attribute.SourceFile;
 import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.compare.JavaClassComparator;
 import org.apache.bcel.enums.ClassAccessFlags;

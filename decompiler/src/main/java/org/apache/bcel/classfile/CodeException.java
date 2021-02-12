@@ -20,7 +20,7 @@ public final class CodeException implements Cloneable, Node, Constants {
         this(c.getStartPC(), c.getEndPC(), c.getHandlerPC(), c.getCatchType());
     }
 
-    CodeException(final DataInput file) throws IOException {
+    public CodeException(final DataInput file) throws IOException {
         this(file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort());
     }
 

@@ -1,12 +1,12 @@
 
-package org.apache.bcel.classfile;
+package org.apache.bcel.classfile.attribute;
 
 import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
 import org.apache.bcel.Const;
-import org.apache.bcel.classfile.attribute.Attribute;
+import org.apache.bcel.classfile.Visitor;
 import org.apache.bcel.classfile.constant.ConstantClass;
 import org.apache.bcel.classfile.constant.ConstantNameAndType;
 import org.apache.bcel.classfile.constant.ConstantPool;

@@ -14,7 +14,7 @@ public final class ModuleRequires implements Cloneable, Node {
     private final int requiresFlags;
     private final int requiresVersionIndex; // either 0 or points to CONSTANT_Utf8_info
 
-    ModuleRequires(final DataInput file) throws IOException {
+    public ModuleRequires(final DataInput file) throws IOException {
         requiresIndex = file.readUnsignedShort();
         requiresFlags = file.readUnsignedShort();
         requiresVersionIndex = file.readUnsignedShort();

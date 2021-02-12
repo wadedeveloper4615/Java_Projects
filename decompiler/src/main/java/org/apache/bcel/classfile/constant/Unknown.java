@@ -1,5 +1,5 @@
 
-package org.apache.bcel.classfile;
+package org.apache.bcel.classfile.constant;
 
 import java.io.DataInput;
 import java.io.DataOutputStream;
@@ -8,9 +8,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.bcel.Const;
+import org.apache.bcel.classfile.Utility;
+import org.apache.bcel.classfile.Visitor;
 import org.apache.bcel.classfile.attribute.Attribute;
-import org.apache.bcel.classfile.constant.ConstantPool;
-import org.apache.bcel.classfile.constant.ConstantUtf8;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public final class Unknown extends Attribute {

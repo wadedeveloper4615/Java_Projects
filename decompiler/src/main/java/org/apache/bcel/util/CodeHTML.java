@@ -7,13 +7,13 @@ import java.io.PrintWriter;
 import java.util.BitSet;
 
 import org.apache.bcel.Const;
-import org.apache.bcel.classfile.Code;
 import org.apache.bcel.classfile.CodeException;
 import org.apache.bcel.classfile.LocalVariable;
-import org.apache.bcel.classfile.LocalVariableTable;
 import org.apache.bcel.classfile.Method;
 import org.apache.bcel.classfile.Utility;
 import org.apache.bcel.classfile.attribute.Attribute;
+import org.apache.bcel.classfile.attribute.Code;
+import org.apache.bcel.classfile.attribute.LocalVariableTable;
 import org.apache.bcel.classfile.constant.ConstantFieldref;
 import org.apache.bcel.classfile.constant.ConstantInterfaceMethodref;
 import org.apache.bcel.classfile.constant.ConstantInvokeDynamic;

@@ -1,18 +1,19 @@
 
-package org.apache.bcel.classfile;
+package org.apache.bcel.classfile.attribute;
 
 import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.classfile.attribute.Attribute;
+import org.apache.bcel.classfile.ParameterAnnotationEntry;
+import org.apache.bcel.classfile.Visitor;
 import org.apache.bcel.classfile.constant.ConstantPool;
 
 public abstract class ParameterAnnotations extends Attribute {
 
     private ParameterAnnotationEntry[] parameterAnnotationTable;
 
-    ParameterAnnotations(final byte parameter_annotation_type, final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
+    protected ParameterAnnotations(final byte parameter_annotation_type, final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
         this(parameter_annotation_type, name_index, length, (ParameterAnnotationEntry[]) null, constant_pool);
         final int num_parameters = input.readUnsignedByte();
         parameterAnnotationTable = new ParameterAnnotationEntry[num_parameters];
@@ -31,16 +32,9 @@ public abstract class ParameterAnnotations extends Attribute {
         v.visitParameterAnnotation(this);
     }
 
-    public final void setParameterAnnotationTable(final ParameterAnnotationEntry[] parameterAnnotationTable) {
-        this.parameterAnnotationTable = parameterAnnotationTable;
-    }
-
-    public final ParameterAnnotationEntry[] getParameterAnnotationTable() {
-        return parameterAnnotationTable;
-    }
-
-    public ParameterAnnotationEntry[] getParameterAnnotationEntries() {
-        return parameterAnnotationTable;
+    @Override
+    public Attribute copy(final ConstantPool constant_pool) {
+        return (Attribute) clone();
     }
 
     @Override
@@ -54,8 +48,15 @@ public abstract class ParameterAnnotations extends Attribute {
 
     }
 
-    @Override
-    public Attribute copy(final ConstantPool constant_pool) {
-        return (Attribute) clone();
+    public ParameterAnnotationEntry[] getParameterAnnotationEntries() {
+        return parameterAnnotationTable;
+    }
+
+    public final ParameterAnnotationEntry[] getParameterAnnotationTable() {
+        return parameterAnnotationTable;
+    }
+
+    public final void setParameterAnnotationTable(final ParameterAnnotationEntry[] parameterAnnotationTable) {
+        this.parameterAnnotationTable = parameterAnnotationTable;
     }
 }

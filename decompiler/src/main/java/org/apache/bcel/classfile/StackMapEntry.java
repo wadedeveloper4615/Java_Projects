@@ -4,6 +4,7 @@ package org.apache.bcel.classfile;
 import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
+
 import org.apache.bcel.Const;
 import org.apache.bcel.classfile.constant.ConstantPool;
 
@@ -15,7 +16,7 @@ public final class StackMapEntry implements Node, Cloneable {
     private StackMapType[] typesOfStackItems;
     private ConstantPool constantPool;
 
-    StackMapEntry(final DataInput input, final ConstantPool constantPool) throws IOException {
+    public StackMapEntry(final DataInput input, final ConstantPool constantPool) throws IOException {
         this(input.readByte() & 0xFF, -1, null, null, constantPool);
 
         if (frameType >= Const.SAME_FRAME && frameType <= Const.SAME_FRAME_MAX) {
@@ -73,6 +74,30 @@ public final class StackMapEntry implements Node, Cloneable {
         this.constantPool = constantPool;
     }
 
+    @Override
+    public void accept(final Visitor v) {
+        v.visitStackMapEntry(this);
+    }
+
+    public StackMapEntry copy() {
+        StackMapEntry e;
+        try {
+            e = (StackMapEntry) clone();
+        } catch (final CloneNotSupportedException ex) {
+            throw new Error("Clone Not Supported");
+        }
+
+        e.typesOfLocals = new StackMapType[typesOfLocals.length];
+        for (int i = 0; i < typesOfLocals.length; i++) {
+            e.typesOfLocals[i] = typesOfLocals[i].copy();
+        }
+        e.typesOfStackItems = new StackMapType[typesOfStackItems.length];
+        for (int i = 0; i < typesOfStackItems.length; i++) {
+            e.typesOfStackItems[i] = typesOfStackItems[i].copy();
+        }
+        return e;
+    }
+
     public void dump(final DataOutputStream file) throws IOException {
         file.write(frameType);
         if (frameType >= Const.SAME_FRAME && frameType <= Const.SAME_FRAME_MAX) {
@@ -105,6 +130,129 @@ public final class StackMapEntry implements Node, Cloneable {
 
             throw new ClassFormatException("Invalid Stack map table tag: " + frameType);
         }
+    }
+
+    public int getByteCodeOffset() {
+        return byteCodeOffset;
+    }
+
+    public ConstantPool getConstantPool() {
+        return constantPool;
+    }
+
+    public int getFrameType() {
+        return frameType;
+    }
+
+    public int getMapEntrySize() {
+        if (frameType >= Const.SAME_FRAME && frameType <= Const.SAME_FRAME_MAX) {
+            return 1;
+        } else if (frameType >= Const.SAME_LOCALS_1_STACK_ITEM_FRAME && frameType <= Const.SAME_LOCALS_1_STACK_ITEM_FRAME_MAX) {
+            return 1 + (typesOfStackItems[0].hasIndex() ? 3 : 1);
+        } else if (frameType == Const.SAME_LOCALS_1_STACK_ITEM_FRAME_EXTENDED) {
+            return 3 + (typesOfStackItems[0].hasIndex() ? 3 : 1);
+        } else if (frameType >= Const.CHOP_FRAME && frameType <= Const.CHOP_FRAME_MAX) {
+            return 3;
+        } else if (frameType == Const.SAME_FRAME_EXTENDED) {
+            return 3;
+        } else if (frameType >= Const.APPEND_FRAME && frameType <= Const.APPEND_FRAME_MAX) {
+            int len = 3;
+            for (final StackMapType types_of_local : typesOfLocals) {
+                len += types_of_local.hasIndex() ? 3 : 1;
+            }
+            return len;
+        } else if (frameType == Const.FULL_FRAME) {
+            int len = 7;
+            for (final StackMapType types_of_local : typesOfLocals) {
+                len += types_of_local.hasIndex() ? 3 : 1;
+            }
+            for (final StackMapType types_of_stack_item : typesOfStackItems) {
+                len += types_of_stack_item.hasIndex() ? 3 : 1;
+            }
+            return len;
+        } else {
+            throw new IllegalStateException("Invalid StackMap frameType: " + frameType);
+        }
+    }
+
+    public int getNumberOfLocals() {
+        return typesOfLocals.length;
+    }
+
+    public int getNumberOfStackItems() {
+        return typesOfStackItems.length;
+    }
+
+    public StackMapType[] getTypesOfLocals() {
+        return typesOfLocals;
+    }
+
+    public StackMapType[] getTypesOfStackItems() {
+        return typesOfStackItems;
+    }
+
+    public void setByteCodeOffset(final int new_offset) {
+        if (new_offset < 0 || new_offset > 32767) {
+            throw new IllegalArgumentException("Invalid StackMap offset: " + new_offset);
+        }
+
+        if (frameType >= Const.SAME_FRAME && frameType <= Const.SAME_FRAME_MAX) {
+            if (new_offset > Const.SAME_FRAME_MAX) {
+                frameType = Const.SAME_FRAME_EXTENDED;
+            } else {
+                frameType = new_offset;
+            }
+        } else if (frameType >= Const.SAME_LOCALS_1_STACK_ITEM_FRAME && frameType <= Const.SAME_LOCALS_1_STACK_ITEM_FRAME_MAX) {
+            if (new_offset > Const.SAME_FRAME_MAX) {
+                frameType = Const.SAME_LOCALS_1_STACK_ITEM_FRAME_EXTENDED;
+            } else {
+                frameType = Const.SAME_LOCALS_1_STACK_ITEM_FRAME + new_offset;
+            }
+        } else if (frameType == Const.SAME_LOCALS_1_STACK_ITEM_FRAME_EXTENDED) { // CHECKSTYLE IGNORE EmptyBlock
+        } else if (frameType >= Const.CHOP_FRAME && frameType <= Const.CHOP_FRAME_MAX) { // CHECKSTYLE IGNORE EmptyBlock
+        } else if (frameType == Const.SAME_FRAME_EXTENDED) { // CHECKSTYLE IGNORE EmptyBlock
+        } else if (frameType >= Const.APPEND_FRAME && frameType <= Const.APPEND_FRAME_MAX) { // CHECKSTYLE IGNORE EmptyBlock
+        } else if (frameType == Const.FULL_FRAME) { // CHECKSTYLE IGNORE EmptyBlock
+        } else {
+            throw new IllegalStateException("Invalid StackMap frameType: " + frameType);
+        }
+        byteCodeOffset = new_offset;
+    }
+
+    public void setConstantPool(final ConstantPool constantPool) {
+        this.constantPool = constantPool;
+    }
+
+    public void setFrameType(final int f) {
+        if (f >= Const.SAME_FRAME && f <= Const.SAME_FRAME_MAX) {
+            byteCodeOffset = f - Const.SAME_FRAME;
+        } else if (f >= Const.SAME_LOCALS_1_STACK_ITEM_FRAME && f <= Const.SAME_LOCALS_1_STACK_ITEM_FRAME_MAX) {
+            byteCodeOffset = f - Const.SAME_LOCALS_1_STACK_ITEM_FRAME;
+        } else if (f == Const.SAME_LOCALS_1_STACK_ITEM_FRAME_EXTENDED) { // CHECKSTYLE IGNORE EmptyBlock
+        } else if (f >= Const.CHOP_FRAME && f <= Const.CHOP_FRAME_MAX) { // CHECKSTYLE IGNORE EmptyBlock
+        } else if (f == Const.SAME_FRAME_EXTENDED) { // CHECKSTYLE IGNORE EmptyBlock
+        } else if (f >= Const.APPEND_FRAME && f <= Const.APPEND_FRAME_MAX) { // CHECKSTYLE IGNORE EmptyBlock
+        } else if (f == Const.FULL_FRAME) { // CHECKSTYLE IGNORE EmptyBlock
+        } else {
+            throw new IllegalArgumentException("Invalid StackMap frameType");
+        }
+        frameType = f;
+    }
+
+    @java.lang.Deprecated
+    public void setNumberOfLocals(final int n) { // TODO unused
+    }
+
+    @java.lang.Deprecated
+    public void setNumberOfStackItems(final int n) { // TODO unused
+    }
+
+    public void setTypesOfLocals(final StackMapType[] types) {
+        typesOfLocals = types != null ? types : new StackMapType[0];
+    }
+
+    public void setTypesOfStackItems(final StackMapType[] types) {
+        typesOfStackItems = types != null ? types : new StackMapType[0];
     }
 
     @Override
@@ -153,154 +301,7 @@ public final class StackMapEntry implements Node, Cloneable {
         return buf.toString();
     }
 
-    int getMapEntrySize() {
-        if (frameType >= Const.SAME_FRAME && frameType <= Const.SAME_FRAME_MAX) {
-            return 1;
-        } else if (frameType >= Const.SAME_LOCALS_1_STACK_ITEM_FRAME && frameType <= Const.SAME_LOCALS_1_STACK_ITEM_FRAME_MAX) {
-            return 1 + (typesOfStackItems[0].hasIndex() ? 3 : 1);
-        } else if (frameType == Const.SAME_LOCALS_1_STACK_ITEM_FRAME_EXTENDED) {
-            return 3 + (typesOfStackItems[0].hasIndex() ? 3 : 1);
-        } else if (frameType >= Const.CHOP_FRAME && frameType <= Const.CHOP_FRAME_MAX) {
-            return 3;
-        } else if (frameType == Const.SAME_FRAME_EXTENDED) {
-            return 3;
-        } else if (frameType >= Const.APPEND_FRAME && frameType <= Const.APPEND_FRAME_MAX) {
-            int len = 3;
-            for (final StackMapType types_of_local : typesOfLocals) {
-                len += types_of_local.hasIndex() ? 3 : 1;
-            }
-            return len;
-        } else if (frameType == Const.FULL_FRAME) {
-            int len = 7;
-            for (final StackMapType types_of_local : typesOfLocals) {
-                len += types_of_local.hasIndex() ? 3 : 1;
-            }
-            for (final StackMapType types_of_stack_item : typesOfStackItems) {
-                len += types_of_stack_item.hasIndex() ? 3 : 1;
-            }
-            return len;
-        } else {
-            throw new IllegalStateException("Invalid StackMap frameType: " + frameType);
-        }
-    }
-
-    public void setFrameType(final int f) {
-        if (f >= Const.SAME_FRAME && f <= Const.SAME_FRAME_MAX) {
-            byteCodeOffset = f - Const.SAME_FRAME;
-        } else if (f >= Const.SAME_LOCALS_1_STACK_ITEM_FRAME && f <= Const.SAME_LOCALS_1_STACK_ITEM_FRAME_MAX) {
-            byteCodeOffset = f - Const.SAME_LOCALS_1_STACK_ITEM_FRAME;
-        } else if (f == Const.SAME_LOCALS_1_STACK_ITEM_FRAME_EXTENDED) { // CHECKSTYLE IGNORE EmptyBlock
-        } else if (f >= Const.CHOP_FRAME && f <= Const.CHOP_FRAME_MAX) { // CHECKSTYLE IGNORE EmptyBlock
-        } else if (f == Const.SAME_FRAME_EXTENDED) { // CHECKSTYLE IGNORE EmptyBlock
-        } else if (f >= Const.APPEND_FRAME && f <= Const.APPEND_FRAME_MAX) { // CHECKSTYLE IGNORE EmptyBlock
-        } else if (f == Const.FULL_FRAME) { // CHECKSTYLE IGNORE EmptyBlock
-        } else {
-            throw new IllegalArgumentException("Invalid StackMap frameType");
-        }
-        frameType = f;
-    }
-
-    public int getFrameType() {
-        return frameType;
-    }
-
-    public void setByteCodeOffset(final int new_offset) {
-        if (new_offset < 0 || new_offset > 32767) {
-            throw new IllegalArgumentException("Invalid StackMap offset: " + new_offset);
-        }
-
-        if (frameType >= Const.SAME_FRAME && frameType <= Const.SAME_FRAME_MAX) {
-            if (new_offset > Const.SAME_FRAME_MAX) {
-                frameType = Const.SAME_FRAME_EXTENDED;
-            } else {
-                frameType = new_offset;
-            }
-        } else if (frameType >= Const.SAME_LOCALS_1_STACK_ITEM_FRAME && frameType <= Const.SAME_LOCALS_1_STACK_ITEM_FRAME_MAX) {
-            if (new_offset > Const.SAME_FRAME_MAX) {
-                frameType = Const.SAME_LOCALS_1_STACK_ITEM_FRAME_EXTENDED;
-            } else {
-                frameType = Const.SAME_LOCALS_1_STACK_ITEM_FRAME + new_offset;
-            }
-        } else if (frameType == Const.SAME_LOCALS_1_STACK_ITEM_FRAME_EXTENDED) { // CHECKSTYLE IGNORE EmptyBlock
-        } else if (frameType >= Const.CHOP_FRAME && frameType <= Const.CHOP_FRAME_MAX) { // CHECKSTYLE IGNORE EmptyBlock
-        } else if (frameType == Const.SAME_FRAME_EXTENDED) { // CHECKSTYLE IGNORE EmptyBlock
-        } else if (frameType >= Const.APPEND_FRAME && frameType <= Const.APPEND_FRAME_MAX) { // CHECKSTYLE IGNORE EmptyBlock
-        } else if (frameType == Const.FULL_FRAME) { // CHECKSTYLE IGNORE EmptyBlock
-        } else {
-            throw new IllegalStateException("Invalid StackMap frameType: " + frameType);
-        }
-        byteCodeOffset = new_offset;
-    }
-
     public void updateByteCodeOffset(final int delta) {
         setByteCodeOffset(byteCodeOffset + delta);
-    }
-
-    public int getByteCodeOffset() {
-        return byteCodeOffset;
-    }
-
-    @java.lang.Deprecated
-    public void setNumberOfLocals(final int n) { // TODO unused
-    }
-
-    public int getNumberOfLocals() {
-        return typesOfLocals.length;
-    }
-
-    public void setTypesOfLocals(final StackMapType[] types) {
-        typesOfLocals = types != null ? types : new StackMapType[0];
-    }
-
-    public StackMapType[] getTypesOfLocals() {
-        return typesOfLocals;
-    }
-
-    @java.lang.Deprecated
-    public void setNumberOfStackItems(final int n) { // TODO unused
-    }
-
-    public int getNumberOfStackItems() {
-        return typesOfStackItems.length;
-    }
-
-    public void setTypesOfStackItems(final StackMapType[] types) {
-        typesOfStackItems = types != null ? types : new StackMapType[0];
-    }
-
-    public StackMapType[] getTypesOfStackItems() {
-        return typesOfStackItems;
-    }
-
-    public StackMapEntry copy() {
-        StackMapEntry e;
-        try {
-            e = (StackMapEntry) clone();
-        } catch (final CloneNotSupportedException ex) {
-            throw new Error("Clone Not Supported");
-        }
-
-        e.typesOfLocals = new StackMapType[typesOfLocals.length];
-        for (int i = 0; i < typesOfLocals.length; i++) {
-            e.typesOfLocals[i] = typesOfLocals[i].copy();
-        }
-        e.typesOfStackItems = new StackMapType[typesOfStackItems.length];
-        for (int i = 0; i < typesOfStackItems.length; i++) {
-            e.typesOfStackItems[i] = typesOfStackItems[i].copy();
-        }
-        return e;
-    }
-
-    @Override
-    public void accept(final Visitor v) {
-        v.visitStackMapEntry(this);
-    }
-
-    public ConstantPool getConstantPool() {
-        return constantPool;
-    }
-
-    public void setConstantPool(final ConstantPool constantPool) {
-        this.constantPool = constantPool;
     }
 }

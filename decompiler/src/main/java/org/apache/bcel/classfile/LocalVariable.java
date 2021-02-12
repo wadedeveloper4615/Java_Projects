@@ -22,7 +22,7 @@ public final class LocalVariable implements Cloneable, Node, Constants {
     private ConstantPool constantPool;
     private int origIndex; // never changes; used to match up with LocalVariableTypeTable entries
 
-    LocalVariable(final DataInput file, final ConstantPool constant_pool) throws IOException {
+    public LocalVariable(final DataInput file, final ConstantPool constant_pool) throws IOException {
         this(file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort(), constant_pool);
     }
 
@@ -142,7 +142,7 @@ public final class LocalVariable implements Cloneable, Node, Constants {
         return toStringShared(false);
     }
 
-    String toStringShared(final boolean typeTable) {
+    public String toStringShared(final boolean typeTable) {
         final String name = getName();
         final String signature = Utility.signatureToString(getSignature(), false);
         final String label = "LocalVariable" + (typeTable ? "Types" : "");

@@ -11,11 +11,7 @@ public final class LineNumber implements Cloneable, Node {
 
     private short lineNumber;
 
-    public LineNumber(final LineNumber c) {
-        this(c.getStartPC(), c.getLineNumber());
-    }
-
-    LineNumber(final DataInput file) throws IOException {
+    public LineNumber(final DataInput file) throws IOException {
         this(file.readUnsignedShort(), file.readUnsignedShort());
     }
 
@@ -24,9 +20,22 @@ public final class LineNumber implements Cloneable, Node {
         this.lineNumber = (short) lineNumber;
     }
 
+    public LineNumber(final LineNumber c) {
+        this(c.getStartPC(), c.getLineNumber());
+    }
+
     @Override
     public void accept(final Visitor v) {
         v.visitLineNumber(this);
+    }
+
+    public LineNumber copy() {
+        try {
+            return (LineNumber) clone();
+        } catch (final CloneNotSupportedException e) {
+            // TODO should this throw?
+        }
+        return null;
     }
 
     public void dump(final DataOutputStream file) throws IOException {
@@ -53,14 +62,5 @@ public final class LineNumber implements Cloneable, Node {
     @Override
     public String toString() {
         return "LineNumber(" + startPc + ", " + lineNumber + ")";
-    }
-
-    public LineNumber copy() {
-        try {
-            return (LineNumber) clone();
-        } catch (final CloneNotSupportedException e) {
-            // TODO should this throw?
-        }
-        return null;
     }
 }

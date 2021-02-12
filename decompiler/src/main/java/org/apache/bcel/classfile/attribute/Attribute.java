@@ -8,23 +8,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.bcel.Const;
-import org.apache.bcel.classfile.AnnotationDefault;
 import org.apache.bcel.classfile.AttributeReader;
-import org.apache.bcel.classfile.BootstrapMethods;
 import org.apache.bcel.classfile.ClassFormatException;
-import org.apache.bcel.classfile.Code;
-import org.apache.bcel.classfile.Deprecated;
-import org.apache.bcel.classfile.EnclosingMethod;
-import org.apache.bcel.classfile.ExceptionTable;
-import org.apache.bcel.classfile.InnerClasses;
-import org.apache.bcel.classfile.LineNumberTable;
-import org.apache.bcel.classfile.LocalVariableTable;
-import org.apache.bcel.classfile.LocalVariableTypeTable;
-import org.apache.bcel.classfile.MethodParameters;
-import org.apache.bcel.classfile.Module;
-import org.apache.bcel.classfile.ModuleMainClass;
-import org.apache.bcel.classfile.ModulePackages;
-import org.apache.bcel.classfile.NestHost;
 import org.apache.bcel.classfile.NestMembers;
 import org.apache.bcel.classfile.Node;
 import org.apache.bcel.classfile.PMGClass;
@@ -32,16 +17,12 @@ import org.apache.bcel.classfile.RuntimeInvisibleAnnotations;
 import org.apache.bcel.classfile.RuntimeInvisibleParameterAnnotations;
 import org.apache.bcel.classfile.RuntimeVisibleAnnotations;
 import org.apache.bcel.classfile.RuntimeVisibleParameterAnnotations;
-import org.apache.bcel.classfile.Signature;
-import org.apache.bcel.classfile.SourceFile;
-import org.apache.bcel.classfile.StackMap;
-import org.apache.bcel.classfile.Synthetic;
-import org.apache.bcel.classfile.Unknown;
 import org.apache.bcel.classfile.UnknownAttributeReader;
 import org.apache.bcel.classfile.Visitor;
 import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.classfile.constant.ConstantUtf8;
 import org.apache.bcel.classfile.constant.ConstantValue;
+import org.apache.bcel.classfile.constant.Unknown;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public abstract class Attribute implements Cloneable, Node {
@@ -218,7 +199,6 @@ public abstract class Attribute implements Cloneable, Node {
             case Const.ATTR_NEST_MEMBERS:
                 return new NestMembers(name_index, length, file, constant_pool);
             default:
-                // Never reached
                 throw new IllegalStateException("Unrecognized attribute type tag parsed: " + tag);
         }
     }

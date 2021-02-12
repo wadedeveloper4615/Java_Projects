@@ -19,7 +19,7 @@ public class BootstrapMethod implements Cloneable {
         this(c.getBootstrapMethodRef(), c.getBootstrapArguments());
     }
 
-    BootstrapMethod(final DataInput input) throws IOException {
+    public BootstrapMethod(final DataInput input) throws IOException {
         this(input.readUnsignedShort(), input.readUnsignedShort());
 
         for (int i = 0; i < bootstrapArguments.length; i++) {

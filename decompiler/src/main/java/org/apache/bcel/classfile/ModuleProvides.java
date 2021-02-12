@@ -14,7 +14,7 @@ public final class ModuleProvides implements Cloneable, Node {
     private final int providesWithCount;
     private final int[] providesWithIndex; // points to CONSTANT_Class_info
 
-    ModuleProvides(final DataInput file) throws IOException {
+    public ModuleProvides(final DataInput file) throws IOException {
         providesIndex = file.readUnsignedShort();
         providesWithCount = file.readUnsignedShort();
         providesWithIndex = new int[providesWithCount];

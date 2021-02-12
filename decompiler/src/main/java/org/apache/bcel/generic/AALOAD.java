@@ -4,7 +4,6 @@ import org.apache.bcel.generic.base.ArrayInstruction;
 import org.apache.bcel.generic.base.Visitor;
 
 public class AALOAD extends ArrayInstruction implements StackProducer {
-
     public AALOAD() {
         super(org.apache.bcel.Const.AALOAD);
     }

@@ -1,11 +1,9 @@
-
 package org.apache.bcel.generic;
 
 import org.apache.bcel.Const;
 import org.apache.bcel.generic.base.ClassGenException;
 
 public final class BasicType extends Type {
-
     BasicType(final byte type) {
         super(type, Const.getShortTypeName(type));
         if ((type < Const.T_BOOLEAN) || (type > Const.T_VOID)) {

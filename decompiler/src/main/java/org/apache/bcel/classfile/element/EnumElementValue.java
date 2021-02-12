@@ -1,5 +1,4 @@
-
-package org.apache.bcel.classfile;
+package org.apache.bcel.classfile.element;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -11,7 +10,6 @@ import org.apache.bcel.enums.ClassFileConstants;
 public class EnumElementValue extends ElementValue {
     // For enum types, these two indices point to the type and value
     private final int typeIdx;
-
     private final int valueIdx;
 
     public EnumElementValue(final int type, final int typeIdx, final int valueIdx, final ConstantPool cpool) {

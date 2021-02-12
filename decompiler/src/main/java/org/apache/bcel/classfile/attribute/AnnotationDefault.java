@@ -1,4 +1,3 @@
-
 package org.apache.bcel.classfile.attribute;
 
 import java.io.DataInput;
@@ -6,12 +5,11 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import org.apache.bcel.Const;
-import org.apache.bcel.classfile.ElementValue;
 import org.apache.bcel.classfile.Visitor;
 import org.apache.bcel.classfile.constant.ConstantPool;
+import org.apache.bcel.classfile.element.ElementValue;
 
 public class AnnotationDefault extends Attribute {
-
     private ElementValue defaultValue;
 
     public AnnotationDefault(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {

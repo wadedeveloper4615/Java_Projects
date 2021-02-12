@@ -1,4 +1,3 @@
-
 package org.apache.bcel.generic;
 
 import org.apache.bcel.generic.base.CPInstruction;
@@ -7,7 +6,6 @@ import org.apache.bcel.generic.base.Visitor;
 import org.apache.bcel.generic.gen.ConstantPoolGen;
 
 public class LDC2_W extends CPInstruction implements PushInstruction {
-
     public LDC2_W() {
     }
 

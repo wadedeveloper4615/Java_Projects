@@ -1,16 +1,15 @@
-
 package org.apache.bcel.generic.gen;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.classfile.ElementValue;
-import org.apache.bcel.classfile.SimpleElementValue;
 import org.apache.bcel.classfile.constant.ConstantDouble;
 import org.apache.bcel.classfile.constant.ConstantFloat;
 import org.apache.bcel.classfile.constant.ConstantInteger;
 import org.apache.bcel.classfile.constant.ConstantLong;
 import org.apache.bcel.classfile.constant.ConstantUtf8;
+import org.apache.bcel.classfile.element.ElementValue;
+import org.apache.bcel.classfile.element.SimpleElementValue;
 
 public class SimpleElementValueGen extends ElementValueGen {
     // For primitive types and string type, this points to the value entry in
@@ -66,7 +65,6 @@ public class SimpleElementValueGen extends ElementValueGen {
         super(type, cpGen);
         idx = getConstantPool().addUtf8(value);
     }
-
     // ctors for each supported type... type could be inferred but for now lets
     // force it to be passed
 

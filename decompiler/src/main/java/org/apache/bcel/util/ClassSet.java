@@ -1,4 +1,3 @@
-
 package org.apache.bcel.util;
 
 import java.util.Collection;
@@ -8,7 +7,6 @@ import java.util.Map;
 import org.apache.bcel.classfile.JavaClass;
 
 public class ClassSet {
-
     private final Map<String, JavaClass> map = new HashMap<>();
 
     public boolean add(final JavaClass clazz) {

@@ -1,4 +1,3 @@
-
 package org.apache.bcel.generic.base;
 
 import org.apache.bcel.Const;
@@ -7,7 +6,6 @@ import org.apache.bcel.generic.ObjectType;
 import org.apache.bcel.generic.Type;
 
 public final class ArrayType extends ReferenceType {
-
     private int dimensions;
     private Type basicType;
 

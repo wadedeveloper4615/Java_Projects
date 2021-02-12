@@ -1,4 +1,3 @@
-
 package org.apache.bcel.generic.control;
 
 import java.io.ByteArrayOutputStream;
@@ -31,7 +30,6 @@ public class InstructionList implements Iterable<InstructionHandle> {
     private InstructionHandle end = null;
     private int length = 0;
     private int[] bytePositions;
-
     private List<InstructionListObserver> observers;
 
     public InstructionList() {
@@ -48,11 +46,9 @@ public class InstructionList implements Iterable<InstructionHandle> {
         try (ByteSequence bytes = new ByteSequence(code)) {
             ihs = new InstructionHandle[code.length];
             pos = new int[code.length];
-
             while (bytes.available() > 0) {
                 final int off = bytes.getIndex();
                 pos[count] = off;
-
                 final Instruction i = Instruction.readInstruction(bytes);
                 InstructionHandle ih;
                 if (i instanceof BranchInstruction) {
@@ -69,7 +65,6 @@ public class InstructionList implements Iterable<InstructionHandle> {
         }
         bytePositions = new int[count]; // Trim to proper size
         System.arraycopy(pos, 0, bytePositions, 0, count);
-
         for (int i = 0; i < count; i++) {
             if (ihs[i] instanceof BranchHandle) {
                 final BranchInstruction bi = (BranchInstruction) ihs[i].getInstruction();
@@ -236,7 +231,6 @@ public class InstructionList implements Iterable<InstructionHandle> {
     public InstructionList copy() {
         final Map<InstructionHandle, InstructionHandle> map = new HashMap<>();
         final InstructionList il = new InstructionList();
-
         for (InstructionHandle ih = start; ih != null; ih = ih.getNext()) {
             final Instruction i = ih.getInstruction();
             final Instruction c = i.copy(); // Use clone for shallow copy
@@ -246,7 +240,6 @@ public class InstructionList implements Iterable<InstructionHandle> {
                 map.put(ih, il.append(c));
             }
         }
-
         InstructionHandle ih = start;
         InstructionHandle ch = il.start;
         while (ih != null) {
@@ -303,7 +296,6 @@ public class InstructionList implements Iterable<InstructionHandle> {
     public void dispose() {
         // Traverse in reverse order, because ih.next is overwritten
         for (InstructionHandle ih = end; ih != null; ih = ih.getPrev()) {
-
             ih.dispose();
         }
         clear();
@@ -493,7 +485,6 @@ public class InstructionList implements Iterable<InstructionHandle> {
     @Override
     public Iterator<InstructionHandle> iterator() {
         return new Iterator<InstructionHandle>() {
-
             private InstructionHandle ih = start;
 
             @Override
@@ -695,7 +686,6 @@ public class InstructionList implements Iterable<InstructionHandle> {
         int index = 0;
         int count = 0;
         final int[] pos = new int[length];
-
         if (check) {
             for (InstructionHandle ih = start; ih != null; ih = ih.getNext()) {
                 final Instruction i = ih.getInstruction();
@@ -719,12 +709,10 @@ public class InstructionList implements Iterable<InstructionHandle> {
                 }
             }
         }
-
         for (InstructionHandle ih = start; ih != null; ih = ih.getNext()) {
             final Instruction i = ih.getInstruction();
             ih.setPosition(index);
             pos[count++] = index;
-
             switch (i.getOpcode()) {
                 case Const.JSR:
                 case Const.GOTO:
@@ -737,11 +725,9 @@ public class InstructionList implements Iterable<InstructionHandle> {
             }
             index += i.getLength();
         }
-
         for (InstructionHandle ih = start; ih != null; ih = ih.getNext()) {
             additional_bytes += ih.updatePosition(additional_bytes, max_additional_bytes);
         }
-
         index = count = 0;
         for (InstructionHandle ih = start; ih != null; ih = ih.getNext()) {
             final Instruction i = ih.getInstruction();
@@ -781,7 +767,6 @@ public class InstructionList implements Iterable<InstructionHandle> {
     public static InstructionHandle findHandle(final InstructionHandle[] ihs, final int[] pos, final int count, final int target) {
         int l = 0;
         int r = count - 1;
-
         do {
             final int i = (l + r) >>> 1;
             final int j = pos[i];

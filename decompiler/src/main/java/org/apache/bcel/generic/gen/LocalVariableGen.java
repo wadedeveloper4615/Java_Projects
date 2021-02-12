@@ -1,4 +1,3 @@
-
 package org.apache.bcel.generic.gen;
 
 import org.apache.bcel.Const;
@@ -11,7 +10,6 @@ import org.apache.bcel.generic.control.InstructionHandle;
 import org.apache.bcel.generic.control.InstructionTargeter;
 
 public class LocalVariableGen implements InstructionTargeter, NamedAndTyped, Cloneable {
-
     private int index;
     private String name;
     private Type type;

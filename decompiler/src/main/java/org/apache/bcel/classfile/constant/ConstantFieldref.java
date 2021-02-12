@@ -1,4 +1,3 @@
-
 package org.apache.bcel.classfile.constant;
 
 import java.io.DataInput;
@@ -8,7 +7,6 @@ import org.apache.bcel.classfile.Visitor;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public final class ConstantFieldref extends ConstantCP {
-
     public ConstantFieldref(final ConstantFieldref c) {
         super(ClassFileConstants.CONSTANT_Fieldref, c.getClassIndex(), c.getNameAndTypeIndex());
     }

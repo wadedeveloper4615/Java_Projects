@@ -1,4 +1,3 @@
-
 package org.apache.bcel.generic;
 
 import java.io.DataOutputStream;
@@ -14,7 +13,6 @@ import org.apache.bcel.generic.gen.ConstantPoolGen;
 import org.apache.bcel.util.ByteSequence;
 
 public final class INVOKEINTERFACE extends InvokeInstruction {
-
     private int nargs; // Number of arguments on stack (number of stack slots), called "count" in
                        // vmspec2
 

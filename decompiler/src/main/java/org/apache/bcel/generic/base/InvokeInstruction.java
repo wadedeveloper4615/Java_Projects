@@ -1,4 +1,3 @@
-
 package org.apache.bcel.generic.base;
 
 import java.util.StringTokenizer;
@@ -13,7 +12,6 @@ import org.apache.bcel.generic.Type;
 import org.apache.bcel.generic.gen.ConstantPoolGen;
 
 public abstract class InvokeInstruction extends FieldOrMethod implements ExceptionThrower, StackConsumer, StackProducer {
-
     public InvokeInstruction() {
     }
 
@@ -29,7 +27,6 @@ public abstract class InvokeInstruction extends FieldOrMethod implements Excepti
         } else {
             sum = 1; // this reference
         }
-
         final String signature = getSignature(cpg);
         sum += Type.getArgumentTypesSize(signature);
         return sum;
@@ -70,9 +67,7 @@ public abstract class InvokeInstruction extends FieldOrMethod implements Excepti
     public String toString(final ConstantPool cp) {
         final Constant c = cp.getConstant(super.getIndex());
         final StringTokenizer tok = new StringTokenizer(cp.constantToString(c));
-
         final String opcodeName = Const.getOpcodeName(super.getOpcode());
-
         final StringBuilder sb = new StringBuilder(opcodeName);
         if (tok.hasMoreTokens()) {
             sb.append(" ");
@@ -81,8 +76,6 @@ public abstract class InvokeInstruction extends FieldOrMethod implements Excepti
                 sb.append(tok.nextToken());
             }
         }
-
         return sb.toString();
     }
-
 }

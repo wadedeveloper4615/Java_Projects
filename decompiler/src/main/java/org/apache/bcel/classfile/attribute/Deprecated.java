@@ -1,4 +1,3 @@
-
 package org.apache.bcel.classfile.attribute;
 
 import java.io.DataInput;
@@ -10,7 +9,6 @@ import org.apache.bcel.classfile.Visitor;
 import org.apache.bcel.classfile.constant.ConstantPool;
 
 public final class Deprecated extends Attribute {
-
     private byte[] bytes;
 
     public Deprecated(final Deprecated c) {

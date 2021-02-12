@@ -1,4 +1,3 @@
-
 package org.apache.bcel.generic;
 
 import org.apache.bcel.ExceptionConst;
@@ -7,7 +6,6 @@ import org.apache.bcel.generic.base.ExceptionThrower;
 import org.apache.bcel.generic.base.Visitor;
 
 public class LREM extends ArithmeticInstruction implements ExceptionThrower {
-
     public LREM() {
         super(org.apache.bcel.Const.LREM);
     }

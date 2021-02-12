@@ -1,4 +1,3 @@
-
 package org.apache.bcel.classfile.constant;
 
 import java.io.DataInput;
@@ -12,7 +11,6 @@ import org.apache.bcel.classfile.attribute.Attribute;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public final class ConstantValue extends Attribute {
-
     private int constantValueIndex;
 
     public ConstantValue(final ConstantValue c) {

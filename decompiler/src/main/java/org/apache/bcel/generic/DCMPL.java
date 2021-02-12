@@ -1,4 +1,3 @@
-
 package org.apache.bcel.generic;
 
 import org.apache.bcel.generic.base.Instruction;
@@ -8,7 +7,6 @@ import org.apache.bcel.generic.base.Visitor;
 import org.apache.bcel.generic.gen.ConstantPoolGen;
 
 public class DCMPL extends Instruction implements TypedInstruction, StackProducer, StackConsumer {
-
     public DCMPL() {
         super(org.apache.bcel.Const.DCMPL, (short) 1);
     }

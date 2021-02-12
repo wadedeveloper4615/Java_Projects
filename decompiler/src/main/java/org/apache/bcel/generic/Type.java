@@ -1,19 +1,16 @@
-
 package org.apache.bcel.generic;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.bcel.Const;
-import org.apache.bcel.classfile.ClassFormatException;
 import org.apache.bcel.classfile.Utility;
+import org.apache.bcel.exceptions.ClassFormatException;
 import org.apache.bcel.generic.base.ArrayType;
 import org.apache.bcel.generic.base.ReferenceType;
 
 public abstract class Type {
-
     public static final BasicType VOID = new BasicType(Const.T_VOID);
-
     public static final BasicType BOOLEAN = new BasicType(Const.T_BOOLEAN);
     public static final BasicType INT = new BasicType(Const.T_INT);
     public static final BasicType SHORT = new BasicType(Const.T_SHORT);
@@ -33,16 +30,13 @@ public abstract class Type {
     public static final Type UNKNOWN = new Type(Const.T_UNKNOWN, "<unknown object>") {
     };
     private static final ThreadLocal<Integer> consumed_chars = new ThreadLocal<Integer>() {
-
         @Override
         protected Integer initialValue() {
             return Integer.valueOf(0);
         }
     };// int consumed_chars=0; // Remember position in string, see getArgumentTypes
-
     @Deprecated
     protected byte type; // TODO should be final (and private)
-
     @Deprecated
     protected String signature; // signature for the type TODO should be private
 
@@ -194,7 +188,6 @@ public abstract class Type {
         if (cl == null) {
             throw new IllegalArgumentException("Class must not be null");
         }
-
         if (cl.isArray()) {
             return getType(cl.getName());
         } else if (cl.isPrimitive()) {

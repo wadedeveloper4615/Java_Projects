@@ -1,4 +1,3 @@
-
 package org.apache.bcel.classfile.attribute;
 
 import java.io.DataInput;
@@ -11,7 +10,6 @@ import org.apache.bcel.classfile.Visitor;
 import org.apache.bcel.classfile.constant.ConstantPool;
 
 public final class LineNumberTable extends Attribute {
-
     private static final int MAX_LINE_LENGTH = 72;
     private LineNumber[] lineNumberTable; // Table of line/numbers pairs
 
@@ -72,7 +70,6 @@ public final class LineNumberTable extends Attribute {
         }
         int min_index = -1;
         int min = -1;
-
         do {
             final int i = (l + r) >>> 1;
             final int j = lineNumberTable[i].getStartPC();
@@ -83,13 +80,11 @@ public final class LineNumberTable extends Attribute {
             } else {
                 l = i + 1;
             }
-
             if (j < pos && j > min) {
                 min = j;
                 min_index = i;
             }
         } while (l <= r);
-
         if (min_index < 0) {
             return -1;
         }

@@ -1,11 +1,9 @@
-
 package org.apache.bcel.generic;
 
 import org.apache.bcel.generic.base.StoreInstruction;
 import org.apache.bcel.generic.base.Visitor;
 
 public class DSTORE extends StoreInstruction {
-
     public DSTORE() {
         super(org.apache.bcel.Const.DSTORE, org.apache.bcel.Const.DSTORE_0);
     }

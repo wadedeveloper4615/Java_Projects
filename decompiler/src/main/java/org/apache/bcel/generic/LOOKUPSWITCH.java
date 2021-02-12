@@ -1,4 +1,3 @@
-
 package org.apache.bcel.generic;
 
 import java.io.DataOutputStream;
@@ -9,13 +8,11 @@ import org.apache.bcel.generic.control.InstructionHandle;
 import org.apache.bcel.util.ByteSequence;
 
 public class LOOKUPSWITCH extends Select {
-
     public LOOKUPSWITCH() {
     }
 
     public LOOKUPSWITCH(final int[] match, final InstructionHandle[] targets, final InstructionHandle defaultTarget) {
         super(org.apache.bcel.Const.LOOKUPSWITCH, match, targets, defaultTarget);
-
         final short _length = (short) (9 + getMatch_length() * 8);
         super.setLength(_length);
         setFixed_length(_length);

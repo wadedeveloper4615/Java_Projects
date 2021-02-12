@@ -1,4 +1,3 @@
-
 package org.apache.bcel.util;
 
 import java.util.LinkedList;
@@ -6,7 +5,6 @@ import java.util.LinkedList;
 import org.apache.bcel.classfile.JavaClass;
 
 public class ClassQueue {
-
     @Deprecated
     protected LinkedList<JavaClass> vec = new LinkedList<>(); // TODO not used externally
 

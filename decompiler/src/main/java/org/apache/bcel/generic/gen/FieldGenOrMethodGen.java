@@ -1,4 +1,3 @@
-
 package org.apache.bcel.generic.gen;
 
 import java.util.ArrayList;
@@ -11,18 +10,13 @@ import org.apache.bcel.generic.Type;
 import org.apache.bcel.generic.base.NamedAndTyped;
 
 public abstract class FieldGenOrMethodGen extends AccessFlags implements NamedAndTyped, Cloneable {
-
     @Deprecated
     protected String name;
-
     @Deprecated
     protected Type type;
-
     @Deprecated
     protected ConstantPoolGen cp;
-
     private final List<Attribute> attributeList = new ArrayList<>();
-
     // @since 6.0
     private final List<AnnotationEntryGen> annotationList = new ArrayList<>();
 

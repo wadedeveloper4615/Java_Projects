@@ -1,4 +1,3 @@
-
 package org.apache.bcel.classfile;
 
 import java.io.DataInput;
@@ -10,7 +9,6 @@ import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public final class CodeException implements Cloneable, Node, Constants {
-
     private int startPc; // Range in the code the exception handler is
     private int endPc; // active. startPc is inclusive, endPc exclusive
     private int handlerPc;

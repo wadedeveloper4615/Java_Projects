@@ -1,4 +1,3 @@
-
 package org.apache.bcel.classfile;
 
 import java.io.DataInput;
@@ -7,9 +6,9 @@ import java.io.IOException;
 
 import org.apache.bcel.Const;
 import org.apache.bcel.classfile.constant.ConstantPool;
+import org.apache.bcel.exceptions.ClassFormatException;
 
 public final class StackMapEntry implements Node, Cloneable {
-
     private int frameType;
     private int byteCodeOffset;
     private StackMapType[] typesOfLocals;
@@ -18,7 +17,6 @@ public final class StackMapEntry implements Node, Cloneable {
 
     public StackMapEntry(final DataInput input, final ConstantPool constantPool) throws IOException {
         this(input.readByte() & 0xFF, -1, null, null, constantPool);
-
         if (frameType >= Const.SAME_FRAME && frameType <= Const.SAME_FRAME_MAX) {
             byteCodeOffset = frameType - Const.SAME_FRAME;
         } else if (frameType >= Const.SAME_LOCALS_1_STACK_ITEM_FRAME && frameType <= Const.SAME_LOCALS_1_STACK_ITEM_FRAME_MAX) {
@@ -53,7 +51,6 @@ public final class StackMapEntry implements Node, Cloneable {
                 typesOfStackItems[i] = new StackMapType(input, constantPool);
             }
         } else {
-
             throw new ClassFormatException("Invalid frame type found while parsing stack map table: " + frameType);
         }
     }
@@ -86,7 +83,6 @@ public final class StackMapEntry implements Node, Cloneable {
         } catch (final CloneNotSupportedException ex) {
             throw new Error("Clone Not Supported");
         }
-
         e.typesOfLocals = new StackMapType[typesOfLocals.length];
         for (int i = 0; i < typesOfLocals.length; i++) {
             e.typesOfLocals[i] = typesOfLocals[i].copy();
@@ -127,7 +123,6 @@ public final class StackMapEntry implements Node, Cloneable {
                 type.dump(file);
             }
         } else {
-
             throw new ClassFormatException("Invalid Stack map table tag: " + frameType);
         }
     }
@@ -195,7 +190,6 @@ public final class StackMapEntry implements Node, Cloneable {
         if (new_offset < 0 || new_offset > 32767) {
             throw new IllegalArgumentException("Invalid StackMap offset: " + new_offset);
         }
-
         if (frameType >= Const.SAME_FRAME && frameType <= Const.SAME_FRAME_MAX) {
             if (new_offset > Const.SAME_FRAME_MAX) {
                 frameType = Const.SAME_FRAME_EXTENDED;

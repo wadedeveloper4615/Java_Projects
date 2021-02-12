@@ -1,4 +1,3 @@
-
 package org.apache.bcel.classfile;
 
 import java.io.DataInput;
@@ -9,7 +8,6 @@ import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public final class ModuleRequires implements Cloneable, Node {
-
     private final int requiresIndex; // points to CONSTANT_Module_info
     private final int requiresFlags;
     private final int requiresVersionIndex; // either 0 or points to CONSTANT_Utf8_info
@@ -24,7 +22,6 @@ public final class ModuleRequires implements Cloneable, Node {
     public void accept(final Visitor v) {
         v.visitModuleRequires(this);
     }
-
     // TODO add more getters and setters?
 
     public ModuleRequires copy() {

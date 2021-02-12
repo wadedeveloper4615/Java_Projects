@@ -1,4 +1,3 @@
-
 package org.apache.bcel.classfile.constant;
 
 import java.io.DataInput;
@@ -14,7 +13,6 @@ import org.apache.bcel.classfile.attribute.Attribute;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public final class Unknown extends Attribute {
-
     private static final Map<String, Unknown> unknownAttributes = new HashMap<>();
     private byte[] bytes;
     private final String name;

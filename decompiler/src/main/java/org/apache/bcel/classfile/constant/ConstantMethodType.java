@@ -1,4 +1,3 @@
-
 package org.apache.bcel.classfile.constant;
 
 import java.io.DataInput;
@@ -9,7 +8,6 @@ import org.apache.bcel.classfile.Visitor;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public final class ConstantMethodType extends Constant {
-
     private int descriptorIndex;
 
     public ConstantMethodType(final ConstantMethodType c) {

@@ -1,11 +1,9 @@
-
 package org.apache.bcel.generic.base;
 
 import org.apache.bcel.generic.Type;
 import org.apache.bcel.generic.gen.ConstantPoolGen;
 
 public abstract class StackInstruction extends Instruction {
-
     StackInstruction() {
     }
 

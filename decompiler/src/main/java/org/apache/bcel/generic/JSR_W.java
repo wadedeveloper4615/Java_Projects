@@ -1,4 +1,3 @@
-
 package org.apache.bcel.generic;
 
 import java.io.DataOutputStream;
@@ -10,7 +9,6 @@ import org.apache.bcel.generic.control.InstructionHandle;
 import org.apache.bcel.util.ByteSequence;
 
 public class JSR_W extends JsrInstruction {
-
     public JSR_W() {
     }
 

@@ -1,4 +1,3 @@
-
 package org.apache.bcel.generic.base;
 
 import org.apache.bcel.Const;
@@ -7,7 +6,6 @@ import org.apache.bcel.generic.Type;
 import org.apache.bcel.generic.gen.ConstantPoolGen;
 
 public abstract class ConversionInstruction extends Instruction implements TypedInstruction, StackProducer, StackConsumer {
-
     ConversionInstruction() {
     }
 

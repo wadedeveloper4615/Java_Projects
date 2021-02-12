@@ -1,10 +1,8 @@
-
 package org.apache.bcel.util;
 
 import org.apache.bcel.classfile.JavaClass;
 
 public interface Repository {
-
     void storeClass(JavaClass clazz);
 
     void removeClass(JavaClass clazz);

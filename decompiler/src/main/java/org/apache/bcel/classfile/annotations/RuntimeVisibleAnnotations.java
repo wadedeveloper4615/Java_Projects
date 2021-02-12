@@ -1,5 +1,4 @@
-
-package org.apache.bcel.classfile;
+package org.apache.bcel.classfile.annotations;
 
 import java.io.DataInput;
 import java.io.DataOutputStream;
@@ -10,10 +9,9 @@ import org.apache.bcel.classfile.attribute.Annotations;
 import org.apache.bcel.classfile.attribute.Attribute;
 import org.apache.bcel.classfile.constant.ConstantPool;
 
-public class RuntimeInvisibleAnnotations extends Annotations {
-
-    public RuntimeInvisibleAnnotations(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
-        super(Const.ATTR_RUNTIME_INVISIBLE_ANNOTATIONS, name_index, length, input, constant_pool, false);
+public class RuntimeVisibleAnnotations extends Annotations {
+    public RuntimeVisibleAnnotations(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
+        super(Const.ATTR_RUNTIME_VISIBLE_ANNOTATIONS, name_index, length, input, constant_pool, true);
     }
 
     @Override

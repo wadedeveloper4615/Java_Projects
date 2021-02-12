@@ -1,4 +1,3 @@
-
 package org.apache.bcel.generic.base;
 
 import java.io.DataOutputStream;
@@ -13,7 +12,6 @@ import org.apache.bcel.generic.gen.ConstantPoolGen;
 import org.apache.bcel.util.ByteSequence;
 
 public abstract class CPInstruction extends Instruction implements TypedInstruction, IndexedInstruction {
-
     @Deprecated
     protected int index; // index to constant pool
 

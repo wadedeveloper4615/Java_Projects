@@ -1,11 +1,9 @@
-
 package org.apache.bcel.generic;
 
 import org.apache.bcel.generic.base.LoadInstruction;
 import org.apache.bcel.generic.base.Visitor;
 
 public class FLOAD extends LoadInstruction {
-
     public FLOAD() {
         super(org.apache.bcel.Const.FLOAD, org.apache.bcel.Const.FLOAD_0);
     }

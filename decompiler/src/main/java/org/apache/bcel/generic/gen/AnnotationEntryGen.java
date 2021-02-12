@@ -1,4 +1,3 @@
-
 package org.apache.bcel.generic.gen;
 
 import java.io.ByteArrayInputStream;
@@ -12,21 +11,18 @@ import java.util.List;
 
 import org.apache.bcel.classfile.AnnotationEntry;
 import org.apache.bcel.classfile.ElementValuePair;
-import org.apache.bcel.classfile.RuntimeInvisibleAnnotations;
-import org.apache.bcel.classfile.RuntimeInvisibleParameterAnnotations;
-import org.apache.bcel.classfile.RuntimeVisibleAnnotations;
-import org.apache.bcel.classfile.RuntimeVisibleParameterAnnotations;
+import org.apache.bcel.classfile.annotations.RuntimeInvisibleAnnotations;
+import org.apache.bcel.classfile.annotations.RuntimeInvisibleParameterAnnotations;
+import org.apache.bcel.classfile.annotations.RuntimeVisibleAnnotations;
+import org.apache.bcel.classfile.annotations.RuntimeVisibleParameterAnnotations;
 import org.apache.bcel.classfile.attribute.Attribute;
 import org.apache.bcel.classfile.constant.ConstantUtf8;
 import org.apache.bcel.generic.ObjectType;
 
 public class AnnotationEntryGen {
     private int typeIndex;
-
     private List<ElementValuePairGen> evs;
-
     private final ConstantPoolGen cpool;
-
     private boolean isRuntimeVisible = false;
 
     public AnnotationEntryGen(final AnnotationEntry a, final ConstantPoolGen cpool, final boolean copyPoolEntries) {
@@ -140,11 +136,9 @@ public class AnnotationEntryGen {
         if (annotationEntryGens.length == 0) {
             return new Attribute[0];
         }
-
         try {
             int countVisible = 0;
             int countInvisible = 0;
-
             // put the annotations in the right output stream
             for (final AnnotationEntryGen a : annotationEntryGens) {
                 if (a.isRuntimeVisible()) {
@@ -153,14 +147,11 @@ public class AnnotationEntryGen {
                     countInvisible++;
                 }
             }
-
             final ByteArrayOutputStream rvaBytes = new ByteArrayOutputStream();
             final ByteArrayOutputStream riaBytes = new ByteArrayOutputStream();
             try (DataOutputStream rvaDos = new DataOutputStream(rvaBytes); DataOutputStream riaDos = new DataOutputStream(riaBytes)) {
-
                 rvaDos.writeShort(countVisible);
                 riaDos.writeShort(countInvisible);
-
                 // put the annotations in the right output stream
                 for (final AnnotationEntryGen a : annotationEntryGens) {
                     if (a.isRuntimeVisible()) {
@@ -170,20 +161,16 @@ public class AnnotationEntryGen {
                     }
                 }
             }
-
             final byte[] rvaData = rvaBytes.toByteArray();
             final byte[] riaData = riaBytes.toByteArray();
-
             int rvaIndex = -1;
             int riaIndex = -1;
-
             if (rvaData.length > 2) {
                 rvaIndex = cp.addUtf8("RuntimeVisibleAnnotations");
             }
             if (riaData.length > 2) {
                 riaIndex = cp.addUtf8("RuntimeInvisibleAnnotations");
             }
-
             final List<Attribute> newAttributes = new ArrayList<>();
             if (rvaData.length > 2) {
                 newAttributes.add(new RuntimeVisibleAnnotations(rvaIndex, rvaData.length, new DataInputStream(new ByteArrayInputStream(rvaData)), cp.getConstantPool()));
@@ -191,7 +178,6 @@ public class AnnotationEntryGen {
             if (riaData.length > 2) {
                 newAttributes.add(new RuntimeInvisibleAnnotations(riaIndex, riaData.length, new DataInputStream(new ByteArrayInputStream(riaData)), cp.getConstantPool()));
             }
-
             return newAttributes.toArray(new Attribute[newAttributes.size()]);
         } catch (final IOException e) {
             System.err.println("IOException whilst processing annotations");
@@ -285,5 +271,4 @@ public class AnnotationEntryGen {
         a.isRuntimeVisible(b);
         return a;
     }
-
 }

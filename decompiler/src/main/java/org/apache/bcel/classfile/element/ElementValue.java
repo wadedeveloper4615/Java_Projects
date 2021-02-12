@@ -1,38 +1,13 @@
-
-package org.apache.bcel.classfile;
+package org.apache.bcel.classfile.element;
 
 import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import org.apache.bcel.classfile.AnnotationEntry;
 import org.apache.bcel.classfile.constant.ConstantPool;
 
 public abstract class ElementValue {
-
-    @java.lang.Deprecated
-    protected int type; // TODO should be final
-
-    @java.lang.Deprecated
-    protected ConstantPool cpool; // TODO should be final
-
-    @Override
-    public String toString() {
-        return stringifyValue();
-    }
-
-    protected ElementValue(final int type, final ConstantPool cpool) {
-        this.type = type;
-        this.cpool = cpool;
-    }
-
-    public int getElementValueType() {
-        return type;
-    }
-
-    public abstract String stringifyValue();
-
-    public abstract void dump(DataOutputStream dos) throws IOException;
-
     public static final byte STRING = 's';
     public static final byte ENUM_CONSTANT = 'e';
     public static final byte CLASS = 'c';
@@ -46,6 +21,40 @@ public abstract class ElementValue {
     public static final byte PRIMITIVE_LONG = 'J';
     public static final byte PRIMITIVE_SHORT = 'S';
     public static final byte PRIMITIVE_BOOLEAN = 'Z';
+    @java.lang.Deprecated
+    protected int type; // TODO should be final
+    @java.lang.Deprecated
+    protected ConstantPool cpool; // TODO should be final
+
+    protected ElementValue(final int type, final ConstantPool cpool) {
+        this.type = type;
+        this.cpool = cpool;
+    }
+
+    public abstract void dump(DataOutputStream dos) throws IOException;
+
+    protected final ConstantPool getConstantPool() {
+        return cpool;
+    }
+
+    public int getElementValueType() {
+        return type;
+    }
+
+    protected final int getType() {
+        return type;
+    }
+
+    public abstract String stringifyValue();
+
+    public String toShortString() {
+        return stringifyValue();
+    }
+
+    @Override
+    public String toString() {
+        return stringifyValue();
+    }
 
     public static ElementValue readElementValue(final DataInput input, final ConstantPool cpool) throws IOException {
         final byte type = input.readByte();
@@ -60,17 +69,13 @@ public abstract class ElementValue {
             case PRIMITIVE_BOOLEAN:
             case STRING:
                 return new SimpleElementValue(type, input.readUnsignedShort(), cpool);
-
             case ENUM_CONSTANT:
                 return new EnumElementValue(ENUM_CONSTANT, input.readUnsignedShort(), input.readUnsignedShort(), cpool);
-
             case CLASS:
                 return new ClassElementValue(CLASS, input.readUnsignedShort(), cpool);
-
             case ANNOTATION:
                 // TODO isRuntimeVisible
                 return new AnnotationElementValue(ANNOTATION, AnnotationEntry.read(input, cpool, false), cpool);
-
             case ARRAY:
                 final int numArrayVals = input.readUnsignedShort();
                 final ElementValue[] evalues = new ElementValue[numArrayVals];
@@ -78,21 +83,8 @@ public abstract class ElementValue {
                     evalues[j] = ElementValue.readElementValue(input, cpool);
                 }
                 return new ArrayElementValue(ARRAY, evalues, cpool);
-
             default:
                 throw new IllegalArgumentException("Unexpected element value kind in annotation: " + type);
         }
-    }
-
-    final ConstantPool getConstantPool() {
-        return cpool;
-    }
-
-    final int getType() {
-        return type;
-    }
-
-    public String toShortString() {
-        return stringifyValue();
     }
 }

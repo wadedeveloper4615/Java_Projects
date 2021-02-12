@@ -1,4 +1,3 @@
-
 package org.apache.bcel.util;
 
 import java.lang.ref.SoftReference;
@@ -8,7 +7,6 @@ import java.util.Map;
 import org.apache.bcel.classfile.JavaClass;
 
 public class MemorySensitiveClassPathRepository extends AbstractClassPathRepository {
-
     private final Map<String, SoftReference<JavaClass>> loadedClasses = new HashMap<>(); // CLASSNAME X JAVACLASS
 
     public MemorySensitiveClassPathRepository(final ClassPath path) {

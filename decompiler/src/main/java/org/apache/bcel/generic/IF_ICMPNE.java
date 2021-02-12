@@ -1,4 +1,3 @@
-
 package org.apache.bcel.generic;
 
 import org.apache.bcel.generic.base.IfInstruction;
@@ -6,7 +5,6 @@ import org.apache.bcel.generic.base.Visitor;
 import org.apache.bcel.generic.control.InstructionHandle;
 
 public class IF_ICMPNE extends IfInstruction {
-
     public IF_ICMPNE() {
     }
 

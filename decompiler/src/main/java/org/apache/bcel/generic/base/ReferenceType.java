@@ -1,4 +1,3 @@
-
 package org.apache.bcel.generic.base;
 
 import org.apache.bcel.Const;
@@ -27,7 +26,6 @@ public abstract class ReferenceType extends Type {
         }
         if (this.equals(t)) {
             return this;
-
         }
         if ((this instanceof ArrayType) || (t instanceof ArrayType)) {
             return Type.OBJECT;
@@ -75,9 +73,7 @@ public abstract class ReferenceType extends Type {
         }
         if (this.equals(t)) {
             return this;
-
         }
-
         if ((this instanceof ArrayType) && (t instanceof ArrayType)) {
             final ArrayType arrType1 = (ArrayType) this;
             final ArrayType arrType2 = (ArrayType) t;
@@ -130,9 +126,7 @@ public abstract class ReferenceType extends Type {
         if (this.equals(Type.NULL)) {
             return true; // This is not explicitely stated, but clear. Isn't it?
         }
-
         if ((this instanceof ObjectType) && (((ObjectType) this).referencesClassExact())) {
-
             if ((T instanceof ObjectType) && (((ObjectType) T).referencesClassExact())) {
                 if (this.equals(T)) {
                     return true;
@@ -141,22 +135,18 @@ public abstract class ReferenceType extends Type {
                     return true;
                 }
             }
-
             if ((T instanceof ObjectType) && (((ObjectType) T).referencesInterfaceExact())) {
                 if (Repository.implementationOf(((ObjectType) this).getClassName(), ((ObjectType) T).getClassName())) {
                     return true;
                 }
             }
         }
-
         if ((this instanceof ObjectType) && (((ObjectType) this).referencesInterfaceExact())) {
-
             if ((T instanceof ObjectType) && (((ObjectType) T).referencesClassExact())) {
                 if (T.equals(Type.OBJECT)) {
                     return true;
                 }
             }
-
             if ((T instanceof ObjectType) && (((ObjectType) T).referencesInterfaceExact())) {
                 if (this.equals(T)) {
                     return true;
@@ -166,28 +156,22 @@ public abstract class ReferenceType extends Type {
                 }
             }
         }
-
         if (this instanceof ArrayType) {
-
             if ((T instanceof ObjectType) && (((ObjectType) T).referencesClassExact())) {
                 if (T.equals(Type.OBJECT)) {
                     return true;
                 }
             }
-
             if (T instanceof ArrayType) {
-
                 final Type sc = ((ArrayType) this).getElementType();
                 final Type tc = ((ArrayType) T).getElementType();
                 if (sc instanceof BasicType && tc instanceof BasicType && sc.equals(tc)) {
                     return true;
                 }
-
                 if (tc instanceof ReferenceType && sc instanceof ReferenceType && ((ReferenceType) sc).isAssignmentCompatibleWith(tc)) {
                     return true;
                 }
             }
-
             // TODO: Check if this is still valid or find a way to dynamically find out
             // which
             // interfaces arrays implement. However, as of the JVM specification edition 2,
@@ -213,6 +197,5 @@ public abstract class ReferenceType extends Type {
             return t instanceof ReferenceType; // If this is ever changed in isAssignmentCompatible()
         }
         return isAssignmentCompatibleWith(t);
-
     }
 }

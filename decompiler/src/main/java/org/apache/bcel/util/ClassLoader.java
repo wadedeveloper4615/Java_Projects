@@ -1,4 +1,3 @@
-
 package org.apache.bcel.util;
 
 import java.io.ByteArrayInputStream;
@@ -15,11 +14,8 @@ import org.apache.bcel.enums.ClassFileConstants;
 
 @Deprecated
 public class ClassLoader extends java.lang.ClassLoader {
-
     private static final String BCEL_TOKEN = "$$BCEL$$";
-
     public static final String[] DEFAULT_IGNORED_PACKAGES = { "java.", "javax.", "sun." };
-
     private final Hashtable<String, Class<?>> classes = new Hashtable<>();
     // Hashtable is synchronized thus thread-safe
     private final String[] ignored_packages;
@@ -67,9 +63,7 @@ public class ClassLoader extends java.lang.ClassLoader {
     @Override
     protected Class<?> loadClass(final String class_name, final boolean resolve) throws ClassNotFoundException {
         Class<?> cl = null;
-
         if ((cl = classes.get(class_name)) == null) {
-
             for (final String ignored_package : ignored_packages) {
                 if (class_name.startsWith(ignored_package)) {
                     cl = getParent().loadClass(class_name);
@@ -78,7 +72,6 @@ public class ClassLoader extends java.lang.ClassLoader {
             }
             if (cl == null) {
                 JavaClass clazz = null;
-
                 if (class_name.contains(BCEL_TOKEN)) {
                     clazz = createClass(class_name);
                 } else { // Fourth try: Load classes via repository

@@ -1,4 +1,3 @@
-
 package org.apache.bcel.generic.gen;
 
 import org.apache.bcel.classfile.CodeException;
@@ -9,7 +8,6 @@ import org.apache.bcel.generic.control.InstructionHandle;
 import org.apache.bcel.generic.control.InstructionTargeter;
 
 public final class CodeExceptionGen implements InstructionTargeter, Cloneable {
-
     private InstructionHandle startPc;
     private InstructionHandle endPc;
     private InstructionHandle handlerPc;

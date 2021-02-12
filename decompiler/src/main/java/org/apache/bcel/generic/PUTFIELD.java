@@ -1,4 +1,3 @@
-
 package org.apache.bcel.generic;
 
 import org.apache.bcel.Const;
@@ -10,7 +9,6 @@ import org.apache.bcel.generic.base.Visitor;
 import org.apache.bcel.generic.gen.ConstantPoolGen;
 
 public class PUTFIELD extends FieldInstruction implements PopInstruction, ExceptionThrower {
-
     public PUTFIELD() {
     }
 

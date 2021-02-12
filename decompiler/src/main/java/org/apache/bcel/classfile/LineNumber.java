@@ -1,4 +1,3 @@
-
 package org.apache.bcel.classfile;
 
 import java.io.DataInput;
@@ -6,9 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 public final class LineNumber implements Cloneable, Node {
-
     private short startPc;
-
     private short lineNumber;
 
     public LineNumber(final DataInput file) throws IOException {

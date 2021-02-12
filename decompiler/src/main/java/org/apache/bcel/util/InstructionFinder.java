@@ -1,4 +1,3 @@
-
 package org.apache.bcel.util;
 
 import java.util.ArrayList;
@@ -16,14 +15,12 @@ import org.apache.bcel.generic.control.InstructionHandle;
 import org.apache.bcel.generic.control.InstructionList;
 
 public class InstructionFinder {
-
     private static final int OFFSET = 32767; // char + OFFSET is outside of LATIN-1
     private static final int NO_OPCODES = 256; // Potential number, some are not used
     private static final Map<String, String> map = new HashMap<>();
     private final InstructionList il;
     private String ilString; // instruction list as string
     private InstructionHandle[] handles; // map instruction
-
     // list to array
 
     public InstructionFinder(final InstructionList il) {
@@ -137,7 +134,6 @@ public class InstructionFinder {
     }
 
     public interface CodeConstraint {
-
         boolean checkCode(InstructionHandle[] match);
     }
 
@@ -227,11 +223,9 @@ public class InstructionFinder {
         buf.append(")");
         return buf.toString();
     }
-
 //    private static final String pattern2string( String pattern ) {
 //        return pattern2string(pattern, true);
 //    }
-
 //    private static final String pattern2string( String pattern, boolean make_string ) {
 //        StringBuffer buf = new StringBuffer();
 //        for (int i = 0; i < pattern.length(); i++) {

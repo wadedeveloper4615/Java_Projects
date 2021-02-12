@@ -1,10 +1,8 @@
-
 package org.apache.bcel.generic.base;
 
 import org.apache.bcel.generic.*;
 
 public abstract class EmptyVisitor implements Visitor {
-
     @Override
     public void visitAALOAD(final AALOAD obj) {
     }

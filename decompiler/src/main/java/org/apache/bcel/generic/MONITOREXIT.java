@@ -1,4 +1,3 @@
-
 package org.apache.bcel.generic;
 
 import org.apache.bcel.ExceptionConst;
@@ -8,7 +7,6 @@ import org.apache.bcel.generic.base.StackConsumer;
 import org.apache.bcel.generic.base.Visitor;
 
 public class MONITOREXIT extends Instruction implements ExceptionThrower, StackConsumer {
-
     public MONITOREXIT() {
         super(org.apache.bcel.Const.MONITOREXIT, (short) 1);
     }

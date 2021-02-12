@@ -1,11 +1,9 @@
-
 package org.apache.bcel.generic;
 
 import org.apache.bcel.generic.base.ConversionInstruction;
 import org.apache.bcel.generic.base.Visitor;
 
 public class D2I extends ConversionInstruction {
-
     public D2I() {
         super(org.apache.bcel.Const.D2I);
     }

@@ -1,4 +1,3 @@
-
 package org.apache.bcel.util;
 
 import java.io.IOException;
@@ -21,7 +20,6 @@ import org.apache.bcel.generic.gen.ConstantPoolGen;
 import org.apache.bcel.generic.gen.MethodGen;
 
 public class BCELifier extends org.apache.bcel.classfile.EmptyVisitor {
-
     public enum FLAGS {
         UNKNOWN, CLASS, METHOD,
     }
@@ -30,7 +28,6 @@ public class BCELifier extends org.apache.bcel.classfile.EmptyVisitor {
     // N.B we use the class so renames will be detected by the compiler/IDE
     private static final String BASE_PACKAGE = Const.class.getPackage().getName();
     private static final String CONSTANT_PREFIX = Const.class.getSimpleName() + ".";
-
     private final JavaClass _clazz;
     private final PrintWriter _out;
     private final ConstantPoolGen _cp;

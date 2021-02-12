@@ -1,4 +1,3 @@
-
 package org.apache.bcel.generic.gen;
 
 import java.io.DataOutputStream;
@@ -6,8 +5,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.bcel.classfile.ArrayElementValue;
-import org.apache.bcel.classfile.ElementValue;
+import org.apache.bcel.classfile.element.ArrayElementValue;
+import org.apache.bcel.classfile.element.ElementValue;
 
 public class ArrayElementValueGen extends ElementValueGen {
     // J5TODO: Should we make this an array or a list? A list would be easier to

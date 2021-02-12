@@ -1,4 +1,3 @@
-
 package org.apache.bcel.generic.gen;
 
 import java.io.IOException;
@@ -9,18 +8,18 @@ import java.util.Objects;
 import org.apache.bcel.ClassFileName;
 import org.apache.bcel.classfile.AccessFlags;
 import org.apache.bcel.classfile.AnnotationEntry;
-import org.apache.bcel.classfile.ClassFormatException;
 import org.apache.bcel.classfile.Field;
 import org.apache.bcel.classfile.JavaClass;
 import org.apache.bcel.classfile.Method;
-import org.apache.bcel.classfile.RuntimeInvisibleAnnotations;
-import org.apache.bcel.classfile.RuntimeVisibleAnnotations;
+import org.apache.bcel.classfile.annotations.RuntimeInvisibleAnnotations;
+import org.apache.bcel.classfile.annotations.RuntimeVisibleAnnotations;
 import org.apache.bcel.classfile.attribute.Annotations;
 import org.apache.bcel.classfile.attribute.Attribute;
 import org.apache.bcel.classfile.attribute.SourceFile;
 import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.enums.ClassFileConstants;
 import org.apache.bcel.enums.Version;
+import org.apache.bcel.exceptions.ClassFormatException;
 import org.apache.bcel.generic.INVOKESPECIAL;
 import org.apache.bcel.generic.Type;
 import org.apache.bcel.generic.base.ClassGenException;
@@ -31,9 +30,7 @@ import org.apache.bcel.util.BCELComparator;
 import org.apache.bcel.util.ClassAccessFlagsList;
 
 public class ClassGen extends AccessFlags implements Cloneable {
-
     private static BCELComparator bcelComparator = new BCELComparator() {
-
         @Override
         public boolean equals(Object o1, Object o2) {
             ClassGen THIS = (ClassGen) o1;

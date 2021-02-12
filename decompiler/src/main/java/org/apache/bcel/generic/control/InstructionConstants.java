@@ -1,4 +1,3 @@
-
 package org.apache.bcel.generic.control;
 
 import org.apache.bcel.Const;
@@ -13,7 +12,6 @@ import org.apache.bcel.generic.base.StackInstruction;
 
 @Deprecated
 public interface InstructionConstants {
-
     Instruction NOP = new NOP();
     Instruction ACONST_NULL = new ACONST_NULL();
     Instruction ICONST_M1 = new ICONST(-1);
@@ -121,7 +119,6 @@ public interface InstructionConstants {
     Instruction ATHROW = new ATHROW();
     Instruction MONITORENTER = new MONITORENTER();
     Instruction MONITOREXIT = new MONITOREXIT();
-
     LocalVariableInstruction THIS = new ALOAD(0);
     LocalVariableInstruction ALOAD_0 = THIS;
     LocalVariableInstruction ALOAD_1 = new ALOAD(1);
@@ -135,13 +132,10 @@ public interface InstructionConstants {
     LocalVariableInstruction ISTORE_0 = new ISTORE(0);
     LocalVariableInstruction ISTORE_1 = new ISTORE(1);
     LocalVariableInstruction ISTORE_2 = new ISTORE(2);
-
     Instruction[] INSTRUCTIONS = new Instruction[256];
-
     Clinit bla = new Clinit();
 
     class Clinit {
-
         Clinit() {
             INSTRUCTIONS[Const.NOP] = NOP;
             INSTRUCTIONS[Const.ACONST_NULL] = ACONST_NULL;

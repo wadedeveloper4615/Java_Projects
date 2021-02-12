@@ -1,4 +1,3 @@
-
 package org.apache.bcel.util;
 
 import java.io.Closeable;
@@ -20,10 +19,8 @@ import java.util.List;
 import java.util.Map;
 
 public class ModularRuntimeImage implements Closeable {
-
     static final String MODULES_PATH = File.separator + "modules";
     static final String PACKAGES_PATH = File.separator + "packages";
-
     private final URLClassLoader classLoader;
     private final FileSystem fileSystem;
 
@@ -80,5 +77,4 @@ public class ModularRuntimeImage implements Closeable {
     public FileSystem getFileSystem() {
         return fileSystem;
     }
-
 }

@@ -22,6 +22,7 @@ import org.apache.bcel.compare.JavaClassComparator;
 import org.apache.bcel.enums.ClassAccessFlags;
 import org.apache.bcel.enums.ClassFileConstants;
 import org.apache.bcel.enums.Version;
+import org.apache.bcel.exceptions.ClassFormatException;
 import org.apache.bcel.generic.Type;
 import org.apache.bcel.util.BCELComparator;
 import org.apache.bcel.util.ClassAccessFlagsList;
@@ -99,7 +100,6 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
         } else {
             superClassName.setName("java.lang.Object");
             superClassName.setNameIndex(-1);
-
         }
         interfaceNames = new String[interfaces.length];
         for (int i = 0; i < interfaces.length; i++) {
@@ -252,7 +252,6 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
         if (annotations == null) {
             annotations = AnnotationEntry.createAnnotationEntries(getAttributes());
         }
-
         return annotations;
     }
 

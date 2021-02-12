@@ -1,4 +1,3 @@
-
 package org.apache.bcel.classfile.attribute;
 
 import java.io.DataInput;
@@ -13,11 +12,9 @@ import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public class EnclosingMethod extends Attribute {
-
     // Pointer to the CONSTANT_Class_info structure representing the
     // innermost class that encloses the declaration of the current class.
     private int classIndex;
-
     // If the current class is not immediately enclosed by a method or
     // constructor, then the value of the method_index item must be zero.
     // Otherwise, the value of the method_index item must point to a

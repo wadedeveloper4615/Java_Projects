@@ -1,4 +1,3 @@
-
 package org.apache.bcel.generic;
 
 import org.apache.bcel.Const;
@@ -12,7 +11,6 @@ import org.apache.bcel.generic.control.InstructionList;
 import org.apache.bcel.generic.gen.ConstantPoolGen;
 
 public final class PUSH implements CompoundInstruction, VariableLengthInstruction, InstructionConstants {
-
     private Instruction instruction;
 
     public PUSH(final ConstantPoolGen cp, final int value) {

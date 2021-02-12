@@ -8,6 +8,7 @@ import org.apache.bcel.classfile.attribute.Attribute;
 import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.classfile.constant.ConstantValue;
 import org.apache.bcel.compare.FieldComparator;
+import org.apache.bcel.exceptions.ClassFormatException;
 import org.apache.bcel.generic.Type;
 import org.apache.bcel.util.BCELComparator;
 

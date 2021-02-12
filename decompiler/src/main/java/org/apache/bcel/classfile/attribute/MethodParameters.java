@@ -1,4 +1,3 @@
-
 package org.apache.bcel.classfile.attribute;
 
 import java.io.DataInput;
@@ -11,12 +10,10 @@ import org.apache.bcel.classfile.Visitor;
 import org.apache.bcel.classfile.constant.ConstantPool;
 
 public class MethodParameters extends Attribute {
-
     private MethodParameter[] parameters = new MethodParameter[0];
 
     public MethodParameters(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
         super(Const.ATTR_METHOD_PARAMETERS, name_index, length, constant_pool);
-
         final int parameters_count = input.readUnsignedByte();
         parameters = new MethodParameter[parameters_count];
         for (int i = 0; i < parameters_count; i++) {
@@ -33,7 +30,6 @@ public class MethodParameters extends Attribute {
     public Attribute copy(final ConstantPool _constant_pool) {
         final MethodParameters c = (MethodParameters) clone();
         c.parameters = new MethodParameter[parameters.length];
-
         for (int i = 0; i < parameters.length; i++) {
             c.parameters[i] = parameters[i].copy();
         }

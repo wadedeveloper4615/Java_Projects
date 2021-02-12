@@ -1,4 +1,3 @@
-
 package org.apache.bcel.generic.base;
 
 import java.io.DataOutputStream;
@@ -10,13 +9,10 @@ import org.apache.bcel.generic.control.InstructionTargeter;
 import org.apache.bcel.util.ByteSequence;
 
 public abstract class BranchInstruction extends Instruction implements InstructionTargeter {
-
     @Deprecated
     protected int index; // Branch target relative to this instruction
-
     @Deprecated
     protected InstructionHandle target; // Target object in instruction list
-
     @Deprecated
     protected int position; // Byte code offset
 
@@ -146,5 +142,4 @@ public abstract class BranchInstruction extends Instruction implements Instructi
             new_ih.addTargeter(t);
         }
     }
-
 }

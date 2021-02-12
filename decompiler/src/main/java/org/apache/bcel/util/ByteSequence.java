@@ -1,11 +1,9 @@
-
 package org.apache.bcel.util;
 
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 
 public final class ByteSequence extends DataInputStream {
-
     private final ByteArrayStream byteStream;
 
     public ByteSequence(final byte[] bytes) {
@@ -22,7 +20,6 @@ public final class ByteSequence extends DataInputStream {
     }
 
     private static final class ByteArrayStream extends ByteArrayInputStream {
-
         ByteArrayStream(final byte[] bytes) {
             super(bytes);
         }

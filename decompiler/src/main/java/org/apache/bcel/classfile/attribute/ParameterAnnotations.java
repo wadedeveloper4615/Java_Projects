@@ -1,16 +1,14 @@
-
 package org.apache.bcel.classfile.attribute;
 
 import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.classfile.ParameterAnnotationEntry;
 import org.apache.bcel.classfile.Visitor;
+import org.apache.bcel.classfile.annotations.ParameterAnnotationEntry;
 import org.apache.bcel.classfile.constant.ConstantPool;
 
 public abstract class ParameterAnnotations extends Attribute {
-
     private ParameterAnnotationEntry[] parameterAnnotationTable;
 
     protected ParameterAnnotations(final byte parameter_annotation_type, final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
@@ -41,11 +39,9 @@ public abstract class ParameterAnnotations extends Attribute {
     public void dump(final DataOutputStream dos) throws IOException {
         super.dump(dos);
         dos.writeByte(parameterAnnotationTable.length);
-
         for (final ParameterAnnotationEntry element : parameterAnnotationTable) {
             element.dump(dos);
         }
-
     }
 
     public ParameterAnnotationEntry[] getParameterAnnotationEntries() {

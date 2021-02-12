@@ -1,4 +1,3 @@
-
 package org.apache.bcel.classfile;
 
 import java.io.DataInput;
@@ -11,7 +10,6 @@ import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public final class NestMembers extends Attribute {
-
     private int[] classes;
 
     public NestMembers(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {

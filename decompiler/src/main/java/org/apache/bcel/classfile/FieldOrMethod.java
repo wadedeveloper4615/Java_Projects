@@ -10,6 +10,7 @@ import org.apache.bcel.classfile.attribute.Signature;
 import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.classfile.constant.ConstantUtf8;
 import org.apache.bcel.enums.ClassFileConstants;
+import org.apache.bcel.exceptions.ClassFormatException;
 
 public abstract class FieldOrMethod extends AccessFlags implements Cloneable, Node {
     protected int nameIndex;
@@ -60,20 +61,16 @@ public abstract class FieldOrMethod extends AccessFlags implements Cloneable, No
 
     protected FieldOrMethod copy_(ConstantPool _constant_pool) {
         FieldOrMethod c = null;
-
         try {
             c = (FieldOrMethod) clone();
         } catch (CloneNotSupportedException e) {
         }
-
         c.constant_pool = constant_pool;
         c.attributes = new Attribute[attributes.length];
         c.attributesCount = attributesCount; // init deprecated field
-
         for (int i = 0; i < attributes.length; i++) {
             c.attributes[i] = attributes[i].copy(constant_pool);
         }
-
         return c;
     }
 
@@ -93,7 +90,6 @@ public abstract class FieldOrMethod extends AccessFlags implements Cloneable, No
         if (annotationEntries == null) {
             annotationEntries = AnnotationEntry.createAnnotationEntries(getAttributes());
         }
-
         return annotationEntries;
     }
 

@@ -1,4 +1,3 @@
-
 package org.apache.bcel.util;
 
 import java.io.FileOutputStream;
@@ -15,7 +14,6 @@ import org.apache.bcel.classfile.attribute.ExceptionTable;
 import org.apache.bcel.classfile.constant.ConstantValue;
 
 final class MethodHTML {
-
     private final String className; // name of current class
     private final PrintWriter file; // file to write to
     private final ConstantHTML constantHtml;
@@ -77,7 +75,6 @@ final class MethodHTML {
         String access = Utility.accessToString(method.getAccessFlags());
         // Get the method's attributes, the Code Attribute in particular
         final Attribute[] attributes = method.getAttributes();
-
         access = Utility.replace(access, " ", "&nbsp;");
         html_name = Class2HTML.toHTML(name);
         file.print("<TR VALIGN=TOP><TD><FONT COLOR=\"#FF0000\"><A NAME=method" + method_number + ">" + access + "</A></FONT></TD>");

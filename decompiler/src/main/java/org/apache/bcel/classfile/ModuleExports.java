@@ -1,4 +1,3 @@
-
 package org.apache.bcel.classfile;
 
 import java.io.DataInput;
@@ -9,7 +8,6 @@ import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public final class ModuleExports implements Cloneable, Node {
-
     private final int exportsIndex; // points to CONSTANT_Package_info
     private final int exportsFlags;
     private final int exportsToCount;
@@ -29,7 +27,6 @@ public final class ModuleExports implements Cloneable, Node {
     public void accept(final Visitor v) {
         v.visitModuleExports(this);
     }
-
     // TODO add more getters and setters?
 
     public ModuleExports copy() {

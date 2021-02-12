@@ -1,15 +1,10 @@
-
 package org.apache.bcel;
 
 @Deprecated
 public interface ExceptionConstants {
-
     Class<Throwable> THROWABLE = Throwable.class;
-
     Class<RuntimeException> RUNTIME_EXCEPTION = RuntimeException.class;
-
     Class<LinkageError> LINKING_EXCEPTION = LinkageError.class;
-
     Class<ClassCircularityError> CLASS_CIRCULARITY_ERROR = ClassCircularityError.class;
     Class<ClassFormatError> CLASS_FORMAT_ERROR = ClassFormatError.class;
     Class<ExceptionInInitializerError> EXCEPTION_IN_INITIALIZER_ERROR = ExceptionInInitializerError.class;
@@ -22,16 +17,13 @@ public interface ExceptionConstants {
     Class<NoClassDefFoundError> NO_CLASS_DEF_FOUND_ERROR = NoClassDefFoundError.class;
     Class<UnsatisfiedLinkError> UNSATISFIED_LINK_ERROR = UnsatisfiedLinkError.class;
     Class<VerifyError> VERIFY_ERROR = VerifyError.class;
-
 //    Class UnsupportedClassVersionError = UnsupportedClassVersionError.class;
-
     Class<NullPointerException> NULL_POINTER_EXCEPTION = NullPointerException.class;
     Class<ArrayIndexOutOfBoundsException> ARRAY_INDEX_OUT_OF_BOUNDS_EXCEPTION = ArrayIndexOutOfBoundsException.class;
     Class<ArithmeticException> ARITHMETIC_EXCEPTION = ArithmeticException.class;
     Class<NegativeArraySizeException> NEGATIVE_ARRAY_SIZE_EXCEPTION = NegativeArraySizeException.class;
     Class<ClassCastException> CLASS_CAST_EXCEPTION = ClassCastException.class;
     Class<IllegalMonitorStateException> ILLEGAL_MONITOR_STATE = IllegalMonitorStateException.class;
-
     @Deprecated
     Class<?>[] EXCS_CLASS_AND_INTERFACE_RESOLUTION = { NO_CLASS_DEF_FOUND_ERROR, CLASS_FORMAT_ERROR, VERIFY_ERROR, ABSTRACT_METHOD_ERROR, EXCEPTION_IN_INITIALIZER_ERROR, ILLEGAL_ACCESS_ERROR }; // Chapter 5.1
     @Deprecated
@@ -43,5 +35,4 @@ public interface ExceptionConstants {
     // Chapter 5.4 (no errors but the ones that _always_ could happen! How stupid.)
     @Deprecated
     Class<?>[] EXCS_ARRAY_EXCEPTION = { NULL_POINTER_EXCEPTION, ARRAY_INDEX_OUT_OF_BOUNDS_EXCEPTION };
-
 }

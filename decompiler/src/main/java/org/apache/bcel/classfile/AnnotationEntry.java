@@ -1,4 +1,3 @@
-
 package org.apache.bcel.classfile;
 
 import java.io.DataInput;
@@ -12,14 +11,13 @@ import org.apache.bcel.classfile.attribute.Annotations;
 import org.apache.bcel.classfile.attribute.Attribute;
 import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.classfile.constant.ConstantUtf8;
+import org.apache.bcel.classfile.element.ElementValue;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public class AnnotationEntry implements Node {
-
     private final int typeIndex;
     private final ConstantPool constantPool;
     private final boolean isRuntimeVisible;
-
     private List<ElementValuePair> elementValuePairs;
 
     public AnnotationEntry(final int type_index, final ConstantPool constant_pool, final boolean isRuntimeVisible) {
@@ -107,7 +105,6 @@ public class AnnotationEntry implements Node {
     }
 
     public static AnnotationEntry read(final DataInput input, final ConstantPool constant_pool, final boolean isRuntimeVisible) throws IOException {
-
         final AnnotationEntry annotationEntry = new AnnotationEntry(input.readUnsignedShort(), constant_pool, isRuntimeVisible);
         final int num_element_value_pairs = input.readUnsignedShort();
         annotationEntry.elementValuePairs = new ArrayList<>();

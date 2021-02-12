@@ -1,4 +1,3 @@
-
 package org.apache.bcel.generic;
 
 import java.io.DataOutputStream;
@@ -13,7 +12,6 @@ import org.apache.bcel.generic.base.Visitor;
 import org.apache.bcel.util.ByteSequence;
 
 public class NEWARRAY extends Instruction implements AllocationInstruction, ExceptionThrower, StackProducer {
-
     private byte type;
 
     public NEWARRAY() {

@@ -1,23 +1,20 @@
-
 package org.apache.bcel.generic.gen;
 
 import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.classfile.AnnotationElementValue;
 import org.apache.bcel.classfile.AnnotationEntry;
-import org.apache.bcel.classfile.ArrayElementValue;
-import org.apache.bcel.classfile.ClassElementValue;
-import org.apache.bcel.classfile.ElementValue;
-import org.apache.bcel.classfile.EnumElementValue;
-import org.apache.bcel.classfile.SimpleElementValue;
+import org.apache.bcel.classfile.element.AnnotationElementValue;
+import org.apache.bcel.classfile.element.ArrayElementValue;
+import org.apache.bcel.classfile.element.ClassElementValue;
+import org.apache.bcel.classfile.element.ElementValue;
+import org.apache.bcel.classfile.element.EnumElementValue;
+import org.apache.bcel.classfile.element.SimpleElementValue;
 
 public abstract class ElementValueGen {
-
     @Deprecated
     protected int type;
-
     @Deprecated
     protected ConstantPoolGen cpGen;
 
@@ -37,29 +34,17 @@ public abstract class ElementValueGen {
     public abstract void dump(DataOutputStream dos) throws IOException;
 
     public static final int STRING = 's';
-
     public static final int ENUM_CONSTANT = 'e';
-
     public static final int CLASS = 'c';
-
     public static final int ANNOTATION = '@';
-
     public static final int ARRAY = '[';
-
     public static final int PRIMITIVE_INT = 'I';
-
     public static final int PRIMITIVE_BYTE = 'B';
-
     public static final int PRIMITIVE_CHAR = 'C';
-
     public static final int PRIMITIVE_DOUBLE = 'D';
-
     public static final int PRIMITIVE_FLOAT = 'F';
-
     public static final int PRIMITIVE_LONG = 'J';
-
     public static final int PRIMITIVE_SHORT = 'S';
-
     public static final int PRIMITIVE_BOOLEAN = 'Z';
 
     public static ElementValueGen readElementValue(final DataInput dis, final ConstantPoolGen cpGen) throws IOException {

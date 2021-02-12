@@ -1,4 +1,3 @@
-
 package org.apache.bcel.classfile;
 
 import java.io.DataInput;
@@ -11,9 +10,7 @@ import org.apache.bcel.enums.ClassAccessFlags;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public class MethodParameter implements Cloneable {
-
     private int nameIndex;
-
     private int accessFlags;
 
     public MethodParameter() {

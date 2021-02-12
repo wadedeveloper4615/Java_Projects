@@ -1,4 +1,3 @@
-
 package org.apache.bcel.classfile.attribute;
 
 import java.io.DataInput;
@@ -11,7 +10,6 @@ import org.apache.bcel.classfile.Visitor;
 import org.apache.bcel.classfile.constant.ConstantPool;
 
 public final class InnerClasses extends Attribute {
-
     private InnerClass[] innerClasses;
 
     public InnerClasses(final InnerClasses c) {

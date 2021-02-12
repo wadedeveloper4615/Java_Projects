@@ -1,4 +1,3 @@
-
 package org.apache.bcel.generic.base;
 
 import org.apache.bcel.classfile.constant.ConstantCP;
@@ -8,7 +7,6 @@ import org.apache.bcel.classfile.constant.ConstantUtf8;
 import org.apache.bcel.generic.gen.ConstantPoolGen;
 
 public abstract class NameSignatureInstruction extends CPInstruction {
-
     public NameSignatureInstruction() {
         super();
     }
@@ -34,5 +32,4 @@ public abstract class NameSignatureInstruction extends CPInstruction {
         final ConstantNameAndType cnat = getNameAndType(cpg);
         return ((ConstantUtf8) cp.getConstant(cnat.getNameIndex())).getBytes();
     }
-
 }

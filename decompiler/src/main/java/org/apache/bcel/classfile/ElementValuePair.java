@@ -1,4 +1,3 @@
-
 package org.apache.bcel.classfile;
 
 import java.io.DataOutputStream;
@@ -6,13 +5,12 @@ import java.io.IOException;
 
 import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.classfile.constant.ConstantUtf8;
+import org.apache.bcel.classfile.element.ElementValue;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public class ElementValuePair {
     private final ElementValue elementValue;
-
     private final ConstantPool constantPool;
-
     private final int elementNameIndex;
 
     public ElementValuePair(final int elementNameIndex, final ElementValue elementValue, final ConstantPool constantPool) {

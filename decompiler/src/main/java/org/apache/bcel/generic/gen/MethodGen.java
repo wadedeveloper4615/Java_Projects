@@ -11,14 +11,13 @@ import java.util.Stack;
 import org.apache.bcel.ClassFileName;
 import org.apache.bcel.Const;
 import org.apache.bcel.classfile.AnnotationEntry;
-import org.apache.bcel.classfile.ClassFormatException;
 import org.apache.bcel.classfile.CodeException;
 import org.apache.bcel.classfile.LineNumber;
 import org.apache.bcel.classfile.LocalVariable;
 import org.apache.bcel.classfile.Method;
-import org.apache.bcel.classfile.ParameterAnnotationEntry;
-import org.apache.bcel.classfile.RuntimeVisibleParameterAnnotations;
 import org.apache.bcel.classfile.Utility;
+import org.apache.bcel.classfile.annotations.ParameterAnnotationEntry;
+import org.apache.bcel.classfile.annotations.RuntimeVisibleParameterAnnotations;
 import org.apache.bcel.classfile.attribute.Annotations;
 import org.apache.bcel.classfile.attribute.Attribute;
 import org.apache.bcel.classfile.attribute.Code;
@@ -29,6 +28,7 @@ import org.apache.bcel.classfile.attribute.LocalVariableTypeTable;
 import org.apache.bcel.classfile.attribute.ParameterAnnotations;
 import org.apache.bcel.enums.ClassAccessFlags;
 import org.apache.bcel.enums.ClassFileConstants;
+import org.apache.bcel.exceptions.ClassFormatException;
 import org.apache.bcel.generic.IINC;
 import org.apache.bcel.generic.NOP;
 import org.apache.bcel.generic.ObjectType;
@@ -81,7 +81,6 @@ public class MethodGen extends FieldGenOrMethodGen {
     }
 
     static class BranchTarget {
-
         InstructionHandle target;
         int stackDepth;
 
@@ -92,7 +91,6 @@ public class MethodGen extends FieldGenOrMethodGen {
     }
 
     private static BCELComparator bcelComparator = new BCELComparator() {
-
         @Override
         public boolean equals(Object o1, Object o2) {
             MethodGen THIS = (MethodGen) o1;
@@ -116,17 +114,12 @@ public class MethodGen extends FieldGenOrMethodGen {
     private LocalVariableTypeTable localVariableTypeTable = null;
     private List<LocalVariableGen> variableList = new ArrayList<>();
     private List<LineNumberGen> lineNumberList = new ArrayList<>();
-
     private List<CodeExceptionGen> exceptionList = new ArrayList<>();
     private List<String> throwsList = new ArrayList<>();
     private List<Attribute> codeAttrsList = new ArrayList<>();
-
     private List<AnnotationEntryGen>[] paramAnnotations; // Array of lists containing AnnotationGen objects
-
     private boolean hasParameterAnnotations = false;
-
     private boolean haveUnpackedParameterAnnotations = false;
-
     private List<MethodObserver> observers;
 
     public MethodGen(int access_flags, Type return_type, Type[] argTypes, String[] argNames, String method_name, ClassFileName className, InstructionList il, ConstantPoolGen cp) {
@@ -144,7 +137,6 @@ public class MethodGen extends FieldGenOrMethodGen {
         if (!abstract_) {
             start = il.getStart();
             // end == null => live to end of method
-
             if (!isStatic() && (className != null)) { // Instance method -> `this' is local var 0
                 addLocalVariable("this", ObjectType.getInstance(className.getName()), start, end);
             }
@@ -357,7 +349,6 @@ public class MethodGen extends FieldGenOrMethodGen {
     private void adjustLocalVariableTypeTable(LocalVariableTable lvt) {
         LocalVariable[] lv = lvt.getLocalVariableTable();
         LocalVariable[] lvg = localVariableTypeTable.getLocalVariableTypeTable();
-
         for (LocalVariable element : lvg) {
             for (LocalVariable l : lv) {
                 if (element.getName().equals(l.getName()) && element.getIndex() == l.getOrigIndex()) {
@@ -430,7 +421,6 @@ public class MethodGen extends FieldGenOrMethodGen {
     public boolean equals(Object obj) {
         return bcelComparator.equals(this, obj);
     }
-
     // J5TODO: Should paramAnnotations be an array of arrays? Rather than an array
     // of lists, this
     // is more likely to suggest to the caller it is readonly (which a List does
@@ -565,14 +555,12 @@ public class MethodGen extends FieldGenOrMethodGen {
         ConstantPoolGen _cp = super.getConstantPool();
         int name_index = _cp.addUtf8(super.getName());
         int signature_index = _cp.addUtf8(signature);
-
         byte[] byte_code = null;
         if (il != null) {
             byte_code = il.getByteCode();
         }
         LineNumberTable lnt = null;
         LocalVariableTable lvt = null;
-
         if ((variableList.size() > 0) && !stripAttributes) {
             updateLocalVariableTable(getLocalVariableTable(_cp));
             addCodeAttribute(lvt = getLocalVariableTable(_cp));
@@ -589,7 +577,6 @@ public class MethodGen extends FieldGenOrMethodGen {
             addCodeAttribute(lnt = getLineNumberTable(_cp));
         }
         Attribute[] code_attrs = getCodeAttributes();
-
         int attrs_len = 0;
         for (Attribute code_attr : code_attrs) {
             attrs_len += code_attr.getLength() + 6;
@@ -714,7 +701,6 @@ public class MethodGen extends FieldGenOrMethodGen {
     public void removeNOPs() {
         if (il != null) {
             InstructionHandle next;
-
             for (InstructionHandle ih = il.getStart(); ih != null; ih = next) {
                 next = ih.getNext();
                 if ((next != null) && (ih.getInstruction() instanceof NOP)) {
@@ -826,7 +812,6 @@ public class MethodGen extends FieldGenOrMethodGen {
                 buf.append(" [").append(a).append("]");
             }
         }
-
         if (throwsList.size() > 0) {
             for (String throwsDescriptor : throwsList) {
                 buf.append("\n\t\tthrows ").append(throwsDescriptor);
@@ -874,7 +859,6 @@ public class MethodGen extends FieldGenOrMethodGen {
 
     public static int getMaxStack(ConstantPoolGen cp, InstructionList il, CodeExceptionGen[] et) {
         BranchStack branchTargets = new BranchStack();
-
         for (CodeExceptionGen element : et) {
             InstructionHandle handler_pc = element.getHandlerPC();
             if (handler_pc != null) {

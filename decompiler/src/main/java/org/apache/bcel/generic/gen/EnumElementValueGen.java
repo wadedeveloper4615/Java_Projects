@@ -1,18 +1,16 @@
-
 package org.apache.bcel.generic.gen;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.classfile.ElementValue;
-import org.apache.bcel.classfile.EnumElementValue;
 import org.apache.bcel.classfile.constant.ConstantUtf8;
+import org.apache.bcel.classfile.element.ElementValue;
+import org.apache.bcel.classfile.element.EnumElementValue;
 import org.apache.bcel.generic.ObjectType;
 
 public class EnumElementValueGen extends ElementValueGen {
     // For enum types, these two indices point to the type and value
     private int typeIdx;
-
     private int valueIdx;
 
     protected EnumElementValueGen(final int typeIdx, final int valueIdx, final ConstantPoolGen cpool) {

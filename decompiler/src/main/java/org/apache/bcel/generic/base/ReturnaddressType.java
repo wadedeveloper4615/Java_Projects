@@ -1,4 +1,3 @@
-
 package org.apache.bcel.generic.base;
 
 import org.apache.bcel.Const;
@@ -6,7 +5,6 @@ import org.apache.bcel.generic.Type;
 import org.apache.bcel.generic.control.InstructionHandle;
 
 public class ReturnaddressType extends Type {
-
     public static final ReturnaddressType NO_TARGET = new ReturnaddressType();
     private InstructionHandle returnTarget;
 

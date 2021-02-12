@@ -1,10 +1,8 @@
-
 package org.apache.bcel.generic.base;
 
 import org.apache.bcel.generic.Type;
 
 public interface NamedAndTyped {
-
     String getName();
 
     Type getType();

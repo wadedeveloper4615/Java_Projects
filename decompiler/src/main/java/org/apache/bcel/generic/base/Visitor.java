@@ -1,10 +1,8 @@
-
 package org.apache.bcel.generic.base;
 
 import org.apache.bcel.generic.*;
 
 public interface Visitor {
-
     void visitAALOAD(AALOAD obj);
 
     void visitAASTORE(AASTORE obj);

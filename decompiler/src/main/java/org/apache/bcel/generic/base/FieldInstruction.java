@@ -1,4 +1,3 @@
-
 package org.apache.bcel.generic.base;
 
 import org.apache.bcel.classfile.constant.ConstantPool;
@@ -7,7 +6,6 @@ import org.apache.bcel.generic.Type;
 import org.apache.bcel.generic.gen.ConstantPoolGen;
 
 public abstract class FieldInstruction extends FieldOrMethod {
-
     public FieldInstruction() {
     }
 

@@ -1,4 +1,3 @@
-
 package org.apache.bcel.classfile;
 
 import java.io.DataInput;
@@ -10,7 +9,6 @@ import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public final class StackMapType implements Cloneable {
-
     private byte type;
     private int index = -1; // Index to CONSTANT_Class or offset
     private ConstantPool constantPool;

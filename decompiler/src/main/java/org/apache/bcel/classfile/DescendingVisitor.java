@@ -1,8 +1,8 @@
-
 package org.apache.bcel.classfile;
 
 import java.util.Stack;
 
+import org.apache.bcel.classfile.annotations.ParameterAnnotationEntry;
 import org.apache.bcel.classfile.attribute.AnnotationDefault;
 import org.apache.bcel.classfile.attribute.Annotations;
 import org.apache.bcel.classfile.attribute.Attribute;
@@ -49,9 +49,7 @@ import org.apache.bcel.classfile.constant.Unknown;
 
 public class DescendingVisitor implements Visitor {
     private final JavaClass clazz;
-
     private final Visitor visitor;
-
     private final Stack<Object> stack = new Stack<>();
 
     public DescendingVisitor(final JavaClass clazz, final Visitor visitor) {

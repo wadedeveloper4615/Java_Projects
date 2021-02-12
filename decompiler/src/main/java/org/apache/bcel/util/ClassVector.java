@@ -1,4 +1,3 @@
-
 package org.apache.bcel.util;
 
 import java.util.ArrayList;
@@ -8,7 +7,6 @@ import org.apache.bcel.classfile.JavaClass;
 
 @Deprecated
 public class ClassVector implements java.io.Serializable {
-
     private static final long serialVersionUID = 5600397075672780806L;
     @Deprecated
     protected List<JavaClass> vec = new ArrayList<>();

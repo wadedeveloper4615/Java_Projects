@@ -1,4 +1,3 @@
-
 package org.apache.bcel.util;
 
 import java.io.FileOutputStream;
@@ -24,7 +23,6 @@ import org.apache.bcel.classfile.constant.ConstantValue;
 import org.apache.bcel.enums.ClassFileConstants;
 
 final class AttributeHTML {
-
     private final String class_name; // name of current class
     private final PrintWriter file; // file to write to
     private int attr_count = 0;
@@ -65,7 +63,6 @@ final class AttributeHTML {
             file.print("<TR BGCOLOR=\"#A0A0A0\"><TD>");
         }
         file.println("<H4><A NAME=\"" + anchor + "\">" + attr_count + " " + Const.getAttributeName(tag) + "</A></H4>");
-
         switch (tag) {
             case Const.ATTR_CODE:
                 final Code c = (Code) attribute;

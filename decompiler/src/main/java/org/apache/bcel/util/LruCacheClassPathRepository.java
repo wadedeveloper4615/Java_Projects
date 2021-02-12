@@ -1,4 +1,3 @@
-
 package org.apache.bcel.util;
 
 import java.util.LinkedHashMap;
@@ -7,19 +6,16 @@ import java.util.Map;
 import org.apache.bcel.classfile.JavaClass;
 
 public class LruCacheClassPathRepository extends AbstractClassPathRepository {
-
     private final LinkedHashMap<String, JavaClass> loadedClasses;
 
     public LruCacheClassPathRepository(final ClassPath path, final int cacheSize) {
         super(path);
-
         if (cacheSize < 1) {
             throw new IllegalArgumentException("cacheSize must be a positive number.");
         }
         final int initialCapacity = (int) (0.75 * cacheSize);
         final boolean accessOrder = true; // Evicts least-recently-accessed
         loadedClasses = new LinkedHashMap<String, JavaClass>(initialCapacity, cacheSize, accessOrder) {
-
             private static final long serialVersionUID = 1L;
 
             @Override

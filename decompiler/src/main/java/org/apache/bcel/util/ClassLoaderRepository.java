@@ -1,4 +1,3 @@
-
 package org.apache.bcel.util;
 
 import java.io.IOException;
@@ -10,7 +9,6 @@ import org.apache.bcel.classfile.ClassParser;
 import org.apache.bcel.classfile.JavaClass;
 
 public class ClassLoaderRepository implements Repository {
-
     private final java.lang.ClassLoader loader;
     private final Map<String, JavaClass> loadedClasses = new HashMap<>(); // CLASSNAME X JAVACLASS
 

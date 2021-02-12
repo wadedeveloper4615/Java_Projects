@@ -1,4 +1,3 @@
-
 package org.apache.bcel.classfile;
 
 import java.io.DataInput;
@@ -12,7 +11,6 @@ import org.apache.bcel.classfile.constant.ConstantUtf8;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public final class PMGClass extends Attribute {
-
     private int pmgClassIndex;
     private int pmgIndex;
 

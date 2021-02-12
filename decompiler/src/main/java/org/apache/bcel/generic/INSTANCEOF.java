@@ -1,4 +1,3 @@
-
 package org.apache.bcel.generic;
 
 import org.apache.bcel.ExceptionConst;
@@ -11,7 +10,6 @@ import org.apache.bcel.generic.base.Visitor;
 import org.apache.bcel.generic.gen.ConstantPoolGen;
 
 public class INSTANCEOF extends CPInstruction implements LoadClass, ExceptionThrower, StackProducer, StackConsumer {
-
     public INSTANCEOF() {
     }
 

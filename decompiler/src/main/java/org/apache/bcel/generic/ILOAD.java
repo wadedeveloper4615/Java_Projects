@@ -1,11 +1,9 @@
-
 package org.apache.bcel.generic;
 
 import org.apache.bcel.generic.base.LoadInstruction;
 import org.apache.bcel.generic.base.Visitor;
 
 public class ILOAD extends LoadInstruction {
-
     public ILOAD() {
         super(org.apache.bcel.Const.ILOAD, org.apache.bcel.Const.ILOAD_0);
     }

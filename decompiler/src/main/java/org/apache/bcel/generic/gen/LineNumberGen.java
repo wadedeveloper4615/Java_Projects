@@ -1,4 +1,3 @@
-
 package org.apache.bcel.generic.gen;
 
 import java.util.Objects;
@@ -10,7 +9,6 @@ import org.apache.bcel.generic.control.InstructionHandle;
 import org.apache.bcel.generic.control.InstructionTargeter;
 
 public class LineNumberGen implements InstructionTargeter, Cloneable {
-
     private InstructionHandle ih;
     private int srcLine;
 

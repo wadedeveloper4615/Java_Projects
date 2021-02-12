@@ -1,4 +1,3 @@
-
 package org.apache.bcel.classfile.attribute;
 
 import java.io.ByteArrayInputStream;
@@ -13,9 +12,7 @@ import org.apache.bcel.classfile.constant.ConstantUtf8;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public final class Signature extends Attribute {
-
     private static final class MyByteArrayInputStream extends ByteArrayInputStream {
-
         MyByteArrayInputStream(final String data) {
             super(data.getBytes());
         }

@@ -1,4 +1,3 @@
-
 package org.apache.bcel.generic;
 
 import java.io.DataOutputStream;
@@ -13,22 +12,16 @@ import org.apache.bcel.generic.control.InstructionList;
 import org.apache.bcel.util.ByteSequence;
 
 public abstract class Select extends BranchInstruction implements VariableLengthInstruction, StackConsumer, StackProducer {
-
     @Deprecated
     protected int[] match; // matches, i.e., case 1: ... TODO could be package-protected?
-
     @Deprecated
     protected int[] indices; // target offsets TODO could be package-protected?
-
     @Deprecated
     protected InstructionHandle[] targets; // target objects in instruction list TODO could be package-protected?
-
     @Deprecated
     protected int fixed_length; // fixed length defined by subclasses TODO could be package-protected?
-
     @Deprecated
     protected int match_length; // number of cases TODO could be package-protected?
-
     @Deprecated
     protected int padding = 0; // number of pad bytes for alignment TODO could be package-protected?
 
@@ -193,7 +186,6 @@ public abstract class Select extends BranchInstruction implements VariableLength
     protected int updatePosition(final int offset, final int max_offset) {
         setPosition(getPosition() + offset); // Additional offset caused by preceding SWITCHs, GOTOs, etc.
         final short old_length = (short) super.getLength();
-
         padding = (4 - ((getPosition() + 1) % 4)) % 4;
         super.setLength((short) (fixed_length + padding)); // Update length
         return super.getLength() - old_length;

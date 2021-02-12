@@ -1,4 +1,3 @@
-
 package org.apache.bcel.generic.base;
 
 import java.io.DataOutputStream;
@@ -10,10 +9,8 @@ import org.apache.bcel.generic.gen.ConstantPoolGen;
 import org.apache.bcel.util.ByteSequence;
 
 public abstract class LocalVariableInstruction extends Instruction implements TypedInstruction, IndexedInstruction {
-
     @Deprecated
     protected int n = -1; // index of referenced variable
-
     private short cTag = -1; // compact version, such as ILOAD_0
     private short canonTag = -1; // canonical tag such as ILOAD
 

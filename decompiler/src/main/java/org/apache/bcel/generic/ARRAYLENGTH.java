@@ -1,4 +1,3 @@
-
 package org.apache.bcel.generic;
 
 import org.apache.bcel.ExceptionConst;
@@ -8,7 +7,6 @@ import org.apache.bcel.generic.base.StackConsumer;
 import org.apache.bcel.generic.base.Visitor;
 
 public class ARRAYLENGTH extends Instruction implements ExceptionThrower, StackProducer, StackConsumer {
-
     public ARRAYLENGTH() {
         super(org.apache.bcel.Const.ARRAYLENGTH, (short) 1);
     }

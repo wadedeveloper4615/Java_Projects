@@ -1,4 +1,3 @@
-
 package org.apache.bcel.util;
 
 import java.io.FileOutputStream;
@@ -23,7 +22,6 @@ import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.enums.ClassFileConstants;
 
 final class CodeHTML {
-
     private static boolean wide = false;
     private final String className; // name of current class
     // private Method[] methods; // Methods to print
@@ -62,7 +60,6 @@ final class CodeHTML {
         int offset;
         final StringBuilder buf = new StringBuilder(256); // CHECKSTYLE IGNORE MagicNumber
         buf.append("<TT>").append(Const.getOpcodeName(opcode)).append("</TT></TD><TD>");
-
         if ((opcode == Const.TABLESWITCH) || (opcode == Const.LOOKUPSWITCH)) {
             final int remainder = bytes.getIndex() % 4;
             no_pad_bytes = (remainder == 0) ? 0 : 4 - remainder;
@@ -92,7 +89,6 @@ final class CodeHTML {
                 }
                 buf.append("<TD><A HREF=\"#code").append(method_number).append("@").append(default_offset).append("\">").append(default_offset).append("</A></TD></TR>\n</TABLE>\n");
                 break;
-
             case Const.LOOKUPSWITCH:
                 final int npairs = bytes.readInt();
                 offset = bytes.getIndex() - 8 - no_pad_bytes - 1;
@@ -112,7 +108,6 @@ final class CodeHTML {
                 }
                 buf.append("<TD><A HREF=\"#code").append(method_number).append("@").append(default_offset).append("\">").append(default_offset).append("</A></TD></TR>\n</TABLE>\n");
                 break;
-
             case Const.GOTO:
             case Const.IFEQ:
             case Const.IFGE:
@@ -134,13 +129,11 @@ final class CodeHTML {
                 index = bytes.getIndex() + bytes.readShort() - 1;
                 buf.append("<A HREF=\"#code").append(method_number).append("@").append(index).append("\">").append(index).append("</A>");
                 break;
-
             case Const.GOTO_W:
             case Const.JSR_W:
                 final int windex = bytes.getIndex() + bytes.readInt() - 1;
                 buf.append("<A HREF=\"#code").append(method_number).append("@").append(windex).append("\">").append(windex).append("</A>");
                 break;
-
             case Const.ALOAD:
             case Const.ASTORE:
             case Const.DLOAD:
@@ -160,16 +153,13 @@ final class CodeHTML {
                 }
                 buf.append("%").append(vindex);
                 break;
-
             case Const.WIDE:
                 wide = true;
                 buf.append("(wide)");
                 break;
-
             case Const.NEWARRAY:
                 buf.append("<FONT COLOR=\"#00FF00\">").append(Const.getTypeName(bytes.readByte())).append("</FONT>");
                 break;
-
             case Const.GETFIELD:
             case Const.GETSTATIC:
             case Const.PUTFIELD:
@@ -187,14 +177,12 @@ final class CodeHTML {
                     buf.append(constantHtml.referenceConstant(class_index)).append(".").append(field_name);
                 }
                 break;
-
             case Const.CHECKCAST:
             case Const.INSTANCEOF:
             case Const.NEW:
                 index = bytes.readShort();
                 buf.append(constantHtml.referenceConstant(index));
                 break;
-
             case Const.INVOKESPECIAL:
             case Const.INVOKESTATIC:
             case Const.INVOKEVIRTUAL:
@@ -243,7 +231,6 @@ final class CodeHTML {
                 // Attach return type
                 buf.append("):").append(Class2HTML.referenceType(type));
                 break;
-
             case Const.LDC_W:
             case Const.LDC2_W:
                 index = bytes.readShort();
@@ -253,18 +240,15 @@ final class CodeHTML {
                 index = bytes.readUnsignedByte();
                 buf.append("<A HREF=\"").append(className).append("_cp.html#cp").append(index).append("\" TARGET=\"ConstantPool\">").append(Class2HTML.toHTML(constantPool.constantToString(index, constantPool.getConstant(index).getTag()))).append("</a>");
                 break;
-
             case Const.ANEWARRAY:
                 index = bytes.readShort();
                 buf.append(constantHtml.referenceConstant(index));
                 break;
-
             case Const.MULTIANEWARRAY:
                 index = bytes.readShort();
                 final int dimensions = bytes.readByte();
                 buf.append(constantHtml.referenceConstant(index)).append(":").append(dimensions).append("-dimensional");
                 break;
-
             case Const.IINC:
                 if (wide) {
                     vindex = bytes.readShort();
@@ -304,7 +288,6 @@ final class CodeHTML {
         int index;
         gotoSet = new BitSet(bytes.available());
         int opcode;
-
         if (code != null) {
             final CodeException[] ce = code.getExceptionTable();
             for (final CodeException cex : ce) {
@@ -463,7 +446,6 @@ final class CodeHTML {
                     final int offset = stream.getIndex();
                     final String str = codeToHTML(stream, method_number);
                     String anchor = "";
-
                     if (gotoSet.get(offset)) {
                         anchor = "<A NAME=code" + method_number + "@" + offset + "></A>";
                     }

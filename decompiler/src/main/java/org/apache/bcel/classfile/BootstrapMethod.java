@@ -1,4 +1,3 @@
-
 package org.apache.bcel.classfile;
 
 import java.io.DataInput;
@@ -10,9 +9,7 @@ import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public class BootstrapMethod implements Cloneable {
-
     private int bootstrapMethodRef;
-
     private int[] bootstrapArguments;
 
     public BootstrapMethod(final BootstrapMethod c) {
@@ -21,7 +18,6 @@ public class BootstrapMethod implements Cloneable {
 
     public BootstrapMethod(final DataInput input) throws IOException {
         this(input.readUnsignedShort(), input.readUnsignedShort());
-
         for (int i = 0; i < bootstrapArguments.length; i++) {
             bootstrapArguments[i] = input.readUnsignedShort();
         }

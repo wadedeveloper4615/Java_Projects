@@ -1,4 +1,3 @@
-
 package org.apache.bcel.generic;
 
 import java.util.ArrayList;
@@ -23,10 +22,8 @@ import org.apache.bcel.generic.gen.FieldGenOrMethodGen;
 import org.apache.bcel.util.BCELComparator;
 
 public class FieldGen extends FieldGenOrMethodGen {
-
     private Object value = null;
     private static BCELComparator bcelComparator = new BCELComparator() {
-
         @Override
         public boolean equals(final Object o1, final Object o2) {
             final FieldGen THIS = (FieldGen) o1;

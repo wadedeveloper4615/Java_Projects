@@ -1,4 +1,3 @@
-
 package org.apache.bcel.generic.control;
 
 import org.apache.bcel.generic.NEWARRAY;
@@ -8,7 +7,6 @@ import org.apache.bcel.generic.base.IndexedInstruction;
 import org.apache.bcel.generic.base.Instruction;
 
 public interface InstructionComparator {
-
     InstructionComparator DEFAULT = (i1, i2) -> {
         if (i1.getOpcode() == i2.getOpcode()) {
             if (i1 instanceof BranchInstruction) {

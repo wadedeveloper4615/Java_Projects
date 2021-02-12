@@ -1,4 +1,3 @@
-
 package org.apache.bcel.classfile.attribute;
 
 import java.io.DataInputStream;
@@ -32,16 +31,13 @@ public class Code extends Attribute {
         int code_length = file.readInt();
         byteCode = new byte[code_length];
         file.readFully(byteCode);
-
         int exceptionTableLength = file.readUnsignedShort();
         exceptionTable = new CodeException[exceptionTableLength];
         for (int i = 0; i < exceptionTableLength; i++) {
             exceptionTable[i] = new CodeException(file);
         }
-
         InstructionList instructionList = new InstructionList(byteCode);
         instructions = instructionList.getInstructionHandles();
-
         int attributesCount = file.readUnsignedShort();
         attributes = new Attribute[attributesCount];
         lineNumberTable = null;
@@ -55,7 +51,6 @@ public class Code extends Attribute {
                 localVariableTable = (LocalVariableTable) attributes[i];
             }
         }
-
         super.setLength(length);
     }
 

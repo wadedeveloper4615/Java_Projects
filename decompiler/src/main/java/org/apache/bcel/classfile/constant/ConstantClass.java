@@ -1,4 +1,3 @@
-
 package org.apache.bcel.classfile.constant;
 
 import java.io.DataInput;
@@ -10,7 +9,6 @@ import org.apache.bcel.classfile.Visitor;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public final class ConstantClass extends Constant implements ConstantObject {
-
     private int nameIndex; // Identical to ConstantString except for the name
 
     public ConstantClass(final ConstantClass c) {

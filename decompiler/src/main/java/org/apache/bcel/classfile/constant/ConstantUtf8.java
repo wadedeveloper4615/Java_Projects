@@ -1,4 +1,3 @@
-
 package org.apache.bcel.classfile.constant;
 
 import java.io.DataInput;
@@ -13,15 +12,11 @@ import org.apache.bcel.classfile.Visitor;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public final class ConstantUtf8 extends Constant {
-
     private static class Cache {
-
         private static final boolean BCEL_STATISTICS = Boolean.getBoolean(SYS_PROP_STATISTICS);
         private static final int MAX_ENTRIES = Integer.getInteger(SYS_PROP_CACHE_MAX_ENTRIES, 0).intValue();
         private static final int INITIAL_CAPACITY = (int) (MAX_ENTRIES / 0.75);
-
         private static final HashMap<String, ConstantUtf8> CACHE = new LinkedHashMap<String, ConstantUtf8>(INITIAL_CAPACITY, 0.75f, true) {
-
             private static final long serialVersionUID = -8506975356158971766L;
 
             @Override
@@ -29,14 +24,12 @@ public final class ConstantUtf8 extends Constant {
                 return size() > MAX_ENTRIES;
             }
         };
-
         // Set the size to 0 or below to skip caching entirely
         private static final int MAX_ENTRY_SIZE = Integer.getInteger(SYS_PROP_CACHE_MAX_ENTRY_SIZE, 200).intValue();
 
         static boolean isEnabled() {
             return Cache.MAX_ENTRIES > 0 && MAX_ENTRY_SIZE > 0;
         }
-
     }
 
     // TODO these should perhaps be AtomicInt?
@@ -44,11 +37,9 @@ public final class ConstantUtf8 extends Constant {
     private static volatile int created = 0;
     private static volatile int hits = 0;
     private static volatile int skipped = 0;
-
     private static final String SYS_PROP_CACHE_MAX_ENTRIES = "bcel.maxcached";
     private static final String SYS_PROP_CACHE_MAX_ENTRY_SIZE = "bcel.maxcached.size";
     private static final String SYS_PROP_STATISTICS = "bcel.statistics";
-
     static {
         if (Cache.BCEL_STATISTICS) {
             Runtime.getRuntime().addShutdownHook(new Thread() {
@@ -59,7 +50,6 @@ public final class ConstantUtf8 extends Constant {
             });
         }
     }
-
     private final String value;
 
     public ConstantUtf8(final ConstantUtf8 constantUtf8) {

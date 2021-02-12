@@ -1,4 +1,3 @@
-
 package org.apache.bcel.generic;
 
 import org.apache.bcel.ExceptionConst;
@@ -8,7 +7,6 @@ import org.apache.bcel.generic.base.StackConsumer;
 import org.apache.bcel.generic.base.Visitor;
 
 public class MONITORENTER extends Instruction implements ExceptionThrower, StackConsumer {
-
     public MONITORENTER() {
         super(org.apache.bcel.Const.MONITORENTER, (short) 1);
     }

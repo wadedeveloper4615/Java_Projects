@@ -1,11 +1,9 @@
-
 package org.apache.bcel.generic.base;
 
 import org.apache.bcel.generic.control.InstructionHandle;
 import org.apache.bcel.generic.control.InstructionList;
 
 public final class BranchHandle extends InstructionHandle {
-
     // This is also a cache in case the InstructionHandle#swapInstruction() method
     // is used
     // See BCEL-273

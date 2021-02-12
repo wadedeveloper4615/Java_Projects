@@ -1,8 +1,6 @@
-
 package org.apache.bcel.generic.base;
 
 public abstract class LoadInstruction extends LocalVariableInstruction implements PushInstruction {
-
     protected LoadInstruction(final short canon_tag, final short c_tag) {
         super(canon_tag, c_tag);
     }

@@ -1,4 +1,3 @@
-
 package org.apache.bcel.generic;
 
 import java.io.IOException;
@@ -6,7 +5,6 @@ import java.io.IOException;
 import org.apache.bcel.util.ByteSequence;
 
 public class LDC_W extends LDC {
-
     public LDC_W() {
     }
 

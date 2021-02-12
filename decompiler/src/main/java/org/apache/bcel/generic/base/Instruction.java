@@ -1,4 +1,3 @@
-
 package org.apache.bcel.generic.base;
 
 import java.io.DataOutputStream;
@@ -188,7 +187,6 @@ public abstract class Instruction implements Cloneable {
         if (instruction != null) {
             return instruction; // Used predefined immutable object, if available
         }
-
         obj = switch (opcode) {
             case Const.BIPUSH -> new BIPUSH();
             case Const.SIPUSH -> new SIPUSH();
@@ -289,7 +287,6 @@ public abstract class Instruction implements Cloneable {
             case Const.IMPDEP2 -> new IMPDEP2();
             default -> throw new ClassGenException("Illegal opcode detected: " + opcode);
         };
-
         if (wide && !((obj instanceof LocalVariableInstruction) || (obj instanceof IINC) || (obj instanceof RET))) {
             throw new ClassGenException("Illegal opcode after wide: " + opcode);
         }

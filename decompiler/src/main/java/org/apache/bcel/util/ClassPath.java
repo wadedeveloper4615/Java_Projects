@@ -1,4 +1,3 @@
-
 package org.apache.bcel.util;
 
 import java.io.Closeable;
@@ -25,9 +24,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 public class ClassPath implements Closeable {
-
     private abstract static class AbstractPathEntry implements Closeable {
-
         abstract ClassFile getClassFile(String name, String suffix) throws IOException;
 
         abstract URL getResource(String name);
@@ -36,7 +33,6 @@ public class ClassPath implements Closeable {
     }
 
     private abstract static class AbstractZip extends AbstractPathEntry {
-
         private final ZipFile zipFile;
 
         AbstractZip(final ZipFile zipFile) {
@@ -48,19 +44,15 @@ public class ClassPath implements Closeable {
             if (zipFile != null) {
                 zipFile.close();
             }
-
         }
 
         @Override
         ClassFile getClassFile(final String name, final String suffix) throws IOException {
             final ZipEntry entry = zipFile.getEntry(toEntryName(name, suffix));
-
             if (entry == null) {
                 return null;
             }
-
             return new ClassFile() {
-
                 @Override
                 public String getBase() {
                     return zipFile.getName();
@@ -114,11 +106,9 @@ public class ClassPath implements Closeable {
         public String toString() {
             return zipFile.getName();
         }
-
     }
 
     public interface ClassFile {
-
         String getBase();
 
         InputStream getInputStream() throws IOException;
@@ -131,7 +121,6 @@ public class ClassPath implements Closeable {
     }
 
     private static class Dir extends AbstractPathEntry {
-
         private final String dir;
 
         Dir(final String d) {
@@ -141,14 +130,12 @@ public class ClassPath implements Closeable {
         @Override
         public void close() throws IOException {
             // Nothing to do
-
         }
 
         @Override
         ClassFile getClassFile(final String name, final String suffix) throws IOException {
             final File file = new File(dir + File.separatorChar + name.replace('.', File.separatorChar) + suffix);
             return file.exists() ? new ClassFile() {
-
                 @Override
                 public String getBase() {
                     return dir;
@@ -213,7 +200,6 @@ public class ClassPath implements Closeable {
     }
 
     private static class Jar extends AbstractZip {
-
         Jar(final ZipFile zip) {
             super(zip);
         }
@@ -222,11 +208,9 @@ public class ClassPath implements Closeable {
         protected String toEntryName(final String name, final String suffix) {
             return packageToFolder(name) + suffix;
         }
-
     }
 
     private static class JrtModule extends AbstractPathEntry {
-
         private final Path modulePath;
 
         public JrtModule(final Path modulePath) {
@@ -236,7 +220,6 @@ public class ClassPath implements Closeable {
         @Override
         public void close() throws IOException {
             // Nothing to do.
-
         }
 
         @Override
@@ -244,7 +227,6 @@ public class ClassPath implements Closeable {
             final Path resolved = modulePath.resolve(packageToFolder(name) + suffix);
             if (Files.exists(resolved)) {
                 return new ClassFile() {
-
                     @Override
                     public String getBase() {
                         return resolved.getFileName().toString();
@@ -305,11 +287,9 @@ public class ClassPath implements Closeable {
         public String toString() {
             return modulePath.toString();
         }
-
     }
 
     private static class JrtModules extends AbstractPathEntry {
-
         private final ModularRuntimeImage modularRuntimeImage;
         private final JrtModule[] modules;
 
@@ -379,11 +359,9 @@ public class ClassPath implements Closeable {
         public String toString() {
             return Arrays.toString(modules);
         }
-
     }
 
     private static class Module extends AbstractZip {
-
         Module(final ZipFile zip) {
             super(zip);
         }
@@ -392,19 +370,16 @@ public class ClassPath implements Closeable {
         protected String toEntryName(final String name, final String suffix) {
             return "classes/" + packageToFolder(name) + suffix;
         }
-
     }
 
     private static final FilenameFilter ARCHIVE_FILTER = (dir, name) -> {
         name = name.toLowerCase(Locale.ENGLISH);
         return name.endsWith(".zip") || name.endsWith(".jar");
     };
-
     private static final FilenameFilter MODULES_FILTER = (dir, name) -> {
         name = name.toLowerCase(Locale.ENGLISH);
         return name.endsWith(".jmod");
     };
-
     public static final ClassPath SYSTEM_CLASS_PATH = new ClassPath(getClassPath());
 
     private static void addJdkModules(final String javaHome, final List<String> list) {
@@ -433,7 +408,6 @@ public class ClassPath implements Closeable {
         // System.out.println("java.ext.dirs=" + extDirs);
         final String javaHome = System.getProperty("java.home");
         final List<String> list = new ArrayList<>();
-
         // Starting in JRE 9, .class files are in the modules directory. Add them to the
         // path.
         final Path modulesPath = Paths.get(javaHome).resolve("lib/modules");
@@ -443,7 +417,6 @@ public class ClassPath implements Closeable {
         // Starting in JDK 9, .class files are in the jmods directory. Add them to the
         // path.
         addJdkModules(javaHome, list);
-
         getPathComponents(classPathProp, list);
         getPathComponents(bootClassPathProp, list);
         final List<String> dirs = new ArrayList<>();
@@ -457,7 +430,6 @@ public class ClassPath implements Closeable {
                 }
             }
         }
-
         final StringBuilder buf = new StringBuilder();
         String separator = "";
         for (final String path : list) {
@@ -486,9 +458,7 @@ public class ClassPath implements Closeable {
     }
 
     private final String classPath;
-
     private ClassPath parent;
-
     private final AbstractPathEntry[] paths;
 
     @Deprecated
@@ -539,7 +509,6 @@ public class ClassPath implements Closeable {
                 path.close();
             }
         }
-
     }
 
     @Override
@@ -578,32 +547,25 @@ public class ClassPath implements Closeable {
 
     public ClassFile getClassFile(final String name, final String suffix) throws IOException {
         ClassFile cf = null;
-
         if (parent != null) {
             cf = parent.getClassFileInternal(name, suffix);
         }
-
         if (cf == null) {
             cf = getClassFileInternal(name, suffix);
         }
-
         if (cf != null) {
             return cf;
         }
-
         throw new IOException("Couldn't find: " + name + suffix);
     }
 
     private ClassFile getClassFileInternal(final String name, final String suffix) throws IOException {
-
         for (final AbstractPathEntry path : paths) {
             final ClassFile cf = path.getClassFile(name, suffix);
-
             if (cf != null) {
                 return cf;
             }
         }
-
         return null;
     }
 

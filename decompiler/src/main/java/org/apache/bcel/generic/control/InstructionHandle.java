@@ -1,4 +1,3 @@
-
 package org.apache.bcel.generic.control;
 
 import java.util.Collection;
@@ -15,14 +14,11 @@ import org.apache.bcel.generic.base.Instruction;
 import org.apache.bcel.generic.base.Visitor;
 
 public class InstructionHandle {
-
     private InstructionHandle next;
     private InstructionHandle prev;
     private Instruction instruction;
-
     @Deprecated
     protected int i_position = -1; // byte code offset of instruction
-
     private Set<InstructionTargeter> targeters;
     private Map<Object, Object> attributes;
 

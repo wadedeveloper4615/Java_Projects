@@ -1,4 +1,3 @@
-
 package org.apache.bcel.classfile;
 
 import java.io.DataInput;
@@ -11,7 +10,6 @@ import org.apache.bcel.classfile.constant.ConstantUtf8;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public final class LocalVariable implements Cloneable, Node, Constants {
-
     private int startPc; // Range in which the variable is valid
     private int length;
     private int nameIndex; // Index in constant pool of variable name

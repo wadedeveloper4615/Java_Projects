@@ -1,4 +1,3 @@
-
 package org.apache.bcel.generic;
 
 import java.io.DataOutputStream;
@@ -11,7 +10,6 @@ import org.apache.bcel.generic.gen.ConstantPoolGen;
 import org.apache.bcel.util.ByteSequence;
 
 public class SIPUSH extends Instruction implements ConstantPushInstruction {
-
     private short b;
 
     public SIPUSH() {

@@ -3,8 +3,8 @@ package org.apache.bcel.util;
 import java.io.IOException;
 import java.util.List;
 
-import org.apache.bcel.classfile.ClassFormatException;
 import org.apache.bcel.enums.ClassAccessFlags;
+import org.apache.bcel.exceptions.ClassFormatException;
 
 public class ClassAccessFlagsList {
     private List<ClassAccessFlags> flags;

@@ -1,11 +1,9 @@
-
 package org.apache.bcel.util;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
 public class JavaWrapper {
-
     private final java.lang.ClassLoader loader;
 
     public JavaWrapper() {
@@ -21,7 +19,6 @@ public class JavaWrapper {
         Method method = null;
         try {
             method = cl.getMethod("main", argv.getClass());
-
             final int m = method.getModifiers();
             final Class<?> r = method.getReturnType();
             if (!(Modifier.isPublic(m) && Modifier.isStatic(m)) || Modifier.isAbstract(m) || (r != Void.TYPE)) {
@@ -51,7 +48,6 @@ public class JavaWrapper {
     }
 
     public static void main(final String[] argv) throws Exception {
-
         if (argv.length == 0) {
             System.out.println("Missing class name.");
             return;

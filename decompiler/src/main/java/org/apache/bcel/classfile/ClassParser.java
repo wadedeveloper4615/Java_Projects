@@ -13,6 +13,7 @@ import org.apache.bcel.Const;
 import org.apache.bcel.classfile.attribute.Attribute;
 import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.enums.Version;
+import org.apache.bcel.exceptions.ClassFormatException;
 import org.apache.bcel.util.ClassAccessFlagsList;
 
 public class ClassParser {
@@ -64,11 +65,9 @@ public class ClassParser {
                 if (isZip) {
                     zip = new ZipFile(zipFile);
                     ZipEntry entry = zip.getEntry(fileName);
-
                     if (entry == null) {
                         throw new IOException("File " + fileName + " not found");
                     }
-
                     dataInputStream = new DataInputStream(new BufferedInputStream(zip.getInputStream(entry), BUFSIZE));
                 } else {
                     dataInputStream = new DataInputStream(new BufferedInputStream(new FileInputStream(fileName), BUFSIZE));

@@ -1,4 +1,3 @@
-
 package org.apache.bcel.util;
 
 import java.io.File;
@@ -9,7 +8,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.bcel.Constants;
-import org.apache.bcel.classfile.ClassFormatException;
 import org.apache.bcel.classfile.ClassParser;
 import org.apache.bcel.classfile.JavaClass;
 import org.apache.bcel.classfile.Method;
@@ -17,9 +15,9 @@ import org.apache.bcel.classfile.Utility;
 import org.apache.bcel.classfile.attribute.Attribute;
 import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.enums.ClassFileConstants;
+import org.apache.bcel.exceptions.ClassFormatException;
 
 public class Class2HTML implements Constants {
-
     private static String class_package; // name of package, unclean to make it static, but ...
     private static String class_name; // name of current class, dito
     private static ConstantPool constant_pool;
@@ -36,7 +34,6 @@ public class Class2HTML implements Constants {
         basic_types.add("float");
     }
     private final JavaClass java_class; // current class object
-
     private final String dir;
 
     public Class2HTML(final JavaClass java_class, final String dir) throws IOException {
@@ -53,7 +50,6 @@ public class Class2HTML implements Constants {
             class_package = ""; // default package
         }
         final ConstantHTML constant_html = new ConstantHTML(dir, class_name, class_package, methods, constant_pool);
-
         final AttributeHTML attribute_html = new AttributeHTML(dir, class_name, constant_pool, constant_html);
         new MethodHTML(dir, class_name, methods, java_class.getFields(), constant_html, attribute_html);
         // Write main file (with frames, yuk)
@@ -81,7 +77,6 @@ public class Class2HTML implements Constants {
         String zip_file = null;
         final char sep = File.separatorChar;
         String dir = "." + sep; // Where to store HTML files
-
         for (int i = 0; i < argv.length; i++) {
             if (argv[i].charAt(0) == '-') { // command line switch
                 if (argv[i].equals("-d")) { // Specify target directory, default '.'

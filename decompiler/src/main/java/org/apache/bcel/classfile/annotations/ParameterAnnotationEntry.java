@@ -1,5 +1,4 @@
-
-package org.apache.bcel.classfile;
+package org.apache.bcel.classfile.annotations;
 
 import java.io.DataInput;
 import java.io.DataOutputStream;
@@ -8,12 +7,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.bcel.classfile.AnnotationEntry;
+import org.apache.bcel.classfile.Node;
+import org.apache.bcel.classfile.Visitor;
 import org.apache.bcel.classfile.attribute.Attribute;
 import org.apache.bcel.classfile.attribute.ParameterAnnotations;
 import org.apache.bcel.classfile.constant.ConstantPool;
 
 public class ParameterAnnotationEntry implements Node {
-
     private final AnnotationEntry[] annotationTable;
 
     public ParameterAnnotationEntry(final DataInput input, final ConstantPool constant_pool) throws IOException {

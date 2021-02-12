@@ -1,4 +1,3 @@
-
 package org.apache.bcel.util;
 
 import org.apache.bcel.classfile.ClassParser;
@@ -8,7 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 
 abstract class AbstractClassPathRepository implements Repository {
-
     private final ClassPath _path;
 
     AbstractClassPathRepository(final ClassPath classPath) {
@@ -56,7 +54,6 @@ abstract class AbstractClassPathRepository implements Repository {
         if (i > 0) {
             name = name.substring(i + 1);
         }
-
         try (InputStream clsStream = clazz.getResourceAsStream(name + ".class")) {
             return loadClass(clsStream, className);
         } catch (final IOException e) {

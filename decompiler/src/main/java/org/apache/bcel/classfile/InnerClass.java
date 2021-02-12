@@ -1,4 +1,3 @@
-
 package org.apache.bcel.classfile;
 
 import java.io.DataInput;
@@ -10,7 +9,6 @@ import org.apache.bcel.classfile.constant.ConstantUtf8;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public final class InnerClass implements Cloneable, Node {
-
     private int innerClassIndex;
     private int outerClassIndex;
     private int innerNameIndex;

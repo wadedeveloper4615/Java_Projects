@@ -1,4 +1,3 @@
-
 package org.apache.bcel.classfile.constant;
 
 import java.io.DataInput;
@@ -6,11 +5,11 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import org.apache.bcel.Const;
-import org.apache.bcel.classfile.ClassFormatException;
 import org.apache.bcel.classfile.Node;
 import org.apache.bcel.classfile.Utility;
 import org.apache.bcel.classfile.Visitor;
 import org.apache.bcel.enums.ClassFileConstants;
+import org.apache.bcel.exceptions.ClassFormatException;
 
 public class ConstantPool implements Cloneable, Node {
     private Constant[] constantPool;
@@ -23,10 +22,8 @@ public class ConstantPool implements Cloneable, Node {
         ClassFileConstants tag;
         int constant_pool_count = input.readUnsignedShort();
         constantPool = new Constant[constant_pool_count];
-
         for (int i = 1; i < constant_pool_count; i++) {
             constantPool[i] = Constant.readConstant(input);
-
             tag = constantPool[i].getTag();
             if ((tag == ClassFileConstants.CONSTANT_Double) || (tag == ClassFileConstants.CONSTANT_Long)) {
                 i++;

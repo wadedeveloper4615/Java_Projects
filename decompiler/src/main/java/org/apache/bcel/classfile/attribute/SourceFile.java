@@ -1,4 +1,3 @@
-
 package org.apache.bcel.classfile.attribute;
 
 import java.io.DataInput;
@@ -12,7 +11,6 @@ import org.apache.bcel.classfile.constant.ConstantUtf8;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public final class SourceFile extends Attribute {
-
     private int sourceFileIndex;
 
     public SourceFile(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {

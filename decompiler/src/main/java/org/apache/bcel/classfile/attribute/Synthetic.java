@@ -1,4 +1,3 @@
-
 package org.apache.bcel.classfile.attribute;
 
 import java.io.DataInput;
@@ -11,7 +10,6 @@ import org.apache.bcel.classfile.Visitor;
 import org.apache.bcel.classfile.constant.ConstantPool;
 
 public final class Synthetic extends Attribute {
-
     private byte[] bytes;
 
     public Synthetic(final int name_index, final int length, final byte[] bytes, final ConstantPool constant_pool) {

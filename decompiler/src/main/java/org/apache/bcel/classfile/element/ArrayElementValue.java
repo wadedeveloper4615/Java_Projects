@@ -1,5 +1,4 @@
-
-package org.apache.bcel.classfile;
+package org.apache.bcel.classfile.element;
 
 import java.io.DataOutputStream;
 import java.io.IOException;

@@ -1,4 +1,3 @@
-
 package org.apache.bcel.generic;
 
 import org.apache.bcel.generic.base.Instruction;
@@ -8,7 +7,6 @@ import org.apache.bcel.generic.base.Visitor;
 import org.apache.bcel.generic.gen.ConstantPoolGen;
 
 public class ACONST_NULL extends Instruction implements PushInstruction, TypedInstruction {
-
     public ACONST_NULL() {
         super(org.apache.bcel.Const.ACONST_NULL, (short) 1);
     }

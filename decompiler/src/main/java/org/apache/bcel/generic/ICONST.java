@@ -1,4 +1,3 @@
-
 package org.apache.bcel.generic;
 
 import org.apache.bcel.generic.base.ClassGenException;
@@ -8,7 +7,6 @@ import org.apache.bcel.generic.base.Visitor;
 import org.apache.bcel.generic.gen.ConstantPoolGen;
 
 public class ICONST extends Instruction implements ConstantPushInstruction {
-
     private int value;
 
     ICONST() {

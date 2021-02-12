@@ -1,12 +1,11 @@
-
 package org.apache.bcel.generic.gen;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.classfile.ClassElementValue;
-import org.apache.bcel.classfile.ElementValue;
 import org.apache.bcel.classfile.constant.ConstantUtf8;
+import org.apache.bcel.classfile.element.ClassElementValue;
+import org.apache.bcel.classfile.element.ElementValue;
 import org.apache.bcel.generic.ObjectType;
 
 public class ClassElementValueGen extends ElementValueGen {

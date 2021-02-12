@@ -1,4 +1,3 @@
-
 package org.apache.bcel.classfile.constant;
 
 import java.io.DataInput;
@@ -8,7 +7,6 @@ import org.apache.bcel.classfile.Visitor;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public final class ConstantDynamic extends ConstantCP {
-
     public ConstantDynamic(final ConstantDynamic c) {
         this(c.getBootstrapMethodAttrIndex(), c.getNameAndTypeIndex());
     }

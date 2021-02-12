@@ -1,18 +1,15 @@
-
 package org.apache.bcel.generic.gen;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.classfile.ElementValue;
 import org.apache.bcel.classfile.ElementValuePair;
 import org.apache.bcel.classfile.constant.ConstantUtf8;
+import org.apache.bcel.classfile.element.ElementValue;
 
 public class ElementValuePairGen {
     private int nameIdx;
-
     private final ElementValueGen value;
-
     private final ConstantPoolGen constantPoolGen;
 
     public ElementValuePairGen(final ElementValuePair nvp, final ConstantPoolGen cpool, final boolean copyPoolEntries) {

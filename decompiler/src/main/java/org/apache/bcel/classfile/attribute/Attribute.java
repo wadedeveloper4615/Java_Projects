@@ -1,4 +1,3 @@
-
 package org.apache.bcel.classfile.attribute;
 
 import java.io.DataInputStream;
@@ -9,21 +8,21 @@ import java.util.Map;
 
 import org.apache.bcel.Const;
 import org.apache.bcel.classfile.AttributeReader;
-import org.apache.bcel.classfile.ClassFormatException;
 import org.apache.bcel.classfile.NestMembers;
 import org.apache.bcel.classfile.Node;
 import org.apache.bcel.classfile.PMGClass;
-import org.apache.bcel.classfile.RuntimeInvisibleAnnotations;
-import org.apache.bcel.classfile.RuntimeInvisibleParameterAnnotations;
-import org.apache.bcel.classfile.RuntimeVisibleAnnotations;
-import org.apache.bcel.classfile.RuntimeVisibleParameterAnnotations;
 import org.apache.bcel.classfile.UnknownAttributeReader;
 import org.apache.bcel.classfile.Visitor;
+import org.apache.bcel.classfile.annotations.RuntimeInvisibleAnnotations;
+import org.apache.bcel.classfile.annotations.RuntimeInvisibleParameterAnnotations;
+import org.apache.bcel.classfile.annotations.RuntimeVisibleAnnotations;
+import org.apache.bcel.classfile.annotations.RuntimeVisibleParameterAnnotations;
 import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.classfile.constant.ConstantUtf8;
 import org.apache.bcel.classfile.constant.ConstantValue;
 import org.apache.bcel.classfile.constant.Unknown;
 import org.apache.bcel.enums.ClassFileConstants;
+import org.apache.bcel.exceptions.ClassFormatException;
 
 public abstract class Attribute implements Cloneable, Node {
     private static boolean debug = Boolean.getBoolean(Attribute.class.getCanonicalName() + ".debug"); // Debugging on/off
@@ -119,10 +118,8 @@ public abstract class Attribute implements Cloneable, Node {
         int name_index = file.readUnsignedShort();
         ConstantUtf8 c = (ConstantUtf8) constant_pool.getConstant(name_index, ClassFileConstants.CONSTANT_Utf8);
         String name = c.getBytes();
-
         // Length of data in bytes
         int length = file.readInt();
-
         // Compare strings to find known attribute
         for (byte i = 0; i < Const.KNOWN_ATTRIBUTES; i++) {
             if (name.equals(Const.getAttributeName(i))) {
@@ -130,7 +127,6 @@ public abstract class Attribute implements Cloneable, Node {
                 break;
             }
         }
-
         // Call proper constructor, depending on `tag'
         switch (tag) {
             case Const.ATTR_UNKNOWN:

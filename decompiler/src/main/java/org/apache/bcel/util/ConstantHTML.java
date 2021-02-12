@@ -1,4 +1,3 @@
-
 package org.apache.bcel.util;
 
 import java.io.FileOutputStream;
@@ -19,7 +18,6 @@ import org.apache.bcel.classfile.constant.ConstantString;
 import org.apache.bcel.enums.ClassFileConstants;
 
 final class ConstantHTML {
-
     private final String className; // name of current class
     private final String classPackage; // name of package
     private final ConstantPool constantPool; // reference to constant pool
@@ -75,7 +73,6 @@ final class ConstantHTML {
         String ref;
         // The header is always the same
         file.println("<H4> <A NAME=cp" + index + ">" + index + "</A> " + Const.getConstantName(tag.getTag()) + "</H4>");
-
         switch (tag) {
             case CONSTANT_InterfaceMethodref:
             case CONSTANT_Methodref:

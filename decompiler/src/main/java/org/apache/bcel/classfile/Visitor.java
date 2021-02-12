@@ -1,6 +1,6 @@
-
 package org.apache.bcel.classfile;
 
+import org.apache.bcel.classfile.annotations.ParameterAnnotationEntry;
 import org.apache.bcel.classfile.attribute.AnnotationDefault;
 import org.apache.bcel.classfile.attribute.Annotations;
 import org.apache.bcel.classfile.attribute.BootstrapMethods;

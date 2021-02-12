@@ -1,4 +1,3 @@
-
 package org.apache.bcel.classfile.attribute;
 
 import java.io.DataInput;
@@ -11,7 +10,6 @@ import org.apache.bcel.classfile.Visitor;
 import org.apache.bcel.classfile.constant.ConstantPool;
 
 public class BootstrapMethods extends Attribute {
-
     private BootstrapMethod[] bootstrapMethods; // TODO this could be made final (setter is not used)
 
     public BootstrapMethods(final BootstrapMethods c) {
@@ -25,7 +23,6 @@ public class BootstrapMethods extends Attribute {
 
     public BootstrapMethods(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
         this(name_index, length, (BootstrapMethod[]) null, constant_pool);
-
         final int num_bootstrap_methods = input.readUnsignedShort();
         bootstrapMethods = new BootstrapMethod[num_bootstrap_methods];
         for (int i = 0; i < num_bootstrap_methods; i++) {
@@ -42,7 +39,6 @@ public class BootstrapMethods extends Attribute {
     public BootstrapMethods copy(final ConstantPool _constant_pool) {
         final BootstrapMethods c = (BootstrapMethods) clone();
         c.bootstrapMethods = new BootstrapMethod[bootstrapMethods.length];
-
         for (int i = 0; i < bootstrapMethods.length; i++) {
             c.bootstrapMethods[i] = bootstrapMethods[i].copy();
         }
@@ -53,7 +49,6 @@ public class BootstrapMethods extends Attribute {
     @Override
     public final void dump(final DataOutputStream file) throws IOException {
         super.dump(file);
-
         file.writeShort(bootstrapMethods.length);
         for (final BootstrapMethod bootstrap_method : bootstrapMethods) {
             bootstrap_method.dump(file);

@@ -1,11 +1,10 @@
-
 package org.apache.bcel.generic.gen;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.classfile.AnnotationElementValue;
-import org.apache.bcel.classfile.ElementValue;
+import org.apache.bcel.classfile.element.AnnotationElementValue;
+import org.apache.bcel.classfile.element.ElementValue;
 
 public class AnnotationElementValueGen extends ElementValueGen {
     // For annotation element values, this is the annotation

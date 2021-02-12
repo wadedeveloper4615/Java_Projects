@@ -1,4 +1,3 @@
-
 package org.apache.bcel.generic.control;
 
 import org.apache.bcel.Const;
@@ -67,13 +66,10 @@ import org.apache.bcel.generic.gen.ClassGen;
 import org.apache.bcel.generic.gen.ConstantPoolGen;
 
 public class InstructionFactory implements InstructionConstants {
-
     // N.N. These must agree with the order of Constants.T_CHAR through T_LONG
     private static final String[] short_names = { "C", "F", "D", "B", "S", "I", "L" };
-
     @Deprecated
     protected ClassGen cg;
-
     @Deprecated
     protected ConstantPoolGen cp;
 
@@ -153,7 +149,6 @@ public class InstructionFactory implements InstructionConstants {
     }
 
     private static class MethodObject {
-
         final Type[] arg_types;
         final Type result_type;
         final String class_name;

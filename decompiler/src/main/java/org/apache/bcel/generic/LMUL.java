@@ -1,11 +1,9 @@
-
 package org.apache.bcel.generic;
 
 import org.apache.bcel.generic.base.ArithmeticInstruction;
 import org.apache.bcel.generic.base.Visitor;
 
 public class LMUL extends ArithmeticInstruction {
-
     public LMUL() {
         super(org.apache.bcel.Const.LMUL);
     }

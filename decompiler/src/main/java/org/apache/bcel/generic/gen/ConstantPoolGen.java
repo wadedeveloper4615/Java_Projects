@@ -1,4 +1,3 @@
-
 package org.apache.bcel.generic.gen;
 
 import java.util.HashMap;
@@ -23,9 +22,7 @@ import org.apache.bcel.generic.ObjectType;
 import org.apache.bcel.generic.base.ArrayType;
 
 public class ConstantPoolGen {
-
     private static class Index {
-
         final int index;
 
         Index(final int i) {
@@ -34,31 +31,20 @@ public class ConstantPoolGen {
     }
 
     private static final int DEFAULT_BUFFER_SIZE = 256;
-
     private static final String METHODREF_DELIM = ":";
-
     private static final String IMETHODREF_DELIM = "#";
-
     private static final String FIELDREF_DELIM = "&";
     private static final String NAT_DELIM = "%"; // Name and Type
-
     @Deprecated
     protected int size;
-
     @Deprecated
     protected Constant[] constants;
-
     @Deprecated
     protected int index = 1; // First entry (0) used by JVM
-
     private final Map<String, Index> stringTable = new HashMap<>();
-
     private final Map<String, Index> classTable = new HashMap<>();
-
     private final Map<String, Index> utf8Table = new HashMap<>();
-
     private final Map<String, Index> natTable = new HashMap<>();
-
     private final Map<String, Index> cpTable = new HashMap<>();
 
     public ConstantPoolGen() {
@@ -68,15 +54,12 @@ public class ConstantPoolGen {
 
     public ConstantPoolGen(final Constant[] cs) {
         final StringBuilder sb = new StringBuilder(DEFAULT_BUFFER_SIZE);
-
         size = Math.max(DEFAULT_BUFFER_SIZE, cs.length + 64);
         constants = new Constant[size];
-
         System.arraycopy(cs, 0, constants, 0, cs.length);
         if (cs.length > 0) {
             index = cs.length;
         }
-
         for (int i = 1; i < index; i++) {
             final Constant c = constants[i];
             if (c instanceof ConstantString) {
@@ -97,13 +80,11 @@ public class ConstantPoolGen {
                 final ConstantNameAndType n = (ConstantNameAndType) c;
                 final ConstantUtf8 u8 = (ConstantUtf8) constants[n.getNameIndex()];
                 final ConstantUtf8 u8_2 = (ConstantUtf8) constants[n.getSignatureIndex()];
-
                 sb.append(u8.getBytes());
                 sb.append(NAT_DELIM);
                 sb.append(u8_2.getBytes());
                 final String key = sb.toString();
                 sb.delete(0, sb.length());
-
                 if (!natTable.containsKey(key)) {
                     natTable.put(key, new Index(i));
                 }
@@ -117,7 +98,6 @@ public class ConstantPoolGen {
                 final ConstantCP m = (ConstantCP) c;
                 String class_name;
                 ConstantUtf8 u8;
-
                 if (c instanceof ConstantInvokeDynamic) {
                     class_name = Integer.toString(((ConstantInvokeDynamic) m).getBootstrapMethodAttrIndex());
                     // since name can't begin with digit, can use
@@ -127,20 +107,17 @@ public class ConstantPoolGen {
                     u8 = (ConstantUtf8) constants[clazz.getNameIndex()];
                     class_name = u8.getBytes().replace('/', '.');
                 }
-
                 final ConstantNameAndType n = (ConstantNameAndType) constants[m.getNameAndTypeIndex()];
                 u8 = (ConstantUtf8) constants[n.getNameIndex()];
                 final String method_name = u8.getBytes();
                 u8 = (ConstantUtf8) constants[n.getSignatureIndex()];
                 final String signature = u8.getBytes();
-
                 String delim = METHODREF_DELIM;
                 if (c instanceof ConstantInterfaceMethodref) {
                     delim = IMETHODREF_DELIM;
                 } else if (c instanceof ConstantFieldref) {
                     delim = FIELDREF_DELIM;
                 }
-
                 sb.append(class_name);
                 sb.append(delim);
                 sb.append(method_name);
@@ -148,7 +125,6 @@ public class ConstantPoolGen {
                 sb.append(signature);
                 final String key = sb.toString();
                 sb.delete(0, sb.length());
-
                 if (!cpTable.containsKey(key)) {
                     cpTable.put(key, new Index(i));
                 }

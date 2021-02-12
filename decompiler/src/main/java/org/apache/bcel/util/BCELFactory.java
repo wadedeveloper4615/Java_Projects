@@ -1,4 +1,3 @@
-
 package org.apache.bcel.util;
 
 import java.io.PrintWriter;
@@ -41,14 +40,11 @@ import org.apache.bcel.generic.gen.ConstantPoolGen;
 import org.apache.bcel.generic.gen.MethodGen;
 
 class BCELFactory extends EmptyVisitor {
-
     private static final String CONSTANT_PREFIX = Const.class.getSimpleName() + ".";
     private final MethodGen _mg;
     private final PrintWriter _out;
     private final ConstantPoolGen _cp;
-
     private final Map<Instruction, InstructionHandle> branch_map = new HashMap<>();
-
     // Memorize BranchInstructions that need an update
     private final List<BranchInstruction> branches = new ArrayList<>();
 
@@ -72,7 +68,6 @@ class BCELFactory extends EmptyVisitor {
             final ObjectType ot = (ObjectType) value;
             embed = "new ObjectType(\"" + ot.getClassName() + "\")";
         }
-
         _out.println("il.append(new PUSH(_cp, " + embed + "));");
     }
 

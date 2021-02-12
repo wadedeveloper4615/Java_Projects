@@ -1,4 +1,3 @@
-
 package org.apache.bcel.generic.control;
 
 import org.apache.bcel.Const;
@@ -12,7 +11,6 @@ import org.apache.bcel.generic.base.ReturnInstruction;
 import org.apache.bcel.generic.base.StackInstruction;
 
 public final class InstructionConst {
-
     public static final Instruction NOP = new NOP();
     public static final Instruction ACONST_NULL = new ACONST_NULL();
     public static final Instruction ICONST_M1 = new ICONST(-1);
@@ -120,7 +118,6 @@ public final class InstructionConst {
     public static final Instruction ATHROW = new ATHROW();
     public static final Instruction MONITORENTER = new MONITORENTER();
     public static final Instruction MONITOREXIT = new MONITOREXIT();
-
     public static final LocalVariableInstruction THIS = new ALOAD(0);
     public static final LocalVariableInstruction ALOAD_0 = THIS;
     public static final LocalVariableInstruction ALOAD_1 = new ALOAD(1);
@@ -134,9 +131,7 @@ public final class InstructionConst {
     public static final LocalVariableInstruction ISTORE_0 = new ISTORE(0);
     public static final LocalVariableInstruction ISTORE_1 = new ISTORE(1);
     public static final LocalVariableInstruction ISTORE_2 = new ISTORE(2);
-
     private static final Instruction[] INSTRUCTIONS = new Instruction[256];
-
     static {
         INSTRUCTIONS[Const.NOP] = NOP;
         INSTRUCTIONS[Const.ACONST_NULL] = ACONST_NULL;

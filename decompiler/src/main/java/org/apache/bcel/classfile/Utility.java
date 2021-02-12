@@ -1,4 +1,3 @@
-
 package org.apache.bcel.classfile;
 
 import java.io.ByteArrayInputStream;
@@ -24,13 +23,12 @@ import org.apache.bcel.classfile.constant.Constant;
 import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.enums.ClassAccessFlags;
 import org.apache.bcel.enums.ClassFileConstants;
+import org.apache.bcel.exceptions.ClassFormatException;
 import org.apache.bcel.util.ByteSequence;
 
 // @since 6.0 methods are no longer final
 public abstract class Utility {
-
     private static class JavaReader extends FilterReader {
-
         public JavaReader(final Reader in) {
             super(in);
         }
@@ -67,7 +65,6 @@ public abstract class Utility {
     }
 
     private static class JavaWriter extends FilterWriter {
-
         public JavaWriter(final Writer out) {
             super(out);
         }
@@ -113,18 +110,12 @@ public abstract class Utility {
             return Integer.valueOf(0);
         }
     };
-
     private static boolean wide = false;
-
     // A-Z, g-z, _, $
     private static final int FREE_CHARS = 48;
-
     private static int[] CHAR_MAP = new int[FREE_CHARS];
-
     private static int[] MAP_CHAR = new int[256]; // Reverse map
-
     private static final char ESCAPE_CHAR = '$';
-
     static {
         int j = 0;
         for (int i = 'A'; i <= 'Z'; i++) {
@@ -154,7 +145,6 @@ public abstract class Utility {
         for (int i = 0; p < Const.MAX_ACC_FLAG_I; i++) { // Loop through known flags
             p = pow2(i);
             if ((access_flags & p) != 0) {
-
                 if (for_class && ((p == ClassAccessFlags.ACC_SUPER.getFlag()) || (p == ClassAccessFlags.ACC_INTERFACE.getFlag()))) {
                     continue;
                 }
@@ -217,7 +207,6 @@ public abstract class Utility {
         int no_pad_bytes = 0;
         int offset;
         final StringBuilder buf = new StringBuilder(Const.getOpcodeName(opcode));
-
         if ((opcode == Const.TABLESWITCH) || (opcode == Const.LOOKUPSWITCH)) {
             final int remainder = bytes.getIndex() % 4;
             no_pad_bytes = (remainder == 0) ? 0 : 4 - remainder;
@@ -231,7 +220,6 @@ public abstract class Utility {
             default_offset = bytes.readInt();
         }
         switch (opcode) {
-
             case Const.TABLESWITCH:
                 low = bytes.readInt();
                 high = bytes.readInt();
@@ -248,7 +236,6 @@ public abstract class Utility {
                 }
                 buf.append(")");
                 break;
-
             case Const.LOOKUPSWITCH: {
                 npairs = bytes.readInt();
                 offset = bytes.getIndex() - 8 - no_pad_bytes - 1;
@@ -267,7 +254,6 @@ public abstract class Utility {
                 buf.append(")");
             }
                 break;
-
             case Const.GOTO:
             case Const.IFEQ:
             case Const.IFGE:
@@ -288,12 +274,10 @@ public abstract class Utility {
             case Const.IF_ICMPNE:
                 buf.append("\t\t#").append((bytes.getIndex() - 1) + bytes.readShort());
                 break;
-
             case Const.GOTO_W:
             case Const.JSR_W:
                 buf.append("\t\t#").append((bytes.getIndex() - 1) + bytes.readInt());
                 break;
-
             case Const.ALOAD:
             case Const.ASTORE:
             case Const.DLOAD:
@@ -313,16 +297,13 @@ public abstract class Utility {
                 }
                 buf.append("\t\t%").append(vindex);
                 break;
-
             case Const.WIDE:
                 wide = true;
                 buf.append("\t(wide)");
                 break;
-
             case Const.NEWARRAY:
                 buf.append("\t\t<").append(Const.getTypeName(bytes.readByte())).append(">");
                 break;
-
             case Const.GETFIELD:
             case Const.GETSTATIC:
             case Const.PUTFIELD:
@@ -330,7 +311,6 @@ public abstract class Utility {
                 index = bytes.readUnsignedShort();
                 buf.append("\t\t").append(constant_pool.constantToString(index, ClassFileConstants.CONSTANT_Fieldref)).append(verbose ? " (" + index + ")" : "");
                 break;
-
             case Const.NEW:
             case Const.CHECKCAST:
                 buf.append("\t");
@@ -339,7 +319,6 @@ public abstract class Utility {
                 index = bytes.readUnsignedShort();
                 buf.append("\t<").append(constant_pool.constantToString(index, ClassFileConstants.CONSTANT_Class)).append(">").append(verbose ? " (" + index + ")" : "");
                 break;
-
             case Const.INVOKESPECIAL:
             case Const.INVOKESTATIC:
                 index = bytes.readUnsignedShort();
@@ -362,7 +341,6 @@ public abstract class Utility {
                 buf.append("\t").append(constant_pool.constantToString(index, ClassFileConstants.CONSTANT_InvokeDynamic)).append(verbose ? " (" + index + ")\t" : "").append(bytes.readUnsignedByte()) // Thrid byte is a reserved space
                         .append(bytes.readUnsignedByte()); // Last byte is a reserved space
                 break;
-
             case Const.LDC_W:
             case Const.LDC2_W:
                 index = bytes.readUnsignedShort();
@@ -372,19 +350,16 @@ public abstract class Utility {
                 index = bytes.readUnsignedByte();
                 buf.append("\t\t").append(constant_pool.constantToString(index, constant_pool.getConstant(index).getTag())).append(verbose ? " (" + index + ")" : "");
                 break;
-
             case Const.ANEWARRAY:
                 index = bytes.readUnsignedShort();
                 buf.append("\t\t<").append(compactClassName(constant_pool.getConstantString(index, ClassFileConstants.CONSTANT_Class), false)).append(">").append(verbose ? " (" + index + ")" : "");
                 break;
-
             case Const.MULTIANEWARRAY: {
                 index = bytes.readUnsignedShort();
                 final int dimensions = bytes.readUnsignedByte();
                 buf.append("\t<").append(compactClassName(constant_pool.getConstantString(index, ClassFileConstants.CONSTANT_Class), false)).append(">\t").append(dimensions).append(verbose ? " (" + index + ")" : "");
             }
                 break;
-
             case Const.IINC:
                 if (wide) {
                     vindex = bytes.readUnsignedShort();
@@ -1040,7 +1015,6 @@ public abstract class Utility {
                     if (index < 0) {
                         throw new ClassFormatException("Invalid signature: " + signature);
                     }
-
                     // check to see if there are any TypeArguments
                     final int bracketIndex = signature.substring(0, index).indexOf('<');
                     if (bracketIndex < 0) {
@@ -1058,12 +1032,10 @@ public abstract class Utility {
                         wrap(consumed_chars, fromIndex + 1); // "Lblabla;" `L' and `;' are removed
                         return compactClassName(signature.substring(1, fromIndex), chopit);
                     }
-
                     // we have TypeArguments; build up partial result
                     // as we recurse for each TypeArgument
                     final StringBuilder type = new StringBuilder(compactClassName(signature.substring(1, bracketIndex), chopit)).append("<");
                     int consumed_chars = bracketIndex + 1; // Shadows global var
-
                     // check for wildcards
                     if (signature.charAt(consumed_chars) == '+') {
                         type.append("? extends ");
@@ -1072,7 +1044,6 @@ public abstract class Utility {
                         type.append("? super ");
                         consumed_chars++;
                     }
-
                     // get the first TypeArgument
                     if (signature.charAt(consumed_chars) == '*') {
                         type.append("?");
@@ -1083,7 +1054,6 @@ public abstract class Utility {
                         consumed_chars = unwrap(Utility.consumed_chars) + consumed_chars;
                         wrap(Utility.consumed_chars, consumed_chars);
                     }
-
                     // are there more TypeArguments?
                     while (signature.charAt(consumed_chars) != '>') {
                         type.append(", ");
@@ -1105,11 +1075,9 @@ public abstract class Utility {
                             wrap(Utility.consumed_chars, consumed_chars);
                         }
                     }
-
                     // process the closing ">"
                     consumed_chars++;
                     type.append(">");
-
                     if (signature.charAt(consumed_chars) == '.') {
                         // we have a ClassTypeSignatureSuffix
                         type.append(".");
@@ -1169,5 +1137,4 @@ public abstract class Utility {
     private static void wrap(final ThreadLocal<Integer> tl, final int value) {
         tl.set(Integer.valueOf(value));
     }
-
 }

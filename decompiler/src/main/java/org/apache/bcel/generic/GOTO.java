@@ -1,4 +1,3 @@
-
 package org.apache.bcel.generic;
 
 import java.io.DataOutputStream;
@@ -10,7 +9,6 @@ import org.apache.bcel.generic.base.Visitor;
 import org.apache.bcel.generic.control.InstructionHandle;
 
 public class GOTO extends GotoInstruction implements VariableLengthInstruction {
-
     public GOTO() {
     }
 

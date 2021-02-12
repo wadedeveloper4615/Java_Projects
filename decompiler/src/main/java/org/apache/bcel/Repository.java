@@ -1,4 +1,3 @@
-
 package org.apache.bcel;
 
 import java.io.IOException;
@@ -8,7 +7,6 @@ import org.apache.bcel.util.ClassPath;
 import org.apache.bcel.util.SyntheticRepository;
 
 public abstract class Repository {
-
     private static org.apache.bcel.util.Repository repository = SyntheticRepository.getInstance();
 
     public static JavaClass addClass(JavaClass clazz) {

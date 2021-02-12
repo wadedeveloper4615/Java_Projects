@@ -6,13 +6,15 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import org.apache.bcel.Const;
+import org.apache.bcel.enums.ClassFileConstants;
 
 public final class ModuleMainClass extends Attribute {
 
     private int mainClassIndex;
 
-    public ModuleMainClass(final ModuleMainClass c) {
-        this(c.getNameIndex(), c.getLength(), c.getHostClassIndex(), c.getConstantPool());
+    ModuleMainClass(final int nameIndex, final int length, final DataInput input, final ConstantPool constantPool) throws IOException {
+        this(nameIndex, length, 0, constantPool);
+        mainClassIndex = input.readUnsignedShort();
     }
 
     public ModuleMainClass(final int name_index, final int length, final int mainClassIndex, final ConstantPool constantPool) {
@@ -20,14 +22,20 @@ public final class ModuleMainClass extends Attribute {
         this.mainClassIndex = mainClassIndex;
     }
 
-    ModuleMainClass(final int nameIndex, final int length, final DataInput input, final ConstantPool constantPool) throws IOException {
-        this(nameIndex, length, 0, constantPool);
-        mainClassIndex = input.readUnsignedShort();
+    public ModuleMainClass(final ModuleMainClass c) {
+        this(c.getNameIndex(), c.getLength(), c.getHostClassIndex(), c.getConstantPool());
     }
 
     @Override
     public void accept(final Visitor v) {
         v.visitModuleMainClass(this);
+    }
+
+    @Override
+    public Attribute copy(final ConstantPool _constant_pool) {
+        final ModuleMainClass c = (ModuleMainClass) clone();
+        c.setConstantPool(_constant_pool);
+        return c;
     }
 
     @Override
@@ -48,15 +56,8 @@ public final class ModuleMainClass extends Attribute {
     public String toString() {
         final StringBuilder buf = new StringBuilder();
         buf.append("ModuleMainClass: ");
-        final String class_name = super.getConstantPool().getConstantString(mainClassIndex, Const.CONSTANT_Class);
+        final String class_name = super.getConstantPool().getConstantString(mainClassIndex, ClassFileConstants.CONSTANT_Class);
         buf.append(Utility.compactClassName(class_name, false));
         return buf.toString();
-    }
-
-    @Override
-    public Attribute copy(final ConstantPool _constant_pool) {
-        final ModuleMainClass c = (ModuleMainClass) clone();
-        c.setConstantPool(_constant_pool);
-        return c;
     }
 }

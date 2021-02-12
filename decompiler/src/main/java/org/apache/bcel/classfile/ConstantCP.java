@@ -5,59 +5,51 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.Const;
+import org.apache.bcel.enums.ClassFileConstants;
 
 public abstract class ConstantCP extends Constant {
+    protected int class_index;
+    protected int name_and_type_index;
 
-    // Note that this field is used to store the
-    // bootstrap_method_attr_index of a ConstantInvokeDynamic.
-
-    @java.lang.Deprecated
-    protected int class_index; // TODO make private (has getter & setter)
-    // This field has the same meaning for all subclasses.
-
-    @java.lang.Deprecated
-    protected int name_and_type_index; // TODO make private (has getter & setter)
-
-    public ConstantCP(final ConstantCP c) {
-        this(c.getTag(), c.getClassIndex(), c.getNameAndTypeIndex());
-    }
-
-    ConstantCP(final byte tag, final DataInput file) throws IOException {
+    public ConstantCP(ClassFileConstants tag, DataInput file) throws IOException {
         this(tag, file.readUnsignedShort(), file.readUnsignedShort());
     }
 
-    protected ConstantCP(final byte tag, final int class_index, final int name_and_type_index) {
+    protected ConstantCP(ClassFileConstants tag, int class_index, int name_and_type_index) {
         super(tag);
         this.class_index = class_index;
         this.name_and_type_index = name_and_type_index;
     }
 
+    public ConstantCP(ConstantCP c) {
+        this(c.getTag(), c.getClassIndex(), c.getNameAndTypeIndex());
+    }
+
     @Override
-    public final void dump(final DataOutputStream file) throws IOException {
-        file.writeByte(super.getTag());
+    public void dump(DataOutputStream file) throws IOException {
+        file.writeByte(super.getTag().getTag());
         file.writeShort(class_index);
         file.writeShort(name_and_type_index);
     }
 
-    public final int getClassIndex() {
+    public String getClass(ConstantPool cp) {
+        return cp.constantToString(class_index, ClassFileConstants.CONSTANT_Class);
+    }
+
+    public int getClassIndex() {
         return class_index;
     }
 
-    public final void setClassIndex(final int class_index) {
-        this.class_index = class_index;
-    }
-
-    public final int getNameAndTypeIndex() {
+    public int getNameAndTypeIndex() {
         return name_and_type_index;
     }
 
-    public final void setNameAndTypeIndex(final int name_and_type_index) {
-        this.name_and_type_index = name_and_type_index;
+    public void setClassIndex(int class_index) {
+        this.class_index = class_index;
     }
 
-    public String getClass(final ConstantPool cp) {
-        return cp.constantToString(class_index, Const.CONSTANT_Class);
+    public void setNameAndTypeIndex(int name_and_type_index) {
+        this.name_and_type_index = name_and_type_index;
     }
 
     @Override

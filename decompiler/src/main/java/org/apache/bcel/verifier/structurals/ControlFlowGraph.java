@@ -43,178 +43,7 @@ public class ControlFlowGraph {
             outFrames = new HashMap<>();
         }
 
-        @Override
-        public int getTag() {
-            return TAG;
-        }
-
-        @Override
-        public void setTag(final int tag) { // part of InstructionContext interface
-            TAG = tag;
-        }
-
-        @Override
-        public ExceptionHandler[] getExceptionHandlers() {
-            return exceptionhandlers.getExceptionHandlers(getInstruction());
-        }
-
-        @Override
-        public Frame getOutFrame(final ArrayList<InstructionContext> execChain) {
-            executionPredecessors = execChain;
-
-            Frame org;
-
-            final InstructionContext jsr = lastExecutionJSR();
-
-            org = outFrames.get(jsr);
-
-            if (org == null) {
-                throw new AssertionViolatedException("outFrame not set! This:\n" + this + "\nExecutionChain: " + getExecutionChain() + "\nOutFrames: '" + outFrames + "'.");
-            }
-            return org.getClone();
-        }
-
-        @Override
-        public Frame getInFrame() {
-            Frame org;
-
-            final InstructionContext jsr = lastExecutionJSR();
-
-            org = inFrames.get(jsr);
-
-            if (org == null) {
-                throw new AssertionViolatedException("inFrame not set! This:\n" + this + "\nInFrames: '" + inFrames + "'.");
-            }
-            return org.getClone();
-        }
-
-        @Override
-        public boolean execute(final Frame inFrame, final ArrayList<InstructionContext> execPreds, final InstConstraintVisitor icv, final ExecutionVisitor ev) {
-
-            @SuppressWarnings("unchecked") // OK because execPreds is compatible type
-            final List<InstructionContext> clone = (List<InstructionContext>) execPreds.clone();
-            executionPredecessors = clone;
-
-            // sanity check
-            if ((lastExecutionJSR() == null) && (subroutines.subroutineOf(getInstruction()) != subroutines.getTopLevel())) {
-                throw new AssertionViolatedException("Huh?! Am I '" + this + "' part of a subroutine or not?");
-            }
-            if ((lastExecutionJSR() != null) && (subroutines.subroutineOf(getInstruction()) == subroutines.getTopLevel())) {
-                throw new AssertionViolatedException("Huh?! Am I '" + this + "' part of a subroutine or not?");
-            }
-
-            Frame inF = inFrames.get(lastExecutionJSR());
-            if (inF == null) {// no incoming frame was set, so set it.
-                inFrames.put(lastExecutionJSR(), inFrame);
-                inF = inFrame;
-            } else {// if there was an "old" inFrame
-                if (inF.equals(inFrame)) { // shortcut: no need to merge equal frames.
-                    return false;
-                }
-                if (!mergeInFrames(inFrame)) {
-                    return false;
-                }
-            }
-
-            // Now we're sure the inFrame has changed!
-
-            // new inFrame is already merged in, see above.
-            final Frame workingFrame = inF.getClone();
-
-            try {
-                // This verifies the InstructionConstraint for the current
-                // instruction, but does not modify the workingFrame object.
-//InstConstraintVisitor icv = InstConstraintVisitor.getInstance(VerifierFactory.getVerifier(method_gen.getClassName()));
-                icv.setFrame(workingFrame);
-                getInstruction().accept(icv);
-            } catch (final StructuralCodeConstraintException ce) {
-                ce.extendMessage("", "\nInstructionHandle: " + getInstruction() + "\n");
-                ce.extendMessage("", "\nExecution Frame:\n" + workingFrame);
-                extendMessageWithFlow(ce);
-                throw ce;
-            }
-
-            // This executes the Instruction.
-            // Therefore the workingFrame object is modified.
-//ExecutionVisitor ev = ExecutionVisitor.getInstance(VerifierFactory.getVerifier(method_gen.getClassName()));
-            ev.setFrame(workingFrame);
-            getInstruction().accept(ev);
-            // getInstruction().accept(ExecutionVisitor.withFrame(workingFrame));
-            outFrames.put(lastExecutionJSR(), workingFrame);
-
-            return true; // new inFrame was different from old inFrame so merging them
-                         // yielded a different this.inFrame.
-        }
-
-        @Override
-        public String toString() {
-            // TODO: Put information in the brackets, e.g.
-            // Is this an ExceptionHandler? Is this a RET? Is this the start of
-            // a subroutine?
-            final String ret = getInstruction().toString(false) + "\t[InstructionContext]";
-            return ret;
-        }
-
-        private boolean mergeInFrames(final Frame inFrame) {
-            // TODO: Can be performance-improved.
-            final Frame inF = inFrames.get(lastExecutionJSR());
-            final OperandStack oldstack = inF.getStack().getClone();
-            final LocalVariables oldlocals = inF.getLocals().getClone();
-            try {
-                inF.getStack().merge(inFrame.getStack());
-                inF.getLocals().merge(inFrame.getLocals());
-            } catch (final StructuralCodeConstraintException sce) {
-                extendMessageWithFlow(sce);
-                throw sce;
-            }
-            return !(oldstack.equals(inF.getStack()) && oldlocals.equals(inF.getLocals()));
-        }
-
-        private String getExecutionChain() {
-            String s = this.toString();
-            for (int i = executionPredecessors.size() - 1; i >= 0; i--) {
-                s = executionPredecessors.get(i) + "\n" + s;
-            }
-            return s;
-        }
-
-        private void extendMessageWithFlow(final StructuralCodeConstraintException e) {
-            final String s = "Execution flow:\n";
-            e.extendMessage("", s + getExecutionChain());
-        }
-
-        @Override
-        public InstructionHandle getInstruction() {
-            return instruction;
-        }
-
-        private InstructionContextImpl lastExecutionJSR() {
-
-            final int size = executionPredecessors.size();
-            int retcount = 0;
-
-            for (int i = size - 1; i >= 0; i--) {
-                final InstructionContextImpl current = (InstructionContextImpl) (executionPredecessors.get(i));
-                final Instruction currentlast = current.getInstruction().getInstruction();
-                if (currentlast instanceof RET) {
-                    retcount++;
-                }
-                if (currentlast instanceof JsrInstruction) {
-                    retcount--;
-                    if (retcount == -1) {
-                        return current;
-                    }
-                }
-            }
-            return null;
-        }
-
-        @Override
-        public InstructionContext[] getSuccessors() {
-            return contextsOf(_getSuccessors());
-        }
-
-// TODO: implement caching!
+        // TODO: implement caching!
         private InstructionHandle[] _getSuccessors() {
             final InstructionHandle[] empty = new InstructionHandle[0];
             final InstructionHandle[] single = new InstructionHandle[1];
@@ -282,6 +111,177 @@ public class ControlFlowGraph {
             // default case: Fall through.
             single[0] = getInstruction().getNext();
             return single;
+        }
+
+        @Override
+        public boolean execute(final Frame inFrame, final ArrayList<InstructionContext> execPreds, final InstConstraintVisitor icv, final ExecutionVisitor ev) {
+
+            @SuppressWarnings("unchecked") // OK because execPreds is compatible type
+            final List<InstructionContext> clone = (List<InstructionContext>) execPreds.clone();
+            executionPredecessors = clone;
+
+            // sanity check
+            if ((lastExecutionJSR() == null) && (subroutines.subroutineOf(getInstruction()) != subroutines.getTopLevel())) {
+                throw new AssertionViolatedException("Huh?! Am I '" + this + "' part of a subroutine or not?");
+            }
+            if ((lastExecutionJSR() != null) && (subroutines.subroutineOf(getInstruction()) == subroutines.getTopLevel())) {
+                throw new AssertionViolatedException("Huh?! Am I '" + this + "' part of a subroutine or not?");
+            }
+
+            Frame inF = inFrames.get(lastExecutionJSR());
+            if (inF == null) {// no incoming frame was set, so set it.
+                inFrames.put(lastExecutionJSR(), inFrame);
+                inF = inFrame;
+            } else {// if there was an "old" inFrame
+                if (inF.equals(inFrame)) { // shortcut: no need to merge equal frames.
+                    return false;
+                }
+                if (!mergeInFrames(inFrame)) {
+                    return false;
+                }
+            }
+
+            // Now we're sure the inFrame has changed!
+
+            // new inFrame is already merged in, see above.
+            final Frame workingFrame = inF.getClone();
+
+            try {
+                // This verifies the InstructionConstraint for the current
+                // instruction, but does not modify the workingFrame object.
+//InstConstraintVisitor icv = InstConstraintVisitor.getInstance(VerifierFactory.getVerifier(method_gen.getClassName()));
+                icv.setFrame(workingFrame);
+                getInstruction().accept(icv);
+            } catch (final StructuralCodeConstraintException ce) {
+                ce.extendMessage("", "\nInstructionHandle: " + getInstruction() + "\n");
+                ce.extendMessage("", "\nExecution Frame:\n" + workingFrame);
+                extendMessageWithFlow(ce);
+                throw ce;
+            }
+
+            // This executes the Instruction.
+            // Therefore the workingFrame object is modified.
+//ExecutionVisitor ev = ExecutionVisitor.getInstance(VerifierFactory.getVerifier(method_gen.getClassName()));
+            ev.setFrame(workingFrame);
+            getInstruction().accept(ev);
+            // getInstruction().accept(ExecutionVisitor.withFrame(workingFrame));
+            outFrames.put(lastExecutionJSR(), workingFrame);
+
+            return true; // new inFrame was different from old inFrame so merging them
+                         // yielded a different this.inFrame.
+        }
+
+        private void extendMessageWithFlow(final StructuralCodeConstraintException e) {
+            final String s = "Execution flow:\n";
+            e.extendMessage("", s + getExecutionChain());
+        }
+
+        @Override
+        public ExceptionHandler[] getExceptionHandlers() {
+            return exceptionhandlers.getExceptionHandlers(getInstruction());
+        }
+
+        private String getExecutionChain() {
+            String s = this.toString();
+            for (int i = executionPredecessors.size() - 1; i >= 0; i--) {
+                s = executionPredecessors.get(i) + "\n" + s;
+            }
+            return s;
+        }
+
+        @Override
+        public Frame getInFrame() {
+            Frame org;
+
+            final InstructionContext jsr = lastExecutionJSR();
+
+            org = inFrames.get(jsr);
+
+            if (org == null) {
+                throw new AssertionViolatedException("inFrame not set! This:\n" + this + "\nInFrames: '" + inFrames + "'.");
+            }
+            return org.getClone();
+        }
+
+        @Override
+        public InstructionHandle getInstruction() {
+            return instruction;
+        }
+
+        @Override
+        public Frame getOutFrame(final ArrayList<InstructionContext> execChain) {
+            executionPredecessors = execChain;
+
+            Frame org;
+
+            final InstructionContext jsr = lastExecutionJSR();
+
+            org = outFrames.get(jsr);
+
+            if (org == null) {
+                throw new AssertionViolatedException("outFrame not set! This:\n" + this + "\nExecutionChain: " + getExecutionChain() + "\nOutFrames: '" + outFrames + "'.");
+            }
+            return org.getClone();
+        }
+
+        @Override
+        public InstructionContext[] getSuccessors() {
+            return contextsOf(_getSuccessors());
+        }
+
+        @Override
+        public int getTag() {
+            return TAG;
+        }
+
+        private InstructionContextImpl lastExecutionJSR() {
+
+            final int size = executionPredecessors.size();
+            int retcount = 0;
+
+            for (int i = size - 1; i >= 0; i--) {
+                final InstructionContextImpl current = (InstructionContextImpl) (executionPredecessors.get(i));
+                final Instruction currentlast = current.getInstruction().getInstruction();
+                if (currentlast instanceof RET) {
+                    retcount++;
+                }
+                if (currentlast instanceof JsrInstruction) {
+                    retcount--;
+                    if (retcount == -1) {
+                        return current;
+                    }
+                }
+            }
+            return null;
+        }
+
+        private boolean mergeInFrames(final Frame inFrame) {
+            // TODO: Can be performance-improved.
+            final Frame inF = inFrames.get(lastExecutionJSR());
+            final OperandStack oldstack = inF.getStack().getClone();
+            final LocalVariables oldlocals = inF.getLocals().getClone();
+            try {
+                inF.getStack().merge(inFrame.getStack());
+                inF.getLocals().merge(inFrame.getLocals());
+            } catch (final StructuralCodeConstraintException sce) {
+                extendMessageWithFlow(sce);
+                throw sce;
+            }
+            return !(oldstack.equals(inF.getStack()) && oldlocals.equals(inF.getLocals()));
+        }
+
+        @Override
+        public void setTag(final int tag) { // part of InstructionContext interface
+            TAG = tag;
+        }
+
+        @Override
+        public String toString() {
+            // TODO: Put information in the brackets, e.g.
+            // Is this an ExceptionHandler? Is this a RET? Is this the start of
+            // a subroutine?
+            final String ret = getInstruction().toString(false) + "\t[InstructionContext]";
+            return ret;
         }
 
     } // End Inner InstructionContextImpl Class.

@@ -9,12 +9,80 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.bcel.Const;
+import org.apache.bcel.enums.ClassFileConstants;
 
 public abstract class Attribute implements Cloneable, Node {
-
     private static final boolean debug = Boolean.getBoolean(Attribute.class.getCanonicalName() + ".debug"); // Debugging on/off
-
     private static final Map<String, Object> readers = new HashMap<>();
+    protected int name_index;
+    protected int length;
+    protected byte tag;
+    protected ConstantPool constant_pool;
+
+    protected Attribute(final byte tag, final int name_index, final int length, final ConstantPool constant_pool) {
+        this.tag = tag;
+        this.name_index = name_index;
+        this.length = length;
+        this.constant_pool = constant_pool;
+    }
+
+    @Override
+    public abstract void accept(Visitor v);
+
+    @Override
+    public Object clone() {
+        Attribute attr = null;
+        try {
+            attr = (Attribute) super.clone();
+        } catch (final CloneNotSupportedException e) {
+            throw new Error("Clone Not Supported"); // never happens
+        }
+        return attr;
+    }
+
+    public abstract Attribute copy(ConstantPool _constant_pool);
+
+    public void dump(final DataOutputStream file) throws IOException {
+        file.writeShort(name_index);
+        file.writeInt(length);
+    }
+
+    public final ConstantPool getConstantPool() {
+        return constant_pool;
+    }
+
+    public final int getLength() {
+        return length;
+    }
+
+    public String getName() {
+        return ((ConstantUtf8) constant_pool.getConstant(name_index, ClassFileConstants.CONSTANT_Utf8)).getBytes();
+    }
+
+    public final int getNameIndex() {
+        return name_index;
+    }
+
+    public final byte getTag() {
+        return tag;
+    }
+
+    public final void setConstantPool(final ConstantPool constant_pool) {
+        this.constant_pool = constant_pool;
+    }
+
+    public final void setLength(final int length) {
+        this.length = length;
+    }
+
+    public final void setNameIndex(final int name_index) {
+        this.name_index = name_index;
+    }
+
+    @Override
+    public String toString() {
+        return Const.getAttributeName(tag);
+    }
 
     @java.lang.Deprecated
     public static void addAttributeReader(final String name, final AttributeReader r) {
@@ -35,7 +103,7 @@ public abstract class Attribute implements Cloneable, Node {
         byte tag = Const.ATTR_UNKNOWN; // Unknown attribute
         // Get class name from constant pool via `name_index' indirection
         final int name_index = file.readUnsignedShort();
-        final ConstantUtf8 c = (ConstantUtf8) constant_pool.getConstant(name_index, Const.CONSTANT_Utf8);
+        final ConstantUtf8 c = (ConstantUtf8) constant_pool.getConstant(name_index, ClassFileConstants.CONSTANT_Utf8);
         final String name = c.getBytes();
 
         // Length of data in bytes
@@ -128,85 +196,5 @@ public abstract class Attribute implements Cloneable, Node {
 
     public static void removeAttributeReader(final String name) {
         readers.remove(name);
-    }
-
-    @java.lang.Deprecated
-    protected int name_index; // Points to attribute name in constant pool TODO make private (has getter &
-                              // setter)
-
-    @java.lang.Deprecated
-    protected int length; // Content length of attribute field TODO make private (has getter & setter)
-
-    @java.lang.Deprecated
-    protected byte tag; // Tag to distinguish subclasses TODO make private & final; supposed to be
-                        // immutable
-
-    @java.lang.Deprecated
-    protected ConstantPool constant_pool; // TODO make private (has getter & setter)
-
-    protected Attribute(final byte tag, final int name_index, final int length, final ConstantPool constant_pool) {
-        this.tag = tag;
-        this.name_index = name_index;
-        this.length = length;
-        this.constant_pool = constant_pool;
-    }
-
-    @Override
-    public abstract void accept(Visitor v);
-
-    @Override
-    public Object clone() {
-        Attribute attr = null;
-        try {
-            attr = (Attribute) super.clone();
-        } catch (final CloneNotSupportedException e) {
-            throw new Error("Clone Not Supported"); // never happens
-        }
-        return attr;
-    }
-
-    public abstract Attribute copy(ConstantPool _constant_pool);
-
-    public void dump(final DataOutputStream file) throws IOException {
-        file.writeShort(name_index);
-        file.writeInt(length);
-    }
-
-    public final ConstantPool getConstantPool() {
-        return constant_pool;
-    }
-
-    public final int getLength() {
-        return length;
-    }
-
-    public String getName() {
-        final ConstantUtf8 c = (ConstantUtf8) constant_pool.getConstant(name_index, Const.CONSTANT_Utf8);
-        return c.getBytes();
-    }
-
-    public final int getNameIndex() {
-        return name_index;
-    }
-
-    public final byte getTag() {
-        return tag;
-    }
-
-    public final void setConstantPool(final ConstantPool constant_pool) {
-        this.constant_pool = constant_pool;
-    }
-
-    public final void setLength(final int length) {
-        this.length = length;
-    }
-
-    public final void setNameIndex(final int name_index) {
-        this.name_index = name_index;
-    }
-
-    @Override
-    public String toString() {
-        return Const.getAttributeName(tag);
     }
 }

@@ -1,5 +1,6 @@
 package org.apache.bcel.generic.gen;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
@@ -12,6 +13,7 @@ import org.apache.bcel.Const;
 import org.apache.bcel.classfile.AnnotationEntry;
 import org.apache.bcel.classfile.Annotations;
 import org.apache.bcel.classfile.Attribute;
+import org.apache.bcel.classfile.ClassFormatException;
 import org.apache.bcel.classfile.Code;
 import org.apache.bcel.classfile.CodeException;
 import org.apache.bcel.classfile.ExceptionTable;
@@ -26,6 +28,7 @@ import org.apache.bcel.classfile.ParameterAnnotations;
 import org.apache.bcel.classfile.RuntimeVisibleParameterAnnotations;
 import org.apache.bcel.classfile.Utility;
 import org.apache.bcel.enums.ClassAccessFlags;
+import org.apache.bcel.enums.ClassFileConstants;
 import org.apache.bcel.generic.IINC;
 import org.apache.bcel.generic.NOP;
 import org.apache.bcel.generic.ObjectType;
@@ -187,7 +190,7 @@ public class MethodGen extends FieldGenOrMethodGen {
                         int type = ce.getCatchType();
                         ObjectType c_type = null;
                         if (type > 0) {
-                            String cen = method.getConstantPool().getConstantString(type, Const.CONSTANT_Class);
+                            String cen = method.getConstantPool().getConstantString(type, ClassFileConstants.CONSTANT_Class);
                             c_type = ObjectType.getInstance(cen);
                         }
                         int end_pc = ce.getEndPC();
@@ -367,7 +370,7 @@ public class MethodGen extends FieldGenOrMethodGen {
         }
     }
 
-    public MethodGen copy(ClassFileName className, ConstantPoolGen cp) {
+    public MethodGen copy(ClassFileName className, ConstantPoolGen cp) throws ClassFormatException, IOException {
         Method m = ((MethodGen) clone()).getMethod();
         MethodGen mg = new MethodGen(m, className, super.getConstantPool());
         if (super.getConstantPool() != cp) {
@@ -765,7 +768,7 @@ public class MethodGen extends FieldGenOrMethodGen {
         this.il = il;
     }
 
-    public void setMaxLocals() { // TODO could be package-protected? (some tests would need repackaging)
+    public void setMaxLocals() throws ClassFormatException, IOException { // TODO could be package-protected? (some tests would need repackaging)
         if (il != null) {
             int max = isStatic() ? 0 : 1;
             if (argTypes != null) {

@@ -6,6 +6,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import org.apache.bcel.Const;
+import org.apache.bcel.enums.ClassFileConstants;
 
 public class EnclosingMethod extends Attribute {
 
@@ -44,9 +45,29 @@ public class EnclosingMethod extends Attribute {
         return (Attribute) clone();
     }
 
+    @Override
+    public final void dump(final DataOutputStream file) throws IOException {
+        super.dump(file);
+        file.writeShort(classIndex);
+        file.writeShort(methodIndex);
+    }
+
+    public final ConstantClass getEnclosingClass() {
+        final ConstantClass c = (ConstantClass) super.getConstantPool().getConstant(classIndex, ClassFileConstants.CONSTANT_Class);
+        return c;
+    }
+
     // Accessors
     public final int getEnclosingClassIndex() {
         return classIndex;
+    }
+
+    public final ConstantNameAndType getEnclosingMethod() {
+        if (methodIndex == 0) {
+            return null;
+        }
+        final ConstantNameAndType nat = (ConstantNameAndType) super.getConstantPool().getConstant(methodIndex, ClassFileConstants.CONSTANT_NameAndType);
+        return nat;
     }
 
     public final int getEnclosingMethodIndex() {
@@ -59,25 +80,5 @@ public class EnclosingMethod extends Attribute {
 
     public final void setEnclosingMethodIndex(final int idx) {
         methodIndex = idx;
-    }
-
-    public final ConstantClass getEnclosingClass() {
-        final ConstantClass c = (ConstantClass) super.getConstantPool().getConstant(classIndex, Const.CONSTANT_Class);
-        return c;
-    }
-
-    public final ConstantNameAndType getEnclosingMethod() {
-        if (methodIndex == 0) {
-            return null;
-        }
-        final ConstantNameAndType nat = (ConstantNameAndType) super.getConstantPool().getConstant(methodIndex, Const.CONSTANT_NameAndType);
-        return nat;
-    }
-
-    @Override
-    public final void dump(final DataOutputStream file) throws IOException {
-        super.dump(file);
-        file.writeShort(classIndex);
-        file.writeShort(methodIndex);
     }
 }

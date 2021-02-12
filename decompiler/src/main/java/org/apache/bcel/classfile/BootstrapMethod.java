@@ -6,7 +6,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 
-import org.apache.bcel.Const;
+import org.apache.bcel.enums.ClassFileConstants;
 
 public class BootstrapMethod implements Cloneable {
 
@@ -36,45 +36,13 @@ public class BootstrapMethod implements Cloneable {
         this.bootstrapArguments = bootstrapArguments;
     }
 
-    public int getBootstrapMethodRef() {
-        return bootstrapMethodRef;
-    }
-
-    public void setBootstrapMethodRef(final int bootstrapMethodRef) {
-        this.bootstrapMethodRef = bootstrapMethodRef;
-    }
-
-    public int[] getBootstrapArguments() {
-        return bootstrapArguments;
-    }
-
-    public int getNumBootstrapArguments() {
-        return bootstrapArguments.length;
-    }
-
-    public void setBootstrapArguments(final int[] bootstrapArguments) {
-        this.bootstrapArguments = bootstrapArguments;
-    }
-
-    @Override
-    public final String toString() {
-        return "BootstrapMethod(" + bootstrapMethodRef + ", " + bootstrapArguments.length + ", " + Arrays.toString(bootstrapArguments) + ")";
-    }
-
-    public final String toString(final ConstantPool constantPool) {
-        final StringBuilder buf = new StringBuilder();
-        String bootstrap_method_name;
-        bootstrap_method_name = constantPool.constantToString(bootstrapMethodRef, Const.CONSTANT_MethodHandle);
-        buf.append(Utility.compactClassName(bootstrap_method_name, false));
-        final int num_bootstrap_arguments = bootstrapArguments.length;
-        if (num_bootstrap_arguments > 0) {
-            buf.append("\nMethod Arguments:");
-            for (int i = 0; i < num_bootstrap_arguments; i++) {
-                buf.append("\n  ").append(i).append(": ");
-                buf.append(constantPool.constantToString(constantPool.getConstant(bootstrapArguments[i])));
-            }
+    public BootstrapMethod copy() {
+        try {
+            return (BootstrapMethod) clone();
+        } catch (final CloneNotSupportedException e) {
+            // TODO should this throw?
         }
-        return buf.toString();
+        return null;
     }
 
     public final void dump(final DataOutputStream file) throws IOException {
@@ -85,12 +53,44 @@ public class BootstrapMethod implements Cloneable {
         }
     }
 
-    public BootstrapMethod copy() {
-        try {
-            return (BootstrapMethod) clone();
-        } catch (final CloneNotSupportedException e) {
-            // TODO should this throw?
+    public int[] getBootstrapArguments() {
+        return bootstrapArguments;
+    }
+
+    public int getBootstrapMethodRef() {
+        return bootstrapMethodRef;
+    }
+
+    public int getNumBootstrapArguments() {
+        return bootstrapArguments.length;
+    }
+
+    public void setBootstrapArguments(final int[] bootstrapArguments) {
+        this.bootstrapArguments = bootstrapArguments;
+    }
+
+    public void setBootstrapMethodRef(final int bootstrapMethodRef) {
+        this.bootstrapMethodRef = bootstrapMethodRef;
+    }
+
+    @Override
+    public final String toString() {
+        return "BootstrapMethod(" + bootstrapMethodRef + ", " + bootstrapArguments.length + ", " + Arrays.toString(bootstrapArguments) + ")";
+    }
+
+    public final String toString(final ConstantPool constantPool) {
+        final StringBuilder buf = new StringBuilder();
+        String bootstrap_method_name;
+        bootstrap_method_name = constantPool.constantToString(bootstrapMethodRef, ClassFileConstants.CONSTANT_MethodHandle);
+        buf.append(Utility.compactClassName(bootstrap_method_name, false));
+        final int num_bootstrap_arguments = bootstrapArguments.length;
+        if (num_bootstrap_arguments > 0) {
+            buf.append("\nMethod Arguments:");
+            for (int i = 0; i < num_bootstrap_arguments; i++) {
+                buf.append("\n  ").append(i).append(": ");
+                buf.append(constantPool.constantToString(constantPool.getConstant(bootstrapArguments[i])));
+            }
         }
-        return null;
+        return buf.toString();
     }
 }

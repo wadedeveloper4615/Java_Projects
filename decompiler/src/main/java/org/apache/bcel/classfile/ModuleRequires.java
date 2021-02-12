@@ -5,7 +5,7 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.Const;
+import org.apache.bcel.enums.ClassFileConstants;
 
 public final class ModuleRequires implements Cloneable, Node {
 
@@ -26,6 +26,15 @@ public final class ModuleRequires implements Cloneable, Node {
 
     // TODO add more getters and setters?
 
+    public ModuleRequires copy() {
+        try {
+            return (ModuleRequires) clone();
+        } catch (final CloneNotSupportedException e) {
+            // TODO should this throw?
+        }
+        return null;
+    }
+
     public void dump(final DataOutputStream file) throws IOException {
         file.writeShort(requiresIndex);
         file.writeShort(requiresFlags);
@@ -39,20 +48,11 @@ public final class ModuleRequires implements Cloneable, Node {
 
     public String toString(final ConstantPool constant_pool) {
         final StringBuilder buf = new StringBuilder();
-        final String module_name = constant_pool.constantToString(requiresIndex, Const.CONSTANT_Module);
+        final String module_name = constant_pool.constantToString(requiresIndex, ClassFileConstants.CONSTANT_Module);
         buf.append(Utility.compactClassName(module_name, false));
         buf.append(", ").append(String.format("%04x", requiresFlags));
-        final String version = requiresVersionIndex == 0 ? "0" : constant_pool.getConstantString(requiresVersionIndex, Const.CONSTANT_Utf8);
+        final String version = requiresVersionIndex == 0 ? "0" : constant_pool.getConstantString(requiresVersionIndex, ClassFileConstants.CONSTANT_Utf8);
         buf.append(", ").append(version);
         return buf.toString();
-    }
-
-    public ModuleRequires copy() {
-        try {
-            return (ModuleRequires) clone();
-        } catch (final CloneNotSupportedException e) {
-            // TODO should this throw?
-        }
-        return null;
     }
 }

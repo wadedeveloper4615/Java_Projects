@@ -27,9 +27,9 @@ public class LDC2_W extends CPInstruction implements PushInstruction {
     @Override
     public Type getType(final ConstantPoolGen cpg) {
         switch (cpg.getConstantPool().getConstant(super.getIndex()).getTag()) {
-            case org.apache.bcel.Const.CONSTANT_Long:
+            case CONSTANT_Long:
                 return Type.LONG;
-            case org.apache.bcel.Const.CONSTANT_Double:
+            case CONSTANT_Double:
                 return Type.DOUBLE;
             default: // Never reached
                 throw new IllegalArgumentException("Unknown constant type " + super.getOpcode());
@@ -39,9 +39,9 @@ public class LDC2_W extends CPInstruction implements PushInstruction {
     public Number getValue(final ConstantPoolGen cpg) {
         final org.apache.bcel.classfile.Constant c = cpg.getConstantPool().getConstant(super.getIndex());
         switch (c.getTag()) {
-            case org.apache.bcel.Const.CONSTANT_Long:
+            case CONSTANT_Long:
                 return Long.valueOf(((org.apache.bcel.classfile.ConstantLong) c).getBytes());
-            case org.apache.bcel.Const.CONSTANT_Double:
+            case CONSTANT_Double:
                 return new Double(((org.apache.bcel.classfile.ConstantDouble) c).getBytes());
             default: // Never reached
                 throw new IllegalArgumentException("Unknown or invalid constant type at " + super.getIndex());

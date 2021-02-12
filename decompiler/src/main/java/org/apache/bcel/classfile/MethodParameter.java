@@ -5,8 +5,8 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.Const;
 import org.apache.bcel.enums.ClassAccessFlags;
+import org.apache.bcel.enums.ClassFileConstants;
 
 public class MethodParameter implements Cloneable {
 
@@ -52,7 +52,7 @@ public class MethodParameter implements Cloneable {
         if (nameIndex == 0) {
             return null;
         }
-        return ((ConstantUtf8) constant_pool.getConstant(nameIndex, Const.CONSTANT_Utf8)).getBytes();
+        return ((ConstantUtf8) constant_pool.getConstant(nameIndex, ClassFileConstants.CONSTANT_Utf8)).getBytes();
     }
 
     public boolean isFinal() {

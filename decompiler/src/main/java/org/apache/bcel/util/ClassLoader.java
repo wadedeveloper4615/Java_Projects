@@ -5,13 +5,13 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Hashtable;
 
-import org.apache.bcel.Const;
 import org.apache.bcel.classfile.ClassParser;
 import org.apache.bcel.classfile.ConstantClass;
 import org.apache.bcel.classfile.ConstantPool;
 import org.apache.bcel.classfile.ConstantUtf8;
 import org.apache.bcel.classfile.JavaClass;
 import org.apache.bcel.classfile.Utility;
+import org.apache.bcel.enums.ClassFileConstants;
 
 @Deprecated
 public class ClassLoader extends java.lang.ClassLoader {
@@ -58,8 +58,8 @@ public class ClassLoader extends java.lang.ClassLoader {
         }
         // Adapt the class name to the passed value
         final ConstantPool cp = clazz.getConstantPool();
-        final ConstantClass cl = (ConstantClass) cp.getConstant(clazz.getClassName().getNameIndex(), Const.CONSTANT_Class);
-        final ConstantUtf8 name = (ConstantUtf8) cp.getConstant(cl.getNameIndex(), Const.CONSTANT_Utf8);
+        final ConstantClass cl = (ConstantClass) cp.getConstant(clazz.getClassName().getNameIndex(), ClassFileConstants.CONSTANT_Class);
+        final ConstantUtf8 name = (ConstantUtf8) cp.getConstant(cl.getNameIndex(), ClassFileConstants.CONSTANT_Utf8);
         name.setBytes(class_name.replace('.', '/'));
         return clazz;
     }

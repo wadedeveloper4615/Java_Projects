@@ -5,8 +5,8 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.Const;
 import org.apache.bcel.Constants;
+import org.apache.bcel.enums.ClassFileConstants;
 
 public final class CodeException implements Cloneable, Node, Constants {
 
@@ -33,6 +33,15 @@ public final class CodeException implements Cloneable, Node, Constants {
     @Override
     public void accept(final Visitor v) {
         v.visitCodeException(this);
+    }
+
+    public CodeException copy() {
+        try {
+            return (CodeException) clone();
+        } catch (final CloneNotSupportedException e) {
+            // TODO should this throw?
+        }
+        return null;
     }
 
     public void dump(final DataOutputStream file) throws IOException {
@@ -79,26 +88,17 @@ public final class CodeException implements Cloneable, Node, Constants {
         return "CodeException(startPc = " + startPc + ", endPc = " + endPc + ", handlerPc = " + handlerPc + ", catchType = " + catchType + ")";
     }
 
+    public String toString(final ConstantPool cp) {
+        return toString(cp, true);
+    }
+
     public String toString(final ConstantPool cp, final boolean verbose) {
         String str;
         if (catchType == 0) {
             str = "<Any exception>(0)";
         } else {
-            str = Utility.compactClassName(cp.getConstantString(catchType, Const.CONSTANT_Class), false) + (verbose ? "(" + catchType + ")" : "");
+            str = Utility.compactClassName(cp.getConstantString(catchType, ClassFileConstants.CONSTANT_Class), false) + (verbose ? "(" + catchType + ")" : "");
         }
         return startPc + "\t" + endPc + "\t" + handlerPc + "\t" + str;
-    }
-
-    public String toString(final ConstantPool cp) {
-        return toString(cp, true);
-    }
-
-    public CodeException copy() {
-        try {
-            return (CodeException) clone();
-        } catch (final CloneNotSupportedException e) {
-            // TODO should this throw?
-        }
-        return null;
     }
 }

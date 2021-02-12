@@ -20,6 +20,7 @@ import java.util.zip.GZIPOutputStream;
 
 import org.apache.bcel.Const;
 import org.apache.bcel.enums.ClassAccessFlags;
+import org.apache.bcel.enums.ClassFileConstants;
 import org.apache.bcel.util.ByteSequence;
 
 // @since 6.0 methods are no longer final
@@ -324,7 +325,7 @@ public abstract class Utility {
             case Const.PUTFIELD:
             case Const.PUTSTATIC:
                 index = bytes.readUnsignedShort();
-                buf.append("\t\t").append(constant_pool.constantToString(index, Const.CONSTANT_Fieldref)).append(verbose ? " (" + index + ")" : "");
+                buf.append("\t\t").append(constant_pool.constantToString(index, ClassFileConstants.CONSTANT_Fieldref)).append(verbose ? " (" + index + ")" : "");
                 break;
 
             case Const.NEW:
@@ -333,7 +334,7 @@ public abstract class Utility {
                 //$FALL-THROUGH$
             case Const.INSTANCEOF:
                 index = bytes.readUnsignedShort();
-                buf.append("\t<").append(constant_pool.constantToString(index, Const.CONSTANT_Class)).append(">").append(verbose ? " (" + index + ")" : "");
+                buf.append("\t<").append(constant_pool.constantToString(index, ClassFileConstants.CONSTANT_Class)).append(">").append(verbose ? " (" + index + ")" : "");
                 break;
 
             case Const.INVOKESPECIAL:
@@ -346,16 +347,16 @@ public abstract class Utility {
                 break;
             case Const.INVOKEVIRTUAL:
                 index = bytes.readUnsignedShort();
-                buf.append("\t").append(constant_pool.constantToString(index, Const.CONSTANT_Methodref)).append(verbose ? " (" + index + ")" : "");
+                buf.append("\t").append(constant_pool.constantToString(index, ClassFileConstants.CONSTANT_Methodref)).append(verbose ? " (" + index + ")" : "");
                 break;
             case Const.INVOKEINTERFACE:
                 index = bytes.readUnsignedShort();
                 final int nargs = bytes.readUnsignedByte(); // historical, redundant
-                buf.append("\t").append(constant_pool.constantToString(index, Const.CONSTANT_InterfaceMethodref)).append(verbose ? " (" + index + ")\t" : "").append(nargs).append("\t").append(bytes.readUnsignedByte()); // Last byte is a reserved space
+                buf.append("\t").append(constant_pool.constantToString(index, ClassFileConstants.CONSTANT_InterfaceMethodref)).append(verbose ? " (" + index + ")\t" : "").append(nargs).append("\t").append(bytes.readUnsignedByte()); // Last byte is a reserved space
                 break;
             case Const.INVOKEDYNAMIC:
                 index = bytes.readUnsignedShort();
-                buf.append("\t").append(constant_pool.constantToString(index, Const.CONSTANT_InvokeDynamic)).append(verbose ? " (" + index + ")\t" : "").append(bytes.readUnsignedByte()) // Thrid byte is a reserved space
+                buf.append("\t").append(constant_pool.constantToString(index, ClassFileConstants.CONSTANT_InvokeDynamic)).append(verbose ? " (" + index + ")\t" : "").append(bytes.readUnsignedByte()) // Thrid byte is a reserved space
                         .append(bytes.readUnsignedByte()); // Last byte is a reserved space
                 break;
 
@@ -371,13 +372,13 @@ public abstract class Utility {
 
             case Const.ANEWARRAY:
                 index = bytes.readUnsignedShort();
-                buf.append("\t\t<").append(compactClassName(constant_pool.getConstantString(index, Const.CONSTANT_Class), false)).append(">").append(verbose ? " (" + index + ")" : "");
+                buf.append("\t\t<").append(compactClassName(constant_pool.getConstantString(index, ClassFileConstants.CONSTANT_Class), false)).append(">").append(verbose ? " (" + index + ")" : "");
                 break;
 
             case Const.MULTIANEWARRAY: {
                 index = bytes.readUnsignedShort();
                 final int dimensions = bytes.readUnsignedByte();
-                buf.append("\t<").append(compactClassName(constant_pool.getConstantString(index, Const.CONSTANT_Class), false)).append(">\t").append(dimensions).append(verbose ? " (" + index + ")" : "");
+                buf.append("\t<").append(compactClassName(constant_pool.getConstantString(index, ClassFileConstants.CONSTANT_Class), false)).append(">\t").append(dimensions).append(verbose ? " (" + index + ")" : "");
             }
                 break;
 

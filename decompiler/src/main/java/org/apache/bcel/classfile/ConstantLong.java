@@ -5,16 +5,11 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.Const;
+import org.apache.bcel.enums.ClassFileConstants;
 
 public final class ConstantLong extends Constant implements ConstantObject {
 
     private long bytes;
-
-    public ConstantLong(final long bytes) {
-        super(Const.CONSTANT_Long);
-        this.bytes = bytes;
-    }
 
     public ConstantLong(final ConstantLong c) {
         this(c.getBytes());
@@ -24,6 +19,11 @@ public final class ConstantLong extends Constant implements ConstantObject {
         this(file.readLong());
     }
 
+    public ConstantLong(final long bytes) {
+        super(ClassFileConstants.CONSTANT_Long);
+        this.bytes = bytes;
+    }
+
     @Override
     public void accept(final Visitor v) {
         v.visitConstantLong(this);
@@ -31,12 +31,17 @@ public final class ConstantLong extends Constant implements ConstantObject {
 
     @Override
     public void dump(final DataOutputStream file) throws IOException {
-        file.writeByte(super.getTag());
+        file.writeByte(super.getTag().getTag());
         file.writeLong(bytes);
     }
 
     public long getBytes() {
         return bytes;
+    }
+
+    @Override
+    public Object getConstantValue(final ConstantPool cp) {
+        return Long.valueOf(bytes);
     }
 
     public void setBytes(final long bytes) {
@@ -46,10 +51,5 @@ public final class ConstantLong extends Constant implements ConstantObject {
     @Override
     public String toString() {
         return super.toString() + "(bytes = " + bytes + ")";
-    }
-
-    @Override
-    public Object getConstantValue(final ConstantPool cp) {
-        return Long.valueOf(bytes);
     }
 }

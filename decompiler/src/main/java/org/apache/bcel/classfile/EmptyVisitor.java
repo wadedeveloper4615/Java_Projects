@@ -10,7 +10,7 @@ public class EmptyVisitor implements Visitor {
     }
 
     @Override
-    public void visitParameterAnnotation(final ParameterAnnotations obj) {
+    public void visitAnnotationDefault(final AnnotationDefault obj) {
     }
 
     @Override
@@ -18,7 +18,7 @@ public class EmptyVisitor implements Visitor {
     }
 
     @Override
-    public void visitAnnotationDefault(final AnnotationDefault obj) {
+    public void visitBootstrapMethods(final BootstrapMethods obj) {
     }
 
     @Override
@@ -35,6 +35,10 @@ public class EmptyVisitor implements Visitor {
 
     @Override
     public void visitConstantDouble(final ConstantDouble obj) {
+    }
+
+    @Override
+    public void visitConstantDynamic(final ConstantDynamic obj) {
     }
 
     @Override
@@ -62,11 +66,27 @@ public class EmptyVisitor implements Visitor {
     }
 
     @Override
+    public void visitConstantMethodHandle(final ConstantMethodHandle constantMethodHandle) {
+    }
+
+    @Override
     public void visitConstantMethodref(final ConstantMethodref obj) {
     }
 
     @Override
+    public void visitConstantMethodType(final ConstantMethodType obj) {
+    }
+
+    @Override
+    public void visitConstantModule(final ConstantModule constantModule) {
+    }
+
+    @Override
     public void visitConstantNameAndType(final ConstantNameAndType obj) {
+    }
+
+    @Override
+    public void visitConstantPackage(final ConstantPackage constantPackage) {
     }
 
     @Override
@@ -90,6 +110,10 @@ public class EmptyVisitor implements Visitor {
     }
 
     @Override
+    public void visitEnclosingMethod(final EnclosingMethod obj) {
+    }
+
+    @Override
     public void visitExceptionTable(final ExceptionTable obj) {
     }
 
@@ -103,10 +127,6 @@ public class EmptyVisitor implements Visitor {
 
     @Override
     public void visitInnerClasses(final InnerClasses obj) {
-    }
-
-    @Override
-    public void visitBootstrapMethods(final BootstrapMethods obj) {
     }
 
     @Override
@@ -130,7 +150,63 @@ public class EmptyVisitor implements Visitor {
     }
 
     @Override
+    public void visitLocalVariableTypeTable(final LocalVariableTypeTable obj) {
+    }
+
+    @Override
     public void visitMethod(final Method obj) {
+    }
+
+    @Override
+    public void visitMethodParameter(final MethodParameter obj) {
+    }
+
+    @Override
+    public void visitMethodParameters(final MethodParameters obj) {
+    }
+
+    @Override
+    public void visitModule(final Module obj) {
+    }
+
+    @Override
+    public void visitModuleExports(final ModuleExports obj) {
+    }
+
+    @Override
+    public void visitModuleMainClass(final ModuleMainClass obj) {
+    }
+
+    @Override
+    public void visitModuleOpens(final ModuleOpens obj) {
+    }
+
+    @Override
+    public void visitModulePackages(final ModulePackages obj) {
+    }
+
+    @Override
+    public void visitModuleProvides(final ModuleProvides obj) {
+    }
+
+    @Override
+    public void visitModuleRequires(final ModuleRequires obj) {
+    }
+
+    @Override
+    public void visitNestHost(final NestHost obj) {
+    }
+
+    @Override
+    public void visitNestMembers(final NestMembers obj) {
+    }
+
+    @Override
+    public void visitParameterAnnotation(final ParameterAnnotations obj) {
+    }
+
+    @Override
+    public void visitParameterAnnotationEntry(final ParameterAnnotationEntry parameterAnnotationEntry) {
     }
 
     @Override
@@ -142,14 +218,6 @@ public class EmptyVisitor implements Visitor {
     }
 
     @Override
-    public void visitSynthetic(final Synthetic obj) {
-    }
-
-    @Override
-    public void visitUnknown(final Unknown obj) {
-    }
-
-    @Override
     public void visitStackMap(final StackMap obj) {
     }
 
@@ -158,78 +226,10 @@ public class EmptyVisitor implements Visitor {
     }
 
     @Override
-    public void visitEnclosingMethod(final EnclosingMethod obj) {
+    public void visitSynthetic(final Synthetic obj) {
     }
 
     @Override
-    public void visitLocalVariableTypeTable(final LocalVariableTypeTable obj) {
-    }
-
-    @Override
-    public void visitMethodParameters(final MethodParameters obj) {
-    }
-
-    @Override
-    public void visitMethodParameter(final MethodParameter obj) {
-    }
-
-    @Override
-    public void visitConstantMethodType(final ConstantMethodType obj) {
-    }
-
-    @Override
-    public void visitConstantMethodHandle(final ConstantMethodHandle constantMethodHandle) {
-    }
-
-    @Override
-    public void visitParameterAnnotationEntry(final ParameterAnnotationEntry parameterAnnotationEntry) {
-    }
-
-    @Override
-    public void visitConstantPackage(final ConstantPackage constantPackage) {
-    }
-
-    @Override
-    public void visitConstantModule(final ConstantModule constantModule) {
-    }
-
-    @Override
-    public void visitConstantDynamic(final ConstantDynamic obj) {
-    }
-
-    @Override
-    public void visitModule(final Module obj) {
-    }
-
-    @Override
-    public void visitModuleRequires(final ModuleRequires obj) {
-    }
-
-    @Override
-    public void visitModuleExports(final ModuleExports obj) {
-    }
-
-    @Override
-    public void visitModuleOpens(final ModuleOpens obj) {
-    }
-
-    @Override
-    public void visitModuleProvides(final ModuleProvides obj) {
-    }
-
-    @Override
-    public void visitModulePackages(final ModulePackages obj) {
-    }
-
-    @Override
-    public void visitModuleMainClass(final ModuleMainClass obj) {
-    }
-
-    @Override
-    public void visitNestHost(final NestHost obj) {
-    }
-
-    @Override
-    public void visitNestMembers(final NestMembers obj) {
+    public void visitUnknown(final Unknown obj) {
     }
 }

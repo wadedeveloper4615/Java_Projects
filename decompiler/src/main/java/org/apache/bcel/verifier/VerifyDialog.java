@@ -2,33 +2,12 @@
 package org.apache.bcel.verifier;
 
 import java.awt.Color;
+import java.io.IOException;
 
 import org.apache.bcel.Repository;
 import org.apache.bcel.classfile.JavaClass;
 
 public class VerifyDialog extends javax.swing.JDialog {
-
-    private static final long serialVersionUID = -6374807677043142313L;
-
-    private javax.swing.JPanel ivjJDialogContentPane = null;
-
-    private javax.swing.JPanel ivjPass1Panel = null;
-
-    private javax.swing.JPanel ivjPass2Panel = null;
-
-    private javax.swing.JPanel ivjPass3Panel = null;
-
-    private javax.swing.JButton ivjPass1Button = null;
-
-    private javax.swing.JButton ivjPass2Button = null;
-
-    private javax.swing.JButton ivjPass3Button = null;
-
-    private final IvjEventHandler ivjEventHandler = new IvjEventHandler();
-
-    private String class_name = "java.lang.Object";
-
-    private static int classesToVerify;
 
     class IvjEventHandler implements java.awt.event.ActionListener {
 
@@ -49,6 +28,28 @@ public class VerifyDialog extends javax.swing.JDialog {
         }
     }
 
+    private static final long serialVersionUID = -6374807677043142313L;
+
+    private static int classesToVerify;
+
+    private javax.swing.JPanel ivjJDialogContentPane = null;
+
+    private javax.swing.JPanel ivjPass1Panel = null;
+
+    private javax.swing.JPanel ivjPass2Panel = null;
+
+    private javax.swing.JPanel ivjPass3Panel = null;
+
+    private javax.swing.JButton ivjPass1Button = null;
+
+    private javax.swing.JButton ivjPass2Button = null;
+
+    private javax.swing.JButton ivjPass3Button = null;
+
+    private final IvjEventHandler ivjEventHandler = new IvjEventHandler();
+
+    private String class_name = "java.lang.Object";
+
     private javax.swing.JButton ivjFlushButton = null;
 
     public VerifyDialog() {
@@ -60,6 +61,10 @@ public class VerifyDialog extends javax.swing.JDialog {
         super(owner);
     }
 
+    public VerifyDialog(final java.awt.Dialog owner, final boolean modal) {
+        super(owner, modal);
+    }
+
     public VerifyDialog(final java.awt.Dialog owner, final String title) {
         super(owner, title);
     }
@@ -68,12 +73,12 @@ public class VerifyDialog extends javax.swing.JDialog {
         super(owner, title, modal);
     }
 
-    public VerifyDialog(final java.awt.Dialog owner, final boolean modal) {
-        super(owner, modal);
-    }
-
     public VerifyDialog(final java.awt.Frame owner) {
         super(owner);
+    }
+
+    public VerifyDialog(final java.awt.Frame owner, final boolean modal) {
+        super(owner, modal);
     }
 
     public VerifyDialog(final java.awt.Frame owner, final String title) {
@@ -82,10 +87,6 @@ public class VerifyDialog extends javax.swing.JDialog {
 
     public VerifyDialog(final java.awt.Frame owner, final String title, final boolean modal) {
         super(owner, title, modal);
-    }
-
-    public VerifyDialog(final java.awt.Frame owner, final boolean modal) {
-        super(owner, modal);
     }
 
     public VerifyDialog(String fully_qualified_class_name) {
@@ -155,7 +156,7 @@ public class VerifyDialog extends javax.swing.JDialog {
         }
     }
 
-    public void flushButton_ActionPerformed(final java.awt.event.ActionEvent actionEvent) {
+    public void flushButton_ActionPerformed(final java.awt.event.ActionEvent actionEvent) throws IOException {
         VerifierFactory.getVerifier(class_name).flush();
         Repository.removeClass(class_name); // Make sure it will be reloaded.
         getPass1Panel().setBackground(Color.gray);
@@ -370,32 +371,7 @@ public class VerifyDialog extends javax.swing.JDialog {
         // user code end
     }
 
-    public static void main(final java.lang.String[] args) {
-        classesToVerify = args.length;
-        for (final String arg : args) {
-            try {
-                VerifyDialog aVerifyDialog;
-                aVerifyDialog = new VerifyDialog(arg);
-                aVerifyDialog.setModal(true);
-                aVerifyDialog.addWindowListener(new java.awt.event.WindowAdapter() {
-
-                    @Override
-                    public void windowClosing(final java.awt.event.WindowEvent e) {
-                        classesToVerify--;
-                        if (classesToVerify == 0) {
-                            System.exit(0);
-                        }
-                    }
-                });
-                aVerifyDialog.setVisible(true);
-            } catch (final Throwable exception) {
-                System.err.println("Exception occurred in main() of javax.swing.JDialog");
-                exception.printStackTrace(System.out);
-            }
-        }
-    }
-
-    public void pass1Button_ActionPerformed(final java.awt.event.ActionEvent actionEvent) {
+    public void pass1Button_ActionPerformed(final java.awt.event.ActionEvent actionEvent) throws IOException {
         final Verifier v = VerifierFactory.getVerifier(class_name);
         final VerificationResult vr = v.doPass1();
         if (vr.getStatus() == VerificationResult.VERIFIED_OK) {
@@ -408,7 +384,7 @@ public class VerifyDialog extends javax.swing.JDialog {
         }
     }
 
-    public void pass2Button_ActionPerformed(final java.awt.event.ActionEvent actionEvent) {
+    public void pass2Button_ActionPerformed(final java.awt.event.ActionEvent actionEvent) throws IOException {
         pass1Button_ActionPerformed(actionEvent);
         final Verifier v = VerifierFactory.getVerifier(class_name);
         final VerificationResult vr = v.doPass2();
@@ -426,7 +402,7 @@ public class VerifyDialog extends javax.swing.JDialog {
         }
     }
 
-    public void pass4Button_ActionPerformed(final java.awt.event.ActionEvent actionEvent) {
+    public void pass4Button_ActionPerformed(final java.awt.event.ActionEvent actionEvent) throws IOException {
         pass2Button_ActionPerformed(actionEvent);
         Color color = Color.green;
         final Verifier v = VerifierFactory.getVerifier(class_name);
@@ -452,5 +428,30 @@ public class VerifyDialog extends javax.swing.JDialog {
         }
         getPass3Panel().setBackground(color);
         getPass3Panel().repaint();
+    }
+
+    public static void main(final java.lang.String[] args) {
+        classesToVerify = args.length;
+        for (final String arg : args) {
+            try {
+                VerifyDialog aVerifyDialog;
+                aVerifyDialog = new VerifyDialog(arg);
+                aVerifyDialog.setModal(true);
+                aVerifyDialog.addWindowListener(new java.awt.event.WindowAdapter() {
+
+                    @Override
+                    public void windowClosing(final java.awt.event.WindowEvent e) {
+                        classesToVerify--;
+                        if (classesToVerify == 0) {
+                            System.exit(0);
+                        }
+                    }
+                });
+                aVerifyDialog.setVisible(true);
+            } catch (final Throwable exception) {
+                System.err.println("Exception occurred in main() of javax.swing.JDialog");
+                exception.printStackTrace(System.out);
+            }
+        }
     }
 }

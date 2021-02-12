@@ -35,6 +35,17 @@ public final class Deprecated extends Attribute {
     }
 
     @Override
+    public Attribute copy(final ConstantPool _constant_pool) {
+        final Deprecated c = (Deprecated) clone();
+        if (bytes != null) {
+            c.bytes = new byte[bytes.length];
+            System.arraycopy(bytes, 0, c.bytes, 0, bytes.length);
+        }
+        c.setConstantPool(_constant_pool);
+        return c;
+    }
+
+    @Override
     public void dump(final DataOutputStream file) throws IOException {
         super.dump(file);
         if (super.getLength() > 0) {
@@ -53,16 +64,5 @@ public final class Deprecated extends Attribute {
     @Override
     public String toString() {
         return Const.getAttributeName(Const.ATTR_DEPRECATED);
-    }
-
-    @Override
-    public Attribute copy(final ConstantPool _constant_pool) {
-        final Deprecated c = (Deprecated) clone();
-        if (bytes != null) {
-            c.bytes = new byte[bytes.length];
-            System.arraycopy(bytes, 0, c.bytes, 0, bytes.length);
-        }
-        c.setConstantPool(_constant_pool);
-        return c;
     }
 }

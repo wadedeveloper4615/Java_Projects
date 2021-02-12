@@ -1,6 +1,7 @@
 
 package org.apache.bcel.verifier;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -109,7 +110,7 @@ public class Verifier {
         return messages.toArray(new String[messages.size()]);
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         System.out.println("JustIce by Enver Haase, (C) 2001-2002.\n<http://bcel.sourceforge.net>\n<https://commons.apache.org/bcel>\n");
         for (int index = 0; index < args.length; index++) {
             try {
@@ -130,7 +131,7 @@ public class Verifier {
         }
     }
 
-    static void verifyType(String fullyQualifiedClassName) throws ClassNotFoundException {
+    static void verifyType(String fullyQualifiedClassName) throws ClassNotFoundException, IOException {
         Verifier verifier = VerifierFactory.getVerifier(fullyQualifiedClassName);
         VerificationResult verificationResult;
         verificationResult = verifier.doPass1();

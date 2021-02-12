@@ -15,11 +15,6 @@ public final class InnerClasses extends Attribute {
         this(c.getNameIndex(), c.getLength(), c.getInnerClasses(), c.getConstantPool());
     }
 
-    public InnerClasses(final int name_index, final int length, final InnerClass[] innerClasses, final ConstantPool constant_pool) {
-        super(Const.ATTR_INNER_CLASSES, name_index, length, constant_pool);
-        this.innerClasses = innerClasses != null ? innerClasses : new InnerClass[0];
-    }
-
     InnerClasses(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
         this(name_index, length, (InnerClass[]) null, constant_pool);
         final int number_of_classes = input.readUnsignedShort();
@@ -29,9 +24,27 @@ public final class InnerClasses extends Attribute {
         }
     }
 
+    public InnerClasses(final int name_index, final int length, final InnerClass[] innerClasses, final ConstantPool constant_pool) {
+        super(Const.ATTR_INNER_CLASSES, name_index, length, constant_pool);
+        this.innerClasses = innerClasses != null ? innerClasses : new InnerClass[0];
+    }
+
     @Override
     public void accept(final Visitor v) {
         v.visitInnerClasses(this);
+    }
+
+    @Override
+    public Attribute copy(final ConstantPool _constant_pool) {
+        // TODO this could be recoded to use a lower level constructor after creating a
+        // copy of the inner classes
+        final InnerClasses c = (InnerClasses) clone();
+        c.innerClasses = new InnerClass[innerClasses.length];
+        for (int i = 0; i < innerClasses.length; i++) {
+            c.innerClasses[i] = innerClasses[i].copy();
+        }
+        c.setConstantPool(_constant_pool);
+        return c;
     }
 
     @Override
@@ -61,18 +74,5 @@ public final class InnerClasses extends Attribute {
             buf.append(inner_class.toString(super.getConstantPool())).append("\n");
         }
         return buf.substring(0, buf.length() - 1); // remove the last newline
-    }
-
-    @Override
-    public Attribute copy(final ConstantPool _constant_pool) {
-        // TODO this could be recoded to use a lower level constructor after creating a
-        // copy of the inner classes
-        final InnerClasses c = (InnerClasses) clone();
-        c.innerClasses = new InnerClass[innerClasses.length];
-        for (int i = 0; i < innerClasses.length; i++) {
-            c.innerClasses[i] = innerClasses[i].copy();
-        }
-        c.setConstantPool(_constant_pool);
-        return c;
     }
 }

@@ -6,19 +6,11 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import org.apache.bcel.Const;
+import org.apache.bcel.enums.ClassFileConstants;
 
 public final class ModulePackages extends Attribute {
 
     private int[] packageIndexTable;
-
-    public ModulePackages(final ModulePackages c) {
-        this(c.getNameIndex(), c.getLength(), c.getPackageIndexTable(), c.getConstantPool());
-    }
-
-    public ModulePackages(final int nameIndex, final int length, final int[] packageIndexTable, final ConstantPool constantPool) {
-        super(Const.ATTR_MODULE_PACKAGES, nameIndex, length, constantPool);
-        this.packageIndexTable = packageIndexTable != null ? packageIndexTable : new int[0];
-    }
 
     ModulePackages(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
         this(name_index, length, (int[]) null, constant_pool);
@@ -29,9 +21,29 @@ public final class ModulePackages extends Attribute {
         }
     }
 
+    public ModulePackages(final int nameIndex, final int length, final int[] packageIndexTable, final ConstantPool constantPool) {
+        super(Const.ATTR_MODULE_PACKAGES, nameIndex, length, constantPool);
+        this.packageIndexTable = packageIndexTable != null ? packageIndexTable : new int[0];
+    }
+
+    public ModulePackages(final ModulePackages c) {
+        this(c.getNameIndex(), c.getLength(), c.getPackageIndexTable(), c.getConstantPool());
+    }
+
     @Override
     public void accept(final Visitor v) {
         v.visitModulePackages(this);
+    }
+
+    @Override
+    public Attribute copy(final ConstantPool _constant_pool) {
+        final ModulePackages c = (ModulePackages) clone();
+        if (packageIndexTable != null) {
+            c.packageIndexTable = new int[packageIndexTable.length];
+            System.arraycopy(packageIndexTable, 0, c.packageIndexTable, 0, packageIndexTable.length);
+        }
+        c.setConstantPool(_constant_pool);
+        return c;
     }
 
     @Override
@@ -43,18 +55,18 @@ public final class ModulePackages extends Attribute {
         }
     }
 
-    public int[] getPackageIndexTable() {
-        return packageIndexTable;
-    }
-
     public int getNumberOfPackages() {
         return packageIndexTable == null ? 0 : packageIndexTable.length;
+    }
+
+    public int[] getPackageIndexTable() {
+        return packageIndexTable;
     }
 
     public String[] getPackageNames() {
         final String[] names = new String[packageIndexTable.length];
         for (int i = 0; i < packageIndexTable.length; i++) {
-            names[i] = super.getConstantPool().getConstantString(packageIndexTable[i], Const.CONSTANT_Package).replace('/', '.');
+            names[i] = super.getConstantPool().getConstantString(packageIndexTable[i], ClassFileConstants.CONSTANT_Package).replace('/', '.');
         }
         return names;
     }
@@ -70,20 +82,9 @@ public final class ModulePackages extends Attribute {
         buf.append(packageIndexTable.length);
         buf.append("):\n");
         for (final int index : packageIndexTable) {
-            final String package_name = super.getConstantPool().getConstantString(index, Const.CONSTANT_Package);
+            final String package_name = super.getConstantPool().getConstantString(index, ClassFileConstants.CONSTANT_Package);
             buf.append("  ").append(Utility.compactClassName(package_name, false)).append("\n");
         }
         return buf.substring(0, buf.length() - 1); // remove the last newline
-    }
-
-    @Override
-    public Attribute copy(final ConstantPool _constant_pool) {
-        final ModulePackages c = (ModulePackages) clone();
-        if (packageIndexTable != null) {
-            c.packageIndexTable = new int[packageIndexTable.length];
-            System.arraycopy(packageIndexTable, 0, c.packageIndexTable, 0, packageIndexTable.length);
-        }
-        c.setConstantPool(_constant_pool);
-        return c;
     }
 }

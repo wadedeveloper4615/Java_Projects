@@ -5,7 +5,7 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.Const;
+import org.apache.bcel.enums.ClassFileConstants;
 
 public final class ConstantClass extends Constant implements ConstantObject {
 
@@ -20,7 +20,7 @@ public final class ConstantClass extends Constant implements ConstantObject {
     }
 
     public ConstantClass(final int nameIndex) {
-        super(Const.CONSTANT_Class);
+        super(ClassFileConstants.CONSTANT_Class);
         this.nameIndex = nameIndex;
     }
 
@@ -31,8 +31,18 @@ public final class ConstantClass extends Constant implements ConstantObject {
 
     @Override
     public void dump(final DataOutputStream file) throws IOException {
-        file.writeByte(super.getTag());
+        file.writeByte(super.getTag().getTag());
         file.writeShort(nameIndex);
+    }
+
+    public String getBytes(final ConstantPool cp) {
+        return (String) getConstantValue(cp);
+    }
+
+    @Override
+    public Object getConstantValue(final ConstantPool cp) {
+        final Constant c = cp.getConstant(nameIndex, ClassFileConstants.CONSTANT_Utf8);
+        return ((ConstantUtf8) c).getBytes();
     }
 
     public int getNameIndex() {
@@ -41,16 +51,6 @@ public final class ConstantClass extends Constant implements ConstantObject {
 
     public void setNameIndex(final int nameIndex) {
         this.nameIndex = nameIndex;
-    }
-
-    @Override
-    public Object getConstantValue(final ConstantPool cp) {
-        final Constant c = cp.getConstant(nameIndex, Const.CONSTANT_Utf8);
-        return ((ConstantUtf8) c).getBytes();
-    }
-
-    public String getBytes(final ConstantPool cp) {
-        return (String) getConstantValue(cp);
     }
 
     @Override

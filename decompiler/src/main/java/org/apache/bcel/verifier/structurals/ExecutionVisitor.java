@@ -26,10 +26,6 @@ public class ExecutionVisitor extends EmptyVisitor {
     public ExecutionVisitor() {
     }
 
-    private OperandStack stack() {
-        return frame.getStack();
-    }
-
     private LocalVariables locals() {
         return frame.getLocals();
     }
@@ -40,6 +36,10 @@ public class ExecutionVisitor extends EmptyVisitor {
 
     public void setFrame(final Frame f) { // TODO could be package-protected?
         this.frame = f;
+    }
+
+    private OperandStack stack() {
+        return frame.getStack();
     }
 
     //

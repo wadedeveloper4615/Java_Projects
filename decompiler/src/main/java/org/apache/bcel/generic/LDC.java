@@ -5,6 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import org.apache.bcel.ExceptionConst;
+import org.apache.bcel.classfile.Constant;
 import org.apache.bcel.generic.base.CPInstruction;
 import org.apache.bcel.generic.base.ExceptionThrower;
 import org.apache.bcel.generic.base.PushInstruction;
@@ -50,13 +51,13 @@ public class LDC extends CPInstruction implements PushInstruction, ExceptionThro
     @Override
     public Type getType(final ConstantPoolGen cpg) {
         switch (cpg.getConstantPool().getConstant(super.getIndex()).getTag()) {
-            case org.apache.bcel.Const.CONSTANT_String:
+            case CONSTANT_String:
                 return Type.STRING;
-            case org.apache.bcel.Const.CONSTANT_Float:
+            case CONSTANT_Float:
                 return Type.FLOAT;
-            case org.apache.bcel.Const.CONSTANT_Integer:
+            case CONSTANT_Integer:
                 return Type.INT;
-            case org.apache.bcel.Const.CONSTANT_Class:
+            case CONSTANT_Class:
                 return Type.CLASS;
             default: // Never reached
                 throw new IllegalArgumentException("Unknown or invalid constant type at " + super.getIndex());
@@ -64,17 +65,17 @@ public class LDC extends CPInstruction implements PushInstruction, ExceptionThro
     }
 
     public Object getValue(final ConstantPoolGen cpg) {
-        org.apache.bcel.classfile.Constant c = cpg.getConstantPool().getConstant(super.getIndex());
+        Constant c = cpg.getConstantPool().getConstant(super.getIndex());
         switch (c.getTag()) {
-            case org.apache.bcel.Const.CONSTANT_String:
+            case CONSTANT_String:
                 final int i = ((org.apache.bcel.classfile.ConstantString) c).getStringIndex();
                 c = cpg.getConstantPool().getConstant(i);
                 return ((org.apache.bcel.classfile.ConstantUtf8) c).getBytes();
-            case org.apache.bcel.Const.CONSTANT_Float:
+            case CONSTANT_Float:
                 return new Float(((org.apache.bcel.classfile.ConstantFloat) c).getBytes());
-            case org.apache.bcel.Const.CONSTANT_Integer:
+            case CONSTANT_Integer:
                 return Integer.valueOf(((org.apache.bcel.classfile.ConstantInteger) c).getBytes());
-            case org.apache.bcel.Const.CONSTANT_Class:
+            case CONSTANT_Class:
                 final int nameIndex = ((org.apache.bcel.classfile.ConstantClass) c).getNameIndex();
                 c = cpg.getConstantPool().getConstant(nameIndex);
                 return new ObjectType(((org.apache.bcel.classfile.ConstantUtf8) c).getBytes());

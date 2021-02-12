@@ -64,7 +64,7 @@ public class BCELifier extends org.apache.bcel.classfile.EmptyVisitor {
         _out.println("  }");
     }
 
-    public void start() {
+    public void start() throws Throwable {
         visitJavaClass(_clazz);
         _out.flush();
     }
@@ -140,7 +140,12 @@ public class BCELifier extends org.apache.bcel.classfile.EmptyVisitor {
         _out.println("    MethodGen method = new MethodGen(" + printFlags(method.getAccessFlags(), FLAGS.METHOD) + ", " + printType(mg.getReturnType()) + ", " + printArgumentTypes(mg.getArgumentTypes()) + ", " + "new String[] { " + Utility.printArray(mg.getArgumentNames(), false, true) + " }, \"" + method.getName() + "\", \"" + _clazz.getClassName() + "\", il, _cp);");
         _out.println();
         final BCELFactory factory = new BCELFactory(mg, _out);
-        factory.start();
+        try {
+            factory.start();
+        } catch (Throwable e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         _out.println("    method.setMaxStack();");
         _out.println("    method.setMaxLocals();");
         _out.println("    _cg.addMethod(method.getMethod());");
@@ -156,7 +161,7 @@ public class BCELifier extends org.apache.bcel.classfile.EmptyVisitor {
         return java_class;
     }
 
-    public static void main(final String[] argv) throws Exception {
+    public static void main(final String[] argv) throws Throwable {
         if (argv.length != 1) {
             System.out.println("Usage: BCELifier classname");
             System.out.println("\tThe class must exist on the classpath");

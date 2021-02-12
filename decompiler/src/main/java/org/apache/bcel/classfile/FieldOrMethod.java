@@ -4,7 +4,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.Const;
+import org.apache.bcel.enums.ClassFileConstants;
 
 public abstract class FieldOrMethod extends AccessFlags implements Cloneable, Node {
     protected int nameIndex;
@@ -41,8 +41,8 @@ public abstract class FieldOrMethod extends AccessFlags implements Cloneable, No
         this.signatureIndex = signature_index;
         this.constant_pool = constant_pool;
         setAttributes(attributes);
-        this.signature = ((ConstantUtf8) constant_pool.getConstant(signature_index, Const.CONSTANT_Utf8)).getBytes();
-        this.name = ((ConstantUtf8) constant_pool.getConstant(nameIndex, Const.CONSTANT_Utf8)).getBytes();
+        this.signature = ((ConstantUtf8) constant_pool.getConstant(signature_index, ClassFileConstants.CONSTANT_Utf8)).getBytes();
+        this.name = ((ConstantUtf8) constant_pool.getConstant(nameIndex, ClassFileConstants.CONSTANT_Utf8)).getBytes();
     }
 
     protected FieldOrMethod copy_(ConstantPool _constant_pool) {

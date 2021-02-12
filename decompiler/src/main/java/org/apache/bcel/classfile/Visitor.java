@@ -2,6 +2,14 @@
 package org.apache.bcel.classfile;
 
 public interface Visitor {
+    void visitAnnotation(Annotations obj);
+
+    void visitAnnotationDefault(AnnotationDefault obj);
+
+    void visitAnnotationEntry(AnnotationEntry obj);
+
+    void visitBootstrapMethods(BootstrapMethods obj);
+
     void visitCode(Code obj);
 
     void visitCodeException(CodeException obj);
@@ -9,6 +17,9 @@ public interface Visitor {
     void visitConstantClass(ConstantClass obj);
 
     void visitConstantDouble(ConstantDouble obj);
+
+    default void visitConstantDynamic(final ConstantDynamic constantDynamic) {
+    }
 
     void visitConstantFieldref(ConstantFieldref obj);
 
@@ -22,9 +33,17 @@ public interface Visitor {
 
     void visitConstantLong(ConstantLong obj);
 
+    void visitConstantMethodHandle(ConstantMethodHandle obj);
+
     void visitConstantMethodref(ConstantMethodref obj);
 
+    void visitConstantMethodType(ConstantMethodType obj);
+
+    void visitConstantModule(ConstantModule constantModule);
+
     void visitConstantNameAndType(ConstantNameAndType obj);
+
+    void visitConstantPackage(ConstantPackage constantPackage);
 
     void visitConstantPool(ConstantPool obj);
 
@@ -35,6 +54,8 @@ public interface Visitor {
     void visitConstantValue(ConstantValue obj);
 
     void visitDeprecated(Deprecated obj);
+
+    void visitEnclosingMethod(EnclosingMethod obj);
 
     void visitExceptionTable(ExceptionTable obj);
 
@@ -54,59 +75,17 @@ public interface Visitor {
 
     void visitLocalVariableTable(LocalVariableTable obj);
 
-    void visitMethod(Method obj);
-
-    void visitSignature(Signature obj);
-
-    void visitSourceFile(SourceFile obj);
-
-    void visitSynthetic(Synthetic obj);
-
-    void visitUnknown(Unknown obj);
-
-    void visitStackMap(StackMap obj);
-
-    void visitStackMapEntry(StackMapEntry obj);
-
-    void visitAnnotation(Annotations obj);
-
-    void visitParameterAnnotation(ParameterAnnotations obj);
-
-    void visitAnnotationEntry(AnnotationEntry obj);
-
-    void visitAnnotationDefault(AnnotationDefault obj);
-
     void visitLocalVariableTypeTable(LocalVariableTypeTable obj);
 
-    void visitEnclosingMethod(EnclosingMethod obj);
-
-    void visitBootstrapMethods(BootstrapMethods obj);
-
-    void visitMethodParameters(MethodParameters obj);
+    void visitMethod(Method obj);
 
     default void visitMethodParameter(final MethodParameter obj) {
         // empty
     }
 
-    void visitConstantMethodType(ConstantMethodType obj);
-
-    void visitConstantMethodHandle(ConstantMethodHandle obj);
-
-    void visitParameterAnnotationEntry(ParameterAnnotationEntry obj);
-
-    void visitConstantPackage(ConstantPackage constantPackage);
-
-    void visitConstantModule(ConstantModule constantModule);
-
-    default void visitConstantDynamic(final ConstantDynamic constantDynamic) {
-        // empty
-    }
+    void visitMethodParameters(MethodParameters obj);
 
     default void visitModule(final Module constantModule) {
-        // empty
-    }
-
-    default void visitModuleRequires(final ModuleRequires constantModule) {
         // empty
     }
 
@@ -114,11 +93,11 @@ public interface Visitor {
         // empty
     }
 
-    default void visitModuleOpens(final ModuleOpens constantModule) {
+    default void visitModuleMainClass(final ModuleMainClass obj) {
         // empty
     }
 
-    default void visitModuleProvides(final ModuleProvides constantModule) {
+    default void visitModuleOpens(final ModuleOpens constantModule) {
         // empty
     }
 
@@ -126,7 +105,11 @@ public interface Visitor {
         // empty
     }
 
-    default void visitModuleMainClass(final ModuleMainClass obj) {
+    default void visitModuleProvides(final ModuleProvides constantModule) {
+        // empty
+    }
+
+    default void visitModuleRequires(final ModuleRequires constantModule) {
         // empty
     }
 
@@ -137,4 +120,20 @@ public interface Visitor {
     default void visitNestMembers(final NestMembers obj) {
         // empty
     }
+
+    void visitParameterAnnotation(ParameterAnnotations obj);
+
+    void visitParameterAnnotationEntry(ParameterAnnotationEntry obj);
+
+    void visitSignature(Signature obj);
+
+    void visitSourceFile(SourceFile obj);
+
+    void visitStackMap(StackMap obj);
+
+    void visitStackMapEntry(StackMapEntry obj);
+
+    void visitSynthetic(Synthetic obj);
+
+    void visitUnknown(Unknown obj);
 }

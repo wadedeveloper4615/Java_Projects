@@ -6,19 +6,11 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import org.apache.bcel.Const;
+import org.apache.bcel.enums.ClassFileConstants;
 
 public final class NestMembers extends Attribute {
 
     private int[] classes;
-
-    public NestMembers(final NestMembers c) {
-        this(c.getNameIndex(), c.getLength(), c.getClasses(), c.getConstantPool());
-    }
-
-    public NestMembers(final int name_index, final int length, final int[] classes, final ConstantPool constant_pool) {
-        super(Const.ATTR_NEST_MEMBERS, name_index, length, constant_pool);
-        this.classes = classes != null ? classes : new int[0];
-    }
 
     NestMembers(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
         this(name_index, length, (int[]) null, constant_pool);
@@ -29,9 +21,29 @@ public final class NestMembers extends Attribute {
         }
     }
 
+    public NestMembers(final int name_index, final int length, final int[] classes, final ConstantPool constant_pool) {
+        super(Const.ATTR_NEST_MEMBERS, name_index, length, constant_pool);
+        this.classes = classes != null ? classes : new int[0];
+    }
+
+    public NestMembers(final NestMembers c) {
+        this(c.getNameIndex(), c.getLength(), c.getClasses(), c.getConstantPool());
+    }
+
     @Override
     public void accept(final Visitor v) {
         v.visitNestMembers(this);
+    }
+
+    @Override
+    public Attribute copy(final ConstantPool _constant_pool) {
+        final NestMembers c = (NestMembers) clone();
+        if (classes != null) {
+            c.classes = new int[classes.length];
+            System.arraycopy(classes, 0, c.classes, 0, classes.length);
+        }
+        c.setConstantPool(_constant_pool);
+        return c;
     }
 
     @Override
@@ -47,16 +59,16 @@ public final class NestMembers extends Attribute {
         return classes;
     }
 
-    public int getNumberClasses() {
-        return classes == null ? 0 : classes.length;
-    }
-
     public String[] getClassNames() {
         final String[] names = new String[classes.length];
         for (int i = 0; i < classes.length; i++) {
-            names[i] = super.getConstantPool().getConstantString(classes[i], Const.CONSTANT_Class).replace('/', '.');
+            names[i] = super.getConstantPool().getConstantString(classes[i], ClassFileConstants.CONSTANT_Class).replace('/', '.');
         }
         return names;
+    }
+
+    public int getNumberClasses() {
+        return classes == null ? 0 : classes.length;
     }
 
     public void setClasses(final int[] classes) {
@@ -70,20 +82,9 @@ public final class NestMembers extends Attribute {
         buf.append(classes.length);
         buf.append("):\n");
         for (final int index : classes) {
-            final String class_name = super.getConstantPool().getConstantString(index, Const.CONSTANT_Class);
+            final String class_name = super.getConstantPool().getConstantString(index, ClassFileConstants.CONSTANT_Class);
             buf.append("  ").append(Utility.compactClassName(class_name, false)).append("\n");
         }
         return buf.substring(0, buf.length() - 1); // remove the last newline
-    }
-
-    @Override
-    public Attribute copy(final ConstantPool _constant_pool) {
-        final NestMembers c = (NestMembers) clone();
-        if (classes != null) {
-            c.classes = new int[classes.length];
-            System.arraycopy(classes, 0, c.classes, 0, classes.length);
-        }
-        c.setConstantPool(_constant_pool);
-        return c;
     }
 }

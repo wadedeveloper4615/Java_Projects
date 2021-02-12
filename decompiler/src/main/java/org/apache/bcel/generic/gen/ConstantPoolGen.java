@@ -4,7 +4,6 @@ package org.apache.bcel.generic.gen;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.bcel.Const;
 import org.apache.bcel.classfile.Constant;
 import org.apache.bcel.classfile.ConstantCP;
 import org.apache.bcel.classfile.ConstantClass;
@@ -211,35 +210,35 @@ public class ConstantPoolGen {
     public int addConstant(final Constant c, final ConstantPoolGen cp) {
         final Constant[] constants = cp.getConstantPool().getConstantPool();
         switch (c.getTag()) {
-            case Const.CONSTANT_String: {
+            case CONSTANT_String: {
                 final ConstantString s = (ConstantString) c;
                 final ConstantUtf8 u8 = (ConstantUtf8) constants[s.getStringIndex()];
                 return addString(u8.getBytes());
             }
-            case Const.CONSTANT_Class: {
+            case CONSTANT_Class: {
                 final ConstantClass s = (ConstantClass) c;
                 final ConstantUtf8 u8 = (ConstantUtf8) constants[s.getNameIndex()];
                 return addClass(u8.getBytes());
             }
-            case Const.CONSTANT_NameAndType: {
+            case CONSTANT_NameAndType: {
                 final ConstantNameAndType n = (ConstantNameAndType) c;
                 final ConstantUtf8 u8 = (ConstantUtf8) constants[n.getNameIndex()];
                 final ConstantUtf8 u8_2 = (ConstantUtf8) constants[n.getSignatureIndex()];
                 return addNameAndType(u8.getBytes(), u8_2.getBytes());
             }
-            case Const.CONSTANT_Utf8:
+            case CONSTANT_Utf8:
                 return addUtf8(((ConstantUtf8) c).getBytes());
-            case Const.CONSTANT_Double:
+            case CONSTANT_Double:
                 return addDouble(((ConstantDouble) c).getBytes());
-            case Const.CONSTANT_Float:
+            case CONSTANT_Float:
                 return addFloat(((ConstantFloat) c).getBytes());
-            case Const.CONSTANT_Long:
+            case CONSTANT_Long:
                 return addLong(((ConstantLong) c).getBytes());
-            case Const.CONSTANT_Integer:
+            case CONSTANT_Integer:
                 return addInteger(((ConstantInteger) c).getBytes());
-            case Const.CONSTANT_InterfaceMethodref:
-            case Const.CONSTANT_Methodref:
-            case Const.CONSTANT_Fieldref: {
+            case CONSTANT_InterfaceMethodref:
+            case CONSTANT_Methodref:
+            case CONSTANT_Fieldref: {
                 final ConstantCP m = (ConstantCP) c;
                 final ConstantClass clazz = (ConstantClass) constants[m.getClassIndex()];
                 final ConstantNameAndType n = (ConstantNameAndType) constants[m.getNameAndTypeIndex()];
@@ -250,11 +249,11 @@ public class ConstantPoolGen {
                 u8 = (ConstantUtf8) constants[n.getSignatureIndex()];
                 final String signature = u8.getBytes();
                 switch (c.getTag()) {
-                    case Const.CONSTANT_InterfaceMethodref:
+                    case CONSTANT_InterfaceMethodref:
                         return addInterfaceMethodref(class_name, name, signature);
-                    case Const.CONSTANT_Methodref:
+                    case CONSTANT_Methodref:
                         return addMethodref(class_name, name, signature);
-                    case Const.CONSTANT_Fieldref:
+                    case CONSTANT_Fieldref:
                         return addFieldref(class_name, name, signature);
                     default: // Never reached
                         throw new IllegalArgumentException("Unknown constant type " + c);

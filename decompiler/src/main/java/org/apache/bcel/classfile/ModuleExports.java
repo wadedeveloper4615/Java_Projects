@@ -5,7 +5,7 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.Const;
+import org.apache.bcel.enums.ClassFileConstants;
 
 public final class ModuleExports implements Cloneable, Node {
 
@@ -31,6 +31,15 @@ public final class ModuleExports implements Cloneable, Node {
 
     // TODO add more getters and setters?
 
+    public ModuleExports copy() {
+        try {
+            return (ModuleExports) clone();
+        } catch (final CloneNotSupportedException e) {
+            // TODO should this throw?
+        }
+        return null;
+    }
+
     public void dump(final DataOutputStream file) throws IOException {
         file.writeShort(exportsIndex);
         file.writeShort(exportsFlags);
@@ -47,23 +56,14 @@ public final class ModuleExports implements Cloneable, Node {
 
     public String toString(final ConstantPool constant_pool) {
         final StringBuilder buf = new StringBuilder();
-        final String package_name = constant_pool.constantToString(exportsIndex, Const.CONSTANT_Package);
+        final String package_name = constant_pool.constantToString(exportsIndex, ClassFileConstants.CONSTANT_Package);
         buf.append(Utility.compactClassName(package_name, false));
         buf.append(", ").append(String.format("%04x", exportsFlags));
         buf.append(", to(").append(exportsToCount).append("):\n");
         for (final int index : exportsToIndex) {
-            final String module_name = constant_pool.getConstantString(index, Const.CONSTANT_Module);
+            final String module_name = constant_pool.getConstantString(index, ClassFileConstants.CONSTANT_Module);
             buf.append("      ").append(Utility.compactClassName(module_name, false)).append("\n");
         }
         return buf.substring(0, buf.length() - 1); // remove the last newline
-    }
-
-    public ModuleExports copy() {
-        try {
-            return (ModuleExports) clone();
-        } catch (final CloneNotSupportedException e) {
-            // TODO should this throw?
-        }
-        return null;
     }
 }

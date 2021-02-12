@@ -11,10 +11,6 @@ public final class Synthetic extends Attribute {
 
     private byte[] bytes;
 
-    public Synthetic(final Synthetic c) {
-        this(c.getNameIndex(), c.getLength(), c.getBytes(), c.getConstantPool());
-    }
-
     public Synthetic(final int name_index, final int length, final byte[] bytes, final ConstantPool constant_pool) {
         super(Const.ATTR_SYNTHETIC, name_index, length, constant_pool);
         this.bytes = bytes;
@@ -29,9 +25,24 @@ public final class Synthetic extends Attribute {
         }
     }
 
+    public Synthetic(final Synthetic c) {
+        this(c.getNameIndex(), c.getLength(), c.getBytes(), c.getConstantPool());
+    }
+
     @Override
     public void accept(final Visitor v) {
         v.visitSynthetic(this);
+    }
+
+    @Override
+    public Attribute copy(final ConstantPool _constant_pool) {
+        final Synthetic c = (Synthetic) clone();
+        if (bytes != null) {
+            c.bytes = new byte[bytes.length];
+            System.arraycopy(bytes, 0, c.bytes, 0, bytes.length);
+        }
+        c.setConstantPool(_constant_pool);
+        return c;
     }
 
     @Override
@@ -57,16 +68,5 @@ public final class Synthetic extends Attribute {
             buf.append(" ").append(Utility.toHexString(bytes));
         }
         return buf.toString();
-    }
-
-    @Override
-    public Attribute copy(final ConstantPool _constant_pool) {
-        final Synthetic c = (Synthetic) clone();
-        if (bytes != null) {
-            c.bytes = new byte[bytes.length];
-            System.arraycopy(bytes, 0, c.bytes, 0, bytes.length);
-        }
-        c.setConstantPool(_constant_pool);
-        return c;
     }
 }

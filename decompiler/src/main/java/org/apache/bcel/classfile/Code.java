@@ -58,6 +58,35 @@ public final class Code extends Attribute {
         v.visitCode(this);
     }
 
+    private int calculateLength() {
+        int len = 0;
+        if (attributes != null) {
+            for (final Attribute attribute : attributes) {
+                len += attribute.getLength() + 6;
+            }
+        }
+        return len + getInternalLength();
+    }
+
+    @Override
+    public Attribute copy(final ConstantPool _constant_pool) {
+        final Code c = (Code) clone();
+        if (code != null) {
+            c.code = new byte[code.length];
+            System.arraycopy(code, 0, c.code, 0, code.length);
+        }
+        c.setConstantPool(_constant_pool);
+        c.exceptionTable = new CodeException[exceptionTable.length];
+        for (int i = 0; i < exceptionTable.length; i++) {
+            c.exceptionTable[i] = exceptionTable[i].copy();
+        }
+        c.attributes = new Attribute[attributes.length];
+        for (int i = 0; i < attributes.length; i++) {
+            c.attributes[i] = attributes[i].copy(_constant_pool);
+        }
+        return c;
+    }
+
     @Override
     public void dump(final DataOutputStream file) throws IOException {
         super.dump(file);
@@ -79,6 +108,18 @@ public final class Code extends Attribute {
         return attributes;
     }
 
+    public byte[] getCode() {
+        return code;
+    }
+
+    public CodeException[] getExceptionTable() {
+        return exceptionTable;
+    }
+
+    private int getInternalLength() {
+        return 2 + 2 + 4 + code.length + 2 + 8 * (exceptionTable == null ? 0 : exceptionTable.length) + 2;
+    }
+
     public LineNumberTable getLineNumberTable() {
         for (final Attribute attribute : attributes) {
             if (attribute instanceof LineNumberTable) {
@@ -97,34 +138,12 @@ public final class Code extends Attribute {
         return null;
     }
 
-    public byte[] getCode() {
-        return code;
-    }
-
-    public CodeException[] getExceptionTable() {
-        return exceptionTable;
-    }
-
     public int getMaxLocals() {
         return maxLocals;
     }
 
     public int getMaxStack() {
         return maxStack;
-    }
-
-    private int getInternalLength() {
-        return 2 + 2 + 4 + code.length + 2 + 8 * (exceptionTable == null ? 0 : exceptionTable.length) + 2;
-    }
-
-    private int calculateLength() {
-        int len = 0;
-        if (attributes != null) {
-            for (final Attribute attribute : attributes) {
-                len += attribute.getLength() + 6;
-            }
-        }
-        return len + getInternalLength();
     }
 
     public void setAttributes(final Attribute[] attributes) {
@@ -150,6 +169,11 @@ public final class Code extends Attribute {
         this.maxStack = maxStack;
     }
 
+    @Override
+    public String toString() {
+        return toString(true);
+    }
+
     public String toString(final boolean verbose) {
         final StringBuilder buf = new StringBuilder(100); // CHECKSTYLE IGNORE MagicNumber
         buf.append("Code(maxStack = ").append(maxStack).append(", maxLocals = ").append(maxLocals).append(", code_length = ").append(code.length).append(")\n").append(Utility.codeToString(code, super.getConstantPool(), 0, -1, verbose));
@@ -167,29 +191,5 @@ public final class Code extends Attribute {
             }
         }
         return buf.toString();
-    }
-
-    @Override
-    public String toString() {
-        return toString(true);
-    }
-
-    @Override
-    public Attribute copy(final ConstantPool _constant_pool) {
-        final Code c = (Code) clone();
-        if (code != null) {
-            c.code = new byte[code.length];
-            System.arraycopy(code, 0, c.code, 0, code.length);
-        }
-        c.setConstantPool(_constant_pool);
-        c.exceptionTable = new CodeException[exceptionTable.length];
-        for (int i = 0; i < exceptionTable.length; i++) {
-            c.exceptionTable[i] = exceptionTable[i].copy();
-        }
-        c.attributes = new Attribute[attributes.length];
-        for (int i = 0; i < attributes.length; i++) {
-            c.attributes[i] = attributes[i].copy(_constant_pool);
-        }
-        return c;
     }
 }

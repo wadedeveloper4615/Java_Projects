@@ -1,7 +1,5 @@
 package org.apache.bcel.enums;
 
-import java.io.IOException;
-
 public enum ClassFileConstants {
     CONSTANT_DUMMY0((byte) 0, ""),
 
@@ -63,7 +61,7 @@ public enum ClassFileConstants {
         return tag;
     }
 
-    public static ClassFileConstants read(byte tag) throws IOException {
+    public static ClassFileConstants read(byte tag) {
         for (ClassFileConstants v : ClassFileConstants.values()) {
             if (v.getTag() == tag) {
                 return v;

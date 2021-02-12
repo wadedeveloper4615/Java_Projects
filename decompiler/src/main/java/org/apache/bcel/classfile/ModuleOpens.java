@@ -5,7 +5,7 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.Const;
+import org.apache.bcel.enums.ClassFileConstants;
 
 public final class ModuleOpens implements Cloneable, Node {
 
@@ -31,6 +31,15 @@ public final class ModuleOpens implements Cloneable, Node {
 
     // TODO add more getters and setters?
 
+    public ModuleOpens copy() {
+        try {
+            return (ModuleOpens) clone();
+        } catch (final CloneNotSupportedException e) {
+            // TODO should this throw?
+        }
+        return null;
+    }
+
     public void dump(final DataOutputStream file) throws IOException {
         file.writeShort(opensIndex);
         file.writeShort(opensFlags);
@@ -47,23 +56,14 @@ public final class ModuleOpens implements Cloneable, Node {
 
     public String toString(final ConstantPool constant_pool) {
         final StringBuilder buf = new StringBuilder();
-        final String package_name = constant_pool.constantToString(opensIndex, Const.CONSTANT_Package);
+        final String package_name = constant_pool.constantToString(opensIndex, ClassFileConstants.CONSTANT_Package);
         buf.append(Utility.compactClassName(package_name, false));
         buf.append(", ").append(String.format("%04x", opensFlags));
         buf.append(", to(").append(opensToCount).append("):\n");
         for (final int index : opensToIndex) {
-            final String module_name = constant_pool.getConstantString(index, Const.CONSTANT_Module);
+            final String module_name = constant_pool.getConstantString(index, ClassFileConstants.CONSTANT_Module);
             buf.append("      ").append(Utility.compactClassName(module_name, false)).append("\n");
         }
         return buf.substring(0, buf.length() - 1); // remove the last newline
-    }
-
-    public ModuleOpens copy() {
-        try {
-            return (ModuleOpens) clone();
-        } catch (final CloneNotSupportedException e) {
-            // TODO should this throw?
-        }
-        return null;
     }
 }

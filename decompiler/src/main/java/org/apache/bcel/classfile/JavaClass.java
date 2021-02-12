@@ -16,6 +16,7 @@ import org.apache.bcel.ClassFileName;
 import org.apache.bcel.Const;
 import org.apache.bcel.compare.JavaClassComparator;
 import org.apache.bcel.enums.ClassAccessFlags;
+import org.apache.bcel.enums.ClassFileConstants;
 import org.apache.bcel.enums.Version;
 import org.apache.bcel.generic.Type;
 import org.apache.bcel.util.BCELComparator;
@@ -112,7 +113,7 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
         return getClassName().getName().compareTo(obj.getClassName().getName());
     }
 
-    private void computeNestedTypeStatus() {
+    private void computeNestedTypeStatus() throws ClassFormatException, IOException {
         if (computedNestedTypeStatus) {
             return;
         }
@@ -121,7 +122,7 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
                 InnerClass[] innerClasses = ((InnerClasses) attribute).getInnerClasses();
                 for (InnerClass innerClasse : innerClasses) {
                     boolean innerClassAttributeRefersToMe = false;
-                    String inner_class_name = constantPool.getConstantString(innerClasse.getInnerClassIndex(), Const.CONSTANT_Class);
+                    String inner_class_name = constantPool.getConstantString(innerClasse.getInnerClassIndex(), ClassFileConstants.CONSTANT_Class);
                     inner_class_name = Utility.compactClassName(inner_class_name, false);
                     if (inner_class_name.equals(getClassName().getName())) {
                         innerClassAttributeRefersToMe = true;
@@ -399,7 +400,7 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
         return false;
     }
 
-    public boolean isAnonymous() {
+    public boolean isAnonymous() throws ClassFormatException, IOException {
         computeNestedTypeStatus();
         return this.isAnonymous;
     }
@@ -408,7 +409,7 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
         return (super.getAccessFlags() & ClassAccessFlags.ACC_INTERFACE.getFlag()) == 0;
     }
 
-    public boolean isNested() {
+    public boolean isNested() throws ClassFormatException, IOException {
         computeNestedTypeStatus();
         return this.isNested;
     }

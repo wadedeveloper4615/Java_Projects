@@ -6,6 +6,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import org.apache.bcel.Const;
+import org.apache.bcel.enums.ClassFileConstants;
 
 public final class Module extends Attribute {
 
@@ -65,20 +66,32 @@ public final class Module extends Attribute {
 
     // TODO add more getters and setters?
 
-    public ModuleRequires[] getRequiresTable() {
-        return requiresTable;
-    }
+    @Override
+    public Attribute copy(final ConstantPool _constant_pool) {
+        final Module c = (Module) clone();
 
-    public ModuleExports[] getExportsTable() {
-        return exportsTable;
-    }
+        c.requiresTable = new ModuleRequires[requiresTable.length];
+        for (int i = 0; i < requiresTable.length; i++) {
+            c.requiresTable[i] = requiresTable[i].copy();
+        }
 
-    public ModuleOpens[] getOpensTable() {
-        return opensTable;
-    }
+        c.exportsTable = new ModuleExports[exportsTable.length];
+        for (int i = 0; i < exportsTable.length; i++) {
+            c.exportsTable[i] = exportsTable[i].copy();
+        }
 
-    public ModuleProvides[] getProvidesTable() {
-        return providesTable;
+        c.opensTable = new ModuleOpens[opensTable.length];
+        for (int i = 0; i < opensTable.length; i++) {
+            c.opensTable[i] = opensTable[i].copy();
+        }
+
+        c.providesTable = new ModuleProvides[providesTable.length];
+        for (int i = 0; i < providesTable.length; i++) {
+            c.providesTable[i] = providesTable[i].copy();
+        }
+
+        c.setConstantPool(_constant_pool);
+        return c;
     }
 
     @Override
@@ -115,14 +128,30 @@ public final class Module extends Attribute {
         }
     }
 
+    public ModuleExports[] getExportsTable() {
+        return exportsTable;
+    }
+
+    public ModuleOpens[] getOpensTable() {
+        return opensTable;
+    }
+
+    public ModuleProvides[] getProvidesTable() {
+        return providesTable;
+    }
+
+    public ModuleRequires[] getRequiresTable() {
+        return requiresTable;
+    }
+
     @Override
     public String toString() {
         final ConstantPool cp = super.getConstantPool();
         final StringBuilder buf = new StringBuilder();
         buf.append("Module:\n");
-        buf.append("  name:    ").append(cp.getConstantString(moduleNameIndex, Const.CONSTANT_Module).replace('/', '.')).append("\n");
+        buf.append("  name:    ").append(cp.getConstantString(moduleNameIndex, ClassFileConstants.CONSTANT_Module).replace('/', '.')).append("\n");
         buf.append("  flags:   ").append(String.format("%04x", moduleFlags)).append("\n");
-        final String version = moduleVersionIndex == 0 ? "0" : cp.getConstantString(moduleVersionIndex, Const.CONSTANT_Utf8);
+        final String version = moduleVersionIndex == 0 ? "0" : cp.getConstantString(moduleVersionIndex, ClassFileConstants.CONSTANT_Utf8);
         buf.append("  version: ").append(version).append("\n");
 
         buf.append("  requires(").append(requiresTable.length).append("):\n");
@@ -142,7 +171,7 @@ public final class Module extends Attribute {
 
         buf.append("  uses(").append(usesIndex.length).append("):\n");
         for (final int index : usesIndex) {
-            final String class_name = cp.getConstantString(index, Const.CONSTANT_Class);
+            final String class_name = cp.getConstantString(index, ClassFileConstants.CONSTANT_Class);
             buf.append("    ").append(Utility.compactClassName(class_name, false)).append("\n");
         }
 
@@ -152,33 +181,5 @@ public final class Module extends Attribute {
         }
 
         return buf.substring(0, buf.length() - 1); // remove the last newline
-    }
-
-    @Override
-    public Attribute copy(final ConstantPool _constant_pool) {
-        final Module c = (Module) clone();
-
-        c.requiresTable = new ModuleRequires[requiresTable.length];
-        for (int i = 0; i < requiresTable.length; i++) {
-            c.requiresTable[i] = requiresTable[i].copy();
-        }
-
-        c.exportsTable = new ModuleExports[exportsTable.length];
-        for (int i = 0; i < exportsTable.length; i++) {
-            c.exportsTable[i] = exportsTable[i].copy();
-        }
-
-        c.opensTable = new ModuleOpens[opensTable.length];
-        for (int i = 0; i < opensTable.length; i++) {
-            c.opensTable[i] = opensTable[i].copy();
-        }
-
-        c.providesTable = new ModuleProvides[providesTable.length];
-        for (int i = 0; i < providesTable.length; i++) {
-            c.providesTable[i] = providesTable[i].copy();
-        }
-
-        c.setConstantPool(_constant_pool);
-        return c;
     }
 }

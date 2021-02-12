@@ -7,48 +7,9 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import org.apache.bcel.Const;
+import org.apache.bcel.enums.ClassFileConstants;
 
 public final class Signature extends Attribute {
-
-    private int signatureIndex;
-
-    public Signature(final Signature c) {
-        this(c.getNameIndex(), c.getLength(), c.getSignatureIndex(), c.getConstantPool());
-    }
-
-    Signature(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
-        this(name_index, length, input.readUnsignedShort(), constant_pool);
-    }
-
-    public Signature(final int name_index, final int length, final int signatureIndex, final ConstantPool constant_pool) {
-        super(Const.ATTR_SIGNATURE, name_index, length, constant_pool);
-        this.signatureIndex = signatureIndex;
-    }
-
-    @Override
-    public void accept(final Visitor v) {
-        // System.err.println("Visiting non-standard Signature object");
-        v.visitSignature(this);
-    }
-
-    @Override
-    public void dump(final DataOutputStream file) throws IOException {
-        super.dump(file);
-        file.writeShort(signatureIndex);
-    }
-
-    public int getSignatureIndex() {
-        return signatureIndex;
-    }
-
-    public void setSignatureIndex(final int signatureIndex) {
-        this.signatureIndex = signatureIndex;
-    }
-
-    public String getSignature() {
-        final ConstantUtf8 c = (ConstantUtf8) super.getConstantPool().getConstant(signatureIndex, Const.CONSTANT_Utf8);
-        return c.getBytes();
-    }
 
     private static final class MyByteArrayInputStream extends ByteArrayInputStream {
 
@@ -67,8 +28,103 @@ public final class Signature extends Attribute {
         }
     }
 
+    private int signatureIndex;
+
+    Signature(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
+        this(name_index, length, input.readUnsignedShort(), constant_pool);
+    }
+
+    public Signature(final int name_index, final int length, final int signatureIndex, final ConstantPool constant_pool) {
+        super(Const.ATTR_SIGNATURE, name_index, length, constant_pool);
+        this.signatureIndex = signatureIndex;
+    }
+
+    public Signature(final Signature c) {
+        this(c.getNameIndex(), c.getLength(), c.getSignatureIndex(), c.getConstantPool());
+    }
+
+    @Override
+    public void accept(final Visitor v) {
+        // System.err.println("Visiting non-standard Signature object");
+        v.visitSignature(this);
+    }
+
+    @Override
+    public Attribute copy(final ConstantPool _constant_pool) {
+        return (Attribute) clone();
+    }
+
+    @Override
+    public void dump(final DataOutputStream file) throws IOException {
+        super.dump(file);
+        file.writeShort(signatureIndex);
+    }
+
+    public String getSignature() {
+        final ConstantUtf8 c = (ConstantUtf8) super.getConstantPool().getConstant(signatureIndex, ClassFileConstants.CONSTANT_Utf8);
+        return c.getBytes();
+    }
+
+    public int getSignatureIndex() {
+        return signatureIndex;
+    }
+
+    public void setSignatureIndex(final int signatureIndex) {
+        this.signatureIndex = signatureIndex;
+    }
+
+    @Override
+    public String toString() {
+        final String s = getSignature();
+        return "Signature: " + s;
+    }
+
     private static boolean identStart(final int ch) {
         return ch == 'T' || ch == 'L';
+    }
+
+    // @since 6.0 is no longer final
+    public static boolean isActualParameterList(final String s) {
+        return s.startsWith("L") && s.endsWith(">;");
+    }
+
+    // @since 6.0 is no longer final
+    public static boolean isFormalParameterList(final String s) {
+        return s.startsWith("<") && (s.indexOf(':') > 0);
+    }
+
+    private static void matchGJIdent(final MyByteArrayInputStream in, final StringBuilder buf) {
+        int ch;
+        matchIdent(in, buf);
+        ch = in.read();
+        if ((ch == '<') || ch == '(') { // Parameterized or method
+            // System.out.println("Enter <");
+            buf.append((char) ch);
+            matchGJIdent(in, buf);
+            while (((ch = in.read()) != '>') && (ch != ')')) { // List of parameters
+                if (ch == -1) {
+                    throw new IllegalArgumentException("Illegal signature: " + in.getData() + " reaching EOF");
+                }
+                // System.out.println("Still no >");
+                buf.append(", ");
+                in.unread();
+                matchGJIdent(in, buf); // Recursive call
+            }
+            // System.out.println("Exit >");
+            buf.append((char) ch);
+        } else {
+            in.unread();
+        }
+        ch = in.read();
+        if (identStart(ch)) {
+            in.unread();
+            matchGJIdent(in, buf);
+        } else if (ch == ')') {
+            in.unread();
+            return;
+        } else if (ch != ';') {
+            throw new IllegalArgumentException("Illegal signature: " + in.getData() + " read " + (char) ch);
+        }
     }
 
     private static void matchIdent(final MyByteArrayInputStream in, final StringBuilder buf) {
@@ -112,65 +168,10 @@ public final class Signature extends Attribute {
         }
     }
 
-    private static void matchGJIdent(final MyByteArrayInputStream in, final StringBuilder buf) {
-        int ch;
-        matchIdent(in, buf);
-        ch = in.read();
-        if ((ch == '<') || ch == '(') { // Parameterized or method
-            // System.out.println("Enter <");
-            buf.append((char) ch);
-            matchGJIdent(in, buf);
-            while (((ch = in.read()) != '>') && (ch != ')')) { // List of parameters
-                if (ch == -1) {
-                    throw new IllegalArgumentException("Illegal signature: " + in.getData() + " reaching EOF");
-                }
-                // System.out.println("Still no >");
-                buf.append(", ");
-                in.unread();
-                matchGJIdent(in, buf); // Recursive call
-            }
-            // System.out.println("Exit >");
-            buf.append((char) ch);
-        } else {
-            in.unread();
-        }
-        ch = in.read();
-        if (identStart(ch)) {
-            in.unread();
-            matchGJIdent(in, buf);
-        } else if (ch == ')') {
-            in.unread();
-            return;
-        } else if (ch != ';') {
-            throw new IllegalArgumentException("Illegal signature: " + in.getData() + " read " + (char) ch);
-        }
-    }
-
     public static String translate(final String s) {
         // System.out.println("Sig:" + s);
         final StringBuilder buf = new StringBuilder();
         matchGJIdent(new MyByteArrayInputStream(s), buf);
         return buf.toString();
-    }
-
-    // @since 6.0 is no longer final
-    public static boolean isFormalParameterList(final String s) {
-        return s.startsWith("<") && (s.indexOf(':') > 0);
-    }
-
-    // @since 6.0 is no longer final
-    public static boolean isActualParameterList(final String s) {
-        return s.startsWith("L") && s.endsWith(">;");
-    }
-
-    @Override
-    public String toString() {
-        final String s = getSignature();
-        return "Signature: " + s;
-    }
-
-    @Override
-    public Attribute copy(final ConstantPool _constant_pool) {
-        return (Attribute) clone();
     }
 }

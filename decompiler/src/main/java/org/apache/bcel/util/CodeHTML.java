@@ -20,16 +20,17 @@ import org.apache.bcel.classfile.LocalVariable;
 import org.apache.bcel.classfile.LocalVariableTable;
 import org.apache.bcel.classfile.Method;
 import org.apache.bcel.classfile.Utility;
+import org.apache.bcel.enums.ClassFileConstants;
 
 final class CodeHTML {
 
+    private static boolean wide = false;
     private final String className; // name of current class
-//    private Method[] methods; // Methods to print
+    // private Method[] methods; // Methods to print
     private final PrintWriter file; // file to write to
     private BitSet gotoSet;
     private final ConstantPool constantPool;
     private final ConstantHTML constantHtml;
-    private static boolean wide = false;
 
     CodeHTML(final String dir, final String class_name, final Method[] methods, final ConstantPool constant_pool, final ConstantHTML constant_html) throws IOException {
         this.className = class_name;
@@ -174,12 +175,12 @@ final class CodeHTML {
             case Const.PUTFIELD:
             case Const.PUTSTATIC:
                 index = bytes.readShort();
-                final ConstantFieldref c1 = (ConstantFieldref) constantPool.getConstant(index, Const.CONSTANT_Fieldref);
+                final ConstantFieldref c1 = (ConstantFieldref) constantPool.getConstant(index, ClassFileConstants.CONSTANT_Fieldref);
                 class_index = c1.getClassIndex();
-                name = constantPool.getConstantString(class_index, Const.CONSTANT_Class);
+                name = constantPool.getConstantString(class_index, ClassFileConstants.CONSTANT_Class);
                 name = Utility.compactClassName(name, false);
                 index = c1.getNameAndTypeIndex();
-                final String field_name = constantPool.constantToString(index, Const.CONSTANT_NameAndType);
+                final String field_name = constantPool.constantToString(index, ClassFileConstants.CONSTANT_NameAndType);
                 if (name.equals(className)) { // Local field
                     buf.append("<A HREF=\"").append(className).append("_methods.html#field").append(field_name).append("\" TARGET=Methods>").append(field_name).append("</A>\n");
                 } else {
@@ -206,29 +207,29 @@ final class CodeHTML {
                     bytes.readUnsignedByte(); // Reserved
 //                    int nargs = bytes.readUnsignedByte(); // Redundant
 //                    int reserved = bytes.readUnsignedByte(); // Reserved
-                    final ConstantInterfaceMethodref c = (ConstantInterfaceMethodref) constantPool.getConstant(m_index, Const.CONSTANT_InterfaceMethodref);
+                    final ConstantInterfaceMethodref c = (ConstantInterfaceMethodref) constantPool.getConstant(m_index, ClassFileConstants.CONSTANT_InterfaceMethodref);
                     class_index = c.getClassIndex();
                     index = c.getNameAndTypeIndex();
                     name = Class2HTML.referenceClass(class_index);
                 } else if (opcode == Const.INVOKEDYNAMIC) { // Special treatment needed
                     bytes.readUnsignedByte(); // Reserved
                     bytes.readUnsignedByte(); // Reserved
-                    final ConstantInvokeDynamic c = (ConstantInvokeDynamic) constantPool.getConstant(m_index, Const.CONSTANT_InvokeDynamic);
+                    final ConstantInvokeDynamic c = (ConstantInvokeDynamic) constantPool.getConstant(m_index, ClassFileConstants.CONSTANT_InvokeDynamic);
                     index = c.getNameAndTypeIndex();
                     name = "#" + c.getBootstrapMethodAttrIndex();
                 } else {
                     // UNDONE: Java8 now allows INVOKESPECIAL and INVOKESTATIC to
                     // reference EITHER a Methodref OR an InterfaceMethodref.
                     // Not sure if that affects this code or not. (markro)
-                    final ConstantMethodref c = (ConstantMethodref) constantPool.getConstant(m_index, Const.CONSTANT_Methodref);
+                    final ConstantMethodref c = (ConstantMethodref) constantPool.getConstant(m_index, ClassFileConstants.CONSTANT_Methodref);
                     class_index = c.getClassIndex();
                     index = c.getNameAndTypeIndex();
                     name = Class2HTML.referenceClass(class_index);
                 }
-                str = Class2HTML.toHTML(constantPool.constantToString(constantPool.getConstant(index, Const.CONSTANT_NameAndType)));
+                str = Class2HTML.toHTML(constantPool.constantToString(constantPool.getConstant(index, ClassFileConstants.CONSTANT_NameAndType)));
                 // Get signature, i.e., types
-                final ConstantNameAndType c2 = (ConstantNameAndType) constantPool.getConstant(index, Const.CONSTANT_NameAndType);
-                signature = constantPool.constantToString(c2.getSignatureIndex(), Const.CONSTANT_Utf8);
+                final ConstantNameAndType c2 = (ConstantNameAndType) constantPool.getConstant(index, ClassFileConstants.CONSTANT_NameAndType);
+                signature = constantPool.constantToString(c2.getSignatureIndex(), ClassFileConstants.CONSTANT_Utf8);
                 final String[] args = Utility.methodSignatureArgumentTypes(signature, false);
                 final String type = Utility.methodSignatureReturnType(signature, false);
                 buf.append(name).append(".<A HREF=\"").append(className).append("_cp.html#cp").append(m_index).append("\" TARGET=ConstantPool>").append(str).append("</A>").append("(");

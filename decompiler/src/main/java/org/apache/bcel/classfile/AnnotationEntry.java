@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.bcel.Const;
+import org.apache.bcel.enums.ClassFileConstants;
 
 public class AnnotationEntry implements Node {
 
@@ -18,33 +18,10 @@ public class AnnotationEntry implements Node {
 
     private List<ElementValuePair> elementValuePairs;
 
-    public static AnnotationEntry read(final DataInput input, final ConstantPool constant_pool, final boolean isRuntimeVisible) throws IOException {
-
-        final AnnotationEntry annotationEntry = new AnnotationEntry(input.readUnsignedShort(), constant_pool, isRuntimeVisible);
-        final int num_element_value_pairs = input.readUnsignedShort();
-        annotationEntry.elementValuePairs = new ArrayList<>();
-        for (int i = 0; i < num_element_value_pairs; i++) {
-            annotationEntry.elementValuePairs.add(new ElementValuePair(input.readUnsignedShort(), ElementValue.readElementValue(input, constant_pool), constant_pool));
-        }
-        return annotationEntry;
-    }
-
     public AnnotationEntry(final int type_index, final ConstantPool constant_pool, final boolean isRuntimeVisible) {
         this.typeIndex = type_index;
         this.constantPool = constant_pool;
         this.isRuntimeVisible = isRuntimeVisible;
-    }
-
-    public int getTypeIndex() {
-        return typeIndex;
-    }
-
-    public ConstantPool getConstantPool() {
-        return constantPool;
-    }
-
-    public boolean isRuntimeVisible() {
-        return isRuntimeVisible;
     }
 
     @Override
@@ -52,17 +29,28 @@ public class AnnotationEntry implements Node {
         v.visitAnnotationEntry(this);
     }
 
+    public void addElementNameValuePair(final ElementValuePair elementNameValuePair) {
+        elementValuePairs.add(elementNameValuePair);
+    }
+
+    public void dump(final DataOutputStream dos) throws IOException {
+        dos.writeShort(typeIndex);
+        dos.writeShort(elementValuePairs.size());
+        for (ElementValuePair envp : elementValuePairs) {
+            envp.dump(dos);
+        }
+    }
+
     public String getAnnotationType() {
-        final ConstantUtf8 c = (ConstantUtf8) constantPool.getConstant(typeIndex, Const.CONSTANT_Utf8);
-        return c.getBytes();
+        return ((ConstantUtf8) constantPool.getConstant(typeIndex, ClassFileConstants.CONSTANT_Utf8)).getBytes();
     }
 
     public int getAnnotationTypeIndex() {
         return typeIndex;
     }
 
-    public final int getNumElementValuePairs() {
-        return elementValuePairs.size();
+    public ConstantPool getConstantPool() {
+        return constantPool;
     }
 
     public ElementValuePair[] getElementValuePairs() {
@@ -70,17 +58,16 @@ public class AnnotationEntry implements Node {
         return elementValuePairs.toArray(new ElementValuePair[elementValuePairs.size()]);
     }
 
-    public void dump(final DataOutputStream dos) throws IOException {
-        dos.writeShort(typeIndex); // u2 index of type name in cpool
-        dos.writeShort(elementValuePairs.size()); // u2 element_value pair
-        // count
-        for (final ElementValuePair envp : elementValuePairs) {
-            envp.dump(dos);
-        }
+    public final int getNumElementValuePairs() {
+        return elementValuePairs.size();
     }
 
-    public void addElementNameValuePair(final ElementValuePair elementNameValuePair) {
-        elementValuePairs.add(elementNameValuePair);
+    public int getTypeIndex() {
+        return typeIndex;
+    }
+
+    public boolean isRuntimeVisible() {
+        return isRuntimeVisible;
     }
 
     public String toShortString() {
@@ -113,5 +100,16 @@ public class AnnotationEntry implements Node {
             }
         }
         return accumulatedAnnotations.toArray(new AnnotationEntry[accumulatedAnnotations.size()]);
+    }
+
+    public static AnnotationEntry read(final DataInput input, final ConstantPool constant_pool, final boolean isRuntimeVisible) throws IOException {
+
+        final AnnotationEntry annotationEntry = new AnnotationEntry(input.readUnsignedShort(), constant_pool, isRuntimeVisible);
+        final int num_element_value_pairs = input.readUnsignedShort();
+        annotationEntry.elementValuePairs = new ArrayList<>();
+        for (int i = 0; i < num_element_value_pairs; i++) {
+            annotationEntry.elementValuePairs.add(new ElementValuePair(input.readUnsignedShort(), ElementValue.readElementValue(input, constant_pool), constant_pool));
+        }
+        return annotationEntry;
     }
 }

@@ -8,14 +8,15 @@ import java.io.PrintWriter;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.apache.bcel.Const;
 import org.apache.bcel.Constants;
 import org.apache.bcel.classfile.Attribute;
+import org.apache.bcel.classfile.ClassFormatException;
 import org.apache.bcel.classfile.ClassParser;
 import org.apache.bcel.classfile.ConstantPool;
 import org.apache.bcel.classfile.JavaClass;
 import org.apache.bcel.classfile.Method;
 import org.apache.bcel.classfile.Utility;
+import org.apache.bcel.enums.ClassFileConstants;
 
 public class Class2HTML implements Constants {
 
@@ -123,8 +124,8 @@ public class Class2HTML implements Constants {
         }
     }
 
-    static String referenceClass(final int index) {
-        String str = constant_pool.getConstantString(index, Const.CONSTANT_Class);
+    static String referenceClass(final int index) throws ClassFormatException, IOException {
+        String str = constant_pool.getConstantString(index, ClassFileConstants.CONSTANT_Class);
         str = Utility.compactClassName(str);
         str = Utility.compactClassName(str, class_package + ".", true);
         return "<A HREF=\"" + class_name + "_cp.html#cp" + index + "\" TARGET=ConstantPool>" + str + "</A>";

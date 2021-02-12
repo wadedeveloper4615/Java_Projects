@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.apache.bcel.Const;
+import org.apache.bcel.enums.ClassFileConstants;
 
 public final class ConstantUtf8 extends Constant {
 
@@ -58,6 +58,52 @@ public final class ConstantUtf8 extends Constant {
         }
     }
 
+    private final String value;
+
+    public ConstantUtf8(final ConstantUtf8 constantUtf8) {
+        this(constantUtf8.getBytes());
+    }
+
+    public ConstantUtf8(final DataInput dataInput) throws IOException {
+        super(ClassFileConstants.CONSTANT_Utf8);
+        value = dataInput.readUTF();
+        created++;
+    }
+
+    public ConstantUtf8(final String value) {
+        super(ClassFileConstants.CONSTANT_Utf8);
+        if (value == null) {
+            throw new IllegalArgumentException("Value must not be null.");
+        }
+        this.value = value;
+        created++;
+    }
+
+    @Override
+    public void accept(final Visitor v) {
+        v.visitConstantUtf8(this);
+    }
+
+    @Override
+    public void dump(final DataOutputStream file) throws IOException {
+        file.writeByte(super.getTag().getTag());
+        file.writeUTF(value);
+    }
+
+    public String getBytes() {
+        return value;
+    }
+
+    @java.lang.Deprecated
+    public void setBytes(final String bytes) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + "(\"" + Utility.replace(value, "\n", "\\n") + "\")";
+    }
+
     public static synchronized void clearCache() {
         Cache.CACHE.clear();
     }
@@ -99,51 +145,5 @@ public final class ConstantUtf8 extends Constant {
         System.err.printf("%s Cache hit %,d/%,d, %d skipped.%n", prefix, hits, considered, skipped);
         System.err.printf("%s Total of %,d ConstantUtf8 objects created.%n", prefix, created);
         System.err.printf("%s Configuration: %s=%,d, %s=%,d.%n", prefix, SYS_PROP_CACHE_MAX_ENTRIES, Cache.MAX_ENTRIES, SYS_PROP_CACHE_MAX_ENTRY_SIZE, Cache.MAX_ENTRY_SIZE);
-    }
-
-    private final String value;
-
-    public ConstantUtf8(final ConstantUtf8 constantUtf8) {
-        this(constantUtf8.getBytes());
-    }
-
-    ConstantUtf8(final DataInput dataInput) throws IOException {
-        super(Const.CONSTANT_Utf8);
-        value = dataInput.readUTF();
-        created++;
-    }
-
-    public ConstantUtf8(final String value) {
-        super(Const.CONSTANT_Utf8);
-        if (value == null) {
-            throw new IllegalArgumentException("Value must not be null.");
-        }
-        this.value = value;
-        created++;
-    }
-
-    @Override
-    public void accept(final Visitor v) {
-        v.visitConstantUtf8(this);
-    }
-
-    @Override
-    public void dump(final DataOutputStream file) throws IOException {
-        file.writeByte(super.getTag());
-        file.writeUTF(value);
-    }
-
-    public String getBytes() {
-        return value;
-    }
-
-    @java.lang.Deprecated
-    public void setBytes(final String bytes) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public String toString() {
-        return super.toString() + "(\"" + Utility.replace(value, "\n", "\\n") + "\")";
     }
 }

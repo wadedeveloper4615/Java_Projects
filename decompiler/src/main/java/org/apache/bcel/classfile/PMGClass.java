@@ -6,15 +6,12 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import org.apache.bcel.Const;
+import org.apache.bcel.enums.ClassFileConstants;
 
 public final class PMGClass extends Attribute {
 
     private int pmgClassIndex;
     private int pmgIndex;
-
-    public PMGClass(final PMGClass pgmClass) {
-        this(pgmClass.getNameIndex(), pgmClass.getLength(), pgmClass.getPMGIndex(), pgmClass.getPMGClassIndex(), pgmClass.getConstantPool());
-    }
 
     PMGClass(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
         this(name_index, length, input.readUnsignedShort(), input.readUnsignedShort(), constant_pool);
@@ -26,9 +23,18 @@ public final class PMGClass extends Attribute {
         this.pmgClassIndex = pmgClassIndex;
     }
 
+    public PMGClass(final PMGClass pgmClass) {
+        this(pgmClass.getNameIndex(), pgmClass.getLength(), pgmClass.getPMGIndex(), pgmClass.getPMGClassIndex(), pgmClass.getConstantPool());
+    }
+
     @Override
     public void accept(final Visitor v) {
         println("Visiting non-standard PMGClass object");
+    }
+
+    @Override
+    public Attribute copy(final ConstantPool _constant_pool) {
+        return (Attribute) clone();
     }
 
     @Override
@@ -42,35 +48,30 @@ public final class PMGClass extends Attribute {
         return pmgClassIndex;
     }
 
-    public void setPMGClassIndex(final int pmgClassIndex) {
-        this.pmgClassIndex = pmgClassIndex;
+    public String getPMGClassName() {
+        final ConstantUtf8 c = (ConstantUtf8) super.getConstantPool().getConstant(pmgClassIndex, ClassFileConstants.CONSTANT_Utf8);
+        return c.getBytes();
     }
 
     public int getPMGIndex() {
         return pmgIndex;
     }
 
+    public String getPMGName() {
+        final ConstantUtf8 c = (ConstantUtf8) super.getConstantPool().getConstant(pmgIndex, ClassFileConstants.CONSTANT_Utf8);
+        return c.getBytes();
+    }
+
+    public void setPMGClassIndex(final int pmgClassIndex) {
+        this.pmgClassIndex = pmgClassIndex;
+    }
+
     public void setPMGIndex(final int pmgIndex) {
         this.pmgIndex = pmgIndex;
-    }
-
-    public String getPMGName() {
-        final ConstantUtf8 c = (ConstantUtf8) super.getConstantPool().getConstant(pmgIndex, Const.CONSTANT_Utf8);
-        return c.getBytes();
-    }
-
-    public String getPMGClassName() {
-        final ConstantUtf8 c = (ConstantUtf8) super.getConstantPool().getConstant(pmgClassIndex, Const.CONSTANT_Utf8);
-        return c.getBytes();
     }
 
     @Override
     public String toString() {
         return "PMGClass(" + getPMGName() + ", " + getPMGClassName() + ")";
-    }
-
-    @Override
-    public Attribute copy(final ConstantPool _constant_pool) {
-        return (Attribute) clone();
     }
 }

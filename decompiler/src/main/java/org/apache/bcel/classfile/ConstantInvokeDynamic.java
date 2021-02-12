@@ -4,7 +4,7 @@ package org.apache.bcel.classfile;
 import java.io.DataInput;
 import java.io.IOException;
 
-import org.apache.bcel.Const;
+import org.apache.bcel.enums.ClassFileConstants;
 
 public final class ConstantInvokeDynamic extends ConstantCP {
 
@@ -17,7 +17,7 @@ public final class ConstantInvokeDynamic extends ConstantCP {
     }
 
     public ConstantInvokeDynamic(final int bootstrap_method_attr_index, final int name_and_type_index) {
-        super(Const.CONSTANT_InvokeDynamic, bootstrap_method_attr_index, name_and_type_index);
+        super(ClassFileConstants.CONSTANT_InvokeDynamic, bootstrap_method_attr_index, name_and_type_index);
     }
 
     @Override

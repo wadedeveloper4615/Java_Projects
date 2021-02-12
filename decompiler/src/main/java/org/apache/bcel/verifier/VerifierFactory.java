@@ -1,6 +1,7 @@
 
 package org.apache.bcel.verifier;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +26,7 @@ public class VerifierFactory {
         observers.remove(o);
     }
 
-    public static Verifier getVerifier(ClassFileName fullyQualifiedClassName) {
+    public static Verifier getVerifier(ClassFileName fullyQualifiedClassName) throws IOException {
         Verifier v = hashMap.get(fullyQualifiedClassName.getName());
         if (v == null) {
             v = new Verifier(fullyQualifiedClassName);

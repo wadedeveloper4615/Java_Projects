@@ -4,7 +4,7 @@ package org.apache.bcel.classfile;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.Const;
+import org.apache.bcel.enums.ClassFileConstants;
 
 public class EnumElementValue extends ElementValue {
     // For enum types, these two indices point to the type and value
@@ -28,27 +28,27 @@ public class EnumElementValue extends ElementValue {
         dos.writeShort(valueIdx); // u2
     }
 
-    @Override
-    public String stringifyValue() {
-        final ConstantUtf8 cu8 = (ConstantUtf8) super.getConstantPool().getConstant(valueIdx, Const.CONSTANT_Utf8);
-        return cu8.getBytes();
-    }
-
     public String getEnumTypeString() {
-        final ConstantUtf8 cu8 = (ConstantUtf8) super.getConstantPool().getConstant(typeIdx, Const.CONSTANT_Utf8);
+        final ConstantUtf8 cu8 = (ConstantUtf8) super.getConstantPool().getConstant(typeIdx, ClassFileConstants.CONSTANT_Utf8);
         return cu8.getBytes();// Utility.signatureToString(cu8.getBytes());
     }
 
     public String getEnumValueString() {
-        final ConstantUtf8 cu8 = (ConstantUtf8) super.getConstantPool().getConstant(valueIdx, Const.CONSTANT_Utf8);
+        final ConstantUtf8 cu8 = (ConstantUtf8) super.getConstantPool().getConstant(valueIdx, ClassFileConstants.CONSTANT_Utf8);
         return cu8.getBytes();
+    }
+
+    public int getTypeIndex() {
+        return typeIdx;
     }
 
     public int getValueIndex() {
         return valueIdx;
     }
 
-    public int getTypeIndex() {
-        return typeIdx;
+    @Override
+    public String stringifyValue() {
+        final ConstantUtf8 cu8 = (ConstantUtf8) super.getConstantPool().getConstant(valueIdx, ClassFileConstants.CONSTANT_Utf8);
+        return cu8.getBytes();
     }
 }

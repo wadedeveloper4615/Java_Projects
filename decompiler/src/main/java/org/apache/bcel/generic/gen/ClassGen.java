@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.Objects;
 
 import org.apache.bcel.ClassFileName;
-import org.apache.bcel.Const;
 import org.apache.bcel.classfile.AccessFlags;
 import org.apache.bcel.classfile.AnnotationEntry;
 import org.apache.bcel.classfile.Annotations;
 import org.apache.bcel.classfile.Attribute;
+import org.apache.bcel.classfile.ClassFormatException;
 import org.apache.bcel.classfile.ConstantPool;
 import org.apache.bcel.classfile.Field;
 import org.apache.bcel.classfile.JavaClass;
@@ -19,6 +19,7 @@ import org.apache.bcel.classfile.Method;
 import org.apache.bcel.classfile.RuntimeInvisibleAnnotations;
 import org.apache.bcel.classfile.RuntimeVisibleAnnotations;
 import org.apache.bcel.classfile.SourceFile;
+import org.apache.bcel.enums.ClassFileConstants;
 import org.apache.bcel.enums.Version;
 import org.apache.bcel.generic.INVOKESPECIAL;
 import org.apache.bcel.generic.Type;
@@ -315,9 +316,9 @@ public class ClassGen extends AccessFlags implements Cloneable {
         this.className = className;
     }
 
-    public void setClassName(int class_name_index) {
+    public void setClassName(int class_name_index) throws ClassFormatException, IOException {
         className.setNameIndex(class_name_index);
-        className.setName(cp.getConstantPool().getConstantString(class_name_index, Const.CONSTANT_Class).replace('/', '.'));
+        className.setName(cp.getConstantPool().getConstantString(class_name_index, ClassFileConstants.CONSTANT_Class).replace('/', '.'));
     }
 
     public void setClassName(String name) {
@@ -340,9 +341,9 @@ public class ClassGen extends AccessFlags implements Cloneable {
         }
     }
 
-    public void setSuperclassName(int superclass_name_index) {
+    public void setSuperclassName(int superclass_name_index) throws ClassFormatException, IOException {
         superClassName.setNameIndex(superclass_name_index);
-        superClassName.setName(cp.getConstantPool().getConstantString(superclass_name_index, Const.CONSTANT_Class).replace('/', '.'));
+        superClassName.setName(cp.getConstantPool().getConstantString(superclass_name_index, ClassFileConstants.CONSTANT_Class).replace('/', '.'));
     }
 
     public void setSuperclassName(String name) {

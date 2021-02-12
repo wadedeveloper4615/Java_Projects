@@ -3,6 +3,7 @@ package org.apache.bcel.verifier;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.io.IOException;
 
 import javax.swing.UIManager;
 
@@ -12,7 +13,7 @@ public class GraphicalVerifier {
 
     private final boolean packFrame = false;
 
-    public GraphicalVerifier() {
+    public GraphicalVerifier() throws IOException {
         final VerifierAppFrame frame = new VerifierAppFrame();
         // Frames �berpr�fen, die voreingestellte Gr��e haben
         // Frames packen, die nutzbare bevorzugte Gr��eninformationen enthalten,
@@ -38,12 +39,8 @@ public class GraphicalVerifier {
         frame.getClassNamesJList().setSelectedIndex(0); // default, will verify java.lang.Object
     }
 
-    public static void main(final String[] args) {
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (final Exception e) {
-            e.printStackTrace();
-        }
+    public static void main(final String[] args) throws Exception {
+        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         new GraphicalVerifier();
     }
 }

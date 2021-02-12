@@ -46,6 +46,7 @@ import org.apache.bcel.classfile.SourceFile;
 import org.apache.bcel.classfile.Synthetic;
 import org.apache.bcel.classfile.Unknown;
 import org.apache.bcel.enums.ClassAccessFlags;
+import org.apache.bcel.enums.ClassFileConstants;
 import org.apache.bcel.enums.Version;
 import org.apache.bcel.generic.ObjectType;
 import org.apache.bcel.generic.Type;
@@ -280,7 +281,7 @@ public final class Pass2Verifier extends PassVerifier implements Constants {
         /////////////////////////////
         @Override
         public void visitConstantClass(final ConstantClass obj) {
-            if (obj.getTag() != Const.CONSTANT_Class) {
+            if (obj.getTag() != ClassFileConstants.CONSTANT_Class) {
                 throw new ClassConstraintException("Wrong constant tag in '" + tostring(obj) + "'.");
             }
             checkIndex(obj, obj.getNameIndex(), CONST_Utf8);
@@ -289,7 +290,7 @@ public final class Pass2Verifier extends PassVerifier implements Constants {
 
         @Override
         public void visitConstantDouble(final ConstantDouble obj) {
-            if (obj.getTag() != Const.CONSTANT_Double) {
+            if (obj.getTag() != ClassFileConstants.CONSTANT_Double) {
                 throw new ClassConstraintException("Wrong constant tag in '" + tostring(obj) + "'.");
             }
             // no indices to check
@@ -297,7 +298,7 @@ public final class Pass2Verifier extends PassVerifier implements Constants {
 
         @Override
         public void visitConstantFieldref(final ConstantFieldref obj) {
-            if (obj.getTag() != Const.CONSTANT_Fieldref) {
+            if (obj.getTag() != ClassFileConstants.CONSTANT_Fieldref) {
                 throw new ClassConstraintException("Wrong constant tag in '" + tostring(obj) + "'.");
             }
             checkIndex(obj, obj.getClassIndex(), CONST_Class);
@@ -306,7 +307,7 @@ public final class Pass2Verifier extends PassVerifier implements Constants {
 
         @Override
         public void visitConstantFloat(final ConstantFloat obj) {
-            if (obj.getTag() != Const.CONSTANT_Float) {
+            if (obj.getTag() != ClassFileConstants.CONSTANT_Float) {
                 throw new ClassConstraintException("Wrong constant tag in '" + tostring(obj) + "'.");
             }
             // no indices to check
@@ -314,7 +315,7 @@ public final class Pass2Verifier extends PassVerifier implements Constants {
 
         @Override
         public void visitConstantInteger(final ConstantInteger obj) {
-            if (obj.getTag() != Const.CONSTANT_Integer) {
+            if (obj.getTag() != ClassFileConstants.CONSTANT_Integer) {
                 throw new ClassConstraintException("Wrong constant tag in '" + tostring(obj) + "'.");
             }
             // no indices to check
@@ -322,7 +323,7 @@ public final class Pass2Verifier extends PassVerifier implements Constants {
 
         @Override
         public void visitConstantInterfaceMethodref(final ConstantInterfaceMethodref obj) {
-            if (obj.getTag() != Const.CONSTANT_InterfaceMethodref) {
+            if (obj.getTag() != ClassFileConstants.CONSTANT_InterfaceMethodref) {
                 throw new ClassConstraintException("Wrong constant tag in '" + tostring(obj) + "'.");
             }
             checkIndex(obj, obj.getClassIndex(), CONST_Class);
@@ -331,7 +332,7 @@ public final class Pass2Verifier extends PassVerifier implements Constants {
 
         @Override
         public void visitConstantLong(final ConstantLong obj) {
-            if (obj.getTag() != Const.CONSTANT_Long) {
+            if (obj.getTag() != ClassFileConstants.CONSTANT_Long) {
                 throw new ClassConstraintException("Wrong constant tag in '" + tostring(obj) + "'.");
             }
             // no indices to check
@@ -339,7 +340,7 @@ public final class Pass2Verifier extends PassVerifier implements Constants {
 
         @Override
         public void visitConstantMethodref(final ConstantMethodref obj) {
-            if (obj.getTag() != Const.CONSTANT_Methodref) {
+            if (obj.getTag() != ClassFileConstants.CONSTANT_Methodref) {
                 throw new ClassConstraintException("Wrong constant tag in '" + tostring(obj) + "'.");
             }
             checkIndex(obj, obj.getClassIndex(), CONST_Class);
@@ -348,7 +349,7 @@ public final class Pass2Verifier extends PassVerifier implements Constants {
 
         @Override
         public void visitConstantNameAndType(final ConstantNameAndType obj) {
-            if (obj.getTag() != Const.CONSTANT_NameAndType) {
+            if (obj.getTag() != ClassFileConstants.CONSTANT_NameAndType) {
                 throw new ClassConstraintException("Wrong constant tag in '" + tostring(obj) + "'.");
             }
             checkIndex(obj, obj.getNameIndex(), CONST_Utf8);
@@ -366,7 +367,7 @@ public final class Pass2Verifier extends PassVerifier implements Constants {
 
         @Override
         public void visitConstantString(final ConstantString obj) {
-            if (obj.getTag() != Const.CONSTANT_String) {
+            if (obj.getTag() != ClassFileConstants.CONSTANT_String) {
                 throw new ClassConstraintException("Wrong constant tag in '" + tostring(obj) + "'.");
             }
             checkIndex(obj, obj.getStringIndex(), CONST_Utf8);
@@ -374,7 +375,7 @@ public final class Pass2Verifier extends PassVerifier implements Constants {
 
         @Override
         public void visitConstantUtf8(final ConstantUtf8 obj) {
-            if (obj.getTag() != Const.CONSTANT_Utf8) {
+            if (obj.getTag() != ClassFileConstants.CONSTANT_Utf8) {
                 throw new ClassConstraintException("Wrong constant tag in '" + tostring(obj) + "'.");
             }
             // no indices to check
@@ -920,7 +921,7 @@ public final class Pass2Verifier extends PassVerifier implements Constants {
 
         @Override
         public void visitConstantFieldref(final ConstantFieldref obj) {
-            if (obj.getTag() != Const.CONSTANT_Fieldref) {
+            if (obj.getTag() != ClassFileConstants.CONSTANT_Fieldref) {
                 throw new ClassConstraintException("ConstantFieldref '" + tostring(obj) + "' has wrong tag!");
             }
             final int name_and_type_index = obj.getNameAndTypeIndex();
@@ -948,7 +949,7 @@ public final class Pass2Verifier extends PassVerifier implements Constants {
 
         @Override
         public void visitConstantInterfaceMethodref(final ConstantInterfaceMethodref obj) {
-            if (obj.getTag() != Const.CONSTANT_InterfaceMethodref) {
+            if (obj.getTag() != ClassFileConstants.CONSTANT_InterfaceMethodref) {
                 throw new ClassConstraintException("ConstantInterfaceMethodref '" + tostring(obj) + "' has wrong tag!");
             }
             final int name_and_type_index = obj.getNameAndTypeIndex();
@@ -980,7 +981,7 @@ public final class Pass2Verifier extends PassVerifier implements Constants {
 
         @Override
         public void visitConstantMethodref(final ConstantMethodref obj) {
-            if (obj.getTag() != Const.CONSTANT_Methodref) {
+            if (obj.getTag() != ClassFileConstants.CONSTANT_Methodref) {
                 throw new ClassConstraintException("ConstantMethodref '" + tostring(obj) + "' has wrong tag!");
             }
             final int name_and_type_index = obj.getNameAndTypeIndex();
@@ -1176,7 +1177,7 @@ public final class Pass2Verifier extends PassVerifier implements Constants {
 
     }
 
-    public LocalVariablesInfo getLocalVariablesInfo(final int methodNr) {
+    public LocalVariablesInfo getLocalVariablesInfo(final int methodNr) throws Throwable {
         if (this.verify() != VerificationResult.VR_OK) {
             return null; // It's cached, don't worry.
         }

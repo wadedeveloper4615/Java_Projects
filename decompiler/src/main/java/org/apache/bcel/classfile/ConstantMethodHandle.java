@@ -5,7 +5,7 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.Const;
+import org.apache.bcel.enums.ClassFileConstants;
 
 public final class ConstantMethodHandle extends Constant {
 
@@ -21,7 +21,7 @@ public final class ConstantMethodHandle extends Constant {
     }
 
     public ConstantMethodHandle(final int reference_kind, final int reference_index) {
-        super(Const.CONSTANT_MethodHandle);
+        super(ClassFileConstants.CONSTANT_MethodHandle);
         this.referenceKind = reference_kind;
         this.referenceIndex = reference_index;
     }
@@ -33,25 +33,25 @@ public final class ConstantMethodHandle extends Constant {
 
     @Override
     public void dump(final DataOutputStream file) throws IOException {
-        file.writeByte(super.getTag());
+        file.writeByte(super.getTag().getTag());
         file.writeByte(referenceKind);
         file.writeShort(referenceIndex);
-    }
-
-    public int getReferenceKind() {
-        return referenceKind;
-    }
-
-    public void setReferenceKind(final int reference_kind) {
-        this.referenceKind = reference_kind;
     }
 
     public int getReferenceIndex() {
         return referenceIndex;
     }
 
+    public int getReferenceKind() {
+        return referenceKind;
+    }
+
     public void setReferenceIndex(final int reference_index) {
         this.referenceIndex = reference_index;
+    }
+
+    public void setReferenceKind(final int reference_kind) {
+        this.referenceKind = reference_kind;
     }
 
     @Override

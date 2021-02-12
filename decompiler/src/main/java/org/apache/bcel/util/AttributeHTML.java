@@ -21,6 +21,7 @@ import org.apache.bcel.classfile.LocalVariable;
 import org.apache.bcel.classfile.LocalVariableTable;
 import org.apache.bcel.classfile.SourceFile;
 import org.apache.bcel.classfile.Utility;
+import org.apache.bcel.enums.ClassFileConstants;
 
 final class AttributeHTML {
 
@@ -38,13 +39,13 @@ final class AttributeHTML {
         file.println("<HTML><BODY BGCOLOR=\"#C0C0C0\"><TABLE BORDER=0>");
     }
 
-    private String codeLink(final int link, final int method_number) {
-        return "<A HREF=\"" + class_name + "_code.html#code" + method_number + "@" + link + "\" TARGET=Code>" + link + "</A>";
-    }
-
     void close() {
         file.println("</TABLE></BODY></HTML>");
         file.close();
+    }
+
+    private String codeLink(final int link, final int method_number) {
+        return "<A HREF=\"" + class_name + "_code.html#code" + method_number + "@" + link + "\" TARGET=Code>" + link + "</A>";
     }
 
     void writeAttribute(final Attribute attribute, final String anchor) {
@@ -124,7 +125,7 @@ final class AttributeHTML {
                 file.print("<UL>");
                 for (final LocalVariable var : vars) {
                     index = var.getSignatureIndex();
-                    String signature = ((ConstantUtf8) constant_pool.getConstant(index, Const.CONSTANT_Utf8)).getBytes();
+                    String signature = ((ConstantUtf8) constant_pool.getConstant(index, ClassFileConstants.CONSTANT_Utf8)).getBytes();
                     signature = Utility.signatureToString(signature, false);
                     final int start = var.getStartPC();
                     final int end = start + var.getLength();
@@ -141,7 +142,7 @@ final class AttributeHTML {
                     String access;
                     index = classe.getInnerNameIndex();
                     if (index > 0) {
-                        name = ((ConstantUtf8) constant_pool.getConstant(index, Const.CONSTANT_Utf8)).getBytes();
+                        name = ((ConstantUtf8) constant_pool.getConstant(index, ClassFileConstants.CONSTANT_Utf8)).getBytes();
                     } else {
                         name = "&lt;anonymous&gt;";
                     }

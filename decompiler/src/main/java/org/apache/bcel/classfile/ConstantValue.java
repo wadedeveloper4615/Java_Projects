@@ -6,6 +6,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import org.apache.bcel.Const;
+import org.apache.bcel.enums.ClassFileConstants;
 
 public final class ConstantValue extends Attribute {
 
@@ -30,6 +31,13 @@ public final class ConstantValue extends Attribute {
     }
 
     @Override
+    public Attribute copy(final ConstantPool _constant_pool) {
+        final ConstantValue c = (ConstantValue) clone();
+        c.setConstantPool(_constant_pool);
+        return c;
+    }
+
+    @Override
     public void dump(final DataOutputStream file) throws IOException {
         super.dump(file);
         file.writeShort(constantValueIndex);
@@ -46,37 +54,19 @@ public final class ConstantValue extends Attribute {
     @Override
     public String toString() {
         Constant c = super.getConstantPool().getConstant(constantValueIndex);
-        String buf;
         int i;
-        // Print constant to string depending on its type
-        switch (c.getTag()) {
-            case Const.CONSTANT_Long:
-                buf = String.valueOf(((ConstantLong) c).getBytes());
-                break;
-            case Const.CONSTANT_Float:
-                buf = String.valueOf(((ConstantFloat) c).getBytes());
-                break;
-            case Const.CONSTANT_Double:
-                buf = String.valueOf(((ConstantDouble) c).getBytes());
-                break;
-            case Const.CONSTANT_Integer:
-                buf = String.valueOf(((ConstantInteger) c).getBytes());
-                break;
-            case Const.CONSTANT_String:
+        String buf = switch (c.getTag()) {
+            case CONSTANT_Long -> String.valueOf(((ConstantLong) c).getBytes());
+            case CONSTANT_Float -> String.valueOf(((ConstantFloat) c).getBytes());
+            case CONSTANT_Double -> String.valueOf(((ConstantDouble) c).getBytes());
+            case CONSTANT_Integer -> String.valueOf(((ConstantInteger) c).getBytes());
+            case CONSTANT_String -> {
                 i = ((ConstantString) c).getStringIndex();
-                c = super.getConstantPool().getConstant(i, Const.CONSTANT_Utf8);
-                buf = "\"" + Utility.convertString(((ConstantUtf8) c).getBytes()) + "\"";
-                break;
-            default:
-                throw new IllegalStateException("Type of ConstValue invalid: " + c);
-        }
+                c = super.getConstantPool().getConstant(i, ClassFileConstants.CONSTANT_Utf8);
+                yield "\"" + Utility.convertString(((ConstantUtf8) c).getBytes()) + "\"";
+            }
+            default -> throw new IllegalStateException("Type of ConstValue invalid: " + c);
+        };
         return buf;
-    }
-
-    @Override
-    public Attribute copy(final ConstantPool _constant_pool) {
-        final ConstantValue c = (ConstantValue) clone();
-        c.setConstantPool(_constant_pool);
-        return c;
     }
 }

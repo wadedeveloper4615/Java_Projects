@@ -49,7 +49,7 @@ public class TransitiveHull implements VerifierFactoryObserver {
         indent -= 1;
     }
 
-    public static void main(final String[] args) {
+    public static void main(final String[] args) throws Exception {
         if (args.length != 1) {
             System.out.println("Need exactly one argument: The root class to verify.");
             System.exit(1);

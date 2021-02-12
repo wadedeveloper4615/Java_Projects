@@ -3,6 +3,7 @@ package org.apache.bcel.generic;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.ClassGenException;
 import org.apache.bcel.generic.base.IndexedInstruction;
 import org.apache.bcel.generic.base.Instruction;
@@ -14,14 +15,14 @@ import org.apache.bcel.util.ByteSequence;
 
 public class RET extends Instruction implements IndexedInstruction, TypedInstruction {
     private boolean wide;
-    private int index; // index to local variable containg the return address
+    private int index; 
 
     public RET() {
     }
 
     public RET(final int index) {
-        super(org.apache.bcel.Const.RET, (short) 2);
-        setIndex(index); // May set wide as side effect
+        super(InstructionOpCodes.RET, (short) 2);
+        setIndex(index); 
     }
 
     @Override
@@ -32,9 +33,9 @@ public class RET extends Instruction implements IndexedInstruction, TypedInstruc
     @Override
     public void dump(final DataOutputStream out) throws IOException {
         if (wide) {
-            out.writeByte(org.apache.bcel.Const.WIDE);
+            out.writeByte(InstructionOpCodes.WIDE.getOpcode());
         }
-        out.writeByte(super.getOpcode());
+        out.writeByte(super.getOpcode().getOpcode());
         if (wide) {
             out.writeShort(index);
         } else {
@@ -76,7 +77,7 @@ public class RET extends Instruction implements IndexedInstruction, TypedInstruc
     private void setWide() {
         wide = index > org.apache.bcel.Const.MAX_BYTE;
         if (wide) {
-            super.setLength(4); // Including the wide byte
+            super.setLength(4); 
         } else {
             super.setLength(2);
         }

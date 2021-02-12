@@ -8,34 +8,9 @@ import org.apache.bcel.classfile.LocalVariable;
 import org.apache.bcel.classfile.Visitor;
 import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.enums.ClassFileAttributes;
-// The new table is used when generic types are about...
-//LocalVariableTable_attribute {
-//       u2 attribute_name_index;
-//       u4 attribute_length;
-//       u2 local_variable_table_length;
-//       {  u2 start_pc;
-//          u2 length;
-//          u2 name_index;
-//          u2 descriptor_index;
-//          u2 index;
-//       } local_variable_table[local_variable_table_length];
-//     }
-//LocalVariableTypeTable_attribute {
-//    u2 attribute_name_index;
-//    u4 attribute_length;
-//    u2 local_variable_type_table_length;
-//    {
-//      u2 start_pc;
-//      u2 length;
-//      u2 name_index;
-//      u2 signature_index;
-//      u2 index;
-//    } localVariableTypeTable[local_variable_type_table_length];
-//  }
-// J5TODO: Needs some testing !
 
 public class LocalVariableTypeTable extends Attribute {
-    private LocalVariable[] localVariableTypeTable; // variables
+    private LocalVariable[] localVariableTypeTable;
 
     public LocalVariableTypeTable(final int nameIdx, final int len, final DataInput input, final ConstantPool cpool) throws IOException {
         this(nameIdx, len, (LocalVariable[]) null, cpool);

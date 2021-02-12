@@ -3,6 +3,7 @@ package org.apache.bcel.generic;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.ConstantPushInstruction;
 import org.apache.bcel.generic.base.Instruction;
 import org.apache.bcel.generic.base.Visitor;
@@ -16,7 +17,7 @@ public class BIPUSH extends Instruction implements ConstantPushInstruction {
     }
 
     public BIPUSH(final byte b) {
-        super(org.apache.bcel.Const.BIPUSH, (short) 2);
+        super(InstructionOpCodes.BIPUSH, (short) 2);
         this.b = b;
     }
 

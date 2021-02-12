@@ -30,7 +30,7 @@ abstract class AbstractClassPathRepository implements Repository {
         if (className == null || className.isEmpty()) {
             throw new IllegalArgumentException("Invalid class name " + className);
         }
-        className = className.replace('/', '.'); // Just in case, canonical form
+        className = className.replace('/', '.');
         final JavaClass clazz = findClass(className);
         if (clazz != null) {
             return clazz;
@@ -76,7 +76,6 @@ abstract class AbstractClassPathRepository implements Repository {
                 try {
                     inputStream.close();
                 } catch (final IOException e) {
-                    // ignored
                 }
             }
         }

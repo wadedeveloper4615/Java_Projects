@@ -24,8 +24,6 @@ public class BCELifier extends org.apache.bcel.classfile.EmptyVisitor {
         UNKNOWN, CLASS, METHOD,
     }
 
-    // The base package name for imports; assumes Const is at the top level
-    // N.B we use the class so renames will be detected by the compiler/IDE
     private static final String BASE_PACKAGE = Const.class.getPackage().getName();
     private static final String CONSTANT_PREFIX = Const.class.getSimpleName() + ".";
     private final JavaClass _clazz;
@@ -140,7 +138,6 @@ public class BCELifier extends org.apache.bcel.classfile.EmptyVisitor {
         try {
             factory.start();
         } catch (Throwable e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         _out.println("    method.setMaxStack();");
@@ -149,11 +146,10 @@ public class BCELifier extends org.apache.bcel.classfile.EmptyVisitor {
         _out.println("    il.dispose();");
     }
 
-    // Needs to be accessible from unit test code
     static JavaClass getJavaClass(final String name) throws ClassNotFoundException, IOException {
         JavaClass java_class;
         if ((java_class = Repository.lookupClass(name)) == null) {
-            java_class = new ClassParser(name).parse(); // May throw IOException
+            java_class = new ClassParser(name).parse();
         }
         return java_class;
     }
@@ -200,12 +196,10 @@ public class BCELifier extends org.apache.bcel.classfile.EmptyVisitor {
                     buf.append(CONSTANT_PREFIX + "ACC_BRIDGE | ");
                 } else if ((pow == ClassAccessFlags.ACC_TRANSIENT.getFlag()) && (location == FLAGS.METHOD)) {
                     buf.append(CONSTANT_PREFIX + "ACC_VARARGS | ");
+                } else if (i < Const.ACCESS_NAMES_LENGTH) {
+                    buf.append(CONSTANT_PREFIX + "ACC_").append(Const.getAccessName(i).toUpperCase(Locale.ENGLISH)).append(" | ");
                 } else {
-                    if (i < Const.ACCESS_NAMES_LENGTH) {
-                        buf.append(CONSTANT_PREFIX + "ACC_").append(Const.getAccessName(i).toUpperCase(Locale.ENGLISH)).append(" | ");
-                    } else {
-                        buf.append(String.format(CONSTANT_PREFIX + "ACC_BIT %x | ", pow));
-                    }
+                    buf.append(String.format(CONSTANT_PREFIX + "ACC_BIT %x | ", pow));
                 }
             }
             pow <<= 1;

@@ -1,6 +1,7 @@
 package org.apache.bcel.generic;
 
 import org.apache.bcel.ExceptionConst;
+import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.AllocationInstruction;
 import org.apache.bcel.generic.base.CPInstruction;
 import org.apache.bcel.generic.base.ExceptionThrower;
@@ -13,7 +14,7 @@ public class NEW extends CPInstruction implements LoadClass, AllocationInstructi
     }
 
     public NEW(final int index) {
-        super(org.apache.bcel.Const.NEW, index);
+        super(InstructionOpCodes.NEW, index);
     }
 
     @Override

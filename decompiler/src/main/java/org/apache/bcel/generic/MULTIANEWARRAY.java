@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import org.apache.bcel.ExceptionConst;
 import org.apache.bcel.classfile.constant.ConstantPool;
+import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.AllocationInstruction;
 import org.apache.bcel.generic.base.ArrayType;
 import org.apache.bcel.generic.base.CPInstruction;
@@ -22,7 +23,7 @@ public class MULTIANEWARRAY extends CPInstruction implements LoadClass, Allocati
     }
 
     public MULTIANEWARRAY(final int index, final short dimensions) {
-        super(org.apache.bcel.Const.MULTIANEWARRAY, index);
+        super(InstructionOpCodes.MULTIANEWARRAY, index);
         if (dimensions < 1) {
             throw new ClassGenException("Invalid dimensions value: " + dimensions);
         }
@@ -47,7 +48,7 @@ public class MULTIANEWARRAY extends CPInstruction implements LoadClass, Allocati
 
     @Override
     public void dump(final DataOutputStream out) throws IOException {
-        out.writeByte(super.getOpcode());
+        out.writeByte(super.getOpcode().getOpcode());
         out.writeShort(super.getIndex());
         out.writeByte(dimensions);
     }

@@ -10,7 +10,7 @@ import org.apache.bcel.enums.ClassFileConstants;
 
 public final class StackMapType implements Cloneable {
     private byte type;
-    private int index = -1; // Index to CONSTANT_Class or offset
+    private int index = -1;
     private ConstantPool constantPool;
 
     public StackMapType(final byte type, final int index, final ConstantPool constant_pool) {
@@ -34,7 +34,6 @@ public final class StackMapType implements Cloneable {
         try {
             return (StackMapType) clone();
         } catch (final CloneNotSupportedException e) {
-            // TODO should this throw?
         }
         return null;
     }

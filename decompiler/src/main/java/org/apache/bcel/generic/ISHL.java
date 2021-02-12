@@ -1,11 +1,12 @@
 package org.apache.bcel.generic;
 
+import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.ArithmeticInstruction;
 import org.apache.bcel.generic.base.Visitor;
 
 public class ISHL extends ArithmeticInstruction {
     public ISHL() {
-        super(org.apache.bcel.Const.ISHL);
+        super(InstructionOpCodes.ISHL);
     }
 
     @Override

@@ -70,7 +70,7 @@ public class DescendingVisitor implements Visitor {
         if ((size < 2) || (level < 0)) {
             return null;
         }
-        return stack.elementAt(size - (level + 2)); // size - 1 == current
+        return stack.elementAt(size - (level + 2));
     }
 
     public void visit() {
@@ -106,11 +106,6 @@ public class DescendingVisitor implements Visitor {
     public void visitBootstrapMethods(final BootstrapMethods bm) {
         stack.push(bm);
         bm.accept(visitor);
-        // BootstrapMethod[] bms = bm.getBootstrapMethods();
-        // for (int i = 0; i < bms.length; i++)
-        // {
-        // bms[i].accept(this);
-        // }
         stack.pop();
     }
 

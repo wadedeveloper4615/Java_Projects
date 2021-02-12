@@ -1,11 +1,12 @@
 package org.apache.bcel.generic;
 
+import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.ArithmeticInstruction;
 import org.apache.bcel.generic.base.Visitor;
 
 public class LOR extends ArithmeticInstruction {
     public LOR() {
-        super(org.apache.bcel.Const.LOR);
+        super(InstructionOpCodes.LOR);
     }
 
     @Override

@@ -2,6 +2,7 @@ package org.apache.bcel.generic.base;
 
 import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.enums.ClassFileConstants;
+import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.Type;
 import org.apache.bcel.generic.gen.ConstantPoolGen;
 
@@ -9,7 +10,7 @@ public abstract class FieldInstruction extends FieldOrMethod {
     public FieldInstruction() {
     }
 
-    public FieldInstruction(final short opcode, final int index) {
+    public FieldInstruction(InstructionOpCodes opcode, final int index) {
         super(opcode, index);
     }
 
@@ -32,6 +33,6 @@ public abstract class FieldInstruction extends FieldOrMethod {
 
     @Override
     public String toString(final ConstantPool cp) {
-        return org.apache.bcel.Const.getOpcodeName(super.getOpcode()) + " " + cp.constantToString(super.getIndex(), ClassFileConstants.CONSTANT_Fieldref);
+        return super.getOpcode().getName() + " " + cp.constantToString(super.getIndex(), ClassFileConstants.CONSTANT_Fieldref);
     }
 }

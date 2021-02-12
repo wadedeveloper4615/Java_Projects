@@ -3,23 +3,23 @@ package org.apache.bcel.generic.base;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.control.InstructionHandle;
-import org.apache.bcel.generic.control.InstructionList;
 import org.apache.bcel.generic.control.InstructionTargeter;
 import org.apache.bcel.util.ByteSequence;
 
 public abstract class BranchInstruction extends Instruction implements InstructionTargeter {
     @Deprecated
-    protected int index; // Branch target relative to this instruction
+    protected int index;
     @Deprecated
-    protected InstructionHandle target; // Target object in instruction list
+    protected InstructionHandle target;
     @Deprecated
-    protected int position; // Byte code offset
+    protected int position;
 
     public BranchInstruction() {
     }
 
-    protected BranchInstruction(final short opcode, final InstructionHandle target) {
+    protected BranchInstruction(InstructionOpCodes opcode, final InstructionHandle target) {
         super(opcode, (short) 3);
         setTarget(target);
     }
@@ -38,12 +38,12 @@ public abstract class BranchInstruction extends Instruction implements Instructi
 
     @Override
     public void dump(final DataOutputStream out) throws IOException {
-        out.writeByte(super.getOpcode());
+        out.writeByte(super.getOpcode().getOpcode());
         index = getTargetOffset();
         if (!isValidShort(index)) {
             throw new ClassGenException("Branch target offset too large for short: " + index);
         }
-        out.writeShort(index); // May be negative, i.e., point backwards
+        out.writeShort(index);
     }
 
     public final int getIndex() {
@@ -103,19 +103,12 @@ public abstract class BranchInstruction extends Instruction implements Instructi
                 } else if (target.getInstruction() == null) {
                     t = "<null instruction!!!?>";
                 } else {
-                    // I'm more interested in the address of the target then
-                    // the instruction located there.
-                    // t = target.getInstruction().toString(false); // Avoid circles
                     t = "" + target.getPosition();
                 }
             }
-        } else {
-            if (target != null) {
-                index = target.getPosition();
-                // index = getTargetOffset(); crashes if positions haven't been set
-                // t = "" + (index + position);
-                t = "" + index;
-            }
+        } else if (target != null) {
+            index = target.getPosition();
+            t = "" + index;
         }
         return s + " -> " + t;
     }

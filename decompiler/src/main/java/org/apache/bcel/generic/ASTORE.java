@@ -1,15 +1,16 @@
 package org.apache.bcel.generic;
 
+import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.StoreInstruction;
 import org.apache.bcel.generic.base.Visitor;
 
 public class ASTORE extends StoreInstruction {
     public ASTORE() {
-        super(org.apache.bcel.Const.ASTORE, org.apache.bcel.Const.ASTORE_0);
+        super(InstructionOpCodes.ASTORE, InstructionOpCodes.ASTORE_0);
     }
 
     public ASTORE(final int n) {
-        super(org.apache.bcel.Const.ASTORE, org.apache.bcel.Const.ASTORE_0, n);
+        super(InstructionOpCodes.ASTORE, InstructionOpCodes.ASTORE_0, n);
     }
 
     @Override

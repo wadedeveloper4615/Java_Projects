@@ -24,7 +24,6 @@ public final class ConstantUtf8 extends Constant {
                 return size() > MAX_ENTRIES;
             }
         };
-        // Set the size to 0 or below to skip caching entirely
         private static final int MAX_ENTRY_SIZE = Integer.getInteger(SYS_PROP_CACHE_MAX_ENTRY_SIZE, 200).intValue();
 
         static boolean isEnabled() {
@@ -32,7 +31,6 @@ public final class ConstantUtf8 extends Constant {
         }
     }
 
-    // TODO these should perhaps be AtomicInt?
     private static volatile int considered = 0;
     private static volatile int created = 0;
     private static volatile int hits = 0;
@@ -100,7 +98,6 @@ public final class ConstantUtf8 extends Constant {
         Cache.CACHE.clear();
     }
 
-    // for accesss by test code
     static synchronized void clearStats() {
         hits = considered = skipped = created = 0;
     }
@@ -111,7 +108,7 @@ public final class ConstantUtf8 extends Constant {
             return new ConstantUtf8(value);
         }
         considered++;
-        synchronized (ConstantUtf8.class) { // might be better with a specific lock object
+        synchronized (ConstantUtf8.class) {
             ConstantUtf8 result = Cache.CACHE.get(value);
             if (result != null) {
                 hits++;
@@ -131,7 +128,6 @@ public final class ConstantUtf8 extends Constant {
         return Cache.isEnabled() ? getCachedInstance(value) : new ConstantUtf8(value);
     }
 
-    // for accesss by test code
     static void printStats() {
         final String prefix = "[Apache Commons BCEL]";
         System.err.printf("%s Cache hit %,d/%,d, %d skipped.%n", prefix, hits, considered, skipped);

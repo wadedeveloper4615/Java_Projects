@@ -2,11 +2,11 @@ package org.apache.bcel.generic.base;
 
 import java.util.StringTokenizer;
 
-import org.apache.bcel.Const;
 import org.apache.bcel.classfile.constant.Constant;
 import org.apache.bcel.classfile.constant.ConstantCP;
 import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.enums.ClassFileConstants;
+import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.StackProducer;
 import org.apache.bcel.generic.Type;
 import org.apache.bcel.generic.gen.ConstantPoolGen;
@@ -15,17 +15,17 @@ public abstract class InvokeInstruction extends FieldOrMethod implements Excepti
     public InvokeInstruction() {
     }
 
-    public InvokeInstruction(final short opcode, final int index) {
+    public InvokeInstruction(InstructionOpCodes opcode, final int index) {
         super(opcode, index);
     }
 
     @Override
     public int consumeStack(final ConstantPoolGen cpg) {
         int sum;
-        if ((super.getOpcode() == Const.INVOKESTATIC) || (super.getOpcode() == Const.INVOKEDYNAMIC)) {
+        if ((super.getOpcode() == InstructionOpCodes.INVOKESTATIC) || (super.getOpcode() == InstructionOpCodes.INVOKEDYNAMIC)) {
             sum = 0;
         } else {
-            sum = 1; // this reference
+            sum = 1;
         }
         final String signature = getSignature(cpg);
         sum += Type.getArgumentTypesSize(signature);
@@ -67,7 +67,7 @@ public abstract class InvokeInstruction extends FieldOrMethod implements Excepti
     public String toString(final ConstantPool cp) {
         final Constant c = cp.getConstant(super.getIndex());
         final StringTokenizer tok = new StringTokenizer(cp.constantToString(c));
-        final String opcodeName = Const.getOpcodeName(super.getOpcode());
+        final String opcodeName = super.getOpcode().getName();
         final StringBuilder sb = new StringBuilder(opcodeName);
         if (tok.hasMoreTokens()) {
             sb.append(" ");

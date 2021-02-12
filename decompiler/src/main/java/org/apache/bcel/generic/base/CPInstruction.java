@@ -7,25 +7,26 @@ import org.apache.bcel.classfile.constant.Constant;
 import org.apache.bcel.classfile.constant.ConstantClass;
 import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.enums.ClassFileConstants;
+import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.Type;
 import org.apache.bcel.generic.gen.ConstantPoolGen;
 import org.apache.bcel.util.ByteSequence;
 
 public abstract class CPInstruction extends Instruction implements TypedInstruction, IndexedInstruction {
     @Deprecated
-    protected int index; // index to constant pool
+    protected int index;
 
     protected CPInstruction() {
     }
 
-    protected CPInstruction(final short opcode, final int index) {
+    protected CPInstruction(InstructionOpCodes opcode, final int index) {
         super(opcode, (short) 3);
         setIndex(index);
     }
 
     @Override
     public void dump(final DataOutputStream out) throws IOException {
-        out.writeByte(super.getOpcode());
+        out.writeByte(super.getOpcode().getOpcode());
         out.writeShort(index);
     }
 
@@ -51,7 +52,7 @@ public abstract class CPInstruction extends Instruction implements TypedInstruct
     }
 
     @Override
-    public void setIndex(final int index) { // TODO could be package-protected?
+    public void setIndex(final int index) {
         if (index < 0) {
             throw new ClassGenException("Negative index value: " + index);
         }
@@ -70,6 +71,6 @@ public abstract class CPInstruction extends Instruction implements TypedInstruct
         if (c instanceof ConstantClass) {
             str = str.replace('.', '/');
         }
-        return org.apache.bcel.Const.getOpcodeName(super.getOpcode()) + " " + str;
+        return super.getOpcode().getName() + " " + str;
     }
 }

@@ -69,8 +69,6 @@ public class ClassGen extends AccessFlags implements Cloneable {
         if (fileName != null) {
             addAttribute(new SourceFile(cp.addUtf8("SourceFile"), 2, cp.addUtf8(fileName), cp.getConstantPool()));
         }
-        // classNameIndex = cp.addClass(className);
-        // superclass_name_index = cp.addClass(superClassName.getName());
         if (interfaces != null) {
             for (ClassFileName interface1 : interfaces) {
                 addInterface(interface1);
@@ -81,14 +79,11 @@ public class ClassGen extends AccessFlags implements Cloneable {
     public ClassGen(JavaClass clazz) {
         super(clazz.getAccessFlags());
         className = clazz.getClassName();
-        // superclass_name_index = clazz.getSuperClassName().getNameIndex()
-        // className = clazz.getClassName().getName();
         superClassName = clazz.getSuperClassName();
         fileName = clazz.getSourceFileName();
         cp = new ConstantPoolGen(clazz.getConstantPool());
         version = clazz.getVersion();
         Attribute[] attributes = clazz.getAttributes();
-        // J5TODO: Could make unpacking lazy, done on first reference
         AnnotationEntryGen[] annotations = unpackAnnotations(attributes);
         Method[] methods = clazz.getMethods();
         Field[] fields = clazz.getFields();
@@ -122,7 +117,7 @@ public class ClassGen extends AccessFlags implements Cloneable {
 
     public void addEmptyConstructor(int access_flags) {
         InstructionList il = new InstructionList();
-        il.append(InstructionConst.THIS); // Push `this'
+        il.append(InstructionConst.THIS);
         il.append(new INVOKESPECIAL(cp.addMethodref(superClassName.getName(), "<init>", "()V")));
         il.append(InstructionConst.RETURN);
         MethodGen mg = new MethodGen(access_flags, Type.VOID, Type.NO_ARGS, null, "<init>", className, il, cp);
@@ -154,7 +149,7 @@ public class ClassGen extends AccessFlags implements Cloneable {
         try {
             return super.clone();
         } catch (CloneNotSupportedException e) {
-            throw new Error("Clone Not Supported"); // never happens
+            throw new Error("Clone Not Supported");
         }
     }
 
@@ -185,7 +180,6 @@ public class ClassGen extends AccessFlags implements Cloneable {
         return bcelComparator.equals(this, obj);
     }
 
-    // J5TODO: Should we make calling unpackAnnotations() lazy and put it in here?
     public AnnotationEntryGen[] getAnnotationEntries() {
         return annotationList.toArray(new AnnotationEntryGen[annotationList.size()]);
     }

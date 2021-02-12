@@ -11,7 +11,16 @@ public final class BasicType extends Type {
         }
     }
 
-    // @since 6.0 no longer final
+    @Override
+    public boolean equals(final Object _type) {
+        return (_type instanceof BasicType) ? ((BasicType) _type).getType() == this.getType() : false;
+    }
+
+    @Override
+    public int hashCode() {
+        return super.getType();
+    }
+
     public static BasicType getType(final byte type) {
         switch (type) {
             case Const.T_VOID:
@@ -35,15 +44,5 @@ public final class BasicType extends Type {
             default:
                 throw new ClassGenException("Invalid type: " + type);
         }
-    }
-
-    @Override
-    public int hashCode() {
-        return super.getType();
-    }
-
-    @Override
-    public boolean equals(final Object _type) {
-        return (_type instanceof BasicType) ? ((BasicType) _type).getType() == this.getType() : false;
     }
 }

@@ -6,7 +6,7 @@ import org.apache.bcel.classfile.JavaClass;
 
 public class ClassQueue {
     @Deprecated
-    protected LinkedList<JavaClass> vec = new LinkedList<>(); // TODO not used externally
+    protected LinkedList<JavaClass> vec = new LinkedList<>();
 
     public void enqueue(final JavaClass clazz) {
         vec.addLast(clazz);

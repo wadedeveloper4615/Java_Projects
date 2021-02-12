@@ -6,7 +6,7 @@ import java.util.Map;
 import org.apache.bcel.classfile.JavaClass;
 
 public class ClassPathRepository extends AbstractClassPathRepository {
-    private final Map<String, JavaClass> _loadedClasses = new HashMap<>(); // CLASSNAME X JAVACLASS
+    private final Map<String, JavaClass> _loadedClasses = new HashMap<>();
 
     public ClassPathRepository(final ClassPath classPath) {
         super(classPath);

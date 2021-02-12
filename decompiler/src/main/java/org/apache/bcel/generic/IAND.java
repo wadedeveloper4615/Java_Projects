@@ -1,11 +1,12 @@
 package org.apache.bcel.generic;
 
+import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.ArithmeticInstruction;
 import org.apache.bcel.generic.base.Visitor;
 
 public class IAND extends ArithmeticInstruction {
     public IAND() {
-        super(org.apache.bcel.Const.IAND);
+        super(InstructionOpCodes.IAND);
     }
 
     @Override

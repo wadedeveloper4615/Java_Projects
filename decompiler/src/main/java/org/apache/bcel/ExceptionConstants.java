@@ -17,7 +17,6 @@ public interface ExceptionConstants {
     Class<NoClassDefFoundError> NO_CLASS_DEF_FOUND_ERROR = NoClassDefFoundError.class;
     Class<UnsatisfiedLinkError> UNSATISFIED_LINK_ERROR = UnsatisfiedLinkError.class;
     Class<VerifyError> VERIFY_ERROR = VerifyError.class;
-//    Class UnsupportedClassVersionError = UnsupportedClassVersionError.class;
     Class<NullPointerException> NULL_POINTER_EXCEPTION = NullPointerException.class;
     Class<ArrayIndexOutOfBoundsException> ARRAY_INDEX_OUT_OF_BOUNDS_EXCEPTION = ArrayIndexOutOfBoundsException.class;
     Class<ArithmeticException> ARITHMETIC_EXCEPTION = ArithmeticException.class;
@@ -25,14 +24,13 @@ public interface ExceptionConstants {
     Class<ClassCastException> CLASS_CAST_EXCEPTION = ClassCastException.class;
     Class<IllegalMonitorStateException> ILLEGAL_MONITOR_STATE = IllegalMonitorStateException.class;
     @Deprecated
-    Class<?>[] EXCS_CLASS_AND_INTERFACE_RESOLUTION = { NO_CLASS_DEF_FOUND_ERROR, CLASS_FORMAT_ERROR, VERIFY_ERROR, ABSTRACT_METHOD_ERROR, EXCEPTION_IN_INITIALIZER_ERROR, ILLEGAL_ACCESS_ERROR }; // Chapter 5.1
+    Class<?>[] EXCS_CLASS_AND_INTERFACE_RESOLUTION = { NO_CLASS_DEF_FOUND_ERROR, CLASS_FORMAT_ERROR, VERIFY_ERROR, ABSTRACT_METHOD_ERROR, EXCEPTION_IN_INITIALIZER_ERROR, ILLEGAL_ACCESS_ERROR };
     @Deprecated
-    Class<?>[] EXCS_FIELD_AND_METHOD_RESOLUTION = { NO_SUCH_FIELD_ERROR, ILLEGAL_ACCESS_ERROR, NO_SUCH_METHOD_ERROR }; // Chapter 5.2
+    Class<?>[] EXCS_FIELD_AND_METHOD_RESOLUTION = { NO_SUCH_FIELD_ERROR, ILLEGAL_ACCESS_ERROR, NO_SUCH_METHOD_ERROR };
     @Deprecated
-    Class<?>[] EXCS_INTERFACE_METHOD_RESOLUTION = new Class[0]; // Chapter 5.3 (as below)
+    Class<?>[] EXCS_INTERFACE_METHOD_RESOLUTION = new Class[0];
     @Deprecated
     Class<?>[] EXCS_STRING_RESOLUTION = new Class[0];
-    // Chapter 5.4 (no errors but the ones that _always_ could happen! How stupid.)
     @Deprecated
     Class<?>[] EXCS_ARRAY_EXCEPTION = { NULL_POINTER_EXCEPTION, ARRAY_INDEX_OUT_OF_BOUNDS_EXCEPTION };
 }

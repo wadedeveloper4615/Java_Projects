@@ -85,6 +85,6 @@ public final class NestMembers extends Attribute {
             final String class_name = super.getConstantPool().getConstantString(index, ClassFileConstants.CONSTANT_Class);
             buf.append("  ").append(Utility.compactClassName(class_name, false)).append("\n");
         }
-        return buf.substring(0, buf.length() - 1); // remove the last newline
+        return buf.substring(0, buf.length() - 1);
     }
 }

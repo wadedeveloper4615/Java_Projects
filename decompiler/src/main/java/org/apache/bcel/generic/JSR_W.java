@@ -3,6 +3,7 @@ package org.apache.bcel.generic;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.JsrInstruction;
 import org.apache.bcel.generic.base.Visitor;
 import org.apache.bcel.generic.control.InstructionHandle;
@@ -13,7 +14,7 @@ public class JSR_W extends JsrInstruction {
     }
 
     public JSR_W(final InstructionHandle target) {
-        super(org.apache.bcel.Const.JSR_W, target);
+        super(InstructionOpCodes.JSR_W, target);
         super.setLength(5);
     }
 
@@ -28,7 +29,7 @@ public class JSR_W extends JsrInstruction {
     @Override
     public void dump(final DataOutputStream out) throws IOException {
         super.setIndex(getTargetOffset());
-        out.writeByte(super.getOpcode());
+        out.writeByte(super.getOpcode().getOpcode());
         out.writeInt(super.getIndex());
     }
 

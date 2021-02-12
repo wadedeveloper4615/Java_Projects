@@ -14,8 +14,8 @@ import org.apache.bcel.classfile.constant.ConstantValue;
 import org.apache.bcel.enums.ClassFileAttributes;
 
 final class MethodHTML {
-    private final String className; // name of current class
-    private final PrintWriter file; // file to write to
+    private final String className;
+    private final PrintWriter file;
     private final ConstantHTML constantHtml;
     private final AttributeHTML attribute_html;
 
@@ -46,14 +46,12 @@ final class MethodHTML {
         access = Utility.replace(access, " ", "&nbsp;");
         file.print("<TR><TD><FONT COLOR=\"#FF0000\">" + access + "</FONT></TD>\n<TD>" + Class2HTML.referenceType(type) + "</TD><TD><A NAME=\"field" + name + "\">" + name + "</A></TD>");
         attributes = field.getAttributes();
-        // Write them to the Attributes.html file with anchor "<name>[<i>]"
         for (int i = 0; i < attributes.length; i++) {
             attribute_html.writeAttribute(attributes[i], name + "@" + i);
         }
         for (int i = 0; i < attributes.length; i++) {
-            if (attributes[i].getTag() == ClassFileAttributes.ATTR_CONSTANT_VALUE) { // Default value
+            if (attributes[i].getTag() == ClassFileAttributes.ATTR_CONSTANT_VALUE) {
                 final String str = ((ConstantValue) attributes[i]).toString();
-                // Reference attribute in _attributes.html
                 file.print("<TD>= <A HREF=\"" + className + "_attributes.html#" + name + "@" + i + "\" TARGET=\"Attributes\">" + str + "</TD>\n");
                 break;
             }
@@ -62,18 +60,12 @@ final class MethodHTML {
     }
 
     private void writeMethod(final Method method, final int method_number) {
-        // Get raw signature
         final String signature = method.getSignature();
-        // Get array of strings containing the argument types
         final String[] args = Utility.methodSignatureArgumentTypes(signature, false);
-        // Get return type string
         final String type = Utility.methodSignatureReturnType(signature, false);
-        // Get method name
         final String name = method.getName();
         String html_name;
-        // Get method's access flags
         String access = Utility.accessToString(method.getAccessFlags());
-        // Get the method's attributes, the Code Attribute in particular
         final Attribute[] attributes = method.getAttributes();
         access = Utility.replace(access, " ", "&nbsp;");
         html_name = Class2HTML.toHTML(name);
@@ -86,7 +78,6 @@ final class MethodHTML {
             }
         }
         file.print(")</TD></TR>");
-        // Check for thrown exceptions
         for (int i = 0; i < attributes.length; i++) {
             attribute_html.writeAttribute(attributes[i], "method" + method_number + "@" + i, method_number);
             ClassFileAttributes tag = attributes[i].getTag();

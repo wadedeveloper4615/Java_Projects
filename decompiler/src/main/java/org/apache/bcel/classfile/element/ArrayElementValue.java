@@ -6,7 +6,6 @@ import java.io.IOException;
 import org.apache.bcel.classfile.constant.ConstantPool;
 
 public class ArrayElementValue extends ElementValue {
-    // For array types, this is the array
     private final ElementValue[] elementValues;
 
     @Override
@@ -33,7 +32,7 @@ public class ArrayElementValue extends ElementValue {
 
     @Override
     public void dump(final DataOutputStream dos) throws IOException {
-        dos.writeByte(super.getType()); // u1 type of value (ARRAY == '[')
+        dos.writeByte(super.getType());
         dos.writeShort(elementValues.length);
         for (final ElementValue evalue : elementValues) {
             evalue.dump(dos);

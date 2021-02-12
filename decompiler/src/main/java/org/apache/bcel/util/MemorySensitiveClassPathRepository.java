@@ -7,7 +7,7 @@ import java.util.Map;
 import org.apache.bcel.classfile.JavaClass;
 
 public class MemorySensitiveClassPathRepository extends AbstractClassPathRepository {
-    private final Map<String, SoftReference<JavaClass>> loadedClasses = new HashMap<>(); // CLASSNAME X JAVACLASS
+    private final Map<String, SoftReference<JavaClass>> loadedClasses = new HashMap<>();
 
     public MemorySensitiveClassPathRepository(final ClassPath path) {
         super(path);
@@ -34,7 +34,6 @@ public class MemorySensitiveClassPathRepository extends AbstractClassPathReposit
 
     @Override
     public void storeClass(final JavaClass clazz) {
-        // Not calling super.storeClass because this subclass maintains the mapping.
         loadedClasses.put(clazz.getClassName().getName(), new SoftReference<>(clazz));
         clazz.setRepository(this);
     }

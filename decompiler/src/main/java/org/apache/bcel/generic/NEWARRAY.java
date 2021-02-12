@@ -4,6 +4,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import org.apache.bcel.ExceptionConst;
+import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.AllocationInstruction;
 import org.apache.bcel.generic.base.ArrayType;
 import org.apache.bcel.generic.base.ExceptionThrower;
@@ -22,7 +23,7 @@ public class NEWARRAY extends Instruction implements AllocationInstruction, Exce
     }
 
     public NEWARRAY(final byte type) {
-        super(org.apache.bcel.Const.NEWARRAY, (short) 2);
+        super(InstructionOpCodes.NEWARRAY, (short) 2);
         this.type = type;
     }
 
@@ -36,7 +37,7 @@ public class NEWARRAY extends Instruction implements AllocationInstruction, Exce
 
     @Override
     public void dump(final DataOutputStream out) throws IOException {
-        out.writeByte(super.getOpcode());
+        out.writeByte(super.getOpcode().getOpcode());
         out.writeByte(type);
     }
 

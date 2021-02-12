@@ -61,7 +61,6 @@ public final class Module extends Attribute {
     public void accept(final Visitor v) {
         v.visitModule(this);
     }
-    // TODO add more getters and setters?
 
     @Override
     public Attribute copy(final ConstantPool _constant_pool) {
@@ -160,6 +159,6 @@ public final class Module extends Attribute {
         for (final ModuleProvides module : providesTable) {
             buf.append("    ").append(module.toString(cp)).append("\n");
         }
-        return buf.substring(0, buf.length() - 1); // remove the last newline
+        return buf.substring(0, buf.length() - 1);
     }
 }

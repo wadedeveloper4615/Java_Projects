@@ -15,7 +15,7 @@ public class LocalVariableGen implements InstructionTargeter, NamedAndTyped, Clo
     private Type type;
     private InstructionHandle start;
     private InstructionHandle end;
-    private int origIndex; // never changes; used to match up with LocalVariableTypeTable entries
+    private int origIndex;
     private boolean liveToEnd;
 
     public LocalVariableGen(final int index, final String name, final Type type, final InstructionHandle start, final InstructionHandle end) {
@@ -99,12 +99,12 @@ public class LocalVariableGen implements InstructionTargeter, NamedAndTyped, Clo
         return end;
     }
 
-    public void setStart(final InstructionHandle start) { // TODO could be package-protected?
+    public void setStart(final InstructionHandle start) {
         BranchInstruction.notifyTarget(this.start, start, this);
         this.start = start;
     }
 
-    public void setEnd(final InstructionHandle end) { // TODO could be package-protected?
+    public void setEnd(final InstructionHandle end) {
         BranchInstruction.notifyTarget(this.end, end, this);
         this.end = end;
     }
@@ -137,9 +137,6 @@ public class LocalVariableGen implements InstructionTargeter, NamedAndTyped, Clo
 
     @Override
     public int hashCode() {
-        // If the user changes the name or type, problems with the targeter hashmap will
-        // occur.
-        // Note: index cannot be part of hash as it may be changed by the user.
         return name.hashCode() ^ type.hashCode();
     }
 
@@ -162,7 +159,7 @@ public class LocalVariableGen implements InstructionTargeter, NamedAndTyped, Clo
         try {
             return super.clone();
         } catch (final CloneNotSupportedException e) {
-            throw new Error("Clone Not Supported"); // never happens
+            throw new Error("Clone Not Supported");
         }
     }
 }

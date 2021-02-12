@@ -21,7 +21,6 @@ public class ParameterAnnotationEntry implements Node {
         final int annotation_table_length = input.readUnsignedShort();
         annotationTable = new AnnotationEntry[annotation_table_length];
         for (int i = 0; i < annotation_table_length; i++) {
-            // TODO isRuntimeVisible
             annotationTable[i] = AnnotationEntry.read(input, constant_pool, false);
         }
     }
@@ -43,7 +42,6 @@ public class ParameterAnnotationEntry implements Node {
     }
 
     public static ParameterAnnotationEntry[] createParameterAnnotationEntries(final Attribute[] attrs) {
-        // Find attributes that contain parameter annotation data
         final List<ParameterAnnotationEntry> accumulatedAnnotations = new ArrayList<>(attrs.length);
         for (final Attribute attribute : attrs) {
             if (attribute instanceof ParameterAnnotations) {

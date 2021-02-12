@@ -20,7 +20,7 @@ public class ElementValuePair {
     }
 
     protected void dump(final DataOutputStream dos) throws IOException {
-        dos.writeShort(elementNameIndex); // u2 name of the element
+        dos.writeShort(elementNameIndex);
         elementValue.dump(dos);
     }
 

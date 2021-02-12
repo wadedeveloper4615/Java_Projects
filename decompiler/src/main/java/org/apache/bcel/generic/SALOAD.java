@@ -1,11 +1,12 @@
 package org.apache.bcel.generic;
 
+import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.ArrayInstruction;
 import org.apache.bcel.generic.base.Visitor;
 
 public class SALOAD extends ArrayInstruction implements StackProducer {
     public SALOAD() {
-        super(org.apache.bcel.Const.SALOAD);
+        super(InstructionOpCodes.SALOAD);
     }
 
     @Override

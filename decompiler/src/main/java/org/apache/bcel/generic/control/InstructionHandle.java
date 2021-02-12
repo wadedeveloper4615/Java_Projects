@@ -18,7 +18,7 @@ public class InstructionHandle {
     private InstructionHandle prev;
     private Instruction instruction;
     @Deprecated
-    protected int i_position = -1; // byte code offset of instruction
+    protected int i_position = -1;
     private Set<InstructionTargeter> targeters;
     private Map<Object, Object> attributes;
 
@@ -39,14 +39,12 @@ public class InstructionHandle {
 
     @Deprecated
     protected void addHandle() {
-        // noop
     }
 
     public void addTargeter(final InstructionTargeter t) {
         if (targeters == null) {
             targeters = new HashSet<>();
         }
-        // if(!targeters.contains(t))
         targeters.add(t);
     }
 
@@ -120,7 +118,7 @@ public class InstructionHandle {
         }
     }
 
-    public void setInstruction(final Instruction i) { // Overridden in BranchHandle TODO could be package-protected?
+    public void setInstruction(final Instruction i) {
         if (i == null) {
             throw new ClassGenException("Assigning null to handle");
         }
@@ -147,8 +145,6 @@ public class InstructionHandle {
         return prev;
     }
 
-    // See BCEL-273
-    // TODO remove this method in any redesign of BCEL
     public Instruction swapInstruction(final Instruction i) {
         final Instruction oldInstruction = instruction;
         instruction = i;

@@ -3,12 +3,12 @@ package org.apache.bcel.generic;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.Const;
 import org.apache.bcel.ExceptionConst;
 import org.apache.bcel.classfile.constant.ConstantInvokeDynamic;
 import org.apache.bcel.classfile.constant.ConstantNameAndType;
 import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.enums.ClassFileConstants;
+import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.InvokeInstruction;
 import org.apache.bcel.generic.base.ReferenceType;
 import org.apache.bcel.generic.base.Visitor;
@@ -20,7 +20,7 @@ public class INVOKEDYNAMIC extends InvokeInstruction {
     }
 
     public INVOKEDYNAMIC(final int index) {
-        super(Const.INVOKEDYNAMIC, index);
+        super(InstructionOpCodes.INVOKEDYNAMIC, index);
     }
 
     @Override
@@ -38,7 +38,7 @@ public class INVOKEDYNAMIC extends InvokeInstruction {
 
     @Override
     public void dump(final DataOutputStream out) throws IOException {
-        out.writeByte(super.getOpcode());
+        out.writeByte(super.getOpcode().getOpcode());
         out.writeShort(super.getIndex());
         out.writeByte(0);
         out.writeByte(0);
@@ -65,8 +65,8 @@ public class INVOKEDYNAMIC extends InvokeInstruction {
     protected void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
         super.initFromFile(bytes, wide);
         super.setLength(5);
-        bytes.readByte(); // Skip 0 byte
-        bytes.readByte(); // Skip 0 byte
+        bytes.readByte();
+        bytes.readByte();
     }
 
     @Override

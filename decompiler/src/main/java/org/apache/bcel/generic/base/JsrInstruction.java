@@ -1,5 +1,6 @@
 package org.apache.bcel.generic.base;
 
+import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.StackProducer;
 import org.apache.bcel.generic.Type;
 import org.apache.bcel.generic.control.InstructionHandle;
@@ -9,7 +10,7 @@ public abstract class JsrInstruction extends BranchInstruction implements Uncond
     public JsrInstruction() {
     }
 
-    public JsrInstruction(final short opcode, final InstructionHandle target) {
+    public JsrInstruction(InstructionOpCodes opcode, final InstructionHandle target) {
         super(opcode, target);
     }
 
@@ -20,11 +21,9 @@ public abstract class JsrInstruction extends BranchInstruction implements Uncond
 
     public InstructionHandle physicalSuccessor() {
         InstructionHandle ih = super.getTarget();
-        // Rewind!
         while (ih.getPrev() != null) {
             ih = ih.getPrev();
         }
-        // Find the handle for "this" JsrInstruction object.
         while (ih.getInstruction() != this) {
             ih = ih.getNext();
         }
@@ -35,7 +34,6 @@ public abstract class JsrInstruction extends BranchInstruction implements Uncond
                 throw new IllegalStateException("physicalSuccessor() called on a shared JsrInstruction.");
             }
         }
-        // Return the physical successor
         return toThis.getNext();
     }
 }

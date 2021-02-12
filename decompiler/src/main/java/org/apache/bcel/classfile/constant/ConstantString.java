@@ -9,7 +9,7 @@ import org.apache.bcel.classfile.Visitor;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public final class ConstantString extends Constant implements ConstantObject {
-    private int stringIndex; // Identical to ConstantClass except for this name
+    private int stringIndex;
 
     public ConstantString(final ConstantString c) {
         this(c.getStringIndex());

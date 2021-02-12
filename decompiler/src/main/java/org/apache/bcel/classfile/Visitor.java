@@ -122,45 +122,35 @@ public interface Visitor {
     void visitMethod(Method obj);
 
     default void visitMethodParameter(final MethodParameter obj) {
-        // empty
     }
 
     void visitMethodParameters(MethodParameters obj);
 
     default void visitModule(final Module constantModule) {
-        // empty
     }
 
     default void visitModuleExports(final ModuleExports constantModule) {
-        // empty
     }
 
     default void visitModuleMainClass(final ModuleMainClass obj) {
-        // empty
     }
 
     default void visitModuleOpens(final ModuleOpens constantModule) {
-        // empty
     }
 
     default void visitModulePackages(final ModulePackages constantModule) {
-        // empty
     }
 
     default void visitModuleProvides(final ModuleProvides constantModule) {
-        // empty
     }
 
     default void visitModuleRequires(final ModuleRequires constantModule) {
-        // empty
     }
 
     default void visitNestHost(final NestHost obj) {
-        // empty
     }
 
     default void visitNestMembers(final NestMembers obj) {
-        // empty
     }
 
     void visitParameterAnnotation(ParameterAnnotations obj);

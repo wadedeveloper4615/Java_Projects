@@ -45,7 +45,6 @@ public final class Signature extends Attribute {
 
     @Override
     public void accept(final Visitor v) {
-        // System.err.println("Visiting non-standard Signature object");
         v.visitSignature(this);
     }
 
@@ -83,12 +82,10 @@ public final class Signature extends Attribute {
         return ch == 'T' || ch == 'L';
     }
 
-    // @since 6.0 is no longer final
     public static boolean isActualParameterList(final String s) {
         return s.startsWith("L") && s.endsWith(">;");
     }
 
-    // @since 6.0 is no longer final
     public static boolean isFormalParameterList(final String s) {
         return s.startsWith("<") && (s.indexOf(':') > 0);
     }
@@ -97,20 +94,17 @@ public final class Signature extends Attribute {
         int ch;
         matchIdent(in, buf);
         ch = in.read();
-        if ((ch == '<') || ch == '(') { // Parameterized or method
-            // System.out.println("Enter <");
+        if ((ch == '<') || ch == '(') {
             buf.append((char) ch);
             matchGJIdent(in, buf);
-            while (((ch = in.read()) != '>') && (ch != ')')) { // List of parameters
+            while (((ch = in.read()) != '>') && (ch != ')')) {
                 if (ch == -1) {
                     throw new IllegalArgumentException("Illegal signature: " + in.getData() + " reaching EOF");
                 }
-                // System.out.println("Still no >");
                 buf.append(", ");
                 in.unread();
-                matchGJIdent(in, buf); // Recursive call
+                matchGJIdent(in, buf);
             }
-            // System.out.println("Exit >");
             buf.append((char) ch);
         } else {
             in.unread();
@@ -132,7 +126,6 @@ public final class Signature extends Attribute {
         if ((ch = in.read()) == -1) {
             throw new IllegalArgumentException("Illegal signature: " + in.getData() + " no ident, reaching EOF");
         }
-        // System.out.println("return from ident:" + (char)ch);
         if (!identStart(ch)) {
             final StringBuilder buf2 = new StringBuilder();
             int count = 1;
@@ -141,12 +134,11 @@ public final class Signature extends Attribute {
                 count++;
                 ch = in.read();
             }
-            if (ch == ':') { // Ok, formal parameter
+            if (ch == ':') {
                 in.skip("Ljava/lang/Object".length());
                 buf.append(buf2);
                 ch = in.read();
                 in.unread();
-                // System.out.println("so far:" + buf2 + ":next:" +(char)ch);
             } else {
                 for (int i = 0; i < count; i++) {
                     in.unread();
@@ -159,17 +151,14 @@ public final class Signature extends Attribute {
         do {
             buf2.append((char) ch);
             ch = in.read();
-            // System.out.println("within ident:"+ (char)ch);
         } while ((ch != -1) && (Character.isJavaIdentifierPart((char) ch) || (ch == '/')));
         buf.append(buf2.toString().replace('/', '.'));
-        // System.out.println("regular return ident:"+ (char)ch + ":" + buf2);
         if (ch != -1) {
             in.unread();
         }
     }
 
     public static String translate(final String s) {
-        // System.out.println("Sig:" + s);
         final StringBuilder buf = new StringBuilder();
         matchGJIdent(new MyByteArrayInputStream(s), buf);
         return buf.toString();

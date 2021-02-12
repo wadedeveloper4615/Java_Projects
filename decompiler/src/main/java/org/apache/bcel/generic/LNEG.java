@@ -1,11 +1,12 @@
 package org.apache.bcel.generic;
 
+import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.ArithmeticInstruction;
 import org.apache.bcel.generic.base.Visitor;
 
 public class LNEG extends ArithmeticInstruction {
     public LNEG() {
-        super(org.apache.bcel.Const.LNEG);
+        super(InstructionOpCodes.LNEG);
     }
 
     @Override

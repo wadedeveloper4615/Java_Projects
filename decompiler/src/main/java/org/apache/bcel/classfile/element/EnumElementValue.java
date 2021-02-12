@@ -8,7 +8,6 @@ import org.apache.bcel.classfile.constant.ConstantUtf8;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public class EnumElementValue extends ElementValue {
-    // For enum types, these two indices point to the type and value
     private final int typeIdx;
     private final int valueIdx;
 
@@ -23,14 +22,14 @@ public class EnumElementValue extends ElementValue {
 
     @Override
     public void dump(final DataOutputStream dos) throws IOException {
-        dos.writeByte(super.getType()); // u1 type of value (ENUM_CONSTANT == 'e')
-        dos.writeShort(typeIdx); // u2
-        dos.writeShort(valueIdx); // u2
+        dos.writeByte(super.getType());
+        dos.writeShort(typeIdx);
+        dos.writeShort(valueIdx);
     }
 
     public String getEnumTypeString() {
         final ConstantUtf8 cu8 = (ConstantUtf8) super.getConstantPool().getConstant(typeIdx, ClassFileConstants.CONSTANT_Utf8);
-        return cu8.getBytes();// Utility.signatureToString(cu8.getBytes());
+        return cu8.getBytes();
     }
 
     public String getEnumValueString() {

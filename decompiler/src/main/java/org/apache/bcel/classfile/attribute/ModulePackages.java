@@ -86,6 +86,6 @@ public final class ModulePackages extends Attribute {
             final String package_name = super.getConstantPool().getConstantString(index, ClassFileConstants.CONSTANT_Package);
             buf.append("  ").append(Utility.compactClassName(package_name, false)).append("\n");
         }
-        return buf.substring(0, buf.length() - 1); // remove the last newline
+        return buf.substring(0, buf.length() - 1);
     }
 }

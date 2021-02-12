@@ -4,26 +4,27 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import org.apache.bcel.Const;
+import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.Type;
 import org.apache.bcel.generic.gen.ConstantPoolGen;
 import org.apache.bcel.util.ByteSequence;
 
 public abstract class LocalVariableInstruction extends Instruction implements TypedInstruction, IndexedInstruction {
     @Deprecated
-    protected int n = -1; // index of referenced variable
-    private short cTag = -1; // compact version, such as ILOAD_0
-    private short canonTag = -1; // canonical tag such as ILOAD
+    protected int n = -1;
+    private InstructionOpCodes cTag = null;
+    private InstructionOpCodes canonTag = null;
 
     protected LocalVariableInstruction() {
     }
 
-    protected LocalVariableInstruction(final short canon_tag, final short c_tag) {
+    protected LocalVariableInstruction(InstructionOpCodes canon_tag, InstructionOpCodes c_tag) {
         super();
         this.canonTag = canon_tag;
         this.cTag = c_tag;
     }
 
-    protected LocalVariableInstruction(final short opcode, final short cTag, final int n) {
+    protected LocalVariableInstruction(InstructionOpCodes opcode, InstructionOpCodes cTag, final int n) {
         super(opcode, (short) 2);
         this.cTag = cTag;
         canonTag = opcode;
@@ -33,10 +34,10 @@ public abstract class LocalVariableInstruction extends Instruction implements Ty
     @Override
     public void dump(final DataOutputStream out) throws IOException {
         if (wide()) {
-            out.writeByte(Const.WIDE);
+            out.writeByte(InstructionOpCodes.WIDE.getOpcode());
         }
-        out.writeByte(super.getOpcode());
-        if (super.getLength() > 1) { // Otherwise ILOAD_n, instruction, e.g.
+        out.writeByte(super.getOpcode().getOpcode());
+        if (super.getLength() > 1) {
             if (wide()) {
                 out.writeShort(n);
             } else {
@@ -45,7 +46,7 @@ public abstract class LocalVariableInstruction extends Instruction implements Ty
         }
     }
 
-    public short getCanonicalTag() {
+    public InstructionOpCodes getCanonicalTag() {
         return canonTag;
     }
 
@@ -57,20 +58,20 @@ public abstract class LocalVariableInstruction extends Instruction implements Ty
     @Override
     public Type getType(final ConstantPoolGen cp) {
         switch (canonTag) {
-            case Const.ILOAD:
-            case Const.ISTORE:
+            case ILOAD:
+            case ISTORE:
                 return Type.INT;
-            case Const.LLOAD:
-            case Const.LSTORE:
+            case LLOAD:
+            case LSTORE:
                 return Type.LONG;
-            case Const.DLOAD:
-            case Const.DSTORE:
+            case DLOAD:
+            case DSTORE:
                 return Type.DOUBLE;
-            case Const.FLOAD:
-            case Const.FSTORE:
+            case FLOAD:
+            case FSTORE:
                 return Type.FLOAT;
-            case Const.ALOAD:
-            case Const.ASTORE:
+            case ALOAD:
+            case ASTORE:
                 return Type.OBJECT;
             default:
                 throw new ClassGenException("Unknown case in switch" + canonTag);
@@ -83,29 +84,28 @@ public abstract class LocalVariableInstruction extends Instruction implements Ty
             n = bytes.readUnsignedShort();
             super.setLength(4);
         } else {
-            final short _opcode = super.getOpcode();
-            if (((_opcode >= Const.ILOAD) && (_opcode <= Const.ALOAD)) || ((_opcode >= Const.ISTORE) && (_opcode <= Const.ASTORE))) {
+            InstructionOpCodes _opcode = super.getOpcode();
+            if (((_opcode.getOpcode() >= InstructionOpCodes.ILOAD.getOpcode()) && (_opcode.getOpcode() <= InstructionOpCodes.ALOAD.getOpcode())) || ((_opcode.getOpcode() >= InstructionOpCodes.ISTORE.getOpcode()) && (_opcode.getOpcode() <= InstructionOpCodes.ASTORE.getOpcode()))) {
                 n = bytes.readUnsignedByte();
                 super.setLength(2);
-            } else if (_opcode <= Const.ALOAD_3) { // compact load instruction such as ILOAD_2
-                n = (_opcode - Const.ILOAD_0) % 4;
+            } else if (_opcode.getOpcode() <= InstructionOpCodes.ALOAD_3.getOpcode()) {
+                n = (_opcode.getOpcode() - InstructionOpCodes.ILOAD_0.getOpcode()) % 4;
                 super.setLength(1);
-            } else { // Assert ISTORE_0 <= tag <= ASTORE_3
-                n = (_opcode - Const.ISTORE_0) % 4;
+            } else {
+                n = (_opcode.getOpcode() - InstructionOpCodes.ISTORE_0.getOpcode()) % 4;
                 super.setLength(1);
             }
         }
     }
 
     @Override
-    public void setIndex(final int n) { // TODO could be package-protected?
+    public void setIndex(final int n) {
         if ((n < 0) || (n > Const.MAX_SHORT)) {
             throw new ClassGenException("Illegal value: " + n);
         }
         this.n = n;
-        // Cannot be < 0 as this is checked above
-        if (n <= 3) { // Use more compact instruction xLOAD_n
-            super.setOpcode((short) (cTag + n));
+        if (n <= 3) {
+            super.setOpcode(InstructionOpCodes.read((short) (cTag.getOpcode() + n)));
             super.setLength(1);
         } else {
             super.setOpcode(canonTag);
@@ -123,8 +123,8 @@ public abstract class LocalVariableInstruction extends Instruction implements Ty
 
     @Override
     public String toString(final boolean verbose) {
-        final short _opcode = super.getOpcode();
-        if (((_opcode >= Const.ILOAD_0) && (_opcode <= Const.ALOAD_3)) || ((_opcode >= Const.ISTORE_0) && (_opcode <= Const.ASTORE_3))) {
+        final short _opcode = (short) super.getOpcode().getOpcode();
+        if (((_opcode >= InstructionOpCodes.ILOAD_0.getOpcode()) && (_opcode <= InstructionOpCodes.ALOAD_3.getOpcode())) || ((_opcode >= InstructionOpCodes.ISTORE_0.getOpcode()) && (_opcode <= InstructionOpCodes.ASTORE_3.getOpcode()))) {
             return super.toString(verbose);
         }
         return super.toString(verbose) + " " + n;

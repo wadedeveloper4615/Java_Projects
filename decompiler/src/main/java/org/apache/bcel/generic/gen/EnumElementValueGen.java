@@ -9,7 +9,6 @@ import org.apache.bcel.classfile.element.EnumElementValue;
 import org.apache.bcel.generic.ObjectType;
 
 public class EnumElementValueGen extends ElementValueGen {
-    // For enum types, these two indices point to the type and value
     private int typeIdx;
     private int valueIdx;
 
@@ -30,17 +29,15 @@ public class EnumElementValueGen extends ElementValueGen {
 
     public EnumElementValueGen(final ObjectType t, final String value, final ConstantPoolGen cpool) {
         super(ElementValueGen.ENUM_CONSTANT, cpool);
-        typeIdx = cpool.addUtf8(t.getSignature());// was addClass(t);
-        valueIdx = cpool.addUtf8(value);// was addString(value);
+        typeIdx = cpool.addUtf8(t.getSignature());
+        valueIdx = cpool.addUtf8(value);
     }
 
     public EnumElementValueGen(final EnumElementValue value, final ConstantPoolGen cpool, final boolean copyPoolEntries) {
         super(ENUM_CONSTANT, cpool);
         if (copyPoolEntries) {
-            typeIdx = cpool.addUtf8(value.getEnumTypeString());// was
-                                                               // addClass(value.getEnumTypeString());
-            valueIdx = cpool.addUtf8(value.getEnumValueString()); // was
-                                                                  // addString(value.getEnumValueString());
+            typeIdx = cpool.addUtf8(value.getEnumTypeString());
+            valueIdx = cpool.addUtf8(value.getEnumValueString());
         } else {
             typeIdx = value.getTypeIndex();
             valueIdx = value.getValueIndex();
@@ -49,39 +46,23 @@ public class EnumElementValueGen extends ElementValueGen {
 
     @Override
     public void dump(final DataOutputStream dos) throws IOException {
-        dos.writeByte(super.getElementValueType()); // u1 type of value (ENUM_CONSTANT == 'e')
-        dos.writeShort(typeIdx); // u2
-        dos.writeShort(valueIdx); // u2
+        dos.writeByte(super.getElementValueType());
+        dos.writeShort(typeIdx);
+        dos.writeShort(valueIdx);
     }
 
     @Override
     public String stringifyValue() {
         final ConstantUtf8 cu8 = (ConstantUtf8) getConstantPool().getConstant(valueIdx);
         return cu8.getBytes();
-        // ConstantString cu8 =
-        // (ConstantString)getConstantPool().getConstant(valueIdx);
-        // return
-        // ((ConstantUtf8)getConstantPool().getConstant(cu8.getStringIndex())).getBytes();
     }
 
-    // BCELBUG: Should we need to call utility.signatureToString() on the output
-    // here?
     public String getEnumTypeString() {
-        // Constant cc = getConstantPool().getConstant(typeIdx);
-        // ConstantClass cu8 =
-        // (ConstantClass)getConstantPool().getConstant(typeIdx);
-        // return
-        // ((ConstantUtf8)getConstantPool().getConstant(cu8.getNameIndex())).getBytes();
         return ((ConstantUtf8) getConstantPool().getConstant(typeIdx)).getBytes();
-        // return Utility.signatureToString(cu8.getBytes());
     }
 
     public String getEnumValueString() {
         return ((ConstantUtf8) getConstantPool().getConstant(valueIdx)).getBytes();
-        // ConstantString cu8 =
-        // (ConstantString)getConstantPool().getConstant(valueIdx);
-        // return
-        // ((ConstantUtf8)getConstantPool().getConstant(cu8.getStringIndex())).getBytes();
     }
 
     public int getValueIndex() {

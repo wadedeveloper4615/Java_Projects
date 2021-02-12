@@ -14,14 +14,6 @@ public class ElementValuePairGen {
 
     public ElementValuePairGen(final ElementValuePair nvp, final ConstantPoolGen cpool, final boolean copyPoolEntries) {
         this.constantPoolGen = cpool;
-        // J5ASSERT:
-        // Could assert nvp.getNameString() points to the same thing as
-        // constantPoolGen.getConstant(nvp.getNameIndex())
-        // if
-        // (!nvp.getNameString().equals(((ConstantUtf8)constantPoolGen.getConstant(nvp.getNameIndex())).getBytes()))
-        // {
-        // throw new IllegalArgumentException("envp buggered");
-        // }
         if (copyPoolEntries) {
             nameIdx = cpool.addUtf8(nvp.getNameString());
         } else {
@@ -43,7 +35,7 @@ public class ElementValuePairGen {
     }
 
     public void dump(final DataOutputStream dos) throws IOException {
-        dos.writeShort(nameIdx); // u2 name of the element
+        dos.writeShort(nameIdx);
         value.dump(dos);
     }
 
@@ -57,7 +49,6 @@ public class ElementValuePairGen {
     }
 
     public final String getNameString() {
-        // ConstantString cu8 = (ConstantString)constantPoolGen.getConstant(nameIdx);
         return ((ConstantUtf8) constantPoolGen.getConstant(nameIdx)).getBytes();
     }
 

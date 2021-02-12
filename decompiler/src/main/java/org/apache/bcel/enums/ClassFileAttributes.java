@@ -3,7 +3,7 @@ package org.apache.bcel.enums;
 import java.io.IOException;
 
 public enum ClassFileAttributes {
- // @formatter:off
+    //@formatter:off
     ATTR_UNKNOWN(-1),
     ATTR_SOURCE_FILE(0),
     ATTR_CONSTANT_VALUE(1),
@@ -32,24 +32,18 @@ public enum ClassFileAttributes {
     ATTR_MODULE_MAIN_CLASS(24),
     ATTR_NEST_HOST(25),
     ATTR_NEST_MEMBERS(26);
-    private String[] ATTRIBUTE_NAMES = {
-            "SourceFile", "ConstantValue", "Code", "Exceptions",
-            "LineNumberTable", "LocalVariableTable",
-            "InnerClasses", "Synthetic", "Deprecated",
-            "PMGClass", "Signature", "StackMap",
-            "RuntimeVisibleAnnotations", "RuntimeInvisibleAnnotations",
-            "RuntimeVisibleParameterAnnotations", "RuntimeInvisibleParameterAnnotations",
-            "AnnotationDefault", "LocalVariableTypeTable", "EnclosingMethod", "StackMapTable",
-            "BootstrapMethods", "MethodParameters", "Module", "ModulePackages",
-            "ModuleMainClass", "NestHost", "NestMembers"
-          };
- // @formatter:on
+    //@formatter:on
+    private String[] ATTRIBUTE_NAMES = { "SourceFile", "ConstantValue", "Code", "Exceptions", "LineNumberTable", "LocalVariableTable", "InnerClasses", "Synthetic", "Deprecated", "PMGClass", "Signature", "StackMap", "RuntimeVisibleAnnotations", "RuntimeInvisibleAnnotations", "RuntimeVisibleParameterAnnotations", "RuntimeInvisibleParameterAnnotations", "AnnotationDefault", "LocalVariableTypeTable", "EnclosingMethod", "StackMapTable", "BootstrapMethods", "MethodParameters", "Module", "ModulePackages", "ModuleMainClass", "NestHost", "NestMembers" };
     private int tag;
     private String name;
 
     ClassFileAttributes(int tag) {
         this.tag = tag;
-        this.name = ATTRIBUTE_NAMES[tag];
+        if (tag == -1) {
+            this.name = "UNKNOWN";
+        } else {
+            this.name = ATTRIBUTE_NAMES[tag];
+        }
     }
 
     public String getName() {

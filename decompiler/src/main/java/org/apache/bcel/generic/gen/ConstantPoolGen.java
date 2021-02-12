@@ -34,13 +34,13 @@ public class ConstantPoolGen {
     private static final String METHODREF_DELIM = ":";
     private static final String IMETHODREF_DELIM = "#";
     private static final String FIELDREF_DELIM = "&";
-    private static final String NAT_DELIM = "%"; // Name and Type
+    private static final String NAT_DELIM = "%";
     @Deprecated
     protected int size;
     @Deprecated
     protected Constant[] constants;
     @Deprecated
-    protected int index = 1; // First entry (0) used by JVM
+    protected int index = 1;
     private final Map<String, Index> stringTable = new HashMap<>();
     private final Map<String, Index> classTable = new HashMap<>();
     private final Map<String, Index> utf8Table = new HashMap<>();
@@ -100,8 +100,6 @@ public class ConstantPoolGen {
                 ConstantUtf8 u8;
                 if (c instanceof ConstantInvokeDynamic) {
                     class_name = Integer.toString(((ConstantInvokeDynamic) m).getBootstrapMethodAttrIndex());
-                    // since name can't begin with digit, can use
-                    // METHODREF_DELIM with out fear of duplicates.
                 } else {
                     final ConstantClass clazz = (ConstantClass) constants[m.getClassIndex()];
                     u8 = (ConstantUtf8) constants[clazz.getNameIndex()];
@@ -128,24 +126,15 @@ public class ConstantPoolGen {
                 if (!cpTable.containsKey(key)) {
                     cpTable.put(key, new Index(i));
                 }
-            } else if (c == null) { // entries may be null
-                // nothing to do
+            } else if (c == null) {
             } else if (c instanceof ConstantInteger) {
-                // nothing to do
             } else if (c instanceof ConstantLong) {
-                // nothing to do
             } else if (c instanceof ConstantFloat) {
-                // nothing to do
             } else if (c instanceof ConstantDouble) {
-                // nothing to do
             } else if (c instanceof org.apache.bcel.classfile.constant.ConstantMethodType) {
-                // TODO should this be handled somehow?
             } else if (c instanceof org.apache.bcel.classfile.constant.ConstantMethodHandle) {
-                // TODO should this be handled somehow?
             } else if (c instanceof org.apache.bcel.classfile.constant.ConstantModule) {
-                // TODO should this be handled somehow?
             } else if (c instanceof org.apache.bcel.classfile.constant.ConstantPackage) {
-                // TODO should this be handled somehow?
             } else {
                 assert false : "Unexpected constant type: " + c.getClass().getName();
             }
@@ -171,7 +160,7 @@ public class ConstantPoolGen {
     private int addClass_(final String clazz) {
         int ret;
         if ((ret = lookupClass(clazz)) != -1) {
-            return ret; // Already in CP
+            return ret;
         }
         adjustSize();
         final ConstantClass c = new ConstantClass(addUtf8(clazz));
@@ -231,11 +220,11 @@ public class ConstantPoolGen {
                         return addMethodref(class_name, name, signature);
                     case CONSTANT_Fieldref:
                         return addFieldref(class_name, name, signature);
-                    default: // Never reached
+                    default:
                         throw new IllegalArgumentException("Unknown constant type " + c);
                 }
             }
-            default: // Never reached
+            default:
                 throw new IllegalArgumentException("Unknown constant type " + c);
         }
     }
@@ -243,12 +232,12 @@ public class ConstantPoolGen {
     public int addDouble(final double n) {
         int ret;
         if ((ret = lookupDouble(n)) != -1) {
-            return ret; // Already in CP
+            return ret;
         }
         adjustSize();
         ret = index;
         constants[index] = new ConstantDouble(n);
-        index += 2; // Wastes one entry according to spec
+        index += 2;
         return ret;
     }
 
@@ -257,7 +246,7 @@ public class ConstantPoolGen {
         int class_index;
         int name_and_type_index;
         if ((ret = lookupFieldref(class_name, field_name, signature)) != -1) {
-            return ret; // Already in CP
+            return ret;
         }
         adjustSize();
         class_index = addClass(class_name);
@@ -274,7 +263,7 @@ public class ConstantPoolGen {
     public int addFloat(final float n) {
         int ret;
         if ((ret = lookupFloat(n)) != -1) {
-            return ret; // Already in CP
+            return ret;
         }
         adjustSize();
         ret = index;
@@ -285,7 +274,7 @@ public class ConstantPoolGen {
     public int addInteger(final int n) {
         int ret;
         if ((ret = lookupInteger(n)) != -1) {
-            return ret; // Already in CP
+            return ret;
         }
         adjustSize();
         ret = index;
@@ -302,7 +291,7 @@ public class ConstantPoolGen {
         int class_index;
         int name_and_type_index;
         if ((ret = lookupInterfaceMethodref(class_name, method_name, signature)) != -1) {
-            return ret; // Already in CP
+            return ret;
         }
         adjustSize();
         class_index = addClass(class_name);
@@ -319,12 +308,12 @@ public class ConstantPoolGen {
     public int addLong(final long n) {
         int ret;
         if ((ret = lookupLong(n)) != -1) {
-            return ret; // Already in CP
+            return ret;
         }
         adjustSize();
         ret = index;
         constants[index] = new ConstantLong(n);
-        index += 2; // Wastes one entry according to spec
+        index += 2;
         return ret;
     }
 
@@ -337,7 +326,7 @@ public class ConstantPoolGen {
         int class_index;
         int name_and_type_index;
         if ((ret = lookupMethodref(class_name, method_name, signature)) != -1) {
-            return ret; // Already in CP
+            return ret;
         }
         adjustSize();
         name_and_type_index = addNameAndType(method_name, signature);
@@ -356,7 +345,7 @@ public class ConstantPoolGen {
         int name_index;
         int signature_index;
         if ((ret = lookupNameAndType(name, signature)) != -1) {
-            return ret; // Already in CP
+            return ret;
         }
         adjustSize();
         name_index = addUtf8(name);
@@ -373,7 +362,7 @@ public class ConstantPoolGen {
     public int addString(final String str) {
         int ret;
         if ((ret = lookupString(str)) != -1) {
-            return ret; // Already in CP
+            return ret;
         }
         final int utf8 = addUtf8(str);
         adjustSize();
@@ -389,7 +378,7 @@ public class ConstantPoolGen {
     public int addUtf8(final String n) {
         int ret;
         if ((ret = lookupUtf8(n)) != -1) {
-            return ret; // Already in CP
+            return ret;
         }
         adjustSize();
         ret = index;

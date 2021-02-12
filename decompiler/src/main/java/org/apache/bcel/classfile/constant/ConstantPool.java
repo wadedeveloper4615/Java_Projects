@@ -58,8 +58,6 @@ public class ConstantPool implements Cloneable, Node {
             case CONSTANT_NameAndType -> constantToString(((ConstantNameAndType) c).getNameIndex(), ClassFileConstants.CONSTANT_Utf8) + " " + constantToString(((ConstantNameAndType) c).getSignatureIndex(), ClassFileConstants.CONSTANT_Utf8);
             case CONSTANT_InterfaceMethodref, CONSTANT_Methodref, CONSTANT_Fieldref -> constantToString(((ConstantCP) c).getClassIndex(), ClassFileConstants.CONSTANT_Class) + "." + constantToString(((ConstantCP) c).getNameAndTypeIndex(), ClassFileConstants.CONSTANT_NameAndType);
             case CONSTANT_MethodHandle -> {
-                // Note that the ReferenceIndex may point to a Fieldref, Methodref or
-                // InterfaceMethodref - so we need to peek ahead to get the actual type.
                 ConstantMethodHandle cmh = (ConstantMethodHandle) c;
                 yield Const.getMethodHandleName(cmh.getReferenceKind()) + " " + constantToString(cmh.getReferenceIndex(), getConstant(cmh.getReferenceIndex()).getTag());
             }
@@ -86,11 +84,6 @@ public class ConstantPool implements Cloneable, Node {
         return str;
     }
 
-    public String constantToString(int index, byte tag) throws ClassFormatException {
-        Constant c = getConstant(index, tag);
-        return constantToString(c);
-    }
-
     public String constantToString(int index, ClassFileConstants tag) throws ClassFormatException {
         Constant c = getConstant(index, tag);
         return constantToString(c);
@@ -107,7 +100,6 @@ public class ConstantPool implements Cloneable, Node {
                 }
             }
         } catch (CloneNotSupportedException e) {
-            // TODO should this throw?
         }
         return c;
     }
@@ -128,17 +120,6 @@ public class ConstantPool implements Cloneable, Node {
         return constantPool[index];
     }
 
-    public Constant getConstant(int index, byte tag) {
-        Constant c = getConstant(index);
-        if (c == null) {
-            throw new ClassFormatException("Constant pool at index " + index + " is null.");
-        }
-        if (c.getTag().getTag() != tag) {
-            throw new ClassFormatException("Expected class `" + Const.getConstantName(tag) + "' at index " + index + " and got " + c);
-        }
-        return c;
-    }
-
     public Constant getConstant(int index, ClassFileConstants tag) {
         Constant c = getConstant(index);
         if (c == null) {
@@ -152,18 +133,6 @@ public class ConstantPool implements Cloneable, Node {
 
     public Constant[] getConstantPool() {
         return constantPool;
-    }
-
-    public String getConstantString(int index, byte tag) {
-        Constant c = getConstant(index, tag);
-        int i = switch (ClassFileConstants.read(tag)) {
-            case CONSTANT_Class -> ((ConstantClass) c).getNameIndex();
-            case CONSTANT_String -> ((ConstantString) c).getStringIndex();
-            case CONSTANT_Module -> ((ConstantModule) c).getNameIndex();
-            case CONSTANT_Package -> ((ConstantPackage) c).getNameIndex();
-            default -> throw new IllegalArgumentException("getConstantString called with illegal tag " + tag);
-        };
-        return ((ConstantUtf8) getConstant(i, ClassFileConstants.CONSTANT_Utf8)).getBytes();
     }
 
     public String getConstantString(int index, ClassFileConstants tag) {

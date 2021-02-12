@@ -1,15 +1,16 @@
 package org.apache.bcel.generic;
 
+import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.StoreInstruction;
 import org.apache.bcel.generic.base.Visitor;
 
 public class ISTORE extends StoreInstruction {
     public ISTORE() {
-        super(org.apache.bcel.Const.ISTORE, org.apache.bcel.Const.ISTORE_0);
+        super(InstructionOpCodes.ISTORE, InstructionOpCodes.ISTORE_0);
     }
 
     public ISTORE(final int n) {
-        super(org.apache.bcel.Const.ISTORE, org.apache.bcel.Const.ISTORE_0, n);
+        super(InstructionOpCodes.ISTORE, InstructionOpCodes.ISTORE_0, n);
     }
 
     @Override

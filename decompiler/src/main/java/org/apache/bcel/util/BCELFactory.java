@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.apache.bcel.Const;
 import org.apache.bcel.classfile.Utility;
+import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.CHECKCAST;
 import org.apache.bcel.generic.IINC;
 import org.apache.bcel.generic.INSTANCEOF;
@@ -45,7 +46,6 @@ class BCELFactory extends EmptyVisitor {
     private final PrintWriter _out;
     private final ConstantPoolGen _cp;
     private final Map<Instruction, InstructionHandle> branch_map = new HashMap<>();
-    // Memorize BranchInstructions that need an update
     private final List<BranchInstruction> branches = new ArrayList<>();
 
     BCELFactory(final MethodGen mg, final PrintWriter out) {
@@ -76,7 +76,7 @@ class BCELFactory extends EmptyVisitor {
             for (InstructionHandle ih = _mg.getInstructionList().getStart(); ih != null; ih = ih.getNext()) {
                 final Instruction i = ih.getInstruction();
                 if (i instanceof BranchInstruction) {
-                    branch_map.put(i, ih); // memorize container
+                    branch_map.put(i, ih);
                 }
                 if (ih.hasTargeters()) {
                     if (i instanceof BranchInstruction) {
@@ -129,17 +129,16 @@ class BCELFactory extends EmptyVisitor {
         } else {
             type = ((NEWARRAY) i).getType();
         }
-        final short opcode = ((Instruction) i).getOpcode();
+        InstructionOpCodes opcode = ((Instruction) i).getOpcode();
         int dim = 1;
         switch (opcode) {
-            case Const.NEW:
+            case NEW:
                 _out.println("il.append(_factory.createNew(\"" + ((ObjectType) type).getClassName() + "\"));");
                 break;
-            case Const.MULTIANEWARRAY:
+            case MULTIANEWARRAY:
                 dim = ((MULTIANEWARRAY) i).getDimensions();
-                //$FALL-THROUGH$
-            case Const.ANEWARRAY:
-            case Const.NEWARRAY:
+            case ANEWARRAY:
+            case NEWARRAY:
                 if (type instanceof ArrayType) {
                     type = ((ArrayType) type).getBasicType();
                 }
@@ -152,9 +151,9 @@ class BCELFactory extends EmptyVisitor {
 
     @Override
     public void visitArrayInstruction(final ArrayInstruction i) {
-        final short opcode = i.getOpcode();
+        InstructionOpCodes opcode = i.getOpcode();
         final Type type = i.getType(_cp);
-        final String kind = (opcode < Const.IASTORE) ? "Load" : "Store";
+        final String kind = (opcode.getOpcode() < InstructionOpCodes.IASTORE.getOpcode()) ? "Load" : "Store";
         _out.println("il.append(_factory.createArray" + kind + "(" + BCELifier.printType(type) + "));");
     }
 
@@ -214,11 +213,11 @@ class BCELFactory extends EmptyVisitor {
 
     @Override
     public void visitFieldInstruction(final FieldInstruction i) {
-        final short opcode = i.getOpcode();
+        InstructionOpCodes opcode = i.getOpcode();
         final String class_name = i.getClassName(_cp);
         final String field_name = i.getFieldName(_cp);
         final Type type = i.getFieldType(_cp);
-        _out.println("il.append(_factory.createFieldAccess(\"" + class_name + "\", \"" + field_name + "\", " + BCELifier.printType(type) + ", " + CONSTANT_PREFIX + Const.getOpcodeName(opcode).toUpperCase(Locale.ENGLISH) + "));");
+        _out.println("il.append(_factory.createFieldAccess(\"" + class_name + "\", \"" + field_name + "\", " + BCELifier.printType(type) + ", " + CONSTANT_PREFIX + opcode.getName().toUpperCase(Locale.ENGLISH) + "));");
     }
 
     @Override
@@ -228,8 +227,8 @@ class BCELFactory extends EmptyVisitor {
     }
 
     private boolean visitInstruction(final Instruction i) {
-        final short opcode = i.getOpcode();
-        if ((InstructionConst.getInstruction(opcode) != null) && !(i instanceof ConstantPushInstruction) && !(i instanceof ReturnInstruction)) { // Handled below
+        InstructionOpCodes opcode = i.getOpcode();
+        if ((InstructionConst.getInstruction(opcode.getOpcode()) != null) && !(i instanceof ConstantPushInstruction) && !(i instanceof ReturnInstruction)) {
             _out.println("il.append(InstructionConst." + i.getName().toUpperCase(Locale.ENGLISH) + ");");
             return true;
         }
@@ -238,12 +237,12 @@ class BCELFactory extends EmptyVisitor {
 
     @Override
     public void visitInvokeInstruction(final InvokeInstruction i) {
-        final short opcode = i.getOpcode();
+        InstructionOpCodes opcode = i.getOpcode();
         final String class_name = i.getClassName(_cp);
         final String method_name = i.getMethodName(_cp);
         final Type type = i.getReturnType(_cp);
         final Type[] arg_types = i.getArgumentTypes(_cp);
-        _out.println("il.append(_factory.createInvoke(\"" + class_name + "\", \"" + method_name + "\", " + BCELifier.printType(type) + ", " + BCELifier.printArgumentTypes(arg_types) + ", " + CONSTANT_PREFIX + Const.getOpcodeName(opcode).toUpperCase(Locale.ENGLISH) + "));");
+        _out.println("il.append(_factory.createInvoke(\"" + class_name + "\", \"" + method_name + "\", " + BCELifier.printType(type) + ", " + BCELifier.printArgumentTypes(arg_types) + ", " + CONSTANT_PREFIX + opcode.getName().toUpperCase(Locale.ENGLISH) + "));");
     }
 
     @Override
@@ -258,12 +257,12 @@ class BCELFactory extends EmptyVisitor {
 
     @Override
     public void visitLocalVariableInstruction(final LocalVariableInstruction i) {
-        final short opcode = i.getOpcode();
+        InstructionOpCodes opcode = i.getOpcode();
         final Type type = i.getType(_cp);
-        if (opcode == Const.IINC) {
+        if (opcode == InstructionOpCodes.IINC) {
             _out.println("il.append(new IINC(" + i.getIndex() + ", " + ((IINC) i).getIncrement() + "));");
         } else {
-            final String kind = (opcode < Const.ISTORE) ? "Load" : "Store";
+            String kind = (opcode.getOpcode() < InstructionOpCodes.ISTORE.getOpcode()) ? "Load" : "Store";
             _out.println("il.append(_factory.create" + kind + "(" + BCELifier.printType(type) + ", " + i.getIndex() + "));");
         }
     }

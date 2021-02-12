@@ -29,16 +29,10 @@ public abstract class ReferenceType extends Type {
         }
         if ((this instanceof ArrayType) || (t instanceof ArrayType)) {
             return Type.OBJECT;
-            // TODO: Is there a proof of OBJECT being the direct ancestor of every
-            // ArrayType?
         }
         if (((this instanceof ObjectType) && ((ObjectType) this).referencesInterface()) || ((t instanceof ObjectType) && ((ObjectType) t).referencesInterface())) {
             return Type.OBJECT;
-            // TODO: The above line is correct comparing to the vmspec2. But one could
-            // make class file verification a bit stronger here by using the notion of
-            // superinterfaces or even castability or assignment compatibility.
         }
-        // this and t are ObjectTypes, see above.
         final ObjectType thiz = (ObjectType) this;
         final ObjectType other = (ObjectType) t;
         final JavaClass[] thiz_sups = Repository.getSuperClasses(thiz.getClassName());
@@ -46,7 +40,6 @@ public abstract class ReferenceType extends Type {
         if ((thiz_sups == null) || (other_sups == null)) {
             return null;
         }
-        // Waaahh...
         final JavaClass[] this_sups = new JavaClass[thiz_sups.length + 1];
         final JavaClass[] t_sups = new JavaClass[other_sups.length + 1];
         System.arraycopy(thiz_sups, 0, this_sups, 1, thiz_sups.length);
@@ -60,7 +53,6 @@ public abstract class ReferenceType extends Type {
                 }
             }
         }
-        // Huh? Did you ask for Type.OBJECT's superclass??
         return null;
     }
 
@@ -83,16 +75,10 @@ public abstract class ReferenceType extends Type {
         }
         if ((this instanceof ArrayType) || (t instanceof ArrayType)) {
             return Type.OBJECT;
-            // TODO: Is there a proof of OBJECT being the direct ancestor of every
-            // ArrayType?
         }
         if (((this instanceof ObjectType) && ((ObjectType) this).referencesInterfaceExact()) || ((t instanceof ObjectType) && ((ObjectType) t).referencesInterfaceExact())) {
             return Type.OBJECT;
-            // TODO: The above line is correct comparing to the vmspec2. But one could
-            // make class file verification a bit stronger here by using the notion of
-            // superinterfaces or even castability or assignment compatibility.
         }
-        // this and t are ObjectTypes, see above.
         final ObjectType thiz = (ObjectType) this;
         final ObjectType other = (ObjectType) t;
         final JavaClass[] thiz_sups = Repository.getSuperClasses(thiz.getClassName());
@@ -100,7 +86,6 @@ public abstract class ReferenceType extends Type {
         if ((thiz_sups == null) || (other_sups == null)) {
             return null;
         }
-        // Waaahh...
         final JavaClass[] this_sups = new JavaClass[thiz_sups.length + 1];
         final JavaClass[] t_sups = new JavaClass[other_sups.length + 1];
         System.arraycopy(thiz_sups, 0, this_sups, 1, thiz_sups.length);
@@ -114,7 +99,6 @@ public abstract class ReferenceType extends Type {
                 }
             }
         }
-        // Huh? Did you ask for Type.OBJECT's superclass??
         return null;
     }
 
@@ -124,7 +108,7 @@ public abstract class ReferenceType extends Type {
         }
         final ReferenceType T = (ReferenceType) t;
         if (this.equals(Type.NULL)) {
-            return true; // This is not explicitely stated, but clear. Isn't it?
+            return true;
         }
         if ((this instanceof ObjectType) && (((ObjectType) this).referencesClassExact())) {
             if ((T instanceof ObjectType) && (((ObjectType) T).referencesClassExact())) {
@@ -172,15 +156,6 @@ public abstract class ReferenceType extends Type {
                     return true;
                 }
             }
-            // TODO: Check if this is still valid or find a way to dynamically find out
-            // which
-            // interfaces arrays implement. However, as of the JVM specification edition 2,
-            // there
-            // are at least two different pages where assignment compatibility is defined
-            // and
-            // on one of them "interfaces implemented by arrays" is exchanged with
-            // "'Cloneable' or
-            // 'java.io.Serializable'"
             if ((T instanceof ObjectType) && (((ObjectType) T).referencesInterfaceExact())) {
                 for (final String element : Const.getInterfacesImplementedByArrays()) {
                     if (T.equals(ObjectType.getInstance(element))) {
@@ -189,12 +164,12 @@ public abstract class ReferenceType extends Type {
                 }
             }
         }
-        return false; // default.
+        return false;
     }
 
     public boolean isCastableTo(final Type t) throws ClassNotFoundException {
         if (this.equals(Type.NULL)) {
-            return t instanceof ReferenceType; // If this is ever changed in isAssignmentCompatible()
+            return t instanceof ReferenceType;
         }
         return isAssignmentCompatibleWith(t);
     }

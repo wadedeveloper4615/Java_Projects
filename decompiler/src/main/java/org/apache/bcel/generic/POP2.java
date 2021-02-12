@@ -1,12 +1,13 @@
 package org.apache.bcel.generic;
 
+import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.PopInstruction;
 import org.apache.bcel.generic.base.StackInstruction;
 import org.apache.bcel.generic.base.Visitor;
 
 public class POP2 extends StackInstruction implements PopInstruction {
     public POP2() {
-        super(org.apache.bcel.Const.POP2);
+        super(InstructionOpCodes.POP2);
     }
 
     @Override

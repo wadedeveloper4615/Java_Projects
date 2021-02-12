@@ -10,7 +10,7 @@ import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.enums.ClassFileAttributes;
 
 public final class StackMap extends Attribute {
-    private StackMapEntry[] map; // Table of stack map entries
+    private StackMapEntry[] map;
 
     public StackMap(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
         this(name_index, length, (StackMapEntry[]) null, constant_pool);
@@ -61,7 +61,7 @@ public final class StackMap extends Attribute {
 
     public void setStackMap(final StackMapEntry[] map) {
         this.map = map;
-        int len = 2; // Length of 'number_of_entries' field prior to the array of stack maps
+        int len = 2;
         for (final StackMapEntry element : map) {
             len += element.getMapEntrySize();
         }

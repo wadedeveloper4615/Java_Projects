@@ -67,7 +67,7 @@ public abstract class FieldOrMethod extends AccessFlags implements Cloneable, No
         }
         c.constant_pool = constant_pool;
         c.attributes = new Attribute[attributes.length];
-        c.attributesCount = attributesCount; // init deprecated field
+        c.attributesCount = attributesCount;
         for (int i = 0; i < attributes.length; i++) {
             c.attributes[i] = attributes[i].copy(constant_pool);
         }

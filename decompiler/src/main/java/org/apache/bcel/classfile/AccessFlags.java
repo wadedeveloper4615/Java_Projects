@@ -162,7 +162,7 @@ public abstract class AccessFlags {
             if (!set) {
                 access_flags ^= flag;
             }
-        } else { // Flag not set
+        } else {
             if (set) {
                 access_flags |= flag;
             }

@@ -24,7 +24,7 @@ public abstract class Type {
     public static final ObjectType STRING = new ObjectType("java.lang.String");
     public static final ObjectType STRINGBUFFER = new ObjectType("java.lang.StringBuffer");
     public static final ObjectType THROWABLE = new ObjectType("java.lang.Throwable");
-    public static final Type[] NO_ARGS = new Type[0]; // EMPTY, so immutable
+    public static final Type[] NO_ARGS = new Type[0];
     public static final ReferenceType NULL = new ReferenceType() {
     };
     public static final Type UNKNOWN = new Type(Const.T_UNKNOWN, "<unknown object>") {
@@ -34,11 +34,11 @@ public abstract class Type {
         protected Integer initialValue() {
             return Integer.valueOf(0);
         }
-    };// int consumed_chars=0; // Remember position in string, see getArgumentTypes
+    };
     @Deprecated
-    protected byte type; // TODO should be final (and private)
+    protected byte type;
     @Deprecated
-    protected String signature; // signature for the type TODO should be private
+    protected String signature;
 
     protected Type(final byte t, final String s) {
         type = t;
@@ -108,17 +108,15 @@ public abstract class Type {
         int index;
         Type[] types;
         try {
-            // Skip any type arguments to read argument declarations between `(' and `)'
             index = signature.indexOf('(') + 1;
             if (index <= 0) {
                 throw new ClassFormatException("Invalid method signature: " + signature);
             }
             while (signature.charAt(index) != ')') {
                 vec.add(getType(signature.substring(index)));
-                // corrected concurrent private static field acess
-                index += unwrap(consumed_chars); // update position
+                index += unwrap(consumed_chars);
             }
-        } catch (final StringIndexOutOfBoundsException e) { // Should never occur
+        } catch (final StringIndexOutOfBoundsException e) {
             throw new ClassFormatException("Invalid method signature: " + signature, e);
         }
         types = new Type[vec.size()];
@@ -130,7 +128,6 @@ public abstract class Type {
         int res = 0;
         int index;
         try {
-            // Skip any type arguments to read argument declarations between `(' and `)'
             index = signature.indexOf('(') + 1;
             if (index <= 0) {
                 throw new ClassFormatException("Invalid method signature: " + signature);
@@ -140,7 +137,7 @@ public abstract class Type {
                 res += size(coded);
                 index += consumed(coded);
             }
-        } catch (final StringIndexOutOfBoundsException e) { // Should never occur
+        } catch (final StringIndexOutOfBoundsException e) {
             throw new ClassFormatException("Invalid method signature: " + signature, e);
         }
         return res;
@@ -160,10 +157,9 @@ public abstract class Type {
 
     public static Type getReturnType(final String signature) {
         try {
-            // Read return type after `)'
             final int index = signature.lastIndexOf(')') + 1;
             return getType(signature.substring(index));
-        } catch (final StringIndexOutOfBoundsException e) { // Should never occur
+        } catch (final StringIndexOutOfBoundsException e) {
             throw new ClassFormatException("Invalid method signature: " + signature, e);
         }
     }
@@ -175,7 +171,7 @@ public abstract class Type {
 
     public static String getSignature(final java.lang.reflect.Method meth) {
         final StringBuilder sb = new StringBuilder("(");
-        final Class<?>[] params = meth.getParameterTypes(); // avoid clone
+        final Class<?>[] params = meth.getParameterTypes();
         for (final Class<?> param : params) {
             sb.append(getType(param).getSignature());
         }
@@ -214,34 +210,28 @@ public abstract class Type {
             } else {
                 throw new IllegalStateException("Unknown primitive type " + cl);
             }
-        } else { // "Real" class
+        } else {
             return ObjectType.getInstance(cl.getName());
         }
     }
 
-    // @since 6.0 no longer final
     public static Type getType(final String signature) throws StringIndexOutOfBoundsException {
         final byte type = Utility.typeOfSignature(signature);
         if (type <= Const.T_VOID) {
-            // corrected concurrent private static field acess
             wrap(consumed_chars, 1);
             return BasicType.getType(type);
         } else if (type == Const.T_ARRAY) {
             int dim = 0;
-            do { // Count dimensions
+            do {
                 dim++;
             } while (signature.charAt(dim) == '[');
-            // Recurse, but just once, if the signature is ok
             final Type t = getType(signature.substring(dim));
-            // corrected concurrent private static field acess
-            // consumed_chars += dim; // update counter - is replaced by
             final int _temp = unwrap(consumed_chars) + dim;
             wrap(consumed_chars, _temp);
             return new ArrayType(t, dim);
-        } else { // type == T_REFERENCE
-            // Utility.typeSignatureToString understands how to parse generic types.
+        } else {
             final String parsedSignature = Utility.typeSignatureToString(signature, false);
-            wrap(consumed_chars, parsedSignature.length() + 2); // "Lblabla;" `L' and `;' are removed
+            wrap(consumed_chars, parsedSignature.length() + 2);
             return ObjectType.getInstance(parsedSignature.replace('/', '.'));
         }
     }
@@ -260,14 +250,13 @@ public abstract class Type {
             return encode(BasicType.getType(type).getSize(), 1);
         } else if (type == Const.T_ARRAY) {
             int dim = 0;
-            do { // Count dimensions
+            do {
                 dim++;
             } while (signature.charAt(dim) == '[');
-            // Recurse, but just once, if the signature is ok
             final int consumed = consumed(getTypeSize(signature.substring(dim)));
             return encode(1, dim + consumed);
-        } else { // type == T_REFERENCE
-            final int index = signature.indexOf(';'); // Look for closing `;'
+        } else {
+            final int index = signature.indexOf(';');
             if (index < 0) {
                 throw new ClassFormatException("Invalid signature: " + signature);
             }

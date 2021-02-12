@@ -14,8 +14,8 @@ public interface Constants {
     short MINOR_1_5 = 0;
     short MAJOR = MAJOR_1_1;
     short MINOR = MINOR_1_1;
-    int MAX_SHORT = 65535; // 2^16 - 1
-    int MAX_BYTE = 255; // 2^8 - 1
+    int MAX_SHORT = 65535;
+    int MAX_BYTE = 255;
     short ACC_PUBLIC = 0x0001;
     short ACC_PRIVATE = 0x0002;
     short ACC_PROTECTED = 0x0004;
@@ -33,7 +33,6 @@ public interface Constants {
     short ACC_SYNTHETIC = 0x1000;
     short ACC_ANNOTATION = 0x2000;
     short ACC_ENUM = 0x4000;
-    // Applies to classes compiled by new compilers only
     short ACC_SUPER = 0x0020;
     short MAX_ACC_FLAG = ACC_ENUM;
     String[] ACCESS_NAMES = { "public", "private", "protected", "static", "final", "synchronized", "volatile", "transient", "native", "interface", "abstract", "strictfp", "synthetic", "annotation", "enum" };
@@ -53,7 +52,7 @@ public interface Constants {
     String CONSTRUCTOR_NAME = "<init>";
     String[] INTERFACES_IMPLEMENTED_BY_ARRAYS = { "java.lang.Cloneable", "java.io.Serializable" };
     int MAX_CP_ENTRIES = 65535;
-    int MAX_CODE_SIZE = 65536; // bytes
+    int MAX_CODE_SIZE = 65536;
     short NOP = 0;
     short ACONST_NULL = 1;
     short ICONST_M1 = 2;
@@ -200,11 +199,11 @@ public interface Constants {
     short D2L = 143;
     short D2F = 144;
     short I2B = 145;
-    short INT2BYTE = 145; // Old notion
+    short INT2BYTE = 145;
     short I2C = 146;
-    short INT2CHAR = 146; // Old notion
+    short INT2CHAR = 146;
     short I2S = 147;
-    short INT2SHORT = 147; // Old notion
+    short INT2SHORT = 147;
     short LCMP = 148;
     short FCMPL = 149;
     short FCMPG = 150;
@@ -241,7 +240,7 @@ public interface Constants {
     short PUTFIELD = 181;
     short INVOKEVIRTUAL = 182;
     short INVOKESPECIAL = 183;
-    short INVOKENONVIRTUAL = 183; // Old name in JDK 1.0
+    short INVOKENONVIRTUAL = 183;
     short INVOKESTATIC = 184;
     short INVOKEINTERFACE = 185;
     short INVOKEDYNAMIC = 186;
@@ -303,10 +302,10 @@ public interface Constants {
     byte T_SHORT = 9;
     byte T_INT = 10;
     byte T_LONG = 11;
-    byte T_VOID = 12; // Non-standard
+    byte T_VOID = 12;
     byte T_ARRAY = 13;
     byte T_OBJECT = 14;
-    byte T_REFERENCE = 14; // Deprecated
+    byte T_REFERENCE = 14;
     byte T_UNKNOWN = 15;
     byte T_ADDRESS = 16;
     String[] TYPE_NAMES = { ILLEGAL_TYPE, ILLEGAL_TYPE, ILLEGAL_TYPE, ILLEGAL_TYPE, "boolean", "char", "float", "double", "byte", "short", "int", "long", "void", "array", "object", "unknown", "address" };
@@ -335,8 +334,7 @@ public interface Constants {
     byte ATTR_RUNTIMEVISIBLE_PARAMETER_ANNOTATIONS = 14;
     byte ATTR_RUNTIMEINVISIBLE_PARAMETER_ANNOTATIONS = 15;
     byte ATTR_ANNOTATION_DEFAULT = 16;
-    short KNOWN_ATTRIBUTES = 12;// should be 17
-    // TODO: mutable public array!!
+    short KNOWN_ATTRIBUTES = 12;
     String[] ATTRIBUTE_NAMES = { "SourceFile", "ConstantValue", "Code", "Exceptions", "LineNumberTable", "LocalVariableTable", "InnerClasses", "Synthetic", "Deprecated", "PMGClass", "Signature", "StackMap", "RuntimeVisibleAnnotations", "RuntimeInvisibleAnnotations", "RuntimeVisibleParameterAnnotations", "RuntimeInvisibleParameterAnnotations", "AnnotationDefault" };
     byte ITEM_Bogus = 0;
     byte ITEM_Integer = 1;

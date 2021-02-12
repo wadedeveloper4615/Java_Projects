@@ -9,8 +9,8 @@ import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public final class CodeException implements Cloneable, Node, Constants {
-    private int startPc; // Range in the code the exception handler is
-    private int endPc; // active. startPc is inclusive, endPc exclusive
+    private int startPc;
+    private int endPc;
     private int handlerPc;
     private int catchType;
 
@@ -38,7 +38,6 @@ public final class CodeException implements Cloneable, Node, Constants {
         try {
             return (CodeException) clone();
         } catch (final CloneNotSupportedException e) {
-            // TODO should this throw?
         }
         return null;
     }
@@ -74,11 +73,11 @@ public final class CodeException implements Cloneable, Node, Constants {
         this.endPc = endPc;
     }
 
-    public void setHandlerPC(final int handlerPc) { // TODO unused
+    public void setHandlerPC(final int handlerPc) {
         this.handlerPc = handlerPc;
     }
 
-    public void setStartPC(final int startPc) { // TODO unused
+    public void setStartPC(final int startPc) {
         this.startPc = startPc;
     }
 

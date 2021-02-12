@@ -9,8 +9,6 @@ import org.apache.bcel.classfile.element.ArrayElementValue;
 import org.apache.bcel.classfile.element.ElementValue;
 
 public class ArrayElementValueGen extends ElementValueGen {
-    // J5TODO: Should we make this an array or a list? A list would be easier to
-    // modify ...
     private final List<ElementValueGen> evalues;
 
     public ArrayElementValueGen(final ConstantPoolGen cp) {
@@ -50,7 +48,7 @@ public class ArrayElementValueGen extends ElementValueGen {
 
     @Override
     public void dump(final DataOutputStream dos) throws IOException {
-        dos.writeByte(super.getElementValueType()); // u1 type of value (ARRAY == '[')
+        dos.writeByte(super.getElementValueType());
         dos.writeShort(evalues.size());
         for (final ElementValueGen element : evalues) {
             element.dump(dos);

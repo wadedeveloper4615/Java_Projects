@@ -1,15 +1,16 @@
 package org.apache.bcel.generic;
 
+import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.LoadInstruction;
 import org.apache.bcel.generic.base.Visitor;
 
 public class ILOAD extends LoadInstruction {
     public ILOAD() {
-        super(org.apache.bcel.Const.ILOAD, org.apache.bcel.Const.ILOAD_0);
+        super(InstructionOpCodes.ILOAD, InstructionOpCodes.ILOAD_0);
     }
 
     public ILOAD(final int n) {
-        super(org.apache.bcel.Const.ILOAD, org.apache.bcel.Const.ILOAD_0, n);
+        super(InstructionOpCodes.ILOAD, InstructionOpCodes.ILOAD_0, n);
     }
 
     @Override

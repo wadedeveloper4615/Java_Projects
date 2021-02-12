@@ -17,7 +17,7 @@ public class ClassElementValue extends ElementValue {
 
     @Override
     public void dump(final DataOutputStream dos) throws IOException {
-        dos.writeByte(super.getType()); // u1 kind of value
+        dos.writeByte(super.getType());
         dos.writeShort(idx);
     }
 

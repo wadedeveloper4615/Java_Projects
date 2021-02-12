@@ -56,7 +56,6 @@ public class AnnotationEntry implements Node {
     }
 
     public ElementValuePair[] getElementValuePairs() {
-        // TODO return List
         return elementValuePairs.toArray(new ElementValuePair[elementValuePairs.size()]);
     }
 
@@ -93,7 +92,6 @@ public class AnnotationEntry implements Node {
     }
 
     public static AnnotationEntry[] createAnnotationEntries(final Attribute[] attrs) {
-        // Find attributes that contain annotation data
         final List<AnnotationEntry> accumulatedAnnotations = new ArrayList<>(attrs.length);
         for (final Attribute attribute : attrs) {
             if (attribute instanceof Annotations) {

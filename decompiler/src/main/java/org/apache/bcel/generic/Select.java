@@ -3,37 +3,29 @@ package org.apache.bcel.generic;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.BranchInstruction;
 import org.apache.bcel.generic.base.ClassGenException;
 import org.apache.bcel.generic.base.StackConsumer;
 import org.apache.bcel.generic.base.VariableLengthInstruction;
 import org.apache.bcel.generic.control.InstructionHandle;
-import org.apache.bcel.generic.control.InstructionList;
 import org.apache.bcel.util.ByteSequence;
 
 public abstract class Select extends BranchInstruction implements VariableLengthInstruction, StackConsumer, StackProducer {
-    @Deprecated
-    protected int[] match; // matches, i.e., case 1: ... TODO could be package-protected?
-    @Deprecated
-    protected int[] indices; // target offsets TODO could be package-protected?
-    @Deprecated
-    protected InstructionHandle[] targets; // target objects in instruction list TODO could be package-protected?
-    @Deprecated
-    protected int fixed_length; // fixed length defined by subclasses TODO could be package-protected?
-    @Deprecated
-    protected int match_length; // number of cases TODO could be package-protected?
-    @Deprecated
-    protected int padding = 0; // number of pad bytes for alignment TODO could be package-protected?
+    protected int[] match;
+    protected int[] indices;
+    protected InstructionHandle[] targets;
+    protected int fixed_length;
+    protected int match_length;
+    protected int padding = 0;
 
     public Select() {
     }
 
-    Select(final short opcode, final int[] match, final InstructionHandle[] targets, final InstructionHandle defaultTarget) {
-        // don't set default target before instuction is built
+    Select(InstructionOpCodes opcode, final int[] match, final InstructionHandle[] targets, final InstructionHandle defaultTarget) {
         super(opcode, null);
         this.match = match;
         this.targets = targets;
-        // now it's safe to set default target
         setTarget(defaultTarget);
         for (final InstructionHandle target2 : targets) {
             notifyTarget(null, target2, this);
@@ -76,11 +68,11 @@ public abstract class Select extends BranchInstruction implements VariableLength
 
     @Override
     public void dump(final DataOutputStream out) throws IOException {
-        out.writeByte(super.getOpcode());
+        out.writeByte(super.getOpcode().getOpcode());
         for (int i = 0; i < padding; i++) {
             out.writeByte(0);
         }
-        super.setIndex(getTargetOffset()); // Write default target offset
+        super.setIndex(getTargetOffset());
         out.writeInt(super.getIndex());
     }
 
@@ -122,11 +114,10 @@ public abstract class Select extends BranchInstruction implements VariableLength
 
     @Override
     protected void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
-        padding = (4 - (bytes.getIndex() % 4)) % 4; // Compute number of pad bytes
+        padding = (4 - (bytes.getIndex() % 4)) % 4;
         for (int i = 0; i < padding; i++) {
             bytes.readByte();
         }
-        // Default branch target common for both cases (TABLESWITCH, LOOKUPSWITCH)
         super.setIndex(bytes.readInt());
     }
 
@@ -136,7 +127,7 @@ public abstract class Select extends BranchInstruction implements VariableLength
 
     final int setIndices(final int i, final int value) {
         indices[i] = value;
-        return value; // Allow use in nested calls
+        return value;
     }
 
     final void setIndices(final int[] array) {
@@ -156,7 +147,7 @@ public abstract class Select extends BranchInstruction implements VariableLength
         match = array;
     }
 
-    public void setTarget(final int i, final InstructionHandle target) { // TODO could be package-protected?
+    public void setTarget(final int i, final InstructionHandle target) {
         notifyTarget(targets[i], target, this);
         targets[i] = target;
     }
@@ -184,10 +175,10 @@ public abstract class Select extends BranchInstruction implements VariableLength
 
     @Override
     protected int updatePosition(final int offset, final int max_offset) {
-        setPosition(getPosition() + offset); // Additional offset caused by preceding SWITCHs, GOTOs, etc.
+        setPosition(getPosition() + offset);
         final short old_length = (short) super.getLength();
         padding = (4 - ((getPosition() + 1) % 4)) % 4;
-        super.setLength((short) (fixed_length + padding)); // Update length
+        super.setLength((short) (fixed_length + padding));
         return super.getLength() - old_length;
     }
 

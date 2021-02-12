@@ -1,11 +1,12 @@
 package org.apache.bcel.generic;
 
+import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.ConversionInstruction;
 import org.apache.bcel.generic.base.Visitor;
 
 public class I2S extends ConversionInstruction {
     public I2S() {
-        super(org.apache.bcel.Const.I2S);
+        super(InstructionOpCodes.I2S);
     }
 
     @Override

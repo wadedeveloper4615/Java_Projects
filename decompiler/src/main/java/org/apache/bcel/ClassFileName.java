@@ -12,7 +12,7 @@ public class ClassFileName {
 
     public ClassFileName(DataInputStream in, ConstantPool constantPool) throws IOException {
         this.nameIndex = in.readUnsignedShort();
-        this.name = constantPool.getConstantString(nameIndex, ClassFileConstants.CONSTANT_Class.getTag());
+        this.name = constantPool.getConstantString(nameIndex, ClassFileConstants.CONSTANT_Class);
     }
 
     public ClassFileName(String name, int nameIndex) {

@@ -14,7 +14,7 @@ public class LruCacheClassPathRepository extends AbstractClassPathRepository {
             throw new IllegalArgumentException("cacheSize must be a positive number.");
         }
         final int initialCapacity = (int) (0.75 * cacheSize);
-        final boolean accessOrder = true; // Evicts least-recently-accessed
+        final boolean accessOrder = true;
         loadedClasses = new LinkedHashMap<String, JavaClass>(initialCapacity, cacheSize, accessOrder) {
             private static final long serialVersionUID = 1L;
 
@@ -42,7 +42,6 @@ public class LruCacheClassPathRepository extends AbstractClassPathRepository {
 
     @Override
     public void storeClass(final JavaClass javaClass) {
-        // Not storing parent's _loadedClass
         loadedClasses.put(javaClass.getClassName().getName(), javaClass);
         javaClass.setRepository(this);
     }

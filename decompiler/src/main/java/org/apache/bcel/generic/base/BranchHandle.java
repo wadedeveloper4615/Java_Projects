@@ -4,10 +4,7 @@ import org.apache.bcel.generic.control.InstructionHandle;
 import org.apache.bcel.generic.control.InstructionList;
 
 public final class BranchHandle extends InstructionHandle {
-    // This is also a cache in case the InstructionHandle#swapInstruction() method
-    // is used
-    // See BCEL-273
-    private BranchInstruction bi; // An alias in fact, but saves lots of casts
+    private BranchInstruction bi;
 
     private BranchHandle(final BranchInstruction i) {
         super(i);
@@ -23,9 +20,8 @@ public final class BranchHandle extends InstructionHandle {
         return bi.getTarget();
     }
 
-    @Override // This is only done in order to apply the additional type check; could be
-              // merged with super impl.
-    public void setInstruction(final Instruction i) { // TODO could be package-protected?
+    @Override
+    public void setInstruction(final Instruction i) {
         super.setInstruction(i);
         if (!(i instanceof BranchInstruction)) {
             throw new ClassGenException("Assigning " + i + " to branch handle which is not a branch instruction");
@@ -35,7 +31,6 @@ public final class BranchHandle extends InstructionHandle {
 
     @Override
     protected void setPosition(final int pos) {
-        // Original code: i_position = bi.position = pos;
         bi.setPosition(pos);
         super.setPosition(pos);
     }

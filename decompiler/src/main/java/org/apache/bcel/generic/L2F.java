@@ -1,11 +1,12 @@
 package org.apache.bcel.generic;
 
+import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.ConversionInstruction;
 import org.apache.bcel.generic.base.Visitor;
 
 public class L2F extends ConversionInstruction {
     public L2F() {
-        super(org.apache.bcel.Const.L2F);
+        super(InstructionOpCodes.L2F);
     }
 
     @Override

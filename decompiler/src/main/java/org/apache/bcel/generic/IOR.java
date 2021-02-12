@@ -1,11 +1,12 @@
 package org.apache.bcel.generic;
 
+import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.ArithmeticInstruction;
 import org.apache.bcel.generic.base.Visitor;
 
 public class IOR extends ArithmeticInstruction {
     public IOR() {
-        super(org.apache.bcel.Const.IOR);
+        super(InstructionOpCodes.IOR);
     }
 
     @Override

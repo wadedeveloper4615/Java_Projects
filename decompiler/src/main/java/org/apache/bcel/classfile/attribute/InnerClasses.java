@@ -37,8 +37,6 @@ public final class InnerClasses extends Attribute {
 
     @Override
     public Attribute copy(final ConstantPool _constant_pool) {
-        // TODO this could be recoded to use a lower level constructor after creating a
-        // copy of the inner classes
         final InnerClasses c = (InnerClasses) clone();
         c.innerClasses = new InnerClass[innerClasses.length];
         for (int i = 0; i < innerClasses.length; i++) {
@@ -74,6 +72,6 @@ public final class InnerClasses extends Attribute {
         for (final InnerClass inner_class : innerClasses) {
             buf.append(inner_class.toString(super.getConstantPool())).append("\n");
         }
-        return buf.substring(0, buf.length() - 1); // remove the last newline
+        return buf.substring(0, buf.length() - 1);
     }
 }

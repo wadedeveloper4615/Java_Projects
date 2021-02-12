@@ -3,6 +3,7 @@ package org.apache.bcel.generic;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.Visitor;
 import org.apache.bcel.generic.control.InstructionHandle;
 import org.apache.bcel.util.ByteSequence;
@@ -12,7 +13,7 @@ public class TABLESWITCH extends Select {
     }
 
     public TABLESWITCH(final int[] match, final InstructionHandle[] targets, final InstructionHandle defaultTarget) {
-        super(org.apache.bcel.Const.TABLESWITCH, match, targets, defaultTarget);
+        super(InstructionOpCodes.TABLESWITCH, match, targets, defaultTarget);
         final short _length = (short) (13 + getMatch_length() * 4);
         super.setLength(_length);
         setFixed_length(_length);

@@ -34,7 +34,7 @@ public class LineNumberGen implements InstructionTargeter, Cloneable {
         return new LineNumber(ih.getPosition(), srcLine);
     }
 
-    public void setInstruction(final InstructionHandle instructionHandle) { // TODO could be package-protected?
+    public void setInstruction(final InstructionHandle instructionHandle) {
         Objects.requireNonNull(instructionHandle, "instructionHandle");
         BranchInstruction.notifyTarget(this.ih, instructionHandle, this);
         this.ih = instructionHandle;
@@ -45,7 +45,7 @@ public class LineNumberGen implements InstructionTargeter, Cloneable {
         try {
             return super.clone();
         } catch (final CloneNotSupportedException e) {
-            throw new Error("Clone Not Supported"); // never happens
+            throw new Error("Clone Not Supported");
         }
     }
 
@@ -53,7 +53,7 @@ public class LineNumberGen implements InstructionTargeter, Cloneable {
         return ih;
     }
 
-    public void setSourceLine(final int src_line) { // TODO could be package-protected?
+    public void setSourceLine(final int src_line) {
         this.srcLine = src_line;
     }
 

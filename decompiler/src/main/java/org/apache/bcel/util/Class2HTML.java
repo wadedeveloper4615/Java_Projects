@@ -18,8 +18,8 @@ import org.apache.bcel.enums.ClassFileConstants;
 import org.apache.bcel.exceptions.ClassFormatException;
 
 public class Class2HTML implements Constants {
-    private static String class_package; // name of package, unclean to make it static, but ...
-    private static String class_name; // name of current class, dito
+    private static String class_package;
+    private static String class_name;
     private static ConstantPool constant_pool;
     private static final Set<String> basic_types = new HashSet<>();
     static {
@@ -33,26 +33,24 @@ public class Class2HTML implements Constants {
         basic_types.add("double");
         basic_types.add("float");
     }
-    private final JavaClass java_class; // current class object
+    private final JavaClass java_class;
     private final String dir;
 
     public Class2HTML(final JavaClass java_class, final String dir) throws IOException {
         final Method[] methods = java_class.getMethods();
         this.java_class = java_class;
         this.dir = dir;
-        class_name = java_class.getClassName().getName(); // Remember full name
+        class_name = java_class.getClassName().getName();
         constant_pool = java_class.getConstantPool();
-        // Get package name by tacking off everything after the last `.'
         final int index = class_name.lastIndexOf('.');
         if (index > -1) {
             class_package = class_name.substring(0, index);
         } else {
-            class_package = ""; // default package
+            class_package = "";
         }
         final ConstantHTML constant_html = new ConstantHTML(dir, class_name, class_package, methods, constant_pool);
         final AttributeHTML attribute_html = new AttributeHTML(dir, class_name, constant_pool, constant_html);
         new MethodHTML(dir, class_name, methods, java_class.getFields(), constant_html, attribute_html);
-        // Write main file (with frames, yuk)
         writeMainHTML(attribute_html);
         new CodeHTML(dir, class_name, methods, constant_pool, constant_html);
         attribute_html.close();
@@ -76,17 +74,17 @@ public class Class2HTML implements Constants {
         JavaClass java_class = null;
         String zip_file = null;
         final char sep = File.separatorChar;
-        String dir = "." + sep; // Where to store HTML files
+        String dir = "." + sep;
         for (int i = 0; i < argv.length; i++) {
-            if (argv[i].charAt(0) == '-') { // command line switch
-                if (argv[i].equals("-d")) { // Specify target directory, default '.'
+            if (argv[i].charAt(0) == '-') {
+                if (argv[i].equals("-d")) {
                     dir = argv[++i];
                     if (!dir.endsWith("" + sep)) {
                         dir = dir + sep;
                     }
                     final File store = new File(dir);
                     if (!store.isDirectory()) {
-                        final boolean created = store.mkdirs(); // Create target directory if necessary
+                        final boolean created = store.mkdirs();
                         if (!created) {
                             if (!store.isDirectory()) {
                                 System.out.println("Tried to create the directory " + dir + " but failed");
@@ -104,13 +102,13 @@ public class Class2HTML implements Constants {
         }
         if (files == 0) {
             System.err.println("Class2HTML: No input files specified.");
-        } else { // Loop through files ...
+        } else {
             for (int i = 0; i < files; i++) {
                 System.out.print("Processing " + file_name[i] + "...");
                 if (zip_file == null) {
-                    parser = new ClassParser(file_name[i]); // Create parser object from file
+                    parser = new ClassParser(file_name[i]);
                 } else {
-                    parser = new ClassParser(zip_file, file_name[i]); // Create parser object from zip file
+                    parser = new ClassParser(zip_file, file_name[i]);
                 }
                 java_class = parser.parse();
                 new Class2HTML(java_class, dir);
@@ -129,12 +127,11 @@ public class Class2HTML implements Constants {
     static String referenceType(final String type) {
         String short_type = Utility.compactClassName(type);
         short_type = Utility.compactClassName(short_type, class_package + ".", true);
-        final int index = type.indexOf('['); // Type is an array?
+        final int index = type.indexOf('[');
         String base_type = type;
         if (index > -1) {
-            base_type = type.substring(0, index); // Tack of the `['
+            base_type = type.substring(0, index);
         }
-        // test for basic type
         if (basic_types.contains(base_type)) {
             return "<FONT COLOR=\"#00FF00\">" + type + "</FONT>";
         }

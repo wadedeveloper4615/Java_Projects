@@ -1,5 +1,6 @@
 package org.apache.bcel.generic;
 
+import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.CPInstruction;
 import org.apache.bcel.generic.base.PushInstruction;
 import org.apache.bcel.generic.base.Visitor;
@@ -10,7 +11,7 @@ public class LDC2_W extends CPInstruction implements PushInstruction {
     }
 
     public LDC2_W(final int index) {
-        super(org.apache.bcel.Const.LDC2_W, index);
+        super(InstructionOpCodes.LDC2_W, index);
     }
 
     @Override
@@ -29,7 +30,7 @@ public class LDC2_W extends CPInstruction implements PushInstruction {
                 return Type.LONG;
             case CONSTANT_Double:
                 return Type.DOUBLE;
-            default: // Never reached
+            default:
                 throw new IllegalArgumentException("Unknown constant type " + super.getOpcode());
         }
     }
@@ -41,7 +42,7 @@ public class LDC2_W extends CPInstruction implements PushInstruction {
                 return Long.valueOf(((org.apache.bcel.classfile.constant.ConstantLong) c).getBytes());
             case CONSTANT_Double:
                 return new Double(((org.apache.bcel.classfile.constant.ConstantDouble) c).getBytes());
-            default: // Never reached
+            default:
                 throw new IllegalArgumentException("Unknown or invalid constant type at " + super.getIndex());
         }
     }

@@ -12,20 +12,9 @@ import org.apache.bcel.enums.ClassFileAttributes;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public class EnclosingMethod extends Attribute {
-    // Pointer to the CONSTANT_Class_info structure representing the
-    // innermost class that encloses the declaration of the current class.
     private int classIndex;
-    // If the current class is not immediately enclosed by a method or
-    // constructor, then the value of the method_index item must be zero.
-    // Otherwise, the value of the method_index item must point to a
-    // CONSTANT_NameAndType_info structure representing the name and the
-    // type of a method in the class referenced by the class we point
-    // to in the class_index. *It is the compiler responsibility* to
-    // ensure that the method identified by this index is the closest
-    // lexically enclosing method that includes the local/anonymous class.
     private int methodIndex;
 
-    // Ctors - and code to read an attribute in.
     public EnclosingMethod(final int nameIndex, final int len, final DataInput input, final ConstantPool cpool) throws IOException {
         this(nameIndex, len, input.readUnsignedShort(), input.readUnsignedShort(), cpool);
     }
@@ -58,7 +47,6 @@ public class EnclosingMethod extends Attribute {
         return c;
     }
 
-    // Accessors
     public final int getEnclosingClassIndex() {
         return classIndex;
     }

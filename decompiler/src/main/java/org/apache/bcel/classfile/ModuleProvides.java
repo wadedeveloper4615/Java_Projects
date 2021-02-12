@@ -8,9 +8,9 @@ import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public final class ModuleProvides implements Cloneable, Node {
-    private final int providesIndex; // points to CONSTANT_Class_info
+    private final int providesIndex;
     private final int providesWithCount;
-    private final int[] providesWithIndex; // points to CONSTANT_Class_info
+    private final int[] providesWithIndex;
 
     public ModuleProvides(final DataInput file) throws IOException {
         providesIndex = file.readUnsignedShort();
@@ -25,13 +25,11 @@ public final class ModuleProvides implements Cloneable, Node {
     public void accept(final Visitor v) {
         v.visitModuleProvides(this);
     }
-    // TODO add more getters and setters?
 
     public ModuleProvides copy() {
         try {
             return (ModuleProvides) clone();
         } catch (final CloneNotSupportedException e) {
-            // TODO should this throw?
         }
         return null;
     }
@@ -58,6 +56,6 @@ public final class ModuleProvides implements Cloneable, Node {
             final String class_name = constant_pool.getConstantString(index, ClassFileConstants.CONSTANT_Class);
             buf.append("      ").append(Utility.compactClassName(class_name, false)).append("\n");
         }
-        return buf.substring(0, buf.length() - 1); // remove the last newline
+        return buf.substring(0, buf.length() - 1);
     }
 }

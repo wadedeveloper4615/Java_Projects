@@ -1,11 +1,12 @@
 package org.apache.bcel.generic;
 
+import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.ReturnInstruction;
 import org.apache.bcel.generic.base.Visitor;
 
 public class RETURN extends ReturnInstruction {
     public RETURN() {
-        super(org.apache.bcel.Const.RETURN);
+        super(InstructionOpCodes.RETURN);
     }
 
     @Override

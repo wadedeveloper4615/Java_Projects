@@ -6,7 +6,7 @@ import org.apache.bcel.classfile.JavaClass;
 import org.apache.bcel.generic.base.ReferenceType;
 
 public class ObjectType extends ReferenceType {
-    private final String className; // Class name of type
+    private final String className;
 
     public static ObjectType getInstance(final String className) {
         return new ObjectType(className);

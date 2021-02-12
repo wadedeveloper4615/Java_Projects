@@ -4,7 +4,6 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.Const;
 import org.apache.bcel.classfile.Node;
 import org.apache.bcel.classfile.Visitor;
 import org.apache.bcel.compare.ConstantComparator;
@@ -28,7 +27,7 @@ public abstract class Constant implements Cloneable, Node {
         try {
             return super.clone();
         } catch (final CloneNotSupportedException e) {
-            throw new Error("Clone Not Supported"); // never happens
+            throw new Error("Clone Not Supported");
         }
     }
 
@@ -36,7 +35,6 @@ public abstract class Constant implements Cloneable, Node {
         try {
             return (Constant) super.clone();
         } catch (final CloneNotSupportedException e) {
-            // TODO should this throw?
         }
         return null;
     }
@@ -59,7 +57,7 @@ public abstract class Constant implements Cloneable, Node {
 
     @Override
     public String toString() {
-        return Const.getConstantName(tag.getTag()) + "[" + tag + "]";
+        return tag.getName() + "[" + tag + "]";
     }
 
     public static BCELComparator getComparator() {

@@ -97,7 +97,6 @@ public final class StackMapEntry implements Node, Cloneable {
     public void dump(final DataOutputStream file) throws IOException {
         file.write(frameType);
         if (frameType >= Const.SAME_FRAME && frameType <= Const.SAME_FRAME_MAX) {
-            // nothing to be done
         } else if (frameType >= Const.SAME_LOCALS_1_STACK_ITEM_FRAME && frameType <= Const.SAME_LOCALS_1_STACK_ITEM_FRAME_MAX) {
             typesOfStackItems[0].dump(file);
         } else if (frameType == Const.SAME_LOCALS_1_STACK_ITEM_FRAME_EXTENDED) {
@@ -202,11 +201,11 @@ public final class StackMapEntry implements Node, Cloneable {
             } else {
                 frameType = Const.SAME_LOCALS_1_STACK_ITEM_FRAME + new_offset;
             }
-        } else if (frameType == Const.SAME_LOCALS_1_STACK_ITEM_FRAME_EXTENDED) { // CHECKSTYLE IGNORE EmptyBlock
-        } else if (frameType >= Const.CHOP_FRAME && frameType <= Const.CHOP_FRAME_MAX) { // CHECKSTYLE IGNORE EmptyBlock
-        } else if (frameType == Const.SAME_FRAME_EXTENDED) { // CHECKSTYLE IGNORE EmptyBlock
-        } else if (frameType >= Const.APPEND_FRAME && frameType <= Const.APPEND_FRAME_MAX) { // CHECKSTYLE IGNORE EmptyBlock
-        } else if (frameType == Const.FULL_FRAME) { // CHECKSTYLE IGNORE EmptyBlock
+        } else if (frameType == Const.SAME_LOCALS_1_STACK_ITEM_FRAME_EXTENDED) {
+        } else if (frameType >= Const.CHOP_FRAME && frameType <= Const.CHOP_FRAME_MAX) {
+        } else if (frameType == Const.SAME_FRAME_EXTENDED) {
+        } else if (frameType >= Const.APPEND_FRAME && frameType <= Const.APPEND_FRAME_MAX) {
+        } else if (frameType == Const.FULL_FRAME) {
         } else {
             throw new IllegalStateException("Invalid StackMap frameType: " + frameType);
         }
@@ -222,11 +221,11 @@ public final class StackMapEntry implements Node, Cloneable {
             byteCodeOffset = f - Const.SAME_FRAME;
         } else if (f >= Const.SAME_LOCALS_1_STACK_ITEM_FRAME && f <= Const.SAME_LOCALS_1_STACK_ITEM_FRAME_MAX) {
             byteCodeOffset = f - Const.SAME_LOCALS_1_STACK_ITEM_FRAME;
-        } else if (f == Const.SAME_LOCALS_1_STACK_ITEM_FRAME_EXTENDED) { // CHECKSTYLE IGNORE EmptyBlock
-        } else if (f >= Const.CHOP_FRAME && f <= Const.CHOP_FRAME_MAX) { // CHECKSTYLE IGNORE EmptyBlock
-        } else if (f == Const.SAME_FRAME_EXTENDED) { // CHECKSTYLE IGNORE EmptyBlock
-        } else if (f >= Const.APPEND_FRAME && f <= Const.APPEND_FRAME_MAX) { // CHECKSTYLE IGNORE EmptyBlock
-        } else if (f == Const.FULL_FRAME) { // CHECKSTYLE IGNORE EmptyBlock
+        } else if (f == Const.SAME_LOCALS_1_STACK_ITEM_FRAME_EXTENDED) {
+        } else if (f >= Const.CHOP_FRAME && f <= Const.CHOP_FRAME_MAX) {
+        } else if (f == Const.SAME_FRAME_EXTENDED) {
+        } else if (f >= Const.APPEND_FRAME && f <= Const.APPEND_FRAME_MAX) {
+        } else if (f == Const.FULL_FRAME) {
         } else {
             throw new IllegalArgumentException("Invalid StackMap frameType");
         }
@@ -234,11 +233,11 @@ public final class StackMapEntry implements Node, Cloneable {
     }
 
     @java.lang.Deprecated
-    public void setNumberOfLocals(final int n) { // TODO unused
+    public void setNumberOfLocals(final int n) {
     }
 
     @java.lang.Deprecated
-    public void setNumberOfStackItems(final int n) { // TODO unused
+    public void setNumberOfStackItems(final int n) {
     }
 
     public void setTypesOfLocals(final StackMapType[] types) {

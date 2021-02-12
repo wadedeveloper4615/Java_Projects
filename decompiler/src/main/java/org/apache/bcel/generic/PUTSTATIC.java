@@ -1,7 +1,7 @@
 package org.apache.bcel.generic;
 
-import org.apache.bcel.Const;
 import org.apache.bcel.ExceptionConst;
+import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.ExceptionThrower;
 import org.apache.bcel.generic.base.FieldInstruction;
 import org.apache.bcel.generic.base.PopInstruction;
@@ -13,7 +13,7 @@ public class PUTSTATIC extends FieldInstruction implements ExceptionThrower, Pop
     }
 
     public PUTSTATIC(final int index) {
-        super(Const.PUTSTATIC, index);
+        super(InstructionOpCodes.PUTSTATIC, index);
     }
 
     @Override

@@ -156,10 +156,10 @@ public class FieldGen extends FieldGenOrMethodGen {
         if (value != null) {
             checkType(super.getType());
             final int index = addConstant();
-            addAttribute(new ConstantValue(super.getConstantPool().addUtf8("ConstantValue"), 2, index, super.getConstantPool().getConstantPool())); // sic
+            addAttribute(new ConstantValue(super.getConstantPool().addUtf8("ConstantValue"), 2, index, super.getConstantPool().getConstantPool()));
         }
         addAnnotationsAsAttribute(super.getConstantPool());
-        return new Field(super.getAccessFlags(), name_index, signature_index, getAttributes(), super.getConstantPool().getConstantPool()); // sic
+        return new Field(super.getAccessFlags(), name_index, signature_index, getAttributes(), super.getConstantPool().getConstantPool());
     }
 
     private void addAnnotationsAsAttribute(final ConstantPoolGen cp) {
@@ -170,7 +170,7 @@ public class FieldGen extends FieldGenOrMethodGen {
     }
 
     private int addConstant() {
-        switch (super.getType().getType()) { // sic
+        switch (super.getType().getType()) {
             case Const.T_INT:
             case Const.T_CHAR:
             case Const.T_BYTE:
@@ -186,7 +186,7 @@ public class FieldGen extends FieldGenOrMethodGen {
             case Const.T_REFERENCE:
                 return super.getConstantPool().addString((String) value);
             default:
-                throw new IllegalStateException("Unhandled : " + super.getType().getType()); // sic
+                throw new IllegalStateException("Unhandled : " + super.getType().getType());
         }
     }
 
@@ -229,12 +229,12 @@ public class FieldGen extends FieldGenOrMethodGen {
     public final String toString() {
         String name;
         String signature;
-        String access; // Short cuts to constant pool
+        String access;
         access = Utility.accessToString(super.getAccessFlags());
         access = access.isEmpty() ? "" : (access + " ");
         signature = super.getType().toString();
         name = getName();
-        final StringBuilder buf = new StringBuilder(32); // CHECKSTYLE IGNORE MagicNumber
+        final StringBuilder buf = new StringBuilder(32);
         buf.append(access).append(signature).append(" ").append(name);
         final String value = getInitValue();
         if (value != null) {

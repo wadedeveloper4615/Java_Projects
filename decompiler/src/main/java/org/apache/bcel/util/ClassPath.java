@@ -129,7 +129,6 @@ public class ClassPath implements Closeable {
 
         @Override
         public void close() throws IOException {
-            // Nothing to do
         }
 
         @Override
@@ -169,7 +168,6 @@ public class ClassPath implements Closeable {
 
         @Override
         URL getResource(final String name) {
-            // Resource specification uses '/' whatever the platform
             final File file = toFile(name);
             try {
                 return file.exists() ? file.toURI().toURL() : null;
@@ -180,7 +178,6 @@ public class ClassPath implements Closeable {
 
         @Override
         InputStream getResourceAsStream(final String name) {
-            // Resource specification uses '/' whatever the platform
             final File file = toFile(name);
             try {
                 return file.exists() ? new FileInputStream(file) : null;
@@ -219,7 +216,6 @@ public class ClassPath implements Closeable {
 
         @Override
         public void close() throws IOException {
-            // Nothing to do.
         }
 
         @Override
@@ -305,8 +301,6 @@ public class ClassPath implements Closeable {
         @Override
         public void close() throws IOException {
             if (modules != null) {
-                // don't use a for each loop to avoid creating an iterator for the GC to
-                // collect.
                 for (JrtModule module : modules) {
                     module.close();
                 }
@@ -318,8 +312,6 @@ public class ClassPath implements Closeable {
 
         @Override
         ClassFile getClassFile(final String name, final String suffix) throws IOException {
-            // don't use a for each loop to avoid creating an iterator for the GC to
-            // collect.
             for (JrtModule module : modules) {
                 final ClassFile classFile = module.getClassFile(name, suffix);
                 if (classFile != null) {
@@ -331,8 +323,6 @@ public class ClassPath implements Closeable {
 
         @Override
         URL getResource(final String name) {
-            // don't use a for each loop to avoid creating an iterator for the GC to
-            // collect.
             for (JrtModule module : modules) {
                 final URL url = module.getResource(name);
                 if (url != null) {
@@ -344,8 +334,6 @@ public class ClassPath implements Closeable {
 
         @Override
         InputStream getResourceAsStream(final String name) {
-            // don't use a for each loop to avoid creating an iterator for the GC to
-            // collect.
             for (JrtModule module : modules) {
                 final InputStream inputStream = module.getResourceAsStream(name);
                 if (inputStream != null) {
@@ -385,7 +373,6 @@ public class ClassPath implements Closeable {
     private static void addJdkModules(final String javaHome, final List<String> list) {
         String modulesPath = System.getProperty("java.modules.path");
         if (modulesPath == null || modulesPath.trim().isEmpty()) {
-            // Default to looking in JAVA_HOME/jmods
             modulesPath = javaHome + File.separator + "jmods";
         }
         final File modulesDir = new File(modulesPath);
@@ -397,25 +384,16 @@ public class ClassPath implements Closeable {
         }
     }
 
-    // @since 6.0 no longer final
     public static String getClassPath() {
         final String classPathProp = System.getProperty("java.class.path");
         final String bootClassPathProp = System.getProperty("sun.boot.class.path");
         final String extDirs = System.getProperty("java.ext.dirs");
-        // System.out.println("java.version = " + System.getProperty("java.version"));
-        // System.out.println("java.class.path = " + classPathProp);
-        // System.out.println("sun.boot.class.path=" + bootClassPathProp);
-        // System.out.println("java.ext.dirs=" + extDirs);
         final String javaHome = System.getProperty("java.home");
         final List<String> list = new ArrayList<>();
-        // Starting in JRE 9, .class files are in the modules directory. Add them to the
-        // path.
         final Path modulesPath = Paths.get(javaHome).resolve("lib/modules");
         if (Files.exists(modulesPath) && Files.isRegularFile(modulesPath)) {
             list.add(modulesPath.toAbsolutePath().toString());
         }
-        // Starting in JDK 9, .class files are in the jmods directory. Add them to the
-        // path.
         addJdkModules(javaHome, list);
         getPathComponents(classPathProp, list);
         getPathComponents(bootClassPathProp, list);
@@ -576,9 +554,8 @@ public class ClassPath implements Closeable {
     public InputStream getInputStream(final String name, final String suffix) throws IOException {
         InputStream inputStream = null;
         try {
-            inputStream = getClass().getClassLoader().getResourceAsStream(name + suffix); // may return null
+            inputStream = getClass().getClassLoader().getResourceAsStream(name + suffix);
         } catch (final Exception e) {
-            // ignored
         }
         if (inputStream != null) {
             return inputStream;

@@ -8,8 +8,8 @@ import org.apache.bcel.classfile.Visitor;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public final class ConstantNameAndType extends Constant {
-    private int nameIndex; // Name of field/method
-    private int signatureIndex; // and its signature.
+    private int nameIndex;
+    private int signatureIndex;
 
     public ConstantNameAndType(final ConstantNameAndType c) {
         this(c.getNameIndex(), c.getSignatureIndex());

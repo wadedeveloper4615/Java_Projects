@@ -25,7 +25,7 @@ public final class ConstantDynamic extends ConstantCP {
     }
 
     public int getBootstrapMethodAttrIndex() {
-        return super.getClassIndex(); // AKA bootstrap_method_attr_index
+        return super.getClassIndex();
     }
 
     @Override

@@ -10,15 +10,13 @@ import org.apache.bcel.classfile.constant.ConstantUtf8;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public final class LocalVariable implements Cloneable, Node, Constants {
-    private int startPc; // Range in which the variable is valid
+    private int startPc;
     private int length;
-    private int nameIndex; // Index in constant pool of variable name
-    // Technically, a decscriptor_index for a local variable table entry
-    // and a signatureIndex for a local variable type table entry.
-    private int signatureIndex; // Index of variable signature
+    private int nameIndex;
+    private int signatureIndex;
     private int index;
     private ConstantPool constantPool;
-    private int origIndex; // never changes; used to match up with LocalVariableTypeTable entries
+    private int origIndex;
 
     public LocalVariable(final DataInput file, final ConstantPool constant_pool) throws IOException {
         this(file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort(), constant_pool);
@@ -58,7 +56,6 @@ public final class LocalVariable implements Cloneable, Node, Constants {
         try {
             return (LocalVariable) clone();
         } catch (final CloneNotSupportedException e) {
-            // TODO should this throw?
         }
         return null;
     }
@@ -115,7 +112,7 @@ public final class LocalVariable implements Cloneable, Node, Constants {
         this.constantPool = constantPool;
     }
 
-    public void setIndex(final int index) { // TODO unused
+    public void setIndex(final int index) {
         this.index = index;
     }
 
@@ -123,15 +120,15 @@ public final class LocalVariable implements Cloneable, Node, Constants {
         this.length = length;
     }
 
-    public void setNameIndex(final int nameIndex) { // TODO unused
+    public void setNameIndex(final int nameIndex) {
         this.nameIndex = nameIndex;
     }
 
-    public void setSignatureIndex(final int signatureIndex) { // TODO unused
+    public void setSignatureIndex(final int signatureIndex) {
         this.signatureIndex = signatureIndex;
     }
 
-    public void setStartPC(final int startPc) { // TODO unused
+    public void setStartPC(final int startPc) {
         this.startPc = startPc;
     }
 

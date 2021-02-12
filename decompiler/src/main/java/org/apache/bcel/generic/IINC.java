@@ -3,6 +3,7 @@ package org.apache.bcel.generic;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.ClassGenException;
 import org.apache.bcel.generic.base.LocalVariableInstruction;
 import org.apache.bcel.generic.base.Visitor;
@@ -17,10 +18,10 @@ public class IINC extends LocalVariableInstruction {
     }
 
     public IINC(final int n, final int c) {
-        super(); // Default behavior of LocalVariableInstruction causes error
-        super.setOpcode(org.apache.bcel.Const.IINC);
+        super();
+        super.setOpcode(InstructionOpCodes.IINC);
         super.setLength((short) 3);
-        setIndex(n); // May set wide as side effect
+        setIndex(n);
         setIncrement(c);
     }
 
@@ -33,9 +34,9 @@ public class IINC extends LocalVariableInstruction {
     @Override
     public void dump(final DataOutputStream out) throws IOException {
         if (wide) {
-            out.writeByte(org.apache.bcel.Const.WIDE);
+            out.writeByte(InstructionOpCodes.WIDE.getOpcode());
         }
-        out.writeByte(super.getOpcode());
+        out.writeByte(super.getOpcode().getOpcode());
         if (wide) {
             out.writeShort(super.getIndex());
             out.writeShort(c);
@@ -90,7 +91,7 @@ public class IINC extends LocalVariableInstruction {
             wide = wide || (c < Byte.MIN_VALUE);
         }
         if (wide) {
-            super.setLength(6); // wide byte included
+            super.setLength(6);
         } else {
             super.setLength(3);
         }

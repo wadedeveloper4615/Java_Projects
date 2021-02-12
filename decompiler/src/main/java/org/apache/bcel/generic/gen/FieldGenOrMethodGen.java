@@ -17,18 +17,17 @@ public abstract class FieldGenOrMethodGen extends AccessFlags implements NamedAn
     @Deprecated
     protected ConstantPoolGen cp;
     private final List<Attribute> attributeList = new ArrayList<>();
-    // @since 6.0
     private final List<AnnotationEntryGen> annotationList = new ArrayList<>();
 
     protected FieldGenOrMethodGen() {
     }
 
-    protected FieldGenOrMethodGen(final int access_flags) { // TODO could this be package protected?
+    protected FieldGenOrMethodGen(final int access_flags) {
         super(access_flags);
     }
 
     @Override
-    public void setType(final Type type) { // TODO could be package-protected?
+    public void setType(final Type type) {
         if (type.getType() == Const.T_ADDRESS) {
             throw new IllegalArgumentException("Type can not be " + type);
         }
@@ -46,7 +45,7 @@ public abstract class FieldGenOrMethodGen extends AccessFlags implements NamedAn
     }
 
     @Override
-    public void setName(final String name) { // TODO could be package-protected?
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -54,7 +53,7 @@ public abstract class FieldGenOrMethodGen extends AccessFlags implements NamedAn
         return cp;
     }
 
-    public void setConstantPool(final ConstantPoolGen cp) { // TODO could be package-protected?
+    public void setConstantPool(final ConstantPoolGen cp) {
         this.cp = cp;
     }
 
@@ -101,7 +100,7 @@ public abstract class FieldGenOrMethodGen extends AccessFlags implements NamedAn
         try {
             return super.clone();
         } catch (final CloneNotSupportedException e) {
-            throw new Error("Clone Not Supported"); // never happens
+            throw new Error("Clone Not Supported");
         }
     }
 }

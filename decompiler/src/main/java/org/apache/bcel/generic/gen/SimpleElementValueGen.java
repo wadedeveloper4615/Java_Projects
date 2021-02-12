@@ -12,9 +12,6 @@ import org.apache.bcel.classfile.element.ElementValue;
 import org.apache.bcel.classfile.element.SimpleElementValue;
 
 public class SimpleElementValueGen extends ElementValueGen {
-    // For primitive types and string type, this points to the value entry in
-    // the cpGen
-    // For 'class' this points to the class entry in the cpGen
     private int idx;
 
     public SimpleElementValueGen(final int type, final ConstantPoolGen cpGen, final boolean value) {
@@ -65,8 +62,6 @@ public class SimpleElementValueGen extends ElementValueGen {
         super(type, cpGen);
         idx = getConstantPool().addUtf8(value);
     }
-    // ctors for each supported type... type could be inferred but for now lets
-    // force it to be passed
 
     public SimpleElementValueGen(final int type, final int idx, final ConstantPoolGen cpGen) {
         super(type, cpGen);
@@ -76,8 +71,6 @@ public class SimpleElementValueGen extends ElementValueGen {
     public SimpleElementValueGen(final SimpleElementValue value, final ConstantPoolGen cpool, final boolean copyPoolEntries) {
         super(value.getElementValueType(), cpool);
         if (!copyPoolEntries) {
-            // J5ASSERT: Could assert value.stringifyValue() is the same as
-            // cpool.getConstant(SimpleElementValuevalue.getIndex())
             idx = value.getIndex();
         } else {
             switch (value.getElementValueType()) {
@@ -120,7 +113,7 @@ public class SimpleElementValueGen extends ElementValueGen {
 
     @Override
     public void dump(final DataOutputStream dos) throws IOException {
-        dos.writeByte(super.getElementValueType()); // u1 kind of value
+        dos.writeByte(super.getElementValueType());
         switch (super.getElementValueType()) {
             case PRIMITIVE_INT:
             case PRIMITIVE_BYTE:
@@ -163,7 +156,6 @@ public class SimpleElementValueGen extends ElementValueGen {
         return c.getBytes();
     }
 
-    // Whatever kind of value it is, return it as a string
     @Override
     public String stringifyValue() {
         switch (super.getElementValueType()) {

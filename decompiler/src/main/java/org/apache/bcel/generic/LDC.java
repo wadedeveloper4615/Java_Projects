@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import org.apache.bcel.ExceptionConst;
 import org.apache.bcel.classfile.constant.Constant;
+import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.CPInstruction;
 import org.apache.bcel.generic.base.ExceptionThrower;
 import org.apache.bcel.generic.base.PushInstruction;
@@ -17,7 +18,7 @@ public class LDC extends CPInstruction implements PushInstruction, ExceptionThro
     }
 
     public LDC(final int index) {
-        super(org.apache.bcel.Const.LDC_W, index);
+        super(InstructionOpCodes.LDC_W, index);
         setSize();
     }
 
@@ -33,8 +34,8 @@ public class LDC extends CPInstruction implements PushInstruction, ExceptionThro
 
     @Override
     public void dump(final DataOutputStream out) throws IOException {
-        out.writeByte(super.getOpcode());
-        if (super.getLength() == 2) { // TODO useless check?
+        out.writeByte(super.getOpcode().getOpcode());
+        if (super.getLength() == 2) {
             out.writeByte(super.getIndex());
         } else {
             out.writeShort(super.getIndex());
@@ -57,7 +58,7 @@ public class LDC extends CPInstruction implements PushInstruction, ExceptionThro
                 return Type.INT;
             case CONSTANT_Class:
                 return Type.CLASS;
-            default: // Never reached
+            default:
                 throw new IllegalArgumentException("Unknown or invalid constant type at " + super.getIndex());
         }
     }
@@ -77,7 +78,7 @@ public class LDC extends CPInstruction implements PushInstruction, ExceptionThro
                 final int nameIndex = ((org.apache.bcel.classfile.constant.ConstantClass) c).getNameIndex();
                 c = cpg.getConstantPool().getConstant(nameIndex);
                 return new ObjectType(((org.apache.bcel.classfile.constant.ConstantUtf8) c).getBytes());
-            default: // Never reached
+            default:
                 throw new IllegalArgumentException("Unknown or invalid constant type at " + super.getIndex());
         }
     }
@@ -94,13 +95,12 @@ public class LDC extends CPInstruction implements PushInstruction, ExceptionThro
         setSize();
     }
 
-    // Adjust to proper size
     protected final void setSize() {
-        if (super.getIndex() <= org.apache.bcel.Const.MAX_BYTE) { // Fits in one byte?
-            super.setOpcode(org.apache.bcel.Const.LDC);
+        if (super.getIndex() <= org.apache.bcel.Const.MAX_BYTE) {
+            super.setOpcode(InstructionOpCodes.LDC);
             super.setLength(2);
         } else {
-            super.setOpcode(org.apache.bcel.Const.LDC_W);
+            super.setOpcode(InstructionOpCodes.LDC_W);
             super.setLength(3);
         }
     }

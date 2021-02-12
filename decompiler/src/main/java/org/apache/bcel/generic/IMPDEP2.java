@@ -1,11 +1,12 @@
 package org.apache.bcel.generic;
 
+import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.Instruction;
 import org.apache.bcel.generic.base.Visitor;
 
 public class IMPDEP2 extends Instruction {
     public IMPDEP2() {
-        super(org.apache.bcel.Const.IMPDEP2, (short) 1);
+        super(InstructionOpCodes.IMPDEP2, (short) 1);
     }
 
     @Override

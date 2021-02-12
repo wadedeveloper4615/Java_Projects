@@ -3,8 +3,8 @@ package org.apache.bcel.generic;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.Const;
 import org.apache.bcel.ExceptionConst;
+import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.InvokeInstruction;
 import org.apache.bcel.generic.base.Visitor;
 
@@ -13,7 +13,7 @@ public class INVOKEVIRTUAL extends InvokeInstruction {
     }
 
     public INVOKEVIRTUAL(final int index) {
-        super(Const.INVOKEVIRTUAL, index);
+        super(InstructionOpCodes.INVOKEVIRTUAL, index);
     }
 
     @Override
@@ -31,7 +31,7 @@ public class INVOKEVIRTUAL extends InvokeInstruction {
 
     @Override
     public void dump(final DataOutputStream out) throws IOException {
-        out.writeByte(super.getOpcode());
+        out.writeByte(super.getOpcode().getOpcode());
         out.writeShort(super.getIndex());
     }
 

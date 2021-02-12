@@ -10,7 +10,7 @@ import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.enums.ClassFileAttributes;
 
 public class BootstrapMethods extends Attribute {
-    private BootstrapMethod[] bootstrapMethods; // TODO this could be made final (setter is not used)
+    private BootstrapMethod[] bootstrapMethods;
 
     public BootstrapMethods(final BootstrapMethods c) {
         this(c.getNameIndex(), c.getLength(), c.getBootstrapMethods(), c.getConstantPool());

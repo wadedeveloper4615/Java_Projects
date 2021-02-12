@@ -1,6 +1,7 @@
 package org.apache.bcel.generic;
 
 import org.apache.bcel.ExceptionConst;
+import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.ArrayType;
 import org.apache.bcel.generic.base.CPInstruction;
 import org.apache.bcel.generic.base.ExceptionThrower;
@@ -14,7 +15,7 @@ public class INSTANCEOF extends CPInstruction implements LoadClass, ExceptionThr
     }
 
     public INSTANCEOF(final int index) {
-        super(org.apache.bcel.Const.INSTANCEOF, index);
+        super(InstructionOpCodes.INSTANCEOF, index);
     }
 
     @Override

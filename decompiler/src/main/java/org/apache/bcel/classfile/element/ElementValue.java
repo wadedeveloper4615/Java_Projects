@@ -22,9 +22,9 @@ public abstract class ElementValue {
     public static final byte PRIMITIVE_SHORT = 'S';
     public static final byte PRIMITIVE_BOOLEAN = 'Z';
     @java.lang.Deprecated
-    protected int type; // TODO should be final
+    protected int type;
     @java.lang.Deprecated
-    protected ConstantPool cpool; // TODO should be final
+    protected ConstantPool cpool;
 
     protected ElementValue(final int type, final ConstantPool cpool) {
         this.type = type;
@@ -74,7 +74,6 @@ public abstract class ElementValue {
             case CLASS:
                 return new ClassElementValue(CLASS, input.readUnsignedShort(), cpool);
             case ANNOTATION:
-                // TODO isRuntimeVisible
                 return new AnnotationElementValue(ANNOTATION, AnnotationEntry.read(input, cpool, false), cpool);
             case ARRAY:
                 final int numArrayVals = input.readUnsignedShort();

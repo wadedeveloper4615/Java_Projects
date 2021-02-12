@@ -22,7 +22,7 @@ public class SimpleElementValue extends ElementValue {
     @Override
     public void dump(final DataOutputStream dos) throws IOException {
         final int _type = super.getType();
-        dos.writeByte(_type); // u1 kind of value
+        dos.writeByte(_type);
         switch (_type) {
             case PRIMITIVE_INT:
             case PRIMITIVE_BYTE:
@@ -120,7 +120,6 @@ public class SimpleElementValue extends ElementValue {
         this.index = index;
     }
 
-    // Whatever kind of value it is, return it as a string
     @Override
     public String stringifyValue() {
         final ConstantPool cpool = super.getConstantPool();

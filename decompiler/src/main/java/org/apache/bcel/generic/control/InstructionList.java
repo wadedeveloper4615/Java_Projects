@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
-import org.apache.bcel.Const;
 import org.apache.bcel.classfile.constant.Constant;
 import org.apache.bcel.generic.Select;
 import org.apache.bcel.generic.base.BranchHandle;
@@ -63,20 +62,18 @@ public class InstructionList implements Iterable<InstructionHandle> {
         } catch (final IOException e) {
             throw new ClassGenException(e.toString(), e);
         }
-        bytePositions = new int[count]; // Trim to proper size
+        bytePositions = new int[count];
         System.arraycopy(pos, 0, bytePositions, 0, count);
         for (int i = 0; i < count; i++) {
             if (ihs[i] instanceof BranchHandle) {
                 final BranchInstruction bi = (BranchInstruction) ihs[i].getInstruction();
                 int target = bi.getPosition() + bi.getIndex();
-                // Search for target position
                 InstructionHandle ih = findHandle(ihs, pos, count, target);
                 if (ih == null) {
                     throw new ClassGenException("Couldn't find target for branch: " + bi);
                 }
-                bi.setTarget(ih); // Update target
-                // If it is a Select instruction, update all branch targets
-                if (bi instanceof Select) { // Either LOOKUPSWITCH or TABLESWITCH
+                bi.setTarget(ih);
+                if (bi instanceof Select) {
                     final Select s = (Select) bi;
                     final int[] indices = s.getIndices();
                     for (int j = 0; j < indices.length; j++) {
@@ -85,7 +82,7 @@ public class InstructionList implements Iterable<InstructionHandle> {
                         if (ih == null) {
                             throw new ClassGenException("Couldn't find target for switch: " + bi);
                         }
-                        s.setTarget(j, ih); // Update target
+                        s.setTarget(j, ih);
                     }
                 }
             }
@@ -149,7 +146,7 @@ public class InstructionList implements Iterable<InstructionHandle> {
             ih.setNext(null);
             end = ih;
         }
-        length++; // Update length
+        length++;
     }
 
     public BranchHandle append(final InstructionHandle ih, final BranchInstruction i) {
@@ -183,9 +180,9 @@ public class InstructionList implements Iterable<InstructionHandle> {
         if (next != null) {
             next.setPrev(il.end);
         } else {
-            end = il.end; // Update end ...
+            end = il.end;
         }
-        length += il.length; // Update length
+        length += il.length;
         il.clear();
         return ret;
     }
@@ -204,7 +201,7 @@ public class InstructionList implements Iterable<InstructionHandle> {
             il.clear();
             return start;
         }
-        return append(end, il); // was end.instruction
+        return append(end, il);
     }
 
     private void clear() {
@@ -233,7 +230,7 @@ public class InstructionList implements Iterable<InstructionHandle> {
         final InstructionList il = new InstructionList();
         for (InstructionHandle ih = start; ih != null; ih = ih.getNext()) {
             final Instruction i = ih.getInstruction();
-            final Instruction c = i.copy(); // Use clone for shallow copy
+            final Instruction c = i.copy();
             if (c instanceof BranchInstruction) {
                 map.put(ih, il.append((BranchInstruction) c));
             } else {
@@ -248,13 +245,12 @@ public class InstructionList implements Iterable<InstructionHandle> {
             if (i instanceof BranchInstruction) {
                 final BranchInstruction bi = (BranchInstruction) i;
                 final BranchInstruction bc = (BranchInstruction) c;
-                final InstructionHandle itarget = bi.getTarget(); // old target
-                // New target is in hash map
+                final InstructionHandle itarget = bi.getTarget();
                 bc.setTarget(map.get(itarget));
-                if (bi instanceof Select) { // Either LOOKUPSWITCH or TABLESWITCH
+                if (bi instanceof Select) {
                     final InstructionHandle[] itargets = ((Select) bi).getTargets();
                     final InstructionHandle[] ctargets = ((Select) bc).getTargets();
-                    for (int j = 0; j < itargets.length; j++) { // Update all targets
+                    for (int j = 0; j < itargets.length; j++) {
                         ctargets[j] = map.get(itargets[j]);
                     }
                 }
@@ -294,7 +290,6 @@ public class InstructionList implements Iterable<InstructionHandle> {
     }
 
     public void dispose() {
-        // Traverse in reverse order, because ih.next is overwritten
         for (InstructionHandle ih = end; ih != null; ih = ih.getPrev()) {
             ih.dispose();
         }
@@ -332,14 +327,13 @@ public class InstructionList implements Iterable<InstructionHandle> {
     }
 
     public byte[] getByteCode() {
-        // Update position indices of instructions
         setPositions();
         final ByteArrayOutputStream b = new ByteArrayOutputStream();
         final DataOutputStream out = new DataOutputStream(b);
         try {
             for (InstructionHandle ih = start; ih != null; ih = ih.getNext()) {
                 final Instruction i = ih.getInstruction();
-                i.dump(out); // Traverse list
+                i.dump(out);
             }
             out.flush();
         } catch (final IOException e) {
@@ -463,16 +457,16 @@ public class InstructionList implements Iterable<InstructionHandle> {
         if (prev != null) {
             prev.setNext(il.start);
         } else {
-            start = il.start; // Update start ...
+            start = il.start;
         }
-        length += il.length; // Update length
+        length += il.length;
         il.clear();
         return ret;
     }
 
     public InstructionHandle insert(final InstructionList il) {
         if (isEmpty()) {
-            append(il); // Code is identical for this case
+            append(il);
             return start;
         }
         return insert(start, il);
@@ -480,7 +474,7 @@ public class InstructionList implements Iterable<InstructionHandle> {
 
     public boolean isEmpty() {
         return start == null;
-    } // && end == null
+    }
 
     @Override
     public Iterator<InstructionHandle> iterator() {
@@ -514,7 +508,6 @@ public class InstructionList implements Iterable<InstructionHandle> {
     }
 
     public void move(final InstructionHandle start, final InstructionHandle end, final InstructionHandle target) {
-        // Step 1: Check constraints
         if ((start == null) || (end == null)) {
             throw new ClassGenException("Invalid null handle: From " + start + " to " + end);
         }
@@ -528,7 +521,6 @@ public class InstructionList implements Iterable<InstructionHandle> {
                 throw new ClassGenException("Invalid range: From " + start + " to " + end + " contains target " + target);
             }
         }
-        // Step 2: Temporarily remove the given instructions from the list
         final InstructionHandle prev = start.getPrev();
         InstructionHandle next = end.getNext();
         if (prev != null) {
@@ -542,8 +534,7 @@ public class InstructionList implements Iterable<InstructionHandle> {
             this.end = prev;
         }
         start.setPrev(end.setNext(null));
-        // Step 3: append after target
-        if (target == null) { // append to start of list
+        if (target == null) {
             if (this.start != null) {
                 this.start.setPrev(end);
             }
@@ -571,7 +562,7 @@ public class InstructionList implements Iterable<InstructionHandle> {
                 if (target == old_target) {
                     b.setTarget(new_target);
                 }
-                if (b instanceof Select) { // Either LOOKUPSWITCH or TABLESWITCH
+                if (b instanceof Select) {
                     final InstructionHandle[] targets = ((Select) b).getTargets();
                     for (int j = 0; j < targets.length; j++) {
                         if (targets[j] == old_target) {
@@ -612,20 +603,20 @@ public class InstructionList implements Iterable<InstructionHandle> {
 
     private void remove(final InstructionHandle prev, InstructionHandle next) throws TargetLostException {
         InstructionHandle first;
-        InstructionHandle last; // First and last deleted instruction
+        InstructionHandle last;
         if ((prev == null) && (next == null)) {
             first = start;
             last = end;
             start = end = null;
         } else {
-            if (prev == null) { // At start of list
+            if (prev == null) {
                 first = start;
                 start = next;
             } else {
                 first = prev.getNext();
                 prev.setNext(next);
             }
-            if (next == null) { // At end of list
+            if (next == null) {
                 last = end;
                 end = prev;
             } else {
@@ -633,17 +624,17 @@ public class InstructionList implements Iterable<InstructionHandle> {
                 next.setPrev(prev);
             }
         }
-        first.setPrev(null); // Completely separated from rest of list
+        first.setPrev(null);
         last.setNext(null);
         final List<InstructionHandle> target_vec = new ArrayList<>();
         for (InstructionHandle ih = first; ih != null; ih = ih.getNext()) {
-            ih.getInstruction().dispose(); // e.g. BranchInstructions release their targets
+            ih.getInstruction().dispose();
         }
         final StringBuilder buf = new StringBuilder("{ ");
         for (InstructionHandle ih = first; ih != null; ih = next) {
             next = ih.getNext();
             length--;
-            if (ih.hasTargeters()) { // Still got targeters?
+            if (ih.hasTargeters()) {
                 target_vec.add(ih);
                 buf.append(ih.toString(true)).append(" ");
                 ih.setNext(ih.setPrev(null));
@@ -676,11 +667,11 @@ public class InstructionList implements Iterable<InstructionHandle> {
         }
     }
 
-    public void setPositions() { // TODO could be package-protected? (some test code would need to be repackaged)
+    public void setPositions() {
         setPositions(false);
     }
 
-    public void setPositions(final boolean check) { // called by code in other packages
+    public void setPositions(final boolean check) {
         int max_additional_bytes = 0;
         int additional_bytes = 0;
         int index = 0;
@@ -689,22 +680,22 @@ public class InstructionList implements Iterable<InstructionHandle> {
         if (check) {
             for (InstructionHandle ih = start; ih != null; ih = ih.getNext()) {
                 final Instruction i = ih.getInstruction();
-                if (i instanceof BranchInstruction) { // target instruction within list?
+                if (i instanceof BranchInstruction) {
                     Instruction inst = ((BranchInstruction) i).getTarget().getInstruction();
                     if (!contains(inst)) {
-                        throw new ClassGenException("Branch target of " + Const.getOpcodeName(i.getOpcode()) + ":" + inst + " not in instruction list");
+                        throw new ClassGenException("Branch target of " + i.getOpcode().getName() + ":" + inst + " not in instruction list");
                     }
                     if (i instanceof Select) {
                         final InstructionHandle[] targets = ((Select) i).getTargets();
                         for (final InstructionHandle target : targets) {
                             inst = target.getInstruction();
                             if (!contains(inst)) {
-                                throw new ClassGenException("Branch target of " + Const.getOpcodeName(i.getOpcode()) + ":" + inst + " not in instruction list");
+                                throw new ClassGenException("Branch target of " + i.getOpcode().getName() + ":" + inst + " not in instruction list");
                             }
                         }
                     }
                     if (!(ih instanceof BranchHandle)) {
-                        throw new ClassGenException("Branch instruction " + Const.getOpcodeName(i.getOpcode()) + ":" + inst + " not contained in BranchHandle.");
+                        throw new ClassGenException("Branch instruction " + i.getOpcode().getName() + ":" + inst + " not contained in BranchHandle.");
                     }
                 }
             }
@@ -714,12 +705,12 @@ public class InstructionList implements Iterable<InstructionHandle> {
             ih.setPosition(index);
             pos[count++] = index;
             switch (i.getOpcode()) {
-                case Const.JSR:
-                case Const.GOTO:
+                case JSR:
+                case GOTO:
                     max_additional_bytes += 2;
                     break;
-                case Const.TABLESWITCH:
-                case Const.LOOKUPSWITCH:
+                case TABLESWITCH:
+                case LOOKUPSWITCH:
                     max_additional_bytes += 3;
                     break;
             }
@@ -735,7 +726,7 @@ public class InstructionList implements Iterable<InstructionHandle> {
             pos[count++] = index;
             index += i.getLength();
         }
-        bytePositions = new int[count]; // Trim to proper size
+        bytePositions = new int[count];
         System.arraycopy(pos, 0, bytePositions, 0, count);
     }
 

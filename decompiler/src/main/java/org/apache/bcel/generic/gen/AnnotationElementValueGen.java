@@ -7,7 +7,6 @@ import org.apache.bcel.classfile.element.AnnotationElementValue;
 import org.apache.bcel.classfile.element.ElementValue;
 
 public class AnnotationElementValueGen extends ElementValueGen {
-    // For annotation element values, this is the annotation
     private final AnnotationEntryGen a;
 
     public AnnotationElementValueGen(final AnnotationEntryGen a, final ConstantPoolGen cpool) {
@@ -30,7 +29,7 @@ public class AnnotationElementValueGen extends ElementValueGen {
 
     @Override
     public void dump(final DataOutputStream dos) throws IOException {
-        dos.writeByte(super.getElementValueType()); // u1 type of value (ANNOTATION == '@')
+        dos.writeByte(super.getElementValueType());
         a.dump(dos);
     }
 

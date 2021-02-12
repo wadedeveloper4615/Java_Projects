@@ -3,6 +3,7 @@ package org.apache.bcel.generic;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.ConstantPushInstruction;
 import org.apache.bcel.generic.base.Instruction;
 import org.apache.bcel.generic.base.Visitor;
@@ -16,7 +17,7 @@ public class SIPUSH extends Instruction implements ConstantPushInstruction {
     }
 
     public SIPUSH(final short b) {
-        super(org.apache.bcel.Const.SIPUSH, (short) 3);
+        super(InstructionOpCodes.SIPUSH, (short) 3);
         this.b = b;
     }
 

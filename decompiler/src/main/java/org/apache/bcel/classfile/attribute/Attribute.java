@@ -26,7 +26,7 @@ import org.apache.bcel.enums.ClassFileConstants;
 import org.apache.bcel.exceptions.ClassFormatException;
 
 public abstract class Attribute implements Cloneable, Node {
-    private static boolean debug = Boolean.getBoolean(Attribute.class.getCanonicalName() + ".debug"); // Debugging on/off
+    private static boolean debug = Boolean.getBoolean(Attribute.class.getCanonicalName() + ".debug");
     private static Map<String, Object> readers = new HashMap<>();
     protected int name_index;
     protected int length;
@@ -49,7 +49,7 @@ public abstract class Attribute implements Cloneable, Node {
         try {
             attr = (Attribute) super.clone();
         } catch (CloneNotSupportedException e) {
-            throw new Error("Clone Not Supported"); // never happens
+            throw new Error("Clone Not Supported");
         }
         return attr;
     }
@@ -154,8 +154,6 @@ public abstract class Attribute implements Cloneable, Node {
             case ATTR_SIGNATURE:
                 return new Signature(name_index, length, file, constant_pool);
             case ATTR_STACK_MAP:
-                // old style stack map: unneeded for JDK5 and below;
-                // illegal(?) for JDK6 and above. So just delete with a warning.
                 println("Warning: Obsolete StackMap attribute ignored.");
                 return new Unknown(name_index, length, file, constant_pool);
             case ATTR_RUNTIME_VISIBLE_ANNOTATIONS:
@@ -173,8 +171,6 @@ public abstract class Attribute implements Cloneable, Node {
             case ATTR_ENCLOSING_METHOD:
                 return new EnclosingMethod(name_index, length, file, constant_pool);
             case ATTR_STACK_MAP_TABLE:
-                // read new style stack map: StackMapTable. The rest of the code
-                // calls this a StackMap for historical reasons.
                 return new StackMap(name_index, length, file, constant_pool);
             case ATTR_BOOTSTRAP_METHODS:
                 return new BootstrapMethods(name_index, length, file, constant_pool);

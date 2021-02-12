@@ -1,6 +1,7 @@
 package org.apache.bcel.generic;
 
 import org.apache.bcel.ExceptionConst;
+import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.AllocationInstruction;
 import org.apache.bcel.generic.base.ArrayType;
 import org.apache.bcel.generic.base.CPInstruction;
@@ -15,7 +16,7 @@ public class ANEWARRAY extends CPInstruction implements LoadClass, AllocationIns
     }
 
     public ANEWARRAY(final int index) {
-        super(org.apache.bcel.Const.ANEWARRAY, index);
+        super(InstructionOpCodes.ANEWARRAY, index);
     }
 
     @Override

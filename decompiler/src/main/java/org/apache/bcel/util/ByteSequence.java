@@ -25,7 +25,6 @@ public final class ByteSequence extends DataInputStream {
         }
 
         int getPosition() {
-            // pos is protected in ByteArrayInputStream
             return pos;
         }
 

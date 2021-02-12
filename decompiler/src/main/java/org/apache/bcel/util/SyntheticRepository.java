@@ -4,8 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SyntheticRepository extends MemorySensitiveClassPathRepository {
-    // private static final String DEFAULT_PATH = ClassPath.getClassPath();
-    private static final Map<ClassPath, SyntheticRepository> instances = new HashMap<>(); // CLASSPATH X REPOSITORY
+    private static final Map<ClassPath, SyntheticRepository> instances = new HashMap<>();
 
     private SyntheticRepository(final ClassPath path) {
         super(path);

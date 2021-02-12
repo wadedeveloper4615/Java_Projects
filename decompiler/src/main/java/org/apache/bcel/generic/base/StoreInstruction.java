@@ -1,11 +1,13 @@
 package org.apache.bcel.generic.base;
 
+import org.apache.bcel.enums.InstructionOpCodes;
+
 public abstract class StoreInstruction extends LocalVariableInstruction implements PopInstruction {
-    public StoreInstruction(final short canon_tag, final short c_tag) {
+    public StoreInstruction(InstructionOpCodes canon_tag, InstructionOpCodes c_tag) {
         super(canon_tag, c_tag);
     }
 
-    public StoreInstruction(final short opcode, final short c_tag, final int n) {
+    public StoreInstruction(InstructionOpCodes opcode, InstructionOpCodes c_tag, final int n) {
         super(opcode, c_tag, n);
     }
 

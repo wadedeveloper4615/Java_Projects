@@ -5,16 +5,16 @@ import org.apache.bcel.classfile.constant.ConstantNameAndType;
 import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.classfile.constant.ConstantUtf8;
 import org.apache.bcel.enums.ClassFileConstants;
+import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.ObjectType;
 import org.apache.bcel.generic.Type;
 import org.apache.bcel.generic.gen.ConstantPoolGen;
 
 public abstract class FieldOrMethod extends CPInstruction implements LoadClass {
     public FieldOrMethod() {
-        // no init
     }
 
-    public FieldOrMethod(final short opcode, final int index) {
+    public FieldOrMethod(InstructionOpCodes opcode, final int index) {
         super(opcode, index);
     }
 
@@ -24,7 +24,6 @@ public abstract class FieldOrMethod extends CPInstruction implements LoadClass {
         final ConstantCP cmr = (ConstantCP) cp.getConstant(super.getIndex());
         final String className = cp.getConstantString(cmr.getClassIndex(), ClassFileConstants.CONSTANT_Class);
         if (className.startsWith("[")) {
-            // Turn array classes into java.lang.Object.
             return "java.lang.Object";
         }
         return className.replace('/', '.');

@@ -12,7 +12,7 @@ import org.apache.bcel.enums.ClassFileConstants;
 import org.apache.bcel.exceptions.ClassFormatException;
 
 public final class ExceptionTable extends Attribute {
-    private int[] exceptionIndexTable; // constant pool
+    private int[] exceptionIndexTable;
 
     public ExceptionTable(final ExceptionTable c) {
         this(c.getNameIndex(), c.getLength(), c.getExceptionIndexTable(), c.getConstantPool());

@@ -72,10 +72,10 @@ public final class SWITCH implements CompoundInstruction {
             if (i <= j) {
                 h = match[i];
                 match[i] = match[j];
-                match[j] = h; // Swap elements
+                match[j] = h;
                 h2 = targets[i];
                 targets[i] = targets[j];
-                targets[j] = h2; // Swap instructions, too
+                targets[j] = h2;
                 i++;
                 j--;
             }

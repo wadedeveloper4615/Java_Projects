@@ -17,7 +17,6 @@ public class ClassLoader extends java.lang.ClassLoader {
     private static final String BCEL_TOKEN = "$$BCEL$$";
     public static final String[] DEFAULT_IGNORED_PACKAGES = { "java.", "javax.", "sun." };
     private final Hashtable<String, Class<?>> classes = new Hashtable<>();
-    // Hashtable is synchronized thus thread-safe
     private final String[] ignored_packages;
     private Repository repository = SyntheticRepository.getInstance();
 
@@ -52,7 +51,6 @@ public class ClassLoader extends java.lang.ClassLoader {
             e.printStackTrace();
             return null;
         }
-        // Adapt the class name to the passed value
         final ConstantPool cp = clazz.getConstantPool();
         final ConstantClass cl = (ConstantClass) cp.getConstant(clazz.getClassName().getNameIndex(), ClassFileConstants.CONSTANT_Class);
         final ConstantUtf8 name = (ConstantUtf8) cp.getConstant(cl.getNameIndex(), ClassFileConstants.CONSTANT_Utf8);
@@ -74,7 +72,7 @@ public class ClassLoader extends java.lang.ClassLoader {
                 JavaClass clazz = null;
                 if (class_name.contains(BCEL_TOKEN)) {
                     clazz = createClass(class_name);
-                } else { // Fourth try: Load classes via repository
+                } else {
                     if ((clazz = repository.loadClass(class_name)) != null) {
                         clazz = modifyClass(clazz);
                     } else {

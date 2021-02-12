@@ -1,5 +1,6 @@
 package org.apache.bcel.generic;
 
+import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.ClassGenException;
 import org.apache.bcel.generic.base.ConstantPushInstruction;
 import org.apache.bcel.generic.base.Instruction;
@@ -13,25 +14,15 @@ public class DCONST extends Instruction implements ConstantPushInstruction {
     }
 
     public DCONST(final double f) {
-        super(org.apache.bcel.Const.DCONST_0, (short) 1);
+        super(InstructionOpCodes.DCONST_0, (short) 1);
         if (f == 0.0) {
-            super.setOpcode(org.apache.bcel.Const.DCONST_0);
+            super.setOpcode(InstructionOpCodes.DCONST_0);
         } else if (f == 1.0) {
-            super.setOpcode(org.apache.bcel.Const.DCONST_1);
+            super.setOpcode(InstructionOpCodes.DCONST_1);
         } else {
             throw new ClassGenException("DCONST can be used only for 0.0 and 1.0: " + f);
         }
         value = f;
-    }
-
-    @Override
-    public Number getValue() {
-        return new Double(value);
-    }
-
-    @Override
-    public Type getType(final ConstantPoolGen cp) {
-        return Type.DOUBLE;
     }
 
     @Override
@@ -41,5 +32,15 @@ public class DCONST extends Instruction implements ConstantPushInstruction {
         v.visitTypedInstruction(this);
         v.visitConstantPushInstruction(this);
         v.visitDCONST(this);
+    }
+
+    @Override
+    public Type getType(final ConstantPoolGen cp) {
+        return Type.DOUBLE;
+    }
+
+    @Override
+    public Number getValue() {
+        return new Double(value);
     }
 }

@@ -30,7 +30,7 @@ public final class ArrayType extends ReferenceType {
                 break;
             case Const.T_VOID:
                 throw new ClassGenException("Invalid type: void[]");
-            default: // Basic type or reference
+            default:
                 this.dimensions = dimensions;
                 basicType = type;
                 break;

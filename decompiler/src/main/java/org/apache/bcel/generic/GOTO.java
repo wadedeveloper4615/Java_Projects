@@ -3,6 +3,7 @@ package org.apache.bcel.generic;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.GotoInstruction;
 import org.apache.bcel.generic.base.VariableLengthInstruction;
 import org.apache.bcel.generic.base.Visitor;
@@ -13,7 +14,7 @@ public class GOTO extends GotoInstruction implements VariableLengthInstruction {
     }
 
     public GOTO(final InstructionHandle target) {
-        super(org.apache.bcel.Const.GOTO, target);
+        super(InstructionOpCodes.GOTO, target);
     }
 
     @Override
@@ -28,22 +29,22 @@ public class GOTO extends GotoInstruction implements VariableLengthInstruction {
     @Override
     public void dump(final DataOutputStream out) throws IOException {
         super.setIndex(getTargetOffset());
-        final short _opcode = getOpcode();
-        if (_opcode == org.apache.bcel.Const.GOTO) {
+        InstructionOpCodes _opcode = getOpcode();
+        if (_opcode == InstructionOpCodes.GOTO) {
             super.dump(out);
-        } else { // GOTO_W
+        } else {
             super.setIndex(getTargetOffset());
-            out.writeByte(_opcode);
+            out.writeByte(_opcode.getOpcode());
             out.writeInt(super.getIndex());
         }
     }
 
     @Override
     protected int updatePosition(final int offset, final int max_offset) {
-        final int i = getTargetOffset(); // Depending on old position value
-        setPosition(getPosition() + offset); // Position may be shifted by preceding expansions
-        if (Math.abs(i) >= (Short.MAX_VALUE - max_offset)) { // to large for short (estimate)
-            super.setOpcode(org.apache.bcel.Const.GOTO_W);
+        final int i = getTargetOffset();
+        setPosition(getPosition() + offset);
+        if (Math.abs(i) >= (Short.MAX_VALUE - max_offset)) {
+            super.setOpcode(InstructionOpCodes.GOTO_W);
             final short old_length = (short) super.getLength();
             super.setLength(5);
             return super.getLength() - old_length;

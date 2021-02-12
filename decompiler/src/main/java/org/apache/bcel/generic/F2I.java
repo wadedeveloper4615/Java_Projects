@@ -1,11 +1,12 @@
 package org.apache.bcel.generic;
 
+import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.ConversionInstruction;
 import org.apache.bcel.generic.base.Visitor;
 
 public class F2I extends ConversionInstruction {
     public F2I() {
-        super(org.apache.bcel.Const.F2I);
+        super(InstructionOpCodes.F2I);
     }
 
     @Override

@@ -24,17 +24,17 @@ public final class CodeExceptionGen implements InstructionTargeter, Cloneable {
         return new CodeException(startPc.getPosition(), endPc.getPosition() + endPc.getInstruction().getLength(), handlerPc.getPosition(), (catchType == null) ? 0 : cp.addClass(catchType));
     }
 
-    public void setStartPC(final InstructionHandle start_pc) { // TODO could be package-protected?
+    public void setStartPC(final InstructionHandle start_pc) {
         BranchInstruction.notifyTarget(this.startPc, start_pc, this);
         this.startPc = start_pc;
     }
 
-    public void setEndPC(final InstructionHandle end_pc) { // TODO could be package-protected?
+    public void setEndPC(final InstructionHandle end_pc) {
         BranchInstruction.notifyTarget(this.endPc, end_pc, this);
         this.endPc = end_pc;
     }
 
-    public void setHandlerPC(final InstructionHandle handler_pc) { // TODO could be package-protected?
+    public void setHandlerPC(final InstructionHandle handler_pc) {
         BranchInstruction.notifyTarget(this.handlerPc, handler_pc, this);
         this.handlerPc = handler_pc;
     }
@@ -94,7 +94,7 @@ public final class CodeExceptionGen implements InstructionTargeter, Cloneable {
         try {
             return super.clone();
         } catch (final CloneNotSupportedException e) {
-            throw new Error("Clone Not Supported"); // never happens
+            throw new Error("Clone Not Supported");
         }
     }
 }

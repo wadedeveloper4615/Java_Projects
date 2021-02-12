@@ -11,7 +11,7 @@ import org.apache.bcel.enums.ClassFileAttributes;
 
 public final class LineNumberTable extends Attribute {
     private static final int MAX_LINE_LENGTH = 72;
-    private LineNumber[] lineNumberTable; // Table of line/numbers pairs
+    private LineNumber[] lineNumberTable;
 
     public LineNumberTable(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
         this(name_index, length, (LineNumber[]) null, constant_pool);
@@ -38,8 +38,6 @@ public final class LineNumberTable extends Attribute {
 
     @Override
     public Attribute copy(final ConstantPool _constant_pool) {
-        // TODO could use the lower level constructor and thereby allow
-        // lineNumberTable to be made final
         final LineNumberTable c = (LineNumberTable) clone();
         c.lineNumberTable = new LineNumber[lineNumberTable.length];
         for (int i = 0; i < lineNumberTable.length; i++) {

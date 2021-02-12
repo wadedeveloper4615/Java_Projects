@@ -63,8 +63,8 @@ public class AnnotationEntryGen {
     }
 
     public void dump(final DataOutputStream dos) throws IOException {
-        dos.writeShort(typeIndex); // u2 index of type name in cpool
-        dos.writeShort(evs.size()); // u2 element_value pair count
+        dos.writeShort(typeIndex);
+        dos.writeShort(evs.size());
         for (final ElementValuePairGen envp : evs) {
             envp.dump(dos);
         }
@@ -83,12 +83,10 @@ public class AnnotationEntryGen {
     }
 
     public final String getTypeName() {
-        return getTypeSignature();// BCELBUG: Should I use this instead?
-        // Utility.signatureToString(getTypeSignature());
+        return getTypeSignature();
     }
 
     public final String getTypeSignature() {
-        // ConstantClass c = (ConstantClass)cpool.getConstant(typeIndex);
         final ConstantUtf8 utf8 = (ConstantUtf8) cpool.getConstant(typeIndex);
         return utf8.getBytes();
     }
@@ -120,7 +118,7 @@ public class AnnotationEntryGen {
 
     @Override
     public String toString() {
-        final StringBuilder s = new StringBuilder(32); // CHECKSTYLE IGNORE MagicNumber
+        final StringBuilder s = new StringBuilder(32);
         s.append("AnnotationGen:[").append(getTypeName()).append(" #").append(evs.size()).append(" {");
         for (int i = 0; i < evs.size(); i++) {
             s.append(evs.get(i));
@@ -139,7 +137,6 @@ public class AnnotationEntryGen {
         try {
             int countVisible = 0;
             int countInvisible = 0;
-            // put the annotations in the right output stream
             for (final AnnotationEntryGen a : annotationEntryGens) {
                 if (a.isRuntimeVisible()) {
                     countVisible++;
@@ -152,7 +149,6 @@ public class AnnotationEntryGen {
             try (DataOutputStream rvaDos = new DataOutputStream(rvaBytes); DataOutputStream riaDos = new DataOutputStream(riaBytes)) {
                 rvaDos.writeShort(countVisible);
                 riaDos.writeShort(countInvisible);
-                // put the annotations in the right output stream
                 for (final AnnotationEntryGen a : annotationEntryGens) {
                     if (a.isRuntimeVisible()) {
                         a.dump(rvaDos);
@@ -205,10 +201,9 @@ public class AnnotationEntryGen {
                     }
                 }
             }
-            // Lets do the visible ones
             final ByteArrayOutputStream rvaBytes = new ByteArrayOutputStream();
             try (DataOutputStream rvaDos = new DataOutputStream(rvaBytes)) {
-                rvaDos.writeByte(vec.length); // First goes number of parameters
+                rvaDos.writeByte(vec.length);
                 for (int i = 0; i < vec.length; i++) {
                     rvaDos.writeShort(visCount[i]);
                     if (visCount[i] > 0) {
@@ -220,10 +215,9 @@ public class AnnotationEntryGen {
                     }
                 }
             }
-            // Lets do the invisible ones
             final ByteArrayOutputStream riaBytes = new ByteArrayOutputStream();
             try (DataOutputStream riaDos = new DataOutputStream(riaBytes)) {
-                riaDos.writeByte(vec.length); // First goes number of parameters
+                riaDos.writeByte(vec.length);
                 for (int i = 0; i < vec.length; i++) {
                     riaDos.writeShort(invisCount[i]);
                     if (invisCount[i] > 0) {

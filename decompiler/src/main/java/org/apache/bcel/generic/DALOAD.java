@@ -1,11 +1,12 @@
 package org.apache.bcel.generic;
 
+import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.ArrayInstruction;
 import org.apache.bcel.generic.base.Visitor;
 
 public class DALOAD extends ArrayInstruction implements StackProducer {
     public DALOAD() {
-        super(org.apache.bcel.Const.DALOAD);
+        super(InstructionOpCodes.DALOAD);
     }
 
     @Override

@@ -3,9 +3,9 @@ package org.apache.bcel.generic;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.Const;
 import org.apache.bcel.ExceptionConst;
 import org.apache.bcel.classfile.constant.ConstantPool;
+import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.ClassGenException;
 import org.apache.bcel.generic.base.InvokeInstruction;
 import org.apache.bcel.generic.base.Visitor;
@@ -13,14 +13,13 @@ import org.apache.bcel.generic.gen.ConstantPoolGen;
 import org.apache.bcel.util.ByteSequence;
 
 public final class INVOKEINTERFACE extends InvokeInstruction {
-    private int nargs; // Number of arguments on stack (number of stack slots), called "count" in
-                       // vmspec2
+    private int nargs;
 
     public INVOKEINTERFACE() {
     }
 
     public INVOKEINTERFACE(final int index, final int nargs) {
-        super(Const.INVOKEINTERFACE, index);
+        super(InstructionOpCodes.INVOKEINTERFACE, index);
         super.setLength(5);
         if (nargs < 1) {
             throw new ClassGenException("Number of arguments must be > 0 " + nargs);
@@ -42,13 +41,13 @@ public final class INVOKEINTERFACE extends InvokeInstruction {
     }
 
     @Override
-    public int consumeStack(final ConstantPoolGen cpg) { // nargs is given in byte-code
-        return nargs; // nargs includes this reference
+    public int consumeStack(final ConstantPoolGen cpg) { 
+        return nargs; 
     }
 
     @Override
     public void dump(final DataOutputStream out) throws IOException {
-        out.writeByte(super.getOpcode());
+        out.writeByte(super.getOpcode().getOpcode());
         out.writeShort(super.getIndex());
         out.writeByte(nargs);
         out.writeByte(0);
@@ -68,7 +67,7 @@ public final class INVOKEINTERFACE extends InvokeInstruction {
         super.initFromFile(bytes, wide);
         super.setLength(5);
         nargs = bytes.readUnsignedByte();
-        bytes.readByte(); // Skip 0 byte
+        bytes.readByte(); 
     }
 
     @Override

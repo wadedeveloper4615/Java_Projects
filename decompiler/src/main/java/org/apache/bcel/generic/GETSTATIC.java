@@ -1,7 +1,7 @@
 package org.apache.bcel.generic;
 
-import org.apache.bcel.Const;
 import org.apache.bcel.ExceptionConst;
+import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.ExceptionThrower;
 import org.apache.bcel.generic.base.FieldInstruction;
 import org.apache.bcel.generic.base.PushInstruction;
@@ -13,7 +13,7 @@ public class GETSTATIC extends FieldInstruction implements PushInstruction, Exce
     }
 
     public GETSTATIC(final int index) {
-        super(Const.GETSTATIC, index);
+        super(InstructionOpCodes.GETSTATIC, index);
     }
 
     @Override

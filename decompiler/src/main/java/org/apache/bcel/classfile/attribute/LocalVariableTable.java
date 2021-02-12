@@ -10,7 +10,7 @@ import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.enums.ClassFileAttributes;
 
 public class LocalVariableTable extends Attribute {
-    private LocalVariable[] localVariableTable; // variables
+    private LocalVariable[] localVariableTable;
 
     public LocalVariableTable(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
         this(name_index, length, (LocalVariable[]) null, constant_pool);

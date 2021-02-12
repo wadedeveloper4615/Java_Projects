@@ -23,7 +23,6 @@ public class BootstrapMethod implements Cloneable {
         }
     }
 
-    // helper method
     private BootstrapMethod(final int bootstrap_method_ref, final int num_bootstrap_arguments) {
         this(bootstrap_method_ref, new int[num_bootstrap_arguments]);
     }
@@ -37,7 +36,6 @@ public class BootstrapMethod implements Cloneable {
         try {
             return (BootstrapMethod) clone();
         } catch (final CloneNotSupportedException e) {
-            // TODO should this throw?
         }
         return null;
     }

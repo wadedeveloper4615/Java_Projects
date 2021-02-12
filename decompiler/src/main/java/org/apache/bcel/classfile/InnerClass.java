@@ -38,7 +38,6 @@ public final class InnerClass implements Cloneable, Node {
         try {
             return (InnerClass) clone();
         } catch (final CloneNotSupportedException e) {
-            // TODO should this throw?
         }
         return null;
     }

@@ -1,18 +1,14 @@
 package org.apache.bcel.generic;
 
 import org.apache.bcel.ExceptionConst;
+import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.ArithmeticInstruction;
 import org.apache.bcel.generic.base.ExceptionThrower;
 import org.apache.bcel.generic.base.Visitor;
 
 public class IDIV extends ArithmeticInstruction implements ExceptionThrower {
     public IDIV() {
-        super(org.apache.bcel.Const.IDIV);
-    }
-
-    @Override
-    public Class<?>[] getExceptions() {
-        return new Class[] { ExceptionConst.ARITHMETIC_EXCEPTION };
+        super(InstructionOpCodes.IDIV);
     }
 
     @Override
@@ -23,5 +19,10 @@ public class IDIV extends ArithmeticInstruction implements ExceptionThrower {
         v.visitStackConsumer(this);
         v.visitArithmeticInstruction(this);
         v.visitIDIV(this);
+    }
+
+    @Override
+    public Class<?>[] getExceptions() {
+        return new Class[] { ExceptionConst.ARITHMETIC_EXCEPTION };
     }
 }

@@ -4,10 +4,10 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.Const;
 import org.apache.bcel.classfile.attribute.Attribute;
 import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.classfile.constant.ConstantUtf8;
+import org.apache.bcel.enums.ClassFileAttributes;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public final class PMGClass extends Attribute {
@@ -19,7 +19,7 @@ public final class PMGClass extends Attribute {
     }
 
     public PMGClass(final int name_index, final int length, final int pmgIndex, final int pmgClassIndex, final ConstantPool constantPool) {
-        super(Const.ATTR_PMG, name_index, length, constantPool);
+        super(ClassFileAttributes.ATTR_PMG, name_index, length, constantPool);
         this.pmgIndex = pmgIndex;
         this.pmgClassIndex = pmgClassIndex;
     }

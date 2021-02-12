@@ -4,10 +4,10 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.Const;
 import org.apache.bcel.classfile.Utility;
 import org.apache.bcel.classfile.Visitor;
 import org.apache.bcel.classfile.constant.ConstantPool;
+import org.apache.bcel.enums.ClassFileAttributes;
 import org.apache.bcel.enums.ClassFileConstants;
 import org.apache.bcel.exceptions.ClassFormatException;
 
@@ -28,7 +28,7 @@ public final class ExceptionTable extends Attribute {
     }
 
     public ExceptionTable(final int name_index, final int length, final int[] exceptionIndexTable, final ConstantPool constant_pool) {
-        super(Const.ATTR_EXCEPTIONS, name_index, length, constant_pool);
+        super(ClassFileAttributes.ATTR_EXCEPTIONS, name_index, length, constant_pool);
         this.exceptionIndexTable = exceptionIndexTable != null ? exceptionIndexTable : new int[0];
     }
 

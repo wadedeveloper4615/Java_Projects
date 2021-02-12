@@ -4,10 +4,10 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.Const;
 import org.apache.bcel.classfile.BootstrapMethod;
 import org.apache.bcel.classfile.Visitor;
 import org.apache.bcel.classfile.constant.ConstantPool;
+import org.apache.bcel.enums.ClassFileAttributes;
 
 public class BootstrapMethods extends Attribute {
     private BootstrapMethod[] bootstrapMethods; // TODO this could be made final (setter is not used)
@@ -17,7 +17,7 @@ public class BootstrapMethods extends Attribute {
     }
 
     public BootstrapMethods(final int name_index, final int length, final BootstrapMethod[] bootstrapMethods, final ConstantPool constant_pool) {
-        super(Const.ATTR_BOOTSTRAP_METHODS, name_index, length, constant_pool);
+        super(ClassFileAttributes.ATTR_BOOTSTRAP_METHODS, name_index, length, constant_pool);
         this.bootstrapMethods = bootstrapMethods;
     }
 

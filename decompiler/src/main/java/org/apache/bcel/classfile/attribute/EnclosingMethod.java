@@ -4,11 +4,11 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.Const;
 import org.apache.bcel.classfile.Visitor;
 import org.apache.bcel.classfile.constant.ConstantClass;
 import org.apache.bcel.classfile.constant.ConstantNameAndType;
 import org.apache.bcel.classfile.constant.ConstantPool;
+import org.apache.bcel.enums.ClassFileAttributes;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public class EnclosingMethod extends Attribute {
@@ -31,7 +31,7 @@ public class EnclosingMethod extends Attribute {
     }
 
     private EnclosingMethod(final int nameIndex, final int len, final int classIdx, final int methodIdx, final ConstantPool cpool) {
-        super(Const.ATTR_ENCLOSING_METHOD, nameIndex, len, cpool);
+        super(ClassFileAttributes.ATTR_ENCLOSING_METHOD, nameIndex, len, cpool);
         classIndex = classIdx;
         methodIndex = methodIdx;
     }

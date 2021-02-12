@@ -4,10 +4,10 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.Const;
 import org.apache.bcel.classfile.LocalVariable;
 import org.apache.bcel.classfile.Visitor;
 import org.apache.bcel.classfile.constant.ConstantPool;
+import org.apache.bcel.enums.ClassFileAttributes;
 // The new table is used when generic types are about...
 //LocalVariableTable_attribute {
 //       u2 attribute_name_index;
@@ -47,7 +47,7 @@ public class LocalVariableTypeTable extends Attribute {
     }
 
     public LocalVariableTypeTable(final int name_index, final int length, final LocalVariable[] local_variable_table, final ConstantPool constant_pool) {
-        super(Const.ATTR_LOCAL_VARIABLE_TYPE_TABLE, name_index, length, constant_pool);
+        super(ClassFileAttributes.ATTR_LOCAL_VARIABLE_TYPE_TABLE, name_index, length, constant_pool);
         this.localVariableTypeTable = local_variable_table;
     }
 

@@ -4,11 +4,11 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.Const;
 import org.apache.bcel.classfile.CodeException;
 import org.apache.bcel.classfile.Utility;
 import org.apache.bcel.classfile.Visitor;
 import org.apache.bcel.classfile.constant.ConstantPool;
+import org.apache.bcel.enums.ClassFileAttributes;
 import org.apache.bcel.generic.control.InstructionHandle;
 import org.apache.bcel.generic.control.InstructionList;
 
@@ -55,7 +55,7 @@ public class Code extends Attribute {
     }
 
     public Code(int nameIndex, int length, int maxStack, int maxLocals, byte[] code, CodeException[] exceptionTable, Attribute[] attributes, ConstantPool constant_pool) {
-        super(Const.ATTR_CODE, nameIndex, length, constant_pool);
+        super(ClassFileAttributes.ATTR_CODE, nameIndex, length, constant_pool);
         this.maxStack = maxStack;
         this.maxLocals = maxLocals;
         this.byteCode = code != null ? code : new byte[0];

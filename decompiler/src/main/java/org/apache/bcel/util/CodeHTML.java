@@ -19,6 +19,7 @@ import org.apache.bcel.classfile.constant.ConstantInvokeDynamic;
 import org.apache.bcel.classfile.constant.ConstantMethodref;
 import org.apache.bcel.classfile.constant.ConstantNameAndType;
 import org.apache.bcel.classfile.constant.ConstantPool;
+import org.apache.bcel.enums.ClassFileAttributes;
 import org.apache.bcel.enums.ClassFileConstants;
 
 final class CodeHTML {
@@ -298,7 +299,7 @@ final class CodeHTML {
             // Look for local variables and their range
             final Attribute[] attributes = code.getAttributes();
             for (final Attribute attribute : attributes) {
-                if (attribute.getTag() == Const.ATTR_LOCAL_VARIABLE_TABLE) {
+                if (attribute.getTag() == ClassFileAttributes.ATTR_LOCAL_VARIABLE_TABLE) {
                     final LocalVariable[] vars = ((LocalVariableTable) attribute).getLocalVariableTable();
                     for (final LocalVariable var : vars) {
                         final int start = var.getStartPC();
@@ -413,20 +414,20 @@ final class CodeHTML {
         if (attributes.length > 0) {
             file.print("<H4>Attributes</H4><UL>\n");
             for (int i = 0; i < attributes.length; i++) {
-                byte tag = attributes[i].getTag();
-                if (tag != Const.ATTR_UNKNOWN) {
-                    file.print("<LI><A HREF=\"" + className + "_attributes.html#method" + method_number + "@" + i + "\" TARGET=Attributes>" + Const.getAttributeName(tag) + "</A></LI>\n");
+                ClassFileAttributes tag = attributes[i].getTag();
+                if (tag != ClassFileAttributes.ATTR_UNKNOWN) {
+                    file.print("<LI><A HREF=\"" + className + "_attributes.html#method" + method_number + "@" + i + "\" TARGET=Attributes>" + tag.getName() + "</A></LI>\n");
                 } else {
                     file.print("<LI>" + attributes[i] + "</LI>");
                 }
-                if (tag == Const.ATTR_CODE) {
+                if (tag == ClassFileAttributes.ATTR_CODE) {
                     c = (Code) attributes[i];
                     final Attribute[] attributes2 = c.getAttributes();
                     code = c.getCode();
                     file.print("<UL>");
                     for (int j = 0; j < attributes2.length; j++) {
                         tag = attributes2[j].getTag();
-                        file.print("<LI><A HREF=\"" + className + "_attributes.html#" + "method" + method_number + "@" + i + "@" + j + "\" TARGET=Attributes>" + Const.getAttributeName(tag) + "</A></LI>\n");
+                        file.print("<LI><A HREF=\"" + className + "_attributes.html#" + "method" + method_number + "@" + i + "@" + j + "\" TARGET=Attributes>" + tag.getName() + "</A></LI>\n");
                     }
                     file.print("</UL>");
                 }

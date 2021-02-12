@@ -4,16 +4,16 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.Const;
 import org.apache.bcel.classfile.MethodParameter;
 import org.apache.bcel.classfile.Visitor;
 import org.apache.bcel.classfile.constant.ConstantPool;
+import org.apache.bcel.enums.ClassFileAttributes;
 
 public class MethodParameters extends Attribute {
     private MethodParameter[] parameters = new MethodParameter[0];
 
     public MethodParameters(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
-        super(Const.ATTR_METHOD_PARAMETERS, name_index, length, constant_pool);
+        super(ClassFileAttributes.ATTR_METHOD_PARAMETERS, name_index, length, constant_pool);
         final int parameters_count = input.readUnsignedByte();
         parameters = new MethodParameter[parameters_count];
         for (int i = 0; i < parameters_count; i++) {

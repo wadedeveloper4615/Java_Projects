@@ -6,10 +6,10 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.bcel.Const;
 import org.apache.bcel.classfile.Utility;
 import org.apache.bcel.classfile.Visitor;
 import org.apache.bcel.classfile.attribute.Attribute;
+import org.apache.bcel.enums.ClassFileAttributes;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public final class Unknown extends Attribute {
@@ -18,7 +18,7 @@ public final class Unknown extends Attribute {
     private final String name;
 
     public Unknown(final int name_index, final int length, final byte[] bytes, final ConstantPool constant_pool) {
-        super(Const.ATTR_UNKNOWN, name_index, length, constant_pool);
+        super(ClassFileAttributes.ATTR_UNKNOWN, name_index, length, constant_pool);
         this.bytes = bytes;
         name = ((ConstantUtf8) constant_pool.getConstant(name_index, ClassFileConstants.CONSTANT_Utf8)).getBytes();
         unknownAttributes.put(name, this);

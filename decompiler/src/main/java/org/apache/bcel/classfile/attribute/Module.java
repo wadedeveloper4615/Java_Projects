@@ -4,7 +4,6 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.Const;
 import org.apache.bcel.classfile.ModuleExports;
 import org.apache.bcel.classfile.ModuleOpens;
 import org.apache.bcel.classfile.ModuleProvides;
@@ -12,6 +11,7 @@ import org.apache.bcel.classfile.ModuleRequires;
 import org.apache.bcel.classfile.Utility;
 import org.apache.bcel.classfile.Visitor;
 import org.apache.bcel.classfile.constant.ConstantPool;
+import org.apache.bcel.enums.ClassFileAttributes;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public final class Module extends Attribute {
@@ -26,7 +26,7 @@ public final class Module extends Attribute {
     private ModuleProvides[] providesTable;
 
     public Module(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
-        super(Const.ATTR_MODULE, name_index, length, constant_pool);
+        super(ClassFileAttributes.ATTR_MODULE, name_index, length, constant_pool);
         moduleNameIndex = input.readUnsignedShort();
         moduleFlags = input.readUnsignedShort();
         moduleVersionIndex = input.readUnsignedShort();

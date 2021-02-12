@@ -4,9 +4,9 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.Const;
 import org.apache.bcel.classfile.Visitor;
 import org.apache.bcel.classfile.constant.ConstantPool;
+import org.apache.bcel.enums.ClassFileAttributes;
 
 public final class Deprecated extends Attribute {
     private byte[] bytes;
@@ -16,7 +16,7 @@ public final class Deprecated extends Attribute {
     }
 
     public Deprecated(final int name_index, final int length, final byte[] bytes, final ConstantPool constant_pool) {
-        super(Const.ATTR_DEPRECATED, name_index, length, constant_pool);
+        super(ClassFileAttributes.ATTR_DEPRECATED, name_index, length, constant_pool);
         this.bytes = bytes;
     }
 
@@ -63,6 +63,6 @@ public final class Deprecated extends Attribute {
 
     @Override
     public String toString() {
-        return Const.getAttributeName(Const.ATTR_DEPRECATED);
+        return ClassFileAttributes.ATTR_DEPRECATED.getName();
     }
 }

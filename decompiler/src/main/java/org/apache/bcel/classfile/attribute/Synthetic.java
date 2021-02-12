@@ -4,16 +4,16 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.Const;
 import org.apache.bcel.classfile.Utility;
 import org.apache.bcel.classfile.Visitor;
 import org.apache.bcel.classfile.constant.ConstantPool;
+import org.apache.bcel.enums.ClassFileAttributes;
 
 public final class Synthetic extends Attribute {
     private byte[] bytes;
 
     public Synthetic(final int name_index, final int length, final byte[] bytes, final ConstantPool constant_pool) {
-        super(Const.ATTR_SYNTHETIC, name_index, length, constant_pool);
+        super(ClassFileAttributes.ATTR_SYNTHETIC, name_index, length, constant_pool);
         this.bytes = bytes;
     }
 

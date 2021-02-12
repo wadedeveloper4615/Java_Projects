@@ -4,10 +4,10 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.Const;
 import org.apache.bcel.classfile.LineNumber;
 import org.apache.bcel.classfile.Visitor;
 import org.apache.bcel.classfile.constant.ConstantPool;
+import org.apache.bcel.enums.ClassFileAttributes;
 
 public final class LineNumberTable extends Attribute {
     private static final int MAX_LINE_LENGTH = 72;
@@ -23,7 +23,7 @@ public final class LineNumberTable extends Attribute {
     }
 
     public LineNumberTable(final int name_index, final int length, final LineNumber[] line_number_table, final ConstantPool constant_pool) {
-        super(Const.ATTR_LINE_NUMBER_TABLE, name_index, length, constant_pool);
+        super(ClassFileAttributes.ATTR_LINE_NUMBER_TABLE, name_index, length, constant_pool);
         this.lineNumberTable = line_number_table;
     }
 

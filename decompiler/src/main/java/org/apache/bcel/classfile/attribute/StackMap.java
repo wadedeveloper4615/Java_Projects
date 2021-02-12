@@ -4,10 +4,10 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.Const;
 import org.apache.bcel.classfile.StackMapEntry;
 import org.apache.bcel.classfile.Visitor;
 import org.apache.bcel.classfile.constant.ConstantPool;
+import org.apache.bcel.enums.ClassFileAttributes;
 
 public final class StackMap extends Attribute {
     private StackMapEntry[] map; // Table of stack map entries
@@ -22,7 +22,7 @@ public final class StackMap extends Attribute {
     }
 
     public StackMap(final int name_index, final int length, final StackMapEntry[] map, final ConstantPool constant_pool) {
-        super(Const.ATTR_STACK_MAP, name_index, length, constant_pool);
+        super(ClassFileAttributes.ATTR_STACK_MAP, name_index, length, constant_pool);
         this.map = map;
     }
 

@@ -21,6 +21,7 @@ import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.classfile.constant.ConstantUtf8;
 import org.apache.bcel.classfile.constant.ConstantValue;
 import org.apache.bcel.classfile.constant.Unknown;
+import org.apache.bcel.enums.ClassFileAttributes;
 import org.apache.bcel.enums.ClassFileConstants;
 import org.apache.bcel.exceptions.ClassFormatException;
 
@@ -29,10 +30,10 @@ public abstract class Attribute implements Cloneable, Node {
     private static Map<String, Object> readers = new HashMap<>();
     protected int name_index;
     protected int length;
-    protected byte tag;
+    protected ClassFileAttributes tag;
     protected ConstantPool constant_pool;
 
-    protected Attribute(byte tag, int name_index, int length, ConstantPool constant_pool) {
+    protected Attribute(ClassFileAttributes tag, int name_index, int length, ConstantPool constant_pool) {
         this.tag = tag;
         this.name_index = name_index;
         this.length = length;
@@ -76,7 +77,7 @@ public abstract class Attribute implements Cloneable, Node {
         return name_index;
     }
 
-    public byte getTag() {
+    public ClassFileAttributes getTag() {
         return tag;
     }
 
@@ -94,10 +95,9 @@ public abstract class Attribute implements Cloneable, Node {
 
     @Override
     public String toString() {
-        return Const.getAttributeName(tag);
+        return tag.getName();
     }
 
-    @java.lang.Deprecated
     public static void addAttributeReader(String name, AttributeReader r) {
         readers.put(name, r);
     }
@@ -113,86 +113,82 @@ public abstract class Attribute implements Cloneable, Node {
     }
 
     public static Attribute readAttribute(DataInputStream file, ConstantPool constant_pool) throws IOException, ClassFormatException {
-        byte tag = Const.ATTR_UNKNOWN; // Unknown attribute
-        // Get class name from constant pool via `name_index' indirection
+        ClassFileAttributes tag = ClassFileAttributes.ATTR_UNKNOWN;
         int name_index = file.readUnsignedShort();
-        ConstantUtf8 c = (ConstantUtf8) constant_pool.getConstant(name_index, ClassFileConstants.CONSTANT_Utf8);
-        String name = c.getBytes();
-        // Length of data in bytes
+        String name = ((ConstantUtf8) constant_pool.getConstant(name_index, ClassFileConstants.CONSTANT_Utf8)).getBytes();
         int length = file.readInt();
-        // Compare strings to find known attribute
         for (byte i = 0; i < Const.KNOWN_ATTRIBUTES; i++) {
-            if (name.equals(Const.getAttributeName(i))) {
-                tag = i; // found!
+            ClassFileAttributes value = ClassFileAttributes.read(i);
+            if (name.equals(value.getName())) {
+                tag = value;
                 break;
             }
         }
-        // Call proper constructor, depending on `tag'
         switch (tag) {
-            case Const.ATTR_UNKNOWN:
+            case ATTR_UNKNOWN:
                 Object r = readers.get(name);
                 if (r instanceof UnknownAttributeReader) {
                     return ((UnknownAttributeReader) r).createAttribute(name_index, length, file, constant_pool);
                 }
                 return new Unknown(name_index, length, file, constant_pool);
-            case Const.ATTR_CONSTANT_VALUE:
+            case ATTR_CONSTANT_VALUE:
                 return new ConstantValue(name_index, length, file, constant_pool);
-            case Const.ATTR_SOURCE_FILE:
+            case ATTR_SOURCE_FILE:
                 return new SourceFile(name_index, length, file, constant_pool);
-            case Const.ATTR_CODE:
+            case ATTR_CODE:
                 return new Code(name_index, length, file, constant_pool);
-            case Const.ATTR_EXCEPTIONS:
+            case ATTR_EXCEPTIONS:
                 return new ExceptionTable(name_index, length, file, constant_pool);
-            case Const.ATTR_LINE_NUMBER_TABLE:
+            case ATTR_LINE_NUMBER_TABLE:
                 return new LineNumberTable(name_index, length, file, constant_pool);
-            case Const.ATTR_LOCAL_VARIABLE_TABLE:
+            case ATTR_LOCAL_VARIABLE_TABLE:
                 return new LocalVariableTable(name_index, length, file, constant_pool);
-            case Const.ATTR_INNER_CLASSES:
+            case ATTR_INNER_CLASSES:
                 return new InnerClasses(name_index, length, file, constant_pool);
-            case Const.ATTR_SYNTHETIC:
+            case ATTR_SYNTHETIC:
                 return new Synthetic(name_index, length, file, constant_pool);
-            case Const.ATTR_DEPRECATED:
+            case ATTR_DEPRECATED:
                 return new Deprecated(name_index, length, file, constant_pool);
-            case Const.ATTR_PMG:
+            case ATTR_PMG:
                 return new PMGClass(name_index, length, file, constant_pool);
-            case Const.ATTR_SIGNATURE:
+            case ATTR_SIGNATURE:
                 return new Signature(name_index, length, file, constant_pool);
-            case Const.ATTR_STACK_MAP:
+            case ATTR_STACK_MAP:
                 // old style stack map: unneeded for JDK5 and below;
                 // illegal(?) for JDK6 and above. So just delete with a warning.
                 println("Warning: Obsolete StackMap attribute ignored.");
                 return new Unknown(name_index, length, file, constant_pool);
-            case Const.ATTR_RUNTIME_VISIBLE_ANNOTATIONS:
+            case ATTR_RUNTIME_VISIBLE_ANNOTATIONS:
                 return new RuntimeVisibleAnnotations(name_index, length, file, constant_pool);
-            case Const.ATTR_RUNTIME_INVISIBLE_ANNOTATIONS:
+            case ATTR_RUNTIME_INVISIBLE_ANNOTATIONS:
                 return new RuntimeInvisibleAnnotations(name_index, length, file, constant_pool);
-            case Const.ATTR_RUNTIME_VISIBLE_PARAMETER_ANNOTATIONS:
+            case ATTR_RUNTIME_VISIBLE_PARAMETER_ANNOTATIONS:
                 return new RuntimeVisibleParameterAnnotations(name_index, length, file, constant_pool);
-            case Const.ATTR_RUNTIME_INVISIBLE_PARAMETER_ANNOTATIONS:
+            case ATTR_RUNTIME_INVISIBLE_PARAMETER_ANNOTATIONS:
                 return new RuntimeInvisibleParameterAnnotations(name_index, length, file, constant_pool);
-            case Const.ATTR_ANNOTATION_DEFAULT:
+            case ATTR_ANNOTATION_DEFAULT:
                 return new AnnotationDefault(name_index, length, file, constant_pool);
-            case Const.ATTR_LOCAL_VARIABLE_TYPE_TABLE:
+            case ATTR_LOCAL_VARIABLE_TYPE_TABLE:
                 return new LocalVariableTypeTable(name_index, length, file, constant_pool);
-            case Const.ATTR_ENCLOSING_METHOD:
+            case ATTR_ENCLOSING_METHOD:
                 return new EnclosingMethod(name_index, length, file, constant_pool);
-            case Const.ATTR_STACK_MAP_TABLE:
+            case ATTR_STACK_MAP_TABLE:
                 // read new style stack map: StackMapTable. The rest of the code
                 // calls this a StackMap for historical reasons.
                 return new StackMap(name_index, length, file, constant_pool);
-            case Const.ATTR_BOOTSTRAP_METHODS:
+            case ATTR_BOOTSTRAP_METHODS:
                 return new BootstrapMethods(name_index, length, file, constant_pool);
-            case Const.ATTR_METHOD_PARAMETERS:
+            case ATTR_METHOD_PARAMETERS:
                 return new MethodParameters(name_index, length, file, constant_pool);
-            case Const.ATTR_MODULE:
+            case ATTR_MODULE:
                 return new Module(name_index, length, file, constant_pool);
-            case Const.ATTR_MODULE_PACKAGES:
+            case ATTR_MODULE_PACKAGES:
                 return new ModulePackages(name_index, length, file, constant_pool);
-            case Const.ATTR_MODULE_MAIN_CLASS:
+            case ATTR_MODULE_MAIN_CLASS:
                 return new ModuleMainClass(name_index, length, file, constant_pool);
-            case Const.ATTR_NEST_HOST:
+            case ATTR_NEST_HOST:
                 return new NestHost(name_index, length, file, constant_pool);
-            case Const.ATTR_NEST_MEMBERS:
+            case ATTR_NEST_MEMBERS:
                 return new NestMembers(name_index, length, file, constant_pool);
             default:
                 throw new IllegalStateException("Unrecognized attribute type tag parsed: " + tag);

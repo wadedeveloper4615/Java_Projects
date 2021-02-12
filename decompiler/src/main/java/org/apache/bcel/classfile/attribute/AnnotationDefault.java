@@ -4,10 +4,10 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.Const;
 import org.apache.bcel.classfile.Visitor;
 import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.classfile.element.ElementValue;
+import org.apache.bcel.enums.ClassFileAttributes;
 
 public class AnnotationDefault extends Attribute {
     private ElementValue defaultValue;
@@ -18,7 +18,7 @@ public class AnnotationDefault extends Attribute {
     }
 
     public AnnotationDefault(final int name_index, final int length, final ElementValue defaultValue, final ConstantPool constant_pool) {
-        super(Const.ATTR_ANNOTATION_DEFAULT, name_index, length, constant_pool);
+        super(ClassFileAttributes.ATTR_ANNOTATION_DEFAULT, name_index, length, constant_pool);
         this.defaultValue = defaultValue;
     }
 

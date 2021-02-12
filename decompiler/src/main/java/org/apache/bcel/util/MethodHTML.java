@@ -4,7 +4,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import org.apache.bcel.Const;
 import org.apache.bcel.classfile.Field;
 import org.apache.bcel.classfile.Method;
 import org.apache.bcel.classfile.Utility;
@@ -12,6 +11,7 @@ import org.apache.bcel.classfile.attribute.Attribute;
 import org.apache.bcel.classfile.attribute.Code;
 import org.apache.bcel.classfile.attribute.ExceptionTable;
 import org.apache.bcel.classfile.constant.ConstantValue;
+import org.apache.bcel.enums.ClassFileAttributes;
 
 final class MethodHTML {
     private final String className; // name of current class
@@ -51,7 +51,7 @@ final class MethodHTML {
             attribute_html.writeAttribute(attributes[i], name + "@" + i);
         }
         for (int i = 0; i < attributes.length; i++) {
-            if (attributes[i].getTag() == Const.ATTR_CONSTANT_VALUE) { // Default value
+            if (attributes[i].getTag() == ClassFileAttributes.ATTR_CONSTANT_VALUE) { // Default value
                 final String str = ((ConstantValue) attributes[i]).toString();
                 // Reference attribute in _attributes.html
                 file.print("<TD>= <A HREF=\"" + className + "_attributes.html#" + name + "@" + i + "\" TARGET=\"Attributes\">" + str + "</TD>\n");
@@ -89,8 +89,8 @@ final class MethodHTML {
         // Check for thrown exceptions
         for (int i = 0; i < attributes.length; i++) {
             attribute_html.writeAttribute(attributes[i], "method" + method_number + "@" + i, method_number);
-            final byte tag = attributes[i].getTag();
-            if (tag == Const.ATTR_EXCEPTIONS) {
+            ClassFileAttributes tag = attributes[i].getTag();
+            if (tag == ClassFileAttributes.ATTR_EXCEPTIONS) {
                 file.print("<TR VALIGN=TOP><TD COLSPAN=2></TD><TH ALIGN=LEFT>throws</TH><TD>");
                 final int[] exceptions = ((ExceptionTable) attributes[i]).getExceptionIndexTable();
                 for (int j = 0; j < exceptions.length; j++) {
@@ -100,7 +100,7 @@ final class MethodHTML {
                     }
                 }
                 file.println("</TD></TR>");
-            } else if (tag == Const.ATTR_CODE) {
+            } else if (tag == ClassFileAttributes.ATTR_CODE) {
                 final Attribute[] c_a = ((Code) attributes[i]).getAttributes();
                 for (int j = 0; j < c_a.length; j++) {
                     attribute_html.writeAttribute(c_a[j], "method" + method_number + "@" + i + "@" + j, method_number);

@@ -4,10 +4,10 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.Const;
 import org.apache.bcel.classfile.Visitor;
 import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.classfile.constant.ConstantUtf8;
+import org.apache.bcel.enums.ClassFileAttributes;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public final class SourceFile extends Attribute {
@@ -18,7 +18,7 @@ public final class SourceFile extends Attribute {
     }
 
     public SourceFile(final int name_index, final int length, final int sourceFileIndex, final ConstantPool constantPool) {
-        super(Const.ATTR_SOURCE_FILE, name_index, length, constantPool);
+        super(ClassFileAttributes.ATTR_SOURCE_FILE, name_index, length, constantPool);
         this.sourceFileIndex = sourceFileIndex;
     }
 

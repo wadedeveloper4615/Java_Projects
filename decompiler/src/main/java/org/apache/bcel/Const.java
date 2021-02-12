@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Collections;
 
 import org.apache.bcel.enums.ClassAccessFlags;
+import org.apache.bcel.enums.ClassFileAttributes;
 import org.apache.bcel.enums.Version;
 
 public final class Const {
@@ -328,36 +329,36 @@ public final class Const {
     public static final int OPCODE_NAMES_LENGTH = OPCODE_NAMES.length;
     private static final int[] CONSUME_STACK = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 1, 1, 1, 1, 2, 2, 2, 2, 1, 1, 1, 1, 3, 4, 3, 4, 3, 3, 3, 3, 1, 2, 1, 2, 3, 2, 3, 4, 2, 2, 4, 2, 4, 2, 4, 2, 4, 2, 4, 2, 4, 2, 4, 2, 4, 2, 4, 2, 4, 1, 2, 1, 2, 2, 3, 2, 3, 2, 3, 2, 4, 2, 4, 2, 4, 0, 1, 1, 1, 2, 2, 2, 1, 1, 1, 2, 2, 2, 1, 1, 1, 4, 2, 2, 4, 4, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 1, 1, 1, 2, 1, 2, 1, 0, 0, UNPREDICTABLE, 1, UNPREDICTABLE, UNPREDICTABLE, UNPREDICTABLE, UNPREDICTABLE, UNPREDICTABLE, UNPREDICTABLE, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, UNPREDICTABLE, 1, 1, 0, 0, 0, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNPREDICTABLE, UNPREDICTABLE };
     private static final int[] PRODUCE_STACK = { 0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 1, 2, 2, 1, 1, 1, 1, 2, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 1, 1, 1, 1, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 3, 4, 4, 5, 6, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 0, 2, 1, 2, 1, 1, 2, 1, 2, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, UNPREDICTABLE, 0, UNPREDICTABLE, 0, UNPREDICTABLE, UNPREDICTABLE, UNPREDICTABLE, UNPREDICTABLE, UNPREDICTABLE, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNPREDICTABLE, UNPREDICTABLE };
-    public static final byte ATTR_UNKNOWN = -1;
-    public static final byte ATTR_SOURCE_FILE = 0;
-    public static final byte ATTR_CONSTANT_VALUE = 1;
-    public static final byte ATTR_CODE = 2;
-    public static final byte ATTR_EXCEPTIONS = 3;
-    public static final byte ATTR_LINE_NUMBER_TABLE = 4;
-    public static final byte ATTR_LOCAL_VARIABLE_TABLE = 5;
-    public static final byte ATTR_INNER_CLASSES = 6;
-    public static final byte ATTR_SYNTHETIC = 7;
-    public static final byte ATTR_DEPRECATED = 8;
-    public static final byte ATTR_PMG = 9;
-    public static final byte ATTR_SIGNATURE = 10;
-    public static final byte ATTR_STACK_MAP = 11;
-    public static final byte ATTR_RUNTIME_VISIBLE_ANNOTATIONS = 12;
-    public static final byte ATTR_RUNTIME_INVISIBLE_ANNOTATIONS = 13;
-    public static final byte ATTR_RUNTIME_VISIBLE_PARAMETER_ANNOTATIONS = 14;
-    public static final byte ATTR_RUNTIME_INVISIBLE_PARAMETER_ANNOTATIONS = 15;
-    public static final byte ATTR_ANNOTATION_DEFAULT = 16;
-    public static final byte ATTR_LOCAL_VARIABLE_TYPE_TABLE = 17;
-    public static final byte ATTR_ENCLOSING_METHOD = 18;
-    public static final byte ATTR_STACK_MAP_TABLE = 19;
-    public static final byte ATTR_BOOTSTRAP_METHODS = 20;
-    public static final byte ATTR_METHOD_PARAMETERS = 21;
-    public static final byte ATTR_MODULE = 22;
-    public static final byte ATTR_MODULE_PACKAGES = 23;
-    public static final byte ATTR_MODULE_MAIN_CLASS = 24;
-    public static final byte ATTR_NEST_HOST = 25;
-    public static final byte ATTR_NEST_MEMBERS = 26;
-    public static final short KNOWN_ATTRIBUTES = 27; // count of attributes
-    private static final String[] ATTRIBUTE_NAMES = { "SourceFile", "ConstantValue", "Code", "Exceptions", "LineNumberTable", "LocalVariableTable", "InnerClasses", "Synthetic", "Deprecated", "PMGClass", "Signature", "StackMap", "RuntimeVisibleAnnotations", "RuntimeInvisibleAnnotations", "RuntimeVisibleParameterAnnotations", "RuntimeInvisibleParameterAnnotations", "AnnotationDefault", "LocalVariableTypeTable", "EnclosingMethod", "StackMapTable", "BootstrapMethods", "MethodParameters", "Module", "ModulePackages", "ModuleMainClass", "NestHost", "NestMembers" };
+//    public static final byte ATTR_UNKNOWN = -1;
+//    public static final byte ATTR_SOURCE_FILE = 0;
+//    public static final byte ATTR_CONSTANT_VALUE = 1;
+//    public static final byte ATTR_CODE = 2;
+//    public static final byte ATTR_EXCEPTIONS = 3;
+//    public static final byte ATTR_LINE_NUMBER_TABLE = 4;
+//    public static final byte ATTR_LOCAL_VARIABLE_TABLE = 5;
+//    public static final byte ATTR_INNER_CLASSES = 6;
+//    public static final byte ATTR_SYNTHETIC = 7;
+//    public static final byte ATTR_DEPRECATED = 8;
+//    public static final byte ATTR_PMG = 9;
+//    public static final byte ATTR_SIGNATURE = 10;
+//    public static final byte ATTR_STACK_MAP = 11;
+//    public static final byte ATTR_RUNTIME_VISIBLE_ANNOTATIONS = 12;
+//    public static final byte ATTR_RUNTIME_INVISIBLE_ANNOTATIONS = 13;
+//    public static final byte ATTR_RUNTIME_VISIBLE_PARAMETER_ANNOTATIONS = 14;
+//    public static final byte ATTR_RUNTIME_INVISIBLE_PARAMETER_ANNOTATIONS = 15;
+//    public static final byte ATTR_ANNOTATION_DEFAULT = 16;
+//    public static final byte ATTR_LOCAL_VARIABLE_TYPE_TABLE = 17;
+//    public static final byte ATTR_ENCLOSING_METHOD = 18;
+//    public static final byte ATTR_STACK_MAP_TABLE = 19;
+//    public static final byte ATTR_BOOTSTRAP_METHODS = 20;
+//    public static final byte ATTR_METHOD_PARAMETERS = 21;
+//    public static final byte ATTR_MODULE = 22;
+//    public static final byte ATTR_MODULE_PACKAGES = 23;
+//    public static final byte ATTR_MODULE_MAIN_CLASS = 24;
+//    public static final byte ATTR_NEST_HOST = 25;
+//    public static final byte ATTR_NEST_MEMBERS = 26;
+    public static final short KNOWN_ATTRIBUTES = (short) (ClassFileAttributes.ATTR_NEST_MEMBERS.getTag() + 1); // 27 count of attributes
+//    private static final String[] ATTRIBUTE_NAMES = { "SourceFile", "ConstantValue", "Code", "Exceptions", "LineNumberTable", "LocalVariableTable", "InnerClasses", "Synthetic", "Deprecated", "PMGClass", "Signature", "StackMap", "RuntimeVisibleAnnotations", "RuntimeInvisibleAnnotations", "RuntimeVisibleParameterAnnotations", "RuntimeInvisibleParameterAnnotations", "AnnotationDefault", "LocalVariableTypeTable", "EnclosingMethod", "StackMapTable", "BootstrapMethods", "MethodParameters", "Module", "ModulePackages", "ModuleMainClass", "NestHost", "NestMembers" };
     public static final byte ITEM_Bogus = 0;
     public static final byte ITEM_Integer = 1;
     public static final byte ITEM_Float = 2;
@@ -396,10 +397,9 @@ public final class Const {
     public static String getAccessName(final int index) {
         return ACCESS_NAMES[index];
     }
-
-    public static String getAttributeName(final int index) {
-        return ATTRIBUTE_NAMES[index];
-    }
+//    public static String getAttributeName(final int index) {
+//        return ATTRIBUTE_NAMES[index];
+//    }
 
     public static String getClassTypeName(final int index) {
         return CLASS_TYPE_NAMES[index];

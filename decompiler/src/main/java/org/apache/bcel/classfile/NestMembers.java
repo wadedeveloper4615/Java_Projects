@@ -4,9 +4,9 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.Const;
 import org.apache.bcel.classfile.attribute.Attribute;
 import org.apache.bcel.classfile.constant.ConstantPool;
+import org.apache.bcel.enums.ClassFileAttributes;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public final class NestMembers extends Attribute {
@@ -22,7 +22,7 @@ public final class NestMembers extends Attribute {
     }
 
     public NestMembers(final int name_index, final int length, final int[] classes, final ConstantPool constant_pool) {
-        super(Const.ATTR_NEST_MEMBERS, name_index, length, constant_pool);
+        super(ClassFileAttributes.ATTR_NEST_MEMBERS, name_index, length, constant_pool);
         this.classes = classes != null ? classes : new int[0];
     }
 

@@ -7,11 +7,12 @@ import java.io.IOException;
 import org.apache.bcel.classfile.Visitor;
 import org.apache.bcel.classfile.annotations.ParameterAnnotationEntry;
 import org.apache.bcel.classfile.constant.ConstantPool;
+import org.apache.bcel.enums.ClassFileAttributes;
 
 public abstract class ParameterAnnotations extends Attribute {
     private ParameterAnnotationEntry[] parameterAnnotationTable;
 
-    protected ParameterAnnotations(final byte parameter_annotation_type, final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
+    protected ParameterAnnotations(ClassFileAttributes parameter_annotation_type, final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
         this(parameter_annotation_type, name_index, length, (ParameterAnnotationEntry[]) null, constant_pool);
         final int num_parameters = input.readUnsignedByte();
         parameterAnnotationTable = new ParameterAnnotationEntry[num_parameters];
@@ -20,7 +21,7 @@ public abstract class ParameterAnnotations extends Attribute {
         }
     }
 
-    public ParameterAnnotations(final byte parameterAnnotationType, final int nameIndex, final int length, final ParameterAnnotationEntry[] parameterAnnotationTable, final ConstantPool constantPool) {
+    public ParameterAnnotations(ClassFileAttributes parameterAnnotationType, final int nameIndex, final int length, final ParameterAnnotationEntry[] parameterAnnotationTable, final ConstantPool constantPool) {
         super(parameterAnnotationType, nameIndex, length, constantPool);
         this.parameterAnnotationTable = parameterAnnotationTable;
     }

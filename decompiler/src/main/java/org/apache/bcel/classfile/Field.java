@@ -3,11 +3,11 @@ package org.apache.bcel.classfile;
 import java.io.DataInputStream;
 import java.io.IOException;
 
-import org.apache.bcel.Const;
 import org.apache.bcel.classfile.attribute.Attribute;
 import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.classfile.constant.ConstantValue;
 import org.apache.bcel.compare.FieldComparator;
+import org.apache.bcel.enums.ClassFileAttributes;
 import org.apache.bcel.exceptions.ClassFormatException;
 import org.apache.bcel.generic.Type;
 import org.apache.bcel.util.BCELComparator;
@@ -47,7 +47,7 @@ public class Field extends FieldOrMethod {
 
     public ConstantValue getConstantValue() {
         for (Attribute attribute : super.getAttributes()) {
-            if (attribute.getTag() == Const.ATTR_CONSTANT_VALUE) {
+            if (attribute.getTag() == ClassFileAttributes.ATTR_CONSTANT_VALUE) {
                 return (ConstantValue) attribute;
             }
         }

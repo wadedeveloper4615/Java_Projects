@@ -4,10 +4,10 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.Const;
 import org.apache.bcel.classfile.Utility;
 import org.apache.bcel.classfile.Visitor;
 import org.apache.bcel.classfile.constant.ConstantPool;
+import org.apache.bcel.enums.ClassFileAttributes;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public final class ModuleMainClass extends Attribute {
@@ -19,7 +19,7 @@ public final class ModuleMainClass extends Attribute {
     }
 
     public ModuleMainClass(final int name_index, final int length, final int mainClassIndex, final ConstantPool constantPool) {
-        super(Const.ATTR_NEST_MEMBERS, name_index, length, constantPool);
+        super(ClassFileAttributes.ATTR_NEST_MEMBERS, name_index, length, constantPool);
         this.mainClassIndex = mainClassIndex;
     }
 

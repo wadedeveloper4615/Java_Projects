@@ -4,7 +4,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import org.apache.bcel.Const;
 import org.apache.bcel.classfile.CodeException;
 import org.apache.bcel.classfile.InnerClass;
 import org.apache.bcel.classfile.LineNumber;
@@ -20,6 +19,7 @@ import org.apache.bcel.classfile.attribute.SourceFile;
 import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.classfile.constant.ConstantUtf8;
 import org.apache.bcel.classfile.constant.ConstantValue;
+import org.apache.bcel.enums.ClassFileAttributes;
 import org.apache.bcel.enums.ClassFileConstants;
 
 final class AttributeHTML {
@@ -51,9 +51,9 @@ final class AttributeHTML {
     }
 
     void writeAttribute(final Attribute attribute, final String anchor, final int method_number) {
-        final byte tag = attribute.getTag();
+        ClassFileAttributes tag = attribute.getTag();
         int index;
-        if (tag == Const.ATTR_UNKNOWN) {
+        if (tag == ClassFileAttributes.ATTR_UNKNOWN) {
             return;
         }
         attr_count++; // Increment number of attributes found so far
@@ -62,9 +62,9 @@ final class AttributeHTML {
         } else {
             file.print("<TR BGCOLOR=\"#A0A0A0\"><TD>");
         }
-        file.println("<H4><A NAME=\"" + anchor + "\">" + attr_count + " " + Const.getAttributeName(tag) + "</A></H4>");
+        file.println("<H4><A NAME=\"" + anchor + "\">" + attr_count + " " + tag.getName() + "</A></H4>");
         switch (tag) {
-            case Const.ATTR_CODE:
+            case ATTR_CODE:
                 final Code c = (Code) attribute;
                 // Some directly printable values
                 file.print("<UL><LI>Maximum stack size = " + c.getMaxStack() + "</LI>\n<LI>Number of local variables = " + c.getMaxLocals() + "</LI>\n<LI><A HREF=\"" + class_name + "_code.html#method" + method_number + "\" TARGET=Code>Byte code</A></LI></UL>\n");
@@ -86,17 +86,17 @@ final class AttributeHTML {
                     file.print("</UL>");
                 }
                 break;
-            case Const.ATTR_CONSTANT_VALUE:
+            case ATTR_CONSTANT_VALUE:
                 index = ((ConstantValue) attribute).getConstantValueIndex();
                 // Reference _cp.html
                 file.print("<UL><LI><A HREF=\"" + class_name + "_cp.html#cp" + index + "\" TARGET=\"ConstantPool\">Constant value index(" + index + ")</A></UL>\n");
                 break;
-            case Const.ATTR_SOURCE_FILE:
+            case ATTR_SOURCE_FILE:
                 index = ((SourceFile) attribute).getSourceFileIndex();
                 // Reference _cp.html
                 file.print("<UL><LI><A HREF=\"" + class_name + "_cp.html#cp" + index + "\" TARGET=\"ConstantPool\">Source file index(" + index + ")</A></UL>\n");
                 break;
-            case Const.ATTR_EXCEPTIONS:
+            case ATTR_EXCEPTIONS:
                 // List thrown exceptions
                 final int[] indices = ((ExceptionTable) attribute).getExceptionIndexTable();
                 file.print("<UL>");
@@ -105,7 +105,7 @@ final class AttributeHTML {
                 }
                 file.print("</UL>\n");
                 break;
-            case Const.ATTR_LINE_NUMBER_TABLE:
+            case ATTR_LINE_NUMBER_TABLE:
                 final LineNumber[] line_numbers = ((LineNumberTable) attribute).getLineNumberTable();
                 // List line number pairs
                 file.print("<P>");
@@ -116,7 +116,7 @@ final class AttributeHTML {
                     }
                 }
                 break;
-            case Const.ATTR_LOCAL_VARIABLE_TABLE:
+            case ATTR_LOCAL_VARIABLE_TABLE:
                 final LocalVariable[] vars = ((LocalVariableTable) attribute).getLocalVariableTable();
                 // List name, range and type
                 file.print("<UL>");
@@ -130,7 +130,7 @@ final class AttributeHTML {
                 }
                 file.print("</UL>\n");
                 break;
-            case Const.ATTR_INNER_CLASSES:
+            case ATTR_INNER_CLASSES:
                 final InnerClass[] classes = ((InnerClasses) attribute).getInnerClasses();
                 // List inner classes
                 file.print("<UL>");

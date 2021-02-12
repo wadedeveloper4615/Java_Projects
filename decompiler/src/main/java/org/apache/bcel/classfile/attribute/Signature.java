@@ -5,10 +5,10 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.Const;
 import org.apache.bcel.classfile.Visitor;
 import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.classfile.constant.ConstantUtf8;
+import org.apache.bcel.enums.ClassFileAttributes;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public final class Signature extends Attribute {
@@ -35,7 +35,7 @@ public final class Signature extends Attribute {
     }
 
     public Signature(final int name_index, final int length, final int signatureIndex, final ConstantPool constant_pool) {
-        super(Const.ATTR_SIGNATURE, name_index, length, constant_pool);
+        super(ClassFileAttributes.ATTR_SIGNATURE, name_index, length, constant_pool);
         this.signatureIndex = signatureIndex;
     }
 

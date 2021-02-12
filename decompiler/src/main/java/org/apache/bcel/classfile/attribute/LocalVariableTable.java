@@ -4,10 +4,10 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.Const;
 import org.apache.bcel.classfile.LocalVariable;
 import org.apache.bcel.classfile.Visitor;
 import org.apache.bcel.classfile.constant.ConstantPool;
+import org.apache.bcel.enums.ClassFileAttributes;
 
 public class LocalVariableTable extends Attribute {
     private LocalVariable[] localVariableTable; // variables
@@ -22,7 +22,7 @@ public class LocalVariableTable extends Attribute {
     }
 
     public LocalVariableTable(final int nameIndex, final int length, final LocalVariable[] localVariableTable, final ConstantPool constantPool) {
-        super(Const.ATTR_LOCAL_VARIABLE_TABLE, nameIndex, length, constantPool);
+        super(ClassFileAttributes.ATTR_LOCAL_VARIABLE_TABLE, nameIndex, length, constantPool);
         this.localVariableTable = localVariableTable;
     }
 

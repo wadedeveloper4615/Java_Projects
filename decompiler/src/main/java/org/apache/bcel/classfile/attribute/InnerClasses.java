@@ -4,10 +4,10 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.Const;
 import org.apache.bcel.classfile.InnerClass;
 import org.apache.bcel.classfile.Visitor;
 import org.apache.bcel.classfile.constant.ConstantPool;
+import org.apache.bcel.enums.ClassFileAttributes;
 
 public final class InnerClasses extends Attribute {
     private InnerClass[] innerClasses;
@@ -26,7 +26,7 @@ public final class InnerClasses extends Attribute {
     }
 
     public InnerClasses(final int name_index, final int length, final InnerClass[] innerClasses, final ConstantPool constant_pool) {
-        super(Const.ATTR_INNER_CLASSES, name_index, length, constant_pool);
+        super(ClassFileAttributes.ATTR_INNER_CLASSES, name_index, length, constant_pool);
         this.innerClasses = innerClasses != null ? innerClasses : new InnerClass[0];
     }
 

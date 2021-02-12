@@ -4,10 +4,10 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.Const;
 import org.apache.bcel.classfile.Utility;
 import org.apache.bcel.classfile.Visitor;
 import org.apache.bcel.classfile.attribute.Attribute;
+import org.apache.bcel.enums.ClassFileAttributes;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public final class ConstantValue extends Attribute {
@@ -22,7 +22,7 @@ public final class ConstantValue extends Attribute {
     }
 
     public ConstantValue(final int name_index, final int length, final int constantValueIndex, final ConstantPool constant_pool) {
-        super(Const.ATTR_CONSTANT_VALUE, name_index, length, constant_pool);
+        super(ClassFileAttributes.ATTR_CONSTANT_VALUE, name_index, length, constant_pool);
         this.constantValueIndex = constantValueIndex;
     }
 

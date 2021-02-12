@@ -11,13 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.bcel.classfile.AnnotationEntry;
-import org.apache.bcel.classfile.Attribute;
-import org.apache.bcel.classfile.ConstantUtf8;
 import org.apache.bcel.classfile.ElementValuePair;
 import org.apache.bcel.classfile.RuntimeInvisibleAnnotations;
 import org.apache.bcel.classfile.RuntimeInvisibleParameterAnnotations;
 import org.apache.bcel.classfile.RuntimeVisibleAnnotations;
 import org.apache.bcel.classfile.RuntimeVisibleParameterAnnotations;
+import org.apache.bcel.classfile.attribute.Attribute;
+import org.apache.bcel.classfile.constant.ConstantUtf8;
 import org.apache.bcel.generic.ObjectType;
 
 public class AnnotationEntryGen {

@@ -1,11 +1,14 @@
 
-package org.apache.bcel.classfile;
+package org.apache.bcel.classfile.constant;
 
 import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
 import org.apache.bcel.Const;
+import org.apache.bcel.classfile.ClassFormatException;
+import org.apache.bcel.classfile.Node;
+import org.apache.bcel.classfile.Visitor;
 import org.apache.bcel.compare.ConstantComparator;
 import org.apache.bcel.enums.ClassFileConstants;
 import org.apache.bcel.util.BCELComparator;

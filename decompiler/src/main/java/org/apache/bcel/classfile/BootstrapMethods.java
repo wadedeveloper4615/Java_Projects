@@ -6,6 +6,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import org.apache.bcel.Const;
+import org.apache.bcel.classfile.attribute.Attribute;
+import org.apache.bcel.classfile.constant.ConstantPool;
 
 public class BootstrapMethods extends Attribute {
 
@@ -20,7 +22,7 @@ public class BootstrapMethods extends Attribute {
         this.bootstrapMethods = bootstrapMethods;
     }
 
-    BootstrapMethods(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
+    public BootstrapMethods(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
         this(name_index, length, (BootstrapMethod[]) null, constant_pool);
 
         final int num_bootstrap_methods = input.readUnsignedShort();
@@ -28,14 +30,6 @@ public class BootstrapMethods extends Attribute {
         for (int i = 0; i < num_bootstrap_methods; i++) {
             bootstrapMethods[i] = new BootstrapMethod(input);
         }
-    }
-
-    public final BootstrapMethod[] getBootstrapMethods() {
-        return bootstrapMethods;
-    }
-
-    public final void setBootstrapMethods(final BootstrapMethod[] bootstrapMethods) {
-        this.bootstrapMethods = bootstrapMethods;
     }
 
     @Override
@@ -63,6 +57,14 @@ public class BootstrapMethods extends Attribute {
         for (final BootstrapMethod bootstrap_method : bootstrapMethods) {
             bootstrap_method.dump(file);
         }
+    }
+
+    public final BootstrapMethod[] getBootstrapMethods() {
+        return bootstrapMethods;
+    }
+
+    public final void setBootstrapMethods(final BootstrapMethod[] bootstrapMethods) {
+        this.bootstrapMethods = bootstrapMethods;
     }
 
     @Override

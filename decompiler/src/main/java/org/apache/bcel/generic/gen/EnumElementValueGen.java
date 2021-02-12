@@ -4,9 +4,9 @@ package org.apache.bcel.generic.gen;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.classfile.ConstantUtf8;
 import org.apache.bcel.classfile.ElementValue;
 import org.apache.bcel.classfile.EnumElementValue;
+import org.apache.bcel.classfile.constant.ConstantUtf8;
 import org.apache.bcel.generic.ObjectType;
 
 public class EnumElementValueGen extends ElementValueGen {

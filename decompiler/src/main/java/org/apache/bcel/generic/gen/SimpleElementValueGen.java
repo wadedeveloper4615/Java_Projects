@@ -4,13 +4,13 @@ package org.apache.bcel.generic.gen;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.classfile.ConstantDouble;
-import org.apache.bcel.classfile.ConstantFloat;
-import org.apache.bcel.classfile.ConstantInteger;
-import org.apache.bcel.classfile.ConstantLong;
-import org.apache.bcel.classfile.ConstantUtf8;
 import org.apache.bcel.classfile.ElementValue;
 import org.apache.bcel.classfile.SimpleElementValue;
+import org.apache.bcel.classfile.constant.ConstantDouble;
+import org.apache.bcel.classfile.constant.ConstantFloat;
+import org.apache.bcel.classfile.constant.ConstantInteger;
+import org.apache.bcel.classfile.constant.ConstantLong;
+import org.apache.bcel.classfile.constant.ConstantUtf8;
 
 public class SimpleElementValueGen extends ElementValueGen {
     // For primitive types and string type, this points to the value entry in

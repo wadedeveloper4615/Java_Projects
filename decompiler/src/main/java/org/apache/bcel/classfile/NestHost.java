@@ -6,13 +6,15 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import org.apache.bcel.Const;
+import org.apache.bcel.classfile.attribute.Attribute;
+import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public final class NestHost extends Attribute {
 
     private int hostClassIndex;
 
-    NestHost(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
+    public NestHost(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
         this(name_index, length, 0, constant_pool);
         hostClassIndex = input.readUnsignedShort();
     }

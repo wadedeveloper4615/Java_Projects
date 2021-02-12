@@ -6,9 +6,9 @@ import java.io.IOException;
 
 import org.apache.bcel.Const;
 import org.apache.bcel.ExceptionConst;
-import org.apache.bcel.classfile.ConstantInvokeDynamic;
-import org.apache.bcel.classfile.ConstantNameAndType;
-import org.apache.bcel.classfile.ConstantPool;
+import org.apache.bcel.classfile.constant.ConstantInvokeDynamic;
+import org.apache.bcel.classfile.constant.ConstantNameAndType;
+import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.enums.ClassFileConstants;
 import org.apache.bcel.generic.base.InvokeInstruction;
 import org.apache.bcel.generic.base.ReferenceType;

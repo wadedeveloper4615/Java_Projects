@@ -1,10 +1,11 @@
 
-package org.apache.bcel.classfile;
+package org.apache.bcel.classfile.constant;
 
 import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import org.apache.bcel.classfile.Visitor;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public final class ConstantNameAndType extends Constant {
@@ -16,7 +17,7 @@ public final class ConstantNameAndType extends Constant {
         this(c.getNameIndex(), c.getSignatureIndex());
     }
 
-    ConstantNameAndType(final DataInput file) throws IOException {
+    public ConstantNameAndType(final DataInput file) throws IOException {
         this(file.readUnsignedShort(), file.readUnsignedShort());
     }
 

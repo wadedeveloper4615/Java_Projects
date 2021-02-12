@@ -6,13 +6,16 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import org.apache.bcel.Const;
+import org.apache.bcel.classfile.attribute.Attribute;
+import org.apache.bcel.classfile.constant.ConstantPool;
+import org.apache.bcel.classfile.constant.ConstantUtf8;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public final class SourceFile extends Attribute {
 
     private int sourceFileIndex;
 
-    SourceFile(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
+    public SourceFile(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
         this(name_index, length, input.readUnsignedShort(), constant_pool);
     }
 

@@ -5,7 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import org.apache.bcel.ExceptionConst;
-import org.apache.bcel.classfile.Constant;
+import org.apache.bcel.classfile.constant.Constant;
 import org.apache.bcel.generic.base.CPInstruction;
 import org.apache.bcel.generic.base.ExceptionThrower;
 import org.apache.bcel.generic.base.PushInstruction;
@@ -68,17 +68,17 @@ public class LDC extends CPInstruction implements PushInstruction, ExceptionThro
         Constant c = cpg.getConstantPool().getConstant(super.getIndex());
         switch (c.getTag()) {
             case CONSTANT_String:
-                final int i = ((org.apache.bcel.classfile.ConstantString) c).getStringIndex();
+                final int i = ((org.apache.bcel.classfile.constant.ConstantString) c).getStringIndex();
                 c = cpg.getConstantPool().getConstant(i);
-                return ((org.apache.bcel.classfile.ConstantUtf8) c).getBytes();
+                return ((org.apache.bcel.classfile.constant.ConstantUtf8) c).getBytes();
             case CONSTANT_Float:
-                return new Float(((org.apache.bcel.classfile.ConstantFloat) c).getBytes());
+                return new Float(((org.apache.bcel.classfile.constant.ConstantFloat) c).getBytes());
             case CONSTANT_Integer:
-                return Integer.valueOf(((org.apache.bcel.classfile.ConstantInteger) c).getBytes());
+                return Integer.valueOf(((org.apache.bcel.classfile.constant.ConstantInteger) c).getBytes());
             case CONSTANT_Class:
-                final int nameIndex = ((org.apache.bcel.classfile.ConstantClass) c).getNameIndex();
+                final int nameIndex = ((org.apache.bcel.classfile.constant.ConstantClass) c).getNameIndex();
                 c = cpg.getConstantPool().getConstant(nameIndex);
-                return new ObjectType(((org.apache.bcel.classfile.ConstantUtf8) c).getBytes());
+                return new ObjectType(((org.apache.bcel.classfile.constant.ConstantUtf8) c).getBytes());
             default: // Never reached
                 throw new IllegalArgumentException("Unknown or invalid constant type at " + super.getIndex());
         }

@@ -4,6 +4,9 @@ import java.io.DataInputStream;
 import java.io.IOException;
 
 import org.apache.bcel.Const;
+import org.apache.bcel.classfile.attribute.Attribute;
+import org.apache.bcel.classfile.constant.ConstantPool;
+import org.apache.bcel.classfile.constant.ConstantValue;
 import org.apache.bcel.compare.FieldComparator;
 import org.apache.bcel.generic.Type;
 import org.apache.bcel.util.BCELComparator;

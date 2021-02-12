@@ -6,23 +6,41 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import org.apache.bcel.Const;
+import org.apache.bcel.classfile.attribute.Attribute;
+import org.apache.bcel.classfile.constant.ConstantPool;
 
 public final class StackMap extends Attribute {
 
     private StackMapEntry[] map; // Table of stack map entries
 
-    public StackMap(final int name_index, final int length, final StackMapEntry[] map, final ConstantPool constant_pool) {
-        super(Const.ATTR_STACK_MAP, name_index, length, constant_pool);
-        this.map = map;
-    }
-
-    StackMap(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
+    public StackMap(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
         this(name_index, length, (StackMapEntry[]) null, constant_pool);
         final int map_length = input.readUnsignedShort();
         map = new StackMapEntry[map_length];
         for (int i = 0; i < map_length; i++) {
             map[i] = new StackMapEntry(input, constant_pool);
         }
+    }
+
+    public StackMap(final int name_index, final int length, final StackMapEntry[] map, final ConstantPool constant_pool) {
+        super(Const.ATTR_STACK_MAP, name_index, length, constant_pool);
+        this.map = map;
+    }
+
+    @Override
+    public void accept(final Visitor v) {
+        v.visitStackMap(this);
+    }
+
+    @Override
+    public Attribute copy(final ConstantPool _constant_pool) {
+        final StackMap c = (StackMap) clone();
+        c.map = new StackMapEntry[map.length];
+        for (int i = 0; i < map.length; i++) {
+            c.map[i] = map[i].copy();
+        }
+        c.setConstantPool(_constant_pool);
+        return c;
     }
 
     @Override
@@ -32,6 +50,10 @@ public final class StackMap extends Attribute {
         for (final StackMapEntry entry : map) {
             entry.dump(file);
         }
+    }
+
+    public int getMapLength() {
+        return map == null ? 0 : map.length;
     }
 
     public StackMapEntry[] getStackMap() {
@@ -58,25 +80,5 @@ public final class StackMap extends Attribute {
         }
         buf.append(')');
         return buf.toString();
-    }
-
-    @Override
-    public Attribute copy(final ConstantPool _constant_pool) {
-        final StackMap c = (StackMap) clone();
-        c.map = new StackMapEntry[map.length];
-        for (int i = 0; i < map.length; i++) {
-            c.map[i] = map[i].copy();
-        }
-        c.setConstantPool(_constant_pool);
-        return c;
-    }
-
-    @Override
-    public void accept(final Visitor v) {
-        v.visitStackMap(this);
-    }
-
-    public int getMapLength() {
-        return map == null ? 0 : map.length;
     }
 }

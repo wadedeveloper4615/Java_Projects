@@ -1,9 +1,10 @@
 
-package org.apache.bcel.classfile;
+package org.apache.bcel.classfile.constant;
 
 import java.io.DataInput;
 import java.io.IOException;
 
+import org.apache.bcel.classfile.Visitor;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public final class ConstantInvokeDynamic extends ConstantCP {
@@ -12,7 +13,7 @@ public final class ConstantInvokeDynamic extends ConstantCP {
         this(c.getBootstrapMethodAttrIndex(), c.getNameAndTypeIndex());
     }
 
-    ConstantInvokeDynamic(final DataInput file) throws IOException {
+    public ConstantInvokeDynamic(final DataInput file) throws IOException {
         this(file.readShort(), file.readShort());
     }
 

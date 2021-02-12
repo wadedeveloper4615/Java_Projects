@@ -5,7 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import org.apache.bcel.ExceptionConst;
-import org.apache.bcel.classfile.ConstantPool;
+import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.generic.base.AllocationInstruction;
 import org.apache.bcel.generic.base.ArrayType;
 import org.apache.bcel.generic.base.CPInstruction;

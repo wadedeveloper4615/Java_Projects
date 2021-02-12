@@ -6,6 +6,10 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import org.apache.bcel.Const;
+import org.apache.bcel.classfile.attribute.Attribute;
+import org.apache.bcel.classfile.constant.ConstantClass;
+import org.apache.bcel.classfile.constant.ConstantNameAndType;
+import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public class EnclosingMethod extends Attribute {
@@ -25,7 +29,7 @@ public class EnclosingMethod extends Attribute {
     private int methodIndex;
 
     // Ctors - and code to read an attribute in.
-    EnclosingMethod(final int nameIndex, final int len, final DataInput input, final ConstantPool cpool) throws IOException {
+    public EnclosingMethod(final int nameIndex, final int len, final DataInput input, final ConstantPool cpool) throws IOException {
         this(nameIndex, len, input.readUnsignedShort(), input.readUnsignedShort(), cpool);
     }
 

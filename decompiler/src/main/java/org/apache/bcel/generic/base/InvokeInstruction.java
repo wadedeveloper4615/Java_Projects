@@ -4,9 +4,9 @@ package org.apache.bcel.generic.base;
 import java.util.StringTokenizer;
 
 import org.apache.bcel.Const;
-import org.apache.bcel.classfile.Constant;
-import org.apache.bcel.classfile.ConstantCP;
-import org.apache.bcel.classfile.ConstantPool;
+import org.apache.bcel.classfile.constant.Constant;
+import org.apache.bcel.classfile.constant.ConstantCP;
+import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.enums.ClassFileConstants;
 import org.apache.bcel.generic.StackProducer;
 import org.apache.bcel.generic.Type;

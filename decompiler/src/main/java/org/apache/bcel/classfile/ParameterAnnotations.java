@@ -5,6 +5,9 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import org.apache.bcel.classfile.attribute.Attribute;
+import org.apache.bcel.classfile.constant.ConstantPool;
+
 public abstract class ParameterAnnotations extends Attribute {
 
     private ParameterAnnotationEntry[] parameterAnnotationTable;

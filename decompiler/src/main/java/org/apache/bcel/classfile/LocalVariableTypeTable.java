@@ -6,6 +6,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import org.apache.bcel.Const;
+import org.apache.bcel.classfile.attribute.Attribute;
+import org.apache.bcel.classfile.constant.ConstantPool;
 
 // The new table is used when generic types are about...
 
@@ -39,16 +41,7 @@ public class LocalVariableTypeTable extends Attribute {
 
     private LocalVariable[] localVariableTypeTable; // variables
 
-    public LocalVariableTypeTable(final LocalVariableTypeTable c) {
-        this(c.getNameIndex(), c.getLength(), c.getLocalVariableTypeTable(), c.getConstantPool());
-    }
-
-    public LocalVariableTypeTable(final int name_index, final int length, final LocalVariable[] local_variable_table, final ConstantPool constant_pool) {
-        super(Const.ATTR_LOCAL_VARIABLE_TYPE_TABLE, name_index, length, constant_pool);
-        this.localVariableTypeTable = local_variable_table;
-    }
-
-    LocalVariableTypeTable(final int nameIdx, final int len, final DataInput input, final ConstantPool cpool) throws IOException {
+    public LocalVariableTypeTable(final int nameIdx, final int len, final DataInput input, final ConstantPool cpool) throws IOException {
         this(nameIdx, len, (LocalVariable[]) null, cpool);
 
         final int local_variable_type_table_length = input.readUnsignedShort();
@@ -59,9 +52,31 @@ public class LocalVariableTypeTable extends Attribute {
         }
     }
 
+    public LocalVariableTypeTable(final int name_index, final int length, final LocalVariable[] local_variable_table, final ConstantPool constant_pool) {
+        super(Const.ATTR_LOCAL_VARIABLE_TYPE_TABLE, name_index, length, constant_pool);
+        this.localVariableTypeTable = local_variable_table;
+    }
+
+    public LocalVariableTypeTable(final LocalVariableTypeTable c) {
+        this(c.getNameIndex(), c.getLength(), c.getLocalVariableTypeTable(), c.getConstantPool());
+    }
+
     @Override
     public void accept(final Visitor v) {
         v.visitLocalVariableTypeTable(this);
+    }
+
+    @Override
+    public Attribute copy(final ConstantPool constant_pool) {
+        final LocalVariableTypeTable c = (LocalVariableTypeTable) clone();
+
+        c.localVariableTypeTable = new LocalVariable[localVariableTypeTable.length];
+        for (int i = 0; i < localVariableTypeTable.length; i++) {
+            c.localVariableTypeTable[i] = localVariableTypeTable[i].copy();
+        }
+
+        c.setConstantPool(constant_pool);
+        return c;
     }
 
     @Override
@@ -73,10 +88,6 @@ public class LocalVariableTypeTable extends Attribute {
         }
     }
 
-    public final LocalVariable[] getLocalVariableTypeTable() {
-        return localVariableTypeTable;
-    }
-
     public final LocalVariable getLocalVariable(final int index) {
         for (final LocalVariable variable : localVariableTypeTable) {
             if (variable.getIndex() == index) {
@@ -85,6 +96,14 @@ public class LocalVariableTypeTable extends Attribute {
         }
 
         return null;
+    }
+
+    public final LocalVariable[] getLocalVariableTypeTable() {
+        return localVariableTypeTable;
+    }
+
+    public final int getTableLength() {
+        return localVariableTypeTable == null ? 0 : localVariableTypeTable.length;
     }
 
     public final void setLocalVariableTable(final LocalVariable[] local_variable_table) {
@@ -104,22 +123,5 @@ public class LocalVariableTypeTable extends Attribute {
         }
 
         return buf.toString();
-    }
-
-    @Override
-    public Attribute copy(final ConstantPool constant_pool) {
-        final LocalVariableTypeTable c = (LocalVariableTypeTable) clone();
-
-        c.localVariableTypeTable = new LocalVariable[localVariableTypeTable.length];
-        for (int i = 0; i < localVariableTypeTable.length; i++) {
-            c.localVariableTypeTable[i] = localVariableTypeTable[i].copy();
-        }
-
-        c.setConstantPool(constant_pool);
-        return c;
-    }
-
-    public final int getTableLength() {
-        return localVariableTypeTable == null ? 0 : localVariableTypeTable.length;
     }
 }

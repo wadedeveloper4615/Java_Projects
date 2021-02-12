@@ -1,9 +1,10 @@
 
-package org.apache.bcel.classfile;
+package org.apache.bcel.classfile.constant;
 
 import java.io.DataInput;
 import java.io.IOException;
 
+import org.apache.bcel.classfile.Visitor;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public final class ConstantInterfaceMethodref extends ConstantCP {
@@ -12,7 +13,7 @@ public final class ConstantInterfaceMethodref extends ConstantCP {
         super(ClassFileConstants.CONSTANT_InterfaceMethodref, c.getClassIndex(), c.getNameAndTypeIndex());
     }
 
-    ConstantInterfaceMethodref(final DataInput input) throws IOException {
+    public ConstantInterfaceMethodref(final DataInput input) throws IOException {
         super(ClassFileConstants.CONSTANT_InterfaceMethodref, input);
     }
 

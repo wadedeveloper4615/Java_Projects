@@ -4,21 +4,21 @@ package org.apache.bcel.generic.gen;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.bcel.classfile.Constant;
-import org.apache.bcel.classfile.ConstantCP;
-import org.apache.bcel.classfile.ConstantClass;
-import org.apache.bcel.classfile.ConstantDouble;
-import org.apache.bcel.classfile.ConstantFieldref;
-import org.apache.bcel.classfile.ConstantFloat;
-import org.apache.bcel.classfile.ConstantInteger;
-import org.apache.bcel.classfile.ConstantInterfaceMethodref;
-import org.apache.bcel.classfile.ConstantInvokeDynamic;
-import org.apache.bcel.classfile.ConstantLong;
-import org.apache.bcel.classfile.ConstantMethodref;
-import org.apache.bcel.classfile.ConstantNameAndType;
-import org.apache.bcel.classfile.ConstantPool;
-import org.apache.bcel.classfile.ConstantString;
-import org.apache.bcel.classfile.ConstantUtf8;
+import org.apache.bcel.classfile.constant.Constant;
+import org.apache.bcel.classfile.constant.ConstantCP;
+import org.apache.bcel.classfile.constant.ConstantClass;
+import org.apache.bcel.classfile.constant.ConstantDouble;
+import org.apache.bcel.classfile.constant.ConstantFieldref;
+import org.apache.bcel.classfile.constant.ConstantFloat;
+import org.apache.bcel.classfile.constant.ConstantInteger;
+import org.apache.bcel.classfile.constant.ConstantInterfaceMethodref;
+import org.apache.bcel.classfile.constant.ConstantInvokeDynamic;
+import org.apache.bcel.classfile.constant.ConstantLong;
+import org.apache.bcel.classfile.constant.ConstantMethodref;
+import org.apache.bcel.classfile.constant.ConstantNameAndType;
+import org.apache.bcel.classfile.constant.ConstantPool;
+import org.apache.bcel.classfile.constant.ConstantString;
+import org.apache.bcel.classfile.constant.ConstantUtf8;
 import org.apache.bcel.generic.ObjectType;
 import org.apache.bcel.generic.base.ArrayType;
 
@@ -162,13 +162,13 @@ public class ConstantPoolGen {
                 // nothing to do
             } else if (c instanceof ConstantDouble) {
                 // nothing to do
-            } else if (c instanceof org.apache.bcel.classfile.ConstantMethodType) {
+            } else if (c instanceof org.apache.bcel.classfile.constant.ConstantMethodType) {
                 // TODO should this be handled somehow?
-            } else if (c instanceof org.apache.bcel.classfile.ConstantMethodHandle) {
+            } else if (c instanceof org.apache.bcel.classfile.constant.ConstantMethodHandle) {
                 // TODO should this be handled somehow?
-            } else if (c instanceof org.apache.bcel.classfile.ConstantModule) {
+            } else if (c instanceof org.apache.bcel.classfile.constant.ConstantModule) {
                 // TODO should this be handled somehow?
-            } else if (c instanceof org.apache.bcel.classfile.ConstantPackage) {
+            } else if (c instanceof org.apache.bcel.classfile.constant.ConstantPackage) {
                 // TODO should this be handled somehow?
             } else {
                 assert false : "Unexpected constant type: " + c.getClass().getName();

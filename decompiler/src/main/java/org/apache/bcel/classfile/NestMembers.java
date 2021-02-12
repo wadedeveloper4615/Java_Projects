@@ -6,13 +6,15 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import org.apache.bcel.Const;
+import org.apache.bcel.classfile.attribute.Attribute;
+import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public final class NestMembers extends Attribute {
 
     private int[] classes;
 
-    NestMembers(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
+    public NestMembers(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
         this(name_index, length, (int[]) null, constant_pool);
         final int number_of_classes = input.readUnsignedShort();
         classes = new int[number_of_classes];

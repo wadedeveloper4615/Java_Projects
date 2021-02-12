@@ -1,6 +1,26 @@
 
 package org.apache.bcel.classfile;
 
+import org.apache.bcel.classfile.constant.ConstantClass;
+import org.apache.bcel.classfile.constant.ConstantDouble;
+import org.apache.bcel.classfile.constant.ConstantDynamic;
+import org.apache.bcel.classfile.constant.ConstantFieldref;
+import org.apache.bcel.classfile.constant.ConstantFloat;
+import org.apache.bcel.classfile.constant.ConstantInteger;
+import org.apache.bcel.classfile.constant.ConstantInterfaceMethodref;
+import org.apache.bcel.classfile.constant.ConstantInvokeDynamic;
+import org.apache.bcel.classfile.constant.ConstantLong;
+import org.apache.bcel.classfile.constant.ConstantMethodHandle;
+import org.apache.bcel.classfile.constant.ConstantMethodType;
+import org.apache.bcel.classfile.constant.ConstantMethodref;
+import org.apache.bcel.classfile.constant.ConstantModule;
+import org.apache.bcel.classfile.constant.ConstantNameAndType;
+import org.apache.bcel.classfile.constant.ConstantPackage;
+import org.apache.bcel.classfile.constant.ConstantPool;
+import org.apache.bcel.classfile.constant.ConstantString;
+import org.apache.bcel.classfile.constant.ConstantUtf8;
+import org.apache.bcel.classfile.constant.ConstantValue;
+
 public class EmptyVisitor implements Visitor {
     protected EmptyVisitor() {
     }

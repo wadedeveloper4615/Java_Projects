@@ -6,13 +6,15 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import org.apache.bcel.Const;
+import org.apache.bcel.classfile.attribute.Attribute;
+import org.apache.bcel.classfile.constant.ConstantPool;
 
 public final class LineNumberTable extends Attribute {
 
     private static final int MAX_LINE_LENGTH = 72;
     private LineNumber[] lineNumberTable; // Table of line/numbers pairs
 
-    LineNumberTable(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
+    public LineNumberTable(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
         this(name_index, length, (LineNumber[]) null, constant_pool);
         final int line_number_table_length = input.readUnsignedShort();
         lineNumberTable = new LineNumber[line_number_table_length];

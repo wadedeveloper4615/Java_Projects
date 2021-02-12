@@ -1,32 +1,33 @@
 
-package org.apache.bcel.classfile;
+package org.apache.bcel.classfile.constant;
 
 import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import org.apache.bcel.classfile.ConstantObject;
+import org.apache.bcel.classfile.Visitor;
 import org.apache.bcel.enums.ClassFileConstants;
 
-public final class ConstantClass extends Constant implements ConstantObject {
+public final class ConstantModule extends Constant implements ConstantObject {
+    private int nameIndex;
 
-    private int nameIndex; // Identical to ConstantString except for the name
-
-    public ConstantClass(final ConstantClass c) {
+    public ConstantModule(final ConstantModule c) {
         this(c.getNameIndex());
     }
 
-    ConstantClass(final DataInput dataInput) throws IOException {
-        this(dataInput.readUnsignedShort());
+    public ConstantModule(final DataInput file) throws IOException {
+        this(file.readUnsignedShort());
     }
 
-    public ConstantClass(final int nameIndex) {
-        super(ClassFileConstants.CONSTANT_Class);
+    public ConstantModule(final int nameIndex) {
+        super(ClassFileConstants.CONSTANT_Module);
         this.nameIndex = nameIndex;
     }
 
     @Override
     public void accept(final Visitor v) {
-        v.visitConstantClass(this);
+        v.visitConstantModule(this);
     }
 
     @Override

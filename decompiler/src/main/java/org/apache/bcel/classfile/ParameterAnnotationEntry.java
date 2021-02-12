@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.bcel.classfile.attribute.Attribute;
+import org.apache.bcel.classfile.constant.ConstantPool;
+
 public class ParameterAnnotationEntry implements Node {
 
     private final AnnotationEntry[] annotationTable;

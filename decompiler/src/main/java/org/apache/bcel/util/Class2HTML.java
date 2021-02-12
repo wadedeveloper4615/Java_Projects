@@ -9,13 +9,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.bcel.Constants;
-import org.apache.bcel.classfile.Attribute;
 import org.apache.bcel.classfile.ClassFormatException;
 import org.apache.bcel.classfile.ClassParser;
-import org.apache.bcel.classfile.ConstantPool;
 import org.apache.bcel.classfile.JavaClass;
 import org.apache.bcel.classfile.Method;
 import org.apache.bcel.classfile.Utility;
+import org.apache.bcel.classfile.attribute.Attribute;
+import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public class Class2HTML implements Constants {

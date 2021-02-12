@@ -1,7 +1,7 @@
 
 package org.apache.bcel.generic.base;
 
-import org.apache.bcel.classfile.ConstantPool;
+import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.enums.ClassFileConstants;
 import org.apache.bcel.generic.Type;
 import org.apache.bcel.generic.gen.ConstantPoolGen;

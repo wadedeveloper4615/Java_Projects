@@ -6,13 +6,13 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import org.apache.bcel.Const;
-import org.apache.bcel.classfile.Attribute;
 import org.apache.bcel.classfile.Code;
-import org.apache.bcel.classfile.ConstantValue;
 import org.apache.bcel.classfile.ExceptionTable;
 import org.apache.bcel.classfile.Field;
 import org.apache.bcel.classfile.Method;
 import org.apache.bcel.classfile.Utility;
+import org.apache.bcel.classfile.attribute.Attribute;
+import org.apache.bcel.classfile.constant.ConstantValue;
 
 final class MethodHTML {
 

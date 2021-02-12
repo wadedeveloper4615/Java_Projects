@@ -4,6 +4,8 @@ package org.apache.bcel.classfile;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import org.apache.bcel.classfile.constant.ConstantPool;
+
 public class AnnotationElementValue extends ElementValue {
     // For annotation element values, this is the annotation
     private final AnnotationEntry annotationEntry;

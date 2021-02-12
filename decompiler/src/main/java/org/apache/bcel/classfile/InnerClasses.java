@@ -6,6 +6,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import org.apache.bcel.Const;
+import org.apache.bcel.classfile.attribute.Attribute;
+import org.apache.bcel.classfile.constant.ConstantPool;
 
 public final class InnerClasses extends Attribute {
 
@@ -15,7 +17,7 @@ public final class InnerClasses extends Attribute {
         this(c.getNameIndex(), c.getLength(), c.getInnerClasses(), c.getConstantPool());
     }
 
-    InnerClasses(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
+    public InnerClasses(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
         this(name_index, length, (InnerClass[]) null, constant_pool);
         final int number_of_classes = input.readUnsignedShort();
         innerClasses = new InnerClass[number_of_classes];

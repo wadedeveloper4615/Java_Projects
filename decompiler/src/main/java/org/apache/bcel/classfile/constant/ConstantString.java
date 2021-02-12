@@ -1,10 +1,12 @@
 
-package org.apache.bcel.classfile;
+package org.apache.bcel.classfile.constant;
 
 import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import org.apache.bcel.classfile.ConstantObject;
+import org.apache.bcel.classfile.Visitor;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public final class ConstantString extends Constant implements ConstantObject {
@@ -15,7 +17,7 @@ public final class ConstantString extends Constant implements ConstantObject {
         this(c.getStringIndex());
     }
 
-    ConstantString(final DataInput file) throws IOException {
+    public ConstantString(final DataInput file) throws IOException {
         this(file.readUnsignedShort());
     }
 

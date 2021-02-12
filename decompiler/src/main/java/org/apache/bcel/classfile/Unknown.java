@@ -8,6 +8,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.bcel.Const;
+import org.apache.bcel.classfile.attribute.Attribute;
+import org.apache.bcel.classfile.constant.ConstantPool;
+import org.apache.bcel.classfile.constant.ConstantUtf8;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public final class Unknown extends Attribute {
@@ -23,7 +26,7 @@ public final class Unknown extends Attribute {
         unknownAttributes.put(name, this);
     }
 
-    Unknown(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
+    public Unknown(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
         this(name_index, length, (byte[]) null, constant_pool);
         if (length > 0) {
             bytes = new byte[length];

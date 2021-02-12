@@ -1,11 +1,14 @@
 
-package org.apache.bcel.classfile;
+package org.apache.bcel.classfile.constant;
 
 import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
 import org.apache.bcel.Const;
+import org.apache.bcel.classfile.Utility;
+import org.apache.bcel.classfile.Visitor;
+import org.apache.bcel.classfile.attribute.Attribute;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public final class ConstantValue extends Attribute {
@@ -16,7 +19,7 @@ public final class ConstantValue extends Attribute {
         this(c.getNameIndex(), c.getLength(), c.getConstantValueIndex(), c.getConstantPool());
     }
 
-    ConstantValue(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
+    public ConstantValue(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
         this(name_index, length, input.readUnsignedShort(), constant_pool);
     }
 

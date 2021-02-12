@@ -6,6 +6,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import org.apache.bcel.Const;
+import org.apache.bcel.classfile.attribute.Attribute;
+import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public final class Module extends Attribute {
@@ -21,7 +23,7 @@ public final class Module extends Attribute {
     private final int[] usesIndex;
     private ModuleProvides[] providesTable;
 
-    Module(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
+    public Module(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
         super(Const.ATTR_MODULE, name_index, length, constant_pool);
 
         moduleNameIndex = input.readUnsignedShort();

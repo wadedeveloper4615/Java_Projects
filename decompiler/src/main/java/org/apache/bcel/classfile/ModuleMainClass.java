@@ -6,13 +6,15 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import org.apache.bcel.Const;
+import org.apache.bcel.classfile.attribute.Attribute;
+import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public final class ModuleMainClass extends Attribute {
 
     private int mainClassIndex;
 
-    ModuleMainClass(final int nameIndex, final int length, final DataInput input, final ConstantPool constantPool) throws IOException {
+    public ModuleMainClass(final int nameIndex, final int length, final DataInput input, final ConstantPool constantPool) throws IOException {
         this(nameIndex, length, 0, constantPool);
         mainClassIndex = input.readUnsignedShort();
     }

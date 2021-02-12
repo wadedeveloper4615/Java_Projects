@@ -6,6 +6,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 
+import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public class BootstrapMethod implements Cloneable {

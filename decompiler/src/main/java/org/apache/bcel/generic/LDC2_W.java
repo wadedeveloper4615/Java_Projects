@@ -37,12 +37,12 @@ public class LDC2_W extends CPInstruction implements PushInstruction {
     }
 
     public Number getValue(final ConstantPoolGen cpg) {
-        final org.apache.bcel.classfile.Constant c = cpg.getConstantPool().getConstant(super.getIndex());
+        final org.apache.bcel.classfile.constant.Constant c = cpg.getConstantPool().getConstant(super.getIndex());
         switch (c.getTag()) {
             case CONSTANT_Long:
-                return Long.valueOf(((org.apache.bcel.classfile.ConstantLong) c).getBytes());
+                return Long.valueOf(((org.apache.bcel.classfile.constant.ConstantLong) c).getBytes());
             case CONSTANT_Double:
-                return new Double(((org.apache.bcel.classfile.ConstantDouble) c).getBytes());
+                return new Double(((org.apache.bcel.classfile.constant.ConstantDouble) c).getBytes());
             default: // Never reached
                 throw new IllegalArgumentException("Unknown or invalid constant type at " + super.getIndex());
         }

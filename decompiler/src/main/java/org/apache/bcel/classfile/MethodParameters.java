@@ -6,12 +6,14 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import org.apache.bcel.Const;
+import org.apache.bcel.classfile.attribute.Attribute;
+import org.apache.bcel.classfile.constant.ConstantPool;
 
 public class MethodParameters extends Attribute {
 
     private MethodParameter[] parameters = new MethodParameter[0];
 
-    MethodParameters(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
+    public MethodParameters(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
         super(Const.ATTR_METHOD_PARAMETERS, name_index, length, constant_pool);
 
         final int parameters_count = input.readUnsignedByte();
@@ -19,14 +21,6 @@ public class MethodParameters extends Attribute {
         for (int i = 0; i < parameters_count; i++) {
             parameters[i] = new MethodParameter(input);
         }
-    }
-
-    public MethodParameter[] getParameters() {
-        return parameters;
-    }
-
-    public void setParameters(final MethodParameter[] parameters) {
-        this.parameters = parameters;
     }
 
     @Override
@@ -53,5 +47,13 @@ public class MethodParameters extends Attribute {
         for (final MethodParameter parameter : parameters) {
             parameter.dump(file);
         }
+    }
+
+    public MethodParameter[] getParameters() {
+        return parameters;
+    }
+
+    public void setParameters(final MethodParameter[] parameters) {
+        this.parameters = parameters;
     }
 }

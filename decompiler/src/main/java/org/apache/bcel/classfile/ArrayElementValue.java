@@ -4,6 +4,8 @@ package org.apache.bcel.classfile;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import org.apache.bcel.classfile.constant.ConstantPool;
+
 public class ArrayElementValue extends ElementValue {
     // For array types, this is the array
     private final ElementValue[] elementValues;

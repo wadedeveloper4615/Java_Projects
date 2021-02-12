@@ -6,12 +6,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import org.apache.bcel.Const;
-import org.apache.bcel.classfile.Attribute;
 import org.apache.bcel.classfile.Code;
 import org.apache.bcel.classfile.CodeException;
-import org.apache.bcel.classfile.ConstantPool;
-import org.apache.bcel.classfile.ConstantUtf8;
-import org.apache.bcel.classfile.ConstantValue;
 import org.apache.bcel.classfile.ExceptionTable;
 import org.apache.bcel.classfile.InnerClass;
 import org.apache.bcel.classfile.InnerClasses;
@@ -21,6 +17,10 @@ import org.apache.bcel.classfile.LocalVariable;
 import org.apache.bcel.classfile.LocalVariableTable;
 import org.apache.bcel.classfile.SourceFile;
 import org.apache.bcel.classfile.Utility;
+import org.apache.bcel.classfile.attribute.Attribute;
+import org.apache.bcel.classfile.constant.ConstantPool;
+import org.apache.bcel.classfile.constant.ConstantUtf8;
+import org.apache.bcel.classfile.constant.ConstantValue;
 import org.apache.bcel.enums.ClassFileConstants;
 
 final class AttributeHTML {

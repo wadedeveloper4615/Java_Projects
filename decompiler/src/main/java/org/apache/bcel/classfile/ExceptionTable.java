@@ -6,6 +6,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import org.apache.bcel.Const;
+import org.apache.bcel.classfile.attribute.Attribute;
+import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public final class ExceptionTable extends Attribute {
@@ -16,7 +18,7 @@ public final class ExceptionTable extends Attribute {
         this(c.getNameIndex(), c.getLength(), c.getExceptionIndexTable(), c.getConstantPool());
     }
 
-    ExceptionTable(final int nameIndex, final int length, final DataInput input, final ConstantPool constantPool) throws IOException {
+    public ExceptionTable(final int nameIndex, final int length, final DataInput input, final ConstantPool constantPool) throws IOException {
         this(nameIndex, length, (int[]) null, constantPool);
         final int number_of_exceptions = input.readUnsignedShort();
         exceptionIndexTable = new int[number_of_exceptions];

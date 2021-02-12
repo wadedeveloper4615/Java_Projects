@@ -6,21 +6,14 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import org.apache.bcel.Const;
+import org.apache.bcel.classfile.attribute.Attribute;
+import org.apache.bcel.classfile.constant.ConstantPool;
 
 public class LocalVariableTable extends Attribute {
 
     private LocalVariable[] localVariableTable; // variables
 
-    public LocalVariableTable(final LocalVariableTable c) {
-        this(c.getNameIndex(), c.getLength(), c.getLocalVariableTable(), c.getConstantPool());
-    }
-
-    public LocalVariableTable(final int nameIndex, final int length, final LocalVariable[] localVariableTable, final ConstantPool constantPool) {
-        super(Const.ATTR_LOCAL_VARIABLE_TABLE, nameIndex, length, constantPool);
-        this.localVariableTable = localVariableTable;
-    }
-
-    LocalVariableTable(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
+    public LocalVariableTable(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
         this(name_index, length, (LocalVariable[]) null, constant_pool);
         final int local_variable_table_length = input.readUnsignedShort();
         localVariableTable = new LocalVariable[local_variable_table_length];
@@ -29,9 +22,29 @@ public class LocalVariableTable extends Attribute {
         }
     }
 
+    public LocalVariableTable(final int nameIndex, final int length, final LocalVariable[] localVariableTable, final ConstantPool constantPool) {
+        super(Const.ATTR_LOCAL_VARIABLE_TABLE, nameIndex, length, constantPool);
+        this.localVariableTable = localVariableTable;
+    }
+
+    public LocalVariableTable(final LocalVariableTable c) {
+        this(c.getNameIndex(), c.getLength(), c.getLocalVariableTable(), c.getConstantPool());
+    }
+
     @Override
     public void accept(final Visitor v) {
         v.visitLocalVariableTable(this);
+    }
+
+    @Override
+    public Attribute copy(final ConstantPool _constant_pool) {
+        final LocalVariableTable c = (LocalVariableTable) clone();
+        c.localVariableTable = new LocalVariable[localVariableTable.length];
+        for (int i = 0; i < localVariableTable.length; i++) {
+            c.localVariableTable[i] = localVariableTable[i].copy();
+        }
+        c.setConstantPool(_constant_pool);
+        return c;
     }
 
     @Override
@@ -41,10 +54,6 @@ public class LocalVariableTable extends Attribute {
         for (final LocalVariable variable : localVariableTable) {
             variable.dump(file);
         }
-    }
-
-    public final LocalVariable[] getLocalVariableTable() {
-        return localVariableTable;
     }
 
     @java.lang.Deprecated
@@ -70,6 +79,14 @@ public class LocalVariableTable extends Attribute {
         return null;
     }
 
+    public final LocalVariable[] getLocalVariableTable() {
+        return localVariableTable;
+    }
+
+    public final int getTableLength() {
+        return localVariableTable == null ? 0 : localVariableTable.length;
+    }
+
     public final void setLocalVariableTable(final LocalVariable[] local_variable_table) {
         this.localVariableTable = local_variable_table;
     }
@@ -84,20 +101,5 @@ public class LocalVariableTable extends Attribute {
             }
         }
         return buf.toString();
-    }
-
-    @Override
-    public Attribute copy(final ConstantPool _constant_pool) {
-        final LocalVariableTable c = (LocalVariableTable) clone();
-        c.localVariableTable = new LocalVariable[localVariableTable.length];
-        for (int i = 0; i < localVariableTable.length; i++) {
-            c.localVariableTable[i] = localVariableTable[i].copy();
-        }
-        c.setConstantPool(_constant_pool);
-        return c;
-    }
-
-    public final int getTableLength() {
-        return localVariableTable == null ? 0 : localVariableTable.length;
     }
 }

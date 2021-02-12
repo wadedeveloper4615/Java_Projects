@@ -5,6 +5,7 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import org.apache.bcel.Const;
+import org.apache.bcel.classfile.constant.ConstantPool;
 
 public final class StackMapEntry implements Node, Cloneable {
 

@@ -1,10 +1,12 @@
 
-package org.apache.bcel.classfile;
+package org.apache.bcel.classfile.constant;
 
 import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import org.apache.bcel.classfile.ConstantObject;
+import org.apache.bcel.classfile.Visitor;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public final class ConstantDouble extends Constant implements ConstantObject {
@@ -15,7 +17,7 @@ public final class ConstantDouble extends Constant implements ConstantObject {
         this(c.getBytes());
     }
 
-    ConstantDouble(final DataInput file) throws IOException {
+    public ConstantDouble(final DataInput file) throws IOException {
         this(file.readDouble());
     }
 

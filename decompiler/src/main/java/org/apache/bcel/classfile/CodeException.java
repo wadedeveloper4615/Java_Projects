@@ -6,6 +6,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import org.apache.bcel.Constants;
+import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public final class CodeException implements Cloneable, Node, Constants {

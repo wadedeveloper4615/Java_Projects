@@ -4,6 +4,8 @@ package org.apache.bcel.classfile;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import org.apache.bcel.classfile.constant.ConstantPool;
+import org.apache.bcel.classfile.constant.ConstantUtf8;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public class ElementValuePair {

@@ -2,7 +2,7 @@ package org.apache.bcel.compare;
 
 import java.util.Objects;
 
-import org.apache.bcel.classfile.Constant;
+import org.apache.bcel.classfile.constant.Constant;
 import org.apache.bcel.util.BCELComparator;
 
 public class ConstantComparator implements BCELComparator {

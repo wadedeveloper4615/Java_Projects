@@ -1,50 +1,52 @@
 
-package org.apache.bcel.classfile;
+package org.apache.bcel.classfile.constant;
 
 import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import org.apache.bcel.classfile.ConstantObject;
+import org.apache.bcel.classfile.Visitor;
 import org.apache.bcel.enums.ClassFileConstants;
 
-public final class ConstantFloat extends Constant implements ConstantObject {
+public final class ConstantLong extends Constant implements ConstantObject {
 
-    private float bytes;
+    private long bytes;
 
-    public ConstantFloat(final ConstantFloat c) {
+    public ConstantLong(final ConstantLong c) {
         this(c.getBytes());
     }
 
-    ConstantFloat(final DataInput file) throws IOException {
-        this(file.readFloat());
+    public ConstantLong(final DataInput file) throws IOException {
+        this(file.readLong());
     }
 
-    public ConstantFloat(final float bytes) {
-        super(ClassFileConstants.CONSTANT_Float);
+    public ConstantLong(final long bytes) {
+        super(ClassFileConstants.CONSTANT_Long);
         this.bytes = bytes;
     }
 
     @Override
     public void accept(final Visitor v) {
-        v.visitConstantFloat(this);
+        v.visitConstantLong(this);
     }
 
     @Override
     public void dump(final DataOutputStream file) throws IOException {
         file.writeByte(super.getTag().getTag());
-        file.writeFloat(bytes);
+        file.writeLong(bytes);
     }
 
-    public float getBytes() {
+    public long getBytes() {
         return bytes;
     }
 
     @Override
     public Object getConstantValue(final ConstantPool cp) {
-        return new Float(bytes);
+        return Long.valueOf(bytes);
     }
 
-    public void setBytes(final float bytes) {
+    public void setBytes(final long bytes) {
         this.bytes = bytes;
     }
 

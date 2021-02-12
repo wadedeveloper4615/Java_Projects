@@ -5,6 +5,8 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import org.apache.bcel.classfile.constant.ConstantPool;
+
 public abstract class ElementValue {
 
     @java.lang.Deprecated

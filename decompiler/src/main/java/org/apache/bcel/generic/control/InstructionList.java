@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 
 import org.apache.bcel.Const;
-import org.apache.bcel.classfile.Constant;
+import org.apache.bcel.classfile.constant.Constant;
 import org.apache.bcel.generic.Select;
 import org.apache.bcel.generic.base.BranchHandle;
 import org.apache.bcel.generic.base.BranchInstruction;

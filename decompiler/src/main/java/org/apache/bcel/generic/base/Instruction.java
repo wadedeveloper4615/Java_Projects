@@ -5,7 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import org.apache.bcel.Const;
-import org.apache.bcel.classfile.ConstantPool;
+import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.generic.ALOAD;
 import org.apache.bcel.generic.ANEWARRAY;
 import org.apache.bcel.generic.ASTORE;

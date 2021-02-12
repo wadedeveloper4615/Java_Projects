@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.apache.bcel.Const;
 import org.apache.bcel.classfile.AccessFlags;
-import org.apache.bcel.classfile.Attribute;
+import org.apache.bcel.classfile.attribute.Attribute;
 import org.apache.bcel.generic.Type;
 import org.apache.bcel.generic.base.NamedAndTyped;
 

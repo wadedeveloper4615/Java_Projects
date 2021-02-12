@@ -1,6 +1,9 @@
 
 package org.apache.bcel.classfile;
 
+import org.apache.bcel.classfile.attribute.Attribute;
+import org.apache.bcel.classfile.constant.ConstantPool;
+
 @java.lang.Deprecated
 public interface AttributeReader {
 

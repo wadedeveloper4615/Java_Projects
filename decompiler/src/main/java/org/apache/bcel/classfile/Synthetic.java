@@ -6,6 +6,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import org.apache.bcel.Const;
+import org.apache.bcel.classfile.attribute.Attribute;
+import org.apache.bcel.classfile.constant.ConstantPool;
 
 public final class Synthetic extends Attribute {
 
@@ -16,7 +18,7 @@ public final class Synthetic extends Attribute {
         this.bytes = bytes;
     }
 
-    Synthetic(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
+    public Synthetic(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
         this(name_index, length, (byte[]) null, constant_pool);
         if (length > 0) {
             bytes = new byte[length];

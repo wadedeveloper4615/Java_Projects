@@ -3,7 +3,7 @@ package org.apache.bcel;
 import java.io.DataInputStream;
 import java.io.IOException;
 
-import org.apache.bcel.classfile.ConstantPool;
+import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public class ClassFileName {

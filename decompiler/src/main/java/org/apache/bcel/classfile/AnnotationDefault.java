@@ -6,12 +6,14 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import org.apache.bcel.Const;
+import org.apache.bcel.classfile.attribute.Attribute;
+import org.apache.bcel.classfile.constant.ConstantPool;
 
 public class AnnotationDefault extends Attribute {
 
     private ElementValue defaultValue;
 
-    AnnotationDefault(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
+    public AnnotationDefault(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
         this(name_index, length, (ElementValue) null, constant_pool);
         defaultValue = ElementValue.readElementValue(input, constant_pool);
     }
@@ -26,14 +28,6 @@ public class AnnotationDefault extends Attribute {
         v.visitAnnotationDefault(this);
     }
 
-    public final void setDefaultValue(final ElementValue defaultValue) {
-        this.defaultValue = defaultValue;
-    }
-
-    public final ElementValue getDefaultValue() {
-        return defaultValue;
-    }
-
     @Override
     public Attribute copy(final ConstantPool _constant_pool) {
         return (Attribute) clone();
@@ -43,5 +37,13 @@ public class AnnotationDefault extends Attribute {
     public final void dump(final DataOutputStream dos) throws IOException {
         super.dump(dos);
         defaultValue.dump(dos);
+    }
+
+    public final ElementValue getDefaultValue() {
+        return defaultValue;
+    }
+
+    public final void setDefaultValue(final ElementValue defaultValue) {
+        this.defaultValue = defaultValue;
     }
 }

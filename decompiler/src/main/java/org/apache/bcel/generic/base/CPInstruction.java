@@ -4,9 +4,9 @@ package org.apache.bcel.generic.base;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.classfile.Constant;
-import org.apache.bcel.classfile.ConstantClass;
-import org.apache.bcel.classfile.ConstantPool;
+import org.apache.bcel.classfile.constant.Constant;
+import org.apache.bcel.classfile.constant.ConstantClass;
+import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.enums.ClassFileConstants;
 import org.apache.bcel.generic.Type;
 import org.apache.bcel.generic.gen.ConstantPoolGen;

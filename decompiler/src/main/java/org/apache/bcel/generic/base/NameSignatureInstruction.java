@@ -1,10 +1,10 @@
 
 package org.apache.bcel.generic.base;
 
-import org.apache.bcel.classfile.ConstantCP;
-import org.apache.bcel.classfile.ConstantNameAndType;
-import org.apache.bcel.classfile.ConstantPool;
-import org.apache.bcel.classfile.ConstantUtf8;
+import org.apache.bcel.classfile.constant.ConstantCP;
+import org.apache.bcel.classfile.constant.ConstantNameAndType;
+import org.apache.bcel.classfile.constant.ConstantPool;
+import org.apache.bcel.classfile.constant.ConstantUtf8;
 import org.apache.bcel.generic.gen.ConstantPoolGen;
 
 public abstract class NameSignatureInstruction extends CPInstruction {

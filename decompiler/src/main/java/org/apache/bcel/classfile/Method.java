@@ -14,7 +14,7 @@ public class Method extends FieldOrMethod {
     public Method() {
     }
 
-    Method(DataInputStream file, ConstantPool constantPool) throws IOException, ClassFormatException {
+    public Method(DataInputStream file, ConstantPool constantPool) throws IOException, ClassFormatException {
         super(file, constantPool);
     }
 

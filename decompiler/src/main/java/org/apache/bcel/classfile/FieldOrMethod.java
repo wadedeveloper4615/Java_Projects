@@ -17,6 +17,8 @@ public abstract class FieldOrMethod extends AccessFlags implements Cloneable, No
     private boolean searchedForSignatureAttribute = false;
     private String signature;
     private String name;
+    private Code codeAttr;
+    private Signature signatureAttr;
 
     public FieldOrMethod() {
     }
@@ -27,6 +29,12 @@ public abstract class FieldOrMethod extends AccessFlags implements Cloneable, No
         attributes = new Attribute[attributesCount];
         for (int i = 0; i < attributesCount; i++) {
             attributes[i] = Attribute.readAttribute(file, constant_pool);
+            if (attributes[i] instanceof Signature) {
+                signatureAttr = (Signature) attributes[i];
+            }
+            if (attributes[i] instanceof Code) {
+                codeAttr = (Code) attributes[i];
+            }
         }
         this.attributesCount = attributesCount;
     }
@@ -88,6 +96,18 @@ public abstract class FieldOrMethod extends AccessFlags implements Cloneable, No
         return attributes;
     }
 
+    public int getAttributesCount() {
+        return attributesCount;
+    }
+
+    public Code getCodeAttr() {
+        return codeAttr;
+    }
+
+    public ConstantPool getConstant_pool() {
+        return constant_pool;
+    }
+
     public ConstantPool getConstantPool() {
         return constant_pool;
     }
@@ -118,8 +138,24 @@ public abstract class FieldOrMethod extends AccessFlags implements Cloneable, No
         return signature;
     }
 
+    public Signature getSignatureAttr() {
+        return signatureAttr;
+    }
+
+    public String getSignatureAttributeString() {
+        return signatureAttributeString;
+    }
+
     public int getSignatureIndex() {
         return signatureIndex;
+    }
+
+    public boolean isSearchedForSignatureAttribute() {
+        return searchedForSignatureAttribute;
+    }
+
+    public void setAnnotationEntries(AnnotationEntry[] annotationEntries) {
+        this.annotationEntries = annotationEntries;
     }
 
     public void setAttributes(Attribute[] attributes) {
@@ -127,12 +163,44 @@ public abstract class FieldOrMethod extends AccessFlags implements Cloneable, No
         this.attributesCount = attributes != null ? attributes.length : 0;
     }
 
+    public void setAttributesCount(int attributesCount) {
+        this.attributesCount = attributesCount;
+    }
+
+    public void setCodeAttr(Code codeAttr) {
+        this.codeAttr = codeAttr;
+    }
+
+    public void setConstant_pool(ConstantPool constant_pool) {
+        this.constant_pool = constant_pool;
+    }
+
     public void setConstantPool(ConstantPool constant_pool) {
         this.constant_pool = constant_pool;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public void setNameIndex(int nameIndex) {
         this.nameIndex = nameIndex;
+    }
+
+    public void setSearchedForSignatureAttribute(boolean searchedForSignatureAttribute) {
+        this.searchedForSignatureAttribute = searchedForSignatureAttribute;
+    }
+
+    public void setSignature(String signature) {
+        this.signature = signature;
+    }
+
+    public void setSignatureAttr(Signature signatureAttr) {
+        this.signatureAttr = signatureAttr;
+    }
+
+    public void setSignatureAttributeString(String signatureAttributeString) {
+        this.signatureAttributeString = signatureAttributeString;
     }
 
     public void setSignatureIndex(int signatureIndex) {

@@ -24,75 +24,32 @@ import org.apache.bcel.generic.base.TargetLostException;
 import org.apache.bcel.generic.gen.CodeExceptionGen;
 import org.apache.bcel.generic.gen.ConstantPoolGen;
 import org.apache.bcel.generic.gen.LocalVariableGen;
-import org.apache.bcel.generic.gen.MethodGen;
 import org.apache.bcel.util.ByteSequence;
 
 public class InstructionList implements Iterable<InstructionHandle> {
-
     private InstructionHandle start = null;
     private InstructionHandle end = null;
-    private int length = 0; // number of elements in list
-    private int[] bytePositions; // byte code offsets corresponding to instructions
+    private int length = 0;
+    private int[] bytePositions;
+
+    private List<InstructionListObserver> observers;
 
     public InstructionList() {
-    }
-
-    public InstructionList(final Instruction i) {
-        append(i);
     }
 
     public InstructionList(final BranchInstruction i) {
         append(i);
     }
 
-    public InstructionList(final CompoundInstruction c) {
-        append(c.getInstructionList());
-    }
-
-    public boolean isEmpty() {
-        return start == null;
-    } // && end == null
-
-    public static InstructionHandle findHandle(final InstructionHandle[] ihs, final int[] pos, final int count, final int target) {
-        int l = 0;
-        int r = count - 1;
-
-        do {
-            final int i = (l + r) >>> 1;
-            final int j = pos[i];
-            if (j == target) {
-                return ihs[i];
-            } else if (target < j) {
-                r = i - 1;
-            } else {
-                l = i + 1;
-            }
-        } while (l <= r);
-        return null;
-    }
-
-    public InstructionHandle findHandle(final int pos) {
-        final int[] positions = bytePositions;
-        InstructionHandle ih = start;
-        for (int i = 0; i < length; i++) {
-            if (positions[i] == pos) {
-                return ih;
-            }
-            ih = ih.getNext();
-        }
-        return null;
-    }
-
     public InstructionList(final byte[] code) {
-        int count = 0; // Contains actual length
+        int count = 0;
         int[] pos;
         InstructionHandle[] ihs;
         try (ByteSequence bytes = new ByteSequence(code)) {
             ihs = new InstructionHandle[code.length];
-            pos = new int[code.length]; // Can't be more than that
+            pos = new int[code.length];
 
             while (bytes.available() > 0) {
-                // Remember byte offset and associate it with the instruction
                 final int off = bytes.getIndex();
                 pos[count] = off;
 
@@ -140,6 +97,82 @@ public class InstructionList implements Iterable<InstructionHandle> {
         }
     }
 
+    public InstructionList(final CompoundInstruction c) {
+        append(c.getInstructionList());
+    }
+
+    public InstructionList(final Instruction i) {
+        append(i);
+    }
+
+    public void addObserver(final InstructionListObserver o) {
+        if (observers == null) {
+            observers = new ArrayList<>();
+        }
+        observers.add(o);
+    }
+
+    public BranchHandle append(final BranchInstruction i) {
+        final BranchHandle ih = BranchHandle.getBranchHandle(i);
+        append(ih);
+        return ih;
+    }
+
+    public InstructionHandle append(final CompoundInstruction c) {
+        return append(c.getInstructionList());
+    }
+
+    public InstructionHandle append(final Instruction i) {
+        final InstructionHandle ih = InstructionHandle.getInstructionHandle(i);
+        append(ih);
+        return ih;
+    }
+
+    public InstructionHandle append(final Instruction i, final CompoundInstruction c) {
+        return append(i, c.getInstructionList());
+    }
+
+    public InstructionHandle append(final Instruction i, final Instruction j) {
+        return append(i, new InstructionList(j));
+    }
+
+    public InstructionHandle append(final Instruction i, final InstructionList il) {
+        InstructionHandle ih;
+        if ((ih = findInstruction2(i)) == null) {
+            throw new ClassGenException("Instruction " + i + " is not contained in this list.");
+        }
+        return append(ih, il);
+    }
+
+    private void append(final InstructionHandle ih) {
+        if (isEmpty()) {
+            start = end = ih;
+            ih.setNext(ih.setPrev(null));
+        } else {
+            end.setNext(ih);
+            ih.setPrev(end);
+            ih.setNext(null);
+            end = ih;
+        }
+        length++; // Update length
+    }
+
+    public BranchHandle append(final InstructionHandle ih, final BranchInstruction i) {
+        final BranchHandle bh = BranchHandle.getBranchHandle(i);
+        final InstructionList il = new InstructionList();
+        il.append(bh);
+        append(ih, il);
+        return bh;
+    }
+
+    public InstructionHandle append(final InstructionHandle ih, final CompoundInstruction c) {
+        return append(ih, c.getInstructionList());
+    }
+
+    public InstructionHandle append(final InstructionHandle ih, final Instruction i) {
+        return append(ih, new InstructionList(i));
+    }
+
     public InstructionHandle append(final InstructionHandle ih, final InstructionList il) {
         if (il == null) {
             throw new ClassGenException("Appending null InstructionList");
@@ -162,14 +195,6 @@ public class InstructionList implements Iterable<InstructionHandle> {
         return ret;
     }
 
-    public InstructionHandle append(final Instruction i, final InstructionList il) {
-        InstructionHandle ih;
-        if ((ih = findInstruction2(i)) == null) {
-            throw new ClassGenException("Instruction " + i + " is not contained in this list.");
-        }
-        return append(ih, il);
-    }
-
     public InstructionHandle append(final InstructionList il) {
         if (il == null) {
             throw new ClassGenException("Appending null InstructionList");
@@ -187,57 +212,248 @@ public class InstructionList implements Iterable<InstructionHandle> {
         return append(end, il); // was end.instruction
     }
 
-    private void append(final InstructionHandle ih) {
+    private void clear() {
+        start = end = null;
+        length = 0;
+    }
+
+    public boolean contains(final Instruction i) {
+        return findInstruction1(i) != null;
+    }
+
+    public boolean contains(final InstructionHandle i) {
+        if (i == null) {
+            return false;
+        }
+        for (InstructionHandle ih = start; ih != null; ih = ih.getNext()) {
+            if (ih == i) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public InstructionList copy() {
+        final Map<InstructionHandle, InstructionHandle> map = new HashMap<>();
+        final InstructionList il = new InstructionList();
+
+        for (InstructionHandle ih = start; ih != null; ih = ih.getNext()) {
+            final Instruction i = ih.getInstruction();
+            final Instruction c = i.copy(); // Use clone for shallow copy
+            if (c instanceof BranchInstruction) {
+                map.put(ih, il.append((BranchInstruction) c));
+            } else {
+                map.put(ih, il.append(c));
+            }
+        }
+
+        InstructionHandle ih = start;
+        InstructionHandle ch = il.start;
+        while (ih != null) {
+            final Instruction i = ih.getInstruction();
+            final Instruction c = ch.getInstruction();
+            if (i instanceof BranchInstruction) {
+                final BranchInstruction bi = (BranchInstruction) i;
+                final BranchInstruction bc = (BranchInstruction) c;
+                final InstructionHandle itarget = bi.getTarget(); // old target
+                // New target is in hash map
+                bc.setTarget(map.get(itarget));
+                if (bi instanceof Select) { // Either LOOKUPSWITCH or TABLESWITCH
+                    final InstructionHandle[] itargets = ((Select) bi).getTargets();
+                    final InstructionHandle[] ctargets = ((Select) bc).getTargets();
+                    for (int j = 0; j < itargets.length; j++) { // Update all targets
+                        ctargets[j] = map.get(itargets[j]);
+                    }
+                }
+            }
+            ih = ih.getNext();
+            ch = ch.getNext();
+        }
+        return il;
+    }
+
+    public void delete(final Instruction i) throws TargetLostException {
+        InstructionHandle ih;
+        if ((ih = findInstruction1(i)) == null) {
+            throw new ClassGenException("Instruction " + i + " is not contained in this list.");
+        }
+        delete(ih);
+    }
+
+    public void delete(final Instruction from, final Instruction to) throws TargetLostException {
+        InstructionHandle from_ih;
+        InstructionHandle to_ih;
+        if ((from_ih = findInstruction1(from)) == null) {
+            throw new ClassGenException("Instruction " + from + " is not contained in this list.");
+        }
+        if ((to_ih = findInstruction2(to)) == null) {
+            throw new ClassGenException("Instruction " + to + " is not contained in this list.");
+        }
+        delete(from_ih, to_ih);
+    }
+
+    public void delete(final InstructionHandle ih) throws TargetLostException {
+        remove(ih.getPrev(), ih.getNext());
+    }
+
+    public void delete(final InstructionHandle from, final InstructionHandle to) throws TargetLostException {
+        remove(from.getPrev(), to.getNext());
+    }
+
+    public void dispose() {
+        // Traverse in reverse order, because ih.next is overwritten
+        for (InstructionHandle ih = end; ih != null; ih = ih.getPrev()) {
+
+            ih.dispose();
+        }
+        clear();
+    }
+
+    public InstructionHandle findHandle(final int pos) {
+        final int[] positions = bytePositions;
+        InstructionHandle ih = start;
+        for (int i = 0; i < length; i++) {
+            if (positions[i] == pos) {
+                return ih;
+            }
+            ih = ih.getNext();
+        }
+        return null;
+    }
+
+    private InstructionHandle findInstruction1(final Instruction i) {
+        for (InstructionHandle ih = start; ih != null; ih = ih.getNext()) {
+            if (ih.getInstruction() == i) {
+                return ih;
+            }
+        }
+        return null;
+    }
+
+    private InstructionHandle findInstruction2(final Instruction i) {
+        for (InstructionHandle ih = end; ih != null; ih = ih.getPrev()) {
+            if (ih.getInstruction() == i) {
+                return ih;
+            }
+        }
+        return null;
+    }
+
+    public byte[] getByteCode() {
+        // Update position indices of instructions
+        setPositions();
+        final ByteArrayOutputStream b = new ByteArrayOutputStream();
+        final DataOutputStream out = new DataOutputStream(b);
+        try {
+            for (InstructionHandle ih = start; ih != null; ih = ih.getNext()) {
+                final Instruction i = ih.getInstruction();
+                i.dump(out); // Traverse list
+            }
+            out.flush();
+        } catch (final IOException e) {
+            System.err.println(e);
+            return new byte[0];
+        }
+        return b.toByteArray();
+    }
+
+    public InstructionHandle getEnd() {
+        return end;
+    }
+
+    public InstructionHandle[] getInstructionHandles() {
+        final InstructionHandle[] ihs = new InstructionHandle[length];
+        InstructionHandle ih = start;
+        for (int i = 0; i < length; i++) {
+            ihs[i] = ih;
+            ih = ih.getNext();
+        }
+        return ihs;
+    }
+
+    public int[] getInstructionPositions() {
+        return bytePositions;
+    }
+
+    public Instruction[] getInstructions() {
+        final List<Instruction> instructions = new ArrayList<>();
+        try (ByteSequence bytes = new ByteSequence(getByteCode())) {
+            while (bytes.available() > 0) {
+                instructions.add(Instruction.readInstruction(bytes));
+            }
+        } catch (final IOException e) {
+            throw new ClassGenException(e.toString(), e);
+        }
+        return instructions.toArray(new Instruction[instructions.size()]);
+    }
+
+    public int getLength() {
+        return length;
+    }
+
+    public InstructionHandle getStart() {
+        return start;
+    }
+
+    public BranchHandle insert(final BranchInstruction i) {
+        final BranchHandle ih = BranchHandle.getBranchHandle(i);
+        insert(ih);
+        return ih;
+    }
+
+    public InstructionHandle insert(final CompoundInstruction c) {
+        return insert(c.getInstructionList());
+    }
+
+    public InstructionHandle insert(final Instruction i) {
+        final InstructionHandle ih = InstructionHandle.getInstructionHandle(i);
+        insert(ih);
+        return ih;
+    }
+
+    public InstructionHandle insert(final Instruction i, final CompoundInstruction c) {
+        return insert(i, c.getInstructionList());
+    }
+
+    public InstructionHandle insert(final Instruction i, final Instruction j) {
+        return insert(i, new InstructionList(j));
+    }
+
+    public InstructionHandle insert(final Instruction i, final InstructionList il) {
+        InstructionHandle ih;
+        if ((ih = findInstruction1(i)) == null) {
+            throw new ClassGenException("Instruction " + i + " is not contained in this list.");
+        }
+        return insert(ih, il);
+    }
+
+    private void insert(final InstructionHandle ih) {
         if (isEmpty()) {
             start = end = ih;
             ih.setNext(ih.setPrev(null));
         } else {
-            end.setNext(ih);
-            ih.setPrev(end);
-            ih.setNext(null);
-            end = ih;
+            start.setPrev(ih);
+            ih.setNext(start);
+            ih.setPrev(null);
+            start = ih;
         }
-        length++; // Update length
+        length++;
     }
 
-    public InstructionHandle append(final Instruction i) {
-        final InstructionHandle ih = InstructionHandle.getInstructionHandle(i);
-        append(ih);
-        return ih;
-    }
-
-    public BranchHandle append(final BranchInstruction i) {
-        final BranchHandle ih = BranchHandle.getBranchHandle(i);
-        append(ih);
-        return ih;
-    }
-
-    public InstructionHandle append(final Instruction i, final Instruction j) {
-        return append(i, new InstructionList(j));
-    }
-
-    public InstructionHandle append(final Instruction i, final CompoundInstruction c) {
-        return append(i, c.getInstructionList());
-    }
-
-    public InstructionHandle append(final CompoundInstruction c) {
-        return append(c.getInstructionList());
-    }
-
-    public InstructionHandle append(final InstructionHandle ih, final CompoundInstruction c) {
-        return append(ih, c.getInstructionList());
-    }
-
-    public InstructionHandle append(final InstructionHandle ih, final Instruction i) {
-        return append(ih, new InstructionList(i));
-    }
-
-    public BranchHandle append(final InstructionHandle ih, final BranchInstruction i) {
+    public BranchHandle insert(final InstructionHandle ih, final BranchInstruction i) {
         final BranchHandle bh = BranchHandle.getBranchHandle(i);
         final InstructionList il = new InstructionList();
         il.append(bh);
-        append(ih, il);
+        insert(ih, il);
         return bh;
+    }
+
+    public InstructionHandle insert(final InstructionHandle ih, final CompoundInstruction c) {
+        return insert(ih, c.getInstructionList());
+    }
+
+    public InstructionHandle insert(final InstructionHandle ih, final Instruction i) {
+        return insert(ih, new InstructionList(i));
     }
 
     public InstructionHandle insert(final InstructionHandle ih, final InstructionList il) {
@@ -270,65 +486,40 @@ public class InstructionList implements Iterable<InstructionHandle> {
         return insert(start, il);
     }
 
-    private void insert(final InstructionHandle ih) {
-        if (isEmpty()) {
-            start = end = ih;
-            ih.setNext(ih.setPrev(null));
-        } else {
-            start.setPrev(ih);
-            ih.setNext(start);
-            ih.setPrev(null);
-            start = ih;
-        }
-        length++;
+    public boolean isEmpty() {
+        return start == null;
+    } // && end == null
+
+    @Override
+    public Iterator<InstructionHandle> iterator() {
+        return new Iterator<InstructionHandle>() {
+
+            private InstructionHandle ih = start;
+
+            @Override
+            public boolean hasNext() {
+                return ih != null;
+            }
+
+            @Override
+            public InstructionHandle next() throws NoSuchElementException {
+                if (ih == null) {
+                    throw new NoSuchElementException();
+                }
+                final InstructionHandle i = ih;
+                ih = ih.getNext();
+                return i;
+            }
+
+            @Override
+            public void remove() {
+                throw new UnsupportedOperationException();
+            }
+        };
     }
 
-    public InstructionHandle insert(final Instruction i, final InstructionList il) {
-        InstructionHandle ih;
-        if ((ih = findInstruction1(i)) == null) {
-            throw new ClassGenException("Instruction " + i + " is not contained in this list.");
-        }
-        return insert(ih, il);
-    }
-
-    public InstructionHandle insert(final Instruction i) {
-        final InstructionHandle ih = InstructionHandle.getInstructionHandle(i);
-        insert(ih);
-        return ih;
-    }
-
-    public BranchHandle insert(final BranchInstruction i) {
-        final BranchHandle ih = BranchHandle.getBranchHandle(i);
-        insert(ih);
-        return ih;
-    }
-
-    public InstructionHandle insert(final Instruction i, final Instruction j) {
-        return insert(i, new InstructionList(j));
-    }
-
-    public InstructionHandle insert(final Instruction i, final CompoundInstruction c) {
-        return insert(i, c.getInstructionList());
-    }
-
-    public InstructionHandle insert(final CompoundInstruction c) {
-        return insert(c.getInstructionList());
-    }
-
-    public InstructionHandle insert(final InstructionHandle ih, final Instruction i) {
-        return insert(ih, new InstructionList(i));
-    }
-
-    public InstructionHandle insert(final InstructionHandle ih, final CompoundInstruction c) {
-        return insert(ih, c.getInstructionList());
-    }
-
-    public BranchHandle insert(final InstructionHandle ih, final BranchInstruction i) {
-        final BranchHandle bh = BranchHandle.getBranchHandle(i);
-        final InstructionList il = new InstructionList();
-        il.append(bh);
-        insert(ih, il);
-        return bh;
+    public void move(final InstructionHandle ih, final InstructionHandle target) {
+        move(ih, ih, target);
     }
 
     public void move(final InstructionHandle start, final InstructionHandle end, final InstructionHandle target) {
@@ -380,8 +571,52 @@ public class InstructionList implements Iterable<InstructionHandle> {
         }
     }
 
-    public void move(final InstructionHandle ih, final InstructionHandle target) {
-        move(ih, ih, target);
+    public void redirectBranches(final InstructionHandle old_target, final InstructionHandle new_target) {
+        for (InstructionHandle ih = start; ih != null; ih = ih.getNext()) {
+            final Instruction i = ih.getInstruction();
+            if (i instanceof BranchInstruction) {
+                final BranchInstruction b = (BranchInstruction) i;
+                final InstructionHandle target = b.getTarget();
+                if (target == old_target) {
+                    b.setTarget(new_target);
+                }
+                if (b instanceof Select) { // Either LOOKUPSWITCH or TABLESWITCH
+                    final InstructionHandle[] targets = ((Select) b).getTargets();
+                    for (int j = 0; j < targets.length; j++) {
+                        if (targets[j] == old_target) {
+                            ((Select) b).setTarget(j, new_target);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public void redirectExceptionHandlers(final CodeExceptionGen[] exceptions, final InstructionHandle old_target, final InstructionHandle new_target) {
+        for (final CodeExceptionGen exception : exceptions) {
+            if (exception.getStartPC() == old_target) {
+                exception.setStartPC(new_target);
+            }
+            if (exception.getEndPC() == old_target) {
+                exception.setEndPC(new_target);
+            }
+            if (exception.getHandlerPC() == old_target) {
+                exception.setHandlerPC(new_target);
+            }
+        }
+    }
+
+    public void redirectLocalVariables(final LocalVariableGen[] lg, final InstructionHandle old_target, final InstructionHandle new_target) {
+        for (final LocalVariableGen element : lg) {
+            final InstructionHandle start = element.getStart();
+            final InstructionHandle end = element.getEnd();
+            if (start == old_target) {
+                element.setStart(new_target);
+            }
+            if (end == old_target) {
+                element.setEnd(new_target);
+            }
+        }
     }
 
     private void remove(final InstructionHandle prev, InstructionHandle next) throws TargetLostException {
@@ -433,66 +668,21 @@ public class InstructionList implements Iterable<InstructionHandle> {
         }
     }
 
-    public void delete(final InstructionHandle ih) throws TargetLostException {
-        remove(ih.getPrev(), ih.getNext());
-    }
-
-    public void delete(final Instruction i) throws TargetLostException {
-        InstructionHandle ih;
-        if ((ih = findInstruction1(i)) == null) {
-            throw new ClassGenException("Instruction " + i + " is not contained in this list.");
+    public void removeObserver(final InstructionListObserver o) {
+        if (observers != null) {
+            observers.remove(o);
         }
-        delete(ih);
     }
 
-    public void delete(final InstructionHandle from, final InstructionHandle to) throws TargetLostException {
-        remove(from.getPrev(), to.getNext());
-    }
-
-    public void delete(final Instruction from, final Instruction to) throws TargetLostException {
-        InstructionHandle from_ih;
-        InstructionHandle to_ih;
-        if ((from_ih = findInstruction1(from)) == null) {
-            throw new ClassGenException("Instruction " + from + " is not contained in this list.");
-        }
-        if ((to_ih = findInstruction2(to)) == null) {
-            throw new ClassGenException("Instruction " + to + " is not contained in this list.");
-        }
-        delete(from_ih, to_ih);
-    }
-
-    private InstructionHandle findInstruction1(final Instruction i) {
+    public void replaceConstantPool(final ConstantPoolGen old_cp, final ConstantPoolGen new_cp) {
         for (InstructionHandle ih = start; ih != null; ih = ih.getNext()) {
-            if (ih.getInstruction() == i) {
-                return ih;
+            final Instruction i = ih.getInstruction();
+            if (i instanceof CPInstruction) {
+                final CPInstruction ci = (CPInstruction) i;
+                final Constant c = old_cp.getConstant(ci.getIndex());
+                ci.setIndex(new_cp.addConstant(c, old_cp));
             }
         }
-        return null;
-    }
-
-    private InstructionHandle findInstruction2(final Instruction i) {
-        for (InstructionHandle ih = end; ih != null; ih = ih.getPrev()) {
-            if (ih.getInstruction() == i) {
-                return ih;
-            }
-        }
-        return null;
-    }
-
-    public boolean contains(final InstructionHandle i) {
-        if (i == null) {
-            return false;
-        }
-        for (InstructionHandle ih = start; ih != null; ih = ih.getNext()) {
-            if (ih == i) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean contains(final Instruction i) {
-        return findInstruction1(i) != null;
     }
 
     public void setPositions() { // TODO could be package-protected? (some test code would need to be repackaged)
@@ -563,34 +753,8 @@ public class InstructionList implements Iterable<InstructionHandle> {
         System.arraycopy(pos, 0, bytePositions, 0, count);
     }
 
-    public byte[] getByteCode() {
-        // Update position indices of instructions
-        setPositions();
-        final ByteArrayOutputStream b = new ByteArrayOutputStream();
-        final DataOutputStream out = new DataOutputStream(b);
-        try {
-            for (InstructionHandle ih = start; ih != null; ih = ih.getNext()) {
-                final Instruction i = ih.getInstruction();
-                i.dump(out); // Traverse list
-            }
-            out.flush();
-        } catch (final IOException e) {
-            System.err.println(e);
-            return new byte[0];
-        }
-        return b.toByteArray();
-    }
-
-    public Instruction[] getInstructions() {
-        final List<Instruction> instructions = new ArrayList<>();
-        try (ByteSequence bytes = new ByteSequence(getByteCode())) {
-            while (bytes.available() > 0) {
-                instructions.add(Instruction.readInstruction(bytes));
-            }
-        } catch (final IOException e) {
-            throw new ClassGenException(e.toString(), e);
-        }
-        return instructions.toArray(new Instruction[instructions.size()]);
+    public int size() {
+        return length;
     }
 
     @Override
@@ -606,196 +770,29 @@ public class InstructionList implements Iterable<InstructionHandle> {
         return buf.toString();
     }
 
-    @Override
-    public Iterator<InstructionHandle> iterator() {
-        return new Iterator<InstructionHandle>() {
-
-            private InstructionHandle ih = start;
-
-            @Override
-            public InstructionHandle next() throws NoSuchElementException {
-                if (ih == null) {
-                    throw new NoSuchElementException();
-                }
-                final InstructionHandle i = ih;
-                ih = ih.getNext();
-                return i;
-            }
-
-            @Override
-            public void remove() {
-                throw new UnsupportedOperationException();
-            }
-
-            @Override
-            public boolean hasNext() {
-                return ih != null;
-            }
-        };
-    }
-
-    public InstructionHandle[] getInstructionHandles() {
-        final InstructionHandle[] ihs = new InstructionHandle[length];
-        InstructionHandle ih = start;
-        for (int i = 0; i < length; i++) {
-            ihs[i] = ih;
-            ih = ih.getNext();
-        }
-        return ihs;
-    }
-
-    public int[] getInstructionPositions() {
-        return bytePositions;
-    }
-
-    public InstructionList copy() {
-        final Map<InstructionHandle, InstructionHandle> map = new HashMap<>();
-        final InstructionList il = new InstructionList();
-
-        for (InstructionHandle ih = start; ih != null; ih = ih.getNext()) {
-            final Instruction i = ih.getInstruction();
-            final Instruction c = i.copy(); // Use clone for shallow copy
-            if (c instanceof BranchInstruction) {
-                map.put(ih, il.append((BranchInstruction) c));
-            } else {
-                map.put(ih, il.append(c));
-            }
-        }
-
-        InstructionHandle ih = start;
-        InstructionHandle ch = il.start;
-        while (ih != null) {
-            final Instruction i = ih.getInstruction();
-            final Instruction c = ch.getInstruction();
-            if (i instanceof BranchInstruction) {
-                final BranchInstruction bi = (BranchInstruction) i;
-                final BranchInstruction bc = (BranchInstruction) c;
-                final InstructionHandle itarget = bi.getTarget(); // old target
-                // New target is in hash map
-                bc.setTarget(map.get(itarget));
-                if (bi instanceof Select) { // Either LOOKUPSWITCH or TABLESWITCH
-                    final InstructionHandle[] itargets = ((Select) bi).getTargets();
-                    final InstructionHandle[] ctargets = ((Select) bc).getTargets();
-                    for (int j = 0; j < itargets.length; j++) { // Update all targets
-                        ctargets[j] = map.get(itargets[j]);
-                    }
-                }
-            }
-            ih = ih.getNext();
-            ch = ch.getNext();
-        }
-        return il;
-    }
-
-    public void replaceConstantPool(final ConstantPoolGen old_cp, final ConstantPoolGen new_cp) {
-        for (InstructionHandle ih = start; ih != null; ih = ih.getNext()) {
-            final Instruction i = ih.getInstruction();
-            if (i instanceof CPInstruction) {
-                final CPInstruction ci = (CPInstruction) i;
-                final Constant c = old_cp.getConstant(ci.getIndex());
-                ci.setIndex(new_cp.addConstant(c, old_cp));
-            }
-        }
-    }
-
-    private void clear() {
-        start = end = null;
-        length = 0;
-    }
-
-    public void dispose() {
-        // Traverse in reverse order, because ih.next is overwritten
-        for (InstructionHandle ih = end; ih != null; ih = ih.getPrev()) {
-
-            ih.dispose();
-        }
-        clear();
-    }
-
-    public InstructionHandle getStart() {
-        return start;
-    }
-
-    public InstructionHandle getEnd() {
-        return end;
-    }
-
-    public int getLength() {
-        return length;
-    }
-
-    public int size() {
-        return length;
-    }
-
-    public void redirectBranches(final InstructionHandle old_target, final InstructionHandle new_target) {
-        for (InstructionHandle ih = start; ih != null; ih = ih.getNext()) {
-            final Instruction i = ih.getInstruction();
-            if (i instanceof BranchInstruction) {
-                final BranchInstruction b = (BranchInstruction) i;
-                final InstructionHandle target = b.getTarget();
-                if (target == old_target) {
-                    b.setTarget(new_target);
-                }
-                if (b instanceof Select) { // Either LOOKUPSWITCH or TABLESWITCH
-                    final InstructionHandle[] targets = ((Select) b).getTargets();
-                    for (int j = 0; j < targets.length; j++) {
-                        if (targets[j] == old_target) {
-                            ((Select) b).setTarget(j, new_target);
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    public void redirectLocalVariables(final LocalVariableGen[] lg, final InstructionHandle old_target, final InstructionHandle new_target) {
-        for (final LocalVariableGen element : lg) {
-            final InstructionHandle start = element.getStart();
-            final InstructionHandle end = element.getEnd();
-            if (start == old_target) {
-                element.setStart(new_target);
-            }
-            if (end == old_target) {
-                element.setEnd(new_target);
-            }
-        }
-    }
-
-    public void redirectExceptionHandlers(final CodeExceptionGen[] exceptions, final InstructionHandle old_target, final InstructionHandle new_target) {
-        for (final CodeExceptionGen exception : exceptions) {
-            if (exception.getStartPC() == old_target) {
-                exception.setStartPC(new_target);
-            }
-            if (exception.getEndPC() == old_target) {
-                exception.setEndPC(new_target);
-            }
-            if (exception.getHandlerPC() == old_target) {
-                exception.setHandlerPC(new_target);
-            }
-        }
-    }
-
-    private List<InstructionListObserver> observers;
-
-    public void addObserver(final InstructionListObserver o) {
-        if (observers == null) {
-            observers = new ArrayList<>();
-        }
-        observers.add(o);
-    }
-
-    public void removeObserver(final InstructionListObserver o) {
-        if (observers != null) {
-            observers.remove(o);
-        }
-    }
-
     public void update() {
         if (observers != null) {
             for (final InstructionListObserver observer : observers) {
                 observer.notify(this);
             }
         }
+    }
+
+    public static InstructionHandle findHandle(final InstructionHandle[] ihs, final int[] pos, final int count, final int target) {
+        int l = 0;
+        int r = count - 1;
+
+        do {
+            final int i = (l + r) >>> 1;
+            final int j = pos[i];
+            if (j == target) {
+                return ihs[i];
+            } else if (target < j) {
+                r = i - 1;
+            } else {
+                l = i + 1;
+            }
+        } while (l <= r);
+        return null;
     }
 }

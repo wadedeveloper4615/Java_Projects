@@ -1,7 +1,6 @@
 
 package org.apache.bcel.classfile;
 
-import java.io.DataInput;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -12,14 +11,14 @@ import org.apache.bcel.Const;
 import org.apache.bcel.enums.ClassFileConstants;
 
 public abstract class Attribute implements Cloneable, Node {
-    private static final boolean debug = Boolean.getBoolean(Attribute.class.getCanonicalName() + ".debug"); // Debugging on/off
-    private static final Map<String, Object> readers = new HashMap<>();
+    private static boolean debug = Boolean.getBoolean(Attribute.class.getCanonicalName() + ".debug"); // Debugging on/off
+    private static Map<String, Object> readers = new HashMap<>();
     protected int name_index;
     protected int length;
     protected byte tag;
     protected ConstantPool constant_pool;
 
-    protected Attribute(final byte tag, final int name_index, final int length, final ConstantPool constant_pool) {
+    protected Attribute(byte tag, int name_index, int length, ConstantPool constant_pool) {
         this.tag = tag;
         this.name_index = name_index;
         this.length = length;
@@ -34,7 +33,7 @@ public abstract class Attribute implements Cloneable, Node {
         Attribute attr = null;
         try {
             attr = (Attribute) super.clone();
-        } catch (final CloneNotSupportedException e) {
+        } catch (CloneNotSupportedException e) {
             throw new Error("Clone Not Supported"); // never happens
         }
         return attr;
@@ -42,16 +41,16 @@ public abstract class Attribute implements Cloneable, Node {
 
     public abstract Attribute copy(ConstantPool _constant_pool);
 
-    public void dump(final DataOutputStream file) throws IOException {
+    public void dump(DataOutputStream file) throws IOException {
         file.writeShort(name_index);
         file.writeInt(length);
     }
 
-    public final ConstantPool getConstantPool() {
+    public ConstantPool getConstantPool() {
         return constant_pool;
     }
 
-    public final int getLength() {
+    public int getLength() {
         return length;
     }
 
@@ -59,23 +58,23 @@ public abstract class Attribute implements Cloneable, Node {
         return ((ConstantUtf8) constant_pool.getConstant(name_index, ClassFileConstants.CONSTANT_Utf8)).getBytes();
     }
 
-    public final int getNameIndex() {
+    public int getNameIndex() {
         return name_index;
     }
 
-    public final byte getTag() {
+    public byte getTag() {
         return tag;
     }
 
-    public final void setConstantPool(final ConstantPool constant_pool) {
+    public void setConstantPool(ConstantPool constant_pool) {
         this.constant_pool = constant_pool;
     }
 
-    public final void setLength(final int length) {
+    public void setLength(int length) {
         this.length = length;
     }
 
-    public final void setNameIndex(final int name_index) {
+    public void setNameIndex(int name_index) {
         this.name_index = name_index;
     }
 
@@ -85,29 +84,29 @@ public abstract class Attribute implements Cloneable, Node {
     }
 
     @java.lang.Deprecated
-    public static void addAttributeReader(final String name, final AttributeReader r) {
+    public static void addAttributeReader(String name, AttributeReader r) {
         readers.put(name, r);
     }
 
-    public static void addAttributeReader(final String name, final UnknownAttributeReader r) {
+    public static void addAttributeReader(String name, UnknownAttributeReader r) {
         readers.put(name, r);
     }
 
-    protected static void println(final String msg) {
+    protected static void println(String msg) {
         if (debug) {
             System.err.println(msg);
         }
     }
 
-    public static Attribute readAttribute(final DataInput file, final ConstantPool constant_pool) throws IOException, ClassFormatException {
+    public static Attribute readAttribute(DataInputStream file, ConstantPool constant_pool) throws IOException, ClassFormatException {
         byte tag = Const.ATTR_UNKNOWN; // Unknown attribute
         // Get class name from constant pool via `name_index' indirection
-        final int name_index = file.readUnsignedShort();
-        final ConstantUtf8 c = (ConstantUtf8) constant_pool.getConstant(name_index, ClassFileConstants.CONSTANT_Utf8);
-        final String name = c.getBytes();
+        int name_index = file.readUnsignedShort();
+        ConstantUtf8 c = (ConstantUtf8) constant_pool.getConstant(name_index, ClassFileConstants.CONSTANT_Utf8);
+        String name = c.getBytes();
 
         // Length of data in bytes
-        final int length = file.readInt();
+        int length = file.readInt();
 
         // Compare strings to find known attribute
         for (byte i = 0; i < Const.KNOWN_ATTRIBUTES; i++) {
@@ -120,7 +119,7 @@ public abstract class Attribute implements Cloneable, Node {
         // Call proper constructor, depending on `tag'
         switch (tag) {
             case Const.ATTR_UNKNOWN:
-                final Object r = readers.get(name);
+                Object r = readers.get(name);
                 if (r instanceof UnknownAttributeReader) {
                     return ((UnknownAttributeReader) r).createAttribute(name_index, length, file, constant_pool);
                 }
@@ -190,11 +189,7 @@ public abstract class Attribute implements Cloneable, Node {
         }
     }
 
-    public static Attribute readAttribute(final DataInputStream file, final ConstantPool constant_pool) throws IOException, ClassFormatException {
-        return readAttribute((DataInput) file, constant_pool);
-    }
-
-    public static void removeAttributeReader(final String name) {
+    public static void removeAttributeReader(String name) {
         readers.remove(name);
     }
 }

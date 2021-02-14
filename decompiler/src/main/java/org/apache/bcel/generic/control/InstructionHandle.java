@@ -11,7 +11,6 @@ import org.apache.bcel.generic.base.BranchHandle;
 import org.apache.bcel.generic.base.BranchInstruction;
 import org.apache.bcel.generic.base.ClassGenException;
 import org.apache.bcel.generic.base.Instruction;
-import org.apache.bcel.generic.base.Visitor;
 
 public class InstructionHandle {
     private InstructionHandle next;
@@ -25,10 +24,10 @@ public class InstructionHandle {
     protected InstructionHandle(final Instruction i) {
         setInstruction(i);
     }
-
-    public void accept(final Visitor v) {
-        instruction.accept(v);
-    }
+//
+//    public void accept(final Visitor v) {
+//        instruction.accept(v);
+//    }
 
     public void addAttribute(final Object key, final Object attr) {
         if (attributes == null) {

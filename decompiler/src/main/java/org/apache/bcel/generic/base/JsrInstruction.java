@@ -2,9 +2,7 @@ package org.apache.bcel.generic.base;
 
 import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.StackProducer;
-import org.apache.bcel.generic.Type;
 import org.apache.bcel.generic.control.InstructionHandle;
-import org.apache.bcel.generic.gen.ConstantPoolGen;
 
 public abstract class JsrInstruction extends BranchInstruction implements UnconditionalBranch, TypedInstruction, StackProducer {
     public JsrInstruction() {
@@ -13,11 +11,10 @@ public abstract class JsrInstruction extends BranchInstruction implements Uncond
     public JsrInstruction(InstructionOpCodes opcode, final InstructionHandle target) {
         super(opcode, target);
     }
-
-    @Override
-    public Type getType(final ConstantPoolGen cp) {
-        return new ReturnaddressType(physicalSuccessor());
-    }
+//    @Override
+//    public Type getType(final ConstantPoolGen cp) {
+//        return new ReturnaddressType(physicalSuccessor());
+//    }
 
     public InstructionHandle physicalSuccessor() {
         InstructionHandle ih = super.getTarget();

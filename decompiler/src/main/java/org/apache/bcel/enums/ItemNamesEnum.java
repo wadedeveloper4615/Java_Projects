@@ -1,15 +1,25 @@
 package org.apache.bcel.enums;
 
-public enum ItemNamesEnum {
-    ITEM_Bogus(0, 0), ITEM_Integer(1, 1), ITEM_Float(2, 2), ITEM_Double(3, 3), ITEM_Long(4, 4), ITEM_Null(5, 5), ITEM_InitObject(6, 6), ITEM_Object(7, 7), ITEM_NewObject(8, 8);
+import org.apache.bcel.Const;
 
-    private String[] ITEM_NAMES = { "Bogus", "Integer", "Float", "Double", "Long", "Null", "InitObject", "Object", "NewObject" };
+public enum ItemNamesEnum {
+    //@formatter:off
+    ITEM_Bogus(0),
+    ITEM_Integer(1),
+    ITEM_Float(2),
+    ITEM_Double(3),
+    ITEM_Long(4),
+    ITEM_Null(5),
+    ITEM_InitObject(6),
+    ITEM_Object(7),
+    ITEM_NewObject(8);
+    //@formatter:on
     private int tag;
     private String name;
 
-    ItemNamesEnum(int tag, int nameIndex) {
+    ItemNamesEnum(int tag) {
         this.tag = tag;
-        this.name = ITEM_NAMES[nameIndex];
+        this.name = Const.ITEM_NAMES[tag];
     }
 
     public String getName() {

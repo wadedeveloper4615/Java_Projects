@@ -6,7 +6,6 @@ import java.io.IOException;
 import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.JsrInstruction;
 import org.apache.bcel.generic.base.VariableLengthInstruction;
-import org.apache.bcel.generic.base.Visitor;
 import org.apache.bcel.generic.control.InstructionHandle;
 
 public class JSR extends JsrInstruction implements VariableLengthInstruction {
@@ -16,15 +15,14 @@ public class JSR extends JsrInstruction implements VariableLengthInstruction {
     public JSR(final InstructionHandle target) {
         super(InstructionOpCodes.JSR, target);
     }
-
-    @Override
-    public void accept(final Visitor v) {
-        v.visitStackProducer(this);
-        v.visitVariableLengthInstruction(this);
-        v.visitBranchInstruction(this);
-        v.visitJsrInstruction(this);
-        v.visitJSR(this);
-    }
+//    @Override
+//    public void accept(final Visitor v) {
+//        v.visitStackProducer(this);
+//        v.visitVariableLengthInstruction(this);
+//        v.visitBranchInstruction(this);
+//        v.visitJsrInstruction(this);
+//        v.visitJSR(this);
+//    }
 
     @Override
     public void dump(final DataOutputStream out) throws IOException {

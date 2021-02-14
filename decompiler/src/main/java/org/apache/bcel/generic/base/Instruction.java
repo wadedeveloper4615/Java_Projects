@@ -64,7 +64,7 @@ import org.apache.bcel.generic.SIPUSH;
 import org.apache.bcel.generic.TABLESWITCH;
 import org.apache.bcel.generic.control.InstructionComparator;
 import org.apache.bcel.generic.control.InstructionConst;
-import org.apache.bcel.generic.gen.ConstantPoolGen;
+//import org.apache.bcel.generic.gen.ConstantPoolGen;
 import org.apache.bcel.util.ByteSequence;
 
 public abstract class Instruction implements Cloneable {
@@ -79,16 +79,14 @@ public abstract class Instruction implements Cloneable {
         this.length = length;
         this.opcode = opcode;
     }
+    // public abstract void accept(Visitor v);
 
-    public abstract void accept(Visitor v);
-
-    public int consumeStack(final ConstantPoolGen cpg) {
+    public int consumeStack() {// final ConstantPoolGen cpg) {
         return opcode.getConsumeStack();
     }
 
     public Instruction copy() {
         Instruction i = null;
-
         if (InstructionConst.getInstruction(this.getOpcode().getOpcode()) != null) {
             i = this;
         } else {
@@ -133,7 +131,7 @@ public abstract class Instruction implements Cloneable {
     protected void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
     }
 
-    public int produceStack(final ConstantPoolGen cpg) {
+    public int produceStack() {// final ConstantPoolGen cpg) {
         return opcode.getProduceStack();
     }
 

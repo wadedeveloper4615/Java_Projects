@@ -2,7 +2,6 @@ package org.apache.bcel.generic;
 
 import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.LoadInstruction;
-import org.apache.bcel.generic.base.Visitor;
 
 public class DLOAD extends LoadInstruction {
     public DLOAD() {
@@ -12,10 +11,10 @@ public class DLOAD extends LoadInstruction {
     public DLOAD(final int n) {
         super(InstructionOpCodes.DLOAD, InstructionOpCodes.DLOAD_0, n);
     }
-
-    @Override
-    public void accept(final Visitor v) {
-        super.accept(v);
-        v.visitDLOAD(this);
-    }
+//
+//    @Override
+//    public void accept(final Visitor v) {
+//        super.accept(v);
+//        v.visitDLOAD(this);
+//    }
 }

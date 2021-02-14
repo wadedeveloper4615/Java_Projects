@@ -5,8 +5,6 @@ import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.ExceptionThrower;
 import org.apache.bcel.generic.base.FieldInstruction;
 import org.apache.bcel.generic.base.PopInstruction;
-import org.apache.bcel.generic.base.Visitor;
-import org.apache.bcel.generic.gen.ConstantPoolGen;
 
 public class PUTFIELD extends FieldInstruction implements PopInstruction, ExceptionThrower {
     public PUTFIELD() {
@@ -15,24 +13,23 @@ public class PUTFIELD extends FieldInstruction implements PopInstruction, Except
     public PUTFIELD(final int index) {
         super(InstructionOpCodes.PUTFIELD, index);
     }
-
-    @Override
-    public void accept(final Visitor v) {
-        v.visitExceptionThrower(this);
-        v.visitStackConsumer(this);
-        v.visitPopInstruction(this);
-        v.visitTypedInstruction(this);
-        v.visitLoadClass(this);
-        v.visitCPInstruction(this);
-        v.visitFieldOrMethod(this);
-        v.visitFieldInstruction(this);
-        v.visitPUTFIELD(this);
-    }
-
-    @Override
-    public int consumeStack(final ConstantPoolGen cpg) {
-        return getFieldSize(cpg) + 1;
-    }
+//    @Override
+//    public void accept(final Visitor v) {
+//        v.visitExceptionThrower(this);
+//        v.visitStackConsumer(this);
+//        v.visitPopInstruction(this);
+//        v.visitTypedInstruction(this);
+//        v.visitLoadClass(this);
+//        v.visitCPInstruction(this);
+//        v.visitFieldOrMethod(this);
+//        v.visitFieldInstruction(this);
+//        v.visitPUTFIELD(this);
+//    }
+//
+//    @Override
+//    public int consumeStack(final ConstantPoolGen cpg) {
+//        return getFieldSize(cpg) + 1;
+//    }
 
     @Override
     public Class<?>[] getExceptions() {

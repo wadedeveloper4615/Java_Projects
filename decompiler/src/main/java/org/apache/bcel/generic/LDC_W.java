@@ -15,7 +15,7 @@ public class LDC_W extends LDC {
 
     @Override
     protected void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
-        setIndex(bytes.readUnsignedShort());
+        // setIndex(bytes.readUnsignedShort());
         super.setOpcode(InstructionOpCodes.LDC_W);
         super.setLength(3);
     }

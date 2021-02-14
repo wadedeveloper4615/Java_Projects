@@ -6,22 +6,19 @@ import java.io.IOException;
 import org.apache.bcel.classfile.constant.Constant;
 import org.apache.bcel.classfile.constant.ConstantClass;
 import org.apache.bcel.classfile.constant.ConstantPool;
-import org.apache.bcel.enums.ClassFileConstants;
 import org.apache.bcel.enums.InstructionOpCodes;
-import org.apache.bcel.generic.Type;
-import org.apache.bcel.generic.gen.ConstantPoolGen;
+//import org.apache.bcel.generic.gen.ConstantPoolGen;
 import org.apache.bcel.util.ByteSequence;
 
 public abstract class CPInstruction extends Instruction implements TypedInstruction, IndexedInstruction {
-    @Deprecated
     protected int index;
 
     protected CPInstruction() {
     }
 
-    protected CPInstruction(InstructionOpCodes opcode, final int index) {
+    protected CPInstruction(InstructionOpCodes opcode, int index) {
         super(opcode, (short) 3);
-        setIndex(index);
+        // setIndex(index);
     }
 
     @Override
@@ -29,35 +26,32 @@ public abstract class CPInstruction extends Instruction implements TypedInstruct
         out.writeByte(super.getOpcode().getOpcode());
         out.writeShort(index);
     }
-
-    @Override
-    public final int getIndex() {
-        return index;
-    }
-
-    @Override
-    public Type getType(final ConstantPoolGen cpg) {
-        final ConstantPool cp = cpg.getConstantPool();
-        String name = cp.getConstantString(index, ClassFileConstants.CONSTANT_Class);
-        if (!name.startsWith("[")) {
-            name = "L" + name + ";";
-        }
-        return Type.getType(name);
-    }
+//    @Override
+//    public final int getIndex() {
+//        return index;
+//    }
+//    @Override
+//    public Type getType(final ConstantPoolGen cpg) {
+//        final ConstantPool cp = cpg.getConstantPool();
+//        String name = cp.getConstantString(index, ClassFileConstants.CONSTANT_Class);
+//        if (!name.startsWith("[")) {
+//            name = "L" + name + ";";
+//        }
+//        return Type.getType(name);
+//    }
 
     @Override
     protected void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
-        setIndex(bytes.readUnsignedShort());
-        super.setLength(3);
+//        setIndex(bytes.readUnsignedShort());
+//        super.setLength(3);
     }
-
-    @Override
-    public void setIndex(final int index) {
-        if (index < 0) {
-            throw new ClassGenException("Negative index value: " + index);
-        }
-        this.index = index;
-    }
+//    @Override
+//    public void setIndex(final int index) {
+//        if (index < 0) {
+//            throw new ClassGenException("Negative index value: " + index);
+//        }
+//        this.index = index;
+//    }
 
     @Override
     public String toString(final boolean verbose) {

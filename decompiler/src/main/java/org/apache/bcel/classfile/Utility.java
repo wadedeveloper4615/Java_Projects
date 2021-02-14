@@ -204,7 +204,7 @@ public abstract class Utility {
         int[] jump_table;
         int no_pad_bytes = 0;
         int offset;
-        final StringBuilder buf = new StringBuilder(Const.getOpcodeName(opcode.getOpcode()));
+        final StringBuilder buf = new StringBuilder(Const.getOpcodeName(opcode));
         /*
          * Special case: Skip (0-3) padding bytes, i.e., the following bytes are
          * 4-byte-aligned
@@ -215,7 +215,7 @@ public abstract class Utility {
             for (int i = 0; i < no_pad_bytes; i++) {
                 byte b;
                 if ((b = bytes.readByte()) != 0) {
-                    System.err.println("Warning: Padding byte != 0 in " + Const.getOpcodeName(opcode.getOpcode()) + ":" + b);
+                    System.err.println("Warning: Padding byte != 0 in " + Const.getOpcodeName(opcode) + ":" + b);
                 }
             }
             // Both cases have a field default_offset in common
@@ -418,10 +418,10 @@ public abstract class Utility {
                 buf.append("\t\t%").append(vindex).append("\t").append(constant);
                 break;
             default:
-                if (Const.getNoOfOperands(opcode.getOpcode()) > 0) {
+                if (Const.getNoOfOperands(opcode) > 0) {
                     for (int i = 0; i < Const.getOperandTypeCount(opcode.getOpcode()); i++) {
                         buf.append("\t\t");
-                        switch (Const.getOperandType(opcode.getOpcode(), i)) {
+                        switch (Const.getOperandType(opcode, i)) {
                             case Const.T_BYTE:
                                 buf.append(bytes.readByte());
                                 break;

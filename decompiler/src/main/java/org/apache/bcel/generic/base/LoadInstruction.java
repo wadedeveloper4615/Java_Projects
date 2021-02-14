@@ -10,13 +10,13 @@ public abstract class LoadInstruction extends LocalVariableInstruction implement
     protected LoadInstruction(InstructionOpCodes opcode, InstructionOpCodes c_tag, final int n) {
         super(opcode, c_tag, n);
     }
-
-    @Override
-    public void accept(final Visitor v) {
-        v.visitStackProducer(this);
-        v.visitPushInstruction(this);
-        v.visitTypedInstruction(this);
-        v.visitLocalVariableInstruction(this);
-        v.visitLoadInstruction(this);
-    }
+//
+//    @Override
+//    public void accept(final Visitor v) {
+//        v.visitStackProducer(this);
+//        v.visitPushInstruction(this);
+//        v.visitTypedInstruction(this);
+//        v.visitLocalVariableInstruction(this);
+//        v.visitLoadInstruction(this);
+//    }
 }

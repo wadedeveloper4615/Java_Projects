@@ -10,11 +10,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
-import org.apache.bcel.classfile.constant.Constant;
 import org.apache.bcel.generic.Select;
 import org.apache.bcel.generic.base.BranchHandle;
 import org.apache.bcel.generic.base.BranchInstruction;
-import org.apache.bcel.generic.base.CPInstruction;
 import org.apache.bcel.generic.base.ClassGenException;
 import org.apache.bcel.generic.base.CompoundInstruction;
 import org.apache.bcel.generic.base.Instruction;
@@ -657,14 +655,14 @@ public class InstructionList implements Iterable<InstructionHandle> {
     }
 
     public void replaceConstantPool(final ConstantPoolGen old_cp, final ConstantPoolGen new_cp) {
-        for (InstructionHandle ih = start; ih != null; ih = ih.getNext()) {
-            final Instruction i = ih.getInstruction();
-            if (i instanceof CPInstruction) {
-                final CPInstruction ci = (CPInstruction) i;
-                final Constant c = old_cp.getConstant(ci.getIndex());
-                ci.setIndex(new_cp.addConstant(c, old_cp));
-            }
-        }
+//        for (InstructionHandle ih = start; ih != null; ih = ih.getNext()) {
+//            final Instruction i = ih.getInstruction();
+//            if (i instanceof CPInstruction) {
+//                final CPInstruction ci = (CPInstruction) i;
+//                final Constant c = old_cp.getConstant(ci.getIndex());
+//                ci.setIndex(new_cp.addConstant(c, old_cp));
+//            }
+//        }
     }
 
     public void setPositions() {

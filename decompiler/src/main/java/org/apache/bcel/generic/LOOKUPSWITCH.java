@@ -4,7 +4,6 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import org.apache.bcel.enums.InstructionOpCodes;
-import org.apache.bcel.generic.base.Visitor;
 import org.apache.bcel.generic.control.InstructionHandle;
 import org.apache.bcel.util.ByteSequence;
 
@@ -18,15 +17,14 @@ public class LOOKUPSWITCH extends Select {
         super.setLength(_length);
         setFixed_length(_length);
     }
-
-    @Override
-    public void accept(final Visitor v) {
-        v.visitVariableLengthInstruction(this);
-        v.visitStackConsumer(this);
-        v.visitBranchInstruction(this);
-        v.visitSelect(this);
-        v.visitLOOKUPSWITCH(this);
-    }
+//    @Override
+//    public void accept(final Visitor v) {
+//        v.visitVariableLengthInstruction(this);
+//        v.visitStackConsumer(this);
+//        v.visitBranchInstruction(this);
+//        v.visitSelect(this);
+//        v.visitLOOKUPSWITCH(this);
+//    }
 
     @Override
     public void dump(final DataOutputStream out) throws IOException {

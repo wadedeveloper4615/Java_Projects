@@ -3,7 +3,6 @@ package org.apache.bcel.generic.base;
 import org.apache.bcel.ExceptionConst;
 import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.Type;
-import org.apache.bcel.generic.gen.ConstantPoolGen;
 
 public abstract class ReturnInstruction extends Instruction implements ExceptionThrower, TypedInstruction, StackConsumer {
     ReturnInstruction() {
@@ -37,9 +36,9 @@ public abstract class ReturnInstruction extends Instruction implements Exception
                 throw new ClassGenException("Unknown type " + _opcode);
         }
     }
-
-    @Override
-    public Type getType(final ConstantPoolGen cp) {
-        return getType();
-    }
+//
+//    @Override
+//    public Type getType(final ConstantPoolGen cp) {
+//        return getType();
+//    }
 }

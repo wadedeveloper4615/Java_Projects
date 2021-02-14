@@ -28,23 +28,13 @@ import org.apache.bcel.classfile.attribute.LocalVariableTypeTable;
 import org.apache.bcel.classfile.attribute.ParameterAnnotations;
 import org.apache.bcel.enums.ClassAccessFlags;
 import org.apache.bcel.enums.ClassFileConstants;
-import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.exceptions.ClassFormatException;
-import org.apache.bcel.generic.IINC;
 import org.apache.bcel.generic.NOP;
 import org.apache.bcel.generic.ObjectType;
-import org.apache.bcel.generic.RET;
-import org.apache.bcel.generic.Select;
 import org.apache.bcel.generic.Type;
-import org.apache.bcel.generic.base.BranchInstruction;
 import org.apache.bcel.generic.base.ClassGenException;
-import org.apache.bcel.generic.base.IfInstruction;
-import org.apache.bcel.generic.base.IndexedInstruction;
-import org.apache.bcel.generic.base.Instruction;
-import org.apache.bcel.generic.base.LocalVariableInstruction;
 import org.apache.bcel.generic.base.MethodObserver;
 import org.apache.bcel.generic.base.TargetLostException;
-import org.apache.bcel.generic.base.TypedInstruction;
 import org.apache.bcel.generic.control.InstructionHandle;
 import org.apache.bcel.generic.control.InstructionList;
 import org.apache.bcel.generic.control.InstructionTargeter;
@@ -738,26 +728,26 @@ public class MethodGen extends FieldGenOrMethodGen {
     }
 
     public void setMaxLocals() throws ClassFormatException, IOException {
-        if (il != null) {
-            int max = isStatic() ? 0 : 1;
-            if (argTypes != null) {
-                for (Type arg_type : argTypes) {
-                    max += arg_type.getSize();
-                }
-            }
-            for (InstructionHandle ih = il.getStart(); ih != null; ih = ih.getNext()) {
-                Instruction ins = ih.getInstruction();
-                if ((ins instanceof LocalVariableInstruction) || (ins instanceof RET) || (ins instanceof IINC)) {
-                    int index = ((IndexedInstruction) ins).getIndex() + ((TypedInstruction) ins).getType(super.getConstantPool()).getSize();
-                    if (index > max) {
-                        max = index;
-                    }
-                }
-            }
-            maxLocals = max;
-        } else {
-            maxLocals = 0;
-        }
+//        if (il != null) {
+//            int max = isStatic() ? 0 : 1;
+//            if (argTypes != null) {
+//                for (Type arg_type : argTypes) {
+//                    max += arg_type.getSize();
+//                }
+//            }
+//            for (InstructionHandle ih = il.getStart(); ih != null; ih = ih.getNext()) {
+//                Instruction ins = ih.getInstruction();
+//                if ((ins instanceof LocalVariableInstruction) || (ins instanceof RET) || (ins instanceof IINC)) {
+//                    int index = ((IndexedInstruction) ins).getIndex() + ((TypedInstruction) ins).getType(super.getConstantPool()).getSize();
+//                    if (index > max) {
+//                        max = index;
+//                    }
+//                }
+//            }
+//            maxLocals = max;
+//        } else {
+//            maxLocals = 0;
+//        }
     }
 
     public void setMaxLocals(int m) {
@@ -837,55 +827,56 @@ public class MethodGen extends FieldGenOrMethodGen {
     }
 
     public static int getMaxStack(ConstantPoolGen cp, InstructionList il, CodeExceptionGen[] et) {
-        BranchStack branchTargets = new BranchStack();
-        for (CodeExceptionGen element : et) {
-            InstructionHandle handler_pc = element.getHandlerPC();
-            if (handler_pc != null) {
-                branchTargets.push(handler_pc, 1);
-            }
-        }
-        int stackDepth = 0;
-        int maxStackDepth = 0;
-        InstructionHandle ih = il.getStart();
-        while (ih != null) {
-            Instruction instruction = ih.getInstruction();
-            InstructionOpCodes opcode = instruction.getOpcode();
-            int delta = instruction.produceStack(cp) - instruction.consumeStack(cp);
-            stackDepth += delta;
-            if (stackDepth > maxStackDepth) {
-                maxStackDepth = stackDepth;
-            }
-            if (instruction instanceof BranchInstruction) {
-                BranchInstruction branch = (BranchInstruction) instruction;
-                if (instruction instanceof Select) {
-                    Select select = (Select) branch;
-                    InstructionHandle[] targets = select.getTargets();
-                    for (InstructionHandle target : targets) {
-                        branchTargets.push(target, stackDepth);
-                    }
-                    ih = null;
-                } else if (!(branch instanceof IfInstruction)) {
-                    if (opcode == InstructionOpCodes.JSR || opcode == InstructionOpCodes.JSR_W) {
-                        branchTargets.push(ih.getNext(), stackDepth - 1);
-                    }
-                    ih = null;
-                }
-                branchTargets.push(branch.getTarget(), stackDepth);
-            } else if (opcode == InstructionOpCodes.ATHROW || opcode == InstructionOpCodes.RET || (opcode.getOpcode() >= InstructionOpCodes.IRETURN.getOpcode() && opcode.getOpcode() <= InstructionOpCodes.RETURN.getOpcode())) {
-                ih = null;
-            }
-            if (ih != null) {
-                ih = ih.getNext();
-            }
-            if (ih == null) {
-                BranchTarget bt = branchTargets.pop();
-                if (bt != null) {
-                    ih = bt.target;
-                    stackDepth = bt.stackDepth;
-                }
-            }
-        }
-        return maxStackDepth;
+//        BranchStack branchTargets = new BranchStack();
+//        for (CodeExceptionGen element : et) {
+//            InstructionHandle handler_pc = element.getHandlerPC();
+//            if (handler_pc != null) {
+//                branchTargets.push(handler_pc, 1);
+//            }
+//        }
+//        int stackDepth = 0;
+//        int maxStackDepth = 0;
+//        InstructionHandle ih = il.getStart();
+//        while (ih != null) {
+//            Instruction instruction = ih.getInstruction();
+//            InstructionOpCodes opcode = instruction.getOpcode();
+//            int delta = instruction.produceStack(cp) - instruction.consumeStack(cp);
+//            stackDepth += delta;
+//            if (stackDepth > maxStackDepth) {
+//                maxStackDepth = stackDepth;
+//            }
+//            if (instruction instanceof BranchInstruction) {
+//                BranchInstruction branch = (BranchInstruction) instruction;
+//                if (instruction instanceof Select) {
+//                    Select select = (Select) branch;
+//                    InstructionHandle[] targets = select.getTargets();
+//                    for (InstructionHandle target : targets) {
+//                        branchTargets.push(target, stackDepth);
+//                    }
+//                    ih = null;
+//                } else if (!(branch instanceof IfInstruction)) {
+//                    if (opcode == InstructionOpCodes.JSR || opcode == InstructionOpCodes.JSR_W) {
+//                        branchTargets.push(ih.getNext(), stackDepth - 1);
+//                    }
+//                    ih = null;
+//                }
+//                branchTargets.push(branch.getTarget(), stackDepth);
+//            } else if (opcode == InstructionOpCodes.ATHROW || opcode == InstructionOpCodes.RET || (opcode.getOpcode() >= InstructionOpCodes.IRETURN.getOpcode() && opcode.getOpcode() <= InstructionOpCodes.RETURN.getOpcode())) {
+//                ih = null;
+//            }
+//            if (ih != null) {
+//                ih = ih.getNext();
+//            }
+//            if (ih == null) {
+//                BranchTarget bt = branchTargets.pop();
+//                if (bt != null) {
+//                    ih = bt.target;
+//                    stackDepth = bt.stackDepth;
+//                }
+//            }
+//        }
+//        return maxStackDepth;
+        return -1;
     }
 
     public static void setComparator(BCELComparator comparator) {

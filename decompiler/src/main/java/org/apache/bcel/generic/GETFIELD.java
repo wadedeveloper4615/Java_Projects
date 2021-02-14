@@ -5,8 +5,6 @@ import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.ExceptionThrower;
 import org.apache.bcel.generic.base.FieldInstruction;
 import org.apache.bcel.generic.base.StackConsumer;
-import org.apache.bcel.generic.base.Visitor;
-import org.apache.bcel.generic.gen.ConstantPoolGen;
 
 public class GETFIELD extends FieldInstruction implements ExceptionThrower, StackConsumer, StackProducer {
     public GETFIELD() {
@@ -16,26 +14,27 @@ public class GETFIELD extends FieldInstruction implements ExceptionThrower, Stac
         super(InstructionOpCodes.GETFIELD, index);
     }
 
-    @Override
-    public void accept(final Visitor v) {
-        v.visitExceptionThrower(this);
-        v.visitStackConsumer(this);
-        v.visitStackProducer(this);
-        v.visitTypedInstruction(this);
-        v.visitLoadClass(this);
-        v.visitCPInstruction(this);
-        v.visitFieldOrMethod(this);
-        v.visitFieldInstruction(this);
-        v.visitGETFIELD(this);
-    }
-
+//
+//    @Override
+//    public void accept(final Visitor v) {
+//        v.visitExceptionThrower(this);
+//        v.visitStackConsumer(this);
+//        v.visitStackProducer(this);
+//        v.visitTypedInstruction(this);
+//        v.visitLoadClass(this);
+//        v.visitCPInstruction(this);
+//        v.visitFieldOrMethod(this);
+//        v.visitFieldInstruction(this);
+//        v.visitGETFIELD(this);
+//    }
+//
     @Override
     public Class<?>[] getExceptions() {
         return ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_FIELD_AND_METHOD_RESOLUTION, ExceptionConst.NULL_POINTER_EXCEPTION, ExceptionConst.INCOMPATIBLE_CLASS_CHANGE_ERROR);
     }
-
-    @Override
-    public int produceStack(final ConstantPoolGen cpg) {
-        return getFieldSize(cpg);
-    }
+//
+//    @Override
+//    public int produceStack(final ConstantPoolGen cpg) {
+//        return getFieldSize(cpg);
+//    }
 }

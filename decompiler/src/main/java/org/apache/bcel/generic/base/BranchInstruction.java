@@ -9,11 +9,8 @@ import org.apache.bcel.generic.control.InstructionTargeter;
 import org.apache.bcel.util.ByteSequence;
 
 public abstract class BranchInstruction extends Instruction implements InstructionTargeter {
-    @Deprecated
     protected int index;
-    @Deprecated
     protected InstructionHandle target;
-    @Deprecated
     protected int position;
 
     public BranchInstruction() {

@@ -6,7 +6,6 @@ import java.io.IOException;
 import org.apache.bcel.ExceptionConst;
 import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.InvokeInstruction;
-import org.apache.bcel.generic.base.Visitor;
 
 public class INVOKEVIRTUAL extends InvokeInstruction {
     public INVOKEVIRTUAL() {
@@ -15,24 +14,24 @@ public class INVOKEVIRTUAL extends InvokeInstruction {
     public INVOKEVIRTUAL(final int index) {
         super(InstructionOpCodes.INVOKEVIRTUAL, index);
     }
-
-    @Override
-    public void accept(final Visitor v) {
-        v.visitExceptionThrower(this);
-        v.visitTypedInstruction(this);
-        v.visitStackConsumer(this);
-        v.visitStackProducer(this);
-        v.visitLoadClass(this);
-        v.visitCPInstruction(this);
-        v.visitFieldOrMethod(this);
-        v.visitInvokeInstruction(this);
-        v.visitINVOKEVIRTUAL(this);
-    }
+//
+//    @Override
+//    public void accept(final Visitor v) {
+//        v.visitExceptionThrower(this);
+//        v.visitTypedInstruction(this);
+//        v.visitStackConsumer(this);
+//        v.visitStackProducer(this);
+//        v.visitLoadClass(this);
+//        v.visitCPInstruction(this);
+//        v.visitFieldOrMethod(this);
+//        v.visitInvokeInstruction(this);
+//        v.visitINVOKEVIRTUAL(this);
+//    }
 
     @Override
     public void dump(final DataOutputStream out) throws IOException {
-        out.writeByte(super.getOpcode().getOpcode());
-        out.writeShort(super.getIndex());
+//        out.writeByte(super.getOpcode().getOpcode());
+//        out.writeShort(super.getIndex());
     }
 
     @Override

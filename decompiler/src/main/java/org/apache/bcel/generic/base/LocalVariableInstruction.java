@@ -5,8 +5,6 @@ import java.io.IOException;
 
 import org.apache.bcel.Const;
 import org.apache.bcel.enums.InstructionOpCodes;
-import org.apache.bcel.generic.Type;
-import org.apache.bcel.generic.gen.ConstantPoolGen;
 import org.apache.bcel.util.ByteSequence;
 
 public abstract class LocalVariableInstruction extends Instruction implements TypedInstruction, IndexedInstruction {
@@ -28,7 +26,7 @@ public abstract class LocalVariableInstruction extends Instruction implements Ty
         super(opcode, (short) 2);
         this.cTag = cTag;
         canonTag = opcode;
-        setIndex(n);
+        // setIndex(n);
     }
 
     @Override
@@ -49,34 +47,32 @@ public abstract class LocalVariableInstruction extends Instruction implements Ty
     public InstructionOpCodes getCanonicalTag() {
         return canonTag;
     }
-
-    @Override
-    public final int getIndex() {
-        return n;
-    }
-
-    @Override
-    public Type getType(final ConstantPoolGen cp) {
-        switch (canonTag) {
-            case ILOAD:
-            case ISTORE:
-                return Type.INT;
-            case LLOAD:
-            case LSTORE:
-                return Type.LONG;
-            case DLOAD:
-            case DSTORE:
-                return Type.DOUBLE;
-            case FLOAD:
-            case FSTORE:
-                return Type.FLOAT;
-            case ALOAD:
-            case ASTORE:
-                return Type.OBJECT;
-            default:
-                throw new ClassGenException("Unknown case in switch" + canonTag);
-        }
-    }
+//    @Override
+//    public final int getIndex() {
+//        return n;
+//    }
+//    @Override
+//    public Type getType(final ConstantPoolGen cp) {
+//        switch (canonTag) {
+//            case ILOAD:
+//            case ISTORE:
+//                return Type.INT;
+//            case LLOAD:
+//            case LSTORE:
+//                return Type.LONG;
+//            case DLOAD:
+//            case DSTORE:
+//                return Type.DOUBLE;
+//            case FLOAD:
+//            case FSTORE:
+//                return Type.FLOAT;
+//            case ALOAD:
+//            case ASTORE:
+//                return Type.OBJECT;
+//            default:
+//                throw new ClassGenException("Unknown case in switch" + canonTag);
+//        }
+//    }
 
     @Override
     protected void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
@@ -97,25 +93,24 @@ public abstract class LocalVariableInstruction extends Instruction implements Ty
             }
         }
     }
-
-    @Override
-    public void setIndex(final int n) {
-        if ((n < 0) || (n > Const.MAX_SHORT)) {
-            throw new ClassGenException("Illegal value: " + n);
-        }
-        this.n = n;
-        if (n <= 3) {
-            super.setOpcode(InstructionOpCodes.read((short) (cTag.getOpcode() + n)));
-            super.setLength(1);
-        } else {
-            super.setOpcode(canonTag);
-            if (wide()) {
-                super.setLength(4);
-            } else {
-                super.setLength(2);
-            }
-        }
-    }
+//    @Override
+//    public void setIndex(final int n) {
+//        if ((n < 0) || (n > Const.MAX_SHORT)) {
+//            throw new ClassGenException("Illegal value: " + n);
+//        }
+//        this.n = n;
+//        if (n <= 3) {
+//            super.setOpcode(InstructionOpCodes.read((short) (cTag.getOpcode() + n)));
+//            super.setLength(1);
+//        } else {
+//            super.setOpcode(canonTag);
+//            if (wide()) {
+//                super.setLength(4);
+//            } else {
+//                super.setLength(2);
+//            }
+//        }
+//    }
 
     protected final void setIndexOnly(final int n) {
         this.n = n;

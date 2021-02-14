@@ -5,19 +5,18 @@ import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.ExceptionThrower;
 import org.apache.bcel.generic.base.Instruction;
 import org.apache.bcel.generic.base.StackConsumer;
-import org.apache.bcel.generic.base.Visitor;
 
 public class ARRAYLENGTH extends Instruction implements ExceptionThrower, StackProducer, StackConsumer {
     public ARRAYLENGTH() {
         super(InstructionOpCodes.ARRAYLENGTH, (short) 1);
     }
-
-    @Override
-    public void accept(final Visitor v) {
-        v.visitExceptionThrower(this);
-        v.visitStackProducer(this);
-        v.visitARRAYLENGTH(this);
-    }
+//
+//    @Override
+//    public void accept(final Visitor v) {
+//        v.visitExceptionThrower(this);
+//        v.visitStackProducer(this);
+//        v.visitARRAYLENGTH(this);
+//    }
 
     @Override
     public Class<?>[] getExceptions() {

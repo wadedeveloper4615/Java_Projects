@@ -2,6 +2,8 @@ package org.apache.bcel.enums;
 
 import java.io.IOException;
 
+import org.apache.bcel.Const;
+
 public enum ClassFileAttributes {
     //@formatter:off
     ATTR_UNKNOWN(-1),
@@ -33,7 +35,6 @@ public enum ClassFileAttributes {
     ATTR_NEST_HOST(25),
     ATTR_NEST_MEMBERS(26);
     //@formatter:on
-    private String[] ATTRIBUTE_NAMES = { "SourceFile", "ConstantValue", "Code", "Exceptions", "LineNumberTable", "LocalVariableTable", "InnerClasses", "Synthetic", "Deprecated", "PMGClass", "Signature", "StackMap", "RuntimeVisibleAnnotations", "RuntimeInvisibleAnnotations", "RuntimeVisibleParameterAnnotations", "RuntimeInvisibleParameterAnnotations", "AnnotationDefault", "LocalVariableTypeTable", "EnclosingMethod", "StackMapTable", "BootstrapMethods", "MethodParameters", "Module", "ModulePackages", "ModuleMainClass", "NestHost", "NestMembers" };
     private int tag;
     private String name;
 
@@ -42,7 +43,7 @@ public enum ClassFileAttributes {
         if (tag == -1) {
             this.name = "UNKNOWN";
         } else {
-            this.name = ATTRIBUTE_NAMES[tag];
+            this.name = Const.ATTRIBUTE_NAMES[tag];
         }
     }
 

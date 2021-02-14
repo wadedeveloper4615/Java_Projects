@@ -9,7 +9,6 @@ import org.apache.bcel.generic.base.AllocationInstruction;
 import org.apache.bcel.generic.base.ArrayType;
 import org.apache.bcel.generic.base.ExceptionThrower;
 import org.apache.bcel.generic.base.Instruction;
-import org.apache.bcel.generic.base.Visitor;
 import org.apache.bcel.util.ByteSequence;
 
 public class NEWARRAY extends Instruction implements AllocationInstruction, ExceptionThrower, StackProducer {
@@ -26,14 +25,14 @@ public class NEWARRAY extends Instruction implements AllocationInstruction, Exce
         super(InstructionOpCodes.NEWARRAY, (short) 2);
         this.type = type;
     }
-
-    @Override
-    public void accept(final Visitor v) {
-        v.visitAllocationInstruction(this);
-        v.visitExceptionThrower(this);
-        v.visitStackProducer(this);
-        v.visitNEWARRAY(this);
-    }
+//
+//    @Override
+//    public void accept(final Visitor v) {
+//        v.visitAllocationInstruction(this);
+//        v.visitExceptionThrower(this);
+//        v.visitStackProducer(this);
+//        v.visitNEWARRAY(this);
+//    }
 
     @Override
     public void dump(final DataOutputStream out) throws IOException {

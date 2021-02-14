@@ -6,7 +6,6 @@ import java.io.IOException;
 import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.GotoInstruction;
 import org.apache.bcel.generic.base.VariableLengthInstruction;
-import org.apache.bcel.generic.base.Visitor;
 import org.apache.bcel.generic.control.InstructionHandle;
 
 public class GOTO extends GotoInstruction implements VariableLengthInstruction {
@@ -16,15 +15,14 @@ public class GOTO extends GotoInstruction implements VariableLengthInstruction {
     public GOTO(final InstructionHandle target) {
         super(InstructionOpCodes.GOTO, target);
     }
-
-    @Override
-    public void accept(final Visitor v) {
-        v.visitVariableLengthInstruction(this);
-        v.visitUnconditionalBranch(this);
-        v.visitBranchInstruction(this);
-        v.visitGotoInstruction(this);
-        v.visitGOTO(this);
-    }
+//    @Override
+//    public void accept(final Visitor v) {
+//        v.visitVariableLengthInstruction(this);
+//        v.visitUnconditionalBranch(this);
+//        v.visitBranchInstruction(this);
+//        v.visitGotoInstruction(this);
+//        v.visitGOTO(this);
+//    }
 
     @Override
     public void dump(final DataOutputStream out) throws IOException {

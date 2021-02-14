@@ -1,6 +1,5 @@
 package org.apache.bcel.generic;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 import org.apache.bcel.ExceptionConst;
@@ -8,8 +7,6 @@ import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.ClassGenException;
 import org.apache.bcel.generic.base.InvokeInstruction;
-import org.apache.bcel.generic.base.Visitor;
-import org.apache.bcel.generic.gen.ConstantPoolGen;
 import org.apache.bcel.util.ByteSequence;
 
 public final class INVOKEINTERFACE extends InvokeInstruction {
@@ -26,32 +23,31 @@ public final class INVOKEINTERFACE extends InvokeInstruction {
         }
         this.nargs = nargs;
     }
+//
+//    @Override
+//    public void accept(final Visitor v) {
+//        v.visitExceptionThrower(this);
+//        v.visitTypedInstruction(this);
+//        v.visitStackConsumer(this);
+//        v.visitStackProducer(this);
+//        v.visitLoadClass(this);
+//        v.visitCPInstruction(this);
+//        v.visitFieldOrMethod(this);
+//        v.visitInvokeInstruction(this);
+//        v.visitINVOKEINTERFACE(this);
+//    }
 
     @Override
-    public void accept(final Visitor v) {
-        v.visitExceptionThrower(this);
-        v.visitTypedInstruction(this);
-        v.visitStackConsumer(this);
-        v.visitStackProducer(this);
-        v.visitLoadClass(this);
-        v.visitCPInstruction(this);
-        v.visitFieldOrMethod(this);
-        v.visitInvokeInstruction(this);
-        v.visitINVOKEINTERFACE(this);
+    public int consumeStack() {// final ConstantPoolGen cpg) {
+        return nargs;
     }
-
-    @Override
-    public int consumeStack(final ConstantPoolGen cpg) { 
-        return nargs; 
-    }
-
-    @Override
-    public void dump(final DataOutputStream out) throws IOException {
-        out.writeByte(super.getOpcode().getOpcode());
-        out.writeShort(super.getIndex());
-        out.writeByte(nargs);
-        out.writeByte(0);
-    }
+//    @Override
+//    public void dump(final DataOutputStream out) throws IOException {
+//        out.writeByte(super.getOpcode().getOpcode());
+//        out.writeShort(super.getIndex());
+//        out.writeByte(nargs);
+//        out.writeByte(0);
+//    }
 
     public int getCount() {
         return nargs;
@@ -67,7 +63,7 @@ public final class INVOKEINTERFACE extends InvokeInstruction {
         super.initFromFile(bytes, wide);
         super.setLength(5);
         nargs = bytes.readUnsignedByte();
-        bytes.readByte(); 
+        bytes.readByte();
     }
 
     @Override

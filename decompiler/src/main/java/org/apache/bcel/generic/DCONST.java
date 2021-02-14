@@ -4,8 +4,6 @@ import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.ClassGenException;
 import org.apache.bcel.generic.base.ConstantPushInstruction;
 import org.apache.bcel.generic.base.Instruction;
-import org.apache.bcel.generic.base.Visitor;
-import org.apache.bcel.generic.gen.ConstantPoolGen;
 
 public class DCONST extends Instruction implements ConstantPushInstruction {
     private double value;
@@ -24,23 +22,23 @@ public class DCONST extends Instruction implements ConstantPushInstruction {
         }
         value = f;
     }
-
-    @Override
-    public void accept(final Visitor v) {
-        v.visitPushInstruction(this);
-        v.visitStackProducer(this);
-        v.visitTypedInstruction(this);
-        v.visitConstantPushInstruction(this);
-        v.visitDCONST(this);
-    }
-
-    @Override
-    public Type getType(final ConstantPoolGen cp) {
-        return Type.DOUBLE;
-    }
+//
+//    @Override
+//    public void accept(final Visitor v) {
+//        v.visitPushInstruction(this);
+//        v.visitStackProducer(this);
+//        v.visitTypedInstruction(this);
+//        v.visitConstantPushInstruction(this);
+//        v.visitDCONST(this);
+//    }
+//
+//    @Override
+//    public Type getType(final ConstantPoolGen cp) {
+//        return Type.DOUBLE;
+//    }
 
     @Override
     public Number getValue() {
-        return new Double(value);
+        return Double.valueOf(value);
     }
 }

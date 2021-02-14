@@ -2,7 +2,6 @@ package org.apache.bcel.generic;
 
 import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.StoreInstruction;
-import org.apache.bcel.generic.base.Visitor;
 
 public class DSTORE extends StoreInstruction {
     public DSTORE() {
@@ -12,10 +11,10 @@ public class DSTORE extends StoreInstruction {
     public DSTORE(final int n) {
         super(InstructionOpCodes.DSTORE, InstructionOpCodes.DSTORE_0, n);
     }
-
-    @Override
-    public void accept(final Visitor v) {
-        super.accept(v);
-        v.visitDSTORE(this);
-    }
+//
+//    @Override
+//    public void accept(final Visitor v) {
+//        super.accept(v);
+//        v.visitDSTORE(this);
+//    }
 }

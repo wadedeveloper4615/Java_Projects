@@ -4,8 +4,6 @@ import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.ClassGenException;
 import org.apache.bcel.generic.base.ConstantPushInstruction;
 import org.apache.bcel.generic.base.Instruction;
-import org.apache.bcel.generic.base.Visitor;
-import org.apache.bcel.generic.gen.ConstantPoolGen;
 
 public class FCONST extends Instruction implements ConstantPushInstruction {
     private float value;
@@ -26,23 +24,23 @@ public class FCONST extends Instruction implements ConstantPushInstruction {
         }
         value = f;
     }
-
-    @Override
-    public void accept(final Visitor v) {
-        v.visitPushInstruction(this);
-        v.visitStackProducer(this);
-        v.visitTypedInstruction(this);
-        v.visitConstantPushInstruction(this);
-        v.visitFCONST(this);
-    }
-
-    @Override
-    public Type getType(final ConstantPoolGen cp) {
-        return Type.FLOAT;
-    }
+//
+//    @Override
+//    public void accept(final Visitor v) {
+//        v.visitPushInstruction(this);
+//        v.visitStackProducer(this);
+//        v.visitTypedInstruction(this);
+//        v.visitConstantPushInstruction(this);
+//        v.visitFCONST(this);
+//    }
+//
+//    @Override
+//    public Type getType(final ConstantPoolGen cp) {
+//        return Type.FLOAT;
+//    }
 
     @Override
     public Number getValue() {
-        return new Float(value);
+        return Float.valueOf(value);
     }
 }

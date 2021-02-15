@@ -119,15 +119,15 @@ public abstract class LocalVariableInstruction extends Instruction implements Ty
     protected final void setIndexOnly(final int n) {
         this.n = n;
     }
-
-    @Override
-    public String toString(final boolean verbose) {
-        final short _opcode = (short) super.getOpcode().getOpcode();
-        if (((_opcode >= InstructionOpCodes.ILOAD_0.getOpcode()) && (_opcode <= InstructionOpCodes.ALOAD_3.getOpcode())) || ((_opcode >= InstructionOpCodes.ISTORE_0.getOpcode()) && (_opcode <= InstructionOpCodes.ASTORE_3.getOpcode()))) {
-            return super.toString(verbose);
-        }
-        return super.toString(verbose) + " " + n;
-    }
+//
+//    @Override
+//    public String toString(final boolean verbose) {
+//        final short _opcode = (short) super.getOpcode().getOpcode();
+//        if (((_opcode >= InstructionOpCodes.ILOAD_0.getOpcode()) && (_opcode <= InstructionOpCodes.ALOAD_3.getOpcode())) || ((_opcode >= InstructionOpCodes.ISTORE_0.getOpcode()) && (_opcode <= InstructionOpCodes.ASTORE_3.getOpcode()))) {
+//            return super.toString(verbose);
+//        }
+//        return super.toString(verbose) + " " + n;
+//    }
 //
 //    private boolean wide() {
 //        return n > Const.MAX_BYTE;

@@ -279,7 +279,7 @@ public enum InstructionOpCodes {
         return typeOfOperands;
     }
 
-    public static InstructionOpCodes read(short opcode) {
+    public static InstructionOpCodes read(int opcode) {
         for (InstructionOpCodes flag : InstructionOpCodes.values()) {
             if (opcode == flag.getOpcode()) {
                 return flag;

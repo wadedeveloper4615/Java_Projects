@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.bcel.classfile.Utility;
 import org.apache.bcel.generic.base.BranchHandle;
 import org.apache.bcel.generic.base.BranchInstruction;
 import org.apache.bcel.generic.base.ClassGenException;
@@ -149,15 +148,15 @@ public class InstructionHandle {
         instruction = i;
         return oldInstruction;
     }
-
-    @Override
-    public String toString() {
-        return toString(true);
-    }
-
-    public String toString(final boolean verbose) {
-        return Utility.format(i_position, 4, false, ' ') + ": " + instruction.toString(verbose);
-    }
+//
+//    @Override
+//    public String toString() {
+//        return toString(true);
+//    }
+//
+//    public String toString(final boolean verbose) {
+//        return Utility.format(i_position, 4, false, ' ') + ": " + instruction.toString(verbose);
+//    }
 
     protected int updatePosition(final int offset, final int max_offset) {
         i_position += offset;

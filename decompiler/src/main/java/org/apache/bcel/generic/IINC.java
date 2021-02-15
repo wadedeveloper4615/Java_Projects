@@ -86,9 +86,9 @@ public class IINC extends LocalVariableInstruction {
 //            super.setLength(3);
 //        }
 //    }
-
-    @Override
-    public String toString(final boolean verbose) {
-        return super.toString(verbose) + " " + c;
-    }
+//
+//    @Override
+//    public String toString(final boolean verbose) {
+//        return super.toString(verbose) + " " + c;
+//    }
 }

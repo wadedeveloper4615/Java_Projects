@@ -26,6 +26,7 @@ public class Code extends Attribute {
         this(c.getNameIndex(), c.getLength(), c.getMaxStack(), c.getMaxLocals(), c.getCode(), c.getExceptionTable(), c.getAttributes(), c.getConstantPool());
     }
 
+    @SuppressWarnings("unused")
     public Code(int nameIndex, int length, DataInputStream file, ConstantPool constant_pool) throws IOException {
         this(nameIndex, length, file.readUnsignedShort(), file.readUnsignedShort(), (byte[]) null, (CodeException[]) null, (Attribute[]) null, constant_pool);
         int code_length = file.readInt();
@@ -37,7 +38,7 @@ public class Code extends Attribute {
             exceptionTable[i] = new CodeException(file);
         }
         InstructionList instructionList = new InstructionList(byteCode);
-        instructions = instructionList.getInstructionHandles();
+//        instructions = instructionList.getInstructionHandles();
         int attributesCount = file.readUnsignedShort();
         attributes = new Attribute[attributesCount];
         lineNumberTable = null;

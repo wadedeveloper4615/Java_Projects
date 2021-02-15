@@ -6,17 +6,15 @@ import org.apache.bcel.generic.base.Instruction;
 import org.apache.bcel.generic.base.TypedInstruction;
 
 public class RET extends Instruction implements IndexedInstruction, TypedInstruction {
-    // private boolean wide;
     private int index;
 
     public RET() {
     }
 
-    public RET(final int index) {
-        super(InstructionOpCodes.RET, (short) 2);
-        // setIndex(index);
+    public RET(int index) {
+        super(InstructionOpCodes.RET, 2);
+        this.setIndex(index);
     }
-
 //
 //    @Override
 //    public void accept(final Visitor v) {
@@ -75,8 +73,16 @@ public class RET extends Instruction implements IndexedInstruction, TypedInstruc
 //        }
 //    }
 //
-    @Override
-    public String toString(final boolean verbose) {
-        return super.toString(verbose) + " " + index;
+//    @Override
+//    public String toString(final boolean verbose) {
+//        return super.toString(verbose) + " " + index;
+//    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
     }
 }

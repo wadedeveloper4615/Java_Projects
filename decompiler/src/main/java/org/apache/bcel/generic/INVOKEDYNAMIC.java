@@ -1,16 +1,14 @@
 package org.apache.bcel.generic;
 
 import org.apache.bcel.ExceptionConst;
-import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.InvokeInstruction;
-import org.apache.bcel.util.ByteSequence;
 
 public class INVOKEDYNAMIC extends InvokeInstruction {
     public INVOKEDYNAMIC() {
     }
 
-    public INVOKEDYNAMIC(final int index) {
+    public INVOKEDYNAMIC(int index) {
         super(InstructionOpCodes.INVOKEDYNAMIC, index);
     }
 //
@@ -49,17 +47,17 @@ public class INVOKEDYNAMIC extends InvokeInstruction {
 //    public ReferenceType getReferenceType(final ConstantPoolGen cpg) {
 //        return new ObjectType(Object.class.getName());
 //    }
-
-    @Override
-    protected void initFromFile(final ByteSequence bytes, final boolean wide) {// throws IOException {
-        super.initFromFile(bytes, wide);
-        super.setLength(5);
-        // bytes.readByte();
-        // bytes.readByte();
-    }
-
-    @Override
-    public String toString(final ConstantPool cp) {
-        return super.toString(cp);
-    }
+//
+//    @Override
+//    protected void initFromFile(final ByteSequence bytes, final boolean wide) {// throws IOException {
+//        super.initFromFile(bytes, wide);
+//        super.setLength(5);
+    // bytes.readByte();
+    // bytes.readByte();
+//    }
+//
+//    @Override
+//    public String toString(final ConstantPool cp) {
+//        return super.toString(cp);
+//    }
 }

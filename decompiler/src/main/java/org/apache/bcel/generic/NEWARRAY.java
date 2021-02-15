@@ -48,7 +48,6 @@ public class NEWARRAY extends Instruction implements AllocationInstruction, Exce
     public final byte getTypecode() {
         return type;
     }
-
 //
 //    @Override
 //    protected void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
@@ -56,8 +55,8 @@ public class NEWARRAY extends Instruction implements AllocationInstruction, Exce
 //        super.setLength(2);
 //    }
 //
-    @Override
-    public String toString(final boolean verbose) {
-        return super.toString(verbose) + " " + org.apache.bcel.Const.getTypeName(type);
-    }
+//    @Override
+//    public String toString(final boolean verbose) {
+//        return super.toString(verbose) + " " + org.apache.bcel.Const.getTypeName(type);
+//    }
 }

@@ -7,7 +7,7 @@ public abstract class GotoInstruction extends BranchInstruction implements Uncon
     public GotoInstruction() {
     }
 
-    protected GotoInstruction(InstructionOpCodes opcode, final InstructionHandle target) {
+    protected GotoInstruction(InstructionOpCodes opcode, InstructionHandle target) {
         super(opcode, target);
     }
 }

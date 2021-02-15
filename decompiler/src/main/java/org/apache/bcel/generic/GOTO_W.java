@@ -3,13 +3,12 @@ package org.apache.bcel.generic;
 import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.GotoInstruction;
 import org.apache.bcel.generic.control.InstructionHandle;
-import org.apache.bcel.util.ByteSequence;
 
 public class GOTO_W extends GotoInstruction {
     public GOTO_W() {
     }
 
-    public GOTO_W(final InstructionHandle target) {
+    public GOTO_W(InstructionHandle target) {
         super(InstructionOpCodes.GOTO_W, target);
         super.setLength(5);
     }
@@ -27,10 +26,10 @@ public class GOTO_W extends GotoInstruction {
 //        out.writeByte(super.getOpcode().getOpcode());
 //        out.writeInt(super.getIndex());
 //    }
-
-    @Override
-    protected void initFromFile(final ByteSequence bytes, final boolean wide) {// throws IOException {
+//
+//    @Override
+//    protected void initFromFile(final ByteSequence bytes, final boolean wide) {// throws IOException {
 //        super.setIndex(bytes.readInt());
 //        super.setLength(5);
-    }
+//    }
 }

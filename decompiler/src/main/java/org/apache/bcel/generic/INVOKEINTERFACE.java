@@ -1,11 +1,9 @@
 package org.apache.bcel.generic;
 
 import org.apache.bcel.ExceptionConst;
-import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.ClassGenException;
 import org.apache.bcel.generic.base.InvokeInstruction;
-import org.apache.bcel.util.ByteSequence;
 
 public final class INVOKEINTERFACE extends InvokeInstruction {
     private int nargs;
@@ -55,17 +53,17 @@ public final class INVOKEINTERFACE extends InvokeInstruction {
     public Class<?>[] getExceptions() {
         return ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_INTERFACE_METHOD_RESOLUTION, ExceptionConst.UNSATISFIED_LINK_ERROR, ExceptionConst.ABSTRACT_METHOD_ERROR, ExceptionConst.ILLEGAL_ACCESS_ERROR, ExceptionConst.INCOMPATIBLE_CLASS_CHANGE_ERROR);
     }
-
-    @Override
-    protected void initFromFile(final ByteSequence bytes, final boolean wide) {// throws IOException {
+//
+//    @Override
+//    protected void initFromFile(final ByteSequence bytes, final boolean wide) {// throws IOException {
 //        super.initFromFile(bytes, wide);
 //        super.setLength(5);
 //        nargs = bytes.readUnsignedByte();
 //        bytes.readByte();
-    }
-
-    @Override
-    public String toString(final ConstantPool cp) {
-        return super.toString(cp) + " " + nargs;
-    }
+//    }
+//
+//    @Override
+//    public String toString(final ConstantPool cp) {
+//        return super.toString(cp) + " " + nargs;
+//    }
 }

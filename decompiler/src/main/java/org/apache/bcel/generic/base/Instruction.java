@@ -2,7 +2,6 @@ package org.apache.bcel.generic.base;
 
 import java.io.IOException;
 
-import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.ALOAD;
 import org.apache.bcel.generic.ANEWARRAY;
@@ -63,51 +62,26 @@ import org.apache.bcel.generic.SIPUSH;
 import org.apache.bcel.generic.TABLESWITCH;
 import org.apache.bcel.generic.control.InstructionComparator;
 import org.apache.bcel.generic.control.InstructionConst;
-//import org.apache.bcel.generic.gen.ConstantPoolGen;
 import org.apache.bcel.util.ByteSequence;
 
-public abstract class Instruction implements Cloneable {
+public abstract class Instruction {
     private static InstructionComparator cmp = InstructionComparator.DEFAULT;
-    protected short length = 1;
+    protected int length = 1;
     protected InstructionOpCodes opcode = null;
 
     public Instruction() {
     }
 
-    public Instruction(InstructionOpCodes opcode, final short length) {
+    public Instruction(InstructionOpCodes opcode, int length) {
         this.length = length;
         this.opcode = opcode;
     }
-    // public abstract void accept(Visitor v);
 
-    public int consumeStack() {// final ConstantPoolGen cpg) {
+    public int consumeStack() {
         return opcode.getConsumeStack();
     }
 
-    public Instruction copy() {
-        Instruction i = null;
-        if (InstructionConst.getInstruction(this.getOpcode().getOpcode()) != null) {
-            i = this;
-        } else {
-            try {
-                i = (Instruction) clone();
-            } catch (final CloneNotSupportedException e) {
-                System.err.println(e);
-            }
-        }
-        return i;
-    }
-
     public void dispose() {
-    }
-//
-//    public void dump(final DataOutputStream out) throws IOException {
-//        out.writeByte(opcode.getOpcode());
-//    }
-
-    @Override
-    public boolean equals(final Object that) {
-        return (that instanceof Instruction) ? cmp.equals(this, (Instruction) that) : false;
     }
 
     public int getLength() {
@@ -126,36 +100,20 @@ public abstract class Instruction implements Cloneable {
     public int hashCode() {
         return opcode.getOpcode();
     }
+//
+//    protected void initFromFile(final ByteSequence bytes, final boolean wide) {// throws IOException {
+//    }
 
-    protected void initFromFile(final ByteSequence bytes, final boolean wide) {// throws IOException {
-    }
-
-    public int produceStack() {// final ConstantPoolGen cpg) {
+    public int produceStack() {
         return opcode.getProduceStack();
     }
 
-    protected final void setLength(final int length) {
-        this.length = (short) length;
+    protected void setLength(final int length) {
+        this.length = length;
     }
 
-    protected final void setOpcode(InstructionOpCodes opcode) {
+    protected void setOpcode(InstructionOpCodes opcode) {
         this.opcode = opcode;
-    }
-
-    @Override
-    public String toString() {
-        return toString(true);
-    }
-
-    public String toString(final boolean verbose) {
-        if (verbose) {
-            return getName() + "[" + opcode + "](" + length + ")";
-        }
-        return getName();
-    }
-
-    public String toString(final ConstantPool cp) {
-        return toString(false);
     }
 
     @Deprecated
@@ -171,9 +129,9 @@ public abstract class Instruction implements Cloneable {
         return value >= Short.MIN_VALUE && value <= Short.MAX_VALUE;
     }
 
-    public static Instruction readInstruction(final ByteSequence bytes) throws IOException {
+    public static Instruction readInstruction(ByteSequence bytes) throws IOException {
         boolean wide = false;
-        InstructionOpCodes opcode = InstructionOpCodes.read((short) bytes.readUnsignedByte());
+        InstructionOpCodes opcode = InstructionOpCodes.read(bytes.readUnsignedByte());
         Instruction obj = null;
         if (opcode == InstructionOpCodes.WIDE) {
             wide = true;
@@ -287,7 +245,7 @@ public abstract class Instruction implements Cloneable {
             throw new ClassGenException("Illegal opcode after wide: " + opcode);
         }
         obj.setOpcode(opcode);
-        obj.initFromFile(bytes, wide);
+        // obj.initFromFile(bytes, wide);
         return obj;
     }
 

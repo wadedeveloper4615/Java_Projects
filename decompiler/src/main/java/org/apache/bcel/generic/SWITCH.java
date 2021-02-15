@@ -3,13 +3,16 @@ package org.apache.bcel.generic;
 import org.apache.bcel.generic.base.CompoundInstruction;
 import org.apache.bcel.generic.base.Instruction;
 import org.apache.bcel.generic.control.InstructionHandle;
-import org.apache.bcel.generic.control.InstructionList;
 
 public final class SWITCH implements CompoundInstruction {
     private int[] match;
     private InstructionHandle[] targets;
     private Select instruction;
     private int matchLength;
+
+    public SWITCH(final int[] match, final InstructionHandle[] targets, final InstructionHandle target) {
+        this(match, targets, target, 1);
+    }
 
     public SWITCH(final int[] match, final InstructionHandle[] targets, final InstructionHandle target, final int max_gap) {
         this.match = match.clone();
@@ -25,10 +28,6 @@ public final class SWITCH implements CompoundInstruction {
                 instruction = new LOOKUPSWITCH(this.match, this.targets, target);
             }
         }
-    }
-
-    public SWITCH(final int[] match, final InstructionHandle[] targets, final InstructionHandle target) {
-        this(match, targets, target, 1);
     }
 
     private void fillup(final int max_gap, final InstructionHandle target) {
@@ -55,6 +54,23 @@ public final class SWITCH implements CompoundInstruction {
         System.arraycopy(m_vec, 0, match, 0, count);
         System.arraycopy(t_vec, 0, targets, 0, count);
     }
+
+    public Instruction getInstruction() {
+        return instruction;
+    }
+
+    private boolean matchIsOrdered(final int max_gap) {
+        for (int i = 1; i < matchLength; i++) {
+            if (match[i] - match[i - 1] > max_gap) {
+                return false;
+            }
+        }
+        return true;
+    }
+//    @Override
+//    public InstructionList getInstructionList() {
+//        return new InstructionList(instruction);
+//    }
 
     private void sort(final int l, final int r) {
         int i = l;
@@ -86,23 +102,5 @@ public final class SWITCH implements CompoundInstruction {
         if (i < r) {
             sort(i, r);
         }
-    }
-
-    private boolean matchIsOrdered(final int max_gap) {
-        for (int i = 1; i < matchLength; i++) {
-            if (match[i] - match[i - 1] > max_gap) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    @Override
-    public InstructionList getInstructionList() {
-        return new InstructionList(instruction);
-    }
-
-    public Instruction getInstruction() {
-        return instruction;
     }
 }

@@ -1,8 +1,6 @@
 package org.apache.bcel.generic.base;
 
 import org.apache.bcel.enums.InstructionOpCodes;
-import org.apache.bcel.generic.Type;
-import org.apache.bcel.generic.gen.ConstantPoolGen;
 
 public abstract class StackInstruction extends Instruction {
     StackInstruction() {
@@ -11,8 +9,8 @@ public abstract class StackInstruction extends Instruction {
     protected StackInstruction(InstructionOpCodes opcode) {
         super(opcode, (short) 1);
     }
-
-    public Type getType(final ConstantPoolGen cp) {
-        return Type.UNKNOWN;
-    }
+//
+//    public Type getType(final ConstantPoolGen cp) {
+//        return Type.UNKNOWN;
+//    }
 }

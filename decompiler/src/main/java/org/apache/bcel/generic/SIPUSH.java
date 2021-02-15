@@ -39,7 +39,6 @@ public class SIPUSH extends Instruction implements ConstantPushInstruction {
     public Number getValue() {
         return Integer.valueOf(b);
     }
-
 //
 //    @Override
 //    protected void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
@@ -47,8 +46,8 @@ public class SIPUSH extends Instruction implements ConstantPushInstruction {
 //        b = bytes.readShort();
 //    }
 //
-    @Override
-    public String toString(final boolean verbose) {
-        return super.toString(verbose) + " " + b;
-    }
+//    @Override
+//    public String toString(final boolean verbose) {
+//        return super.toString(verbose) + " " + b;
+//    }
 }

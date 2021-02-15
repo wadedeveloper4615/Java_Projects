@@ -46,10 +46,11 @@ public final class BranchHandle extends InstructionHandle {
         return x;
     }
 
-    public void updateTarget(final InstructionHandle old_ih, final InstructionHandle new_ih) {
-        bi.updateTarget(old_ih, new_ih);
-    }
-
+//
+//    public void updateTarget(final InstructionHandle old_ih, final InstructionHandle new_ih) {
+//        bi.updateTarget(old_ih, new_ih);
+//    }
+//
     public static BranchHandle getBranchHandle(final BranchInstruction i) {
         return new BranchHandle(i);
     }

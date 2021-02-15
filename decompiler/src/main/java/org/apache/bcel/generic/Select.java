@@ -41,19 +41,20 @@ public abstract class Select extends BranchInstruction implements VariableLength
         return copy;
     }
 
-    @Override
-    public boolean containsTarget(final InstructionHandle ih) {
-        if (super.getTarget() == ih) {
-            return true;
-        }
-        for (final InstructionHandle target2 : targets) {
-            if (target2 == ih) {
-                return true;
-            }
-        }
-        return false;
-    }
-
+//
+//    @Override
+//    public boolean containsTarget(final InstructionHandle ih) {
+//        if (super.getTarget() == ih) {
+//            return true;
+//        }
+//        for (final InstructionHandle target2 : targets) {
+//            if (target2 == ih) {
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
+//
     @Override
     public void dispose() {
         super.dispose();
@@ -152,23 +153,23 @@ public abstract class Select extends BranchInstruction implements VariableLength
     final void setTargets(final InstructionHandle[] array) {
         targets = array;
     }
-
-    @Override
-    public String toString(final boolean verbose) {
-        final StringBuilder buf = new StringBuilder(super.toString(verbose));
-        if (verbose) {
-            for (int i = 0; i < match_length; i++) {
-                String s = "null";
-                if (targets[i] != null) {
-                    s = targets[i].getInstruction().toString();
-                }
-                buf.append("(").append(match[i]).append(", ").append(s).append(" = {").append(indices[i]).append("})");
-            }
-        } else {
-            buf.append(" ...");
-        }
-        return buf.toString();
-    }
+//
+//    @Override
+//    public String toString(final boolean verbose) {
+//        final StringBuilder buf = new StringBuilder(super.toString(verbose));
+//        if (verbose) {
+//            for (int i = 0; i < match_length; i++) {
+//                String s = "null";
+//                if (targets[i] != null) {
+//                    s = targets[i].getInstruction().toString();
+//                }
+//                buf.append("(").append(match[i]).append(", ").append(s).append(" = {").append(indices[i]).append("})");
+//            }
+//        } else {
+//            buf.append(" ...");
+//        }
+//        return buf.toString();
+//    }
 
     @Override
     protected int updatePosition(final int offset, final int max_offset) {
@@ -178,22 +179,22 @@ public abstract class Select extends BranchInstruction implements VariableLength
         super.setLength((short) (fixed_length + padding));
         return super.getLength() - old_length;
     }
-
-    @Override
-    public void updateTarget(final InstructionHandle old_ih, final InstructionHandle new_ih) {
-        boolean targeted = false;
-        if (super.getTarget() == old_ih) {
-            targeted = true;
-            setTarget(new_ih);
-        }
-        for (int i = 0; i < targets.length; i++) {
-            if (targets[i] == old_ih) {
-                targeted = true;
-                setTarget(i, new_ih);
-            }
-        }
-        if (!targeted) {
-            throw new ClassGenException("Not targeting " + old_ih);
-        }
-    }
+//
+//    @Override
+//    public void updateTarget(final InstructionHandle old_ih, final InstructionHandle new_ih) {
+//        boolean targeted = false;
+//        if (super.getTarget() == old_ih) {
+//            targeted = true;
+//            setTarget(new_ih);
+//        }
+//        for (int i = 0; i < targets.length; i++) {
+//            if (targets[i] == old_ih) {
+//                targeted = true;
+//                setTarget(i, new_ih);
+//            }
+//        }
+//        if (!targeted) {
+//            throw new ClassGenException("Not targeting " + old_ih);
+//        }
+//    }
 }

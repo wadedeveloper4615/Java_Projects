@@ -1,13 +1,10 @@
 package org.apache.bcel.generic;
 
-import java.io.IOException;
-
 import org.apache.bcel.ExceptionConst;
 import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.CPInstruction;
 import org.apache.bcel.generic.base.ExceptionThrower;
 import org.apache.bcel.generic.base.PushInstruction;
-import org.apache.bcel.util.ByteSequence;
 
 public class LDC extends CPInstruction implements PushInstruction, ExceptionThrower {
     public LDC() {
@@ -75,12 +72,13 @@ public class LDC extends CPInstruction implements PushInstruction, ExceptionThro
 //                throw new IllegalArgumentException("Unknown or invalid constant type at " + super.getIndex());
 //        }
 //    }
-
-    @Override
-    protected void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
-        super.setLength(2);
-        // super.setIndex(bytes.readUnsignedByte());
-    }
+//
+//    @Override
+//    protected void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
+//        super.setLength(2);
+//        // super.setIndex(bytes.readUnsignedByte());
+//    }
+//
 //    @Override
 //    public final void setIndex(final int index) {
 //        super.setIndex(index);

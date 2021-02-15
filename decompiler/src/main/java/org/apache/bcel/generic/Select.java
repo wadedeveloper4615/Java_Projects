@@ -1,15 +1,11 @@
 package org.apache.bcel.generic;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
-
 import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.BranchInstruction;
 import org.apache.bcel.generic.base.ClassGenException;
 import org.apache.bcel.generic.base.StackConsumer;
 import org.apache.bcel.generic.base.VariableLengthInstruction;
 import org.apache.bcel.generic.control.InstructionHandle;
-import org.apache.bcel.util.ByteSequence;
 
 public abstract class Select extends BranchInstruction implements VariableLengthInstruction, StackConsumer, StackProducer {
     protected int[] match;
@@ -65,16 +61,16 @@ public abstract class Select extends BranchInstruction implements VariableLength
             target2.removeTargeter(this);
         }
     }
-
-    @Override
-    public void dump(final DataOutputStream out) throws IOException {
-        out.writeByte(super.getOpcode().getOpcode());
-        for (int i = 0; i < padding; i++) {
-            out.writeByte(0);
-        }
-        super.setIndex(getTargetOffset());
-        out.writeInt(super.getIndex());
-    }
+//
+//    @Override
+//    public void dump(final DataOutputStream out) throws IOException {
+//        out.writeByte(super.getOpcode().getOpcode());
+//        for (int i = 0; i < padding; i++) {
+//            out.writeByte(0);
+//        }
+//        super.setIndex(getTargetOffset());
+//        out.writeInt(super.getIndex());
+//    }
 
     final int getFixed_length() {
         return fixed_length;
@@ -112,15 +108,16 @@ public abstract class Select extends BranchInstruction implements VariableLength
         return targets;
     }
 
-    @Override
-    protected void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
-        padding = (4 - (bytes.getIndex() % 4)) % 4;
-        for (int i = 0; i < padding; i++) {
-            bytes.readByte();
-        }
-        super.setIndex(bytes.readInt());
-    }
-
+//
+//    @Override
+//    protected void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
+//        padding = (4 - (bytes.getIndex() % 4)) % 4;
+//        for (int i = 0; i < padding; i++) {
+//            bytes.readByte();
+//        }
+//        super.setIndex(bytes.readInt());
+//    }
+//
     final void setFixed_length(final int fixed_length) {
         this.fixed_length = fixed_length;
     }

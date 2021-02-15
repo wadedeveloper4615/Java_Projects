@@ -1,8 +1,5 @@
 package org.apache.bcel.generic;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
-
 import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.JsrInstruction;
 import org.apache.bcel.generic.base.VariableLengthInstruction;
@@ -23,18 +20,18 @@ public class JSR extends JsrInstruction implements VariableLengthInstruction {
 //        v.visitJsrInstruction(this);
 //        v.visitJSR(this);
 //    }
-
-    @Override
-    public void dump(final DataOutputStream out) throws IOException {
-        super.setIndex(getTargetOffset());
-        if (super.getOpcode() == InstructionOpCodes.JSR) {
-            super.dump(out);
-        } else {
-            super.setIndex(getTargetOffset());
-            out.writeByte(super.getOpcode().getOpcode());
-            out.writeInt(super.getIndex());
-        }
-    }
+//
+//    @Override
+//    public void dump(final DataOutputStream out) throws IOException {
+//        super.setIndex(getTargetOffset());
+//        if (super.getOpcode() == InstructionOpCodes.JSR) {
+//            super.dump(out);
+//        } else {
+//            super.setIndex(getTargetOffset());
+//            out.writeByte(super.getOpcode().getOpcode());
+//            out.writeInt(super.getIndex());
+//        }
+//    }
 
     @Override
     protected int updatePosition(final int offset, final int max_offset) {

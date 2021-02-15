@@ -1,54 +1,40 @@
 package org.apache.bcel.util;
 
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
-import org.apache.bcel.Const;
-import org.apache.bcel.classfile.Utility;
-import org.apache.bcel.generic.ObjectType;
-import org.apache.bcel.generic.Select;
-import org.apache.bcel.generic.base.BranchHandle;
-import org.apache.bcel.generic.base.BranchInstruction;
 import org.apache.bcel.generic.base.EmptyVisitor;
-import org.apache.bcel.generic.base.Instruction;
-import org.apache.bcel.generic.control.InstructionHandle;
-import org.apache.bcel.generic.gen.CodeExceptionGen;
-import org.apache.bcel.generic.gen.ConstantPoolGen;
 import org.apache.bcel.generic.gen.MethodGen;
 
 class BCELFactory extends EmptyVisitor {
-    private static final String CONSTANT_PREFIX = Const.class.getSimpleName() + ".";
-    private final MethodGen _mg;
-    private final PrintWriter _out;
-    private final ConstantPoolGen _cp;
-    private final Map<Instruction, InstructionHandle> branch_map = new HashMap<>();
-    private final List<BranchInstruction> branches = new ArrayList<>();
-
+    // private static final String CONSTANT_PREFIX = Const.class.getSimpleName() +
+    // ".";
+    // private final MethodGen _mg;
+    // private final PrintWriter _out;
+    // private final ConstantPoolGen _cp;
+    // private final Map<Instruction, InstructionHandle> branch_map = new
+    // HashMap<>();
+    // private final List<BranchInstruction> branches = new ArrayList<>();
     BCELFactory(final MethodGen mg, final PrintWriter out) {
-        _mg = mg;
-        _cp = mg.getConstantPool();
-        _out = out;
+//        _mg = mg;
+//        _cp = mg.getConstantPool();
+        // _out = out;
     }
-
-    private void createConstant(final Object value) {
-        String embed = value.toString();
-        if (value instanceof String) {
-            embed = '"' + Utility.convertString(embed) + '"';
-        } else if (value instanceof Character) {
-            embed = "(char)0x" + Integer.toHexString(((Character) value).charValue());
-        } else if (value instanceof Float) {
-            embed += "f";
-        } else if (value instanceof Long) {
-            embed += "L";
-        } else if (value instanceof ObjectType) {
-            final ObjectType ot = (ObjectType) value;
-            embed = "new ObjectType(\"" + ot.getClassName() + "\")";
-        }
-        _out.println("il.append(new PUSH(_cp, " + embed + "));");
-    }
+//    private void createConstant(final Object value) {
+//        String embed = value.toString();
+//        if (value instanceof String) {
+//            embed = '"' + Utility.convertString(embed) + '"';
+//        } else if (value instanceof Character) {
+//            embed = "(char)0x" + Integer.toHexString(((Character) value).charValue());
+//        } else if (value instanceof Float) {
+//            embed += "f";
+//        } else if (value instanceof Long) {
+//            embed += "L";
+//        } else if (value instanceof ObjectType) {
+//            final ObjectType ot = (ObjectType) value;
+//            embed = "new ObjectType(\"" + ot.getClassName() + "\")";
+//        }
+//        _out.println("il.append(new PUSH(_cp, " + embed + "));");
+//    }
 
     public void start() throws Throwable {
 //        if (!_mg.isAbstract() && !_mg.isNative()) {
@@ -74,31 +60,30 @@ class BCELFactory extends EmptyVisitor {
 //            updateExceptionHandlers();
 //        }
     }
-
-    private void updateBranchTargets() {
-        for (final BranchInstruction bi : branches) {
-            final BranchHandle bh = (BranchHandle) branch_map.get(bi);
-            final int pos = bh.getPosition();
-            final String name = bi.getName() + "_" + pos;
-            int t_pos = bh.getTarget().getPosition();
-            _out.println("    " + name + ".setTarget(ih_" + t_pos + ");");
-            if (bi instanceof Select) {
-                final InstructionHandle[] ihs = ((Select) bi).getTargets();
-                for (int j = 0; j < ihs.length; j++) {
-                    t_pos = ihs[j].getPosition();
-                    _out.println("    " + name + ".setTarget(" + j + ", ih_" + t_pos + ");");
-                }
-            }
-        }
-    }
-
-    private void updateExceptionHandlers() {
-        final CodeExceptionGen[] handlers = _mg.getExceptionHandlers();
-        for (final CodeExceptionGen h : handlers) {
-            final String type = (h.getCatchType() == null) ? "null" : BCELifier.printType(h.getCatchType());
-            _out.println("    method.addExceptionHandler(" + "ih_" + h.getStartPC().getPosition() + ", " + "ih_" + h.getEndPC().getPosition() + ", " + "ih_" + h.getHandlerPC().getPosition() + ", " + type + ");");
-        }
-    }
+//    private void updateBranchTargets() {
+//        for (final BranchInstruction bi : branches) {
+//            final BranchHandle bh = (BranchHandle) branch_map.get(bi);
+//            final int pos = bh.getPosition();
+//            final String name = bi.getName() + "_" + pos;
+//            int t_pos = bh.getTarget().getPosition();
+//            _out.println("    " + name + ".setTarget(ih_" + t_pos + ");");
+//            if (bi instanceof Select) {
+//                final InstructionHandle[] ihs = ((Select) bi).getTargets();
+//                for (int j = 0; j < ihs.length; j++) {
+//                    t_pos = ihs[j].getPosition();
+//                    _out.println("    " + name + ".setTarget(" + j + ", ih_" + t_pos + ");");
+//                }
+//            }
+//        }
+//    }
+//
+//    private void updateExceptionHandlers() {
+//        final CodeExceptionGen[] handlers = _mg.getExceptionHandlers();
+//        for (final CodeExceptionGen h : handlers) {
+//            final String type = (h.getCatchType() == null) ? "null" : BCELifier.printType(h.getCatchType());
+//            _out.println("    method.addExceptionHandler(" + "ih_" + h.getStartPC().getPosition() + ", " + "ih_" + h.getEndPC().getPosition() + ", " + "ih_" + h.getHandlerPC().getPosition() + ", " + type + ");");
+//        }
+//    }
 //    @Override
 //    public void visitAllocationInstruction(final AllocationInstruction i) {
 ////        Type type;

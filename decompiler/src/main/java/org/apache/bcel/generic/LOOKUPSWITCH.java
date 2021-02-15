@@ -1,11 +1,7 @@
 package org.apache.bcel.generic;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
-
 import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.control.InstructionHandle;
-import org.apache.bcel.util.ByteSequence;
 
 public class LOOKUPSWITCH extends Select {
     public LOOKUPSWITCH() {
@@ -25,33 +21,33 @@ public class LOOKUPSWITCH extends Select {
 //        v.visitSelect(this);
 //        v.visitLOOKUPSWITCH(this);
 //    }
-
-    @Override
-    public void dump(final DataOutputStream out) throws IOException {
-        super.dump(out);
-        final int _match_length = getMatch_length();
-        out.writeInt(_match_length);
-        for (int i = 0; i < _match_length; i++) {
-            out.writeInt(super.getMatch(i));
-            out.writeInt(setIndices(i, getTargetOffset(super.getTarget(i))));
-        }
-    }
-
-    @Override
-    protected void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
-        super.initFromFile(bytes, wide);
-        final int _match_length = bytes.readInt();
-        setMatch_length(_match_length);
-        final short _fixed_length = (short) (9 + _match_length * 8);
-        setFixed_length(_fixed_length);
-        final short _length = (short) (_match_length + super.getPadding());
-        super.setLength(_length);
-        super.setMatches(new int[_match_length]);
-        super.setIndices(new int[_match_length]);
-        super.setTargets(new InstructionHandle[_match_length]);
-        for (int i = 0; i < _match_length; i++) {
-            super.setMatch(i, bytes.readInt());
-            super.setIndices(i, bytes.readInt());
-        }
-    }
+//
+//    @Override
+//    public void dump(final DataOutputStream out) throws IOException {
+//        super.dump(out);
+//        final int _match_length = getMatch_length();
+//        out.writeInt(_match_length);
+//        for (int i = 0; i < _match_length; i++) {
+//            out.writeInt(super.getMatch(i));
+//            out.writeInt(setIndices(i, getTargetOffset(super.getTarget(i))));
+//        }
+//    }
+//
+//    @Override
+//    protected void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
+//        super.initFromFile(bytes, wide);
+//        final int _match_length = bytes.readInt();
+//        setMatch_length(_match_length);
+//        final short _fixed_length = (short) (9 + _match_length * 8);
+//        setFixed_length(_fixed_length);
+//        final short _length = (short) (_match_length + super.getPadding());
+//        super.setLength(_length);
+//        super.setMatches(new int[_match_length]);
+//        super.setIndices(new int[_match_length]);
+//        super.setTargets(new InstructionHandle[_match_length]);
+//        for (int i = 0; i < _match_length; i++) {
+//            super.setMatch(i, bytes.readInt());
+//            super.setIndices(i, bytes.readInt());
+//        }
+//    }
 }

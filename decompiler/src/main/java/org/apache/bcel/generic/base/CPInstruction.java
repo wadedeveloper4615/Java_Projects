@@ -1,8 +1,5 @@
 package org.apache.bcel.generic.base;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
-
 import org.apache.bcel.classfile.constant.Constant;
 import org.apache.bcel.classfile.constant.ConstantClass;
 import org.apache.bcel.classfile.constant.ConstantPool;
@@ -20,12 +17,11 @@ public abstract class CPInstruction extends Instruction implements TypedInstruct
         super(opcode, (short) 3);
         // setIndex(index);
     }
-
-    @Override
-    public void dump(final DataOutputStream out) throws IOException {
-        out.writeByte(super.getOpcode().getOpcode());
-        out.writeShort(index);
-    }
+//    @Override
+//    public void dump(final DataOutputStream out) throws IOException {
+//        out.writeByte(super.getOpcode().getOpcode());
+//        out.writeShort(index);
+//    }
 //    @Override
 //    public final int getIndex() {
 //        return index;
@@ -41,10 +37,11 @@ public abstract class CPInstruction extends Instruction implements TypedInstruct
 //    }
 
     @Override
-    protected void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
+    protected void initFromFile(final ByteSequence bytes, final boolean wide) {// throws IOException {
 //        setIndex(bytes.readUnsignedShort());
 //        super.setLength(3);
     }
+//
 //    @Override
 //    public void setIndex(final int index) {
 //        if (index < 0) {

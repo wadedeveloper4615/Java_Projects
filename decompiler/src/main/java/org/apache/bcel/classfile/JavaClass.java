@@ -22,7 +22,6 @@ import org.apache.bcel.compare.JavaClassComparator;
 import org.apache.bcel.enums.ClassAccessFlags;
 import org.apache.bcel.enums.ClassFileConstants;
 import org.apache.bcel.enums.Version;
-import org.apache.bcel.exceptions.ClassFormatException;
 import org.apache.bcel.generic.Type;
 import org.apache.bcel.util.BCELComparator;
 import org.apache.bcel.util.ClassAccessFlagsList;
@@ -117,7 +116,7 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
         return getClassName().getName().compareTo(obj.getClassName().getName());
     }
 
-    private void computeNestedTypeStatus() throws ClassFormatException, IOException {
+    private void computeNestedTypeStatus() {// throws ClassFormatException, IOException {
         if (computedNestedTypeStatus) {
             return;
         }
@@ -236,10 +235,8 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
             JavaClass[] _interfaces = clazz.getInterfaceJavaClass();
             if (clazz.isInterface()) {
                 allInterfaces.add(clazz);
-            } else {
-                if (souper != null) {
-                    queue.enqueue(souper);
-                }
+            } else if (souper != null) {
+                queue.enqueue(souper);
             }
             for (JavaClass _interface : _interfaces) {
                 queue.enqueue(_interface);
@@ -403,7 +400,7 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
         return false;
     }
 
-    public boolean isAnonymous() throws ClassFormatException, IOException {
+    public boolean isAnonymous() {// throws ClassFormatException, IOException {
         computeNestedTypeStatus();
         return this.isAnonymous;
     }
@@ -412,7 +409,7 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
         return (super.getAccessFlags() & ClassAccessFlags.ACC_INTERFACE.getFlag()) == 0;
     }
 
-    public boolean isNested() throws ClassFormatException, IOException {
+    public boolean isNested() {// throws ClassFormatException, IOException {
         computeNestedTypeStatus();
         return this.isNested;
     }

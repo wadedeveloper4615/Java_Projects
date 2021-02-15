@@ -1,6 +1,5 @@
 package org.apache.bcel.generic.base;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 import org.apache.bcel.classfile.constant.ConstantPool;
@@ -101,10 +100,10 @@ public abstract class Instruction implements Cloneable {
 
     public void dispose() {
     }
-
-    public void dump(final DataOutputStream out) throws IOException {
-        out.writeByte(opcode.getOpcode());
-    }
+//
+//    public void dump(final DataOutputStream out) throws IOException {
+//        out.writeByte(opcode.getOpcode());
+//    }
 
     @Override
     public boolean equals(final Object that) {
@@ -128,7 +127,7 @@ public abstract class Instruction implements Cloneable {
         return opcode.getOpcode();
     }
 
-    protected void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
+    protected void initFromFile(final ByteSequence bytes, final boolean wide) {// throws IOException {
     }
 
     public int produceStack() {// final ConstantPoolGen cpg) {

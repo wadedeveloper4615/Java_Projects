@@ -1,12 +1,8 @@
 package org.apache.bcel.generic;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
-
 import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.ConstantPushInstruction;
 import org.apache.bcel.generic.base.Instruction;
-import org.apache.bcel.util.ByteSequence;
 
 public class SIPUSH extends Instruction implements ConstantPushInstruction {
     private short b;
@@ -27,12 +23,13 @@ public class SIPUSH extends Instruction implements ConstantPushInstruction {
 //        v.visitConstantPushInstruction(this);
 //        v.visitSIPUSH(this);
 //    }
-
-    @Override
-    public void dump(final DataOutputStream out) throws IOException {
-        super.dump(out);
-        out.writeShort(b);
-    }
+//
+//    @Override
+//    public void dump(final DataOutputStream out) throws IOException {
+//        super.dump(out);
+//        out.writeShort(b);
+//    }
+//
 //    @Override
 //    public Type getType(final ConstantPoolGen cp) {
 //        return Type.SHORT;
@@ -43,12 +40,13 @@ public class SIPUSH extends Instruction implements ConstantPushInstruction {
         return Integer.valueOf(b);
     }
 
-    @Override
-    protected void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
-        super.setLength(3);
-        b = bytes.readShort();
-    }
-
+//
+//    @Override
+//    protected void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
+//        super.setLength(3);
+//        b = bytes.readShort();
+//    }
+//
     @Override
     public String toString(final boolean verbose) {
         return super.toString(verbose) + " " + b;

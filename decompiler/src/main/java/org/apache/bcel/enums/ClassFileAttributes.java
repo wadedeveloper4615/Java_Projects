@@ -1,7 +1,5 @@
 package org.apache.bcel.enums;
 
-import java.io.IOException;
-
 import org.apache.bcel.Const;
 
 public enum ClassFileAttributes {
@@ -55,7 +53,7 @@ public enum ClassFileAttributes {
         return tag;
     }
 
-    public static ClassFileAttributes read(int tag) throws IOException {
+    public static ClassFileAttributes read(int tag) {// throws IOException {
         for (ClassFileAttributes v : ClassFileAttributes.values()) {
             if (v.getTag() == tag) {
                 return v;

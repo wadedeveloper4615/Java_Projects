@@ -1,11 +1,6 @@
 package org.apache.bcel.generic.base;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
-
-import org.apache.bcel.Const;
 import org.apache.bcel.enums.InstructionOpCodes;
-import org.apache.bcel.util.ByteSequence;
 
 public abstract class LocalVariableInstruction extends Instruction implements TypedInstruction, IndexedInstruction {
     @Deprecated
@@ -19,30 +14,30 @@ public abstract class LocalVariableInstruction extends Instruction implements Ty
     protected LocalVariableInstruction(InstructionOpCodes canon_tag, InstructionOpCodes c_tag) {
         super();
         this.canonTag = canon_tag;
-        this.cTag = c_tag;
+        this.setcTag(c_tag);
     }
 
     protected LocalVariableInstruction(InstructionOpCodes opcode, InstructionOpCodes cTag, final int n) {
         super(opcode, (short) 2);
-        this.cTag = cTag;
+        this.setcTag(cTag);
         canonTag = opcode;
         // setIndex(n);
     }
-
-    @Override
-    public void dump(final DataOutputStream out) throws IOException {
-        if (wide()) {
-            out.writeByte(InstructionOpCodes.WIDE.getOpcode());
-        }
-        out.writeByte(super.getOpcode().getOpcode());
-        if (super.getLength() > 1) {
-            if (wide()) {
-                out.writeShort(n);
-            } else {
-                out.writeByte(n);
-            }
-        }
-    }
+//
+//    @Override
+//    public void dump(final DataOutputStream out) throws IOException {
+//        if (wide()) {
+//            out.writeByte(InstructionOpCodes.WIDE.getOpcode());
+//        }
+//        out.writeByte(super.getOpcode().getOpcode());
+//        if (super.getLength() > 1) {
+//            if (wide()) {
+//                out.writeShort(n);
+//            } else {
+//                out.writeByte(n);
+//            }
+//        }
+//    }
 
     public InstructionOpCodes getCanonicalTag() {
         return canonTag;
@@ -73,26 +68,27 @@ public abstract class LocalVariableInstruction extends Instruction implements Ty
 //                throw new ClassGenException("Unknown case in switch" + canonTag);
 //        }
 //    }
-
-    @Override
-    protected void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
-        if (wide) {
-            n = bytes.readUnsignedShort();
-            super.setLength(4);
-        } else {
-            InstructionOpCodes _opcode = super.getOpcode();
-            if (((_opcode.getOpcode() >= InstructionOpCodes.ILOAD.getOpcode()) && (_opcode.getOpcode() <= InstructionOpCodes.ALOAD.getOpcode())) || ((_opcode.getOpcode() >= InstructionOpCodes.ISTORE.getOpcode()) && (_opcode.getOpcode() <= InstructionOpCodes.ASTORE.getOpcode()))) {
-                n = bytes.readUnsignedByte();
-                super.setLength(2);
-            } else if (_opcode.getOpcode() <= InstructionOpCodes.ALOAD_3.getOpcode()) {
-                n = (_opcode.getOpcode() - InstructionOpCodes.ILOAD_0.getOpcode()) % 4;
-                super.setLength(1);
-            } else {
-                n = (_opcode.getOpcode() - InstructionOpCodes.ISTORE_0.getOpcode()) % 4;
-                super.setLength(1);
-            }
-        }
-    }
+//
+//    @Override
+//    protected void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
+//        if (wide) {
+//            n = bytes.readUnsignedShort();
+//            super.setLength(4);
+//        } else {
+//            InstructionOpCodes _opcode = super.getOpcode();
+//            if (((_opcode.getOpcode() >= InstructionOpCodes.ILOAD.getOpcode()) && (_opcode.getOpcode() <= InstructionOpCodes.ALOAD.getOpcode())) || ((_opcode.getOpcode() >= InstructionOpCodes.ISTORE.getOpcode()) && (_opcode.getOpcode() <= InstructionOpCodes.ASTORE.getOpcode()))) {
+//                n = bytes.readUnsignedByte();
+//                super.setLength(2);
+//            } else if (_opcode.getOpcode() <= InstructionOpCodes.ALOAD_3.getOpcode()) {
+//                n = (_opcode.getOpcode() - InstructionOpCodes.ILOAD_0.getOpcode()) % 4;
+//                super.setLength(1);
+//            } else {
+//                n = (_opcode.getOpcode() - InstructionOpCodes.ISTORE_0.getOpcode()) % 4;
+//                super.setLength(1);
+//            }
+//        }
+//    }
+//
 //    @Override
 //    public void setIndex(final int n) {
 //        if ((n < 0) || (n > Const.MAX_SHORT)) {
@@ -112,6 +108,14 @@ public abstract class LocalVariableInstruction extends Instruction implements Ty
 //        }
 //    }
 
+    public InstructionOpCodes getcTag() {
+        return cTag;
+    }
+
+    public void setcTag(InstructionOpCodes cTag) {
+        this.cTag = cTag;
+    }
+
     protected final void setIndexOnly(final int n) {
         this.n = n;
     }
@@ -124,8 +128,8 @@ public abstract class LocalVariableInstruction extends Instruction implements Ty
         }
         return super.toString(verbose) + " " + n;
     }
-
-    private boolean wide() {
-        return n > Const.MAX_BYTE;
-    }
+//
+//    private boolean wide() {
+//        return n > Const.MAX_BYTE;
+//    }
 }

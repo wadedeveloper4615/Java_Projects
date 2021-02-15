@@ -1,6 +1,5 @@
 package org.apache.bcel.generic.gen;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -19,7 +18,6 @@ import org.apache.bcel.classfile.attribute.SourceFile;
 import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.enums.ClassFileConstants;
 import org.apache.bcel.enums.Version;
-import org.apache.bcel.exceptions.ClassFormatException;
 import org.apache.bcel.generic.INVOKESPECIAL;
 import org.apache.bcel.generic.Type;
 import org.apache.bcel.generic.base.ClassGenException;
@@ -222,7 +220,7 @@ public class ClassGen extends AccessFlags implements Cloneable {
         return interfaces;
     }
 
-    public JavaClass getJavaClass() throws IOException {
+    public JavaClass getJavaClass() {// throws IOException {
         ClassFileName[] interfaces = interfaceList.toArray(new ClassFileName[interfaceList.size()]);
         Field[] fields = getFields();
         Method[] methods = getMethods();
@@ -307,7 +305,7 @@ public class ClassGen extends AccessFlags implements Cloneable {
         this.className = className;
     }
 
-    public void setClassName(int class_name_index) throws ClassFormatException, IOException {
+    public void setClassName(int class_name_index) {// throws ClassFormatException, IOException {
         className.setNameIndex(class_name_index);
         className.setName(cp.getConstantPool().getConstantString(class_name_index, ClassFileConstants.CONSTANT_Class).replace('/', '.'));
     }
@@ -332,7 +330,7 @@ public class ClassGen extends AccessFlags implements Cloneable {
         }
     }
 
-    public void setSuperclassName(int superclass_name_index) throws ClassFormatException, IOException {
+    public void setSuperclassName(int superclass_name_index) {// throws ClassFormatException{//, IOException {
         superClassName.setNameIndex(superclass_name_index);
         superClassName.setName(cp.getConstantPool().getConstantString(superclass_name_index, ClassFileConstants.CONSTANT_Class).replace('/', '.'));
     }

@@ -38,7 +38,7 @@ final class MethodHTML {
         file.close();
     }
 
-    private void writeField(final Field field) throws IOException {
+    private void writeField(final Field field) {// throws IOException {
         final String type = Utility.signatureToString(field.getSignature());
         final String name = field.getName();
         String access = Utility.accessToString(field.getAccessFlags());

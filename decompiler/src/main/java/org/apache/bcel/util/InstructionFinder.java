@@ -218,15 +218,14 @@ public class InstructionFinder {
         buf.append(")");
         return buf.toString();
     }
-
-    private static String precompile(final short from, final short to, final short extra) {
-        final StringBuilder buf = new StringBuilder("(");
-        for (short i = from; i <= to; i++) {
-            buf.append(makeChar(i));
-            buf.append('|');
-        }
-        buf.append(makeChar(extra));
-        buf.append(")");
-        return buf.toString();
-    }
+//    private static String precompile(final short from, final short to, final short extra) {
+//        final StringBuilder buf = new StringBuilder("(");
+//        for (short i = from; i <= to; i++) {
+//            buf.append(makeChar(i));
+//            buf.append('|');
+//        }
+//        buf.append(makeChar(extra));
+//        buf.append(")");
+//        return buf.toString();
+//    }
 }

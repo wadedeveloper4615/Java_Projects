@@ -1,7 +1,5 @@
 package org.apache.bcel.generic;
 
-import java.io.IOException;
-
 import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.ConstantPushInstruction;
 import org.apache.bcel.generic.base.Instruction;
@@ -42,9 +40,9 @@ public class BIPUSH extends Instruction implements ConstantPushInstruction {
     }
 
     @Override
-    protected void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
-        super.setLength(2);
-        b = bytes.readByte();
+    protected void initFromFile(final ByteSequence bytes, final boolean wide) {// throws IOException {
+//        super.setLength(2);
+//        b = bytes.readByte();
     }
 
     @Override

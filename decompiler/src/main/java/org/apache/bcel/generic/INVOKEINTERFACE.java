@@ -1,7 +1,5 @@
 package org.apache.bcel.generic;
 
-import java.io.IOException;
-
 import org.apache.bcel.ExceptionConst;
 import org.apache.bcel.classfile.constant.ConstantPool;
 import org.apache.bcel.enums.InstructionOpCodes;
@@ -59,11 +57,11 @@ public final class INVOKEINTERFACE extends InvokeInstruction {
     }
 
     @Override
-    protected void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
-        super.initFromFile(bytes, wide);
-        super.setLength(5);
-        nargs = bytes.readUnsignedByte();
-        bytes.readByte();
+    protected void initFromFile(final ByteSequence bytes, final boolean wide) {// throws IOException {
+//        super.initFromFile(bytes, wide);
+//        super.setLength(5);
+//        nargs = bytes.readUnsignedByte();
+//        bytes.readByte();
     }
 
     @Override

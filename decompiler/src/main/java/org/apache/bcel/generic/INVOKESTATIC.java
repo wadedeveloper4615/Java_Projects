@@ -1,8 +1,5 @@
 package org.apache.bcel.generic;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
-
 import org.apache.bcel.ExceptionConst;
 import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.InvokeInstruction;
@@ -27,12 +24,12 @@ public class INVOKESTATIC extends InvokeInstruction {
 //        v.visitInvokeInstruction(this);
 //        v.visitINVOKESTATIC(this);
 //    }
-
-    @Override
-    public void dump(final DataOutputStream out) throws IOException {
-//        out.writeByte(super.getOpcode().getOpcode());
-//        out.writeShort(super.getIndex());
-    }
+//
+//    @Override
+//    public void dump(final DataOutputStream out) throws IOException {
+////        out.writeByte(super.getOpcode().getOpcode());
+////        out.writeShort(super.getIndex());
+//    }
 
     @Override
     public Class<?>[] getExceptions() {

@@ -1,8 +1,5 @@
 package org.apache.bcel.generic;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
-
 import org.apache.bcel.ExceptionConst;
 import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.AllocationInstruction;
@@ -10,7 +7,6 @@ import org.apache.bcel.generic.base.CPInstruction;
 import org.apache.bcel.generic.base.ClassGenException;
 import org.apache.bcel.generic.base.ExceptionThrower;
 import org.apache.bcel.generic.base.LoadClass;
-import org.apache.bcel.util.ByteSequence;
 
 public class MULTIANEWARRAY extends CPInstruction implements LoadClass, AllocationInstruction, ExceptionThrower {
     private short dimensions;
@@ -40,13 +36,12 @@ public class MULTIANEWARRAY extends CPInstruction implements LoadClass, Allocati
     public int consumeStack() {// final ConstantPoolGen cpg) {
         return dimensions;
     }
-
-    @Override
-    public void dump(final DataOutputStream out) throws IOException {
+//    @Override
+//    public void dump(final DataOutputStream out) throws IOException {
 //        out.writeByte(super.getOpcode().getOpcode());
 //        out.writeShort(super.getIndex());
 //        out.writeByte(dimensions);
-    }
+//    }
 
     public final short getDimensions() {
         return dimensions;
@@ -64,13 +59,14 @@ public class MULTIANEWARRAY extends CPInstruction implements LoadClass, Allocati
 //        }
 //        return (t instanceof ObjectType) ? (ObjectType) t : null;
 //    }
-
-    @Override
-    protected void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
-        super.initFromFile(bytes, wide);
-        dimensions = bytes.readByte();
-        super.setLength(4);
-    }
+//
+//    @Override
+//    protected void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
+//        super.initFromFile(bytes, wide);
+//        dimensions = bytes.readByte();
+//        super.setLength(4);
+//    }
+//
 //    @Override
 //    public String toString(final boolean verbose) {
 //        return super.toString(verbose) + " " + super.getIndex() + " " + dimensions;

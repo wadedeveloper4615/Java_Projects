@@ -1,7 +1,6 @@
 package org.apache.bcel.generic.control;
 
 import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -325,19 +324,19 @@ public class InstructionList implements Iterable<InstructionHandle> {
     }
 
     public byte[] getByteCode() {
-        setPositions();
+//        setPositions();
         final ByteArrayOutputStream b = new ByteArrayOutputStream();
-        final DataOutputStream out = new DataOutputStream(b);
-        try {
-            for (InstructionHandle ih = start; ih != null; ih = ih.getNext()) {
-                final Instruction i = ih.getInstruction();
-                i.dump(out);
-            }
-            out.flush();
-        } catch (final IOException e) {
-            System.err.println(e);
-            return new byte[0];
-        }
+//        final DataOutputStream out = new DataOutputStream(b);
+//        try {
+//            for (InstructionHandle ih = start; ih != null; ih = ih.getNext()) {
+//                final Instruction i = ih.getInstruction();
+//                i.dump(out);
+//            }
+//            out.flush();
+//        } catch (final IOException e) {
+//            System.err.println(e);
+//            return new byte[0];
+//        }
         return b.toByteArray();
     }
 

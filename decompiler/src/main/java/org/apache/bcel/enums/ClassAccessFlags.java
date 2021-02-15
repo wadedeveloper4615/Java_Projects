@@ -1,6 +1,5 @@
 package org.apache.bcel.enums;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -129,7 +128,7 @@ public enum ClassAccessFlags {
         return (flag & p.getFlag()) != 0;
     }
 
-    public static List<ClassAccessFlags> read(int accessFlags) throws IOException {
+    public static List<ClassAccessFlags> read(int accessFlags) {// throws IOException {
         List<ClassAccessFlags> list = new ArrayList<>();
         for (ClassAccessFlags v : ClassAccessFlags.values()) {
             if (ClassAccessFlags.isSet(accessFlags, v)) {

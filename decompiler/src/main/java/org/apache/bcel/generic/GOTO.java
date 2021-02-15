@@ -1,8 +1,5 @@
 package org.apache.bcel.generic;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
-
 import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.GotoInstruction;
 import org.apache.bcel.generic.base.VariableLengthInstruction;
@@ -23,19 +20,19 @@ public class GOTO extends GotoInstruction implements VariableLengthInstruction {
 //        v.visitGotoInstruction(this);
 //        v.visitGOTO(this);
 //    }
-
-    @Override
-    public void dump(final DataOutputStream out) throws IOException {
-        super.setIndex(getTargetOffset());
-        InstructionOpCodes _opcode = getOpcode();
-        if (_opcode == InstructionOpCodes.GOTO) {
-            super.dump(out);
-        } else {
-            super.setIndex(getTargetOffset());
-            out.writeByte(_opcode.getOpcode());
-            out.writeInt(super.getIndex());
-        }
-    }
+//
+//    @Override
+//    public void dump(final DataOutputStream out) throws IOException {
+//        super.setIndex(getTargetOffset());
+//        InstructionOpCodes _opcode = getOpcode();
+//        if (_opcode == InstructionOpCodes.GOTO) {
+//            super.dump(out);
+//        } else {
+//            super.setIndex(getTargetOffset());
+//            out.writeByte(_opcode.getOpcode());
+//            out.writeInt(super.getIndex());
+//        }
+//    }
 
     @Override
     protected int updatePosition(final int offset, final int max_offset) {

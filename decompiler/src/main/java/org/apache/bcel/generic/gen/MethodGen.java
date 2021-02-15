@@ -1,6 +1,5 @@
 package org.apache.bcel.generic.gen;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
@@ -28,7 +27,6 @@ import org.apache.bcel.classfile.attribute.LocalVariableTypeTable;
 import org.apache.bcel.classfile.attribute.ParameterAnnotations;
 import org.apache.bcel.enums.ClassAccessFlags;
 import org.apache.bcel.enums.ClassFileConstants;
-import org.apache.bcel.exceptions.ClassFormatException;
 import org.apache.bcel.generic.NOP;
 import org.apache.bcel.generic.ObjectType;
 import org.apache.bcel.generic.Type;
@@ -351,7 +349,7 @@ public class MethodGen extends FieldGenOrMethodGen {
         }
     }
 
-    public MethodGen copy(ClassFileName className, ConstantPoolGen cp) throws ClassFormatException, IOException {
+    public MethodGen copy(ClassFileName className, ConstantPoolGen cp) {// throws ClassFormatException, IOException {
         Method m = ((MethodGen) clone()).getMethod();
         MethodGen mg = new MethodGen(m, className, super.getConstantPool());
         if (super.getConstantPool() != cp) {
@@ -727,7 +725,7 @@ public class MethodGen extends FieldGenOrMethodGen {
         this.il = il;
     }
 
-    public void setMaxLocals() throws ClassFormatException, IOException {
+    public void setMaxLocals() {// throws ClassFormatException, IOException {
 //        if (il != null) {
 //            int max = isStatic() ? 0 : 1;
 //            if (argTypes != null) {

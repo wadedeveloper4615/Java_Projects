@@ -24,7 +24,7 @@ public class ModularRuntimeImage implements Closeable {
     private final URLClassLoader classLoader;
     private final FileSystem fileSystem;
 
-    public ModularRuntimeImage() throws IOException {
+    public ModularRuntimeImage() {// throws IOException {
         this(null, FileSystems.getFileSystem(URI.create("jrt:/")));
     }
 
@@ -51,6 +51,10 @@ public class ModularRuntimeImage implements Closeable {
         }
     }
 
+    public FileSystem getFileSystem() {
+        return fileSystem;
+    }
+
     public List<Path> list(final Path dirPath) throws IOException {
         final List<Path> list = new ArrayList<>();
         try (DirectoryStream<Path> ds = Files.newDirectoryStream(dirPath)) {
@@ -72,9 +76,5 @@ public class ModularRuntimeImage implements Closeable {
 
     public List<Path> packages() throws IOException {
         return list(PACKAGES_PATH);
-    }
-
-    public FileSystem getFileSystem() {
-        return fileSystem;
     }
 }

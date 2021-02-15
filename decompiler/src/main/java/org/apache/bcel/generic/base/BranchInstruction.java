@@ -1,8 +1,5 @@
 package org.apache.bcel.generic.base;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
-
 import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.control.InstructionHandle;
 import org.apache.bcel.generic.control.InstructionTargeter;
@@ -32,16 +29,15 @@ public abstract class BranchInstruction extends Instruction implements Instructi
         index = -1;
         position = -1;
     }
-
-    @Override
-    public void dump(final DataOutputStream out) throws IOException {
-        out.writeByte(super.getOpcode().getOpcode());
-        index = getTargetOffset();
-        if (!isValidShort(index)) {
-            throw new ClassGenException("Branch target offset too large for short: " + index);
-        }
-        out.writeShort(index);
-    }
+//    @Override
+//    public void dump(final DataOutputStream out) throws IOException {
+//        out.writeByte(super.getOpcode().getOpcode());
+//        index = getTargetOffset();
+//        if (!isValidShort(index)) {
+//            throw new ClassGenException("Branch target offset too large for short: " + index);
+//        }
+//        out.writeShort(index);
+//    }
 
     public final int getIndex() {
         return index;
@@ -71,9 +67,9 @@ public abstract class BranchInstruction extends Instruction implements Instructi
     }
 
     @Override
-    protected void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
-        super.setLength(3);
-        index = bytes.readShort();
+    protected void initFromFile(final ByteSequence bytes, final boolean wide) {// throws IOException {
+//        super.setLength(3);
+//        index = bytes.readShort();
     }
 
     protected void setIndex(final int index) {

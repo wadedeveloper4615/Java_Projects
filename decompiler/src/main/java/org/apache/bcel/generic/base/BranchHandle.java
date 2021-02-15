@@ -1,7 +1,7 @@
 package org.apache.bcel.generic.base;
 
 import org.apache.bcel.generic.control.InstructionHandle;
-import org.apache.bcel.generic.control.InstructionList;
+//import org.apache.bcel.generic.control.InstructionList;
 
 public final class BranchHandle extends InstructionHandle {
     private BranchInstruction bi;

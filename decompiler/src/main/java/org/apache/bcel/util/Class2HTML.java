@@ -117,7 +117,7 @@ public class Class2HTML implements Constants {
         }
     }
 
-    static String referenceClass(final int index) throws ClassFormatException, IOException {
+    static String referenceClass(final int index) throws ClassFormatException {// , IOException {
         String str = constant_pool.getConstantString(index, ClassFileConstants.CONSTANT_Class);
         str = Utility.compactClassName(str);
         str = Utility.compactClassName(str, class_package + ".", true);

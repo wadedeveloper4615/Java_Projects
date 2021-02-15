@@ -1,13 +1,10 @@
 package org.apache.bcel.generic;
 
-import java.io.IOException;
-
 import org.apache.bcel.enums.InstructionOpCodes;
 import org.apache.bcel.generic.base.LocalVariableInstruction;
-import org.apache.bcel.util.ByteSequence;
 
 public class IINC extends LocalVariableInstruction {
-    private boolean wide;
+    // private boolean wide;
     private int c;
 
     public IINC() {
@@ -48,20 +45,21 @@ public class IINC extends LocalVariableInstruction {
 //    public Type getType(final ConstantPoolGen cp) {
 //        return Type.INT;
 //    }
-
-    @Override
-    protected void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
-        this.wide = wide;
-        if (wide) {
-            super.setLength(6);
-            super.setIndexOnly(bytes.readUnsignedShort());
-            c = bytes.readShort();
-        } else {
-            super.setLength(3);
-            super.setIndexOnly(bytes.readUnsignedByte());
-            c = bytes.readByte();
-        }
-    }
+//
+//    @Override
+//    protected void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
+//        this.wide = wide;
+//        if (wide) {
+//            super.setLength(6);
+//            super.setIndexOnly(bytes.readUnsignedShort());
+//            c = bytes.readShort();
+//        } else {
+//            super.setLength(3);
+//            super.setIndexOnly(bytes.readUnsignedByte());
+//            c = bytes.readByte();
+//        }
+//    }
+//
 //    public final void setIncrement(final int c) {
 //        this.c = c;
 //        setWide();

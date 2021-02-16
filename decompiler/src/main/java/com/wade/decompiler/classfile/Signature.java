@@ -1,20 +1,3 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- *
- */
 package com.wade.decompiler.classfile;
 
 import java.io.ByteArrayInputStream;
@@ -24,16 +7,7 @@ import java.io.IOException;
 
 import com.wade.decompiler.Const;
 
-/**
- * This class is derived from <em>Attribute</em> and represents a reference to a
- * GJ attribute.
- *
- * @see Attribute
- */
 public final class Signature extends Attribute {
-    /**
-     * Extends ByteArrayInputStream to make 'unreading' chars possible.
-     */
     private static final class MyByteArrayInputStream extends ByteArrayInputStream {
         MyByteArrayInputStream(final String data) {
             super(data.getBytes());
@@ -52,96 +26,49 @@ public final class Signature extends Attribute {
 
     private int signatureIndex;
 
-    /**
-     * Construct object from file stream.
-     *
-     * @param name_index    Index in constant pool to CONSTANT_Utf8
-     * @param length        Content length in bytes
-     * @param input         Input stream
-     * @param constant_pool Array of constants
-     * @throws IOException
-     */
     Signature(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
         this(name_index, length, input.readUnsignedShort(), constant_pool);
     }
 
-    /**
-     * @param name_index     Index in constant pool to CONSTANT_Utf8
-     * @param length         Content length in bytes
-     * @param signatureIndex Index in constant pool to CONSTANT_Utf8
-     * @param constant_pool  Array of constants
-     */
     public Signature(final int name_index, final int length, final int signatureIndex, final ConstantPool constant_pool) {
         super(Const.ATTR_SIGNATURE, name_index, length, constant_pool);
         this.signatureIndex = signatureIndex;
     }
 
-    /**
-     * Initialize from another object. Note that both objects use the same
-     * references (shallow copy). Use clone() for a physical copy.
-     */
     public Signature(final Signature c) {
         this(c.getNameIndex(), c.getLength(), c.getSignatureIndex(), c.getConstantPool());
     }
 
-    /**
-     * Called by objects that are traversing the nodes of the tree implicitely
-     * defined by the contents of a Java class. I.e., the hierarchy of methods,
-     * fields, attributes, etc. spawns a tree of objects.
-     *
-     * @param v Visitor object
-     */
     @Override
     public void accept(final Visitor v) {
         // System.err.println("Visiting non-standard Signature object");
         v.visitSignature(this);
     }
 
-    /**
-     * @return deep copy of this attribute
-     */
     @Override
     public Attribute copy(final ConstantPool _constant_pool) {
         return (Attribute) clone();
     }
 
-    /**
-     * Dump source file attribute to file stream in binary format.
-     *
-     * @param file Output file stream
-     * @throws IOException
-     */
     @Override
     public void dump(final DataOutputStream file) throws IOException {
         super.dump(file);
         file.writeShort(signatureIndex);
     }
 
-    /**
-     * @return GJ signature.
-     */
     public String getSignature() {
         final ConstantUtf8 c = (ConstantUtf8) super.getConstantPool().getConstant(signatureIndex, Const.CONSTANT_Utf8);
         return c.getBytes();
     }
 
-    /**
-     * @return Index in constant pool of source file name.
-     */
     public int getSignatureIndex() {
         return signatureIndex;
     }
 
-    /**
-     * @param signatureIndex the index info the constant pool of this signature
-     */
     public void setSignatureIndex(final int signatureIndex) {
         this.signatureIndex = signatureIndex;
     }
 
-    /**
-     * @return String representation
-     */
     @Override
     public String toString() {
         final String s = getSignature();

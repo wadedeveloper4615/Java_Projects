@@ -1,20 +1,3 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- *
- */
 package com.wade.decompiler.util;
 
 import java.io.IOException;
@@ -36,17 +19,7 @@ import com.wade.decompiler.generic.ConstantPoolGen;
 import com.wade.decompiler.generic.MethodGen;
 import com.wade.decompiler.generic.Type;
 
-/**
- * This class takes a given JavaClass object and converts it to a Java program
- * that creates that very class using BCEL. This gives new users of BCEL a
- * useful example showing how things are done with BCEL. It does not cover all
- * features of BCEL, but tries to mimic hand-written code as close as possible.
- *
- */
 public class BCELifier extends EmptyVisitor {
-    /**
-     * Enum corresponding to flag source.
-     */
     public enum FLAGS {
         UNKNOWN, CLASS, METHOD,
     }
@@ -59,10 +32,6 @@ public class BCELifier extends EmptyVisitor {
     private final PrintWriter _out;
     private final ConstantPoolGen _cp;
 
-    /**
-     * @param clazz Java class to "decompile"
-     * @param out   where to output Java program
-     */
     public BCELifier(final JavaClass clazz, final OutputStream out) {
         _clazz = clazz;
         _out = new PrintWriter(out);
@@ -92,9 +61,6 @@ public class BCELifier extends EmptyVisitor {
         _out.println("  }");
     }
 
-    /**
-     * Start Java code generation
-     */
     public void start() {
         visitJavaClass(_clazz);
         _out.flush();
@@ -187,9 +153,6 @@ public class BCELifier extends EmptyVisitor {
         return java_class;
     }
 
-    /**
-     * Default main method
-     */
     public static void main(final String[] argv) throws Exception {
         if (argv.length != 1) {
             System.out.println("Usage: BCELifier classname");
@@ -219,14 +182,6 @@ public class BCELifier extends EmptyVisitor {
         return printFlags(flags, FLAGS.UNKNOWN);
     }
 
-    /**
-     * Return a string with the flag settings
-     *
-     * @param flags    the flags field to interpret
-     * @param location the item type
-     * @return the formatted string
-     * @since 6.0 made public
-     */
     public static String printFlags(final int flags, final FLAGS location) {
         if (flags == 0) {
             return "0";

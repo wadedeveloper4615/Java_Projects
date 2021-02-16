@@ -1,56 +1,21 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- *
- */
 package com.wade.decompiler.classfile;
 
-/**
- * Visitor with empty method bodies, can be extended and used in conjunction
- * with the DescendingVisitor class, e.g. By courtesy of David Spencer.
- *
- * @see DescendingVisitor
- */
 public class EmptyVisitor implements Visitor {
     protected EmptyVisitor() {
     }
 
-    /**
-     * @since 6.0
-     */
     @Override
     public void visitAnnotation(final Annotations obj) {
     }
 
-    /**
-     * @since 6.0
-     */
     @Override
     public void visitAnnotationDefault(final AnnotationDefault obj) {
     }
 
-    /**
-     * @since 6.0
-     */
     @Override
     public void visitAnnotationEntry(final AnnotationEntry obj) {
     }
 
-    /**
-     * @since 6.0
-     */
     @Override
     public void visitBootstrapMethods(final BootstrapMethods obj) {
     }
@@ -71,9 +36,6 @@ public class EmptyVisitor implements Visitor {
     public void visitConstantDouble(final ConstantDouble obj) {
     }
 
-    /**
-     * @since 6.3
-     */
     @Override
     public void visitConstantDynamic(final ConstantDynamic obj) {
     }
@@ -102,9 +64,6 @@ public class EmptyVisitor implements Visitor {
     public void visitConstantLong(final ConstantLong obj) {
     }
 
-    /**
-     * @since 6.0
-     */
     @Override
     public void visitConstantMethodHandle(final ConstantMethodHandle constantMethodHandle) {
     }
@@ -113,16 +72,10 @@ public class EmptyVisitor implements Visitor {
     public void visitConstantMethodref(final ConstantMethodref obj) {
     }
 
-    /**
-     * @since 6.0
-     */
     @Override
     public void visitConstantMethodType(final ConstantMethodType obj) {
     }
 
-    /**
-     * @since 6.1
-     */
     @Override
     public void visitConstantModule(final ConstantModule constantModule) {
     }
@@ -131,9 +84,6 @@ public class EmptyVisitor implements Visitor {
     public void visitConstantNameAndType(final ConstantNameAndType obj) {
     }
 
-    /**
-     * @since 6.1
-     */
     @Override
     public void visitConstantPackage(final ConstantPackage constantPackage) {
     }
@@ -158,9 +108,6 @@ public class EmptyVisitor implements Visitor {
     public void visitDeprecated(final Deprecated obj) {
     }
 
-    /**
-     * @since 6.0
-     */
     @Override
     public void visitEnclosingMethod(final EnclosingMethod obj) {
     }
@@ -201,9 +148,6 @@ public class EmptyVisitor implements Visitor {
     public void visitLocalVariableTable(final LocalVariableTable obj) {
     }
 
-    /**
-     * @since 6.0
-     */
     @Override
     public void visitLocalVariableTypeTable(final LocalVariableTypeTable obj) {
     }
@@ -212,83 +156,54 @@ public class EmptyVisitor implements Visitor {
     public void visitMethod(final Method obj) {
     }
 
-    /**
-     * @since 6.0
-     * @Override public void visitStackMapTable(StackMapTable obj) { }
-     */
-    /**
-     * @since 6.0
-     * @Override public void visitStackMapTableEntry(StackMapTableEntry obj) { }
-     */
-    /**
-     * @since 6.4.0
-     */
     @Override
     public void visitMethodParameter(final MethodParameter obj) {
     }
 
-    /**
-     * @since 6.0
-     */
     @Override
     public void visitMethodParameters(final MethodParameters obj) {
     }
 
-    /** @since 6.4.0 */
     @Override
     public void visitModule(final Module obj) {
     }
 
-    /** @since 6.4.0 */
     @Override
     public void visitModuleExports(final ModuleExports obj) {
     }
 
-    /** @since 6.4.0 */
     @Override
     public void visitModuleMainClass(final ModuleMainClass obj) {
     }
 
-    /** @since 6.4.0 */
     @Override
     public void visitModuleOpens(final ModuleOpens obj) {
     }
 
-    /** @since 6.4.0 */
     @Override
     public void visitModulePackages(final ModulePackages obj) {
     }
 
-    /** @since 6.4.0 */
     @Override
     public void visitModuleProvides(final ModuleProvides obj) {
     }
 
-    /** @since 6.4.0 */
     @Override
     public void visitModuleRequires(final ModuleRequires obj) {
     }
 
-    /** @since 6.4.0 */
     @Override
     public void visitNestHost(final NestHost obj) {
     }
 
-    /** @since 6.4.0 */
     @Override
     public void visitNestMembers(final NestMembers obj) {
     }
 
-    /**
-     * @since 6.0
-     */
     @Override
     public void visitParameterAnnotation(final ParameterAnnotations obj) {
     }
 
-    /**
-     * @since 6.0
-     */
     @Override
     public void visitParameterAnnotationEntry(final ParameterAnnotationEntry parameterAnnotationEntry) {
     }

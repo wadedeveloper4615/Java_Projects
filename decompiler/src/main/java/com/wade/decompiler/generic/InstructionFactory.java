@@ -1,35 +1,7 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- *
- */
 package com.wade.decompiler.generic;
 
 import com.wade.decompiler.Const;
 
-/**
- * Instances of this class may be used, e.g., to generate typed versions of
- * instructions. Its main purpose is to be used as the byte code generating
- * backend of a compiler. You can subclass it to add your own create methods.
- * <p>
- * Note: The static createXXX methods return singleton instances from the
- * {@link InstructionConst} class.
- *
- * @see Const
- * @see InstructionConst
- */
 public class InstructionFactory implements InstructionConstants {
     private static class MethodObject {
         final Type[] arg_types;
@@ -52,22 +24,11 @@ public class InstructionFactory implements InstructionConstants {
                     new Type[] { Type.INT }), new MethodObject("java.lang.StringBuffer", "append", Type.STRINGBUFFER, // No append(byte)
                             new Type[] { Type.INT }), new MethodObject("java.lang.StringBuffer", "append", Type.STRINGBUFFER, // No append(short)
                                     new Type[] { Type.INT }), new MethodObject("java.lang.StringBuffer", "append", Type.STRINGBUFFER, new Type[] { Type.LONG }) };
-    /**
-     * @deprecated (since 6.0) will be made private; do not access directly, use
-     *             getter/setter
-     */
     @Deprecated
     protected ClassGen cg;
-    /**
-     * @deprecated (since 6.0) will be made private; do not access directly, use
-     *             getter/setter
-     */
     @Deprecated
     protected ConstantPoolGen cp;
 
-    /**
-     * Initialize with ClassGen object
-     */
     public InstructionFactory(final ClassGen cg) {
         this(cg, cg.getConstantPool());
     }
@@ -77,9 +38,6 @@ public class InstructionFactory implements InstructionConstants {
         this.cp = cp;
     }
 
-    /**
-     * Initialize just with ConstantPoolGen object
-     */
     public InstructionFactory(final ConstantPoolGen cp) {
         this(null, cp);
     }
@@ -107,11 +65,6 @@ public class InstructionFactory implements InstructionConstants {
         }
     }
 
-    /**
-     * Create conversion operation for two stack operands, this may be an I2C,
-     * instruction, e.g., if the operands are basic types and CHECKCAST if they are
-     * reference types.
-     */
     public Instruction createCast(final Type src_type, final Type dest_type) {
         if ((src_type instanceof BasicType) && (dest_type instanceof BasicType)) {
             final byte dest = dest_type.getType();
@@ -146,11 +99,6 @@ public class InstructionFactory implements InstructionConstants {
         return new CHECKCAST(cp.addClass((ObjectType) t));
     }
 
-    /**
-     * Uses PUSH to push a constant value onto the stack.
-     *
-     * @param value must be of type Number, Boolean, Character or String
-     */
     public Instruction createConstant(final Object value) {
         PUSH push;
         if (value instanceof Number) {
@@ -167,16 +115,6 @@ public class InstructionFactory implements InstructionConstants {
         return push.getInstruction();
     }
 
-    /**
-     * Create a field instruction.
-     *
-     * @param class_name name of the accessed class
-     * @param name       name of the referenced field
-     * @param type       type of field
-     * @param kind       how to access, i.e., GETFIELD, PUTFIELD, GETSTATIC,
-     *                   PUTSTATIC
-     * @see Const
-     */
     public FieldInstruction createFieldAccess(final String class_name, final String name, final Type type, final short kind) {
         int index;
         final String signature = type.getSignature();
@@ -214,34 +152,10 @@ public class InstructionFactory implements InstructionConstants {
         return createInvoke(m.class_name, m.name, m.result_type, m.arg_types, kind);
     }
 
-    /**
-     * Create an invoke instruction. (Except for invokedynamic.)
-     *
-     * @param class_name name of the called class
-     * @param name       name of the called method
-     * @param ret_type   return type of method
-     * @param arg_types  argument types of method
-     * @param kind       how to invoke, i.e., INVOKEINTERFACE, INVOKESTATIC,
-     *                   INVOKEVIRTUAL, or INVOKESPECIAL
-     * @see Const
-     */
     public InvokeInstruction createInvoke(final String class_name, final String name, final Type ret_type, final Type[] arg_types, final short kind) {
         return createInvoke(class_name, name, ret_type, arg_types, kind, kind == Const.INVOKEINTERFACE);
     }
 
-    /**
-     * Create an invoke instruction. (Except for invokedynamic.)
-     *
-     * @param class_name    name of the called class
-     * @param name          name of the called method
-     * @param ret_type      return type of method
-     * @param arg_types     argument types of method
-     * @param kind          how to invoke: INVOKEINTERFACE, INVOKESTATIC,
-     *                      INVOKEVIRTUAL, or INVOKESPECIAL
-     * @param use_interface force use of InterfaceMethodref
-     * @return A new InvokeInstruction.
-     * @since 6.5.0
-     */
     public InvokeInstruction createInvoke(final String class_name, final String name, final Type ret_type, final Type[] arg_types, final short kind, final boolean use_interface) {
         if (kind != Const.INVOKESPECIAL && kind != Const.INVOKEVIRTUAL && kind != Const.INVOKESTATIC && kind != Const.INVOKEINTERFACE && kind != Const.INVOKEDYNAMIC) {
             throw new IllegalArgumentException("Unknown invoke kind: " + kind);
@@ -274,26 +188,6 @@ public class InstructionFactory implements InstructionConstants {
         }
     }
 
-    /**
-     * Create an invokedynamic instruction.
-     *
-     * @param bootstrap_index index into the bootstrap_methods array
-     * @param name            name of the called method
-     * @param ret_type        return type of method
-     * @param arg_types       argument types of method
-     * @see Constants
-     */
-    /*
-     * createInvokeDynamic only needed if instrumention code wants to generate a new
-     * invokedynamic instruction. I don't think we need. (markro)
-     *
-     * public InvokeInstruction createInvokeDynamic( int bootstrap_index, String
-     * name, Type ret_type, Type[] arg_types) { int index; int nargs = 0; String
-     * signature = Type.getMethodSignature(ret_type, arg_types); for (int i = 0; i <
-     * arg_types.length; i++) { nargs += arg_types[i].getSize(); } // UNDONE - needs
-     * to be added to ConstantPoolGen //index = cp.addInvokeDynamic(bootstrap_index,
-     * name, signature); index = 0; return new INVOKEDYNAMIC(index); }
-     */
     public NEW createNew(final ObjectType t) {
         return new NEW(cp.addClass(t));
     }
@@ -302,12 +196,6 @@ public class InstructionFactory implements InstructionConstants {
         return createNew(ObjectType.getInstance(s));
     }
 
-    /**
-     * Create new array of given size and type.
-     *
-     * @return an instruction that creates the corresponding array at runtime, i.e.
-     *         is an AllocationInstruction
-     */
     public Instruction createNewArray(final Type t, final short dim) {
         if (dim == 1) {
             if (t instanceof ObjectType) {
@@ -327,11 +215,6 @@ public class InstructionFactory implements InstructionConstants {
         return new MULTIANEWARRAY(cp.addArrayClass(at), dim);
     }
 
-    /**
-     * Create a call to the most popular System.out.println() method.
-     *
-     * @param s the string to print
-     */
     public InstructionList createPrintln(final String s) {
         final InstructionList il = new InstructionList();
         final int out = cp.addFieldref("java.lang.System", "out", "Ljava/io/PrintStream;");
@@ -366,9 +249,6 @@ public class InstructionFactory implements InstructionConstants {
         cp = c;
     }
 
-    /**
-     * @param type type of elements of array, i.e., array.getElementType()
-     */
     public static ArrayInstruction createArrayLoad(final Type type) {
         switch (type.getType()) {
             case Const.T_BOOLEAN:
@@ -394,9 +274,6 @@ public class InstructionFactory implements InstructionConstants {
         }
     }
 
-    /**
-     * @param type type of elements of array, i.e., array.getElementType()
-     */
     public static ArrayInstruction createArrayStore(final Type type) {
         switch (type.getType()) {
             case Const.T_BOOLEAN:
@@ -510,11 +387,6 @@ public class InstructionFactory implements InstructionConstants {
         }
     }
 
-    /**
-     * Create binary operation for simple basic types, such as int and float.
-     *
-     * @param op operation, such as "+", "*", "&lt;&lt;", etc.
-     */
     public static ArithmeticInstruction createBinaryOperation(final String op, final Type type) {
         final char first = op.charAt(0);
         switch (type.getType()) {
@@ -534,10 +406,6 @@ public class InstructionFactory implements InstructionConstants {
         }
     }
 
-    /**
-     * Create branch instruction by given opcode, except LOOKUPSWITCH and
-     * TABLESWITCH. For those you should use the SWITCH compound instruction.
-     */
     public static BranchInstruction createBranchInstruction(final short opcode, final InstructionHandle target) {
         switch (opcode) {
             case Const.IFEQ:
@@ -585,30 +453,18 @@ public class InstructionFactory implements InstructionConstants {
         }
     }
 
-    /**
-     * @param size size of operand, either 1 (int, e.g.) or 2 (double)
-     */
     public static StackInstruction createDup(final int size) {
         return (size == 2) ? InstructionConst.DUP2 : InstructionConst.DUP;
     }
 
-    /**
-     * @param size size of operand, either 1 (int, e.g.) or 2 (double)
-     */
     public static StackInstruction createDup_1(final int size) {
         return (size == 2) ? InstructionConst.DUP2_X1 : InstructionConst.DUP_X1;
     }
 
-    /**
-     * @param size size of operand, either 1 (int, e.g.) or 2 (double)
-     */
     public static StackInstruction createDup_2(final int size) {
         return (size == 2) ? InstructionConst.DUP2_X2 : InstructionConst.DUP_X2;
     }
 
-    /**
-     * @param index index of local variable
-     */
     public static LocalVariableInstruction createLoad(final Type type, final int index) {
         switch (type.getType()) {
             case Const.T_BOOLEAN:
@@ -631,9 +487,6 @@ public class InstructionFactory implements InstructionConstants {
         }
     }
 
-    /**
-     * Create "null" value for reference types, 0 for basic types like int
-     */
     public static Instruction createNull(final Type type) {
         switch (type.getType()) {
             case Const.T_ARRAY:
@@ -658,16 +511,10 @@ public class InstructionFactory implements InstructionConstants {
         }
     }
 
-    /**
-     * @param size size of operand, either 1 (int, e.g.) or 2 (double)
-     */
     public static StackInstruction createPop(final int size) {
         return (size == 2) ? InstructionConst.POP2 : InstructionConst.POP;
     }
 
-    /**
-     * Create typed return
-     */
     public static ReturnInstruction createReturn(final Type type) {
         switch (type.getType()) {
             case Const.T_ARRAY:
@@ -692,9 +539,6 @@ public class InstructionFactory implements InstructionConstants {
         }
     }
 
-    /**
-     * @param index index of local variable
-     */
     public static LocalVariableInstruction createStore(final Type type, final int index) {
         switch (type.getType()) {
             case Const.T_BOOLEAN:
@@ -717,9 +561,6 @@ public class InstructionFactory implements InstructionConstants {
         }
     }
 
-    /**
-     * Create reference to `this'
-     */
     public static Instruction createThis() {
         return new ALOAD(0);
     }

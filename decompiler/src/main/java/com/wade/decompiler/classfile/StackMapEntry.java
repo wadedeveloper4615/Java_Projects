@@ -1,19 +1,3 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- */
 package com.wade.decompiler.classfile;
 
 import java.io.DataInput;
@@ -22,14 +6,6 @@ import java.io.IOException;
 
 import com.wade.decompiler.Const;
 
-/**
- * This class represents a stack map entry recording the types of local
- * variables and the the of stack items at a given byte code offset. See CLDC
- * specification 5.3.1.2
- *
- * @see StackMap
- * @see StackMapType
- */
 public final class StackMapEntry implements Node, Cloneable {
     private int frameType;
     private int byteCodeOffset;
@@ -37,12 +13,6 @@ public final class StackMapEntry implements Node, Cloneable {
     private StackMapType[] typesOfStackItems;
     private ConstantPool constantPool;
 
-    /**
-     * Construct object from input stream.
-     *
-     * @param input Input stream
-     * @throws IOException
-     */
     StackMapEntry(final DataInput input, final ConstantPool constantPool) throws IOException {
         this(input.readByte() & 0xFF, -1, null, null, constantPool);
         if (frameType >= Const.SAME_FRAME && frameType <= Const.SAME_FRAME_MAX) {
@@ -79,24 +49,10 @@ public final class StackMapEntry implements Node, Cloneable {
                 typesOfStackItems[i] = new StackMapType(input, constantPool);
             }
         } else {
-            /* Can't happen */
             throw new ClassFormatException("Invalid frame type found while parsing stack map table: " + frameType);
         }
     }
 
-    /**
-     * DO NOT USE
-     *
-     * @param byteCodeOffset
-     * @param numberOfLocals     NOT USED
-     * @param typesOfLocals      array of {@link StackMapType}s of locals
-     * @param numberOfStackItems NOT USED
-     * @param typesOfStackItems  array ot {@link StackMapType}s of stack items
-     * @param constantPool       the constant pool
-     * @deprecated Since 6.0, use
-     *             {@link #StackMapEntry(int, int, StackMapType[], StackMapType[], ConstantPool)}
-     *             instead
-     */
     @java.lang.Deprecated
     public StackMapEntry(final int byteCodeOffset, final int numberOfLocals, final StackMapType[] typesOfLocals, final int numberOfStackItems, final StackMapType[] typesOfStackItems, final ConstantPool constantPool) {
         this.byteCodeOffset = byteCodeOffset;
@@ -105,15 +61,6 @@ public final class StackMapEntry implements Node, Cloneable {
         this.constantPool = constantPool;
     }
 
-    /**
-     * Create an instance
-     *
-     * @param tag               the frameType to use
-     * @param byteCodeOffset
-     * @param typesOfLocals     array of {@link StackMapType}s of locals
-     * @param typesOfStackItems array ot {@link StackMapType}s of stack items
-     * @param constantPool      the constant pool
-     */
     public StackMapEntry(final int tag, final int byteCodeOffset, final StackMapType[] typesOfLocals, final StackMapType[] typesOfStackItems, final ConstantPool constantPool) {
         this.frameType = tag;
         this.byteCodeOffset = byteCodeOffset;
@@ -122,21 +69,11 @@ public final class StackMapEntry implements Node, Cloneable {
         this.constantPool = constantPool;
     }
 
-    /**
-     * Called by objects that are traversing the nodes of the tree implicitely
-     * defined by the contents of a Java class. I.e., the hierarchy of methods,
-     * fields, attributes, etc. spawns a tree of objects.
-     *
-     * @param v Visitor object
-     */
     @Override
     public void accept(final Visitor v) {
         v.visitStackMapEntry(this);
     }
 
-    /**
-     * @return deep copy of this object
-     */
     public StackMapEntry copy() {
         StackMapEntry e;
         try {
@@ -155,12 +92,6 @@ public final class StackMapEntry implements Node, Cloneable {
         return e;
     }
 
-    /**
-     * Dump stack map entry
-     *
-     * @param file Output file stream
-     * @throws IOException
-     */
     public void dump(final DataOutputStream file) throws IOException {
         file.write(frameType);
         if (frameType >= Const.SAME_FRAME && frameType <= Const.SAME_FRAME_MAX) {
@@ -190,7 +121,6 @@ public final class StackMapEntry implements Node, Cloneable {
                 type.dump(file);
             }
         } else {
-            /* Can't happen */
             throw new ClassFormatException("Invalid Stack map table tag: " + frameType);
         }
     }
@@ -199,9 +129,6 @@ public final class StackMapEntry implements Node, Cloneable {
         return byteCodeOffset;
     }
 
-    /**
-     * @return Constant pool used by this object.
-     */
     public ConstantPool getConstantPool() {
         return constantPool;
     }
@@ -210,10 +137,6 @@ public final class StackMapEntry implements Node, Cloneable {
         return frameType;
     }
 
-    /**
-     * Calculate stack map entry size
-     *
-     */
     int getMapEntrySize() {
         if (frameType >= Const.SAME_FRAME && frameType <= Const.SAME_FRAME_MAX) {
             return 1;
@@ -288,9 +211,6 @@ public final class StackMapEntry implements Node, Cloneable {
         byteCodeOffset = new_offset;
     }
 
-    /**
-     * @param constantPool Constant pool to be used for this object.
-     */
     public void setConstantPool(final ConstantPool constantPool) {
         this.constantPool = constantPool;
     }
@@ -311,18 +231,10 @@ public final class StackMapEntry implements Node, Cloneable {
         frameType = f;
     }
 
-    /**
-     *
-     * @deprecated since 6.0
-     */
     @java.lang.Deprecated
     public void setNumberOfLocals(final int n) { // TODO unused
     }
 
-    /**
-     *
-     * @deprecated since 6.0
-     */
     @java.lang.Deprecated
     public void setNumberOfStackItems(final int n) { // TODO unused
     }
@@ -335,9 +247,6 @@ public final class StackMapEntry implements Node, Cloneable {
         typesOfStackItems = types != null ? types : new StackMapType[0];
     }
 
-    /**
-     * @return String representation.
-     */
     @Override
     public String toString() {
         final StringBuilder buf = new StringBuilder(64);
@@ -384,13 +293,6 @@ public final class StackMapEntry implements Node, Cloneable {
         return buf.toString();
     }
 
-    /**
-     * Update the distance (as an offset delta) from this StackMap entry to the
-     * next. Note that this might cause the the frame type to change. Note also that
-     * delta may be negative.
-     *
-     * @param delta offset delta
-     */
     public void updateByteCodeOffset(final int delta) {
         setByteCodeOffset(byteCodeOffset + delta);
     }

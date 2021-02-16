@@ -1,20 +1,3 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- *
- */
 package com.wade.decompiler.classfile;
 
 import java.io.DataInput;
@@ -26,11 +9,6 @@ import java.util.List;
 
 import com.wade.decompiler.Const;
 
-/**
- * represents one annotation in the annotation table
- *
- * @since 6.0
- */
 public class AnnotationEntry implements Node {
     private final int typeIndex;
     private final ConstantPool constantPool;
@@ -43,13 +21,6 @@ public class AnnotationEntry implements Node {
         this.isRuntimeVisible = isRuntimeVisible;
     }
 
-    /**
-     * Called by objects that are traversing the nodes of the tree implicitely
-     * defined by the contents of a Java class. I.e., the hierarchy of methods,
-     * fields, attributes, etc. spawns a tree of objects.
-     *
-     * @param v Visitor object
-     */
     @Override
     public void accept(final Visitor v) {
         v.visitAnnotationEntry(this);
@@ -68,17 +39,11 @@ public class AnnotationEntry implements Node {
         }
     }
 
-    /**
-     * @return the annotation type name
-     */
     public String getAnnotationType() {
         final ConstantUtf8 c = (ConstantUtf8) constantPool.getConstant(typeIndex, Const.CONSTANT_Utf8);
         return c.getBytes();
     }
 
-    /**
-     * @return the annotation type index
-     */
     public int getAnnotationTypeIndex() {
         return typeIndex;
     }
@@ -87,17 +52,11 @@ public class AnnotationEntry implements Node {
         return constantPool;
     }
 
-    /**
-     * @return the element value pairs in this annotation entry
-     */
     public ElementValuePair[] getElementValuePairs() {
         // TODO return List
         return elementValuePairs.toArray(new ElementValuePair[elementValuePairs.size()]);
     }
 
-    /**
-     * @return the number of element value pairs in this annotation entry
-     */
     public final int getNumElementValuePairs() {
         return elementValuePairs.size();
     }
@@ -142,19 +101,6 @@ public class AnnotationEntry implements Node {
         return accumulatedAnnotations.toArray(new AnnotationEntry[accumulatedAnnotations.size()]);
     }
 
-    /*
-     * Factory method to create an AnnotionEntry from a DataInput
-     *
-     * @param input
-     *
-     * @param constantPool
-     *
-     * @param isRuntimeVisible
-     *
-     * @return the entry
-     *
-     * @throws IOException
-     */
     public static AnnotationEntry read(final DataInput input, final ConstantPool constant_pool, final boolean isRuntimeVisible) throws IOException {
         final AnnotationEntry annotationEntry = new AnnotationEntry(input.readUnsignedShort(), constant_pool, isRuntimeVisible);
         final int num_element_value_pairs = input.readUnsignedShort();

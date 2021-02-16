@@ -1,20 +1,3 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- *
- */
 package com.wade.decompiler.generic;
 
 import java.util.ArrayList;
@@ -24,14 +7,7 @@ import com.wade.decompiler.Const;
 import com.wade.decompiler.classfile.ClassFormatException;
 import com.wade.decompiler.classfile.Utility;
 
-/**
- * Abstract super class for all possible java types, namely basic types such as
- * int, object types like String and array types, e.g. int[]
- */
 public abstract class Type {
-    /**
-     * Predefined constants
-     */
     public static final BasicType VOID = new BasicType(Const.T_VOID);
     public static final BasicType BOOLEAN = new BasicType(Const.T_BOOLEAN);
     public static final BasicType INT = new BasicType(Const.T_INT);
@@ -57,16 +33,8 @@ public abstract class Type {
             return Integer.valueOf(0);
         }
     };// int consumed_chars=0; // Remember position in string, see getArgumentTypes
-    /**
-     * @deprecated (since 6.0) will be made private; do not access directly, use
-     *             getter/setter
-     */
     @Deprecated
     protected byte type; // TODO should be final (and private)
-    /**
-     * @deprecated (since 6.0) will be made private; do not access directly, use
-     *             getter/setter
-     */
     @Deprecated
     protected String signature; // signature for the type TODO should be private
 
@@ -75,9 +43,6 @@ public abstract class Type {
         signature = s;
     }
 
-    /**
-     * @return whether the Types are equal
-     */
     @Override
     public boolean equals(final Object o) {
         if (o instanceof Type) {
@@ -87,17 +52,10 @@ public abstract class Type {
         return false;
     }
 
-    /**
-     * @return signature for given type.
-     */
     public String getSignature() {
         return signature;
     }
 
-    /**
-     * @return stack size of this type (2 for long and double, 0 for void, 1
-     *         otherwise)
-     */
     public int getSize() {
         switch (type) {
             case Const.T_DOUBLE:
@@ -110,28 +68,15 @@ public abstract class Type {
         }
     }
 
-    /**
-     * @return type as defined in Constants
-     */
     public byte getType() {
         return type;
     }
 
-    /**
-     * @return hashcode of Type
-     */
     @Override
     public int hashCode() {
         return type ^ signature.hashCode();
     }
 
-    /**
-     * boolean, short and char variable are considered as int in the stack or local
-     * variable area. Returns {@link Type#INT} for {@link Type#BOOLEAN},
-     * {@link Type#SHORT} or {@link Type#CHAR}, otherwise returns the given type.
-     *
-     * @since 6.0
-     */
     public Type normalizeForStackOrLocal() {
         if (this == Type.BOOLEAN || this == Type.BYTE || this == Type.SHORT || this == Type.CHAR) {
             return Type.INT;
@@ -139,18 +84,10 @@ public abstract class Type {
         return this;
     }
 
-    /*
-     * Currently only used by the ArrayType constructor. The signature has a
-     * complicated dependency on other parameter so it's tricky to do it in a call
-     * to the super ctor.
-     */
     void setSignature(final String signature) {
         this.signature = signature;
     }
 
-    /**
-     * @return Type string, e.g. `int[]'
-     */
     @Override
     public String toString() {
         return ((this.equals(Type.NULL) || (type >= Const.T_UNKNOWN))) ? signature : Utility.signatureToString(signature, false);
@@ -164,12 +101,6 @@ public abstract class Type {
         return consumed << 2 | size;
     }
 
-    /**
-     * Convert arguments of a method (signature) to an array of Type objects.
-     *
-     * @param signature signature string such as (Ljava/lang/String;)V
-     * @return array of argument types
-     */
     public static Type[] getArgumentTypes(final String signature) {
         final List<Type> vec = new ArrayList<>();
         int index;
@@ -213,14 +144,6 @@ public abstract class Type {
         return res;
     }
 
-    /**
-     * Convert type to Java method signature, e.g. int[] f(java.lang.String x)
-     * becomes (Ljava/lang/String;)[I
-     *
-     * @param return_type what the method returns
-     * @param arg_types   what are the argument types
-     * @return method signature for given type(s).
-     */
     public static String getMethodSignature(final Type return_type, final Type[] arg_types) {
         final StringBuilder buf = new StringBuilder("(");
         if (arg_types != null) {
@@ -233,12 +156,6 @@ public abstract class Type {
         return buf.toString();
     }
 
-    /**
-     * Convert return value of a method (signature) to a Type object.
-     *
-     * @param signature signature string such as (Ljava/lang/String;)V
-     * @return return type
-     */
     public static Type getReturnType(final String signature) {
         try {
             // Read return type after `)'
@@ -265,20 +182,10 @@ public abstract class Type {
         return sb.toString();
     }
 
-    /**
-     * Convert runtime java.lang.Class to BCEL Type object.
-     *
-     * @param cl Java class
-     * @return corresponding Type object
-     */
     public static Type getType(final java.lang.Class<?> cl) {
         if (cl == null) {
             throw new IllegalArgumentException("Class must not be null");
         }
-        /*
-         * That's an amzingly easy case, because getName() returns the signature. That's
-         * what we would have liked anyway.
-         */
         if (cl.isArray()) {
             return getType(cl.getName());
         } else if (cl.isPrimitive()) {
@@ -310,12 +217,6 @@ public abstract class Type {
         }
     }
 
-    /**
-     * Convert signature to a Type object.
-     *
-     * @param signature signature string such as Ljava/lang/String;
-     * @return type object
-     */
     // @since 6.0 no longer final
     public static Type getType(final String signature) throws StringIndexOutOfBoundsException {
         final byte type = Utility.typeOfSignature(signature);
@@ -343,12 +244,6 @@ public abstract class Type {
         }
     }
 
-    /**
-     * Convert runtime java.lang.Class[] to BCEL Type objects.
-     *
-     * @param classes an array of runtime class objects
-     * @return array of corresponding Type objects
-     */
     public static Type[] getTypes(final java.lang.Class<?>[] classes) {
         final Type[] ret = new Type[classes.length];
         for (int i = 0; i < ret.length; i++) {

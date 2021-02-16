@@ -1,20 +1,3 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- *
- */
 package com.wade.decompiler.generic;
 
 import java.util.ArrayList;
@@ -33,13 +16,6 @@ import com.wade.decompiler.classfile.Field;
 import com.wade.decompiler.classfile.Utility;
 import com.wade.decompiler.util.BCELComparator;
 
-/**
- * Template class for building up a field. The only extraordinary thing one can
- * do is to add a constant value attribute to a field (which must of course be
- * compatible with to the declared type).
- *
- * @see Field
- */
 public class FieldGen extends FieldGenOrMethodGen {
     private static BCELComparator bcelComparator = new BCELComparator() {
         @Override
@@ -58,13 +34,6 @@ public class FieldGen extends FieldGenOrMethodGen {
     private Object value = null;
     private List<FieldObserver> observers;
 
-    /**
-     * Instantiate from existing field.
-     *
-     * @param field Field object
-     * @param cp    constant pool (must contain the same entries as the field's
-     *              constant pool)
-     */
     public FieldGen(final Field field, final ConstantPoolGen cp) {
         this(field.getAccessFlags(), Type.getType(field.getSignature()), field.getName(), cp);
         final Attribute[] attrs = field.getAttributes();
@@ -83,16 +52,6 @@ public class FieldGen extends FieldGenOrMethodGen {
         }
     }
 
-    /**
-     * Declare a field. If it is static (isStatic() == true) and has a basic type
-     * like int or String it may have an initial value associated with it as defined
-     * by setInitValue().
-     *
-     * @param access_flags access qualifiers
-     * @param type         field type
-     * @param name         field name
-     * @param cp           constant pool
-     */
     public FieldGen(final int access_flags, final Type type, final String name, final ConstantPoolGen cp) {
         super(access_flags);
         setType(type);
@@ -128,9 +87,6 @@ public class FieldGen extends FieldGenOrMethodGen {
         }
     }
 
-    /**
-     * Add observer for this object.
-     */
     public void addObserver(final FieldObserver o) {
         if (observers == null) {
             observers = new ArrayList<>();
@@ -138,9 +94,6 @@ public class FieldGen extends FieldGenOrMethodGen {
         observers.add(o);
     }
 
-    /**
-     * Remove any initial value.
-     */
     public void cancelInitValue() {
         value = null;
     }
@@ -158,30 +111,17 @@ public class FieldGen extends FieldGenOrMethodGen {
         }
     }
 
-    /**
-     * @return deep copy of this field
-     */
     public FieldGen copy(final ConstantPoolGen cp) {
         final FieldGen fg = (FieldGen) clone();
         fg.setConstantPool(cp);
         return fg;
     }
 
-    /**
-     * Return value as defined by given BCELComparator strategy. By default two
-     * FieldGen objects are said to be equal when their names and signatures are
-     * equal.
-     *
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(final Object obj) {
         return bcelComparator.equals(this, obj);
     }
 
-    /**
-     * Get field object after having set up all necessary values.
-     */
     public Field getField() {
         final String signature = getSignature();
         final int name_index = super.getConstantPool().addUtf8(super.getName());
@@ -207,20 +147,11 @@ public class FieldGen extends FieldGenOrMethodGen {
         return super.getType().getSignature();
     }
 
-    /**
-     * Return value as defined by given BCELComparator strategy. By default return
-     * the hashcode of the field's name XOR signature.
-     *
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         return bcelComparator.hashCode(this);
     }
 
-    /**
-     * Remove observer for this object.
-     */
     public void removeObserver(final FieldObserver o) {
         if (observers != null) {
             observers.remove(o);
@@ -283,10 +214,6 @@ public class FieldGen extends FieldGenOrMethodGen {
         }
     }
 
-    /**
-     * Set (optional) initial value of field, otherwise it will be set to
-     * null/0/false by the JVM automatically.
-     */
     public void setInitValue(final String str) {
         checkType(ObjectType.getInstance("java.lang.String"));
         if (str != null) {
@@ -300,12 +227,6 @@ public class FieldGen extends FieldGenOrMethodGen {
         value = ((ConstantObject) c).getConstantValue(cp);
     }
 
-    /**
-     * Return string representation close to declaration format, `public static
-     * final short MAX = 100', e.g..
-     *
-     * @return String representation of field
-     */
     @Override
     public final String toString() {
         String name;
@@ -324,11 +245,6 @@ public class FieldGen extends FieldGenOrMethodGen {
         return buf.toString();
     }
 
-    /**
-     * Call notify() method on all observers. This method is not called
-     * automatically whenever the state has changed, but has to be called by the
-     * user after he has finished editing the object.
-     */
     public void update() {
         if (observers != null) {
             for (final FieldObserver observer : observers) {
@@ -337,16 +253,10 @@ public class FieldGen extends FieldGenOrMethodGen {
         }
     }
 
-    /**
-     * @return Comparison strategy object
-     */
     public static BCELComparator getComparator() {
         return bcelComparator;
     }
 
-    /**
-     * @param comparator Comparison strategy object
-     */
     public static void setComparator(final BCELComparator comparator) {
         bcelComparator = comparator;
     }

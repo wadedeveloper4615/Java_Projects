@@ -1,20 +1,3 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- *
- */
 package com.wade.decompiler.generic;
 
 import java.io.DataOutputStream;
@@ -24,9 +7,6 @@ import com.wade.decompiler.classfile.ConstantUtf8;
 import com.wade.decompiler.classfile.ElementValue;
 import com.wade.decompiler.classfile.EnumElementValue;
 
-/**
- * @since 6.0
- */
 public class EnumElementValueGen extends ElementValueGen {
     // For enum types, these two indices point to the type and value
     private int typeIdx;
@@ -45,10 +25,6 @@ public class EnumElementValueGen extends ElementValueGen {
         }
     }
 
-    /**
-     * This ctor assumes the constant pool already contains the right type and value
-     * - as indicated by typeIdx and valueIdx. This ctor is used for deserialization
-     */
     protected EnumElementValueGen(final int typeIdx, final int valueIdx, final ConstantPoolGen cpool) {
         super(ElementValueGen.ENUM_CONSTANT, cpool);
         if (super.getElementValueType() != ENUM_CONSTANT) {
@@ -71,9 +47,6 @@ public class EnumElementValueGen extends ElementValueGen {
         dos.writeShort(valueIdx); // u2
     }
 
-    /**
-     * Return immutable variant of this EnumElementValue
-     */
     @Override
     public ElementValue getElementValue() {
         System.err.println("Duplicating value: " + getEnumTypeString() + ":" + getEnumValueString());

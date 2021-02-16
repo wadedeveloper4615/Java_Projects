@@ -1,19 +1,3 @@
-/**
- *  Licensed to the Apache Software Foundation (ASF) under one or more
- *  contributor license agreements.  See the NOTICE file distributed with
- *  this work for additional information regarding copyright ownership.
- *  The ASF licenses this file to You under the Apache License, Version 2.0
- *  (the "License"); you may not use this file except in compliance with
- *  the License.  You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- */
 package com.wade.decompiler.classfile;
 
 import java.io.DataInput;
@@ -47,9 +31,6 @@ import com.wade.decompiler.Const;
 //  }
 // J5TODO: Needs some testing !
 
-/**
- * @since 6.0
- */
 public class LocalVariableTypeTable extends Attribute {
     private LocalVariable[] localVariableTypeTable; // variables
 
@@ -76,9 +57,6 @@ public class LocalVariableTypeTable extends Attribute {
         v.visitLocalVariableTypeTable(this);
     }
 
-    /**
-     * @return deep copy of this attribute
-     */
     @Override
     public Attribute copy(final ConstantPool constant_pool) {
         final LocalVariableTypeTable c = (LocalVariableTypeTable) clone();
@@ -120,9 +98,6 @@ public class LocalVariableTypeTable extends Attribute {
         this.localVariableTypeTable = local_variable_table;
     }
 
-    /**
-     * @return String representation.
-     */
     @Override
     public final String toString() {
         final StringBuilder buf = new StringBuilder();

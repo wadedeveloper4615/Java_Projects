@@ -1,20 +1,3 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- *
- */
 package com.wade.decompiler.generic;
 
 import java.io.DataOutputStream;
@@ -25,18 +8,11 @@ import java.util.List;
 import com.wade.decompiler.classfile.ArrayElementValue;
 import com.wade.decompiler.classfile.ElementValue;
 
-/**
- * @since 6.0
- */
 public class ArrayElementValueGen extends ElementValueGen {
     // J5TODO: Should we make this an array or a list? A list would be easier to
     // modify ...
     private final List<ElementValueGen> evalues;
 
-    /**
-     * @param value
-     * @param cpool
-     */
     public ArrayElementValueGen(final ArrayElementValue value, final ConstantPoolGen cpool, final boolean copyPoolEntries) {
         super(ARRAY, cpool);
         evalues = new ArrayList<>();
@@ -75,9 +51,6 @@ public class ArrayElementValueGen extends ElementValueGen {
         }
     }
 
-    /**
-     * Return immutable variant of this ArrayElementValueGen
-     */
     @Override
     public ElementValue getElementValue() {
         final ElementValue[] immutableData = new ElementValue[evalues.size()];

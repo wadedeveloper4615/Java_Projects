@@ -1,20 +1,3 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- *
- */
 package com.wade.decompiler.util;
 
 import java.io.File;
@@ -33,27 +16,6 @@ import com.wade.decompiler.classfile.JavaClass;
 import com.wade.decompiler.classfile.Method;
 import com.wade.decompiler.classfile.Utility;
 
-/**
- * Read class file(s) and convert them into HTML files.
- *
- * Given a JavaClass object "class" that is in package "package" five files will
- * be created in the specified directory.
- *
- * <OL>
- * <LI>"package"."class".html as the main file which defines the frames for the
- * following subfiles.
- * <LI>"package"."class"_attributes.html contains all (known) attributes found
- * in the file
- * <LI>"package"."class"_cp.html contains the constant pool
- * <LI>"package"."class"_code.html contains the byte code
- * <LI>"package"."class"_methods.html contains references to all methods and
- * fields of the class
- * </OL>
- *
- * All subfiles reference each other appropriately, e.g. clicking on a method in
- * the Method's frame will jump to the appropriate method in the Code frame.
- *
- */
 public class Class2HTML implements Constants {
     private static String class_package; // name of package, unclean to make it static, but ...
     private static String class_name; // name of current class, dito
@@ -73,12 +35,6 @@ public class Class2HTML implements Constants {
     private final JavaClass java_class; // current class object
     private final String dir;
 
-    /**
-     * Write contents of the given JavaClass into HTML files.
-     *
-     * @param java_class The class to write
-     * @param dir        The directory to put the files in
-     */
     public Class2HTML(final JavaClass java_class, final String dir) throws IOException {
         final Method[] methods = java_class.getMethods();
         this.java_class = java_class;
@@ -93,10 +49,6 @@ public class Class2HTML implements Constants {
             class_package = ""; // default package
         }
         final ConstantHTML constant_html = new ConstantHTML(dir, class_name, class_package, methods, constant_pool);
-        /*
-         * Attributes can't be written in one step, so we just open a file which will be
-         * written consequently.
-         */
         final AttributeHTML attribute_html = new AttributeHTML(dir, class_name, constant_pool, constant_html);
         new MethodHTML(dir, class_name, methods, java_class.getFields(), constant_html, attribute_html);
         // Write main file (with frames, yuk)
@@ -124,9 +76,6 @@ public class Class2HTML implements Constants {
         String zip_file = null;
         final char sep = File.separatorChar;
         String dir = "." + sep; // Where to store HTML files
-        /*
-         * Parse command line arguments.
-         */
         for (int i = 0; i < argv.length; i++) {
             if (argv[i].charAt(0) == '-') { // command line switch
                 if (argv[i].equals("-d")) { // Specify target directory, default '.'
@@ -169,10 +118,6 @@ public class Class2HTML implements Constants {
         }
     }
 
-    /**
-     * Utility method that converts a class reference in the constant pool, i.e., an
-     * index to a string.
-     */
     static String referenceClass(final int index) {
         String str = constant_pool.getConstantString(index, Const.CONSTANT_Class);
         str = Utility.compactClassName(str);

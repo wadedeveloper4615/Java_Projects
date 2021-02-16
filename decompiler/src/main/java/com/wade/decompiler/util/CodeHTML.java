@@ -1,20 +1,3 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- *
- */
 package com.wade.decompiler.util;
 
 import java.io.FileOutputStream;
@@ -37,11 +20,6 @@ import com.wade.decompiler.classfile.LocalVariableTable;
 import com.wade.decompiler.classfile.Method;
 import com.wade.decompiler.classfile.Utility;
 
-/**
- * Convert code into HTML file.
- *
- *
- */
 final class CodeHTML {
     private static boolean wide = false;
     private final String className; // name of current class
@@ -65,12 +43,6 @@ final class CodeHTML {
         file.close();
     }
 
-    /**
-     * Disassemble a stream of byte codes and return the string representation.
-     *
-     * @param stream data input stream
-     * @return String representation of byte code
-     */
     private String codeToHTML(final ByteSequence bytes, final int method_number) throws IOException {
         final short opcode = (short) bytes.readUnsignedByte();
         String name;
@@ -87,10 +59,6 @@ final class CodeHTML {
         int offset;
         final StringBuilder buf = new StringBuilder(256); // CHECKSTYLE IGNORE MagicNumber
         buf.append("<TT>").append(Const.getOpcodeName(opcode)).append("</TT></TD><TD>");
-        /*
-         * Special case: Skip (0-3) padding bytes, i.e., the following bytes are
-         * 4-byte-aligned
-         */
         if ((opcode == Const.TABLESWITCH) || (opcode == Const.LOOKUPSWITCH)) {
             final int remainder = bytes.getIndex() % 4;
             no_pad_bytes = (remainder == 0) ? 0 : 4 - remainder;
@@ -120,9 +88,6 @@ final class CodeHTML {
                 }
                 buf.append("<TD><A HREF=\"#code").append(method_number).append("@").append(default_offset).append("\">").append(default_offset).append("</A></TD></TR>\n</TABLE>\n");
                 break;
-            /*
-             * Lookup switch has variable length arguments.
-             */
             case Const.LOOKUPSWITCH:
                 final int npairs = bytes.readInt();
                 offset = bytes.getIndex() - 8 - no_pad_bytes - 1;
@@ -142,9 +107,6 @@ final class CodeHTML {
                 }
                 buf.append("<TD><A HREF=\"#code").append(method_number).append("@").append(default_offset).append("\">").append(default_offset).append("</A></TD></TR>\n</TABLE>\n");
                 break;
-            /*
-             * Two address bytes + offset from start of byte stream form the jump target.
-             */
             case Const.GOTO:
             case Const.IFEQ:
             case Const.IFGE:
@@ -166,17 +128,11 @@ final class CodeHTML {
                 index = bytes.getIndex() + bytes.readShort() - 1;
                 buf.append("<A HREF=\"#code").append(method_number).append("@").append(index).append("\">").append(index).append("</A>");
                 break;
-            /*
-             * Same for 32-bit wide jumps
-             */
             case Const.GOTO_W:
             case Const.JSR_W:
                 final int windex = bytes.getIndex() + bytes.readInt() - 1;
                 buf.append("<A HREF=\"#code").append(method_number).append("@").append(windex).append("\">").append(windex).append("</A>");
                 break;
-            /*
-             * Index byte references local variable (register)
-             */
             case Const.ALOAD:
             case Const.ASTORE:
             case Const.DLOAD:
@@ -196,24 +152,13 @@ final class CodeHTML {
                 }
                 buf.append("%").append(vindex);
                 break;
-            /*
-             * Remember wide byte which is used to form a 16-bit address in the following
-             * instruction. Relies on that the method is called again with the following
-             * opcode.
-             */
             case Const.WIDE:
                 wide = true;
                 buf.append("(wide)");
                 break;
-            /*
-             * Array of basic type.
-             */
             case Const.NEWARRAY:
                 buf.append("<FONT COLOR=\"#00FF00\">").append(Const.getTypeName(bytes.readByte())).append("</FONT>");
                 break;
-            /*
-             * Access object/class fields.
-             */
             case Const.GETFIELD:
             case Const.GETSTATIC:
             case Const.PUTFIELD:
@@ -231,18 +176,12 @@ final class CodeHTML {
                     buf.append(constantHtml.referenceConstant(class_index)).append(".").append(field_name);
                 }
                 break;
-            /*
-             * Operands are references to classes in constant pool
-             */
             case Const.CHECKCAST:
             case Const.INSTANCEOF:
             case Const.NEW:
                 index = bytes.readShort();
                 buf.append(constantHtml.referenceConstant(index));
                 break;
-            /*
-             * Operands are references to methods in constant pool
-             */
             case Const.INVOKESPECIAL:
             case Const.INVOKESTATIC:
             case Const.INVOKEVIRTUAL:
@@ -291,9 +230,6 @@ final class CodeHTML {
                 // Attach return type
                 buf.append("):").append(Class2HTML.referenceType(type));
                 break;
-            /*
-             * Operands are references to items in constant pool
-             */
             case Const.LDC_W:
             case Const.LDC2_W:
                 index = bytes.readShort();
@@ -303,24 +239,15 @@ final class CodeHTML {
                 index = bytes.readUnsignedByte();
                 buf.append("<A HREF=\"").append(className).append("_cp.html#cp").append(index).append("\" TARGET=\"ConstantPool\">").append(Class2HTML.toHTML(constantPool.constantToString(index, constantPool.getConstant(index).getTag()))).append("</a>");
                 break;
-            /*
-             * Array of references.
-             */
             case Const.ANEWARRAY:
                 index = bytes.readShort();
                 buf.append(constantHtml.referenceConstant(index));
                 break;
-            /*
-             * Multidimensional array of references.
-             */
             case Const.MULTIANEWARRAY:
                 index = bytes.readShort();
                 final int dimensions = bytes.readByte();
                 buf.append(constantHtml.referenceConstant(index)).append(":").append(dimensions).append("-dimensional");
                 break;
-            /*
-             * Increment local variable.
-             */
             case Const.IINC:
                 if (wide) {
                     vindex = bytes.readShort();
@@ -356,18 +283,10 @@ final class CodeHTML {
         return buf.toString();
     }
 
-    /**
-     * Find all target addresses in code, so that they can be marked with &lt;A NAME
-     * = ...&gt;. Target addresses are kept in an BitSet object.
-     */
     private void findGotos(final ByteSequence bytes, final Code code) throws IOException {
         int index;
         gotoSet = new BitSet(bytes.available());
         int opcode;
-        /*
-         * First get Code attribute from method and the exceptions handled (try ..
-         * catch) in this method. We only need the line number here.
-         */
         if (code != null) {
             final CodeException[] ce = code.getExceptionTable();
             for (final CodeException cex : ce) {
@@ -465,9 +384,6 @@ final class CodeHTML {
         }
     }
 
-    /**
-     * Write a single method with the byte code associated with it.
-     */
     private void writeMethod(final Method method, final int method_number) throws IOException {
         // Get raw signature
         final String signature = method.getSignature();
@@ -529,10 +445,6 @@ final class CodeHTML {
                     final int offset = stream.getIndex();
                     final String str = codeToHTML(stream, method_number);
                     String anchor = "";
-                    /*
-                     * Set an anchor mark if this line is targetted by a goto, jsr, etc. Defining an
-                     * anchor for every line is very inefficient!
-                     */
                     if (gotoSet.get(offset)) {
                         anchor = "<A NAME=code" + method_number + "@" + offset + "></A>";
                     }

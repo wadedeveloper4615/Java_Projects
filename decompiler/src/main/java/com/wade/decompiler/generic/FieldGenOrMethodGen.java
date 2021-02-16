@@ -1,20 +1,3 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- *
- */
 package com.wade.decompiler.generic;
 
 import java.util.ArrayList;
@@ -24,28 +7,11 @@ import com.wade.decompiler.Const;
 import com.wade.decompiler.classfile.AccessFlags;
 import com.wade.decompiler.classfile.Attribute;
 
-/**
- * Super class for FieldGen and MethodGen objects, since they have some methods
- * in common!
- *
- */
 public abstract class FieldGenOrMethodGen extends AccessFlags implements NamedAndTyped, Cloneable {
-    /**
-     * @deprecated (since 6.0) will be made private; do not access directly, use
-     *             getter/setter
-     */
     @Deprecated
     protected String name;
-    /**
-     * @deprecated (since 6.0) will be made private; do not access directly, use
-     *             getter/setter
-     */
     @Deprecated
     protected Type type;
-    /**
-     * @deprecated (since 6.0) will be made private; do not access directly, use
-     *             getter/setter
-     */
     @Deprecated
     protected ConstantPoolGen cp;
     private final List<Attribute> attributeList = new ArrayList<>();
@@ -55,27 +21,14 @@ public abstract class FieldGenOrMethodGen extends AccessFlags implements NamedAn
     protected FieldGenOrMethodGen() {
     }
 
-    /**
-     * @since 6.0
-     */
     protected FieldGenOrMethodGen(final int access_flags) { // TODO could this be package protected?
         super(access_flags);
     }
 
-    /**
-     * @since 6.0
-     */
     public void addAnnotationEntry(final AnnotationEntryGen ag) {
         annotationList.add(ag);
     }
 
-    /**
-     * Add an attribute to this method. Currently, the JVM knows about the `Code',
-     * `ConstantValue', `Synthetic' and `Exceptions' attributes. Other attributes
-     * will be ignored by the JVM but do no harm.
-     *
-     * @param a attribute to be added
-     */
     public void addAttribute(final Attribute a) {
         attributeList.add(a);
     }
@@ -95,9 +48,6 @@ public abstract class FieldGenOrMethodGen extends AccessFlags implements NamedAn
         return annotations;
     }
 
-    /**
-     * @return all attributes of this method.
-     */
     public Attribute[] getAttributes() {
         final Attribute[] attributes = new Attribute[attributeList.size()];
         attributeList.toArray(attributes);
@@ -108,17 +58,11 @@ public abstract class FieldGenOrMethodGen extends AccessFlags implements NamedAn
         return cp;
     }
 
-    /**
-     * @return name of method/field.
-     */
     @Override
     public String getName() {
         return name;
     }
 
-    /**
-     * @return signature of method/field.
-     */
     public abstract String getSignature();
 
     @Override
@@ -126,30 +70,18 @@ public abstract class FieldGenOrMethodGen extends AccessFlags implements NamedAn
         return type;
     }
 
-    /**
-     * @since 6.0
-     */
     public void removeAnnotationEntries() {
         annotationList.clear();
     }
 
-    /**
-     * @since 6.0
-     */
     public void removeAnnotationEntry(final AnnotationEntryGen ag) {
         annotationList.remove(ag);
     }
 
-    /**
-     * Remove an attribute.
-     */
     public void removeAttribute(final Attribute a) {
         attributeList.remove(a);
     }
 
-    /**
-     * Remove all attributes.
-     */
     public void removeAttributes() {
         attributeList.clear();
     }

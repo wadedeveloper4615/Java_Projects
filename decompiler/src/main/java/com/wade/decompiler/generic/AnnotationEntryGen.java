@@ -1,20 +1,3 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- *
- */
 package com.wade.decompiler.generic;
 
 import java.io.ByteArrayInputStream;
@@ -35,23 +18,12 @@ import com.wade.decompiler.classfile.RuntimeInvisibleParameterAnnotations;
 import com.wade.decompiler.classfile.RuntimeVisibleAnnotations;
 import com.wade.decompiler.classfile.RuntimeVisibleParameterAnnotations;
 
-/**
- * @since 6.0
- */
 public class AnnotationEntryGen {
     private int typeIndex;
     private List<ElementValuePairGen> evs;
     private final ConstantPoolGen cpool;
     private boolean isRuntimeVisible = false;
 
-    /**
-     * Here we are taking a fixed annotation of type Annotation and building a
-     * modifiable AnnotationGen object. If the pool passed in is for a different
-     * class file, then copyPoolEntries should have been passed as true as that will
-     * force us to do a deep copy of the annotation and move the cpool entries
-     * across. We need to copy the type and the element name value pairs and the
-     * visibility.
-     */
     public AnnotationEntryGen(final AnnotationEntry a, final ConstantPoolGen cpool, final boolean copyPoolEntries) {
         this.cpool = cpool;
         if (copyPoolEntries) {
@@ -97,9 +69,6 @@ public class AnnotationEntryGen {
         }
     }
 
-    /**
-     * Retrieve an immutable version of this AnnotationGen
-     */
     public AnnotationEntry getAnnotation() {
         final AnnotationEntry a = new AnnotationEntry(typeIndex, cpool.getConstantPool(), isRuntimeVisible);
         for (final ElementValuePairGen element : evs) {
@@ -119,13 +88,10 @@ public class AnnotationEntryGen {
 
     public final String getTypeSignature() {
         // ConstantClass c = (ConstantClass)cpool.getConstant(typeIndex);
-        final ConstantUtf8 utf8 = (ConstantUtf8) cpool.getConstant(typeIndex/* c.getNameIndex() */);
+        final ConstantUtf8 utf8 = (ConstantUtf8) cpool.getConstant(typeIndex);
         return utf8.getBytes();
     }
 
-    /**
-     * Returns list of ElementNameValuePair objects
-     */
     public List<ElementValuePairGen> getValues() {
         return evs;
     }
@@ -165,14 +131,6 @@ public class AnnotationEntryGen {
         return s.toString();
     }
 
-    /**
-     * Converts a list of AnnotationGen objects into a set of attributes that can be
-     * attached to the class file.
-     *
-     * @param cp                  The constant pool gen where we can create the
-     *                            necessary name refs
-     * @param annotationEntryGens An array of AnnotationGen objects
-     */
     static Attribute[] getAnnotationAttributes(final ConstantPoolGen cp, final AnnotationEntryGen[] annotationEntryGens) {
         if (annotationEntryGens.length == 0) {
             return new Attribute[0];
@@ -227,11 +185,7 @@ public class AnnotationEntryGen {
         return null;
     }
 
-    /**
-     * Annotations against a class are stored in one of four attribute kinds: -
-     * RuntimeVisibleParameterAnnotations - RuntimeInvisibleParameterAnnotations
-     */
-    static Attribute[] getParameterAnnotationAttributes(final ConstantPoolGen cp, final List<AnnotationEntryGen>[] /* Array of lists, array size depends on #params */ vec) {
+    static Attribute[] getParameterAnnotationAttributes(final ConstantPoolGen cp, final List<AnnotationEntryGen>[] vec) {
         final int[] visCount = new int[vec.length];
         int totalVisCount = 0;
         final int[] invisCount = new int[vec.length];

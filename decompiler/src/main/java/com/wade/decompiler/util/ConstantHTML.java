@@ -1,20 +1,3 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- *
- */
 package com.wade.decompiler.util;
 
 import java.io.FileOutputStream;
@@ -33,11 +16,6 @@ import com.wade.decompiler.classfile.ConstantString;
 import com.wade.decompiler.classfile.Method;
 import com.wade.decompiler.classfile.Utility;
 
-/**
- * Convert constant pool into HTML file.
- *
- *
- */
 final class ConstantHTML {
     private final String className; // name of current class
     private final String classPackage; // name of package
@@ -94,9 +72,6 @@ final class ConstantHTML {
         String ref;
         // The header is always the same
         file.println("<H4> <A NAME=cp" + index + ">" + index + "</A> " + Const.getConstantName(tag) + "</H4>");
-        /*
-         * For every constant type get the needed parameters and print them appropiately
-         */
         switch (tag) {
             case Const.CONSTANT_InterfaceMethodref:
             case Const.CONSTANT_Methodref:

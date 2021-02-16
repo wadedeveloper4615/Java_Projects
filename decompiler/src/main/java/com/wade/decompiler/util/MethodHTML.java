@@ -1,20 +1,3 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- *
- */
 package com.wade.decompiler.util;
 
 import java.io.FileOutputStream;
@@ -30,11 +13,6 @@ import com.wade.decompiler.classfile.Field;
 import com.wade.decompiler.classfile.Method;
 import com.wade.decompiler.classfile.Utility;
 
-/**
- * Convert methods and fields into HTML file.
- *
- *
- */
 final class MethodHTML {
     private final String className; // name of current class
     private final PrintWriter file; // file to write to
@@ -61,10 +39,7 @@ final class MethodHTML {
     }
 
     /**
-     * Print field of class.
-     *
-     * @param field field to print
-     * @throws java.io.IOException
+     * @throws IOException
      */
     private void writeField(final Field field) throws IOException {
         final String type = Utility.signatureToString(field.getSignature());
@@ -103,10 +78,6 @@ final class MethodHTML {
         String access = Utility.accessToString(method.getAccessFlags());
         // Get the method's attributes, the Code Attribute in particular
         final Attribute[] attributes = method.getAttributes();
-        /*
-         * HTML doesn't like names like <clinit> and spaces are places to break lines.
-         * Both we don't want...
-         */
         access = Utility.replace(access, " ", "&nbsp;");
         html_name = Class2HTML.toHTML(name);
         file.print("<TR VALIGN=TOP><TD><FONT COLOR=\"#FF0000\"><A NAME=method" + method_number + ">" + access + "</A></FONT></TD>");

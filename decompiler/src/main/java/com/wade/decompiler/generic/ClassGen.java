@@ -1,20 +1,3 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- *
- */
 package com.wade.decompiler.generic;
 
 import java.util.ArrayList;
@@ -35,12 +18,6 @@ import com.wade.decompiler.classfile.RuntimeVisibleAnnotations;
 import com.wade.decompiler.classfile.SourceFile;
 import com.wade.decompiler.util.BCELComparator;
 
-/**
- * Template class for building up a java class. May be initialized with an
- * existing java class (file).
- *
- * @see JavaClass
- */
 public class ClassGen extends AccessFlags implements Cloneable {
     private static BCELComparator bcelComparator = new BCELComparator() {
         @Override
@@ -56,9 +33,6 @@ public class ClassGen extends AccessFlags implements Cloneable {
             return THIS.getClassName().hashCode();
         }
     };
-    /*
-     * Corresponds to the fields found in a JavaClass object.
-     */
     private String className;
     private String superClassName;
     private final String fileName;
@@ -75,11 +49,6 @@ public class ClassGen extends AccessFlags implements Cloneable {
     private final List<AnnotationEntryGen> annotationList = new ArrayList<>();
     private List<ClassObserver> observers;
 
-    /**
-     * Initialize with existing class.
-     *
-     * @param clazz JavaClass object (e.g. read from file)
-     */
     public ClassGen(final JavaClass clazz) {
         super(clazz.getAccessFlags());
         classNameIndex = clazz.getClassNameIndex();
@@ -115,29 +84,10 @@ public class ClassGen extends AccessFlags implements Cloneable {
         }
     }
 
-    /**
-     * Convenience constructor to set up some important values initially.
-     *
-     * @param className      fully qualified class name
-     * @param superClassName fully qualified superclass name
-     * @param fileName       source file name
-     * @param accessFlags    access qualifiers
-     * @param interfaces     implemented interfaces
-     */
     public ClassGen(final String className, final String superClassName, final String fileName, final int accessFlags, final String[] interfaces) {
         this(className, superClassName, fileName, accessFlags, interfaces, new ConstantPoolGen());
     }
 
-    /**
-     * Convenience constructor to set up some important values initially.
-     *
-     * @param className      fully qualified class name
-     * @param superClassName fully qualified superclass name
-     * @param fileName       source file name
-     * @param accessFlags    access qualifiers
-     * @param interfaces     implemented interfaces
-     * @param cp             constant pool to use
-     */
     public ClassGen(final String className, final String superClassName, final String fileName, final int accessFlags, final String[] interfaces, final ConstantPoolGen cp) {
         super(accessFlags);
         this.className = className;
@@ -161,22 +111,10 @@ public class ClassGen extends AccessFlags implements Cloneable {
         annotationList.add(a);
     }
 
-    /**
-     * Add an attribute to this class.
-     *
-     * @param a attribute to add
-     */
     public void addAttribute(final Attribute a) {
         attributeList.add(a);
     }
 
-    /**
-     * Convenience method.
-     * <p>
-     * Add an empty constructor to this class that does nothing but calling super().
-     *
-     * @param access_flags rights for constructor
-     */
     public void addEmptyConstructor(final int access_flags) {
         final InstructionList il = new InstructionList();
         il.append(InstructionConst.THIS); // Push `this'
@@ -187,36 +125,18 @@ public class ClassGen extends AccessFlags implements Cloneable {
         addMethod(mg.getMethod());
     }
 
-    /**
-     * Add a field to this class.
-     *
-     * @param f field to add
-     */
     public void addField(final Field f) {
         fieldList.add(f);
     }
 
-    /**
-     * Add an interface to this class, i.e., this class has to implement it.
-     *
-     * @param name interface to implement (fully qualified class name)
-     */
     public void addInterface(final String name) {
         interfaceList.add(name);
     }
 
-    /**
-     * Add a method to this class.
-     *
-     * @param m method to add
-     */
     public void addMethod(final Method m) {
         methodList.add(m);
     }
 
-    /**
-     * Add observer for this object.
-     */
     public void addObserver(final ClassObserver o) {
         if (observers == null) {
             observers = new ArrayList<>();
@@ -237,9 +157,6 @@ public class ClassGen extends AccessFlags implements Cloneable {
         return fieldList.contains(f);
     }
 
-    /**
-     * @return field object with given name, or null
-     */
     public Field containsField(final String name) {
         for (final Field f : fieldList) {
             if (f.getName().equals(name)) {
@@ -249,9 +166,6 @@ public class ClassGen extends AccessFlags implements Cloneable {
         return null;
     }
 
-    /**
-     * @return method object with given name and signature, or null
-     */
     public Method containsMethod(final String name, final String signature) {
         for (final Method m : methodList) {
             if (m.getName().equals(name) && m.getSignature().equals(signature)) {
@@ -261,12 +175,6 @@ public class ClassGen extends AccessFlags implements Cloneable {
         return null;
     }
 
-    /**
-     * Return value as defined by given BCELComparator strategy. By default two
-     * ClassGen objects are said to be equal when their class names are equal.
-     *
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(final Object obj) {
         return bcelComparator.equals(this, obj);
@@ -317,9 +225,6 @@ public class ClassGen extends AccessFlags implements Cloneable {
         return interfaces;
     }
 
-    /**
-     * @return the (finally) built up Java class object.
-     */
     public JavaClass getJavaClass() {
         final int[] interfaces = getInterfaces();
         final Field[] fields = getFields();
@@ -340,9 +245,6 @@ public class ClassGen extends AccessFlags implements Cloneable {
         return new JavaClass(classNameIndex, superclass_name_index, fileName, major, minor, super.getAccessFlags(), _cp, interfaces, fields, methods, attributes);
     }
 
-    /**
-     * @return major version number of class file
-     */
     public int getMajor() {
         return major;
     }
@@ -355,9 +257,6 @@ public class ClassGen extends AccessFlags implements Cloneable {
         return methodList.toArray(new Method[methodList.size()]);
     }
 
-    /**
-     * @return minor version number of class file
-     */
     public int getMinor() {
         return minor;
     }
@@ -370,66 +269,33 @@ public class ClassGen extends AccessFlags implements Cloneable {
         return superclass_name_index;
     }
 
-    /**
-     * Return value as defined by given BCELComparator strategy. By default return
-     * the hashcode of the class name.
-     *
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         return bcelComparator.hashCode(this);
     }
 
-    /**
-     * Remove an attribute from this class.
-     *
-     * @param a attribute to remove
-     */
     public void removeAttribute(final Attribute a) {
         attributeList.remove(a);
     }
 
-    /**
-     * Remove a field to this class.
-     *
-     * @param f field to remove
-     */
     public void removeField(final Field f) {
         fieldList.remove(f);
     }
 
-    /**
-     * Remove an interface from this class.
-     *
-     * @param name interface to remove (fully qualified name)
-     */
     public void removeInterface(final String name) {
         interfaceList.remove(name);
     }
 
-    /**
-     * Remove a method from this class.
-     *
-     * @param m method to remove
-     */
     public void removeMethod(final Method m) {
         methodList.remove(m);
     }
 
-    /**
-     * Remove observer for this object.
-     */
     public void removeObserver(final ClassObserver o) {
         if (observers != null) {
             observers.remove(o);
         }
     }
 
-    /**
-     * Replace given field with new one. If the old one does not exist add the new_
-     * field to the class anyway.
-     */
     public void replaceField(final Field old, final Field new_) {
         if (new_ == null) {
             throw new ClassGenException("Replacement method must not be null");
@@ -442,10 +308,6 @@ public class ClassGen extends AccessFlags implements Cloneable {
         }
     }
 
-    /**
-     * Replace given method with new one. If the old one does not exist add the new_
-     * method to the class anyway.
-     */
     public void replaceMethod(final Method old, final Method new_) {
         if (new_ == null) {
             throw new ClassGenException("Replacement method must not be null");
@@ -472,11 +334,6 @@ public class ClassGen extends AccessFlags implements Cloneable {
         cp = constant_pool;
     }
 
-    /**
-     * Set major version number of class file, default value is 45 (JDK 1.1)
-     *
-     * @param major major version number
-     */
     public void setMajor(final int major) { // TODO could be package-protected - only called by test code
         this.major = major;
     }
@@ -492,11 +349,6 @@ public class ClassGen extends AccessFlags implements Cloneable {
         }
     }
 
-    /**
-     * Set minor version number of class file, default value is 3 (JDK 1.1)
-     *
-     * @param minor minor version number
-     */
     public void setMinor(final int minor) { // TODO could be package-protected - only called by test code
         this.minor = minor;
     }
@@ -511,9 +363,6 @@ public class ClassGen extends AccessFlags implements Cloneable {
         superClassName = cp.getConstantPool().getConstantString(superclass_name_index, Const.CONSTANT_Class).replace('/', '.');
     }
 
-    /**
-     * Look for attributes representing annotations and unpack them.
-     */
     private AnnotationEntryGen[] unpackAnnotations(final Attribute[] attrs) {
         final List<AnnotationEntryGen> annotationGenObjs = new ArrayList<>();
         for (final Attribute attr : attrs) {
@@ -534,11 +383,6 @@ public class ClassGen extends AccessFlags implements Cloneable {
         return annotationGenObjs.toArray(new AnnotationEntryGen[annotationGenObjs.size()]);
     }
 
-    /**
-     * Call notify() method on all observers. This method is not called
-     * automatically whenever the state has changed, but has to be called by the
-     * user after he has finished editing the object.
-     */
     public void update() {
         if (observers != null) {
             for (final ClassObserver observer : observers) {
@@ -547,16 +391,10 @@ public class ClassGen extends AccessFlags implements Cloneable {
         }
     }
 
-    /**
-     * @return Comparison strategy object
-     */
     public static BCELComparator getComparator() {
         return bcelComparator;
     }
 
-    /**
-     * @param comparator Comparison strategy object
-     */
     public static void setComparator(final BCELComparator comparator) {
         bcelComparator = comparator;
     }

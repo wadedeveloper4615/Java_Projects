@@ -1,77 +1,30 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- *
- */
 package com.wade.decompiler.classfile;
 
 import com.wade.decompiler.Const;
 
-/**
- * Super class for all objects that have modifiers like private, final, ... I.e. classes, fields, and methods.
- *
- */
 public abstract class AccessFlags {
-
-    /**
-     * @deprecated (since 6.0) will be made private; do not access directly, use getter/setter
-     */
     @java.lang.Deprecated
     protected int access_flags; // TODO not used externally at present
 
     public AccessFlags() {
     }
 
-    /**
-     * @param a
-     *            inital access flags
-     */
     public AccessFlags(final int a) {
         access_flags = a;
     }
 
-    /**
-     * @return Access flags of the object aka. "modifiers".
-     */
     public final int getAccessFlags() {
         return access_flags;
     }
 
-    /**
-     * @return Access flags of the object aka. "modifiers".
-     */
     public final int getModifiers() {
         return access_flags;
     }
 
-    /**
-     * Set access flags aka "modifiers".
-     *
-     * @param access_flags
-     *            Access flags of the object.
-     */
     public final void setAccessFlags(final int access_flags) {
         this.access_flags = access_flags;
     }
 
-    /**
-     * Set access flags aka "modifiers".
-     *
-     * @param access_flags
-     *            Access flags of the object.
-     */
     public final void setModifiers(final int access_flags) {
         setAccessFlags(access_flags);
     }

@@ -5,34 +5,35 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.Const;
+import com.wade.decompiler.enums.ClassFileAttributes;
 
-public final class Module extends Attribute {
-    private final int moduleNameIndex;
-    private final int moduleFlags;
-    private final int moduleVersionIndex;
+public class Module extends Attribute {
+    private int moduleNameIndex;
+    private int moduleFlags;
+    private int moduleVersionIndex;
     private ModuleRequires[] requiresTable;
     private ModuleExports[] exportsTable;
     private ModuleOpens[] opensTable;
-    private final int usesCount;
-    private final int[] usesIndex;
+    private int usesCount;
+    private int[] usesIndex;
     private ModuleProvides[] providesTable;
 
-    Module(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
-        super(Const.ATTR_MODULE, name_index, length, constant_pool);
+    public Module(int name_index, int length, DataInput input, ConstantPool constant_pool) throws IOException {
+        super(ClassFileAttributes.ATTR_MODULE, name_index, length, constant_pool);
         moduleNameIndex = input.readUnsignedShort();
         moduleFlags = input.readUnsignedShort();
         moduleVersionIndex = input.readUnsignedShort();
-        final int requires_count = input.readUnsignedShort();
+        int requires_count = input.readUnsignedShort();
         requiresTable = new ModuleRequires[requires_count];
         for (int i = 0; i < requires_count; i++) {
             requiresTable[i] = new ModuleRequires(input);
         }
-        final int exports_count = input.readUnsignedShort();
+        int exports_count = input.readUnsignedShort();
         exportsTable = new ModuleExports[exports_count];
         for (int i = 0; i < exports_count; i++) {
             exportsTable[i] = new ModuleExports(input);
         }
-        final int opens_count = input.readUnsignedShort();
+        int opens_count = input.readUnsignedShort();
         opensTable = new ModuleOpens[opens_count];
         for (int i = 0; i < opens_count; i++) {
             opensTable[i] = new ModuleOpens(input);
@@ -42,7 +43,7 @@ public final class Module extends Attribute {
         for (int i = 0; i < usesCount; i++) {
             usesIndex[i] = input.readUnsignedShort();
         }
-        final int provides_count = input.readUnsignedShort();
+        int provides_count = input.readUnsignedShort();
         providesTable = new ModuleProvides[provides_count];
         for (int i = 0; i < provides_count; i++) {
             providesTable[i] = new ModuleProvides(input);
@@ -50,14 +51,14 @@ public final class Module extends Attribute {
     }
 
     @Override
-    public void accept(final Visitor v) {
+    public void accept(Visitor v) {
         v.visitModule(this);
     }
     // TODO add more getters and setters?
 
     @Override
-    public Attribute copy(final ConstantPool _constant_pool) {
-        final Module c = (Module) clone();
+    public Attribute copy(ConstantPool _constant_pool) {
+        Module c = (Module) clone();
         c.requiresTable = new ModuleRequires[requiresTable.length];
         for (int i = 0; i < requiresTable.length; i++) {
             c.requiresTable[i] = requiresTable[i].copy();
@@ -79,29 +80,29 @@ public final class Module extends Attribute {
     }
 
     @Override
-    public void dump(final DataOutputStream file) throws IOException {
+    public void dump(DataOutputStream file) throws IOException {
         super.dump(file);
         file.writeShort(moduleNameIndex);
         file.writeShort(moduleFlags);
         file.writeShort(moduleVersionIndex);
         file.writeShort(requiresTable.length);
-        for (final ModuleRequires entry : requiresTable) {
+        for (ModuleRequires entry : requiresTable) {
             entry.dump(file);
         }
         file.writeShort(exportsTable.length);
-        for (final ModuleExports entry : exportsTable) {
+        for (ModuleExports entry : exportsTable) {
             entry.dump(file);
         }
         file.writeShort(opensTable.length);
-        for (final ModuleOpens entry : opensTable) {
+        for (ModuleOpens entry : opensTable) {
             entry.dump(file);
         }
         file.writeShort(usesIndex.length);
-        for (final int entry : usesIndex) {
+        for (int entry : usesIndex) {
             file.writeShort(entry);
         }
         file.writeShort(providesTable.length);
-        for (final ModuleProvides entry : providesTable) {
+        for (ModuleProvides entry : providesTable) {
             entry.dump(file);
         }
     }
@@ -124,32 +125,32 @@ public final class Module extends Attribute {
 
     @Override
     public String toString() {
-        final ConstantPool cp = super.getConstantPool();
-        final StringBuilder buf = new StringBuilder();
+        ConstantPool cp = super.getConstantPool();
+        StringBuilder buf = new StringBuilder();
         buf.append("Module:\n");
         buf.append("  name:    ").append(cp.getConstantString(moduleNameIndex, Const.CONSTANT_Module).replace('/', '.')).append("\n");
         buf.append("  flags:   ").append(String.format("%04x", moduleFlags)).append("\n");
-        final String version = moduleVersionIndex == 0 ? "0" : cp.getConstantString(moduleVersionIndex, Const.CONSTANT_Utf8);
+        String version = moduleVersionIndex == 0 ? "0" : cp.getConstantString(moduleVersionIndex, Const.CONSTANT_Utf8);
         buf.append("  version: ").append(version).append("\n");
         buf.append("  requires(").append(requiresTable.length).append("):\n");
-        for (final ModuleRequires module : requiresTable) {
+        for (ModuleRequires module : requiresTable) {
             buf.append("    ").append(module.toString(cp)).append("\n");
         }
         buf.append("  exports(").append(exportsTable.length).append("):\n");
-        for (final ModuleExports module : exportsTable) {
+        for (ModuleExports module : exportsTable) {
             buf.append("    ").append(module.toString(cp)).append("\n");
         }
         buf.append("  opens(").append(opensTable.length).append("):\n");
-        for (final ModuleOpens module : opensTable) {
+        for (ModuleOpens module : opensTable) {
             buf.append("    ").append(module.toString(cp)).append("\n");
         }
         buf.append("  uses(").append(usesIndex.length).append("):\n");
-        for (final int index : usesIndex) {
-            final String class_name = cp.getConstantString(index, Const.CONSTANT_Class);
+        for (int index : usesIndex) {
+            String class_name = cp.getConstantString(index, Const.CONSTANT_Class);
             buf.append("    ").append(Utility.compactClassName(class_name, false)).append("\n");
         }
         buf.append("  provides(").append(providesTable.length).append("):\n");
-        for (final ModuleProvides module : providesTable) {
+        for (ModuleProvides module : providesTable) {
             buf.append("    ").append(module.toString(cp)).append("\n");
         }
         return buf.substring(0, buf.length() - 1); // remove the last newline

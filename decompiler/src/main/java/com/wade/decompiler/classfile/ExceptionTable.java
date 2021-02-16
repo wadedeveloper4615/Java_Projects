@@ -5,36 +5,37 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.Const;
+import com.wade.decompiler.enums.ClassFileAttributes;
 
-public final class ExceptionTable extends Attribute {
+public  class ExceptionTable extends Attribute {
     private int[] exceptionIndexTable; // constant pool
 
-    public ExceptionTable(final ExceptionTable c) {
+    public ExceptionTable( ExceptionTable c) {
         this(c.getNameIndex(), c.getLength(), c.getExceptionIndexTable(), c.getConstantPool());
     }
 
-    ExceptionTable(final int nameIndex, final int length, final DataInput input, final ConstantPool constantPool) throws IOException {
+    public ExceptionTable( int nameIndex,  int length,  DataInput input,  ConstantPool constantPool) throws IOException {
         this(nameIndex, length, (int[]) null, constantPool);
-        final int number_of_exceptions = input.readUnsignedShort();
+        int number_of_exceptions = input.readUnsignedShort();
         exceptionIndexTable = new int[number_of_exceptions];
         for (int i = 0; i < number_of_exceptions; i++) {
             exceptionIndexTable[i] = input.readUnsignedShort();
         }
     }
 
-    public ExceptionTable(final int name_index, final int length, final int[] exceptionIndexTable, final ConstantPool constant_pool) {
-        super(Const.ATTR_EXCEPTIONS, name_index, length, constant_pool);
+    public ExceptionTable( int name_index,  int length,  int[] exceptionIndexTable,  ConstantPool constant_pool) {
+        super(ClassFileAttributes.ATTR_EXCEPTIONS, name_index, length, constant_pool);
         this.exceptionIndexTable = exceptionIndexTable != null ? exceptionIndexTable : new int[0];
     }
 
     @Override
-    public void accept(final Visitor v) {
+    public void accept( Visitor v) {
         v.visitExceptionTable(this);
     }
 
     @Override
-    public Attribute copy(final ConstantPool _constant_pool) {
-        final ExceptionTable c = (ExceptionTable) clone();
+    public Attribute copy( ConstantPool _constant_pool) {
+        ExceptionTable c = (ExceptionTable) clone();
         if (exceptionIndexTable != null) {
             c.exceptionIndexTable = new int[exceptionIndexTable.length];
             System.arraycopy(exceptionIndexTable, 0, c.exceptionIndexTable, 0, exceptionIndexTable.length);
@@ -44,10 +45,10 @@ public final class ExceptionTable extends Attribute {
     }
 
     @Override
-    public void dump(final DataOutputStream file) throws IOException {
+    public void dump( DataOutputStream file) throws IOException {
         super.dump(file);
         file.writeShort(exceptionIndexTable.length);
-        for (final int index : exceptionIndexTable) {
+        for ( int index : exceptionIndexTable) {
             file.writeShort(index);
         }
     }
@@ -57,7 +58,7 @@ public final class ExceptionTable extends Attribute {
     }
 
     public String[] getExceptionNames() {
-        final String[] names = new String[exceptionIndexTable.length];
+        String[] names = new String[exceptionIndexTable.length];
         for (int i = 0; i < exceptionIndexTable.length; i++) {
             names[i] = super.getConstantPool().getConstantString(exceptionIndexTable[i], Const.CONSTANT_Class).replace('/', '.');
         }
@@ -68,13 +69,13 @@ public final class ExceptionTable extends Attribute {
         return exceptionIndexTable == null ? 0 : exceptionIndexTable.length;
     }
 
-    public void setExceptionIndexTable(final int[] exceptionIndexTable) {
+    public void setExceptionIndexTable( int[] exceptionIndexTable) {
         this.exceptionIndexTable = exceptionIndexTable != null ? exceptionIndexTable : new int[0];
     }
 
     @Override
     public String toString() {
-        final StringBuilder buf = new StringBuilder();
+        StringBuilder buf = new StringBuilder();
         String str;
         buf.append("Exceptions: ");
         for (int i = 0; i < exceptionIndexTable.length; i++) {

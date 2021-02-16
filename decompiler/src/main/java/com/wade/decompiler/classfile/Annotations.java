@@ -4,19 +4,23 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import com.wade.decompiler.enums.ClassFileAttributes;
+
 public abstract class Annotations extends Attribute {
     private AnnotationEntry[] annotationTable;
-    private final boolean isRuntimeVisible;
+    private boolean isRuntimeVisible;
 
-    public Annotations(final byte annotationType, final int nameIndex, final int length, final AnnotationEntry[] annotationTable, final ConstantPool constantPool, final boolean isRuntimeVisible) {
+    public Annotations(ClassFileAttributes annotationType, int nameIndex, int length, AnnotationEntry[] annotationTable,
+            ConstantPool constantPool, boolean isRuntimeVisible) {
         super(annotationType, nameIndex, length, constantPool);
         this.annotationTable = annotationTable;
         this.isRuntimeVisible = isRuntimeVisible;
     }
 
-    Annotations(final byte annotation_type, final int name_index, final int length, final DataInput input, final ConstantPool constant_pool, final boolean isRuntimeVisible) throws IOException {
+    public Annotations(ClassFileAttributes annotation_type, int name_index, int length, DataInput input,
+            ConstantPool constant_pool, boolean isRuntimeVisible) throws IOException {
         this(annotation_type, name_index, length, (AnnotationEntry[]) null, constant_pool, isRuntimeVisible);
-        final int annotation_table_length = input.readUnsignedShort();
+        int annotation_table_length = input.readUnsignedShort();
         annotationTable = new AnnotationEntry[annotation_table_length];
         for (int i = 0; i < annotation_table_length; i++) {
             annotationTable[i] = AnnotationEntry.read(input, constant_pool, isRuntimeVisible);
@@ -24,7 +28,7 @@ public abstract class Annotations extends Attribute {
     }
 
     @Override
-    public void accept(final Visitor v) {
+    public void accept(Visitor v) {
         v.visitAnnotation(this);
     }
 
@@ -32,7 +36,7 @@ public abstract class Annotations extends Attribute {
         return annotationTable;
     }
 
-    public final int getNumAnnotations() {
+    public int getNumAnnotations() {
         if (annotationTable == null) {
             return 0;
         }
@@ -43,16 +47,16 @@ public abstract class Annotations extends Attribute {
         return isRuntimeVisible;
     }
 
-    public final void setAnnotationTable(final AnnotationEntry[] annotationTable) {
+    public void setAnnotationTable(AnnotationEntry[] annotationTable) {
         this.annotationTable = annotationTable;
     }
 
-    protected void writeAnnotations(final DataOutputStream dos) throws IOException {
+    protected void writeAnnotations(DataOutputStream dos) throws IOException {
         if (annotationTable == null) {
             return;
         }
         dos.writeShort(annotationTable.length);
-        for (final AnnotationEntry element : annotationTable) {
+        for (AnnotationEntry element : annotationTable) {
             element.dump(dos);
         }
     }

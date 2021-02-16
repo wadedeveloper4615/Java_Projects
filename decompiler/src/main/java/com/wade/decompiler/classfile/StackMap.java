@@ -4,33 +4,33 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import com.wade.decompiler.Const;
+import com.wade.decompiler.enums.ClassFileAttributes;
 
-public final class StackMap extends Attribute {
-    private StackMapEntry[] map; // Table of stack map entries
+public  class StackMap extends Attribute {
+    private StackMapEntry[] map;
 
-    StackMap(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
+    public StackMap( int name_index,  int length,  DataInput input,  ConstantPool constant_pool) throws IOException {
         this(name_index, length, (StackMapEntry[]) null, constant_pool);
-        final int map_length = input.readUnsignedShort();
+        int map_length = input.readUnsignedShort();
         map = new StackMapEntry[map_length];
         for (int i = 0; i < map_length; i++) {
             map[i] = new StackMapEntry(input, constant_pool);
         }
     }
 
-    public StackMap(final int name_index, final int length, final StackMapEntry[] map, final ConstantPool constant_pool) {
-        super(Const.ATTR_STACK_MAP, name_index, length, constant_pool);
+    public StackMap( int name_index,  int length,  StackMapEntry[] map,  ConstantPool constant_pool) {
+        super(ClassFileAttributes.ATTR_STACK_MAP, name_index, length, constant_pool);
         this.map = map;
     }
 
     @Override
-    public void accept(final Visitor v) {
+    public void accept( Visitor v) {
         v.visitStackMap(this);
     }
 
     @Override
-    public Attribute copy(final ConstantPool _constant_pool) {
-        final StackMap c = (StackMap) clone();
+    public Attribute copy( ConstantPool _constant_pool) {
+        StackMap c = (StackMap) clone();
         c.map = new StackMapEntry[map.length];
         for (int i = 0; i < map.length; i++) {
             c.map[i] = map[i].copy();
@@ -40,10 +40,10 @@ public final class StackMap extends Attribute {
     }
 
     @Override
-    public void dump(final DataOutputStream file) throws IOException {
+    public void dump( DataOutputStream file) throws IOException {
         super.dump(file);
         file.writeShort(map.length);
-        for (final StackMapEntry entry : map) {
+        for ( StackMapEntry entry : map) {
             entry.dump(file);
         }
     }
@@ -56,10 +56,10 @@ public final class StackMap extends Attribute {
         return map;
     }
 
-    public void setStackMap(final StackMapEntry[] map) {
+    public void setStackMap( StackMapEntry[] map) {
         this.map = map;
         int len = 2; // Length of 'number_of_entries' field prior to the array of stack maps
-        for (final StackMapEntry element : map) {
+        for ( StackMapEntry element : map) {
             len += element.getMapEntrySize();
         }
         setLength(len);
@@ -67,7 +67,7 @@ public final class StackMap extends Attribute {
 
     @Override
     public String toString() {
-        final StringBuilder buf = new StringBuilder("StackMap(");
+        StringBuilder buf = new StringBuilder("StackMap(");
         for (int i = 0; i < map.length; i++) {
             buf.append(map[i]);
             if (i < map.length - 1) {

@@ -19,8 +19,12 @@ public class DCONST extends Instruction implements ConstantPushInstruction {
     }
 
     @Override
-    public Number getValue() {
-        return new Double(value);
+    public void accept(final Visitor v) {
+        v.visitPushInstruction(this);
+        v.visitStackProducer(this);
+        v.visitTypedInstruction(this);
+        v.visitConstantPushInstruction(this);
+        v.visitDCONST(this);
     }
 
     @Override
@@ -29,11 +33,7 @@ public class DCONST extends Instruction implements ConstantPushInstruction {
     }
 
     @Override
-    public void accept(final Visitor v) {
-        v.visitPushInstruction(this);
-        v.visitStackProducer(this);
-        v.visitTypedInstruction(this);
-        v.visitConstantPushInstruction(this);
-        v.visitDCONST(this);
+    public Number getValue() {
+        return Double.valueOf(value);
     }
 }

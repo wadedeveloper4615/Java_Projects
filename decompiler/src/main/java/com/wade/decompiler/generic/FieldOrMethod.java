@@ -7,8 +7,7 @@ import com.wade.decompiler.classfile.ConstantPool;
 import com.wade.decompiler.classfile.ConstantUtf8;
 
 public abstract class FieldOrMethod extends CPInstruction implements LoadClass {
-    FieldOrMethod() {
-        // no init
+    public FieldOrMethod() {
     }
 
     protected FieldOrMethod(final short opcode, final int index) {

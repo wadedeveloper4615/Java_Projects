@@ -4,7 +4,7 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import com.wade.decompiler.Const;
+import com.wade.decompiler.enums.ClassFileAttributes;
 // The new table is used when generic types are about...
 //LocalVariableTable_attribute {
 //       u2 attribute_name_index;
@@ -32,34 +32,34 @@ import com.wade.decompiler.Const;
 // J5TODO: Needs some testing !
 
 public class LocalVariableTypeTable extends Attribute {
-    private LocalVariable[] localVariableTypeTable; // variables
+    private LocalVariable[] localVariableTypeTable;
 
-    LocalVariableTypeTable(final int nameIdx, final int len, final DataInput input, final ConstantPool cpool) throws IOException {
+    public LocalVariableTypeTable(int nameIdx, int len, DataInput input, ConstantPool cpool) throws IOException {
         this(nameIdx, len, (LocalVariable[]) null, cpool);
-        final int local_variable_type_table_length = input.readUnsignedShort();
+        int local_variable_type_table_length = input.readUnsignedShort();
         localVariableTypeTable = new LocalVariable[local_variable_type_table_length];
         for (int i = 0; i < local_variable_type_table_length; i++) {
             localVariableTypeTable[i] = new LocalVariable(input, cpool);
         }
     }
 
-    public LocalVariableTypeTable(final int name_index, final int length, final LocalVariable[] local_variable_table, final ConstantPool constant_pool) {
-        super(Const.ATTR_LOCAL_VARIABLE_TYPE_TABLE, name_index, length, constant_pool);
+    public LocalVariableTypeTable(int name_index, int length, LocalVariable[] local_variable_table, ConstantPool constant_pool) {
+        super(ClassFileAttributes.ATTR_LOCAL_VARIABLE_TYPE_TABLE, name_index, length, constant_pool);
         this.localVariableTypeTable = local_variable_table;
     }
 
-    public LocalVariableTypeTable(final LocalVariableTypeTable c) {
+    public LocalVariableTypeTable(LocalVariableTypeTable c) {
         this(c.getNameIndex(), c.getLength(), c.getLocalVariableTypeTable(), c.getConstantPool());
     }
 
     @Override
-    public void accept(final Visitor v) {
+    public void accept(Visitor v) {
         v.visitLocalVariableTypeTable(this);
     }
 
     @Override
-    public Attribute copy(final ConstantPool constant_pool) {
-        final LocalVariableTypeTable c = (LocalVariableTypeTable) clone();
+    public Attribute copy(ConstantPool constant_pool) {
+        LocalVariableTypeTable c = (LocalVariableTypeTable) clone();
         c.localVariableTypeTable = new LocalVariable[localVariableTypeTable.length];
         for (int i = 0; i < localVariableTypeTable.length; i++) {
             c.localVariableTypeTable[i] = localVariableTypeTable[i].copy();
@@ -69,16 +69,16 @@ public class LocalVariableTypeTable extends Attribute {
     }
 
     @Override
-    public final void dump(final DataOutputStream file) throws IOException {
+    public void dump(DataOutputStream file) throws IOException {
         super.dump(file);
         file.writeShort(localVariableTypeTable.length);
-        for (final LocalVariable variable : localVariableTypeTable) {
+        for (LocalVariable variable : localVariableTypeTable) {
             variable.dump(file);
         }
     }
 
-    public final LocalVariable getLocalVariable(final int index) {
-        for (final LocalVariable variable : localVariableTypeTable) {
+    public LocalVariable getLocalVariable(int index) {
+        for (LocalVariable variable : localVariableTypeTable) {
             if (variable.getIndex() == index) {
                 return variable;
             }
@@ -86,21 +86,21 @@ public class LocalVariableTypeTable extends Attribute {
         return null;
     }
 
-    public final LocalVariable[] getLocalVariableTypeTable() {
+    public LocalVariable[] getLocalVariableTypeTable() {
         return localVariableTypeTable;
     }
 
-    public final int getTableLength() {
+    public int getTableLength() {
         return localVariableTypeTable == null ? 0 : localVariableTypeTable.length;
     }
 
-    public final void setLocalVariableTable(final LocalVariable[] local_variable_table) {
+    public void setLocalVariableTable(LocalVariable[] local_variable_table) {
         this.localVariableTypeTable = local_variable_table;
     }
 
     @Override
-    public final String toString() {
-        final StringBuilder buf = new StringBuilder();
+    public String toString() {
+        StringBuilder buf = new StringBuilder();
         for (int i = 0; i < localVariableTypeTable.length; i++) {
             buf.append(localVariableTypeTable[i].toStringShared(true));
             if (i < localVariableTypeTable.length - 1) {

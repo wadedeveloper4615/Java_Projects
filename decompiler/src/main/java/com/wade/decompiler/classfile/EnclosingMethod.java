@@ -5,6 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.Const;
+import com.wade.decompiler.enums.ClassFileAttributes;
 
 public class EnclosingMethod extends Attribute {
     // Pointer to the CONSTANT_Class_info structure representing the
@@ -21,60 +22,60 @@ public class EnclosingMethod extends Attribute {
     private int methodIndex;
 
     // Ctors - and code to read an attribute in.
-    EnclosingMethod(final int nameIndex, final int len, final DataInput input, final ConstantPool cpool) throws IOException {
+    public EnclosingMethod(int nameIndex, int len, DataInput input, ConstantPool cpool) throws IOException {
         this(nameIndex, len, input.readUnsignedShort(), input.readUnsignedShort(), cpool);
     }
 
-    private EnclosingMethod(final int nameIndex, final int len, final int classIdx, final int methodIdx, final ConstantPool cpool) {
-        super(Const.ATTR_ENCLOSING_METHOD, nameIndex, len, cpool);
+    private EnclosingMethod(int nameIndex, int len, int classIdx, int methodIdx, ConstantPool cpool) {
+        super(ClassFileAttributes.ATTR_ENCLOSING_METHOD, nameIndex, len, cpool);
         classIndex = classIdx;
         methodIndex = methodIdx;
     }
 
     @Override
-    public void accept(final Visitor v) {
+    public void accept(Visitor v) {
         v.visitEnclosingMethod(this);
     }
 
     @Override
-    public Attribute copy(final ConstantPool constant_pool) {
+    public Attribute copy(ConstantPool constant_pool) {
         return (Attribute) clone();
     }
 
     @Override
-    public final void dump(final DataOutputStream file) throws IOException {
+    public void dump(DataOutputStream file) throws IOException {
         super.dump(file);
         file.writeShort(classIndex);
         file.writeShort(methodIndex);
     }
 
-    public final ConstantClass getEnclosingClass() {
-        final ConstantClass c = (ConstantClass) super.getConstantPool().getConstant(classIndex, Const.CONSTANT_Class);
+    public ConstantClass getEnclosingClass() {
+        ConstantClass c = (ConstantClass) super.getConstantPool().getConstant(classIndex, Const.CONSTANT_Class);
         return c;
     }
 
     // Accessors
-    public final int getEnclosingClassIndex() {
+    public int getEnclosingClassIndex() {
         return classIndex;
     }
 
-    public final ConstantNameAndType getEnclosingMethod() {
+    public ConstantNameAndType getEnclosingMethod() {
         if (methodIndex == 0) {
             return null;
         }
-        final ConstantNameAndType nat = (ConstantNameAndType) super.getConstantPool().getConstant(methodIndex, Const.CONSTANT_NameAndType);
+        ConstantNameAndType nat = (ConstantNameAndType) super.getConstantPool().getConstant(methodIndex, Const.CONSTANT_NameAndType);
         return nat;
     }
 
-    public final int getEnclosingMethodIndex() {
+    public int getEnclosingMethodIndex() {
         return methodIndex;
     }
 
-    public final void setEnclosingClassIndex(final int idx) {
+    public void setEnclosingClassIndex(int idx) {
         classIndex = idx;
     }
 
-    public final void setEnclosingMethodIndex(final int idx) {
+    public void setEnclosingMethodIndex(int idx) {
         methodIndex = idx;
     }
 }

@@ -7,17 +7,17 @@ import java.io.IOException;
 import com.wade.decompiler.Const;
 
 public final class ConstantClass extends Constant implements ConstantObject {
-    private int nameIndex; // Identical to ConstantString except for the name
+    private int nameIndex;
 
-    public ConstantClass(final ConstantClass c) {
+    public ConstantClass(ConstantClass c) {
         this(c.getNameIndex());
     }
 
-    ConstantClass(final DataInput dataInput) throws IOException {
+    public ConstantClass(DataInput dataInput) throws IOException {
         this(dataInput.readUnsignedShort());
     }
 
-    public ConstantClass(final int nameIndex) {
+    public ConstantClass(int nameIndex) {
         super(Const.CONSTANT_Class);
         this.nameIndex = nameIndex;
     }

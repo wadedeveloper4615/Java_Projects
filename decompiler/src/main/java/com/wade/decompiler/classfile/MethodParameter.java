@@ -5,6 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.Const;
+import com.wade.decompiler.enums.ClassAccessFlags;
 
 public class MethodParameter implements Cloneable {
     private int nameIndex;
@@ -13,7 +14,7 @@ public class MethodParameter implements Cloneable {
     public MethodParameter() {
     }
 
-    MethodParameter(final DataInput input) throws IOException {
+    public MethodParameter(final DataInput input) throws IOException {
         nameIndex = input.readUnsignedShort();
         accessFlags = input.readUnsignedShort();
     }
@@ -52,15 +53,15 @@ public class MethodParameter implements Cloneable {
     }
 
     public boolean isFinal() {
-        return (accessFlags & Const.ACC_FINAL) != 0;
+        return (accessFlags & ClassAccessFlags.ACC_FINAL.getFlag()) != 0;
     }
 
     public boolean isMandated() {
-        return (accessFlags & Const.ACC_MANDATED) != 0;
+        return (accessFlags & ClassAccessFlags.ACC_MANDATED.getFlag()) != 0;
     }
 
     public boolean isSynthetic() {
-        return (accessFlags & Const.ACC_SYNTHETIC) != 0;
+        return (accessFlags & ClassAccessFlags.ACC_SYNTHETIC.getFlag()) != 0;
     }
 
     public void setAccessFlags(final int access_flags) {

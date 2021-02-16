@@ -5,38 +5,39 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.Const;
+import com.wade.decompiler.enums.ClassFileAttributes;
 
-public final class ModuleMainClass extends Attribute {
+public class ModuleMainClass extends Attribute {
     private int mainClassIndex;
 
-    ModuleMainClass(final int nameIndex, final int length, final DataInput input, final ConstantPool constantPool) throws IOException {
+    public ModuleMainClass(int nameIndex, int length, DataInput input, ConstantPool constantPool) throws IOException {
         this(nameIndex, length, 0, constantPool);
         mainClassIndex = input.readUnsignedShort();
     }
 
-    public ModuleMainClass(final int name_index, final int length, final int mainClassIndex, final ConstantPool constantPool) {
-        super(Const.ATTR_NEST_MEMBERS, name_index, length, constantPool);
+    public ModuleMainClass(int name_index, int length, int mainClassIndex, ConstantPool constantPool) {
+        super(ClassFileAttributes.ATTR_NEST_MEMBERS, name_index, length, constantPool);
         this.mainClassIndex = mainClassIndex;
     }
 
-    public ModuleMainClass(final ModuleMainClass c) {
+    public ModuleMainClass(ModuleMainClass c) {
         this(c.getNameIndex(), c.getLength(), c.getHostClassIndex(), c.getConstantPool());
     }
 
     @Override
-    public void accept(final Visitor v) {
+    public void accept(Visitor v) {
         v.visitModuleMainClass(this);
     }
 
     @Override
-    public Attribute copy(final ConstantPool _constant_pool) {
-        final ModuleMainClass c = (ModuleMainClass) clone();
+    public Attribute copy(ConstantPool _constant_pool) {
+        ModuleMainClass c = (ModuleMainClass) clone();
         c.setConstantPool(_constant_pool);
         return c;
     }
 
     @Override
-    public void dump(final DataOutputStream file) throws IOException {
+    public void dump(DataOutputStream file) throws IOException {
         super.dump(file);
         file.writeShort(mainClassIndex);
     }
@@ -45,15 +46,15 @@ public final class ModuleMainClass extends Attribute {
         return mainClassIndex;
     }
 
-    public void setHostClassIndex(final int mainClassIndex) {
+    public void setHostClassIndex(int mainClassIndex) {
         this.mainClassIndex = mainClassIndex;
     }
 
     @Override
     public String toString() {
-        final StringBuilder buf = new StringBuilder();
+        StringBuilder buf = new StringBuilder();
         buf.append("ModuleMainClass: ");
-        final String class_name = super.getConstantPool().getConstantString(mainClassIndex, Const.CONSTANT_Class);
+        String class_name = super.getConstantPool().getConstantString(mainClassIndex, Const.CONSTANT_Class);
         buf.append(Utility.compactClassName(class_name, false));
         return buf.toString();
     }

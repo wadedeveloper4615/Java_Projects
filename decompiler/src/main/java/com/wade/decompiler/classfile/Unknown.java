@@ -7,20 +7,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.wade.decompiler.Const;
+import com.wade.decompiler.enums.ClassFileAttributes;
 
-public final class Unknown extends Attribute {
-    private static final Map<String, Unknown> unknownAttributes = new HashMap<>();
+public class Unknown extends Attribute {
+    private static Map<String, Unknown> unknownAttributes = new HashMap<>();
     private byte[] bytes;
-    private final String name;
+    private String name;
 
-    public Unknown(final int name_index, final int length, final byte[] bytes, final ConstantPool constant_pool) {
-        super(Const.ATTR_UNKNOWN, name_index, length, constant_pool);
+    public Unknown(int name_index, int length, byte[] bytes, ConstantPool constant_pool) {
+        super(ClassFileAttributes.ATTR_UNKNOWN, name_index, length, constant_pool);
         this.bytes = bytes;
         name = ((ConstantUtf8) constant_pool.getConstant(name_index, Const.CONSTANT_Utf8)).getBytes();
         unknownAttributes.put(name, this);
     }
 
-    Unknown(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
+    public Unknown(int name_index, int length, DataInput input, ConstantPool constant_pool) throws IOException {
         this(name_index, length, (byte[]) null, constant_pool);
         if (length > 0) {
             bytes = new byte[length];
@@ -28,18 +29,18 @@ public final class Unknown extends Attribute {
         }
     }
 
-    public Unknown(final Unknown c) {
+    public Unknown(Unknown c) {
         this(c.getNameIndex(), c.getLength(), c.getBytes(), c.getConstantPool());
     }
 
     @Override
-    public void accept(final Visitor v) {
+    public void accept(Visitor v) {
         v.visitUnknown(this);
     }
 
     @Override
-    public Attribute copy(final ConstantPool _constant_pool) {
-        final Unknown c = (Unknown) clone();
+    public Attribute copy(ConstantPool _constant_pool) {
+        Unknown c = (Unknown) clone();
         if (bytes != null) {
             c.bytes = new byte[bytes.length];
             System.arraycopy(bytes, 0, c.bytes, 0, bytes.length);
@@ -49,7 +50,7 @@ public final class Unknown extends Attribute {
     }
 
     @Override
-    public void dump(final DataOutputStream file) throws IOException {
+    public void dump(DataOutputStream file) throws IOException {
         super.dump(file);
         if (super.getLength() > 0) {
             file.write(bytes, 0, super.getLength());
@@ -65,7 +66,7 @@ public final class Unknown extends Attribute {
         return name;
     }
 
-    public void setBytes(final byte[] bytes) {
+    public void setBytes(byte[] bytes) {
         this.bytes = bytes;
     }
 
@@ -76,7 +77,7 @@ public final class Unknown extends Attribute {
         }
         String hex;
         if (super.getLength() > 10) {
-            final byte[] tmp = new byte[10];
+            byte[] tmp = new byte[10];
             System.arraycopy(bytes, 0, tmp, 0, 10);
             hex = Utility.toHexString(tmp) + "... (truncated)";
         } else {
@@ -86,7 +87,7 @@ public final class Unknown extends Attribute {
     }
 
     static Unknown[] getUnknownAttributes() {
-        final Unknown[] unknowns = new Unknown[unknownAttributes.size()];
+        Unknown[] unknowns = new Unknown[unknownAttributes.size()];
         unknownAttributes.values().toArray(unknowns);
         unknownAttributes.clear();
         return unknowns;

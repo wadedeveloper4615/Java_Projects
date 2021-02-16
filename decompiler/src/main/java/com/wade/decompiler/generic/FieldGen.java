@@ -183,14 +183,14 @@ public class FieldGen extends FieldGenOrMethodGen {
     public void setInitValue(final double d) {
         checkType(Type.DOUBLE);
         if (d != 0.0) {
-            value = new Double(d);
+            value = Double.valueOf(d);
         }
     }
 
     public void setInitValue(final float f) {
         checkType(Type.FLOAT);
         if (f != 0.0) {
-            value = new Float(f);
+            value = Float.valueOf(f);
         }
     }
 

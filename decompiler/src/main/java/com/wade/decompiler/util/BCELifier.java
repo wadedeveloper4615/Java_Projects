@@ -14,20 +14,23 @@ import com.wade.decompiler.classfile.Field;
 import com.wade.decompiler.classfile.JavaClass;
 import com.wade.decompiler.classfile.Method;
 import com.wade.decompiler.classfile.Utility;
+import com.wade.decompiler.enums.ClassAccessFlags;
 import com.wade.decompiler.generic.ArrayType;
 import com.wade.decompiler.generic.ConstantPoolGen;
 import com.wade.decompiler.generic.MethodGen;
 import com.wade.decompiler.generic.Type;
 
 public class BCELifier extends EmptyVisitor {
+    // The base package name for imports; assumes Const is at the top level
+    // N.B we use the class so renames will be detected by the compiler/IDE
+    private static final String BASE_PACKAGE = Const.class.getPackage().getName();
+
+    private static final String CONSTANT_PREFIX = Const.class.getSimpleName() + ".";
+
     public enum FLAGS {
         UNKNOWN, CLASS, METHOD,
     }
 
-    // The base package name for imports; assumes Const is at the top level
-    // N.B we use the class so renames will be detected by the compiler/IDE
-    private static final String BASE_PACKAGE = Const.class.getPackage().getName();
-    private static final String CONSTANT_PREFIX = Const.class.getSimpleName() + ".";
     private final JavaClass _clazz;
     private final PrintWriter _out;
     private final ConstantPoolGen _cp;
@@ -189,11 +192,11 @@ public class BCELifier extends EmptyVisitor {
         final StringBuilder buf = new StringBuilder();
         for (int i = 0, pow = 1; pow <= Const.MAX_ACC_FLAG_I; i++) {
             if ((flags & pow) != 0) {
-                if ((pow == Const.ACC_SYNCHRONIZED) && (location == FLAGS.CLASS)) {
+                if ((pow == ClassAccessFlags.ACC_SYNCHRONIZED.getFlag()) && (location == FLAGS.CLASS)) {
                     buf.append(CONSTANT_PREFIX + "ACC_SUPER | ");
-                } else if ((pow == Const.ACC_VOLATILE) && (location == FLAGS.METHOD)) {
+                } else if ((pow == ClassAccessFlags.ACC_VOLATILE.getFlag()) && (location == FLAGS.METHOD)) {
                     buf.append(CONSTANT_PREFIX + "ACC_BRIDGE | ");
-                } else if ((pow == Const.ACC_TRANSIENT) && (location == FLAGS.METHOD)) {
+                } else if ((pow == ClassAccessFlags.ACC_TRANSIENT.getFlag()) && (location == FLAGS.METHOD)) {
                     buf.append(CONSTANT_PREFIX + "ACC_VARARGS | ");
                 } else if (i < Const.ACCESS_NAMES_LENGTH) {
                     buf.append(CONSTANT_PREFIX + "ACC_").append(Const.getAccessName(i).toUpperCase(Locale.ENGLISH)).append(" | ");

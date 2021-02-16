@@ -9,10 +9,9 @@ import com.wade.decompiler.classfile.ConstantPool;
 import com.wade.decompiler.util.ByteSequence;
 
 public abstract class CPInstruction extends Instruction implements TypedInstruction, IndexedInstruction {
-    @Deprecated
     protected int index; // index to constant pool
 
-    CPInstruction() {
+    public CPInstruction() {
     }
 
     protected CPInstruction(final short opcode, final int index) {

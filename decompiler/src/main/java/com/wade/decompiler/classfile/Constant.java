@@ -3,30 +3,16 @@ package com.wade.decompiler.classfile;
 import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.util.Objects;
 
 import com.wade.decompiler.Const;
+import com.wade.decompiler.comparators.ConstantComparator;
 import com.wade.decompiler.util.BCELComparator;
 
 public abstract class Constant implements Cloneable, Node {
-    private static BCELComparator bcelComparator = new BCELComparator() {
-        @Override
-        public boolean equals(final Object o1, final Object o2) {
-            final Constant THIS = (Constant) o1;
-            final Constant THAT = (Constant) o2;
-            return Objects.equals(THIS.toString(), THAT.toString());
-        }
+    private static BCELComparator bcelComparator = new ConstantComparator();
+    protected byte tag;
 
-        @Override
-        public int hashCode(final Object o) {
-            final Constant THIS = (Constant) o;
-            return THIS.toString().hashCode();
-        }
-    };
-    @java.lang.Deprecated
-    protected byte tag; // TODO should be private & final
-
-    Constant(final byte tag) {
+    public Constant(byte tag) {
         this.tag = tag;
     }
 
@@ -37,8 +23,8 @@ public abstract class Constant implements Cloneable, Node {
     public Object clone() {
         try {
             return super.clone();
-        } catch (final CloneNotSupportedException e) {
-            throw new Error("Clone Not Supported"); // never happens
+        } catch (CloneNotSupportedException e) {
+            throw new Error("Clone Not Supported");
         }
     }
 
@@ -46,7 +32,6 @@ public abstract class Constant implements Cloneable, Node {
         try {
             return (Constant) super.clone();
         } catch (final CloneNotSupportedException e) {
-            // TODO should this throw?
         }
         return null;
     }
@@ -58,7 +43,7 @@ public abstract class Constant implements Cloneable, Node {
         return bcelComparator.equals(this, obj);
     }
 
-    public final byte getTag() {
+    public byte getTag() {
         return tag;
     }
 

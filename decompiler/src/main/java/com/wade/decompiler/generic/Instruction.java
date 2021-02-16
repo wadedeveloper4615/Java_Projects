@@ -9,12 +9,10 @@ import com.wade.decompiler.util.ByteSequence;
 
 public abstract class Instruction implements Cloneable {
     private static InstructionComparator cmp = InstructionComparator.DEFAULT;
-    @Deprecated
     protected short length = 1; // Length of instruction in bytes
-    @Deprecated
     protected short opcode = -1; // Opcode number
 
-    Instruction() {
+    public Instruction() {
     }
 
     public Instruction(final short opcode, final short length) {

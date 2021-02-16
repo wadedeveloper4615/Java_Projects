@@ -14,7 +14,7 @@ public class ConstantPool implements Cloneable, Node {
     }
 
     public ConstantPool(final DataInput input) throws IOException, ClassFormatException {
-        byte tag;
+        int tag;
         final int constant_pool_count = input.readUnsignedShort();
         constantPool = new Constant[constant_pool_count];
         for (int i = 1; i < constant_pool_count; i++) {
@@ -34,7 +34,7 @@ public class ConstantPool implements Cloneable, Node {
     public String constantToString(Constant c) throws ClassFormatException {
         String str;
         int i;
-        final byte tag = c.getTag();
+        byte tag = c.getTag();
         str = switch (tag) {
             case Const.CONSTANT_Class -> {
                 i = ((ConstantClass) c).getNameIndex();
@@ -82,7 +82,7 @@ public class ConstantPool implements Cloneable, Node {
         return str;
     }
 
-    public String constantToString(final int index, final byte tag) throws ClassFormatException {
+    public String constantToString(final int index, int tag) throws ClassFormatException {
         final Constant c = getConstant(index, tag);
         return constantToString(c);
     }
@@ -119,9 +119,8 @@ public class ConstantPool implements Cloneable, Node {
         return constantPool[index];
     }
 
-    public Constant getConstant(final int index, final byte tag) throws ClassFormatException {
-        Constant c;
-        c = getConstant(index);
+    public Constant getConstant(final int index, int tag) throws ClassFormatException {
+        Constant c = getConstant(index);
         if (c == null) {
             throw new ClassFormatException("Constant pool at index " + index + " is null.");
         }

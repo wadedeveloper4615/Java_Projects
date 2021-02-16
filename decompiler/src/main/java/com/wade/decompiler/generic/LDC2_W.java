@@ -40,7 +40,7 @@ public class LDC2_W extends CPInstruction implements PushInstruction {
             case Const.CONSTANT_Long:
                 return Long.valueOf(((ConstantLong) c).getBytes());
             case Const.CONSTANT_Double:
-                return new Double(((ConstantDouble) c).getBytes());
+                return Double.valueOf(((ConstantDouble) c).getBytes());
             default: // Never reached
                 throw new IllegalArgumentException("Unknown or invalid constant type at " + super.getIndex());
         }

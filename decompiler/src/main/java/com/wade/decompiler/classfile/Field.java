@@ -4,8 +4,8 @@ import java.io.DataInput;
 import java.io.IOException;
 import java.util.Objects;
 
-import com.wade.decompiler.Const;
 import com.wade.decompiler.enums.ClassAccessFlagsList;
+import com.wade.decompiler.enums.ClassFileAttributes;
 import com.wade.decompiler.generic.Type;
 import com.wade.decompiler.util.BCELComparator;
 
@@ -53,7 +53,7 @@ public final class Field extends FieldOrMethod {
 
     public ConstantValue getConstantValue() {
         for (final Attribute attribute : super.getAttributes()) {
-            if (attribute.getTag() == Const.ATTR_CONSTANT_VALUE) {
+            if (attribute.getTag() == ClassFileAttributes.ATTR_CONSTANT_VALUE) {
                 return (ConstantValue) attribute;
             }
         }

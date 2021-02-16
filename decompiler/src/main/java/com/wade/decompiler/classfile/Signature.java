@@ -6,10 +6,11 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.Const;
+import com.wade.decompiler.enums.ClassFileAttributes;
 
-public final class Signature extends Attribute {
-    private static final class MyByteArrayInputStream extends ByteArrayInputStream {
-        MyByteArrayInputStream(final String data) {
+public class Signature extends Attribute {
+    private static class MyByteArrayInputStream extends ByteArrayInputStream {
+        public MyByteArrayInputStream(String data) {
             super(data.getBytes());
         }
 
@@ -26,38 +27,38 @@ public final class Signature extends Attribute {
 
     private int signatureIndex;
 
-    Signature(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
+    public Signature(int name_index, int length, DataInput input, ConstantPool constant_pool) throws IOException {
         this(name_index, length, input.readUnsignedShort(), constant_pool);
     }
 
-    public Signature(final int name_index, final int length, final int signatureIndex, final ConstantPool constant_pool) {
-        super(Const.ATTR_SIGNATURE, name_index, length, constant_pool);
+    public Signature(int name_index, int length, int signatureIndex, ConstantPool constant_pool) {
+        super(ClassFileAttributes.ATTR_SIGNATURE, name_index, length, constant_pool);
         this.signatureIndex = signatureIndex;
     }
 
-    public Signature(final Signature c) {
+    public Signature(Signature c) {
         this(c.getNameIndex(), c.getLength(), c.getSignatureIndex(), c.getConstantPool());
     }
 
     @Override
-    public void accept(final Visitor v) {
+    public void accept(Visitor v) {
         // System.err.println("Visiting non-standard Signature object");
         v.visitSignature(this);
     }
 
     @Override
-    public Attribute copy(final ConstantPool _constant_pool) {
+    public Attribute copy(ConstantPool _constant_pool) {
         return (Attribute) clone();
     }
 
     @Override
-    public void dump(final DataOutputStream file) throws IOException {
+    public void dump(DataOutputStream file) throws IOException {
         super.dump(file);
         file.writeShort(signatureIndex);
     }
 
     public String getSignature() {
-        final ConstantUtf8 c = (ConstantUtf8) super.getConstantPool().getConstant(signatureIndex, Const.CONSTANT_Utf8);
+        ConstantUtf8 c = (ConstantUtf8) super.getConstantPool().getConstant(signatureIndex, Const.CONSTANT_Utf8);
         return c.getBytes();
     }
 
@@ -65,31 +66,31 @@ public final class Signature extends Attribute {
         return signatureIndex;
     }
 
-    public void setSignatureIndex(final int signatureIndex) {
+    public void setSignatureIndex(int signatureIndex) {
         this.signatureIndex = signatureIndex;
     }
 
     @Override
     public String toString() {
-        final String s = getSignature();
+        String s = getSignature();
         return "Signature: " + s;
     }
 
-    private static boolean identStart(final int ch) {
+    private static boolean identStart(int ch) {
         return ch == 'T' || ch == 'L';
     }
 
-    // @since 6.0 is no longer final
-    public static boolean isActualParameterList(final String s) {
+    // @since 6.0 is no longer
+    public static boolean isActualParameterList(String s) {
         return s.startsWith("L") && s.endsWith(">;");
     }
 
-    // @since 6.0 is no longer final
-    public static boolean isFormalParameterList(final String s) {
+    // @since 6.0 is no longer
+    public static boolean isFormalParameterList(String s) {
         return s.startsWith("<") && (s.indexOf(':') > 0);
     }
 
-    private static void matchGJIdent(final MyByteArrayInputStream in, final StringBuilder buf) {
+    private static void matchGJIdent(MyByteArrayInputStream in, StringBuilder buf) {
         int ch;
         matchIdent(in, buf);
         ch = in.read();
@@ -123,14 +124,14 @@ public final class Signature extends Attribute {
         }
     }
 
-    private static void matchIdent(final MyByteArrayInputStream in, final StringBuilder buf) {
+    private static void matchIdent(MyByteArrayInputStream in, StringBuilder buf) {
         int ch;
         if ((ch = in.read()) == -1) {
             throw new IllegalArgumentException("Illegal signature: " + in.getData() + " no ident, reaching EOF");
         }
         // System.out.println("return from ident:" + (char)ch);
         if (!identStart(ch)) {
-            final StringBuilder buf2 = new StringBuilder();
+            StringBuilder buf2 = new StringBuilder();
             int count = 1;
             while (Character.isJavaIdentifierPart((char) ch)) {
                 buf2.append((char) ch);
@@ -150,7 +151,7 @@ public final class Signature extends Attribute {
             }
             return;
         }
-        final StringBuilder buf2 = new StringBuilder();
+        StringBuilder buf2 = new StringBuilder();
         ch = in.read();
         do {
             buf2.append((char) ch);
@@ -164,9 +165,9 @@ public final class Signature extends Attribute {
         }
     }
 
-    public static String translate(final String s) {
+    public static String translate(String s) {
         // System.out.println("Sig:" + s);
-        final StringBuilder buf = new StringBuilder();
+        StringBuilder buf = new StringBuilder();
         matchGJIdent(new MyByteArrayInputStream(s), buf);
         return buf.toString();
     }

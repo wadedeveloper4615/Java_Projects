@@ -7,7 +7,7 @@ import java.io.IOException;
 import com.wade.decompiler.Const;
 import com.wade.decompiler.Constants;
 
-public final class LocalVariable implements Cloneable, Node, Constants {
+public class LocalVariable implements Cloneable, Node, Constants {
     private int startPc; // Range in which the variable is valid
     private int length;
     private int nameIndex; // Index in constant pool of variable name
@@ -18,11 +18,11 @@ public final class LocalVariable implements Cloneable, Node, Constants {
     private ConstantPool constantPool;
     private int origIndex; // never changes; used to match up with LocalVariableTypeTable entries
 
-    LocalVariable(final DataInput file, final ConstantPool constant_pool) throws IOException {
+    public LocalVariable(DataInput file, ConstantPool constant_pool) throws IOException {
         this(file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort(), constant_pool);
     }
 
-    public LocalVariable(final int startPc, final int length, final int nameIndex, final int signatureIndex, final int index, final ConstantPool constantPool) {
+    public LocalVariable(int startPc, int length, int nameIndex, int signatureIndex, int index, ConstantPool constantPool) {
         this.startPc = startPc;
         this.length = length;
         this.nameIndex = nameIndex;
@@ -32,7 +32,7 @@ public final class LocalVariable implements Cloneable, Node, Constants {
         this.origIndex = index;
     }
 
-    public LocalVariable(final int startPc, final int length, final int nameIndex, final int signatureIndex, final int index, final ConstantPool constantPool, final int origIndex) {
+    public LocalVariable(int startPc, int length, int nameIndex, int signatureIndex, int index, ConstantPool constantPool, int origIndex) {
         this.startPc = startPc;
         this.length = length;
         this.nameIndex = nameIndex;
@@ -42,26 +42,26 @@ public final class LocalVariable implements Cloneable, Node, Constants {
         this.origIndex = origIndex;
     }
 
-    public LocalVariable(final LocalVariable localVariable) {
+    public LocalVariable(LocalVariable localVariable) {
         this(localVariable.getStartPC(), localVariable.getLength(), localVariable.getNameIndex(), localVariable.getSignatureIndex(), localVariable.getIndex(), localVariable.getConstantPool());
         this.origIndex = localVariable.getOrigIndex();
     }
 
     @Override
-    public void accept(final Visitor v) {
+    public void accept(Visitor v) {
         v.visitLocalVariable(this);
     }
 
     public LocalVariable copy() {
         try {
             return (LocalVariable) clone();
-        } catch (final CloneNotSupportedException e) {
+        } catch (CloneNotSupportedException e) {
             // TODO should this throw?
         }
         return null;
     }
 
-    public void dump(final DataOutputStream dataOutputStream) throws IOException {
+    public void dump(DataOutputStream dataOutputStream) throws IOException {
         dataOutputStream.writeShort(startPc);
         dataOutputStream.writeShort(length);
         dataOutputStream.writeShort(nameIndex);
@@ -109,27 +109,27 @@ public final class LocalVariable implements Cloneable, Node, Constants {
         return startPc;
     }
 
-    public void setConstantPool(final ConstantPool constantPool) {
+    public void setConstantPool(ConstantPool constantPool) {
         this.constantPool = constantPool;
     }
 
-    public void setIndex(final int index) { // TODO unused
+    public void setIndex(int index) { // TODO unused
         this.index = index;
     }
 
-    public void setLength(final int length) {
+    public void setLength(int length) {
         this.length = length;
     }
 
-    public void setNameIndex(final int nameIndex) { // TODO unused
+    public void setNameIndex(int nameIndex) { // TODO unused
         this.nameIndex = nameIndex;
     }
 
-    public void setSignatureIndex(final int signatureIndex) { // TODO unused
+    public void setSignatureIndex(int signatureIndex) { // TODO unused
         this.signatureIndex = signatureIndex;
     }
 
-    public void setStartPC(final int startPc) { // TODO unused
+    public void setStartPC(int startPc) { // TODO unused
         this.startPc = startPc;
     }
 
@@ -138,10 +138,10 @@ public final class LocalVariable implements Cloneable, Node, Constants {
         return toStringShared(false);
     }
 
-    String toStringShared(final boolean typeTable) {
-        final String name = getName();
-        final String signature = Utility.signatureToString(getSignature(), false);
-        final String label = "LocalVariable" + (typeTable ? "Types" : "");
+    String toStringShared(boolean typeTable) {
+        String name = getName();
+        String signature = Utility.signatureToString(getSignature(), false);
+        String label = "LocalVariable" + (typeTable ? "Types" : "");
         return label + "(startPc = " + startPc + ", length = " + length + ", index = " + index + ":" + signature + " " + name + ")";
     }
 }

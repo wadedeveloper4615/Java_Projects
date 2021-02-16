@@ -21,8 +21,12 @@ public class FCONST extends Instruction implements ConstantPushInstruction {
     }
 
     @Override
-    public Number getValue() {
-        return new Float(value);
+    public void accept(final Visitor v) {
+        v.visitPushInstruction(this);
+        v.visitStackProducer(this);
+        v.visitTypedInstruction(this);
+        v.visitConstantPushInstruction(this);
+        v.visitFCONST(this);
     }
 
     @Override
@@ -31,11 +35,7 @@ public class FCONST extends Instruction implements ConstantPushInstruction {
     }
 
     @Override
-    public void accept(final Visitor v) {
-        v.visitPushInstruction(this);
-        v.visitStackProducer(this);
-        v.visitTypedInstruction(this);
-        v.visitConstantPushInstruction(this);
-        v.visitFCONST(this);
+    public Number getValue() {
+        return Float.valueOf(value);
     }
 }

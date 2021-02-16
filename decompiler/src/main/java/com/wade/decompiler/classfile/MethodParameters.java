@@ -4,14 +4,14 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import com.wade.decompiler.Const;
+import com.wade.decompiler.enums.ClassFileAttributes;
 
 public class MethodParameters extends Attribute {
     private MethodParameter[] parameters = new MethodParameter[0];
 
-    MethodParameters(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
-        super(Const.ATTR_METHOD_PARAMETERS, name_index, length, constant_pool);
-        final int parameters_count = input.readUnsignedByte();
+    public MethodParameters(int name_index, int length, DataInput input, ConstantPool constant_pool) throws IOException {
+        super(ClassFileAttributes.ATTR_METHOD_PARAMETERS, name_index, length, constant_pool);
+        int parameters_count = input.readUnsignedByte();
         parameters = new MethodParameter[parameters_count];
         for (int i = 0; i < parameters_count; i++) {
             parameters[i] = new MethodParameter(input);
@@ -19,13 +19,13 @@ public class MethodParameters extends Attribute {
     }
 
     @Override
-    public void accept(final Visitor v) {
+    public void accept(Visitor v) {
         v.visitMethodParameters(this);
     }
 
     @Override
-    public Attribute copy(final ConstantPool _constant_pool) {
-        final MethodParameters c = (MethodParameters) clone();
+    public Attribute copy(ConstantPool _constant_pool) {
+        MethodParameters c = (MethodParameters) clone();
         c.parameters = new MethodParameter[parameters.length];
         for (int i = 0; i < parameters.length; i++) {
             c.parameters[i] = parameters[i].copy();
@@ -35,10 +35,10 @@ public class MethodParameters extends Attribute {
     }
 
     @Override
-    public void dump(final DataOutputStream file) throws IOException {
+    public void dump(DataOutputStream file) throws IOException {
         super.dump(file);
         file.writeByte(parameters.length);
-        for (final MethodParameter parameter : parameters) {
+        for (MethodParameter parameter : parameters) {
             parameter.dump(file);
         }
     }
@@ -47,7 +47,7 @@ public class MethodParameters extends Attribute {
         return parameters;
     }
 
-    public void setParameters(final MethodParameter[] parameters) {
+    public void setParameters(MethodParameter[] parameters) {
         this.parameters = parameters;
     }
 }

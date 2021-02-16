@@ -7,19 +7,14 @@ import java.io.IOException;
 import com.wade.decompiler.Const;
 
 public abstract class ConstantCP extends Constant {
-    // Note that this field is used to store the
-    // bootstrap_method_attr_index of a ConstantInvokeDynamic.
-    @java.lang.Deprecated
-    protected int class_index; // TODO make private (has getter & setter)
-    // This field has the same meaning for all subclasses.
-    @java.lang.Deprecated
-    protected int name_and_type_index; // TODO make private (has getter & setter)
+    protected int class_index;
+    protected int name_and_type_index;
 
-    ConstantCP(final byte tag, final DataInput file) throws IOException {
+    public ConstantCP(byte tag, final DataInput file) throws IOException {
         this(tag, file.readUnsignedShort(), file.readUnsignedShort());
     }
 
-    protected ConstantCP(final byte tag, final int class_index, final int name_and_type_index) {
+    protected ConstantCP(byte tag, final int class_index, final int name_and_type_index) {
         super(tag);
         this.class_index = class_index;
         this.name_and_type_index = name_and_type_index;

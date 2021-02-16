@@ -33,13 +33,13 @@ public class ClassParser {
     public ClassParser(InputStream inputStream, String fileName) {
         this.fileName = fileName;
         fileOwned = false;
-        String clazz = inputStream.getClass().getName(); // Not a very clean solution ...
+        String clazz = inputStream.getClass().getName();
         isZip = clazz.startsWith("java.util.zip.") || clazz.startsWith("java.util.jar.");
         if (inputStream instanceof DataInputStream) {
             this.dataInputStream = (DataInputStream) inputStream;
         } else {
             this.dataInputStream = new DataInputStream(new BufferedInputStream(inputStream, BUFSIZE));
-        }
+        } 
     }
 
     public ClassParser(String fileName) {

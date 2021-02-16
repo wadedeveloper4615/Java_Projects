@@ -8,6 +8,7 @@ import com.wade.decompiler.Const;
 import com.wade.decompiler.classfile.AnnotationEntry;
 import com.wade.decompiler.classfile.Annotations;
 import com.wade.decompiler.classfile.Attribute;
+import com.wade.decompiler.classfile.ClassAccessFlagsList;
 import com.wade.decompiler.classfile.Constant;
 import com.wade.decompiler.classfile.ConstantObject;
 import com.wade.decompiler.classfile.ConstantPool;
@@ -35,7 +36,7 @@ public class FieldGen extends FieldGenOrMethodGen {
     private List<FieldObserver> observers;
 
     public FieldGen(final Field field, final ConstantPoolGen cp) {
-        this(field.getAccessFlags(), Type.getType(field.getSignature()), field.getName(), cp);
+        this(field.getFlags(), Type.getType(field.getSignature()), field.getName(), cp);
         final Attribute[] attrs = field.getAttributes();
         for (final Attribute attr : attrs) {
             if (attr instanceof ConstantValue) {
@@ -132,7 +133,7 @@ public class FieldGen extends FieldGenOrMethodGen {
             addAttribute(new ConstantValue(super.getConstantPool().addUtf8("ConstantValue"), 2, index, super.getConstantPool().getConstantPool())); // sic
         }
         addAnnotationsAsAttribute(super.getConstantPool());
-        return new Field(super.getAccessFlags(), name_index, signature_index, getAttributes(), super.getConstantPool().getConstantPool()); // sic
+        return new Field(super.getFlags(), name_index, signature_index, getAttributes(), super.getConstantPool().getConstantPool()); // sic
     }
 
     public String getInitValue() {
@@ -232,7 +233,7 @@ public class FieldGen extends FieldGenOrMethodGen {
         String name;
         String signature;
         String access; // Short cuts to constant pool
-        access = Utility.accessToString(super.getAccessFlags());
+        access = Utility.accessToString(new ClassAccessFlagsList(super.getFlags()));
         access = access.isEmpty() ? "" : (access + " ");
         signature = super.getType().toString();
         name = getName();

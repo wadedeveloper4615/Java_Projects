@@ -7,6 +7,7 @@ import java.util.BitSet;
 
 import com.wade.decompiler.Const;
 import com.wade.decompiler.classfile.Attribute;
+import com.wade.decompiler.classfile.ClassAccessFlagsList;
 import com.wade.decompiler.classfile.Code;
 import com.wade.decompiler.classfile.CodeException;
 import com.wade.decompiler.classfile.ConstantFieldref;
@@ -395,7 +396,7 @@ final class CodeHTML {
         final String name = method.getName();
         final String html_name = Class2HTML.toHTML(name);
         // Get method's access flags
-        String access = Utility.accessToString(method.getAccessFlags());
+        String access = Utility.accessToString(new ClassAccessFlagsList(method.getFlags()));
         access = Utility.replace(access, " ", "&nbsp;");
         // Get the method's attributes, the Code Attribute in particular
         final Attribute[] attributes = method.getAttributes();

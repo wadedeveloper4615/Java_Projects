@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.Objects;
 
 import com.wade.decompiler.Const;
-import com.wade.decompiler.classfile.AccessFlags;
 import com.wade.decompiler.classfile.AnnotationEntry;
 import com.wade.decompiler.classfile.Annotations;
 import com.wade.decompiler.classfile.Attribute;
+import com.wade.decompiler.classfile.ClassAccessFlagsList;
 import com.wade.decompiler.classfile.ConstantPool;
 import com.wade.decompiler.classfile.Field;
 import com.wade.decompiler.classfile.JavaClass;
@@ -16,9 +16,10 @@ import com.wade.decompiler.classfile.Method;
 import com.wade.decompiler.classfile.RuntimeInvisibleAnnotations;
 import com.wade.decompiler.classfile.RuntimeVisibleAnnotations;
 import com.wade.decompiler.classfile.SourceFile;
+import com.wade.decompiler.enums.Version;
 import com.wade.decompiler.util.BCELComparator;
 
-public class ClassGen extends AccessFlags implements Cloneable {
+public class ClassGen extends ClassAccessFlagsList implements Cloneable {
     private static BCELComparator bcelComparator = new BCELComparator() {
         @Override
         public boolean equals(final Object o1, final Object o2) {
@@ -38,8 +39,7 @@ public class ClassGen extends AccessFlags implements Cloneable {
     private final String fileName;
     private int classNameIndex = -1;
     private int superclass_name_index = -1;
-    private int major = Const.MAJOR_1_1;
-    private int minor = Const.MINOR_1_1;
+    private Version version = Version.Version_1_1;
     private ConstantPoolGen cp; // Template for building up constant pool
     // ArrayLists instead of arrays to gather fields, methods, etc.
     private final List<Field> fieldList = new ArrayList<>();
@@ -50,15 +50,14 @@ public class ClassGen extends AccessFlags implements Cloneable {
     private List<ClassObserver> observers;
 
     public ClassGen(final JavaClass clazz) {
-        super(clazz.getAccessFlags());
+        super(clazz.getFlags());
         classNameIndex = clazz.getClassNameIndex();
         superclass_name_index = clazz.getSuperclassNameIndex();
         className = clazz.getClassName();
         superClassName = clazz.getSuperclassName();
         fileName = clazz.getSourceFileName();
         cp = new ConstantPoolGen(clazz.getConstantPool());
-        major = clazz.getMajor();
-        minor = clazz.getMinor();
+        version = clazz.getVersion();
         final Attribute[] attributes = clazz.getAttributes();
         // J5TODO: Could make unpacking lazy, done on first reference
         final AnnotationEntryGen[] annotations = unpackAnnotations(attributes);
@@ -242,11 +241,7 @@ public class ClassGen extends AccessFlags implements Cloneable {
         }
         // Must be last since the above calls may still add something to it
         final ConstantPool _cp = this.cp.getFinalConstantPool();
-        return new JavaClass(classNameIndex, superclass_name_index, fileName, major, minor, super.getAccessFlags(), _cp, interfaces, fields, methods, attributes);
-    }
-
-    public int getMajor() {
-        return major;
+        return new JavaClass(classNameIndex, superclass_name_index, fileName, version, new ClassAccessFlagsList(super.getFlags()), _cp, interfaces, fields, methods, attributes);
     }
 
     public Method getMethodAt(final int pos) {
@@ -257,16 +252,16 @@ public class ClassGen extends AccessFlags implements Cloneable {
         return methodList.toArray(new Method[methodList.size()]);
     }
 
-    public int getMinor() {
-        return minor;
-    }
-
     public String getSuperclassName() {
         return superClassName;
     }
 
     public int getSuperclassNameIndex() {
         return superclass_name_index;
+    }
+
+    public Version getVersion() {
+        return version;
     }
 
     @Override
@@ -334,10 +329,6 @@ public class ClassGen extends AccessFlags implements Cloneable {
         cp = constant_pool;
     }
 
-    public void setMajor(final int major) { // TODO could be package-protected - only called by test code
-        this.major = major;
-    }
-
     public void setMethodAt(final Method method, final int pos) {
         methodList.set(pos, method);
     }
@@ -349,10 +340,6 @@ public class ClassGen extends AccessFlags implements Cloneable {
         }
     }
 
-    public void setMinor(final int minor) { // TODO could be package-protected - only called by test code
-        this.minor = minor;
-    }
-
     public void setSuperclassName(final String name) {
         superClassName = name.replace('/', '.');
         superclass_name_index = cp.addClass(name);
@@ -361,6 +348,10 @@ public class ClassGen extends AccessFlags implements Cloneable {
     public void setSuperclassNameIndex(final int superclass_name_index) {
         this.superclass_name_index = superclass_name_index;
         superClassName = cp.getConstantPool().getConstantString(superclass_name_index, Const.CONSTANT_Class).replace('/', '.');
+    }
+
+    public void setVersion(Version version) {
+        this.version = version;
     }
 
     private AnnotationEntryGen[] unpackAnnotations(final Attribute[] attrs) {

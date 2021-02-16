@@ -111,7 +111,7 @@ public final class Method extends FieldOrMethod {
 
     @Override
     public String toString() {
-        final String access = Utility.accessToString(super.getAccessFlags());
+        final String access = Utility.accessToString(new ClassAccessFlagsList(super.getFlags()));
         // Get name and signature from constant pool
         ConstantUtf8 c = (ConstantUtf8) super.getConstantPool().getConstant(super.getSignatureIndex(), Const.CONSTANT_Utf8);
         String signature = c.getBytes();

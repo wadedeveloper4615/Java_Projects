@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 
 import com.wade.decompiler.Const;
 import com.wade.decompiler.classfile.Attribute;
+import com.wade.decompiler.classfile.ClassAccessFlagsList;
 import com.wade.decompiler.classfile.Code;
 import com.wade.decompiler.classfile.ConstantValue;
 import com.wade.decompiler.classfile.ExceptionTable;
@@ -44,7 +45,7 @@ final class MethodHTML {
     private void writeField(final Field field) throws IOException {
         final String type = Utility.signatureToString(field.getSignature());
         final String name = field.getName();
-        String access = Utility.accessToString(field.getAccessFlags());
+        String access = Utility.accessToString(new ClassAccessFlagsList(field.getFlags()));
         Attribute[] attributes;
         access = Utility.replace(access, " ", "&nbsp;");
         file.print("<TR><TD><FONT COLOR=\"#FF0000\">" + access + "</FONT></TD>\n<TD>" + Class2HTML.referenceType(type) + "</TD><TD><A NAME=\"field" + name + "\">" + name + "</A></TD>");
@@ -75,7 +76,7 @@ final class MethodHTML {
         final String name = method.getName();
         String html_name;
         // Get method's access flags
-        String access = Utility.accessToString(method.getAccessFlags());
+        String access = Utility.accessToString(new ClassAccessFlagsList(method.getFlags()));
         // Get the method's attributes, the Code Attribute in particular
         final Attribute[] attributes = method.getAttributes();
         access = Utility.replace(access, " ", "&nbsp;");

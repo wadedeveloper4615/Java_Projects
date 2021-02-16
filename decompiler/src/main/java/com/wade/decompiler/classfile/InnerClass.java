@@ -10,7 +10,7 @@ public final class InnerClass implements Cloneable, Node {
     private int innerClassIndex;
     private int outerClassIndex;
     private int innerNameIndex;
-    private int innerAccessFlags;
+    private ClassAccessFlagsList innerAccessFlags;
 
     InnerClass(final DataInput file) throws IOException {
         this(file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort());
@@ -20,11 +20,18 @@ public final class InnerClass implements Cloneable, Node {
         this(c.getInnerClassIndex(), c.getOuterClassIndex(), c.getInnerNameIndex(), c.getInnerAccessFlags());
     }
 
-    public InnerClass(final int innerClassIndex, final int outerClassIndex, final int innerNameIndex, final int innerAccessFlags) {
+    public InnerClass(final int innerClassIndex, final int outerClassIndex, final int innerNameIndex, ClassAccessFlagsList innerAccessFlags) {
         this.innerClassIndex = innerClassIndex;
         this.outerClassIndex = outerClassIndex;
         this.innerNameIndex = innerNameIndex;
         this.innerAccessFlags = innerAccessFlags;
+    }
+
+    public InnerClass(final int innerClassIndex, final int outerClassIndex, final int innerNameIndex, final int innerAccessFlags) {
+        this.innerClassIndex = innerClassIndex;
+        this.outerClassIndex = outerClassIndex;
+        this.innerNameIndex = innerNameIndex;
+        this.innerAccessFlags = new ClassAccessFlagsList(innerAccessFlags);
     }
 
     @Override
@@ -45,10 +52,10 @@ public final class InnerClass implements Cloneable, Node {
         file.writeShort(innerClassIndex);
         file.writeShort(outerClassIndex);
         file.writeShort(innerNameIndex);
-        file.writeShort(innerAccessFlags);
+        file.writeShort(innerAccessFlags.getFlags());
     }
 
-    public int getInnerAccessFlags() {
+    public ClassAccessFlagsList getInnerAccessFlags() {
         return innerAccessFlags;
     }
 
@@ -64,7 +71,7 @@ public final class InnerClass implements Cloneable, Node {
         return outerClassIndex;
     }
 
-    public void setInnerAccessFlags(final int innerAccessFlags) {
+    public void setInnerAccessFlags(ClassAccessFlagsList innerAccessFlags) {
         this.innerAccessFlags = innerAccessFlags;
     }
 
@@ -72,11 +79,11 @@ public final class InnerClass implements Cloneable, Node {
         this.innerClassIndex = innerClassIndex;
     }
 
-    public void setInnerNameIndex(final int innerNameIndex) { // TODO unused
+    public void setInnerNameIndex(final int innerNameIndex) {
         this.innerNameIndex = innerNameIndex;
     }
 
-    public void setOuterClassIndex(final int outerClassIndex) { // TODO unused
+    public void setOuterClassIndex(final int outerClassIndex) {
         this.outerClassIndex = outerClassIndex;
     }
 

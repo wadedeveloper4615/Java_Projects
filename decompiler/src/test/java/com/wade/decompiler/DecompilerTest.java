@@ -1,4 +1,4 @@
-package com.wade.app;
+package com.wade.decompiler;
 
 import org.junit.jupiter.api.Test;
 

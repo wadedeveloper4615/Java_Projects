@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.wade.decompiler.Const;
-import com.wade.decompiler.classfile.AccessFlags;
 import com.wade.decompiler.classfile.Attribute;
+import com.wade.decompiler.classfile.ClassAccessFlagsList;
 
-public abstract class FieldGenOrMethodGen extends AccessFlags implements NamedAndTyped, Cloneable {
+public abstract class FieldGenOrMethodGen extends ClassAccessFlagsList implements NamedAndTyped, Cloneable {
     @Deprecated
     protected String name;
     @Deprecated

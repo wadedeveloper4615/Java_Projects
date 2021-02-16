@@ -8,36 +8,25 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.TreeSet;
 
 import com.wade.decompiler.Const;
+import com.wade.decompiler.comparators.JavClassComparator;
+import com.wade.decompiler.enums.ClassAccessFlags;
+import com.wade.decompiler.enums.Version;
 import com.wade.decompiler.generic.Type;
 import com.wade.decompiler.util.BCELComparator;
 import com.wade.decompiler.util.ClassQueue;
 import com.wade.decompiler.util.SyntheticRepository;
 
-public class JavaClass extends AccessFlags implements Cloneable, Node, Comparable<JavaClass> {
-    public static final byte HEAP = 1;
-    public static final byte FILE = 2;
-    public static final byte ZIP = 3;
-    private static final boolean debug = Boolean.getBoolean("JavaClass.debug"); // Debugging on/off
-    private static BCELComparator bcelComparator = new BCELComparator() {
-        @Override
-        public boolean equals(final Object o1, final Object o2) {
-            final JavaClass THIS = (JavaClass) o1;
-            final JavaClass THAT = (JavaClass) o2;
-            return Objects.equals(THIS.getClassName(), THAT.getClassName());
-        }
-
-        @Override
-        public int hashCode(final Object o) {
-            final JavaClass THIS = (JavaClass) o;
-            return THIS.getClassName().hashCode();
-        }
-    };
+public class JavaClass extends ClassAccessFlagsList implements Cloneable, Node, Comparable<JavaClass> {
+    public static byte HEAP = 1;
+    public static byte FILE = 2;
+    public static byte ZIP = 3;
+    private static boolean debug = Boolean.getBoolean("JavaClass.debug"); // Debugging on/off
+    private static BCELComparator bcelComparator = new JavClassComparator();
     private String fileName;
     private String packageName;
     private String sourceFileName = "<Unknown>";
@@ -45,26 +34,25 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
     private int superclassNameIndex;
     private String className;
     private String superclassName;
-    private int major;
-    private int minor; // Compiler version
-    private ConstantPool constantPool; // Constant pool
-    private int[] interfaces; // implemented interfaces
+    private ConstantPool constantPool;
+    private int[] interfaces;
     private String[] interfaceNames;
-    private Field[] fields; // Fields, i.e., variables of class
-    private Method[] methods; // methods defined in the class
-    private Attribute[] attributes; // attributes defined in the class
-    private AnnotationEntry[] annotations; // annotations defined on the class
-    private byte source = HEAP; // Generated in memory
+    private Field[] fields;
+    private Method[] methods;
+    private Attribute[] attributes;
+    private AnnotationEntry[] annotations;
+    private byte source = HEAP;
     private boolean isAnonymous = false;
     private boolean isNested = false;
     private boolean computedNestedTypeStatus = false;
     private transient com.wade.decompiler.util.Repository repository = SyntheticRepository.getInstance();
+    private Version version;
 
-    public JavaClass(final int classNameIndex, final int superclassNameIndex, final String fileName, final int major, final int minor, final int access_flags, final ConstantPool constantPool, final int[] interfaces, final Field[] fields, final Method[] methods, final Attribute[] attributes) {
-        this(classNameIndex, superclassNameIndex, fileName, major, minor, access_flags, constantPool, interfaces, fields, methods, attributes, HEAP);
+    public JavaClass(int classNameIndex, int superclassNameIndex, String fileName, Version version, ClassAccessFlagsList access_flags, ConstantPool constantPool, int[] interfaces, Field[] fields, Method[] methods, Attribute[] attributes) {
+        this(classNameIndex, superclassNameIndex, fileName, version, access_flags, constantPool, interfaces, fields, methods, attributes, HEAP);
     }
 
-    public JavaClass(final int classNameIndex, final int superclassNameIndex, final String fileName, final int major, final int minor, final int access_flags, final ConstantPool constantPool, int[] interfaces, Field[] fields, Method[] methods, Attribute[] attributes, final byte source) {
+    public JavaClass(int classNameIndex, int superclassNameIndex, String fileName, Version version, ClassAccessFlagsList access_flags, ConstantPool constantPool, int[] interfaces, Field[] fields, Method[] methods, Attribute[] attributes, byte source) {
         super(access_flags);
         if (interfaces == null) {
             interfaces = new int[0];
@@ -81,16 +69,14 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
         this.classNameIndex = classNameIndex;
         this.superclassNameIndex = superclassNameIndex;
         this.fileName = fileName;
-        this.major = major;
-        this.minor = minor;
+        this.version = version;
         this.constantPool = constantPool;
         this.interfaces = interfaces;
         this.fields = fields;
         this.methods = methods;
         this.attributes = attributes;
         this.source = source;
-        // Get source file name if available
-        for (final Attribute attribute : attributes) {
+        for (Attribute attribute : attributes) {
             if (attribute instanceof SourceFile) {
                 sourceFileName = ((SourceFile) attribute).getSourceFileName();
                 break;
@@ -98,14 +84,13 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
         }
         className = constantPool.getConstantString(classNameIndex, Const.CONSTANT_Class);
         className = Utility.compactClassName(className, false);
-        final int index = className.lastIndexOf('.');
+        int index = className.lastIndexOf('.');
         if (index < 0) {
             packageName = "";
         } else {
             packageName = className.substring(0, index);
         }
         if (superclassNameIndex > 0) {
-            // May be zero -> class is java.lang.Object
             superclassName = constantPool.getConstantString(superclassNameIndex, Const.CONSTANT_Class);
             superclassName = Utility.compactClassName(superclassName, false);
         } else {
@@ -113,18 +98,18 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
         }
         interfaceNames = new String[interfaces.length];
         for (int i = 0; i < interfaces.length; i++) {
-            final String str = constantPool.getConstantString(interfaces[i], Const.CONSTANT_Class);
+            String str = constantPool.getConstantString(interfaces[i], Const.CONSTANT_Class);
             interfaceNames[i] = Utility.compactClassName(str, false);
         }
     }
 
     @Override
-    public void accept(final Visitor v) {
+    public void accept(Visitor v) {
         v.visitJavaClass(this);
     }
 
     @Override
-    public int compareTo(final JavaClass obj) {
+    public int compareTo(JavaClass obj) {
         return getClassName().compareTo(obj.getClassName());
     }
 
@@ -132,10 +117,10 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
         if (computedNestedTypeStatus) {
             return;
         }
-        for (final Attribute attribute : this.attributes) {
+        for (Attribute attribute : this.attributes) {
             if (attribute instanceof InnerClasses) {
-                final InnerClass[] innerClasses = ((InnerClasses) attribute).getInnerClasses();
-                for (final InnerClass innerClasse : innerClasses) {
+                InnerClass[] innerClasses = ((InnerClasses) attribute).getInnerClasses();
+                for (InnerClass innerClasse : innerClasses) {
                     boolean innerClassAttributeRefersToMe = false;
                     String inner_class_name = constantPool.getConstantString(innerClasse.getInnerClassIndex(), Const.CONSTANT_Class);
                     inner_class_name = Utility.compactClassName(inner_class_name, false);
@@ -173,35 +158,34 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
             for (int i = 0; i < attributes.length; i++) {
                 c.attributes[i] = attributes[i].copy(c.constantPool);
             }
-        } catch (final CloneNotSupportedException e) {
-            // TODO should this throw?
+        } catch (CloneNotSupportedException e) {
         }
         return c;
     }
 
-    public void dump(final DataOutputStream file) throws IOException {
+    public void dump(DataOutputStream file) throws IOException {
         file.writeInt(Const.JVM_CLASSFILE_MAGIC);
-        file.writeShort(minor);
-        file.writeShort(major);
+        file.writeShort(version.getMinor());
+        file.writeShort(version.getMajor());
         constantPool.dump(file);
-        file.writeShort(super.getAccessFlags());
+        file.writeShort(super.getFlags());
         file.writeShort(classNameIndex);
         file.writeShort(superclassNameIndex);
         file.writeShort(interfaces.length);
-        for (final int interface1 : interfaces) {
+        for (int interface1 : interfaces) {
             file.writeShort(interface1);
         }
         file.writeShort(fields.length);
-        for (final Field field : fields) {
+        for (Field field : fields) {
             field.dump(file);
         }
         file.writeShort(methods.length);
-        for (final Method method : methods) {
+        for (Method method : methods) {
             method.dump(file);
         }
         if (attributes != null) {
             file.writeShort(attributes.length);
-            for (final Attribute attribute : attributes) {
+            for (Attribute attribute : attributes) {
                 attribute.dump(file);
             }
         } else {
@@ -210,10 +194,10 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
         file.flush();
     }
 
-    public void dump(final File file) throws IOException {
-        final String parent = file.getParent();
+    public void dump(File file) throws IOException {
+        String parent = file.getParent();
         if (parent != null) {
-            final File dir = new File(parent);
+            File dir = new File(parent);
             if (!dir.mkdirs()) { // either was not created or already existed
                 if (!dir.isDirectory()) {
                     throw new IOException("Could not create the directory " + dir);
@@ -225,33 +209,33 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
         }
     }
 
-    public void dump(final OutputStream file) throws IOException {
+    public void dump(OutputStream file) throws IOException {
         dump(new DataOutputStream(file));
     }
 
-    public void dump(final String _file_name) throws IOException {
+    public void dump(String _file_name) throws IOException {
         dump(new File(_file_name));
     }
 
     @Override
-    public boolean equals(final Object obj) {
+    public boolean equals(Object obj) {
         return bcelComparator.equals(this, obj);
     }
 
     public JavaClass[] getAllInterfaces() throws ClassNotFoundException {
-        final ClassQueue queue = new ClassQueue();
-        final Set<JavaClass> allInterfaces = new TreeSet<>();
+        ClassQueue queue = new ClassQueue();
+        Set<JavaClass> allInterfaces = new TreeSet<>();
         queue.enqueue(this);
         while (!queue.empty()) {
-            final JavaClass clazz = queue.dequeue();
-            final JavaClass souper = clazz.getSuperClass();
-            final JavaClass[] _interfaces = clazz.getInterfaces();
+            JavaClass clazz = queue.dequeue();
+            JavaClass souper = clazz.getSuperClass();
+            JavaClass[] _interfaces = clazz.getInterfaces();
             if (clazz.isInterface()) {
                 allInterfaces.add(clazz);
             } else if (souper != null) {
                 queue.enqueue(souper);
             }
-            for (final JavaClass _interface : _interfaces) {
+            for (JavaClass _interface : _interfaces) {
                 queue.enqueue(_interface);
             }
         }
@@ -270,16 +254,16 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
     }
 
     public byte[] getBytes() {
-        final ByteArrayOutputStream s = new ByteArrayOutputStream();
-        final DataOutputStream ds = new DataOutputStream(s);
+        ByteArrayOutputStream s = new ByteArrayOutputStream();
+        DataOutputStream ds = new DataOutputStream(s);
         try {
             dump(ds);
-        } catch (final IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         } finally {
             try {
                 ds.close();
-            } catch (final IOException e2) {
+            } catch (IOException e2) {
                 e2.printStackTrace();
             }
         }
@@ -315,21 +299,17 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
     }
 
     public JavaClass[] getInterfaces() throws ClassNotFoundException {
-        final String[] _interfaces = getInterfaceNames();
-        final JavaClass[] classes = new JavaClass[_interfaces.length];
+        String[] _interfaces = getInterfaceNames();
+        JavaClass[] classes = new JavaClass[_interfaces.length];
         for (int i = 0; i < _interfaces.length; i++) {
             classes[i] = repository.loadClass(_interfaces[i]);
         }
         return classes;
     }
 
-    public int getMajor() {
-        return major;
-    }
-
-    public Method getMethod(final java.lang.reflect.Method m) {
-        for (final Method method : methods) {
-            if (m.getName().equals(method.getName()) && (m.getModifiers() == method.getModifiers()) && Type.getSignature(m).equals(method.getSignature())) {
+    public Method getMethod(java.lang.reflect.Method m) {
+        for (Method method : methods) {
+            if (m.getName().equals(method.getName()) && (m.getModifiers() == method.getFlags()) && Type.getSignature(m).equals(method.getSignature())) {
                 return method;
             }
         }
@@ -340,10 +320,6 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
         return methods;
     }
 
-    public int getMinor() {
-        return minor;
-    }
-
     public String getPackageName() {
         return packageName;
     }
@@ -352,7 +328,7 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
         return repository;
     }
 
-    public final byte getSource() {
+    public byte getSource() {
         return source;
     }
 
@@ -369,7 +345,7 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
 
     public JavaClass[] getSuperClasses() throws ClassNotFoundException {
         JavaClass clazz = this;
-        final List<JavaClass> allSuperClasses = new ArrayList<>();
+        List<JavaClass> allSuperClasses = new ArrayList<>();
         for (clazz = clazz.getSuperClass(); clazz != null; clazz = clazz.getSuperClass()) {
             allSuperClasses.add(clazz);
         }
@@ -384,20 +360,24 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
         return superclassNameIndex;
     }
 
+    public Version getVersion() {
+        return version;
+    }
+
     @Override
     public int hashCode() {
         return bcelComparator.hashCode(this);
     }
 
-    public boolean implementationOf(final JavaClass inter) throws ClassNotFoundException {
+    public boolean implementationOf(JavaClass inter) throws ClassNotFoundException {
         if (!inter.isInterface()) {
             throw new IllegalArgumentException(inter.getClassName() + " is no interface");
         }
         if (this.equals(inter)) {
             return true;
         }
-        final JavaClass[] super_interfaces = getAllInterfaces();
-        for (final JavaClass super_interface : super_interfaces) {
+        JavaClass[] super_interfaces = getAllInterfaces();
+        for (JavaClass super_interface : super_interfaces) {
             if (super_interface.equals(inter)) {
                 return true;
             }
@@ -405,12 +385,12 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
         return false;
     }
 
-    public final boolean instanceOf(final JavaClass super_class) throws ClassNotFoundException {
+    public boolean instanceOf(JavaClass super_class) throws ClassNotFoundException {
         if (this.equals(super_class)) {
             return true;
         }
-        final JavaClass[] super_classes = getSuperClasses();
-        for (final JavaClass super_classe : super_classes) {
+        JavaClass[] super_classes = getSuperClasses();
+        for (JavaClass super_classe : super_classes) {
             if (super_classe.equals(super_class)) {
                 return true;
             }
@@ -421,91 +401,88 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
         return false;
     }
 
-    public final boolean isAnonymous() {
+    public boolean isAnonymous() {
         computeNestedTypeStatus();
         return this.isAnonymous;
     }
 
-    public final boolean isClass() {
-        return (super.getAccessFlags() & Const.ACC_INTERFACE) == 0;
+    public boolean isClass() {
+        return !super.hasFlag(ClassAccessFlags.ACC_INTERFACE);
     }
 
-    public final boolean isNested() {
+    public boolean isNested() {
         computeNestedTypeStatus();
         return this.isNested;
     }
 
-    public final boolean isSuper() {
-        return (super.getAccessFlags() & Const.ACC_SUPER) != 0;
+    @Override
+    public boolean isSuper() {
+        return super.hasFlag(ClassAccessFlags.ACC_SUPER);
     }
 
-    public void setAttributes(final Attribute[] attributes) {
+    public void setAttributes(Attribute[] attributes) {
         this.attributes = attributes;
     }
 
-    public void setClassName(final String className) {
+    public void setClassName(String className) {
         this.className = className;
     }
 
-    public void setClassNameIndex(final int classNameIndex) {
+    public void setClassNameIndex(int classNameIndex) {
         this.classNameIndex = classNameIndex;
     }
 
-    public void setConstantPool(final ConstantPool constantPool) {
+    public void setConstantPool(ConstantPool constantPool) {
         this.constantPool = constantPool;
     }
 
-    public void setFields(final Field[] fields) {
+    public void setFields(Field[] fields) {
         this.fields = fields;
     }
 
-    public void setFileName(final String fileName) {
+    public void setFileName(String fileName) {
         this.fileName = fileName;
     }
 
-    public void setInterfaceNames(final String[] interfaceNames) {
+    public void setInterfaceNames(String[] interfaceNames) {
         this.interfaceNames = interfaceNames;
     }
 
-    public void setInterfaces(final int[] interfaces) {
+    public void setInterfaces(int[] interfaces) {
         this.interfaces = interfaces;
     }
 
-    public void setMajor(final int major) {
-        this.major = major;
-    }
-
-    public void setMethods(final Method[] methods) {
+    public void setMethods(Method[] methods) {
         this.methods = methods;
     }
 
-    public void setMinor(final int minor) {
-        this.minor = minor;
-    }
-
-    public void setRepository(final com.wade.decompiler.util.Repository repository) { // TODO make protected?
+    public void setRepository(com.wade.decompiler.util.Repository repository) {
         this.repository = repository;
     }
 
-    public void setSourceFileName(final String sourceFileName) {
+    public void setSourceFileName(String sourceFileName) {
         this.sourceFileName = sourceFileName;
     }
 
-    public void setSuperclassName(final String superclassName) {
+    public void setSuperclassName(String superclassName) {
         this.superclassName = superclassName;
     }
 
-    public void setSuperclassNameIndex(final int superclassNameIndex) {
+    public void setSuperclassNameIndex(int superclassNameIndex) {
         this.superclassNameIndex = superclassNameIndex;
+    }
+
+    public void setVersion(Version version) {
+        this.version = version;
     }
 
     @Override
     public String toString() {
-        String access = Utility.accessToString(super.getAccessFlags(), true);
+        String access = Utility.accessToString(new ClassAccessFlagsList(super.getFlags()), true);
         access = access.isEmpty() ? "" : (access + " ");
-        final StringBuilder buf = new StringBuilder(128);
-        buf.append(access).append(Utility.classOrInterface(super.getAccessFlags())).append(" ").append(className).append(" extends ").append(Utility.compactClassName(superclassName, false)).append('\n');
-        final int size = interfaces.length;
+        StringBuilder buf = new StringBuilder(128);
+        buf.append(access).append(Utility.classOrInterface(new ClassAccessFlagsList(super.getFlags()))).append(" ").append(className).append(" extends ").append(Utility.compactClassName(superclassName, false)).append('\n');
+        int size = interfaces.length;
         if (size > 0) {
             buf.append("implements\t\t");
             for (int i = 0; i < size; i++) {
@@ -518,39 +495,39 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
         }
         buf.append("file name\t\t").append(fileName).append('\n');
         buf.append("compiled from\t\t").append(sourceFileName).append('\n');
-        buf.append("compiler version\t").append(major).append(".").append(minor).append('\n');
-        buf.append("access flags\t\t").append(super.getAccessFlags()).append('\n');
+        buf.append("compiler version\t").append(version.getMajor()).append(".").append(version.getMinor()).append('\n');
+        buf.append("access flags\t\t").append(super.getFlags()).append('\n');
         buf.append("constant pool\t\t").append(constantPool.getLength()).append(" entries\n");
         buf.append("ACC_SUPER flag\t\t").append(isSuper()).append("\n");
         if (attributes.length > 0) {
             buf.append("\nAttribute(s):\n");
-            for (final Attribute attribute : attributes) {
+            for (Attribute attribute : attributes) {
                 buf.append(indent(attribute));
             }
         }
-        final AnnotationEntry[] annotations = getAnnotationEntries();
+        AnnotationEntry[] annotations = getAnnotationEntries();
         if (annotations != null && annotations.length > 0) {
             buf.append("\nAnnotation(s):\n");
-            for (final AnnotationEntry annotation : annotations) {
+            for (AnnotationEntry annotation : annotations) {
                 buf.append(indent(annotation));
             }
         }
         if (fields.length > 0) {
             buf.append("\n").append(fields.length).append(" fields:\n");
-            for (final Field field : fields) {
+            for (Field field : fields) {
                 buf.append("\t").append(field).append('\n');
             }
         }
         if (methods.length > 0) {
             buf.append("\n").append(methods.length).append(" methods:\n");
-            for (final Method method : methods) {
+            for (Method method : methods) {
                 buf.append("\t").append(method).append('\n');
             }
         }
         return buf.toString();
     }
 
-    static void Debug(final String str) {
+    static void Debug(String str) {
         if (debug) {
             System.out.println(str);
         }
@@ -560,16 +537,16 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
         return bcelComparator;
     }
 
-    private static String indent(final Object obj) {
-        final StringTokenizer tok = new StringTokenizer(obj.toString(), "\n");
-        final StringBuilder buf = new StringBuilder();
+    private static String indent(Object obj) {
+        StringTokenizer tok = new StringTokenizer(obj.toString(), "\n");
+        StringBuilder buf = new StringBuilder();
         while (tok.hasMoreTokens()) {
             buf.append("\t").append(tok.nextToken()).append("\n");
         }
         return buf.toString();
     }
 
-    public static void setComparator(final BCELComparator comparator) {
+    public static void setComparator(BCELComparator comparator) {
         bcelComparator = comparator;
     }
 }

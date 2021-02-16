@@ -129,31 +129,20 @@ public abstract class Utility {
         MAP_CHAR['_'] = j;
     }
 
-    public static String accessToString(final int access_flags) {
+    public static String accessToString(ClassAccessFlagsList access_flags) {
         return accessToString(access_flags, false);
     }
 
-    public static String accessToString(final int access_flags, final boolean for_class) {
-        final StringBuilder buf = new StringBuilder();
-        int p = 0;
-        for (int i = 0; p < Const.MAX_ACC_FLAG_I; i++) { // Loop through known flags
-            p = pow2(i);
-            if ((access_flags & p) != 0) {
-                if (for_class && ((p == Const.ACC_SUPER) || (p == Const.ACC_INTERFACE))) {
-                    continue;
-                }
-                buf.append(Const.getAccessName(i)).append(" ");
-            }
-        }
-        return buf.toString().trim();
+    public static String accessToString(ClassAccessFlagsList access_flags, boolean for_class) {
+        return access_flags.toString(for_class);
     }
 
     private static short byteToShort(final byte b) {
         return (b < 0) ? (short) (256 + b) : (short) b;
     }
 
-    public static String classOrInterface(final int access_flags) {
-        return ((access_flags & Const.ACC_INTERFACE) != 0) ? "interface" : "class";
+    public static String classOrInterface(ClassAccessFlagsList access_flags) {
+        return (access_flags.isInterface()) ? "interface" : "class";
     }
 
     public static int clearBit(final int flag, final int i) {
@@ -166,7 +155,7 @@ public abstract class Utility {
     }
 
     public static String codeToString(final byte[] code, final ConstantPool constant_pool, final int index, final int length, final boolean verbose) {
-        final StringBuilder buf = new StringBuilder(code.length * 20); // Should be sufficient // CHECKSTYLE IGNORE MagicNumber
+        final StringBuilder buf = new StringBuilder(code.length * 20);
         try (ByteSequence stream = new ByteSequence(code)) {
             for (int i = 0; i < index; i++) {
                 codeToString(stream, constant_pool, verbose);

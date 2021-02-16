@@ -7,7 +7,7 @@ import java.io.IOException;
 
 import com.wade.decompiler.Const;
 
-public abstract class FieldOrMethod extends AccessFlags implements Cloneable, Node {
+public abstract class FieldOrMethod extends ClassAccessFlagsList implements Cloneable, Node {
     @java.lang.Deprecated
     protected int name_index; // Points to field name in constant pool
     @java.lang.Deprecated
@@ -42,7 +42,7 @@ public abstract class FieldOrMethod extends AccessFlags implements Cloneable, No
     }
 
     protected FieldOrMethod(final FieldOrMethod c) {
-        this(c.getAccessFlags(), c.getNameIndex(), c.getSignatureIndex(), c.getAttributes(), c.getConstantPool());
+        this(c.getFlags(), c.getNameIndex(), c.getSignatureIndex(), c.getAttributes(), c.getConstantPool());
     }
 
     protected FieldOrMethod(final int access_flags, final int name_index, final int signature_index, final Attribute[] attributes, final ConstantPool constant_pool) {
@@ -70,7 +70,7 @@ public abstract class FieldOrMethod extends AccessFlags implements Cloneable, No
     }
 
     public final void dump(final DataOutputStream file) throws IOException {
-        file.writeShort(super.getAccessFlags());
+        file.writeShort(super.getFlags());
         file.writeShort(name_index);
         file.writeShort(signature_index);
         file.writeShort(attributes_count);

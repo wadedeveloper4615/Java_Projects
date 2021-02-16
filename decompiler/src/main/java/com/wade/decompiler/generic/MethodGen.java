@@ -11,6 +11,7 @@ import com.wade.decompiler.Const;
 import com.wade.decompiler.classfile.AnnotationEntry;
 import com.wade.decompiler.classfile.Annotations;
 import com.wade.decompiler.classfile.Attribute;
+import com.wade.decompiler.classfile.ClassAccessFlagsList;
 import com.wade.decompiler.classfile.Code;
 import com.wade.decompiler.classfile.CodeException;
 import com.wade.decompiler.classfile.ExceptionTable;
@@ -24,6 +25,7 @@ import com.wade.decompiler.classfile.ParameterAnnotationEntry;
 import com.wade.decompiler.classfile.ParameterAnnotations;
 import com.wade.decompiler.classfile.RuntimeVisibleParameterAnnotations;
 import com.wade.decompiler.classfile.Utility;
+import com.wade.decompiler.enums.ClassAccessFlags;
 import com.wade.decompiler.util.BCELComparator;
 
 public class MethodGen extends FieldGenOrMethodGen {
@@ -145,7 +147,7 @@ public class MethodGen extends FieldGenOrMethodGen {
     }
 
     public MethodGen(final Method method, final String className, final ConstantPoolGen cp) {
-        this(method.getAccessFlags(), Type.getReturnType(method.getSignature()), Type.getArgumentTypes(method.getSignature()), null, method.getName(), className, ((method.getAccessFlags() & (Const.ACC_ABSTRACT | Const.ACC_NATIVE)) == 0) ? new InstructionList(getByteCodes(method)) : null, cp);
+        this(method.getFlags(), Type.getReturnType(method.getSignature()), Type.getArgumentTypes(method.getSignature()), null, method.getName(), className, ((method.getFlags() & (ClassAccessFlags.ACC_ABSTRACT.getFlag() | ClassAccessFlags.ACC_NATIVE.getFlag())) == 0) ? new InstructionList(getByteCodes(method)) : null, cp);
         final Attribute[] attributes = method.getAttributes();
         for (final Attribute attribute : attributes) {
             Attribute a = attribute;
@@ -578,7 +580,7 @@ public class MethodGen extends FieldGenOrMethodGen {
             addAttribute(et = getExceptionTable(_cp));
             // Add `Exceptions' if there are "throws" clauses
         }
-        final Method m = new Method(super.getAccessFlags(), name_index, signature_index, getAttributes(), _cp.getConstantPool());
+        final Method m = new Method(super.getFlags(), name_index, signature_index, getAttributes(), _cp.getConstantPool());
         // Undo effects of adding attributes
         if (lvt != null) {
             removeCodeAttribute(lvt);
@@ -780,7 +782,7 @@ public class MethodGen extends FieldGenOrMethodGen {
 
     @Override
     public final String toString() {
-        final String access = Utility.accessToString(super.getAccessFlags());
+        final String access = Utility.accessToString(new ClassAccessFlagsList(super.getFlags()));
         String signature = Type.getMethodSignature(super.getType(), argTypes);
         signature = Utility.methodSignatureToString(signature, super.getName(), access, true, getLocalVariableTable(super.getConstantPool()));
         final StringBuilder buf = new StringBuilder(signature);

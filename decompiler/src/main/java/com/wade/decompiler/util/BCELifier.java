@@ -69,7 +69,7 @@ public class BCELifier extends EmptyVisitor {
     @Override
     public void visitField(final Field field) {
         _out.println();
-        _out.println("    field = new FieldGen(" + printFlags(field.getAccessFlags()) + ", " + printType(field.getSignature()) + ", \"" + field.getName() + "\", _cp);");
+        _out.println("    field = new FieldGen(" + printFlags(field.getFlags()) + ", " + printType(field.getSignature()) + ", \"" + field.getName() + "\", _cp);");
         final ConstantValue cv = field.getConstantValue();
         if (cv != null) {
             final String value = cv.toString();
@@ -100,9 +100,9 @@ public class BCELifier extends EmptyVisitor {
         _out.println("  private ClassGen           _cg;");
         _out.println();
         _out.println("  public " + class_name + "Creator() {");
-        _out.println("    _cg = new ClassGen(\"" + (("".equals(package_name)) ? class_name : package_name + "." + class_name) + "\", \"" + super_name + "\", " + "\"" + clazz.getSourceFileName() + "\", " + printFlags(clazz.getAccessFlags(), FLAGS.CLASS) + ", " + "new String[] { " + inter + " });");
-        _out.println("    _cg.setMajor(" + clazz.getMajor() + ");");
-        _out.println("    _cg.setMinor(" + clazz.getMinor() + ");");
+        _out.println("    _cg = new ClassGen(\"" + (("".equals(package_name)) ? class_name : package_name + "." + class_name) + "\", \"" + super_name + "\", " + "\"" + clazz.getSourceFileName() + "\", " + printFlags(clazz.getFlags(), FLAGS.CLASS) + ", " + "new String[] { " + inter + " });");
+        _out.println("    _cg.setMajor(" + clazz.getVersion().getMajor() + ");");
+        _out.println("    _cg.setMinor(" + clazz.getVersion().getMinor() + ");");
         _out.println();
         _out.println("    _cp = _cg.getConstantPool();");
         _out.println("    _factory = new InstructionFactory(_cg, _cp);");
@@ -134,7 +134,7 @@ public class BCELifier extends EmptyVisitor {
     public void visitMethod(final Method method) {
         final MethodGen mg = new MethodGen(method, _clazz.getClassName(), _cp);
         _out.println("    InstructionList il = new InstructionList();");
-        _out.println("    MethodGen method = new MethodGen(" + printFlags(method.getAccessFlags(), FLAGS.METHOD) + ", " + printType(mg.getReturnType()) + ", " + printArgumentTypes(mg.getArgumentTypes()) + ", " + "new String[] { " + Utility.printArray(mg.getArgumentNames(), false, true) + " }, \"" + method.getName() + "\", \"" + _clazz.getClassName() + "\", il, _cp);");
+        _out.println("    MethodGen method = new MethodGen(" + printFlags(method.getFlags(), FLAGS.METHOD) + ", " + printType(mg.getReturnType()) + ", " + printArgumentTypes(mg.getArgumentTypes()) + ", " + "new String[] { " + Utility.printArray(mg.getArgumentNames(), false, true) + " }, \"" + method.getName() + "\", \"" + _clazz.getClassName() + "\", il, _cp);");
         _out.println();
         final BCELFactory factory = new BCELFactory(mg, _out);
         factory.start();

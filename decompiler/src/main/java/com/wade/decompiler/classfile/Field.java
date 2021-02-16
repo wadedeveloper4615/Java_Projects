@@ -74,7 +74,7 @@ public final class Field extends FieldOrMethod {
         String signature;
         String access; // Short cuts to constant pool
         // Get names from constant pool
-        access = Utility.accessToString(super.getAccessFlags());
+        access = Utility.accessToString(new ClassAccessFlagsList(super.getFlags()));
         access = access.isEmpty() ? "" : (access + " ");
         signature = Utility.signatureToString(getSignature());
         name = getName();

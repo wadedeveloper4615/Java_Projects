@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.wade.decompiler.Const;
 import com.wade.decompiler.classfile.Attribute;
-import com.wade.decompiler.classfile.ClassAccessFlagsList;
+import com.wade.decompiler.enums.ClassAccessFlagsList;
 
 public abstract class FieldGenOrMethodGen extends ClassAccessFlagsList implements NamedAndTyped, Cloneable {
     @Deprecated

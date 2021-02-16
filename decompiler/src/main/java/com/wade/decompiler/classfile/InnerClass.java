@@ -5,6 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.Const;
+import com.wade.decompiler.enums.ClassAccessFlagsList;
 
 public final class InnerClass implements Cloneable, Node {
     private int innerClassIndex;

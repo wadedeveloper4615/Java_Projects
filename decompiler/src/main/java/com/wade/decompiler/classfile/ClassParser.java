@@ -10,6 +10,7 @@ import java.util.zip.ZipFile;
 
 import com.wade.decompiler.Const;
 import com.wade.decompiler.enums.ClassAccessFlags;
+import com.wade.decompiler.enums.ClassAccessFlagsList;
 import com.wade.decompiler.enums.Version;
 
 public class ClassParser {

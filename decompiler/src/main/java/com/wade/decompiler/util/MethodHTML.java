@@ -6,13 +6,13 @@ import java.io.PrintWriter;
 
 import com.wade.decompiler.Const;
 import com.wade.decompiler.classfile.Attribute;
-import com.wade.decompiler.classfile.ClassAccessFlagsList;
 import com.wade.decompiler.classfile.Code;
 import com.wade.decompiler.classfile.ConstantValue;
 import com.wade.decompiler.classfile.ExceptionTable;
 import com.wade.decompiler.classfile.Field;
 import com.wade.decompiler.classfile.Method;
 import com.wade.decompiler.classfile.Utility;
+import com.wade.decompiler.enums.ClassAccessFlagsList;
 
 final class MethodHTML {
     private final String className; // name of current class

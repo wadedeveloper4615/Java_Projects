@@ -11,7 +11,6 @@ import com.wade.decompiler.Const;
 import com.wade.decompiler.classfile.AnnotationEntry;
 import com.wade.decompiler.classfile.Annotations;
 import com.wade.decompiler.classfile.Attribute;
-import com.wade.decompiler.classfile.ClassAccessFlagsList;
 import com.wade.decompiler.classfile.Code;
 import com.wade.decompiler.classfile.CodeException;
 import com.wade.decompiler.classfile.ExceptionTable;
@@ -26,6 +25,7 @@ import com.wade.decompiler.classfile.ParameterAnnotations;
 import com.wade.decompiler.classfile.RuntimeVisibleParameterAnnotations;
 import com.wade.decompiler.classfile.Utility;
 import com.wade.decompiler.enums.ClassAccessFlags;
+import com.wade.decompiler.enums.ClassAccessFlagsList;
 import com.wade.decompiler.util.BCELComparator;
 
 public class MethodGen extends FieldGenOrMethodGen {

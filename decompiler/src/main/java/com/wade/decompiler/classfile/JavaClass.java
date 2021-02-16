@@ -15,6 +15,7 @@ import java.util.TreeSet;
 import com.wade.decompiler.Const;
 import com.wade.decompiler.comparators.JavClassComparator;
 import com.wade.decompiler.enums.ClassAccessFlags;
+import com.wade.decompiler.enums.ClassAccessFlagsList;
 import com.wade.decompiler.enums.Version;
 import com.wade.decompiler.generic.Type;
 import com.wade.decompiler.util.BCELComparator;

@@ -8,13 +8,13 @@ import com.wade.decompiler.Const;
 import com.wade.decompiler.classfile.AnnotationEntry;
 import com.wade.decompiler.classfile.Annotations;
 import com.wade.decompiler.classfile.Attribute;
-import com.wade.decompiler.classfile.ClassAccessFlagsList;
 import com.wade.decompiler.classfile.Constant;
 import com.wade.decompiler.classfile.ConstantObject;
 import com.wade.decompiler.classfile.ConstantPool;
 import com.wade.decompiler.classfile.ConstantValue;
 import com.wade.decompiler.classfile.Field;
 import com.wade.decompiler.classfile.Utility;
+import com.wade.decompiler.enums.ClassAccessFlagsList;
 import com.wade.decompiler.util.BCELComparator;
 
 public class FieldGen extends FieldGenOrMethodGen {

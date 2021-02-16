@@ -7,7 +7,6 @@ import java.util.BitSet;
 
 import com.wade.decompiler.Const;
 import com.wade.decompiler.classfile.Attribute;
-import com.wade.decompiler.classfile.ClassAccessFlagsList;
 import com.wade.decompiler.classfile.Code;
 import com.wade.decompiler.classfile.CodeException;
 import com.wade.decompiler.classfile.ConstantFieldref;
@@ -20,6 +19,7 @@ import com.wade.decompiler.classfile.LocalVariable;
 import com.wade.decompiler.classfile.LocalVariableTable;
 import com.wade.decompiler.classfile.Method;
 import com.wade.decompiler.classfile.Utility;
+import com.wade.decompiler.enums.ClassAccessFlagsList;
 
 final class CodeHTML {
     private static boolean wide = false;

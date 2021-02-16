@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 import com.wade.decompiler.Const;
+import com.wade.decompiler.enums.ClassAccessFlagsList;
 import com.wade.decompiler.generic.Type;
 import com.wade.decompiler.util.BCELComparator;
 

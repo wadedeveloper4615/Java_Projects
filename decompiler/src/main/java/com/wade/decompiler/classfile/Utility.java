@@ -18,6 +18,7 @@ import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 import com.wade.decompiler.Const;
+import com.wade.decompiler.enums.ClassAccessFlagsList;
 import com.wade.decompiler.util.ByteSequence;
 
 // @since 6.0 methods are no longer final

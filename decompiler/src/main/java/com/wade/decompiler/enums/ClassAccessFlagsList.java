@@ -1,10 +1,10 @@
-package com.wade.decompiler.classfile;
+package com.wade.decompiler.enums;
 
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
-
-import com.wade.decompiler.enums.ClassAccessFlags;
+import java.util.Map;
 
 public class ClassAccessFlagsList {
     private int flags;
@@ -138,12 +138,16 @@ public class ClassAccessFlagsList {
     }
 
     public String toString(boolean for_class) {
+        Map<Integer, Boolean> map = new HashMap<>();
         final StringBuilder buf = new StringBuilder();
         for (ClassAccessFlags p : flagsList) {
             if (for_class && ((p == ClassAccessFlags.ACC_SUPER) || (p == ClassAccessFlags.ACC_INTERFACE))) {
                 continue;
             }
-            buf.append(p.getName()).append(" ");
+            if (map.get(p.getFlag()) == null) {
+                buf.append(p.getName()).append(" ");
+                map.put(p.getFlag(), Boolean.TRUE);
+            }
         }
         return buf.toString().trim();
     }

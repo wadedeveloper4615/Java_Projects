@@ -8,7 +8,6 @@ import com.wade.decompiler.Const;
 import com.wade.decompiler.classfile.AnnotationEntry;
 import com.wade.decompiler.classfile.Annotations;
 import com.wade.decompiler.classfile.Attribute;
-import com.wade.decompiler.classfile.ClassAccessFlagsList;
 import com.wade.decompiler.classfile.ConstantPool;
 import com.wade.decompiler.classfile.Field;
 import com.wade.decompiler.classfile.JavaClass;
@@ -16,6 +15,7 @@ import com.wade.decompiler.classfile.Method;
 import com.wade.decompiler.classfile.RuntimeInvisibleAnnotations;
 import com.wade.decompiler.classfile.RuntimeVisibleAnnotations;
 import com.wade.decompiler.classfile.SourceFile;
+import com.wade.decompiler.enums.ClassAccessFlagsList;
 import com.wade.decompiler.enums.Version;
 import com.wade.decompiler.util.BCELComparator;
 

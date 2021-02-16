@@ -6,6 +6,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.Const;
+import com.wade.decompiler.enums.ClassAccessFlagsList;
 
 public abstract class FieldOrMethod extends ClassAccessFlagsList implements Cloneable, Node {
     @java.lang.Deprecated

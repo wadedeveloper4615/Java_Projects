@@ -1,10 +1,10 @@
 package com.wade.decompiler.generic;
 
-import com.wade.decompiler.Const;
 import com.wade.decompiler.classfile.ConstantCP;
 import com.wade.decompiler.classfile.ConstantNameAndType;
 import com.wade.decompiler.classfile.ConstantPool;
 import com.wade.decompiler.classfile.ConstantUtf8;
+import com.wade.decompiler.enums.ClassFileConstants;
 
 public abstract class FieldOrMethod extends CPInstruction implements LoadClass {
     public FieldOrMethod() {
@@ -18,7 +18,7 @@ public abstract class FieldOrMethod extends CPInstruction implements LoadClass {
     public String getClassName(final ConstantPoolGen cpg) {
         final ConstantPool cp = cpg.getConstantPool();
         final ConstantCP cmr = (ConstantCP) cp.getConstant(super.getIndex());
-        final String className = cp.getConstantString(cmr.getClassIndex(), Const.CONSTANT_Class);
+        final String className = cp.getConstantString(cmr.getClassIndex(), ClassFileConstants.CONSTANT_Class);
         if (className.startsWith("[")) {
             // Turn array classes into java.lang.Object.
             return "java.lang.Object";
@@ -50,7 +50,7 @@ public abstract class FieldOrMethod extends CPInstruction implements LoadClass {
     public ReferenceType getReferenceType(final ConstantPoolGen cpg) {
         final ConstantPool cp = cpg.getConstantPool();
         final ConstantCP cmr = (ConstantCP) cp.getConstant(super.getIndex());
-        String className = cp.getConstantString(cmr.getClassIndex(), Const.CONSTANT_Class);
+        String className = cp.getConstantString(cmr.getClassIndex(), ClassFileConstants.CONSTANT_Class);
         if (className.startsWith("[")) {
             return (ArrayType) Type.getType(className);
         }

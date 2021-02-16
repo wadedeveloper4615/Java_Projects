@@ -4,8 +4,8 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import com.wade.decompiler.Const;
 import com.wade.decompiler.Constants;
+import com.wade.decompiler.enums.ClassFileConstants;
 
 public final class CodeException implements Cloneable, Node, Constants {
     private int startPc; // Range in the code the exception handler is
@@ -95,7 +95,7 @@ public final class CodeException implements Cloneable, Node, Constants {
         if (catchType == 0) {
             str = "<Any exception>(0)";
         } else {
-            str = Utility.compactClassName(cp.getConstantString(catchType, Const.CONSTANT_Class), false) + (verbose ? "(" + catchType + ")" : "");
+            str = Utility.compactClassName(cp.getConstantString(catchType, ClassFileConstants.CONSTANT_Class), false) + (verbose ? "(" + catchType + ")" : "");
         }
         return startPc + "\t" + endPc + "\t" + handlerPc + "\t" + str;
     }

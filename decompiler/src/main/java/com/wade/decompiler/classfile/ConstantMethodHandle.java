@@ -4,7 +4,7 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import com.wade.decompiler.Const;
+import com.wade.decompiler.enums.ClassFileConstants;
 
 public final class ConstantMethodHandle extends Constant {
     private int referenceKind;
@@ -19,7 +19,7 @@ public final class ConstantMethodHandle extends Constant {
     }
 
     public ConstantMethodHandle(final int reference_kind, final int reference_index) {
-        super(Const.CONSTANT_MethodHandle);
+        super(ClassFileConstants.CONSTANT_MethodHandle);
         this.referenceKind = reference_kind;
         this.referenceIndex = reference_index;
     }
@@ -31,7 +31,7 @@ public final class ConstantMethodHandle extends Constant {
 
     @Override
     public void dump(final DataOutputStream file) throws IOException {
-        file.writeByte(super.getTag());
+        file.writeByte(super.getTag().getTag());
         file.writeByte(referenceKind);
         file.writeShort(referenceIndex);
     }

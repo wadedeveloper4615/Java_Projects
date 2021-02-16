@@ -5,7 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 
-import com.wade.decompiler.Const;
+import com.wade.decompiler.enums.ClassFileConstants;
 
 public class BootstrapMethod implements Cloneable {
     private int bootstrapMethodRef;
@@ -77,7 +77,7 @@ public class BootstrapMethod implements Cloneable {
     public final String toString(final ConstantPool constantPool) {
         final StringBuilder buf = new StringBuilder();
         String bootstrap_method_name;
-        bootstrap_method_name = constantPool.constantToString(bootstrapMethodRef, Const.CONSTANT_MethodHandle);
+        bootstrap_method_name = constantPool.constantToString(bootstrapMethodRef, ClassFileConstants.CONSTANT_MethodHandle);
         buf.append(Utility.compactClassName(bootstrap_method_name, false));
         final int num_bootstrap_arguments = bootstrapArguments.length;
         if (num_bootstrap_arguments > 0) {

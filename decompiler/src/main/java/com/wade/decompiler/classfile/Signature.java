@@ -5,8 +5,8 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import com.wade.decompiler.Const;
 import com.wade.decompiler.enums.ClassFileAttributes;
+import com.wade.decompiler.enums.ClassFileConstants;
 
 public class Signature extends Attribute {
     private static class MyByteArrayInputStream extends ByteArrayInputStream {
@@ -58,7 +58,7 @@ public class Signature extends Attribute {
     }
 
     public String getSignature() {
-        ConstantUtf8 c = (ConstantUtf8) super.getConstantPool().getConstant(signatureIndex, Const.CONSTANT_Utf8);
+        ConstantUtf8 c = (ConstantUtf8) super.getConstantPool().getConstant(signatureIndex, ClassFileConstants.CONSTANT_Utf8);
         return c.getBytes();
     }
 

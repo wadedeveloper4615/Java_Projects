@@ -7,9 +7,29 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import com.wade.decompiler.Const;
+import com.wade.decompiler.enums.ClassFileConstants;
 
 public final class ConstantUtf8 extends Constant {
+    // TODO these should perhaps be AtomicInt?
+    private static volatile int considered = 0;
+
+    private static volatile int created = 0;
+    private static volatile int hits = 0;
+    private static volatile int skipped = 0;
+    private static final String SYS_PROP_CACHE_MAX_ENTRIES = "bcel.maxcached";
+    private static final String SYS_PROP_CACHE_MAX_ENTRY_SIZE = "bcel.maxcached.size";
+    private static final String SYS_PROP_STATISTICS = "bcel.statistics";
+    static {
+        if (Cache.BCEL_STATISTICS) {
+            Runtime.getRuntime().addShutdownHook(new Thread() {
+                @Override
+                public void run() {
+                    printStats();
+                }
+            });
+        }
+    }
+
     private static class Cache {
         private static final boolean BCEL_STATISTICS = Boolean.getBoolean(SYS_PROP_STATISTICS);
         private static final int MAX_ENTRIES = Integer.getInteger(SYS_PROP_CACHE_MAX_ENTRIES, 0).intValue();
@@ -30,24 +50,6 @@ public final class ConstantUtf8 extends Constant {
         }
     }
 
-    // TODO these should perhaps be AtomicInt?
-    private static volatile int considered = 0;
-    private static volatile int created = 0;
-    private static volatile int hits = 0;
-    private static volatile int skipped = 0;
-    private static final String SYS_PROP_CACHE_MAX_ENTRIES = "bcel.maxcached";
-    private static final String SYS_PROP_CACHE_MAX_ENTRY_SIZE = "bcel.maxcached.size";
-    private static final String SYS_PROP_STATISTICS = "bcel.statistics";
-    static {
-        if (Cache.BCEL_STATISTICS) {
-            Runtime.getRuntime().addShutdownHook(new Thread() {
-                @Override
-                public void run() {
-                    printStats();
-                }
-            });
-        }
-    }
     private final String value;
 
     public ConstantUtf8(final ConstantUtf8 constantUtf8) {
@@ -55,13 +57,13 @@ public final class ConstantUtf8 extends Constant {
     }
 
     ConstantUtf8(final DataInput dataInput) throws IOException {
-        super(Const.CONSTANT_Utf8);
+        super(ClassFileConstants.CONSTANT_Utf8);
         value = dataInput.readUTF();
         created++;
     }
 
     public ConstantUtf8(final String value) {
-        super(Const.CONSTANT_Utf8);
+        super(ClassFileConstants.CONSTANT_Utf8);
         if (value == null) {
             throw new IllegalArgumentException("Value must not be null.");
         }
@@ -76,7 +78,7 @@ public final class ConstantUtf8 extends Constant {
 
     @Override
     public void dump(final DataOutputStream file) throws IOException {
-        file.writeByte(super.getTag());
+        file.writeByte(super.getTag().getTag());
         file.writeUTF(value);
     }
 

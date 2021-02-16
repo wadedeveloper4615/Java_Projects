@@ -5,6 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.Const;
+import com.wade.decompiler.enums.ClassFileConstants;
 
 public final class StackMapType implements Cloneable {
     private byte type;
@@ -65,7 +66,7 @@ public final class StackMapType implements Cloneable {
             if (index < 0) {
                 return ", class=<unknown>";
             }
-            return ", class=" + constantPool.constantToString(index, Const.CONSTANT_Class);
+            return ", class=" + constantPool.constantToString(index, ClassFileConstants.CONSTANT_Class);
         } else if (type == Const.ITEM_NewObject) {
             return ", offset=" + index;
         } else {

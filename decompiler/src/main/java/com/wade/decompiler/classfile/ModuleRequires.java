@@ -4,7 +4,7 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import com.wade.decompiler.Const;
+import com.wade.decompiler.enums.ClassFileConstants;
 
 public final class ModuleRequires implements Cloneable, Node {
     private final int requiresIndex; // points to CONSTANT_Module_info
@@ -45,10 +45,10 @@ public final class ModuleRequires implements Cloneable, Node {
 
     public String toString(final ConstantPool constant_pool) {
         final StringBuilder buf = new StringBuilder();
-        final String module_name = constant_pool.constantToString(requiresIndex, Const.CONSTANT_Module);
+        final String module_name = constant_pool.constantToString(requiresIndex, ClassFileConstants.CONSTANT_Module);
         buf.append(Utility.compactClassName(module_name, false));
         buf.append(", ").append(String.format("%04x", requiresFlags));
-        final String version = requiresVersionIndex == 0 ? "0" : constant_pool.getConstantString(requiresVersionIndex, Const.CONSTANT_Utf8);
+        final String version = requiresVersionIndex == 0 ? "0" : constant_pool.getConstantString(requiresVersionIndex, ClassFileConstants.CONSTANT_Utf8);
         buf.append(", ").append(version);
         return buf.toString();
     }

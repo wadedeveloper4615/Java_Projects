@@ -4,7 +4,7 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import com.wade.decompiler.Const;
+import com.wade.decompiler.enums.ClassFileConstants;
 
 public final class ConstantFloat extends Constant implements ConstantObject {
     private float bytes;
@@ -18,7 +18,7 @@ public final class ConstantFloat extends Constant implements ConstantObject {
     }
 
     public ConstantFloat(final float bytes) {
-        super(Const.CONSTANT_Float);
+        super(ClassFileConstants.CONSTANT_Float);
         this.bytes = bytes;
     }
 
@@ -29,7 +29,7 @@ public final class ConstantFloat extends Constant implements ConstantObject {
 
     @Override
     public void dump(final DataOutputStream file) throws IOException {
-        file.writeByte(super.getTag());
+        file.writeByte(super.getTag().getTag());
         file.writeFloat(bytes);
     }
 

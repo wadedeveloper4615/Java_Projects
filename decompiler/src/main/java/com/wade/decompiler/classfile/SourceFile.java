@@ -4,8 +4,8 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import com.wade.decompiler.Const;
 import com.wade.decompiler.enums.ClassFileAttributes;
+import com.wade.decompiler.enums.ClassFileConstants;
 
 public final class SourceFile extends Attribute {
     private int sourceFileIndex;
@@ -44,7 +44,7 @@ public final class SourceFile extends Attribute {
     }
 
     public String getSourceFileName() {
-        final ConstantUtf8 c = (ConstantUtf8) super.getConstantPool().getConstant(sourceFileIndex, Const.CONSTANT_Utf8);
+        final ConstantUtf8 c = (ConstantUtf8) super.getConstantPool().getConstant(sourceFileIndex, ClassFileConstants.CONSTANT_Utf8);
         return c.getBytes();
     }
 

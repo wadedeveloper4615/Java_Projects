@@ -4,7 +4,7 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import com.wade.decompiler.Const;
+import com.wade.decompiler.enums.ClassFileConstants;
 
 public final class ModuleExports implements Cloneable, Node {
     private final int exportsIndex; // points to CONSTANT_Package_info
@@ -53,12 +53,12 @@ public final class ModuleExports implements Cloneable, Node {
 
     public String toString(final ConstantPool constant_pool) {
         final StringBuilder buf = new StringBuilder();
-        final String package_name = constant_pool.constantToString(exportsIndex, Const.CONSTANT_Package);
+        final String package_name = constant_pool.constantToString(exportsIndex, ClassFileConstants.CONSTANT_Package);
         buf.append(Utility.compactClassName(package_name, false));
         buf.append(", ").append(String.format("%04x", exportsFlags));
         buf.append(", to(").append(exportsToCount).append("):\n");
         for (final int index : exportsToIndex) {
-            final String module_name = constant_pool.getConstantString(index, Const.CONSTANT_Module);
+            final String module_name = constant_pool.getConstantString(index, ClassFileConstants.CONSTANT_Module);
             buf.append("      ").append(Utility.compactClassName(module_name, false)).append("\n");
         }
         return buf.substring(0, buf.length() - 1); // remove the last newline

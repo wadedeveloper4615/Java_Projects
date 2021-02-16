@@ -3,7 +3,7 @@ package com.wade.decompiler.classfile;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import com.wade.decompiler.Const;
+import com.wade.decompiler.enums.ClassFileConstants;
 
 public class ClassElementValue extends ElementValue {
     // For primitive types and string type, this points to the value entry in
@@ -23,7 +23,7 @@ public class ClassElementValue extends ElementValue {
     }
 
     public String getClassString() {
-        final ConstantUtf8 c = (ConstantUtf8) super.getConstantPool().getConstant(idx, Const.CONSTANT_Utf8);
+        final ConstantUtf8 c = (ConstantUtf8) super.getConstantPool().getConstant(idx, ClassFileConstants.CONSTANT_Utf8);
         return c.getBytes();
     }
 
@@ -33,7 +33,7 @@ public class ClassElementValue extends ElementValue {
 
     @Override
     public String stringifyValue() {
-        final ConstantUtf8 cu8 = (ConstantUtf8) super.getConstantPool().getConstant(idx, Const.CONSTANT_Utf8);
+        final ConstantUtf8 cu8 = (ConstantUtf8) super.getConstantPool().getConstant(idx, ClassFileConstants.CONSTANT_Utf8);
         return cu8.getBytes();
     }
 }

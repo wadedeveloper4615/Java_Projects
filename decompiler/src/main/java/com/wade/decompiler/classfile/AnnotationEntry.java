@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.wade.decompiler.Const;
+import com.wade.decompiler.enums.ClassFileConstants;
 
 public class AnnotationEntry implements Node {
     private final int typeIndex;
@@ -40,7 +40,7 @@ public class AnnotationEntry implements Node {
     }
 
     public String getAnnotationType() {
-        final ConstantUtf8 c = (ConstantUtf8) constantPool.getConstant(typeIndex, Const.CONSTANT_Utf8);
+        final ConstantUtf8 c = (ConstantUtf8) constantPool.getConstant(typeIndex, ClassFileConstants.CONSTANT_Utf8);
         return c.getBytes();
     }
 

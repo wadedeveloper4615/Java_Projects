@@ -5,8 +5,8 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import com.wade.decompiler.Const;
 import com.wade.decompiler.enums.ClassAccessFlagsList;
+import com.wade.decompiler.enums.ClassFileConstants;
 
 public abstract class FieldOrMethod extends ClassAccessFlagsList implements Cloneable, Node {
     @java.lang.Deprecated
@@ -113,7 +113,7 @@ public abstract class FieldOrMethod extends ClassAccessFlagsList implements Clon
 
     public final String getName() {
         ConstantUtf8 c;
-        c = (ConstantUtf8) constant_pool.getConstant(name_index, Const.CONSTANT_Utf8);
+        c = (ConstantUtf8) constant_pool.getConstant(name_index, ClassFileConstants.CONSTANT_Utf8);
         return c.getBytes();
     }
 
@@ -123,7 +123,7 @@ public abstract class FieldOrMethod extends ClassAccessFlagsList implements Clon
 
     public final String getSignature() {
         ConstantUtf8 c;
-        c = (ConstantUtf8) constant_pool.getConstant(signature_index, Const.CONSTANT_Utf8);
+        c = (ConstantUtf8) constant_pool.getConstant(signature_index, ClassFileConstants.CONSTANT_Utf8);
         return c.getBytes();
     }
 

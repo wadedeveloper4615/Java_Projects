@@ -6,6 +6,7 @@ import java.io.IOException;
 import com.wade.decompiler.classfile.Constant;
 import com.wade.decompiler.classfile.ConstantClass;
 import com.wade.decompiler.classfile.ConstantPool;
+import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.util.ByteSequence;
 
 public abstract class CPInstruction extends Instruction implements TypedInstruction, IndexedInstruction {
@@ -33,7 +34,7 @@ public abstract class CPInstruction extends Instruction implements TypedInstruct
     @Override
     public Type getType(final ConstantPoolGen cpg) {
         final ConstantPool cp = cpg.getConstantPool();
-        String name = cp.getConstantString(index, com.wade.decompiler.Const.CONSTANT_Class);
+        String name = cp.getConstantString(index, ClassFileConstants.CONSTANT_Class);
         if (!name.startsWith("[")) {
             name = "L" + name + ";";
         }

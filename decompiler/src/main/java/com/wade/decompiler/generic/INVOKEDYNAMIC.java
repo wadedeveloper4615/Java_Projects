@@ -8,6 +8,7 @@ import com.wade.decompiler.ExceptionConst;
 import com.wade.decompiler.classfile.ConstantInvokeDynamic;
 import com.wade.decompiler.classfile.ConstantNameAndType;
 import com.wade.decompiler.classfile.ConstantPool;
+import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.util.ByteSequence;
 
 public class INVOKEDYNAMIC extends InvokeInstruction {
@@ -42,7 +43,7 @@ public class INVOKEDYNAMIC extends InvokeInstruction {
     @Override
     public String getClassName(final ConstantPoolGen cpg) {
         final ConstantPool cp = cpg.getConstantPool();
-        final ConstantInvokeDynamic cid = (ConstantInvokeDynamic) cp.getConstant(super.getIndex(), Const.CONSTANT_InvokeDynamic);
+        final ConstantInvokeDynamic cid = (ConstantInvokeDynamic) cp.getConstant(super.getIndex(), ClassFileConstants.CONSTANT_InvokeDynamic);
         return ((ConstantNameAndType) cp.getConstant(cid.getNameAndTypeIndex())).getName(cp);
     }
 

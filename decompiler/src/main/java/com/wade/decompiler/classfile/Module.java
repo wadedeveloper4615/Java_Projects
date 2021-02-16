@@ -4,8 +4,8 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import com.wade.decompiler.Const;
 import com.wade.decompiler.enums.ClassFileAttributes;
+import com.wade.decompiler.enums.ClassFileConstants;
 
 public class Module extends Attribute {
     private int moduleNameIndex;
@@ -128,9 +128,9 @@ public class Module extends Attribute {
         ConstantPool cp = super.getConstantPool();
         StringBuilder buf = new StringBuilder();
         buf.append("Module:\n");
-        buf.append("  name:    ").append(cp.getConstantString(moduleNameIndex, Const.CONSTANT_Module).replace('/', '.')).append("\n");
+        buf.append("  name:    ").append(cp.getConstantString(moduleNameIndex, ClassFileConstants.CONSTANT_Module).replace('/', '.')).append("\n");
         buf.append("  flags:   ").append(String.format("%04x", moduleFlags)).append("\n");
-        String version = moduleVersionIndex == 0 ? "0" : cp.getConstantString(moduleVersionIndex, Const.CONSTANT_Utf8);
+        String version = moduleVersionIndex == 0 ? "0" : cp.getConstantString(moduleVersionIndex, ClassFileConstants.CONSTANT_Utf8);
         buf.append("  version: ").append(version).append("\n");
         buf.append("  requires(").append(requiresTable.length).append("):\n");
         for (ModuleRequires module : requiresTable) {
@@ -146,7 +146,7 @@ public class Module extends Attribute {
         }
         buf.append("  uses(").append(usesIndex.length).append("):\n");
         for (int index : usesIndex) {
-            String class_name = cp.getConstantString(index, Const.CONSTANT_Class);
+            String class_name = cp.getConstantString(index, ClassFileConstants.CONSTANT_Class);
             buf.append("    ").append(Utility.compactClassName(class_name, false)).append("\n");
         }
         buf.append("  provides(").append(providesTable.length).append("):\n");

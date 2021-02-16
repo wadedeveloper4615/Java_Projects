@@ -6,8 +6,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.wade.decompiler.Const;
 import com.wade.decompiler.enums.ClassFileAttributes;
+import com.wade.decompiler.enums.ClassFileConstants;
 
 public class Unknown extends Attribute {
     private static Map<String, Unknown> unknownAttributes = new HashMap<>();
@@ -17,7 +17,7 @@ public class Unknown extends Attribute {
     public Unknown(int name_index, int length, byte[] bytes, ConstantPool constant_pool) {
         super(ClassFileAttributes.ATTR_UNKNOWN, name_index, length, constant_pool);
         this.bytes = bytes;
-        name = ((ConstantUtf8) constant_pool.getConstant(name_index, Const.CONSTANT_Utf8)).getBytes();
+        name = ((ConstantUtf8) constant_pool.getConstant(name_index, ClassFileConstants.CONSTANT_Utf8)).getBytes();
         unknownAttributes.put(name, this);
     }
 

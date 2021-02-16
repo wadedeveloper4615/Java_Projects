@@ -4,7 +4,7 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import com.wade.decompiler.Const;
+import com.wade.decompiler.enums.ClassFileConstants;
 
 public final class ConstantClass extends Constant implements ConstantObject {
     private int nameIndex;
@@ -18,7 +18,7 @@ public final class ConstantClass extends Constant implements ConstantObject {
     }
 
     public ConstantClass(int nameIndex) {
-        super(Const.CONSTANT_Class);
+        super(ClassFileConstants.CONSTANT_Class);
         this.nameIndex = nameIndex;
     }
 
@@ -29,7 +29,7 @@ public final class ConstantClass extends Constant implements ConstantObject {
 
     @Override
     public void dump(final DataOutputStream file) throws IOException {
-        file.writeByte(super.getTag());
+        file.writeByte(super.getTag().getTag());
         file.writeShort(nameIndex);
     }
 
@@ -39,7 +39,7 @@ public final class ConstantClass extends Constant implements ConstantObject {
 
     @Override
     public Object getConstantValue(final ConstantPool cp) {
-        final Constant c = cp.getConstant(nameIndex, Const.CONSTANT_Utf8);
+        final Constant c = cp.getConstant(nameIndex, ClassFileConstants.CONSTANT_Utf8.getTag());
         return ((ConstantUtf8) c).getBytes();
     }
 

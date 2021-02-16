@@ -4,8 +4,8 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import com.wade.decompiler.Const;
 import com.wade.decompiler.enums.ClassFileAttributes;
+import com.wade.decompiler.enums.ClassFileConstants;
 
 public class ModulePackages extends Attribute {
     private int[] packageIndexTable;
@@ -64,7 +64,7 @@ public class ModulePackages extends Attribute {
     public String[] getPackageNames() {
         String[] names = new String[packageIndexTable.length];
         for (int i = 0; i < packageIndexTable.length; i++) {
-            names[i] = super.getConstantPool().getConstantString(packageIndexTable[i], Const.CONSTANT_Package).replace('/', '.');
+            names[i] = super.getConstantPool().getConstantString(packageIndexTable[i], ClassFileConstants.CONSTANT_Package).replace('/', '.');
         }
         return names;
     }
@@ -80,7 +80,7 @@ public class ModulePackages extends Attribute {
         buf.append(packageIndexTable.length);
         buf.append("):\n");
         for (int index : packageIndexTable) {
-            String package_name = super.getConstantPool().getConstantString(index, Const.CONSTANT_Package);
+            String package_name = super.getConstantPool().getConstantString(index, ClassFileConstants.CONSTANT_Package);
             buf.append("  ").append(Utility.compactClassName(package_name, false)).append("\n");
         }
         return buf.substring(0, buf.length() - 1); // remove the last newline

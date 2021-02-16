@@ -4,7 +4,7 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import com.wade.decompiler.Const;
+import com.wade.decompiler.enums.ClassFileConstants;
 
 public final class ModuleProvides implements Cloneable, Node {
     private final int providesIndex; // points to CONSTANT_Class_info
@@ -50,11 +50,11 @@ public final class ModuleProvides implements Cloneable, Node {
 
     public String toString(final ConstantPool constant_pool) {
         final StringBuilder buf = new StringBuilder();
-        final String interface_name = constant_pool.constantToString(providesIndex, Const.CONSTANT_Class);
+        final String interface_name = constant_pool.constantToString(providesIndex, ClassFileConstants.CONSTANT_Class);
         buf.append(Utility.compactClassName(interface_name, false));
         buf.append(", with(").append(providesWithCount).append("):\n");
         for (final int index : providesWithIndex) {
-            final String class_name = constant_pool.getConstantString(index, Const.CONSTANT_Class);
+            final String class_name = constant_pool.getConstantString(index, ClassFileConstants.CONSTANT_Class);
             buf.append("      ").append(Utility.compactClassName(class_name, false)).append("\n");
         }
         return buf.substring(0, buf.length() - 1); // remove the last newline

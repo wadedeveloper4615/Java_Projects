@@ -26,9 +26,25 @@ import com.wade.decompiler.classfile.RuntimeVisibleParameterAnnotations;
 import com.wade.decompiler.classfile.Utility;
 import com.wade.decompiler.enums.ClassAccessFlags;
 import com.wade.decompiler.enums.ClassAccessFlagsList;
+import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.util.BCELComparator;
 
 public class MethodGen extends FieldGenOrMethodGen {
+    private static BCELComparator bcelComparator = new BCELComparator() {
+        @Override
+        public boolean equals(final Object o1, final Object o2) {
+            final MethodGen THIS = (MethodGen) o1;
+            final MethodGen THAT = (MethodGen) o2;
+            return Objects.equals(THIS.getName(), THAT.getName()) && Objects.equals(THIS.getSignature(), THAT.getSignature());
+        }
+
+        @Override
+        public int hashCode(final Object o) {
+            final MethodGen THIS = (MethodGen) o;
+            return THIS.getSignature().hashCode() ^ THIS.getName().hashCode();
+        }
+    };
+
     static final class BranchStack {
         private final Stack<BranchTarget> branchTargets = new Stack<>();
         private final Hashtable<InstructionHandle, BranchTarget> visitedTargets = new Hashtable<>();
@@ -69,20 +85,6 @@ public class MethodGen extends FieldGenOrMethodGen {
         }
     }
 
-    private static BCELComparator bcelComparator = new BCELComparator() {
-        @Override
-        public boolean equals(final Object o1, final Object o2) {
-            final MethodGen THIS = (MethodGen) o1;
-            final MethodGen THAT = (MethodGen) o2;
-            return Objects.equals(THIS.getName(), THAT.getName()) && Objects.equals(THIS.getSignature(), THAT.getSignature());
-        }
-
-        @Override
-        public int hashCode(final Object o) {
-            final MethodGen THIS = (MethodGen) o;
-            return THIS.getSignature().hashCode() ^ THIS.getName().hashCode();
-        }
-    };
     private String className;
     private Type[] argTypes;
     private String[] argNames;
@@ -161,7 +163,7 @@ public class MethodGen extends FieldGenOrMethodGen {
                         final int type = ce.getCatchType();
                         ObjectType c_type = null;
                         if (type > 0) {
-                            final String cen = method.getConstantPool().getConstantString(type, Const.CONSTANT_Class);
+                            final String cen = method.getConstantPool().getConstantString(type, ClassFileConstants.CONSTANT_Class);
                             c_type = ObjectType.getInstance(cen);
                         }
                         final int end_pc = ce.getEndPC();

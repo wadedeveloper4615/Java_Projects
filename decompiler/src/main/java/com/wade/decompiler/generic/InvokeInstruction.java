@@ -6,6 +6,7 @@ import com.wade.decompiler.Const;
 import com.wade.decompiler.classfile.Constant;
 import com.wade.decompiler.classfile.ConstantCP;
 import com.wade.decompiler.classfile.ConstantPool;
+import com.wade.decompiler.enums.ClassFileConstants;
 
 public abstract class InvokeInstruction extends FieldOrMethod implements ExceptionThrower, StackConsumer, StackProducer {
     InvokeInstruction() {
@@ -36,7 +37,7 @@ public abstract class InvokeInstruction extends FieldOrMethod implements Excepti
     public String getClassName(final ConstantPoolGen cpg) {
         final ConstantPool cp = cpg.getConstantPool();
         final ConstantCP cmr = (ConstantCP) cp.getConstant(super.getIndex());
-        final String className = cp.getConstantString(cmr.getClassIndex(), Const.CONSTANT_Class);
+        final String className = cp.getConstantString(cmr.getClassIndex(), ClassFileConstants.CONSTANT_Class);
         return className.replace('/', '.');
     }
 

@@ -4,8 +4,8 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import com.wade.decompiler.Const;
 import com.wade.decompiler.Constants;
+import com.wade.decompiler.enums.ClassFileConstants;
 
 public class LocalVariable implements Cloneable, Node, Constants {
     private int startPc; // Range in which the variable is valid
@@ -83,7 +83,7 @@ public class LocalVariable implements Cloneable, Node, Constants {
 
     public String getName() {
         ConstantUtf8 c;
-        c = (ConstantUtf8) constantPool.getConstant(nameIndex, Const.CONSTANT_Utf8);
+        c = (ConstantUtf8) constantPool.getConstant(nameIndex, ClassFileConstants.CONSTANT_Utf8);
         return c.getBytes();
     }
 
@@ -97,7 +97,7 @@ public class LocalVariable implements Cloneable, Node, Constants {
 
     public String getSignature() {
         ConstantUtf8 c;
-        c = (ConstantUtf8) constantPool.getConstant(signatureIndex, Const.CONSTANT_Utf8);
+        c = (ConstantUtf8) constantPool.getConstant(signatureIndex, ClassFileConstants.CONSTANT_Utf8);
         return c.getBytes();
     }
 

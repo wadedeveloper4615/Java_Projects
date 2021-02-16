@@ -4,8 +4,8 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import com.wade.decompiler.Const;
 import com.wade.decompiler.enums.ClassFileAttributes;
+import com.wade.decompiler.enums.ClassFileConstants;
 
 public class NestMembers extends Attribute {
     private int[] classes;
@@ -60,7 +60,7 @@ public class NestMembers extends Attribute {
     public String[] getClassNames() {
         String[] names = new String[classes.length];
         for (int i = 0; i < classes.length; i++) {
-            names[i] = super.getConstantPool().getConstantString(classes[i], Const.CONSTANT_Class).replace('/', '.');
+            names[i] = super.getConstantPool().getConstantString(classes[i], ClassFileConstants.CONSTANT_Class).replace('/', '.');
         }
         return names;
     }
@@ -80,7 +80,7 @@ public class NestMembers extends Attribute {
         buf.append(classes.length);
         buf.append("):\n");
         for (int index : classes) {
-            String class_name = super.getConstantPool().getConstantString(index, Const.CONSTANT_Class);
+            String class_name = super.getConstantPool().getConstantString(index, ClassFileConstants.CONSTANT_Class);
             buf.append("  ").append(Utility.compactClassName(class_name, false)).append("\n");
         }
         return buf.substring(0, buf.length() - 1); // remove the last newline

@@ -4,7 +4,7 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import com.wade.decompiler.Const;
+import com.wade.decompiler.enums.ClassFileConstants;
 
 public final class ConstantLong extends Constant implements ConstantObject {
     private long bytes;
@@ -18,7 +18,7 @@ public final class ConstantLong extends Constant implements ConstantObject {
     }
 
     public ConstantLong(final long bytes) {
-        super(Const.CONSTANT_Long);
+        super(ClassFileConstants.CONSTANT_Long);
         this.bytes = bytes;
     }
 
@@ -29,7 +29,7 @@ public final class ConstantLong extends Constant implements ConstantObject {
 
     @Override
     public void dump(final DataOutputStream file) throws IOException {
-        file.writeByte(super.getTag());
+        file.writeByte(super.getTag().getTag());
         file.writeLong(bytes);
     }
 

@@ -3,7 +3,7 @@ package com.wade.decompiler.classfile;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import com.wade.decompiler.Const;
+import com.wade.decompiler.enums.ClassFileConstants;
 
 public class EnumElementValue extends ElementValue {
     // For enum types, these two indices point to the type and value
@@ -27,12 +27,12 @@ public class EnumElementValue extends ElementValue {
     }
 
     public String getEnumTypeString() {
-        final ConstantUtf8 cu8 = (ConstantUtf8) super.getConstantPool().getConstant(typeIdx, Const.CONSTANT_Utf8);
+        final ConstantUtf8 cu8 = (ConstantUtf8) super.getConstantPool().getConstant(typeIdx, ClassFileConstants.CONSTANT_Utf8);
         return cu8.getBytes();// Utility.signatureToString(cu8.getBytes());
     }
 
     public String getEnumValueString() {
-        final ConstantUtf8 cu8 = (ConstantUtf8) super.getConstantPool().getConstant(valueIdx, Const.CONSTANT_Utf8);
+        final ConstantUtf8 cu8 = (ConstantUtf8) super.getConstantPool().getConstant(valueIdx, ClassFileConstants.CONSTANT_Utf8);
         return cu8.getBytes();
     }
 
@@ -46,7 +46,7 @@ public class EnumElementValue extends ElementValue {
 
     @Override
     public String stringifyValue() {
-        final ConstantUtf8 cu8 = (ConstantUtf8) super.getConstantPool().getConstant(valueIdx, Const.CONSTANT_Utf8);
+        final ConstantUtf8 cu8 = (ConstantUtf8) super.getConstantPool().getConstant(valueIdx, ClassFileConstants.CONSTANT_Utf8);
         return cu8.getBytes();
     }
 }

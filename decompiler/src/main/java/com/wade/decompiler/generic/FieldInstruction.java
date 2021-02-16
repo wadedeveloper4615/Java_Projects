@@ -1,6 +1,7 @@
 package com.wade.decompiler.generic;
 
 import com.wade.decompiler.classfile.ConstantPool;
+import com.wade.decompiler.enums.ClassFileConstants;
 
 public abstract class FieldInstruction extends FieldOrMethod {
     FieldInstruction() {
@@ -29,6 +30,6 @@ public abstract class FieldInstruction extends FieldOrMethod {
 
     @Override
     public String toString(final ConstantPool cp) {
-        return com.wade.decompiler.Const.getOpcodeName(super.getOpcode()) + " " + cp.constantToString(super.getIndex(), com.wade.decompiler.Const.CONSTANT_Fieldref);
+        return com.wade.decompiler.Const.getOpcodeName(super.getOpcode()) + " " + cp.constantToString(super.getIndex(), ClassFileConstants.CONSTANT_Fieldref);
     }
 }

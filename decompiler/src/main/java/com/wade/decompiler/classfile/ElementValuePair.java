@@ -3,7 +3,7 @@ package com.wade.decompiler.classfile;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import com.wade.decompiler.Const;
+import com.wade.decompiler.enums.ClassFileConstants;
 
 public class ElementValuePair {
     private final ElementValue elementValue;
@@ -26,7 +26,7 @@ public class ElementValuePair {
     }
 
     public String getNameString() {
-        final ConstantUtf8 c = (ConstantUtf8) constantPool.getConstant(elementNameIndex, Const.CONSTANT_Utf8);
+        final ConstantUtf8 c = (ConstantUtf8) constantPool.getConstant(elementNameIndex, ClassFileConstants.CONSTANT_Utf8);
         return c.getBytes();
     }
 

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import com.wade.decompiler.Const;
 import com.wade.decompiler.classfile.AnnotationEntry;
 import com.wade.decompiler.classfile.Annotations;
 import com.wade.decompiler.classfile.Attribute;
@@ -16,6 +15,7 @@ import com.wade.decompiler.classfile.RuntimeInvisibleAnnotations;
 import com.wade.decompiler.classfile.RuntimeVisibleAnnotations;
 import com.wade.decompiler.classfile.SourceFile;
 import com.wade.decompiler.enums.ClassAccessFlagsList;
+import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.enums.Version;
 import com.wade.decompiler.util.BCELComparator;
 
@@ -240,7 +240,7 @@ public class ClassGen extends ClassAccessFlagsList implements Cloneable {
             System.arraycopy(annAttributes, 0, attributes, attributeList.size(), annAttributes.length);
         }
         // Must be last since the above calls may still add something to it
-        final ConstantPool _cp = this.cp.getFinalConstantPool();
+        final ConstantPool _cp = this.cp.getConstantPool();
         return new JavaClass(classNameIndex, superclass_name_index, fileName, version, new ClassAccessFlagsList(super.getFlags()), _cp, interfaces, fields, methods, attributes);
     }
 
@@ -322,7 +322,7 @@ public class ClassGen extends ClassAccessFlagsList implements Cloneable {
 
     public void setClassNameIndex(final int class_name_index) {
         this.classNameIndex = class_name_index;
-        className = cp.getConstantPool().getConstantString(class_name_index, Const.CONSTANT_Class).replace('/', '.');
+        className = cp.getConstantPool().getConstantString(class_name_index, ClassFileConstants.CONSTANT_Class).replace('/', '.');
     }
 
     public void setConstantPool(final ConstantPoolGen constant_pool) {
@@ -347,7 +347,7 @@ public class ClassGen extends ClassAccessFlagsList implements Cloneable {
 
     public void setSuperclassNameIndex(final int superclass_name_index) {
         this.superclass_name_index = superclass_name_index;
-        superClassName = cp.getConstantPool().getConstantString(superclass_name_index, Const.CONSTANT_Class).replace('/', '.');
+        superClassName = cp.getConstantPool().getConstantString(superclass_name_index, ClassFileConstants.CONSTANT_Class).replace('/', '.');
     }
 
     public void setVersion(Version version) {

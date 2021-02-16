@@ -9,6 +9,7 @@ import java.util.Map;
 
 import com.wade.decompiler.Const;
 import com.wade.decompiler.enums.ClassFileAttributes;
+import com.wade.decompiler.enums.ClassFileConstants;
 
 @SuppressWarnings("deprecation")
 public abstract class Attribute implements Cloneable, Node {
@@ -56,7 +57,7 @@ public abstract class Attribute implements Cloneable, Node {
     }
 
     public String getName() {
-        ConstantUtf8 c = (ConstantUtf8) constant_pool.getConstant(name_index, Const.CONSTANT_Utf8);
+        ConstantUtf8 c = (ConstantUtf8) constant_pool.getConstant(name_index, ClassFileConstants.CONSTANT_Utf8);
         return c.getBytes();
     }
 
@@ -102,7 +103,7 @@ public abstract class Attribute implements Cloneable, Node {
     public static Attribute readAttribute(DataInput file, ConstantPool constant_pool) throws IOException, ClassFormatException {
         ClassFileAttributes tag = ClassFileAttributes.ATTR_UNKNOWN;
         int name_index = file.readUnsignedShort();
-        String name = ((ConstantUtf8) constant_pool.getConstant(name_index, Const.CONSTANT_Utf8)).getBytes();
+        String name = ((ConstantUtf8) constant_pool.getConstant(name_index, ClassFileConstants.CONSTANT_Utf8)).getBytes();
         int length = file.readInt();
 
         for (byte i = 0; i < Const.KNOWN_ATTRIBUTES; i++) {

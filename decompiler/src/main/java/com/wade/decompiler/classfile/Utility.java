@@ -19,10 +19,44 @@ import java.util.zip.GZIPOutputStream;
 
 import com.wade.decompiler.Const;
 import com.wade.decompiler.enums.ClassAccessFlagsList;
+import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.util.ByteSequence;
 
 // @since 6.0 methods are no longer final
 public abstract class Utility {
+    private static ThreadLocal<Integer> consumed_chars = new ThreadLocal<Integer>() {
+        @Override
+        protected Integer initialValue() {
+            return Integer.valueOf(0);
+        }
+    };
+
+    private static boolean wide = false;
+
+    // A-Z, g-z, _, $
+    private static final int FREE_CHARS = 48;
+    private static int[] CHAR_MAP = new int[FREE_CHARS];
+    private static int[] MAP_CHAR = new int[256]; // Reverse map
+    private static final char ESCAPE_CHAR = '$';
+    static {
+        int j = 0;
+        for (int i = 'A'; i <= 'Z'; i++) {
+            CHAR_MAP[j] = i;
+            MAP_CHAR[i] = j;
+            j++;
+        }
+        for (int i = 'g'; i <= 'z'; i++) {
+            CHAR_MAP[j] = i;
+            MAP_CHAR[i] = j;
+            j++;
+        }
+        CHAR_MAP[j] = '$';
+        MAP_CHAR['$'] = j;
+        j++;
+        CHAR_MAP[j] = '_';
+        MAP_CHAR['_'] = j;
+    }
+
     private static class JavaReader extends FilterReader {
         public JavaReader(final Reader in) {
             super(in);
@@ -97,37 +131,6 @@ public abstract class Utility {
         public void write(final String str, final int off, final int len) throws IOException {
             write(str.toCharArray(), off, len);
         }
-    }
-
-    private static ThreadLocal<Integer> consumed_chars = new ThreadLocal<Integer>() {
-        @Override
-        protected Integer initialValue() {
-            return Integer.valueOf(0);
-        }
-    };
-    private static boolean wide = false;
-    // A-Z, g-z, _, $
-    private static final int FREE_CHARS = 48;
-    private static int[] CHAR_MAP = new int[FREE_CHARS];
-    private static int[] MAP_CHAR = new int[256]; // Reverse map
-    private static final char ESCAPE_CHAR = '$';
-    static {
-        int j = 0;
-        for (int i = 'A'; i <= 'Z'; i++) {
-            CHAR_MAP[j] = i;
-            MAP_CHAR[i] = j;
-            j++;
-        }
-        for (int i = 'g'; i <= 'z'; i++) {
-            CHAR_MAP[j] = i;
-            MAP_CHAR[i] = j;
-            j++;
-        }
-        CHAR_MAP[j] = '$';
-        MAP_CHAR['$'] = j;
-        j++;
-        CHAR_MAP[j] = '_';
-        MAP_CHAR['_'] = j;
     }
 
     public static String accessToString(ClassAccessFlagsList access_flags) {
@@ -293,7 +296,7 @@ public abstract class Utility {
             case Const.PUTFIELD:
             case Const.PUTSTATIC:
                 index = bytes.readUnsignedShort();
-                buf.append("\t\t").append(constant_pool.constantToString(index, Const.CONSTANT_Fieldref)).append(verbose ? " (" + index + ")" : "");
+                buf.append("\t\t").append(constant_pool.constantToString(index, ClassFileConstants.CONSTANT_Fieldref)).append(verbose ? " (" + index + ")" : "");
                 break;
             case Const.NEW:
             case Const.CHECKCAST:
@@ -301,7 +304,7 @@ public abstract class Utility {
                 //$FALL-THROUGH$
             case Const.INSTANCEOF:
                 index = bytes.readUnsignedShort();
-                buf.append("\t<").append(constant_pool.constantToString(index, Const.CONSTANT_Class)).append(">").append(verbose ? " (" + index + ")" : "");
+                buf.append("\t<").append(constant_pool.constantToString(index, ClassFileConstants.CONSTANT_Class)).append(">").append(verbose ? " (" + index + ")" : "");
                 break;
             case Const.INVOKESPECIAL:
             case Const.INVOKESTATIC:
@@ -313,16 +316,16 @@ public abstract class Utility {
                 break;
             case Const.INVOKEVIRTUAL:
                 index = bytes.readUnsignedShort();
-                buf.append("\t").append(constant_pool.constantToString(index, Const.CONSTANT_Methodref)).append(verbose ? " (" + index + ")" : "");
+                buf.append("\t").append(constant_pool.constantToString(index, ClassFileConstants.CONSTANT_Methodref)).append(verbose ? " (" + index + ")" : "");
                 break;
             case Const.INVOKEINTERFACE:
                 index = bytes.readUnsignedShort();
                 final int nargs = bytes.readUnsignedByte(); // historical, redundant
-                buf.append("\t").append(constant_pool.constantToString(index, Const.CONSTANT_InterfaceMethodref)).append(verbose ? " (" + index + ")\t" : "").append(nargs).append("\t").append(bytes.readUnsignedByte()); // Last byte is a reserved space
+                buf.append("\t").append(constant_pool.constantToString(index, ClassFileConstants.CONSTANT_InterfaceMethodref)).append(verbose ? " (" + index + ")\t" : "").append(nargs).append("\t").append(bytes.readUnsignedByte()); // Last byte is a reserved space
                 break;
             case Const.INVOKEDYNAMIC:
                 index = bytes.readUnsignedShort();
-                buf.append("\t").append(constant_pool.constantToString(index, Const.CONSTANT_InvokeDynamic)).append(verbose ? " (" + index + ")\t" : "").append(bytes.readUnsignedByte()) // Thrid byte is a reserved space
+                buf.append("\t").append(constant_pool.constantToString(index, ClassFileConstants.CONSTANT_InvokeDynamic)).append(verbose ? " (" + index + ")\t" : "").append(bytes.readUnsignedByte()) // Thrid byte is a reserved space
                         .append(bytes.readUnsignedByte()); // Last byte is a reserved space
                 break;
             case Const.LDC_W:
@@ -336,12 +339,12 @@ public abstract class Utility {
                 break;
             case Const.ANEWARRAY:
                 index = bytes.readUnsignedShort();
-                buf.append("\t\t<").append(compactClassName(constant_pool.getConstantString(index, Const.CONSTANT_Class), false)).append(">").append(verbose ? " (" + index + ")" : "");
+                buf.append("\t\t<").append(compactClassName(constant_pool.getConstantString(index, ClassFileConstants.CONSTANT_Class), false)).append(">").append(verbose ? " (" + index + ")" : "");
                 break;
             case Const.MULTIANEWARRAY: {
                 index = bytes.readUnsignedShort();
                 final int dimensions = bytes.readUnsignedByte();
-                buf.append("\t<").append(compactClassName(constant_pool.getConstantString(index, Const.CONSTANT_Class), false)).append(">\t").append(dimensions).append(verbose ? " (" + index + ")" : "");
+                buf.append("\t<").append(compactClassName(constant_pool.getConstantString(index, ClassFileConstants.CONSTANT_Class), false)).append(">\t").append(dimensions).append(verbose ? " (" + index + ")" : "");
             }
                 break;
             case Const.IINC:

@@ -4,7 +4,7 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import com.wade.decompiler.Const;
+import com.wade.decompiler.enums.ClassFileConstants;
 
 public final class ConstantMethodType extends Constant {
     private int descriptorIndex;
@@ -18,7 +18,7 @@ public final class ConstantMethodType extends Constant {
     }
 
     public ConstantMethodType(final int descriptor_index) {
-        super(Const.CONSTANT_MethodType);
+        super(ClassFileConstants.CONSTANT_MethodType);
         this.descriptorIndex = descriptor_index;
     }
 
@@ -29,7 +29,7 @@ public final class ConstantMethodType extends Constant {
 
     @Override
     public void dump(final DataOutputStream file) throws IOException {
-        file.writeByte(super.getTag());
+        file.writeByte(super.getTag().getTag());
         file.writeShort(descriptorIndex);
     }
 

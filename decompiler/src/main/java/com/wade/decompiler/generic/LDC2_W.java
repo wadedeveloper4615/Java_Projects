@@ -1,6 +1,5 @@
 package com.wade.decompiler.generic;
 
-import com.wade.decompiler.Const;
 import com.wade.decompiler.classfile.Constant;
 import com.wade.decompiler.classfile.ConstantDouble;
 import com.wade.decompiler.classfile.ConstantLong;
@@ -24,10 +23,11 @@ public class LDC2_W extends CPInstruction implements PushInstruction {
 
     @Override
     public Type getType(final ConstantPoolGen cpg) {
-        switch (cpg.getConstantPool().getConstant(super.getIndex()).getTag()) {
-            case com.wade.decompiler.Const.CONSTANT_Long:
+        Constant c = cpg.getConstantPool().getConstant(super.getIndex());
+        switch (c.getTag()) {
+            case CONSTANT_Long:
                 return Type.LONG;
-            case com.wade.decompiler.Const.CONSTANT_Double:
+            case CONSTANT_Double:
                 return Type.DOUBLE;
             default: // Never reached
                 throw new IllegalArgumentException("Unknown constant type " + super.getOpcode());
@@ -35,11 +35,11 @@ public class LDC2_W extends CPInstruction implements PushInstruction {
     }
 
     public Number getValue(final ConstantPoolGen cpg) {
-        final Constant c = cpg.getConstantPool().getConstant(super.getIndex());
+        Constant c = cpg.getConstantPool().getConstant(super.getIndex());
         switch (c.getTag()) {
-            case Const.CONSTANT_Long:
+            case CONSTANT_Long:
                 return Long.valueOf(((ConstantLong) c).getBytes());
-            case Const.CONSTANT_Double:
+            case CONSTANT_Double:
                 return Double.valueOf(((ConstantDouble) c).getBytes());
             default: // Never reached
                 throw new IllegalArgumentException("Unknown or invalid constant type at " + super.getIndex());

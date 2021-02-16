@@ -7,7 +7,6 @@ import java.io.PrintWriter;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.wade.decompiler.Const;
 import com.wade.decompiler.Constants;
 import com.wade.decompiler.classfile.Attribute;
 import com.wade.decompiler.classfile.ClassParser;
@@ -15,6 +14,7 @@ import com.wade.decompiler.classfile.ConstantPool;
 import com.wade.decompiler.classfile.JavaClass;
 import com.wade.decompiler.classfile.Method;
 import com.wade.decompiler.classfile.Utility;
+import com.wade.decompiler.enums.ClassFileConstants;
 
 public class Class2HTML implements Constants {
     private static String class_package; // name of package, unclean to make it static, but ...
@@ -119,7 +119,7 @@ public class Class2HTML implements Constants {
     }
 
     static String referenceClass(final int index) {
-        String str = constant_pool.getConstantString(index, Const.CONSTANT_Class);
+        String str = constant_pool.getConstantString(index, ClassFileConstants.CONSTANT_Class);
         str = Utility.compactClassName(str);
         str = Utility.compactClassName(str, class_package + ".", true);
         return "<A HREF=\"" + class_name + "_cp.html#cp" + index + "\" TARGET=ConstantPool>" + str + "</A>";

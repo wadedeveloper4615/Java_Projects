@@ -6,13 +6,14 @@ import java.io.IOException;
 
 import com.wade.decompiler.Const;
 import com.wade.decompiler.comparators.ConstantComparator;
+import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.util.BCELComparator;
 
 public abstract class Constant implements Cloneable, Node {
     private static BCELComparator bcelComparator = new ConstantComparator();
-    protected byte tag;
+    protected ClassFileConstants tag;
 
-    public Constant(byte tag) {
+    public Constant(ClassFileConstants tag) {
         this.tag = tag;
     }
 
@@ -43,7 +44,7 @@ public abstract class Constant implements Cloneable, Node {
         return bcelComparator.equals(this, obj);
     }
 
-    public byte getTag() {
+    public ClassFileConstants getTag() {
         return tag;
     }
 
@@ -54,7 +55,7 @@ public abstract class Constant implements Cloneable, Node {
 
     @Override
     public String toString() {
-        return Const.getConstantName(tag) + "[" + tag + "]";
+        return Const.getConstantName(tag.getTag()) + "[" + tag + "]";
     }
 
     public static BCELComparator getComparator() {
@@ -62,41 +63,41 @@ public abstract class Constant implements Cloneable, Node {
     }
 
     public static Constant readConstant(final DataInput dataInput) throws IOException, ClassFormatException {
-        final byte b = dataInput.readByte(); // Read tag byte
+        ClassFileConstants b = ClassFileConstants.read(dataInput.readByte());
         switch (b) {
-            case Const.CONSTANT_Class:
+            case CONSTANT_Class:
                 return new ConstantClass(dataInput);
-            case Const.CONSTANT_Fieldref:
+            case CONSTANT_Fieldref:
                 return new ConstantFieldref(dataInput);
-            case Const.CONSTANT_Methodref:
+            case CONSTANT_Methodref:
                 return new ConstantMethodref(dataInput);
-            case Const.CONSTANT_InterfaceMethodref:
+            case CONSTANT_InterfaceMethodref:
                 return new ConstantInterfaceMethodref(dataInput);
-            case Const.CONSTANT_String:
+            case CONSTANT_String:
                 return new ConstantString(dataInput);
-            case Const.CONSTANT_Integer:
+            case CONSTANT_Integer:
                 return new ConstantInteger(dataInput);
-            case Const.CONSTANT_Float:
+            case CONSTANT_Float:
                 return new ConstantFloat(dataInput);
-            case Const.CONSTANT_Long:
+            case CONSTANT_Long:
                 return new ConstantLong(dataInput);
-            case Const.CONSTANT_Double:
+            case CONSTANT_Double:
                 return new ConstantDouble(dataInput);
-            case Const.CONSTANT_NameAndType:
+            case CONSTANT_NameAndType:
                 return new ConstantNameAndType(dataInput);
-            case Const.CONSTANT_Utf8:
+            case CONSTANT_Utf8:
                 return ConstantUtf8.getInstance(dataInput);
-            case Const.CONSTANT_MethodHandle:
+            case CONSTANT_MethodHandle:
                 return new ConstantMethodHandle(dataInput);
-            case Const.CONSTANT_MethodType:
+            case CONSTANT_MethodType:
                 return new ConstantMethodType(dataInput);
-            case Const.CONSTANT_Dynamic:
+            case CONSTANT_Dynamic:
                 return new ConstantDynamic(dataInput);
-            case Const.CONSTANT_InvokeDynamic:
+            case CONSTANT_InvokeDynamic:
                 return new ConstantInvokeDynamic(dataInput);
-            case Const.CONSTANT_Module:
+            case CONSTANT_Module:
                 return new ConstantModule(dataInput);
-            case Const.CONSTANT_Package:
+            case CONSTANT_Package:
                 return new ConstantPackage(dataInput);
             default:
                 throw new ClassFormatException("Invalid byte tag in constant pool: " + b);

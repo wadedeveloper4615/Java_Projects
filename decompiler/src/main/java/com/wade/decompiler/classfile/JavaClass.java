@@ -16,6 +16,7 @@ import com.wade.decompiler.Const;
 import com.wade.decompiler.comparators.JavClassComparator;
 import com.wade.decompiler.enums.ClassAccessFlags;
 import com.wade.decompiler.enums.ClassAccessFlagsList;
+import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.enums.Version;
 import com.wade.decompiler.generic.Type;
 import com.wade.decompiler.util.BCELComparator;
@@ -83,7 +84,7 @@ public class JavaClass extends ClassAccessFlagsList implements Cloneable, Node, 
                 break;
             }
         }
-        className = constantPool.getConstantString(classNameIndex, Const.CONSTANT_Class);
+        className = constantPool.getConstantString(classNameIndex, ClassFileConstants.CONSTANT_Class);
         className = Utility.compactClassName(className, false);
         int index = className.lastIndexOf('.');
         if (index < 0) {
@@ -92,14 +93,14 @@ public class JavaClass extends ClassAccessFlagsList implements Cloneable, Node, 
             packageName = className.substring(0, index);
         }
         if (superclassNameIndex > 0) {
-            superclassName = constantPool.getConstantString(superclassNameIndex, Const.CONSTANT_Class);
+            superclassName = constantPool.getConstantString(superclassNameIndex, ClassFileConstants.CONSTANT_Class);
             superclassName = Utility.compactClassName(superclassName, false);
         } else {
             superclassName = "java.lang.Object";
         }
         interfaceNames = new String[interfaces.length];
         for (int i = 0; i < interfaces.length; i++) {
-            String str = constantPool.getConstantString(interfaces[i], Const.CONSTANT_Class);
+            String str = constantPool.getConstantString(interfaces[i], ClassFileConstants.CONSTANT_Class);
             interfaceNames[i] = Utility.compactClassName(str, false);
         }
     }
@@ -123,7 +124,7 @@ public class JavaClass extends ClassAccessFlagsList implements Cloneable, Node, 
                 InnerClass[] innerClasses = ((InnerClasses) attribute).getInnerClasses();
                 for (InnerClass innerClasse : innerClasses) {
                     boolean innerClassAttributeRefersToMe = false;
-                    String inner_class_name = constantPool.getConstantString(innerClasse.getInnerClassIndex(), Const.CONSTANT_Class);
+                    String inner_class_name = constantPool.getConstantString(innerClasse.getInnerClassIndex(), ClassFileConstants.CONSTANT_Class);
                     inner_class_name = Utility.compactClassName(inner_class_name, false);
                     if (inner_class_name.equals(getClassName())) {
                         innerClassAttributeRefersToMe = true;

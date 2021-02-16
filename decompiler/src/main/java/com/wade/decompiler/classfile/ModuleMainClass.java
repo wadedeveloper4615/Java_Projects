@@ -4,8 +4,8 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import com.wade.decompiler.Const;
 import com.wade.decompiler.enums.ClassFileAttributes;
+import com.wade.decompiler.enums.ClassFileConstants;
 
 public class ModuleMainClass extends Attribute {
     private int mainClassIndex;
@@ -54,7 +54,7 @@ public class ModuleMainClass extends Attribute {
     public String toString() {
         StringBuilder buf = new StringBuilder();
         buf.append("ModuleMainClass: ");
-        String class_name = super.getConstantPool().getConstantString(mainClassIndex, Const.CONSTANT_Class);
+        String class_name = super.getConstantPool().getConstantString(mainClassIndex, ClassFileConstants.CONSTANT_Class);
         buf.append(Utility.compactClassName(class_name, false));
         return buf.toString();
     }

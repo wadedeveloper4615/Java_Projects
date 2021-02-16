@@ -21,6 +21,7 @@ import com.wade.decompiler.classfile.LocalVariableTable;
 import com.wade.decompiler.classfile.SourceFile;
 import com.wade.decompiler.classfile.Utility;
 import com.wade.decompiler.enums.ClassFileAttributes;
+import com.wade.decompiler.enums.ClassFileConstants;
 
 final class AttributeHTML {
     private final String class_name; // name of current class
@@ -122,7 +123,7 @@ final class AttributeHTML {
                 file.print("<UL>");
                 for (final LocalVariable var : vars) {
                     index = var.getSignatureIndex();
-                    String signature = ((ConstantUtf8) constant_pool.getConstant(index, Const.CONSTANT_Utf8)).getBytes();
+                    String signature = ((ConstantUtf8) constant_pool.getConstant(index, ClassFileConstants.CONSTANT_Utf8)).getBytes();
                     signature = Utility.signatureToString(signature, false);
                     final int start = var.getStartPC();
                     final int end = start + var.getLength();
@@ -139,7 +140,7 @@ final class AttributeHTML {
                     String access;
                     index = classe.getInnerNameIndex();
                     if (index > 0) {
-                        name = ((ConstantUtf8) constant_pool.getConstant(index, Const.CONSTANT_Utf8)).getBytes();
+                        name = ((ConstantUtf8) constant_pool.getConstant(index, ClassFileConstants.CONSTANT_Utf8)).getBytes();
                     } else {
                         name = "&lt;anonymous&gt;";
                     }

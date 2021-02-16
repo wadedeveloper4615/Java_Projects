@@ -4,8 +4,8 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import com.wade.decompiler.Const;
 import com.wade.decompiler.enums.ClassFileAttributes;
+import com.wade.decompiler.enums.ClassFileConstants;
 
 public class EnclosingMethod extends Attribute {
     // Pointer to the CONSTANT_Class_info structure representing the
@@ -50,7 +50,7 @@ public class EnclosingMethod extends Attribute {
     }
 
     public ConstantClass getEnclosingClass() {
-        ConstantClass c = (ConstantClass) super.getConstantPool().getConstant(classIndex, Const.CONSTANT_Class);
+        ConstantClass c = (ConstantClass) super.getConstantPool().getConstant(classIndex, ClassFileConstants.CONSTANT_Class);
         return c;
     }
 
@@ -63,7 +63,7 @@ public class EnclosingMethod extends Attribute {
         if (methodIndex == 0) {
             return null;
         }
-        ConstantNameAndType nat = (ConstantNameAndType) super.getConstantPool().getConstant(methodIndex, Const.CONSTANT_NameAndType);
+        ConstantNameAndType nat = (ConstantNameAndType) super.getConstantPool().getConstant(methodIndex, ClassFileConstants.CONSTANT_NameAndType);
         return nat;
     }
 

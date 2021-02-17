@@ -2,6 +2,13 @@ package com.wade.decompiler.generic;
 
 import com.wade.decompiler.Const;
 import com.wade.decompiler.ExceptionConst;
+import com.wade.decompiler.generic.base.ExceptionThrower;
+import com.wade.decompiler.generic.base.Instruction;
+import com.wade.decompiler.generic.base.StackConsumer;
+import com.wade.decompiler.generic.base.Type;
+import com.wade.decompiler.generic.base.TypedInstruction;
+import com.wade.decompiler.generic.gen.ClassGenException;
+import com.wade.decompiler.generic.gen.ConstantPoolGen;
 
 public abstract class ReturnInstruction extends Instruction implements ExceptionThrower, TypedInstruction, StackConsumer {
     ReturnInstruction() {

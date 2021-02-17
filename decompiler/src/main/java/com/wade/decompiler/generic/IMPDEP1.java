@@ -1,8 +1,12 @@
 package com.wade.decompiler.generic;
 
+import com.wade.decompiler.Const;
+import com.wade.decompiler.generic.base.Instruction;
+import com.wade.decompiler.generic.gen.Visitor;
+
 public class IMPDEP1 extends Instruction {
     public IMPDEP1() {
-        super(com.wade.decompiler.Const.IMPDEP1, (short) 1);
+        super(Const.IMPDEP1, 1);
     }
 
     @Override

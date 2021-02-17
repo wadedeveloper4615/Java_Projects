@@ -1,12 +1,16 @@
 package com.wade.decompiler.generic;
 
+import com.wade.decompiler.Const;
+import com.wade.decompiler.generic.base.StoreInstruction;
+import com.wade.decompiler.generic.gen.Visitor;
+
 public class DSTORE extends StoreInstruction {
-    DSTORE() {
-        super(com.wade.decompiler.Const.DSTORE, com.wade.decompiler.Const.DSTORE_0);
+    public DSTORE() {
+        super(Const.DSTORE, Const.DSTORE_0);
     }
 
     public DSTORE(final int n) {
-        super(com.wade.decompiler.Const.DSTORE, com.wade.decompiler.Const.DSTORE_0, n);
+        super(Const.DSTORE, Const.DSTORE_0, n);
     }
 
     @Override

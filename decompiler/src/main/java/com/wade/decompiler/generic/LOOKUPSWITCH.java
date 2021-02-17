@@ -3,14 +3,17 @@ package com.wade.decompiler.generic;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import com.wade.decompiler.Const;
+import com.wade.decompiler.generic.base.InstructionHandle;
+import com.wade.decompiler.generic.gen.Visitor;
 import com.wade.decompiler.util.ByteSequence;
 
 public class LOOKUPSWITCH extends Select {
-    LOOKUPSWITCH() {
+    public LOOKUPSWITCH() {
     }
 
     public LOOKUPSWITCH(final int[] match, final InstructionHandle[] targets, final InstructionHandle defaultTarget) {
-        super(com.wade.decompiler.Const.LOOKUPSWITCH, match, targets, defaultTarget);
+        super(Const.LOOKUPSWITCH, match, targets, defaultTarget);
         final short _length = (short) (9 + getMatch_length() * 8);
         super.setLength(_length);
         setFixed_length(_length);
@@ -37,7 +40,7 @@ public class LOOKUPSWITCH extends Select {
     }
 
     @Override
-    protected void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
+    public void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
         super.initFromFile(bytes, wide); // reads padding
         final int _match_length = bytes.readInt();
         setMatch_length(_match_length);

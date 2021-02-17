@@ -1,8 +1,13 @@
 package com.wade.decompiler.generic;
 
+import com.wade.decompiler.Const;
+import com.wade.decompiler.generic.base.ArrayInstruction;
+import com.wade.decompiler.generic.base.StackProducer;
+import com.wade.decompiler.generic.gen.Visitor;
+
 public class FALOAD extends ArrayInstruction implements StackProducer {
     public FALOAD() {
-        super(com.wade.decompiler.Const.FALOAD);
+        super(Const.FALOAD);
     }
 
     @Override

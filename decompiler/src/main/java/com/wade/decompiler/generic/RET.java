@@ -3,17 +3,26 @@ package com.wade.decompiler.generic;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import com.wade.decompiler.Const;
+import com.wade.decompiler.generic.base.IndexedInstruction;
+import com.wade.decompiler.generic.base.Instruction;
+import com.wade.decompiler.generic.base.ReturnaddressType;
+import com.wade.decompiler.generic.base.Type;
+import com.wade.decompiler.generic.base.TypedInstruction;
+import com.wade.decompiler.generic.gen.ClassGenException;
+import com.wade.decompiler.generic.gen.ConstantPoolGen;
+import com.wade.decompiler.generic.gen.Visitor;
 import com.wade.decompiler.util.ByteSequence;
 
 public class RET extends Instruction implements IndexedInstruction, TypedInstruction {
     private boolean wide;
     private int index; // index to local variable containg the return address
 
-    RET() {
+    public RET() {
     }
 
     public RET(final int index) {
-        super(com.wade.decompiler.Const.RET, (short) 2);
+        super(Const.RET, (short) 2);
         setIndex(index); // May set wide as side effect
     }
 
@@ -25,7 +34,7 @@ public class RET extends Instruction implements IndexedInstruction, TypedInstruc
     @Override
     public void dump(final DataOutputStream out) throws IOException {
         if (wide) {
-            out.writeByte(com.wade.decompiler.Const.WIDE);
+            out.writeByte(Const.WIDE);
         }
         out.writeByte(super.getOpcode());
         if (wide) {
@@ -46,7 +55,7 @@ public class RET extends Instruction implements IndexedInstruction, TypedInstruc
     }
 
     @Override
-    protected void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
+    public void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
         this.wide = wide;
         if (wide) {
             index = bytes.readUnsignedShort();
@@ -67,7 +76,7 @@ public class RET extends Instruction implements IndexedInstruction, TypedInstruc
     }
 
     private void setWide() {
-        wide = index > com.wade.decompiler.Const.MAX_BYTE;
+        wide = index > Const.MAX_BYTE;
         if (wide) {
             super.setLength(4); // Including the wide byte
         } else {

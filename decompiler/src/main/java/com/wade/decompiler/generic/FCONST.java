@@ -1,19 +1,27 @@
 package com.wade.decompiler.generic;
 
+import com.wade.decompiler.Const;
+import com.wade.decompiler.generic.base.ConstantPushInstruction;
+import com.wade.decompiler.generic.base.Instruction;
+import com.wade.decompiler.generic.base.Type;
+import com.wade.decompiler.generic.gen.ClassGenException;
+import com.wade.decompiler.generic.gen.ConstantPoolGen;
+import com.wade.decompiler.generic.gen.Visitor;
+
 public class FCONST extends Instruction implements ConstantPushInstruction {
     private float value;
 
-    FCONST() {
+    public FCONST() {
     }
 
     public FCONST(final float f) {
-        super(com.wade.decompiler.Const.FCONST_0, (short) 1);
+        super(Const.FCONST_0, 1);
         if (f == 0.0) {
-            super.setOpcode(com.wade.decompiler.Const.FCONST_0);
+            super.setOpcode(Const.FCONST_0);
         } else if (f == 1.0) {
-            super.setOpcode(com.wade.decompiler.Const.FCONST_1);
+            super.setOpcode(Const.FCONST_1);
         } else if (f == 2.0) {
-            super.setOpcode(com.wade.decompiler.Const.FCONST_2);
+            super.setOpcode(Const.FCONST_2);
         } else {
             throw new ClassGenException("FCONST can be used only for 0.0, 1.0 and 2.0: " + f);
         }

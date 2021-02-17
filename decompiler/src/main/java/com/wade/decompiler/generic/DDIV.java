@@ -1,8 +1,12 @@
 package com.wade.decompiler.generic;
 
+import com.wade.decompiler.Const;
+import com.wade.decompiler.generic.base.ArithmeticInstruction;
+import com.wade.decompiler.generic.gen.Visitor;
+
 public class DDIV extends ArithmeticInstruction {
     public DDIV() {
-        super(com.wade.decompiler.Const.DDIV);
+        super(Const.DDIV);
     }
 
     @Override

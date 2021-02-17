@@ -1,29 +1,27 @@
 package com.wade.decompiler.generic;
 
+import com.wade.decompiler.Const;
+import com.wade.decompiler.generic.base.ConstantPushInstruction;
+import com.wade.decompiler.generic.base.Instruction;
+import com.wade.decompiler.generic.base.Type;
+import com.wade.decompiler.generic.gen.ClassGenException;
+import com.wade.decompiler.generic.gen.ConstantPoolGen;
+import com.wade.decompiler.generic.gen.Visitor;
+
 public class ICONST extends Instruction implements ConstantPushInstruction {
     private int value;
 
-    ICONST() {
+    public ICONST() {
     }
 
     public ICONST(final int i) {
-        super(com.wade.decompiler.Const.ICONST_0, (short) 1);
+        super(Const.ICONST_0, 1);
         if ((i >= -1) && (i <= 5)) {
-            super.setOpcode((short) (com.wade.decompiler.Const.ICONST_0 + i)); // Even works for i == -1
+            super.setOpcode((short) (Const.ICONST_0 + i)); // Even works for i == -1
         } else {
             throw new ClassGenException("ICONST can be used only for value between -1 and 5: " + i);
         }
         value = i;
-    }
-
-    @Override
-    public Number getValue() {
-        return Integer.valueOf(value);
-    }
-
-    @Override
-    public Type getType(final ConstantPoolGen cp) {
-        return Type.INT;
     }
 
     @Override
@@ -33,5 +31,15 @@ public class ICONST extends Instruction implements ConstantPushInstruction {
         v.visitTypedInstruction(this);
         v.visitConstantPushInstruction(this);
         v.visitICONST(this);
+    }
+
+    @Override
+    public Type getType(final ConstantPoolGen cp) {
+        return Type.INT;
+    }
+
+    @Override
+    public Number getValue() {
+        return Integer.valueOf(value);
     }
 }

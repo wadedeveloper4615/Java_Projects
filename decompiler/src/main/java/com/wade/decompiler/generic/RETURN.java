@@ -1,8 +1,11 @@
 package com.wade.decompiler.generic;
 
+import com.wade.decompiler.Const;
+import com.wade.decompiler.generic.gen.Visitor;
+
 public class RETURN extends ReturnInstruction {
     public RETURN() {
-        super(com.wade.decompiler.Const.RETURN);
+        super(Const.RETURN);
     }
 
     @Override

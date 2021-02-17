@@ -1,8 +1,12 @@
 package com.wade.decompiler.generic;
 
+import com.wade.decompiler.Const;
+import com.wade.decompiler.generic.base.ConversionInstruction;
+import com.wade.decompiler.generic.gen.Visitor;
+
 public class F2L extends ConversionInstruction {
     public F2L() {
-        super(com.wade.decompiler.Const.F2L);
+        super(Const.F2L);
     }
 
     @Override

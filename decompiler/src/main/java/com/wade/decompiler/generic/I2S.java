@@ -1,8 +1,12 @@
 package com.wade.decompiler.generic;
 
+import com.wade.decompiler.Const;
+import com.wade.decompiler.generic.base.ConversionInstruction;
+import com.wade.decompiler.generic.gen.Visitor;
+
 public class I2S extends ConversionInstruction {
     public I2S() {
-        super(com.wade.decompiler.Const.I2S);
+        super(Const.I2S);
     }
 
     @Override

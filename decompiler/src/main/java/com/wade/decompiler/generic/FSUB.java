@@ -1,8 +1,12 @@
 package com.wade.decompiler.generic;
 
+import com.wade.decompiler.Const;
+import com.wade.decompiler.generic.base.ArithmeticInstruction;
+import com.wade.decompiler.generic.gen.Visitor;
+
 public class FSUB extends ArithmeticInstruction {
     public FSUB() {
-        super(com.wade.decompiler.Const.FSUB);
+        super(Const.FSUB);
     }
 
     @Override

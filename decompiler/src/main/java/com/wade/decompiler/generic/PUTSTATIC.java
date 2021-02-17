@@ -2,23 +2,18 @@ package com.wade.decompiler.generic;
 
 import com.wade.decompiler.Const;
 import com.wade.decompiler.ExceptionConst;
+import com.wade.decompiler.generic.base.ExceptionThrower;
+import com.wade.decompiler.generic.base.FieldInstruction;
+import com.wade.decompiler.generic.base.PopInstruction;
+import com.wade.decompiler.generic.gen.ConstantPoolGen;
+import com.wade.decompiler.generic.gen.Visitor;
 
 public class PUTSTATIC extends FieldInstruction implements ExceptionThrower, PopInstruction {
-    PUTSTATIC() {
+    public PUTSTATIC() {
     }
 
     public PUTSTATIC(final int index) {
         super(Const.PUTSTATIC, index);
-    }
-
-    @Override
-    public int consumeStack(final ConstantPoolGen cpg) {
-        return getFieldSize(cpg);
-    }
-
-    @Override
-    public Class<?>[] getExceptions() {
-        return ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_FIELD_AND_METHOD_RESOLUTION, ExceptionConst.INCOMPATIBLE_CLASS_CHANGE_ERROR);
     }
 
     @Override
@@ -32,5 +27,15 @@ public class PUTSTATIC extends FieldInstruction implements ExceptionThrower, Pop
         v.visitFieldOrMethod(this);
         v.visitFieldInstruction(this);
         v.visitPUTSTATIC(this);
+    }
+
+    @Override
+    public int consumeStack(final ConstantPoolGen cpg) {
+        return getFieldSize(cpg);
+    }
+
+    @Override
+    public Class<?>[] getExceptions() {
+        return ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_FIELD_AND_METHOD_RESOLUTION, ExceptionConst.INCOMPATIBLE_CLASS_CHANGE_ERROR);
     }
 }

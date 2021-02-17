@@ -1,8 +1,12 @@
 package com.wade.decompiler.generic;
 
+import com.wade.decompiler.Const;
+import com.wade.decompiler.generic.base.ArithmeticInstruction;
+import com.wade.decompiler.generic.gen.Visitor;
+
 public class LUSHR extends ArithmeticInstruction {
     public LUSHR() {
-        super(com.wade.decompiler.Const.LUSHR);
+        super(Const.LUSHR);
     }
 
     @Override

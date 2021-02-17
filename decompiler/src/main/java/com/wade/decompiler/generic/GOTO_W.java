@@ -3,14 +3,18 @@ package com.wade.decompiler.generic;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import com.wade.decompiler.Const;
+import com.wade.decompiler.generic.base.GotoInstruction;
+import com.wade.decompiler.generic.base.InstructionHandle;
+import com.wade.decompiler.generic.gen.Visitor;
 import com.wade.decompiler.util.ByteSequence;
 
 public class GOTO_W extends GotoInstruction {
-    GOTO_W() {
+    public GOTO_W() {
     }
 
     public GOTO_W(final InstructionHandle target) {
-        super(com.wade.decompiler.Const.GOTO_W, target);
+        super(Const.GOTO_W, target);
         super.setLength(5);
     }
 
@@ -30,7 +34,7 @@ public class GOTO_W extends GotoInstruction {
     }
 
     @Override
-    protected void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
+    public void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
         super.setIndex(bytes.readInt());
         super.setLength(5);
     }

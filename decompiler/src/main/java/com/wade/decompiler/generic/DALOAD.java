@@ -1,8 +1,13 @@
 package com.wade.decompiler.generic;
 
+import com.wade.decompiler.Const;
+import com.wade.decompiler.generic.base.ArrayInstruction;
+import com.wade.decompiler.generic.base.StackProducer;
+import com.wade.decompiler.generic.gen.Visitor;
+
 public class DALOAD extends ArrayInstruction implements StackProducer {
     public DALOAD() {
-        super(com.wade.decompiler.Const.DALOAD);
+        super(Const.DALOAD);
     }
 
     @Override

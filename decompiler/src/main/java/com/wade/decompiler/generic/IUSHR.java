@@ -1,8 +1,12 @@
 package com.wade.decompiler.generic;
 
+import com.wade.decompiler.Const;
+import com.wade.decompiler.generic.base.ArithmeticInstruction;
+import com.wade.decompiler.generic.gen.Visitor;
+
 public class IUSHR extends ArithmeticInstruction {
     public IUSHR() {
-        super(com.wade.decompiler.Const.IUSHR);
+        super(Const.IUSHR);
     }
 
     @Override

@@ -1,8 +1,13 @@
 package com.wade.decompiler.generic;
 
+import com.wade.decompiler.Const;
+import com.wade.decompiler.generic.base.ArrayInstruction;
+import com.wade.decompiler.generic.base.StackConsumer;
+import com.wade.decompiler.generic.gen.Visitor;
+
 public class SASTORE extends ArrayInstruction implements StackConsumer {
     public SASTORE() {
-        super(com.wade.decompiler.Const.SASTORE);
+        super(Const.SASTORE);
     }
 
     @Override

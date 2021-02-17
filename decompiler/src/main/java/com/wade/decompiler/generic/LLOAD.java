@@ -1,12 +1,16 @@
 package com.wade.decompiler.generic;
 
+import com.wade.decompiler.Const;
+import com.wade.decompiler.generic.base.LoadInstruction;
+import com.wade.decompiler.generic.gen.Visitor;
+
 public class LLOAD extends LoadInstruction {
-    LLOAD() {
-        super(com.wade.decompiler.Const.LLOAD, com.wade.decompiler.Const.LLOAD_0);
+    public LLOAD() {
+        super(Const.LLOAD, Const.LLOAD_0);
     }
 
     public LLOAD(final int n) {
-        super(com.wade.decompiler.Const.LLOAD, com.wade.decompiler.Const.LLOAD_0, n);
+        super(Const.LLOAD, Const.LLOAD_0, n);
     }
 
     @Override

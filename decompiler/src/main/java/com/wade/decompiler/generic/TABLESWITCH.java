@@ -3,14 +3,17 @@ package com.wade.decompiler.generic;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import com.wade.decompiler.Const;
+import com.wade.decompiler.generic.base.InstructionHandle;
+import com.wade.decompiler.generic.gen.Visitor;
 import com.wade.decompiler.util.ByteSequence;
 
 public class TABLESWITCH extends Select {
-    TABLESWITCH() {
+    public TABLESWITCH() {
     }
 
     public TABLESWITCH(final int[] match, final InstructionHandle[] targets, final InstructionHandle defaultTarget) {
-        super(com.wade.decompiler.Const.TABLESWITCH, match, targets, defaultTarget);
+        super(Const.TABLESWITCH, match, targets, defaultTarget);
         final short _length = (short) (13 + getMatch_length() * 4);
         super.setLength(_length);
         setFixed_length(_length);
@@ -39,7 +42,7 @@ public class TABLESWITCH extends Select {
     }
 
     @Override
-    protected void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
+    public void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
         super.initFromFile(bytes, wide);
         final int low = bytes.readInt();
         final int high = bytes.readInt();

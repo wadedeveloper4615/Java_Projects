@@ -38,7 +38,10 @@ public enum ClassFileConstants {
 
     ClassFileConstants(int tag) {
         this.tag = (byte) tag;
-        this.name = CONSTANT_NAMES[tag];
+        if (tag == 99)
+            this.name = "Unknown";
+        else
+            this.name = CONSTANT_NAMES[tag];
     }
 
     public String getName() {

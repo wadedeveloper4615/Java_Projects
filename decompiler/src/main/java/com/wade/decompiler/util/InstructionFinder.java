@@ -10,9 +10,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.wade.decompiler.Const;
-import com.wade.decompiler.generic.ClassGenException;
-import com.wade.decompiler.generic.InstructionHandle;
-import com.wade.decompiler.generic.InstructionList;
+import com.wade.decompiler.generic.base.InstructionHandle;
+import com.wade.decompiler.generic.base.InstructionList;
+import com.wade.decompiler.generic.gen.ClassGenException;
 
 public class InstructionFinder {
     public interface CodeConstraint {

@@ -1,8 +1,12 @@
 package com.wade.decompiler.generic;
 
+import com.wade.decompiler.Const;
+import com.wade.decompiler.generic.base.ArithmeticInstruction;
+import com.wade.decompiler.generic.gen.Visitor;
+
 public class FNEG extends ArithmeticInstruction {
     public FNEG() {
-        super(com.wade.decompiler.Const.FNEG);
+        super(Const.FNEG);
     }
 
     @Override

@@ -1,16 +1,16 @@
 package com.wade.decompiler.generic;
 
+import com.wade.decompiler.Const;
+import com.wade.decompiler.generic.base.IfInstruction;
+import com.wade.decompiler.generic.base.InstructionHandle;
+import com.wade.decompiler.generic.gen.Visitor;
+
 public class IFLE extends IfInstruction {
-    IFLE() {
+    public IFLE() {
     }
 
     public IFLE(final InstructionHandle target) {
-        super(com.wade.decompiler.Const.IFLE, target);
-    }
-
-    @Override
-    public IfInstruction negate() {
-        return new IFGT(super.getTarget());
+        super(Const.IFLE, target);
     }
 
     @Override
@@ -19,5 +19,10 @@ public class IFLE extends IfInstruction {
         v.visitBranchInstruction(this);
         v.visitIfInstruction(this);
         v.visitIFLE(this);
+    }
+
+    @Override
+    public IfInstruction negate() {
+        return new IFGT(super.getTarget());
     }
 }

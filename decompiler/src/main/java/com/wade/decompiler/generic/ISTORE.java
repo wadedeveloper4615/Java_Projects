@@ -1,12 +1,16 @@
 package com.wade.decompiler.generic;
 
+import com.wade.decompiler.Const;
+import com.wade.decompiler.generic.base.StoreInstruction;
+import com.wade.decompiler.generic.gen.Visitor;
+
 public class ISTORE extends StoreInstruction {
-    ISTORE() {
-        super(com.wade.decompiler.Const.ISTORE, com.wade.decompiler.Const.ISTORE_0);
+    public ISTORE() {
+        super(Const.ISTORE, Const.ISTORE_0);
     }
 
     public ISTORE(final int n) {
-        super(com.wade.decompiler.Const.ISTORE, com.wade.decompiler.Const.ISTORE_0, n);
+        super(Const.ISTORE, Const.ISTORE_0, n);
     }
 
     @Override

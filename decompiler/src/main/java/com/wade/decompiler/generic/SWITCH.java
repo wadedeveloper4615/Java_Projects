@@ -1,5 +1,10 @@
 package com.wade.decompiler.generic;
 
+import com.wade.decompiler.generic.base.CompoundInstruction;
+import com.wade.decompiler.generic.base.Instruction;
+import com.wade.decompiler.generic.base.InstructionHandle;
+import com.wade.decompiler.generic.base.InstructionList;
+
 public final class SWITCH implements CompoundInstruction {
     private int[] match;
     private InstructionHandle[] targets;

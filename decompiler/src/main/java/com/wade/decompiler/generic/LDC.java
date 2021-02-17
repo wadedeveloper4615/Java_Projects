@@ -3,6 +3,7 @@ package com.wade.decompiler.generic;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import com.wade.decompiler.Const;
 import com.wade.decompiler.ExceptionConst;
 import com.wade.decompiler.classfile.Constant;
 import com.wade.decompiler.classfile.ConstantClass;
@@ -10,14 +11,21 @@ import com.wade.decompiler.classfile.ConstantFloat;
 import com.wade.decompiler.classfile.ConstantInteger;
 import com.wade.decompiler.classfile.ConstantString;
 import com.wade.decompiler.classfile.ConstantUtf8;
+import com.wade.decompiler.generic.base.CPInstruction;
+import com.wade.decompiler.generic.base.ExceptionThrower;
+import com.wade.decompiler.generic.base.ObjectType;
+import com.wade.decompiler.generic.base.PushInstruction;
+import com.wade.decompiler.generic.base.Type;
+import com.wade.decompiler.generic.gen.ConstantPoolGen;
+import com.wade.decompiler.generic.gen.Visitor;
 import com.wade.decompiler.util.ByteSequence;
 
 public class LDC extends CPInstruction implements PushInstruction, ExceptionThrower {
-    LDC() {
+    public LDC() {
     }
 
     public LDC(final int index) {
-        super(com.wade.decompiler.Const.LDC_W, index);
+        super(Const.LDC_W, index);
         setSize();
     }
 
@@ -83,7 +91,7 @@ public class LDC extends CPInstruction implements PushInstruction, ExceptionThro
     }
 
     @Override
-    protected void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
+    public void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
         super.setLength(2);
         super.setIndex(bytes.readUnsignedByte());
     }
@@ -96,11 +104,11 @@ public class LDC extends CPInstruction implements PushInstruction, ExceptionThro
 
     // Adjust to proper size
     protected final void setSize() {
-        if (super.getIndex() <= com.wade.decompiler.Const.MAX_BYTE) { // Fits in one byte?
-            super.setOpcode(com.wade.decompiler.Const.LDC);
+        if (super.getIndex() <= Const.MAX_BYTE) { // Fits in one byte?
+            super.setOpcode(Const.LDC);
             super.setLength(2);
         } else {
-            super.setOpcode(com.wade.decompiler.Const.LDC_W);
+            super.setOpcode(Const.LDC_W);
             super.setLength(3);
         }
     }

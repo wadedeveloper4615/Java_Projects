@@ -3,13 +3,22 @@ package com.wade.decompiler.generic;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import com.wade.decompiler.Const;
 import com.wade.decompiler.ExceptionConst;
+import com.wade.decompiler.generic.base.AllocationInstruction;
+import com.wade.decompiler.generic.base.ArrayType;
+import com.wade.decompiler.generic.base.BasicType;
+import com.wade.decompiler.generic.base.ExceptionThrower;
+import com.wade.decompiler.generic.base.Instruction;
+import com.wade.decompiler.generic.base.StackProducer;
+import com.wade.decompiler.generic.base.Type;
+import com.wade.decompiler.generic.gen.Visitor;
 import com.wade.decompiler.util.ByteSequence;
 
 public class NEWARRAY extends Instruction implements AllocationInstruction, ExceptionThrower, StackProducer {
     private byte type;
 
-    NEWARRAY() {
+    public NEWARRAY() {
     }
 
     public NEWARRAY(final BasicType type) {
@@ -17,7 +26,7 @@ public class NEWARRAY extends Instruction implements AllocationInstruction, Exce
     }
 
     public NEWARRAY(final byte type) {
-        super(com.wade.decompiler.Const.NEWARRAY, (short) 2);
+        super(Const.NEWARRAY, (short) 2);
         this.type = type;
     }
 
@@ -49,13 +58,13 @@ public class NEWARRAY extends Instruction implements AllocationInstruction, Exce
     }
 
     @Override
-    protected void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
+    public void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
         type = bytes.readByte();
         super.setLength(2);
     }
 
     @Override
     public String toString(final boolean verbose) {
-        return super.toString(verbose) + " " + com.wade.decompiler.Const.getTypeName(type);
+        return super.toString(verbose) + " " + Const.getTypeName(type);
     }
 }

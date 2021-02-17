@@ -1,16 +1,16 @@
 package com.wade.decompiler.generic;
 
+import com.wade.decompiler.Const;
+import com.wade.decompiler.generic.base.IfInstruction;
+import com.wade.decompiler.generic.base.InstructionHandle;
+import com.wade.decompiler.generic.gen.Visitor;
+
 public class IFEQ extends IfInstruction {
-    IFEQ() {
+    public IFEQ() {
     }
 
     public IFEQ(final InstructionHandle target) {
-        super(com.wade.decompiler.Const.IFEQ, target);
-    }
-
-    @Override
-    public IfInstruction negate() {
-        return new IFNE(super.getTarget());
+        super(Const.IFEQ, target);
     }
 
     @Override
@@ -19,5 +19,10 @@ public class IFEQ extends IfInstruction {
         v.visitBranchInstruction(this);
         v.visitIfInstruction(this);
         v.visitIFEQ(this);
+    }
+
+    @Override
+    public IfInstruction negate() {
+        return new IFNE(super.getTarget());
     }
 }

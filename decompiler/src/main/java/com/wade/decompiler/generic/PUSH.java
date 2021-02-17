@@ -1,6 +1,15 @@
 package com.wade.decompiler.generic;
 
 import com.wade.decompiler.Const;
+import com.wade.decompiler.generic.base.CompoundInstruction;
+import com.wade.decompiler.generic.base.Instruction;
+import com.wade.decompiler.generic.base.InstructionConst;
+import com.wade.decompiler.generic.base.InstructionConstants;
+import com.wade.decompiler.generic.base.InstructionList;
+import com.wade.decompiler.generic.base.ObjectType;
+import com.wade.decompiler.generic.base.VariableLengthInstruction;
+import com.wade.decompiler.generic.gen.ClassGenException;
+import com.wade.decompiler.generic.gen.ConstantPoolGen;
 
 public final class PUSH implements CompoundInstruction, VariableLengthInstruction, InstructionConstants {
     private Instruction instruction;

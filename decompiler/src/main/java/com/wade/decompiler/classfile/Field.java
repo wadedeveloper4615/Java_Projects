@@ -6,7 +6,7 @@ import java.util.Objects;
 
 import com.wade.decompiler.enums.ClassAccessFlagsList;
 import com.wade.decompiler.enums.ClassFileAttributes;
-import com.wade.decompiler.generic.Type;
+import com.wade.decompiler.generic.base.Type;
 import com.wade.decompiler.util.BCELComparator;
 
 public final class Field extends FieldOrMethod {

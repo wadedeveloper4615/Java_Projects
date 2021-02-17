@@ -1,8 +1,11 @@
 package com.wade.decompiler.generic;
 
+import com.wade.decompiler.Const;
+import com.wade.decompiler.generic.gen.Visitor;
+
 public class FRETURN extends ReturnInstruction {
     public FRETURN() {
-        super(com.wade.decompiler.Const.FRETURN);
+        super(Const.FRETURN);
     }
 
     @Override

@@ -1,8 +1,12 @@
 package com.wade.decompiler.generic;
 
+import com.wade.decompiler.Const;
+import com.wade.decompiler.generic.base.StackInstruction;
+import com.wade.decompiler.generic.gen.Visitor;
+
 public class DUP_X1 extends StackInstruction {
     public DUP_X1() {
-        super(com.wade.decompiler.Const.DUP_X1);
+        super(Const.DUP_X1);
     }
 
     @Override

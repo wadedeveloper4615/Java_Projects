@@ -7,6 +7,12 @@ import com.wade.decompiler.classfile.Constant;
 import com.wade.decompiler.classfile.ConstantCP;
 import com.wade.decompiler.classfile.ConstantPool;
 import com.wade.decompiler.enums.ClassFileConstants;
+import com.wade.decompiler.generic.base.ExceptionThrower;
+import com.wade.decompiler.generic.base.FieldOrMethod;
+import com.wade.decompiler.generic.base.StackConsumer;
+import com.wade.decompiler.generic.base.StackProducer;
+import com.wade.decompiler.generic.base.Type;
+import com.wade.decompiler.generic.gen.ConstantPoolGen;
 
 public abstract class InvokeInstruction extends FieldOrMethod implements ExceptionThrower, StackConsumer, StackProducer {
     InvokeInstruction() {

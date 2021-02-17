@@ -3,18 +3,24 @@ package com.wade.decompiler.generic;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import com.wade.decompiler.Const;
+import com.wade.decompiler.generic.base.LocalVariableInstruction;
+import com.wade.decompiler.generic.base.Type;
+import com.wade.decompiler.generic.gen.ClassGenException;
+import com.wade.decompiler.generic.gen.ConstantPoolGen;
+import com.wade.decompiler.generic.gen.Visitor;
 import com.wade.decompiler.util.ByteSequence;
 
 public class IINC extends LocalVariableInstruction {
     private boolean wide;
     private int c;
 
-    IINC() {
+    public IINC() {
     }
 
     public IINC(final int n, final int c) {
         super(); // Default behavior of LocalVariableInstruction causes error
-        super.setOpcode(com.wade.decompiler.Const.IINC);
+        super.setOpcode(Const.IINC);
         super.setLength((short) 3);
         setIndex(n); // May set wide as side effect
         setIncrement(c);
@@ -29,7 +35,7 @@ public class IINC extends LocalVariableInstruction {
     @Override
     public void dump(final DataOutputStream out) throws IOException {
         if (wide) {
-            out.writeByte(com.wade.decompiler.Const.WIDE);
+            out.writeByte(Const.WIDE);
         }
         out.writeByte(super.getOpcode());
         if (wide) {
@@ -51,7 +57,7 @@ public class IINC extends LocalVariableInstruction {
     }
 
     @Override
-    protected void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
+    public void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
         this.wide = wide;
         if (wide) {
             super.setLength(6);
@@ -79,7 +85,7 @@ public class IINC extends LocalVariableInstruction {
     }
 
     private void setWide() {
-        wide = super.getIndex() > com.wade.decompiler.Const.MAX_BYTE;
+        wide = super.getIndex() > Const.MAX_BYTE;
         if (c > 0) {
             wide = wide || (c > Byte.MAX_VALUE);
         } else {

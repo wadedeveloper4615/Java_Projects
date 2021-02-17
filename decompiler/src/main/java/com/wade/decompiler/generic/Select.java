@@ -3,6 +3,12 @@ package com.wade.decompiler.generic;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import com.wade.decompiler.generic.base.BranchInstruction;
+import com.wade.decompiler.generic.base.InstructionHandle;
+import com.wade.decompiler.generic.base.StackConsumer;
+import com.wade.decompiler.generic.base.StackProducer;
+import com.wade.decompiler.generic.base.VariableLengthInstruction;
+import com.wade.decompiler.generic.gen.ClassGenException;
 import com.wade.decompiler.util.ByteSequence;
 
 public abstract class Select extends BranchInstruction implements VariableLengthInstruction, StackConsumer, StackProducer {
@@ -61,7 +67,7 @@ public abstract class Select extends BranchInstruction implements VariableLength
     }
 
     @Override
-    void dispose() {
+    public void dispose() {
         super.dispose();
         for (final InstructionHandle target2 : targets) {
             target2.removeTargeter(this);
@@ -115,7 +121,7 @@ public abstract class Select extends BranchInstruction implements VariableLength
     }
 
     @Override
-    protected void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
+    public void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
         padding = (4 - (bytes.getIndex() % 4)) % 4; // Compute number of pad bytes
         for (int i = 0; i < padding; i++) {
             bytes.readByte();

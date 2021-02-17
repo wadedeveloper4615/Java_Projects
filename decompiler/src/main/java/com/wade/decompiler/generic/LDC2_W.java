@@ -1,15 +1,21 @@
 package com.wade.decompiler.generic;
 
+import com.wade.decompiler.Const;
 import com.wade.decompiler.classfile.Constant;
 import com.wade.decompiler.classfile.ConstantDouble;
 import com.wade.decompiler.classfile.ConstantLong;
+import com.wade.decompiler.generic.base.CPInstruction;
+import com.wade.decompiler.generic.base.PushInstruction;
+import com.wade.decompiler.generic.base.Type;
+import com.wade.decompiler.generic.gen.ConstantPoolGen;
+import com.wade.decompiler.generic.gen.Visitor;
 
 public class LDC2_W extends CPInstruction implements PushInstruction {
-    LDC2_W() {
+    public LDC2_W() {
     }
 
     public LDC2_W(final int index) {
-        super(com.wade.decompiler.Const.LDC2_W, index);
+        super(Const.LDC2_W, index);
     }
 
     @Override

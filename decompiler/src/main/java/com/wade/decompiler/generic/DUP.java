@@ -1,8 +1,13 @@
 package com.wade.decompiler.generic;
 
+import com.wade.decompiler.Const;
+import com.wade.decompiler.generic.base.PushInstruction;
+import com.wade.decompiler.generic.base.StackInstruction;
+import com.wade.decompiler.generic.gen.Visitor;
+
 public class DUP extends StackInstruction implements PushInstruction {
     public DUP() {
-        super(com.wade.decompiler.Const.DUP);
+        super(Const.DUP);
     }
 
     @Override

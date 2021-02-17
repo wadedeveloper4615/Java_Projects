@@ -9,10 +9,14 @@ import com.wade.decompiler.classfile.ConstantInvokeDynamic;
 import com.wade.decompiler.classfile.ConstantNameAndType;
 import com.wade.decompiler.classfile.ConstantPool;
 import com.wade.decompiler.enums.ClassFileConstants;
+import com.wade.decompiler.generic.base.ObjectType;
+import com.wade.decompiler.generic.base.ReferenceType;
+import com.wade.decompiler.generic.gen.ConstantPoolGen;
+import com.wade.decompiler.generic.gen.Visitor;
 import com.wade.decompiler.util.ByteSequence;
 
 public class INVOKEDYNAMIC extends InvokeInstruction {
-    INVOKEDYNAMIC() {
+    public INVOKEDYNAMIC() {
     }
 
     public INVOKEDYNAMIC(final int index) {
@@ -58,7 +62,7 @@ public class INVOKEDYNAMIC extends InvokeInstruction {
     }
 
     @Override
-    protected void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
+    public void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
         super.initFromFile(bytes, wide);
         super.setLength(5);
         bytes.readByte(); // Skip 0 byte

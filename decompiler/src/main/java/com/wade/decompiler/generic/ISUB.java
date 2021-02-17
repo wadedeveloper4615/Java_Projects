@@ -1,8 +1,12 @@
 package com.wade.decompiler.generic;
 
+import com.wade.decompiler.Const;
+import com.wade.decompiler.generic.base.ArithmeticInstruction;
+import com.wade.decompiler.generic.gen.Visitor;
+
 public class ISUB extends ArithmeticInstruction {
     public ISUB() {
-        super(com.wade.decompiler.Const.ISUB);
+        super(Const.ISUB);
     }
 
     @Override

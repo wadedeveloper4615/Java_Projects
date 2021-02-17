@@ -6,13 +6,16 @@ import java.io.IOException;
 import com.wade.decompiler.Const;
 import com.wade.decompiler.ExceptionConst;
 import com.wade.decompiler.classfile.ConstantPool;
+import com.wade.decompiler.generic.gen.ClassGenException;
+import com.wade.decompiler.generic.gen.ConstantPoolGen;
+import com.wade.decompiler.generic.gen.Visitor;
 import com.wade.decompiler.util.ByteSequence;
 
 public final class INVOKEINTERFACE extends InvokeInstruction {
     private int nargs; // Number of arguments on stack (number of stack slots), called "count" in
     // vmspec2
 
-    INVOKEINTERFACE() {
+    public INVOKEINTERFACE() {
     }
 
     public INVOKEINTERFACE(final int index, final int nargs) {
@@ -60,7 +63,7 @@ public final class INVOKEINTERFACE extends InvokeInstruction {
     }
 
     @Override
-    protected void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
+    public void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
         super.initFromFile(bytes, wide);
         super.setLength(5);
         nargs = bytes.readUnsignedByte();

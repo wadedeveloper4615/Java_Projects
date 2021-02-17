@@ -1,8 +1,12 @@
 package com.wade.decompiler.generic;
 
+import com.wade.decompiler.Const;
+import com.wade.decompiler.generic.base.ArithmeticInstruction;
+import com.wade.decompiler.generic.gen.Visitor;
+
 public class LAND extends ArithmeticInstruction {
     public LAND() {
-        super(com.wade.decompiler.Const.LAND);
+        super(Const.LAND);
     }
 
     @Override

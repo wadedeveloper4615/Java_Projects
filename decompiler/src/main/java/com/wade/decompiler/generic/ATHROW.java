@@ -1,10 +1,15 @@
 package com.wade.decompiler.generic;
 
+import com.wade.decompiler.Const;
 import com.wade.decompiler.ExceptionConst;
+import com.wade.decompiler.generic.base.ExceptionThrower;
+import com.wade.decompiler.generic.base.Instruction;
+import com.wade.decompiler.generic.base.UnconditionalBranch;
+import com.wade.decompiler.generic.gen.Visitor;
 
 public class ATHROW extends Instruction implements UnconditionalBranch, ExceptionThrower {
     public ATHROW() {
-        super(com.wade.decompiler.Const.ATHROW, (short) 1);
+        super(Const.ATHROW, (short) 1);
     }
 
     @Override

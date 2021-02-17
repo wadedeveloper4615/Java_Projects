@@ -1,8 +1,12 @@
 package com.wade.decompiler.generic;
 
+import com.wade.decompiler.Const;
+import com.wade.decompiler.generic.base.ConversionInstruction;
+import com.wade.decompiler.generic.gen.Visitor;
+
 public class I2C extends ConversionInstruction {
     public I2C() {
-        super(com.wade.decompiler.Const.I2C);
+        super(Const.I2C);
     }
 
     @Override

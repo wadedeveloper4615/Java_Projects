@@ -1,8 +1,12 @@
 package com.wade.decompiler.generic;
 
+import com.wade.decompiler.Const;
+import com.wade.decompiler.generic.base.Instruction;
+import com.wade.decompiler.generic.gen.Visitor;
+
 public class BREAKPOINT extends Instruction {
     public BREAKPOINT() {
-        super(com.wade.decompiler.Const.BREAKPOINT, (short) 1);
+        super(Const.BREAKPOINT, (short) 1);
     }
 
     @Override

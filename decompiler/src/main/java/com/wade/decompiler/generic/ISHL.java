@@ -1,8 +1,12 @@
 package com.wade.decompiler.generic;
 
+import com.wade.decompiler.Const;
+import com.wade.decompiler.generic.base.ArithmeticInstruction;
+import com.wade.decompiler.generic.gen.Visitor;
+
 public class ISHL extends ArithmeticInstruction {
     public ISHL() {
-        super(com.wade.decompiler.Const.ISHL);
+        super(Const.ISHL);
     }
 
     @Override

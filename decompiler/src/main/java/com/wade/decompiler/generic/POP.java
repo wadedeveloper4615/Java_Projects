@@ -1,8 +1,13 @@
 package com.wade.decompiler.generic;
 
+import com.wade.decompiler.Const;
+import com.wade.decompiler.generic.base.PopInstruction;
+import com.wade.decompiler.generic.base.StackInstruction;
+import com.wade.decompiler.generic.gen.Visitor;
+
 public class POP extends StackInstruction implements PopInstruction {
     public POP() {
-        super(com.wade.decompiler.Const.POP);
+        super(Const.POP);
     }
 
     @Override

@@ -1,13 +1,25 @@
 package com.wade.decompiler.generic;
 
+import com.wade.decompiler.Const;
 import com.wade.decompiler.ExceptionConst;
+import com.wade.decompiler.generic.base.AllocationInstruction;
+import com.wade.decompiler.generic.base.ArrayType;
+import com.wade.decompiler.generic.base.CPInstruction;
+import com.wade.decompiler.generic.base.ExceptionThrower;
+import com.wade.decompiler.generic.base.LoadClass;
+import com.wade.decompiler.generic.base.ObjectType;
+import com.wade.decompiler.generic.base.StackConsumer;
+import com.wade.decompiler.generic.base.StackProducer;
+import com.wade.decompiler.generic.base.Type;
+import com.wade.decompiler.generic.gen.ConstantPoolGen;
+import com.wade.decompiler.generic.gen.Visitor;
 
 public class ANEWARRAY extends CPInstruction implements LoadClass, AllocationInstruction, ExceptionThrower, StackConsumer, StackProducer {
-    ANEWARRAY() {
+    public ANEWARRAY() {
     }
 
     public ANEWARRAY(final int index) {
-        super(com.wade.decompiler.Const.ANEWARRAY, index);
+        super(Const.ANEWARRAY, index);
     }
 
     @Override

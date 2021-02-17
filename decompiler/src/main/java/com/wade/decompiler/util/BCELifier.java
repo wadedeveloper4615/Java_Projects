@@ -15,10 +15,10 @@ import com.wade.decompiler.classfile.JavaClass;
 import com.wade.decompiler.classfile.Method;
 import com.wade.decompiler.classfile.Utility;
 import com.wade.decompiler.enums.ClassAccessFlags;
-import com.wade.decompiler.generic.ArrayType;
-import com.wade.decompiler.generic.ConstantPoolGen;
-import com.wade.decompiler.generic.MethodGen;
-import com.wade.decompiler.generic.Type;
+import com.wade.decompiler.generic.base.ArrayType;
+import com.wade.decompiler.generic.base.MethodGen;
+import com.wade.decompiler.generic.base.Type;
+import com.wade.decompiler.generic.gen.ConstantPoolGen;
 
 public class BCELifier extends EmptyVisitor {
     // The base package name for imports; assumes Const is at the top level

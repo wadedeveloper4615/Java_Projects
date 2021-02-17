@@ -1,8 +1,12 @@
 package com.wade.decompiler.generic;
 
+import com.wade.decompiler.Const;
+import com.wade.decompiler.generic.base.ArithmeticInstruction;
+import com.wade.decompiler.generic.gen.Visitor;
+
 public class DREM extends ArithmeticInstruction {
     public DREM() {
-        super(com.wade.decompiler.Const.DREM);
+        super(Const.DREM);
     }
 
     @Override

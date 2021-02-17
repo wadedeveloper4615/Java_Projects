@@ -1,8 +1,12 @@
 package com.wade.decompiler.generic;
 
+import com.wade.decompiler.Const;
+import com.wade.decompiler.generic.base.ArithmeticInstruction;
+import com.wade.decompiler.generic.gen.Visitor;
+
 public class DADD extends ArithmeticInstruction {
     public DADD() {
-        super(com.wade.decompiler.Const.DADD);
+        super(Const.DADD);
     }
 
     @Override

@@ -1,8 +1,12 @@
 package com.wade.decompiler.generic;
 
+import com.wade.decompiler.Const;
+import com.wade.decompiler.generic.base.ArithmeticInstruction;
+import com.wade.decompiler.generic.gen.Visitor;
+
 public class LSHL extends ArithmeticInstruction {
     public LSHL() {
-        super(com.wade.decompiler.Const.LSHL);
+        super(Const.LSHL);
     }
 
     @Override

@@ -1,8 +1,11 @@
 package com.wade.decompiler.generic;
 
+import com.wade.decompiler.Const;
+import com.wade.decompiler.generic.gen.Visitor;
+
 public class DRETURN extends ReturnInstruction {
     public DRETURN() {
-        super(com.wade.decompiler.Const.DRETURN);
+        super(Const.DRETURN);
     }
 
     @Override

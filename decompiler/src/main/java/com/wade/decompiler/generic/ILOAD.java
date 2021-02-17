@@ -1,12 +1,16 @@
 package com.wade.decompiler.generic;
 
+import com.wade.decompiler.Const;
+import com.wade.decompiler.generic.base.LoadInstruction;
+import com.wade.decompiler.generic.gen.Visitor;
+
 public class ILOAD extends LoadInstruction {
-    ILOAD() {
-        super(com.wade.decompiler.Const.ILOAD, com.wade.decompiler.Const.ILOAD_0);
+    public ILOAD() {
+        super(Const.ILOAD, Const.ILOAD_0);
     }
 
     public ILOAD(final int n) {
-        super(com.wade.decompiler.Const.ILOAD, com.wade.decompiler.Const.ILOAD_0, n);
+        super(Const.ILOAD, Const.ILOAD_0, n);
     }
 
     @Override

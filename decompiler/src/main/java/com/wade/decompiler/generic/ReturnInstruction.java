@@ -1,21 +1,21 @@
 package com.wade.decompiler.generic;
 
-import com.wade.decompiler.Const;
 import com.wade.decompiler.ExceptionConst;
+import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generic.base.ExceptionThrower;
 import com.wade.decompiler.generic.base.Instruction;
 import com.wade.decompiler.generic.base.StackConsumer;
-import com.wade.decompiler.generic.base.Type;
 import com.wade.decompiler.generic.base.TypedInstruction;
 import com.wade.decompiler.generic.gen.ClassGenException;
 import com.wade.decompiler.generic.gen.ConstantPoolGen;
+import com.wade.decompiler.generic.type.Type;
 
 public abstract class ReturnInstruction extends Instruction implements ExceptionThrower, TypedInstruction, StackConsumer {
-    ReturnInstruction() {
+    public ReturnInstruction() {
     }
 
-    protected ReturnInstruction(final short opcode) {
-        super(opcode, (short) 1);
+    protected ReturnInstruction(InstructionOpCodes opcode) {
+        super(opcode, 1);
     }
 
     @Override
@@ -24,27 +24,27 @@ public abstract class ReturnInstruction extends Instruction implements Exception
     }
 
     public Type getType() {
-        final short _opcode = super.getOpcode();
+        InstructionOpCodes _opcode = super.getOpcode();
         switch (_opcode) {
-            case Const.IRETURN:
+            case IRETURN:
                 return Type.INT;
-            case Const.LRETURN:
+            case LRETURN:
                 return Type.LONG;
-            case Const.FRETURN:
+            case FRETURN:
                 return Type.FLOAT;
-            case Const.DRETURN:
+            case DRETURN:
                 return Type.DOUBLE;
-            case Const.ARETURN:
+            case ARETURN:
                 return Type.OBJECT;
-            case Const.RETURN:
+            case RETURN:
                 return Type.VOID;
-            default: // Never reached
+            default:
                 throw new ClassGenException("Unknown type " + _opcode);
         }
     }
 
     @Override
-    public Type getType(final ConstantPoolGen cp) {
+    public Type getType(ConstantPoolGen cp) {
         return getType();
     }
 }

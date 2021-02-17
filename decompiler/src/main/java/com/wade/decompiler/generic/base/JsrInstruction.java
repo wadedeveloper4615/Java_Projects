@@ -1,17 +1,20 @@
 package com.wade.decompiler.generic.base;
 
+import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generic.gen.ConstantPoolGen;
+import com.wade.decompiler.generic.type.ReturnaddressType;
+import com.wade.decompiler.generic.type.Type;
 
 public abstract class JsrInstruction extends BranchInstruction implements UnconditionalBranch, TypedInstruction, StackProducer {
     public JsrInstruction() {
     }
 
-    public JsrInstruction(final short opcode, final InstructionHandle target) {
+    public JsrInstruction(InstructionOpCodes opcode, InstructionHandle target) {
         super(opcode, target);
     }
 
     @Override
-    public Type getType(final ConstantPoolGen cp) {
+    public Type getType(ConstantPoolGen cp) {
         return new ReturnaddressType(physicalSuccessor());
     }
 
@@ -25,7 +28,7 @@ public abstract class JsrInstruction extends BranchInstruction implements Uncond
         while (ih.getInstruction() != this) {
             ih = ih.getNext();
         }
-        final InstructionHandle toThis = ih;
+        InstructionHandle toThis = ih;
         while (ih != null) {
             ih = ih.getNext();
             if ((ih != null) && (ih.getInstruction() == this)) {

@@ -3,6 +3,7 @@ package com.wade.decompiler.generic;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generic.base.BranchInstruction;
 import com.wade.decompiler.generic.base.InstructionHandle;
 import com.wade.decompiler.generic.base.StackConsumer;
@@ -25,17 +26,17 @@ public abstract class Select extends BranchInstruction implements VariableLength
     @Deprecated
     protected int padding = 0; // number of pad bytes for alignment TODO could be package-protected?
 
-    Select() {
+    public Select() {
     }
 
-    Select(final short opcode, final int[] match, final InstructionHandle[] targets, final InstructionHandle defaultTarget) {
+    public Select(InstructionOpCodes opcode, int[] match, InstructionHandle[] targets, InstructionHandle defaultTarget) {
         // don't set default target before instuction is built
         super(opcode, null);
         this.match = match;
         this.targets = targets;
         // now it's safe to set default target
         setTarget(defaultTarget);
-        for (final InstructionHandle target2 : targets) {
+        for (InstructionHandle target2 : targets) {
             notifyTarget(null, target2, this);
         }
         if ((match_length = match.length) != targets.length) {
@@ -46,7 +47,7 @@ public abstract class Select extends BranchInstruction implements VariableLength
 
     @Override
     protected Object clone() throws CloneNotSupportedException {
-        final Select copy = (Select) super.clone();
+        Select copy = (Select) super.clone();
         copy.match = match.clone();
         copy.indices = indices.clone();
         copy.targets = targets.clone();
@@ -54,11 +55,11 @@ public abstract class Select extends BranchInstruction implements VariableLength
     }
 
     @Override
-    public boolean containsTarget(final InstructionHandle ih) {
+    public boolean containsTarget(InstructionHandle ih) {
         if (super.getTarget() == ih) {
             return true;
         }
-        for (final InstructionHandle target2 : targets) {
+        for (InstructionHandle target2 : targets) {
             if (target2 == ih) {
                 return true;
             }
@@ -69,14 +70,14 @@ public abstract class Select extends BranchInstruction implements VariableLength
     @Override
     public void dispose() {
         super.dispose();
-        for (final InstructionHandle target2 : targets) {
+        for (InstructionHandle target2 : targets) {
             target2.removeTargeter(this);
         }
     }
 
     @Override
-    public void dump(final DataOutputStream out) throws IOException {
-        out.writeByte(super.getOpcode());
+    public void dump(DataOutputStream out) throws IOException {
+        out.writeByte(super.getOpcode().getOpcode());
         for (int i = 0; i < padding; i++) {
             out.writeByte(0);
         }
@@ -84,7 +85,7 @@ public abstract class Select extends BranchInstruction implements VariableLength
         out.writeInt(super.getIndex());
     }
 
-    final int getFixed_length() {
+    int getFixed_length() {
         return fixed_length;
     }
 
@@ -92,15 +93,15 @@ public abstract class Select extends BranchInstruction implements VariableLength
         return indices;
     }
 
-    final int getIndices(final int index) {
+    int getIndices(int index) {
         return indices[index];
     }
 
-    final int getMatch(final int index) {
+    int getMatch(int index) {
         return match[index];
     }
 
-    final int getMatch_length() {
+    int getMatch_length() {
         return match_length;
     }
 
@@ -108,11 +109,11 @@ public abstract class Select extends BranchInstruction implements VariableLength
         return match;
     }
 
-    final int getPadding() {
+    int getPadding() {
         return padding;
     }
 
-    final InstructionHandle getTarget(final int index) {
+    InstructionHandle getTarget(int index) {
         return targets[index];
     }
 
@@ -121,7 +122,7 @@ public abstract class Select extends BranchInstruction implements VariableLength
     }
 
     @Override
-    public void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
+    public void initFromFile(ByteSequence bytes, boolean wide) throws IOException {
         padding = (4 - (bytes.getIndex() % 4)) % 4; // Compute number of pad bytes
         for (int i = 0; i < padding; i++) {
             bytes.readByte();
@@ -130,44 +131,44 @@ public abstract class Select extends BranchInstruction implements VariableLength
         super.setIndex(bytes.readInt());
     }
 
-    final void setFixed_length(final int fixed_length) {
+    void setFixed_length(int fixed_length) {
         this.fixed_length = fixed_length;
     }
 
-    final int setIndices(final int i, final int value) {
+    int setIndices(int i, int value) {
         indices[i] = value;
         return value; // Allow use in nested calls
     }
 
-    final void setIndices(final int[] array) {
+    void setIndices(int[] array) {
         indices = array;
     }
 
-    final void setMatch(final int index, final int value) {
+    void setMatch(int index, int value) {
         match[index] = value;
     }
 
-    final int setMatch_length(final int match_length) {
+    int setMatch_length(int match_length) {
         this.match_length = match_length;
         return match_length;
     }
 
-    final void setMatches(final int[] array) {
+    void setMatches(int[] array) {
         match = array;
     }
 
-    public void setTarget(final int i, final InstructionHandle target) { // TODO could be package-protected?
+    public void setTarget(int i, InstructionHandle target) { // TODO could be package-protected?
         notifyTarget(targets[i], target, this);
         targets[i] = target;
     }
 
-    final void setTargets(final InstructionHandle[] array) {
+    void setTargets(InstructionHandle[] array) {
         targets = array;
     }
 
     @Override
-    public String toString(final boolean verbose) {
-        final StringBuilder buf = new StringBuilder(super.toString(verbose));
+    public String toString(boolean verbose) {
+        StringBuilder buf = new StringBuilder(super.toString(verbose));
         if (verbose) {
             for (int i = 0; i < match_length; i++) {
                 String s = "null";
@@ -183,16 +184,16 @@ public abstract class Select extends BranchInstruction implements VariableLength
     }
 
     @Override
-    protected int updatePosition(final int offset, final int max_offset) {
+    protected int updatePosition(int offset, int max_offset) {
         setPosition(getPosition() + offset); // Additional offset caused by preceding SWITCHs, GOTOs, etc.
-        final short old_length = (short) super.getLength();
+        short old_length = (short) super.getLength();
         padding = (4 - ((getPosition() + 1) % 4)) % 4;
         super.setLength((short) (fixed_length + padding)); // Update length
         return super.getLength() - old_length;
     }
 
     @Override
-    public void updateTarget(final InstructionHandle old_ih, final InstructionHandle new_ih) {
+    public void updateTarget(InstructionHandle old_ih, InstructionHandle new_ih) {
         boolean targeted = false;
         if (super.getTarget() == old_ih) {
             targeted = true;

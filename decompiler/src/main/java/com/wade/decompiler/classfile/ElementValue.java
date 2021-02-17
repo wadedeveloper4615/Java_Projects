@@ -4,6 +4,8 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import com.wade.decompiler.Const;
+
 public abstract class ElementValue {
     public static final byte STRING = 's';
     public static final byte ENUM_CONSTANT = 'e';
@@ -19,18 +21,18 @@ public abstract class ElementValue {
     public static final byte PRIMITIVE_SHORT = 'S';
     public static final byte PRIMITIVE_BOOLEAN = 'Z';
     @java.lang.Deprecated
-    protected int type; // TODO should be final
+    protected int type; // TODO should be
     @java.lang.Deprecated
-    protected ConstantPool cpool; // TODO should be final
+    protected ConstantPool cpool; // TODO should be
 
-    protected ElementValue(final int type, final ConstantPool cpool) {
+    protected ElementValue(int type, ConstantPool cpool) {
         this.type = type;
         this.cpool = cpool;
     }
 
     public abstract void dump(DataOutputStream dos) throws IOException;
 
-    final ConstantPool getConstantPool() {
+    ConstantPool getConstantPool() {
         return cpool;
     }
 
@@ -38,7 +40,7 @@ public abstract class ElementValue {
         return type;
     }
 
-    final int getType() {
+    int getType() {
         return type;
     }
 
@@ -53,10 +55,10 @@ public abstract class ElementValue {
         return stringifyValue();
     }
 
-    public static ElementValue readElementValue(final DataInput input, final ConstantPool cpool) throws IOException {
-        final byte type = input.readByte();
+    public static ElementValue readElementValue(DataInput input, ConstantPool cpool) throws IOException {
+        byte type = input.readByte();
         switch (type) {
-            case PRIMITIVE_BYTE:
+            case Const.T_ADDRESS:
             case PRIMITIVE_CHAR:
             case PRIMITIVE_DOUBLE:
             case PRIMITIVE_FLOAT:
@@ -74,8 +76,8 @@ public abstract class ElementValue {
                 // TODO isRuntimeVisible
                 return new AnnotationElementValue(ANNOTATION, AnnotationEntry.read(input, cpool, false), cpool);
             case ARRAY:
-                final int numArrayVals = input.readUnsignedShort();
-                final ElementValue[] evalues = new ElementValue[numArrayVals];
+                int numArrayVals = input.readUnsignedShort();
+                ElementValue[] evalues = new ElementValue[numArrayVals];
                 for (int j = 0; j < numArrayVals; j++) {
                     evalues[j] = ElementValue.readElementValue(input, cpool);
                 }

@@ -6,7 +6,7 @@ import java.io.IOException;
 
 import com.wade.decompiler.enums.ClassFileConstants;
 
-public final class ConstantClass extends Constant implements ConstantObject {
+public class ConstantClass extends Constant implements ConstantObject {
     private int nameIndex;
 
     public ConstantClass(ConstantClass c) {
@@ -23,23 +23,23 @@ public final class ConstantClass extends Constant implements ConstantObject {
     }
 
     @Override
-    public void accept(final Visitor v) {
+    public void accept(Visitor v) {
         v.visitConstantClass(this);
     }
 
     @Override
-    public void dump(final DataOutputStream file) throws IOException {
+    public void dump(DataOutputStream file) throws IOException {
         file.writeByte(super.getTag().getTag());
         file.writeShort(nameIndex);
     }
 
-    public String getBytes(final ConstantPool cp) {
+    public String getBytes(ConstantPool cp) {
         return (String) getConstantValue(cp);
     }
 
     @Override
-    public Object getConstantValue(final ConstantPool cp) {
-        final Constant c = cp.getConstant(nameIndex, ClassFileConstants.CONSTANT_Utf8.getTag());
+    public Object getConstantValue(ConstantPool cp) {
+        Constant c = cp.getConstant(nameIndex, ClassFileConstants.CONSTANT_Utf8.getTag());
         return ((ConstantUtf8) c).getBytes();
     }
 
@@ -47,7 +47,7 @@ public final class ConstantClass extends Constant implements ConstantObject {
         return nameIndex;
     }
 
-    public void setNameIndex(final int nameIndex) {
+    public void setNameIndex(int nameIndex) {
         this.nameIndex = nameIndex;
     }
 

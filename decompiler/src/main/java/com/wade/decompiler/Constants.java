@@ -19,7 +19,7 @@ public interface Constants {
     short ACC_PRIVATE = 0x0002;
     short ACC_PROTECTED = 0x0004;
     short ACC_STATIC = 0x0008;
-    short ACC_FINAL = 0x0010;
+    short ACC_ = 0x0010;
     short ACC_SYNCHRONIZED = 0x0020;
     short ACC_VOLATILE = 0x0040;
     short ACC_BRIDGE = 0x0040;
@@ -35,7 +35,7 @@ public interface Constants {
     // Applies to classes compiled by new compilers only
     short ACC_SUPER = 0x0020;
     short MAX_ACC_FLAG = ACC_ENUM;
-    String[] ACCESS_NAMES = { "public", "private", "protected", "static", "final", "synchronized", "volatile", "transient", "native", "interface", "abstract", "strictfp", "synthetic", "annotation", "enum" };
+    String[] ACCESS_NAMES = { "public", "private", "protected", "static", "", "synchronized", "volatile", "transient", "native", "interface", "abstract", "strictfp", "synthetic", "annotation", "enum" };
     byte CONSTANT_Utf8 = 1;
     byte CONSTANT_Integer = 3;
     byte CONSTANT_Float = 4;

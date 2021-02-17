@@ -7,12 +7,12 @@ import java.io.IOException;
 import com.wade.decompiler.Const;
 import com.wade.decompiler.enums.ClassFileConstants;
 
-public final class StackMapType implements Cloneable {
+public class StackMapType implements Cloneable {
     private byte type;
     private int index = -1; // Index to CONSTANT_Class or offset
     private ConstantPool constantPool;
 
-    public StackMapType(final byte type, final int index, final ConstantPool constant_pool) {
+    public StackMapType(byte type, int index, ConstantPool constant_pool) {
         if ((type < Const.ITEM_Bogus) || (type > Const.ITEM_NewObject)) {
             throw new IllegalArgumentException("Illegal type for StackMapType: " + type);
         }
@@ -21,7 +21,7 @@ public final class StackMapType implements Cloneable {
         this.constantPool = constant_pool;
     }
 
-    StackMapType(final DataInput file, final ConstantPool constant_pool) throws IOException {
+    StackMapType(DataInput file, ConstantPool constant_pool) throws IOException {
         this(file.readByte(), -1, constant_pool);
         if (hasIndex()) {
             this.index = file.readShort();
@@ -32,13 +32,13 @@ public final class StackMapType implements Cloneable {
     public StackMapType copy() {
         try {
             return (StackMapType) clone();
-        } catch (final CloneNotSupportedException e) {
+        } catch (CloneNotSupportedException e) {
             // TODO should this throw?
         }
         return null;
     }
 
-    public void dump(final DataOutputStream file) throws IOException {
+    public void dump(DataOutputStream file) throws IOException {
         file.writeByte(type);
         if (hasIndex()) {
             file.writeShort(getIndex());
@@ -74,15 +74,15 @@ public final class StackMapType implements Cloneable {
         }
     }
 
-    public void setConstantPool(final ConstantPool constantPool) {
+    public void setConstantPool(ConstantPool constantPool) {
         this.constantPool = constantPool;
     }
 
-    public void setIndex(final int t) {
+    public void setIndex(int t) {
         index = t;
     }
 
-    public void setType(final byte t) {
+    public void setType(byte t) {
         if ((t < Const.ITEM_Bogus) || (t > Const.ITEM_NewObject)) {
             throw new IllegalArgumentException("Illegal type for StackMapType: " + t);
         }

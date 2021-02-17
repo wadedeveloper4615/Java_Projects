@@ -6,10 +6,10 @@ import java.io.IOException;
 
 import com.wade.decompiler.enums.ClassFileAttributes;
 
-public  class StackMap extends Attribute {
+public class StackMap extends Attribute {
     private StackMapEntry[] map;
 
-    public StackMap( int name_index,  int length,  DataInput input,  ConstantPool constant_pool) throws IOException {
+    public StackMap(int name_index, int length, DataInput input, ConstantPool constant_pool) throws IOException {
         this(name_index, length, (StackMapEntry[]) null, constant_pool);
         int map_length = input.readUnsignedShort();
         map = new StackMapEntry[map_length];
@@ -18,18 +18,18 @@ public  class StackMap extends Attribute {
         }
     }
 
-    public StackMap( int name_index,  int length,  StackMapEntry[] map,  ConstantPool constant_pool) {
+    public StackMap(int name_index, int length, StackMapEntry[] map, ConstantPool constant_pool) {
         super(ClassFileAttributes.ATTR_STACK_MAP, name_index, length, constant_pool);
         this.map = map;
     }
 
     @Override
-    public void accept( Visitor v) {
+    public void accept(Visitor v) {
         v.visitStackMap(this);
     }
 
     @Override
-    public Attribute copy( ConstantPool _constant_pool) {
+    public Attribute copy(ConstantPool _constant_pool) {
         StackMap c = (StackMap) clone();
         c.map = new StackMapEntry[map.length];
         for (int i = 0; i < map.length; i++) {
@@ -40,10 +40,10 @@ public  class StackMap extends Attribute {
     }
 
     @Override
-    public void dump( DataOutputStream file) throws IOException {
+    public void dump(DataOutputStream file) throws IOException {
         super.dump(file);
         file.writeShort(map.length);
-        for ( StackMapEntry entry : map) {
+        for (StackMapEntry entry : map) {
             entry.dump(file);
         }
     }
@@ -56,10 +56,10 @@ public  class StackMap extends Attribute {
         return map;
     }
 
-    public void setStackMap( StackMapEntry[] map) {
+    public void setStackMap(StackMapEntry[] map) {
         this.map = map;
         int len = 2; // Length of 'number_of_entries' field prior to the array of stack maps
-        for ( StackMapEntry element : map) {
+        for (StackMapEntry element : map) {
             len += element.getMapEntrySize();
         }
         setLength(len);

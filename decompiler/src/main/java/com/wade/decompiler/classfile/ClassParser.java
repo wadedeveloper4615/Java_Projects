@@ -39,7 +39,7 @@ public class ClassParser {
             this.dataInputStream = (DataInputStream) inputStream;
         } else {
             this.dataInputStream = new DataInputStream(new BufferedInputStream(inputStream, BUFSIZE));
-        } 
+        }
     }
 
     public ClassParser(String fileName) {

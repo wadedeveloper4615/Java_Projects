@@ -6,13 +6,13 @@ import java.io.IOException;
 
 import com.wade.decompiler.enums.ClassFileConstants;
 
-public final class ModuleExports implements Cloneable, Node {
-    private final int exportsIndex; // points to CONSTANT_Package_info
-    private final int exportsFlags;
-    private final int exportsToCount;
-    private final int[] exportsToIndex; // points to CONSTANT_Module_info
+public class ModuleExports implements Cloneable, Node {
+    private int exportsIndex; // points to CONSTANT_Package_info
+    private int exportsFlags;
+    private int exportsToCount;
+    private int[] exportsToIndex; // points to CONSTANT_Module_info
 
-    ModuleExports(final DataInput file) throws IOException {
+    ModuleExports(DataInput file) throws IOException {
         exportsIndex = file.readUnsignedShort();
         exportsFlags = file.readUnsignedShort();
         exportsToCount = file.readUnsignedShort();
@@ -23,7 +23,7 @@ public final class ModuleExports implements Cloneable, Node {
     }
 
     @Override
-    public void accept(final Visitor v) {
+    public void accept(Visitor v) {
         v.visitModuleExports(this);
     }
     // TODO add more getters and setters?
@@ -31,17 +31,17 @@ public final class ModuleExports implements Cloneable, Node {
     public ModuleExports copy() {
         try {
             return (ModuleExports) clone();
-        } catch (final CloneNotSupportedException e) {
+        } catch (CloneNotSupportedException e) {
             // TODO should this throw?
         }
         return null;
     }
 
-    public void dump(final DataOutputStream file) throws IOException {
+    public void dump(DataOutputStream file) throws IOException {
         file.writeShort(exportsIndex);
         file.writeShort(exportsFlags);
         file.writeShort(exportsToCount);
-        for (final int entry : exportsToIndex) {
+        for (int entry : exportsToIndex) {
             file.writeShort(entry);
         }
     }
@@ -51,14 +51,14 @@ public final class ModuleExports implements Cloneable, Node {
         return "exports(" + exportsIndex + ", " + exportsFlags + ", " + exportsToCount + ", ...)";
     }
 
-    public String toString(final ConstantPool constant_pool) {
-        final StringBuilder buf = new StringBuilder();
-        final String package_name = constant_pool.constantToString(exportsIndex, ClassFileConstants.CONSTANT_Package);
+    public String toString(ConstantPool constant_pool) {
+        StringBuilder buf = new StringBuilder();
+        String package_name = constant_pool.constantToString(exportsIndex, ClassFileConstants.CONSTANT_Package);
         buf.append(Utility.compactClassName(package_name, false));
         buf.append(", ").append(String.format("%04x", exportsFlags));
         buf.append(", to(").append(exportsToCount).append("):\n");
-        for (final int index : exportsToIndex) {
-            final String module_name = constant_pool.getConstantString(index, ClassFileConstants.CONSTANT_Module);
+        for (int index : exportsToIndex) {
+            String module_name = constant_pool.getConstantString(index, ClassFileConstants.CONSTANT_Module);
             buf.append("      ").append(Utility.compactClassName(module_name, false)).append("\n");
         }
         return buf.substring(0, buf.length() - 1); // remove the last newline

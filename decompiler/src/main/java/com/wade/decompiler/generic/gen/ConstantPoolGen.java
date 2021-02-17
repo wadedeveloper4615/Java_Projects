@@ -22,9 +22,8 @@ import com.wade.decompiler.classfile.ConstantPackage;
 import com.wade.decompiler.classfile.ConstantPool;
 import com.wade.decompiler.classfile.ConstantString;
 import com.wade.decompiler.classfile.ConstantUtf8;
-import com.wade.decompiler.generic.base.ArrayType;
-import com.wade.decompiler.generic.base.MethodGen;
-import com.wade.decompiler.generic.base.ObjectType;
+import com.wade.decompiler.generic.type.ArrayType;
+import com.wade.decompiler.generic.type.ObjectType;
 
 public class ConstantPoolGen {
     private static int DEFAULT_BUFFER_SIZE = 256;

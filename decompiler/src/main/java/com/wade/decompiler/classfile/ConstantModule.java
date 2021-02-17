@@ -6,40 +6,40 @@ import java.io.IOException;
 
 import com.wade.decompiler.enums.ClassFileConstants;
 
-public final class ConstantModule extends Constant implements ConstantObject {
+public class ConstantModule extends Constant implements ConstantObject {
     private int nameIndex;
 
-    public ConstantModule(final ConstantModule c) {
+    public ConstantModule(ConstantModule c) {
         this(c.getNameIndex());
     }
 
-    ConstantModule(final DataInput file) throws IOException {
+    ConstantModule(DataInput file) throws IOException {
         this(file.readUnsignedShort());
     }
 
-    public ConstantModule(final int nameIndex) {
+    public ConstantModule(int nameIndex) {
         super(ClassFileConstants.CONSTANT_Module);
         this.nameIndex = nameIndex;
     }
 
     @Override
-    public void accept(final Visitor v) {
+    public void accept(Visitor v) {
         v.visitConstantModule(this);
     }
 
     @Override
-    public void dump(final DataOutputStream file) throws IOException {
+    public void dump(DataOutputStream file) throws IOException {
         file.writeByte(super.getTag().getTag());
         file.writeShort(nameIndex);
     }
 
-    public String getBytes(final ConstantPool cp) {
+    public String getBytes(ConstantPool cp) {
         return (String) getConstantValue(cp);
     }
 
     @Override
-    public Object getConstantValue(final ConstantPool cp) {
-        final Constant c = cp.getConstant(nameIndex, ClassFileConstants.CONSTANT_Utf8);
+    public Object getConstantValue(ConstantPool cp) {
+        Constant c = cp.getConstant(nameIndex, ClassFileConstants.CONSTANT_Utf8);
         return ((ConstantUtf8) c).getBytes();
     }
 
@@ -47,7 +47,7 @@ public final class ConstantModule extends Constant implements ConstantObject {
         return nameIndex;
     }
 
-    public void setNameIndex(final int nameIndex) {
+    public void setNameIndex(int nameIndex) {
         this.nameIndex = nameIndex;
     }
 

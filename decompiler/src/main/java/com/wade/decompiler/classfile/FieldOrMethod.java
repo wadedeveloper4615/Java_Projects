@@ -8,45 +8,43 @@ import java.io.IOException;
 import com.wade.decompiler.enums.ClassAccessFlagsList;
 import com.wade.decompiler.enums.ClassFileConstants;
 
+@SuppressWarnings("unused")
 public abstract class FieldOrMethod extends ClassAccessFlagsList implements Cloneable, Node {
-    @java.lang.Deprecated
-    protected int name_index; // Points to field name in constant pool
-    @java.lang.Deprecated
-    protected int signature_index; // Points to encoded signature
-    @java.lang.Deprecated
-    protected Attribute[] attributes; // Collection of attributes
-    @java.lang.Deprecated
-    protected int attributes_count; // No. of attributes
-    // @since 6.0
-    private AnnotationEntry[] annotationEntries; // annotations defined on the field or method
-    @java.lang.Deprecated
+    protected int name_index;
+    protected int signature_index;
+    protected Attribute[] attributes;
+    protected int attributes_count;
+    private AnnotationEntry[] annotationEntries;
     protected ConstantPool constant_pool;
     private String signatureAttributeString = null;
     private boolean searchedForSignatureAttribute = false;
+    private Code code;
 
-    FieldOrMethod() {
+    public FieldOrMethod() {
     }
 
-    protected FieldOrMethod(final DataInput file, final ConstantPool constant_pool) throws IOException, ClassFormatException {
+    protected FieldOrMethod(DataInput file, ConstantPool constant_pool) throws IOException, ClassFormatException {
         this(file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort(), null, constant_pool);
-        final int attributes_count = file.readUnsignedShort();
+        int attributes_count = file.readUnsignedShort();
         attributes = new Attribute[attributes_count];
         for (int i = 0; i < attributes_count; i++) {
             attributes[i] = Attribute.readAttribute(file, constant_pool);
+            if (attributes[i] instanceof Code) {
+                code = (Code) attributes[i];
+            }
         }
-        this.attributes_count = attributes_count; // init deprecated field
+        this.attributes_count = attributes_count;
     }
 
-    @java.lang.Deprecated
-    protected FieldOrMethod(final DataInputStream file, final ConstantPool constant_pool) throws IOException, ClassFormatException {
+    protected FieldOrMethod(DataInputStream file, ConstantPool constant_pool) throws IOException, ClassFormatException {
         this((DataInput) file, constant_pool);
     }
 
-    protected FieldOrMethod(final FieldOrMethod c) {
+    protected FieldOrMethod(FieldOrMethod c) {
         this(c.getFlags(), c.getNameIndex(), c.getSignatureIndex(), c.getAttributes(), c.getConstantPool());
     }
 
-    protected FieldOrMethod(final int access_flags, final int name_index, final int signature_index, final Attribute[] attributes, final ConstantPool constant_pool) {
+    protected FieldOrMethod(int access_flags, int name_index, int signature_index, Attribute[] attributes, ConstantPool constant_pool) {
         super(access_flags);
         this.name_index = name_index;
         this.signature_index = signature_index;
@@ -54,11 +52,11 @@ public abstract class FieldOrMethod extends ClassAccessFlagsList implements Clon
         setAttributes(attributes);
     }
 
-    protected FieldOrMethod copy_(final ConstantPool _constant_pool) {
+    protected FieldOrMethod copy_(ConstantPool _constant_pool) {
         FieldOrMethod c = null;
         try {
             c = (FieldOrMethod) clone();
-        } catch (final CloneNotSupportedException e) {
+        } catch (CloneNotSupportedException e) {
             // ignored, but will cause NPE ...
         }
         c.constant_pool = constant_pool;
@@ -70,13 +68,13 @@ public abstract class FieldOrMethod extends ClassAccessFlagsList implements Clon
         return c;
     }
 
-    public final void dump(final DataOutputStream file) throws IOException {
+    public void dump(DataOutputStream file) throws IOException {
         file.writeShort(super.getFlags());
         file.writeShort(name_index);
         file.writeShort(signature_index);
         file.writeShort(attributes_count);
         if (attributes != null) {
-            for (final Attribute attribute : attributes) {
+            for (Attribute attribute : attributes) {
                 attribute.dump(file);
             }
         }
@@ -89,15 +87,15 @@ public abstract class FieldOrMethod extends ClassAccessFlagsList implements Clon
         return annotationEntries;
     }
 
-    public final Attribute[] getAttributes() {
+    public Attribute[] getAttributes() {
         return attributes;
     }
 
-    public final ConstantPool getConstantPool() {
+    public ConstantPool getConstantPool() {
         return constant_pool;
     }
 
-    public final String getGenericSignature() {
+    public String getGenericSignature() {
         if (!searchedForSignatureAttribute) {
             boolean found = false;
             for (int i = 0; !found && i < attributes.length; i++) {
@@ -111,40 +109,40 @@ public abstract class FieldOrMethod extends ClassAccessFlagsList implements Clon
         return signatureAttributeString;
     }
 
-    public final String getName() {
+    public String getName() {
         ConstantUtf8 c;
         c = (ConstantUtf8) constant_pool.getConstant(name_index, ClassFileConstants.CONSTANT_Utf8);
         return c.getBytes();
     }
 
-    public final int getNameIndex() {
+    public int getNameIndex() {
         return name_index;
     }
 
-    public final String getSignature() {
+    public String getSignature() {
         ConstantUtf8 c;
         c = (ConstantUtf8) constant_pool.getConstant(signature_index, ClassFileConstants.CONSTANT_Utf8);
         return c.getBytes();
     }
 
-    public final int getSignatureIndex() {
+    public int getSignatureIndex() {
         return signature_index;
     }
 
-    public final void setAttributes(final Attribute[] attributes) {
+    public void setAttributes(Attribute[] attributes) {
         this.attributes = attributes;
         this.attributes_count = attributes != null ? attributes.length : 0; // init deprecated field
     }
 
-    public final void setConstantPool(final ConstantPool constant_pool) {
+    public void setConstantPool(ConstantPool constant_pool) {
         this.constant_pool = constant_pool;
     }
 
-    public final void setNameIndex(final int name_index) {
+    public void setNameIndex(int name_index) {
         this.name_index = name_index;
     }
 
-    public final void setSignatureIndex(final int signature_index) {
+    public void setSignatureIndex(int signature_index) {
         this.signature_index = signature_index;
     }
 }

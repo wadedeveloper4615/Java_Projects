@@ -14,57 +14,57 @@ import com.wade.decompiler.enums.ClassFileConstants;
 
 @Deprecated
 public class ClassLoader extends java.lang.ClassLoader {
-    private static final String BCEL_TOKEN = "$$BCEL$$";
-    public static final String[] DEFAULT_IGNORED_PACKAGES = { "java.", "javax.", "sun." };
-    private final Hashtable<String, Class<?>> classes = new Hashtable<>();
+    private static String BCEL_TOKEN = "$$BCEL$$";
+    public static String[] DEFAULT_IGNORED_PACKAGES = { "java.", "javax.", "sun." };
+    private Hashtable<String, Class<?>> classes = new Hashtable<>();
     // Hashtable is synchronized thus thread-safe
-    private final String[] ignored_packages;
+    private String[] ignored_packages;
     private Repository repository = SyntheticRepository.getInstance();
 
     public ClassLoader() {
         this(DEFAULT_IGNORED_PACKAGES);
     }
 
-    public ClassLoader(final java.lang.ClassLoader deferTo) {
+    public ClassLoader(java.lang.ClassLoader deferTo) {
         super(deferTo);
         this.ignored_packages = DEFAULT_IGNORED_PACKAGES;
         this.repository = new ClassLoaderRepository(deferTo);
     }
 
-    public ClassLoader(final java.lang.ClassLoader deferTo, final String[] ignored_packages) {
+    public ClassLoader(java.lang.ClassLoader deferTo, String[] ignored_packages) {
         this(ignored_packages);
         this.repository = new ClassLoaderRepository(deferTo);
     }
 
-    public ClassLoader(final String[] ignored_packages) {
+    public ClassLoader(String[] ignored_packages) {
         this.ignored_packages = ignored_packages;
     }
 
-    protected JavaClass createClass(final String class_name) {
-        final int index = class_name.indexOf(BCEL_TOKEN);
-        final String real_name = class_name.substring(index + BCEL_TOKEN.length());
+    protected JavaClass createClass(String class_name) {
+        int index = class_name.indexOf(BCEL_TOKEN);
+        String real_name = class_name.substring(index + BCEL_TOKEN.length());
         JavaClass clazz = null;
         try {
-            final byte[] bytes = Utility.decode(real_name, true);
-            final ClassParser parser = new ClassParser(new ByteArrayInputStream(bytes), "foo");
+            byte[] bytes = Utility.decode(real_name, true);
+            ClassParser parser = new ClassParser(new ByteArrayInputStream(bytes), "foo");
             clazz = parser.parse();
-        } catch (final IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
         // Adapt the class name to the passed value
-        final ConstantPool cp = clazz.getConstantPool();
-        final ConstantClass cl = (ConstantClass) cp.getConstant(clazz.getClassNameIndex(), ClassFileConstants.CONSTANT_Class);
-        final ConstantUtf8 name = (ConstantUtf8) cp.getConstant(cl.getNameIndex(), ClassFileConstants.CONSTANT_Utf8);
+        ConstantPool cp = clazz.getConstantPool();
+        ConstantClass cl = (ConstantClass) cp.getConstant(clazz.getClassNameIndex(), ClassFileConstants.CONSTANT_Class);
+        ConstantUtf8 name = (ConstantUtf8) cp.getConstant(cl.getNameIndex(), ClassFileConstants.CONSTANT_Utf8);
         name.setBytes(class_name.replace('.', '/'));
         return clazz;
     }
 
     @Override
-    protected Class<?> loadClass(final String class_name, final boolean resolve) throws ClassNotFoundException {
+    protected Class<?> loadClass(String class_name, boolean resolve) throws ClassNotFoundException {
         Class<?> cl = null;
         if ((cl = classes.get(class_name)) == null) {
-            for (final String ignored_package : ignored_packages) {
+            for (String ignored_package : ignored_packages) {
                 if (class_name.startsWith(ignored_package)) {
                     cl = getParent().loadClass(class_name);
                     break;
@@ -80,7 +80,7 @@ public class ClassLoader extends java.lang.ClassLoader {
                     throw new ClassNotFoundException(class_name);
                 }
                 if (clazz != null) {
-                    final byte[] bytes = clazz.getBytes();
+                    byte[] bytes = clazz.getBytes();
                     cl = defineClass(class_name, bytes, 0, bytes.length);
                 } else {
                     cl = Class.forName(class_name);
@@ -94,7 +94,7 @@ public class ClassLoader extends java.lang.ClassLoader {
         return cl;
     }
 
-    protected JavaClass modifyClass(final JavaClass clazz) {
+    protected JavaClass modifyClass(JavaClass clazz) {
         return clazz;
     }
 }

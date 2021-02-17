@@ -3,20 +3,20 @@ package com.wade.decompiler.generic;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import com.wade.decompiler.Const;
 import com.wade.decompiler.ExceptionConst;
+import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generic.gen.Visitor;
 
 public class INVOKESPECIAL extends InvokeInstruction {
     public INVOKESPECIAL() {
     }
 
-    public INVOKESPECIAL(final int index) {
-        super(Const.INVOKESPECIAL, index);
+    public INVOKESPECIAL(int index) {
+        super(InstructionOpCodes.INVOKESPECIAL, index);
     }
 
     @Override
-    public void accept(final Visitor v) {
+    public void accept(Visitor v) {
         v.visitExceptionThrower(this);
         v.visitTypedInstruction(this);
         v.visitStackConsumer(this);
@@ -29,8 +29,8 @@ public class INVOKESPECIAL extends InvokeInstruction {
     }
 
     @Override
-    public void dump(final DataOutputStream out) throws IOException {
-        out.writeByte(super.getOpcode());
+    public void dump(DataOutputStream out) throws IOException {
+        out.writeByte(super.getOpcode().getOpcode());
         out.writeShort(super.getIndex());
     }
 

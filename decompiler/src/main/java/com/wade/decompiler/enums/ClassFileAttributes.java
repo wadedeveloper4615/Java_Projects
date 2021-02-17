@@ -47,8 +47,8 @@ public enum ClassFileAttributes {
 
     ClassFileAttributes(int tag) {
         this.tag = tag;
-        if (tag==-1) {
-            this.name="Unknown";
+        if (tag == -1) {
+            this.name = "Unknown";
         } else {
             this.name = ATTRIBUTE_NAMES[tag];
         }
@@ -63,8 +63,8 @@ public enum ClassFileAttributes {
     }
 
     public static ClassFileAttributes read(int flag) {
-        for(ClassFileAttributes attr:ClassFileAttributes.values()) {
-            if (attr.getTag()==flag) {
+        for (ClassFileAttributes attr : ClassFileAttributes.values()) {
+            if (attr.getTag() == flag) {
                 return attr;
             }
         }

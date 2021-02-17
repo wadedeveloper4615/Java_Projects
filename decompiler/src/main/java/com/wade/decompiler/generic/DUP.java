@@ -1,17 +1,17 @@
 package com.wade.decompiler.generic;
 
-import com.wade.decompiler.Const;
+import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generic.base.PushInstruction;
 import com.wade.decompiler.generic.base.StackInstruction;
 import com.wade.decompiler.generic.gen.Visitor;
 
 public class DUP extends StackInstruction implements PushInstruction {
     public DUP() {
-        super(Const.DUP);
+        super(InstructionOpCodes.DUP);
     }
 
     @Override
-    public void accept(final Visitor v) {
+    public void accept(Visitor v) {
         v.visitStackProducer(this);
         v.visitPushInstruction(this);
         v.visitStackInstruction(this);

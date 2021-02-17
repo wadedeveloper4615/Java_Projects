@@ -6,31 +6,31 @@ import java.io.IOException;
 
 import com.wade.decompiler.enums.ClassFileConstants;
 
-public final class ConstantMethodHandle extends Constant {
+public class ConstantMethodHandle extends Constant {
     private int referenceKind;
     private int referenceIndex;
 
-    public ConstantMethodHandle(final ConstantMethodHandle c) {
+    public ConstantMethodHandle(ConstantMethodHandle c) {
         this(c.getReferenceKind(), c.getReferenceIndex());
     }
 
-    ConstantMethodHandle(final DataInput file) throws IOException {
+    ConstantMethodHandle(DataInput file) throws IOException {
         this(file.readUnsignedByte(), file.readUnsignedShort());
     }
 
-    public ConstantMethodHandle(final int reference_kind, final int reference_index) {
+    public ConstantMethodHandle(int reference_kind, int reference_index) {
         super(ClassFileConstants.CONSTANT_MethodHandle);
         this.referenceKind = reference_kind;
         this.referenceIndex = reference_index;
     }
 
     @Override
-    public void accept(final Visitor v) {
+    public void accept(Visitor v) {
         v.visitConstantMethodHandle(this);
     }
 
     @Override
-    public void dump(final DataOutputStream file) throws IOException {
+    public void dump(DataOutputStream file) throws IOException {
         file.writeByte(super.getTag().getTag());
         file.writeByte(referenceKind);
         file.writeShort(referenceIndex);
@@ -44,11 +44,11 @@ public final class ConstantMethodHandle extends Constant {
         return referenceKind;
     }
 
-    public void setReferenceIndex(final int reference_index) {
+    public void setReferenceIndex(int reference_index) {
         this.referenceIndex = reference_index;
     }
 
-    public void setReferenceKind(final int reference_kind) {
+    public void setReferenceKind(int reference_kind) {
         this.referenceKind = reference_kind;
     }
 

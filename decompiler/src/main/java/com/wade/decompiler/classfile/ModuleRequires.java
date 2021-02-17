@@ -6,19 +6,19 @@ import java.io.IOException;
 
 import com.wade.decompiler.enums.ClassFileConstants;
 
-public final class ModuleRequires implements Cloneable, Node {
-    private final int requiresIndex; // points to CONSTANT_Module_info
-    private final int requiresFlags;
-    private final int requiresVersionIndex; // either 0 or points to CONSTANT_Utf8_info
+public class ModuleRequires implements Cloneable, Node {
+    private int requiresIndex; // points to CONSTANT_Module_info
+    private int requiresFlags;
+    private int requiresVersionIndex; // either 0 or points to CONSTANT_Utf8_info
 
-    ModuleRequires(final DataInput file) throws IOException {
+    ModuleRequires(DataInput file) throws IOException {
         requiresIndex = file.readUnsignedShort();
         requiresFlags = file.readUnsignedShort();
         requiresVersionIndex = file.readUnsignedShort();
     }
 
     @Override
-    public void accept(final Visitor v) {
+    public void accept(Visitor v) {
         v.visitModuleRequires(this);
     }
     // TODO add more getters and setters?
@@ -26,13 +26,13 @@ public final class ModuleRequires implements Cloneable, Node {
     public ModuleRequires copy() {
         try {
             return (ModuleRequires) clone();
-        } catch (final CloneNotSupportedException e) {
+        } catch (CloneNotSupportedException e) {
             // TODO should this throw?
         }
         return null;
     }
 
-    public void dump(final DataOutputStream file) throws IOException {
+    public void dump(DataOutputStream file) throws IOException {
         file.writeShort(requiresIndex);
         file.writeShort(requiresFlags);
         file.writeShort(requiresVersionIndex);
@@ -43,12 +43,12 @@ public final class ModuleRequires implements Cloneable, Node {
         return "requires(" + requiresIndex + ", " + String.format("%04x", requiresFlags) + ", " + requiresVersionIndex + ")";
     }
 
-    public String toString(final ConstantPool constant_pool) {
-        final StringBuilder buf = new StringBuilder();
-        final String module_name = constant_pool.constantToString(requiresIndex, ClassFileConstants.CONSTANT_Module);
+    public String toString(ConstantPool constant_pool) {
+        StringBuilder buf = new StringBuilder();
+        String module_name = constant_pool.constantToString(requiresIndex, ClassFileConstants.CONSTANT_Module);
         buf.append(Utility.compactClassName(module_name, false));
         buf.append(", ").append(String.format("%04x", requiresFlags));
-        final String version = requiresVersionIndex == 0 ? "0" : constant_pool.getConstantString(requiresVersionIndex, ClassFileConstants.CONSTANT_Utf8);
+        String version = requiresVersionIndex == 0 ? "0" : constant_pool.getConstantString(requiresVersionIndex, ClassFileConstants.CONSTANT_Utf8);
         buf.append(", ").append(version);
         return buf.toString();
     }

@@ -7,9 +7,9 @@ import java.util.Map;
 import com.wade.decompiler.classfile.JavaClass;
 
 public class ClassSet {
-    private final Map<String, JavaClass> map = new HashMap<>();
+    private Map<String, JavaClass> map = new HashMap<>();
 
-    public boolean add(final JavaClass clazz) {
+    public boolean add(JavaClass clazz) {
         boolean result = false;
         if (!map.containsKey(clazz.getClassName())) {
             result = true;
@@ -26,13 +26,13 @@ public class ClassSet {
         return map.keySet().toArray(new String[map.size()]);
     }
 
-    public void remove(final JavaClass clazz) {
+    public void remove(JavaClass clazz) {
         map.remove(clazz.getClassName());
     }
 
     public JavaClass[] toArray() {
-        final Collection<JavaClass> values = map.values();
-        final JavaClass[] classes = new JavaClass[values.size()];
+        Collection<JavaClass> values = map.values();
+        JavaClass[] classes = new JavaClass[values.size()];
         values.toArray(classes);
         return classes;
     }

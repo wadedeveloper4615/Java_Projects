@@ -10,11 +10,11 @@ import com.wade.decompiler.enums.ClassFileConstants;
 public class ConstantPool implements Cloneable, Node {
     private Constant[] constantPool;
 
-    public ConstantPool(final Constant[] constantPool) {
+    public ConstantPool(Constant[] constantPool) {
         this.constantPool = constantPool;
     }
 
-    public ConstantPool(final DataInput input) throws IOException, ClassFormatException {
+    public ConstantPool(DataInput input) throws IOException, ClassFormatException {
         ClassFileConstants tag;
         int constant_pool_count = input.readUnsignedShort();
         constantPool = new Constant[constant_pool_count];
@@ -28,7 +28,7 @@ public class ConstantPool implements Cloneable, Node {
     }
 
     @Override
-    public void accept(final Visitor v) {
+    public void accept(Visitor v) {
         v.visitConstantPool(this);
     }
 
@@ -57,15 +57,15 @@ public class ConstantPool implements Cloneable, Node {
             case CONSTANT_MethodHandle -> {
                 // Note that the ReferenceIndex may point to a Fieldref, Methodref or
                 // InterfaceMethodref - so we need to peek ahead to get the actual type.
-                final ConstantMethodHandle cmh = (ConstantMethodHandle) c;
+                ConstantMethodHandle cmh = (ConstantMethodHandle) c;
                 yield Const.getMethodHandleName(cmh.getReferenceKind()) + " " + constantToString(cmh.getReferenceIndex(), getConstant(cmh.getReferenceIndex()).getTag());
             }
             case CONSTANT_MethodType -> {
-                final ConstantMethodType cmt = (ConstantMethodType) c;
+                ConstantMethodType cmt = (ConstantMethodType) c;
                 yield constantToString(cmt.getDescriptorIndex(), ClassFileConstants.CONSTANT_Utf8);
             }
             case CONSTANT_InvokeDynamic -> {
-                final ConstantInvokeDynamic cid = (ConstantInvokeDynamic) c;
+                ConstantInvokeDynamic cid = (ConstantInvokeDynamic) c;
                 yield cid.getBootstrapMethodAttrIndex() + ":" + constantToString(cid.getNameAndTypeIndex(), ClassFileConstants.CONSTANT_NameAndType);
             }
             case CONSTANT_Module -> {
@@ -83,13 +83,13 @@ public class ConstantPool implements Cloneable, Node {
         return str;
     }
 
-    public String constantToString(final int index, ClassFileConstants tag) throws ClassFormatException {
-        final Constant c = getConstant(index, tag.getTag());
+    public String constantToString(int index, ClassFileConstants tag) throws ClassFormatException {
+        Constant c = getConstant(index, tag.getTag());
         return constantToString(c);
     }
 
-    public String constantToString(final int index, int tag) throws ClassFormatException {
-        final Constant c = getConstant(index, tag);
+    public String constantToString(int index, int tag) throws ClassFormatException {
+        Constant c = getConstant(index, tag);
         return constantToString(c);
     }
 
@@ -103,13 +103,13 @@ public class ConstantPool implements Cloneable, Node {
                     c.constantPool[i] = constantPool[i].copy();
                 }
             }
-        } catch (final CloneNotSupportedException e) {
+        } catch (CloneNotSupportedException e) {
             // TODO should this throw?
         }
         return c;
     }
 
-    public void dump(final DataOutputStream file) throws IOException {
+    public void dump(DataOutputStream file) throws IOException {
         file.writeShort(constantPool.length);
         for (int i = 1; i < constantPool.length; i++) {
             if (constantPool[i] != null) {
@@ -118,14 +118,14 @@ public class ConstantPool implements Cloneable, Node {
         }
     }
 
-    public Constant getConstant(final int index) {
+    public Constant getConstant(int index) {
         if (index >= constantPool.length || index < 0) {
             throw new ClassFormatException("Invalid constant pool reference: " + index + ". Constant pool size is: " + constantPool.length);
         }
         return constantPool[index];
     }
 
-    public Constant getConstant(final int index, ClassFileConstants tag) throws ClassFormatException {
+    public Constant getConstant(int index, ClassFileConstants tag) throws ClassFormatException {
         Constant c = getConstant(index);
         if (c == null) {
             throw new ClassFormatException("Constant pool at index " + index + " is null.");
@@ -136,7 +136,7 @@ public class ConstantPool implements Cloneable, Node {
         return c;
     }
 
-    public Constant getConstant(final int index, int tag) throws ClassFormatException {
+    public Constant getConstant(int index, int tag) throws ClassFormatException {
         Constant c = getConstant(index);
         if (c == null) {
             throw new ClassFormatException("Constant pool at index " + index + " is null.");
@@ -151,7 +151,7 @@ public class ConstantPool implements Cloneable, Node {
         return constantPool;
     }
 
-    public String getConstantString(final int index, ClassFileConstants tag) throws ClassFormatException {
+    public String getConstantString(int index, ClassFileConstants tag) throws ClassFormatException {
         Constant c = getConstant(index, tag);
         int i = switch (tag) {
             case CONSTANT_Class -> ((ConstantClass) c).getNameIndex();
@@ -168,27 +168,27 @@ public class ConstantPool implements Cloneable, Node {
         return constantPool == null ? 0 : constantPool.length;
     }
 
-    public void setConstant(final int index, final Constant constant) {
+    public void setConstant(int index, Constant constant) {
         constantPool[index] = constant;
     }
 
-    public void setConstantPool(final Constant[] constantPool) {
+    public void setConstantPool(Constant[] constantPool) {
         this.constantPool = constantPool;
     }
 
     @Override
     public String toString() {
-        final StringBuilder buf = new StringBuilder();
+        StringBuilder buf = new StringBuilder();
         for (int i = 1; i < constantPool.length; i++) {
             buf.append(i).append(")").append(constantPool[i]).append("\n");
         }
         return buf.toString();
     }
 
-    private static String escape(final String str) {
-        final int len = str.length();
-        final StringBuilder buf = new StringBuilder(len + 5);
-        final char[] ch = str.toCharArray();
+    private static String escape(String str) {
+        int len = str.length();
+        StringBuilder buf = new StringBuilder(len + 5);
+        char[] ch = str.toCharArray();
         for (int i = 0; i < len; i++) {
             switch (ch[i]) {
                 case '\n':

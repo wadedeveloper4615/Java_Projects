@@ -4,11 +4,12 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.Const;
+import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generic.base.LocalVariableInstruction;
-import com.wade.decompiler.generic.base.Type;
 import com.wade.decompiler.generic.gen.ClassGenException;
 import com.wade.decompiler.generic.gen.ConstantPoolGen;
 import com.wade.decompiler.generic.gen.Visitor;
+import com.wade.decompiler.generic.type.Type;
 import com.wade.decompiler.util.ByteSequence;
 
 public class IINC extends LocalVariableInstruction {
@@ -18,26 +19,26 @@ public class IINC extends LocalVariableInstruction {
     public IINC() {
     }
 
-    public IINC(final int n, final int c) {
+    public IINC(int n, int c) {
         super(); // Default behavior of LocalVariableInstruction causes error
-        super.setOpcode(Const.IINC);
+        super.setOpcode(InstructionOpCodes.IINC);
         super.setLength((short) 3);
         setIndex(n); // May set wide as side effect
         setIncrement(c);
     }
 
     @Override
-    public void accept(final Visitor v) {
+    public void accept(Visitor v) {
         v.visitLocalVariableInstruction(this);
         v.visitIINC(this);
     }
 
     @Override
-    public void dump(final DataOutputStream out) throws IOException {
+    public void dump(DataOutputStream out) throws IOException {
         if (wide) {
             out.writeByte(Const.WIDE);
         }
-        out.writeByte(super.getOpcode());
+        out.writeByte(super.getOpcode().getOpcode());
         if (wide) {
             out.writeShort(super.getIndex());
             out.writeShort(c);
@@ -47,17 +48,17 @@ public class IINC extends LocalVariableInstruction {
         }
     }
 
-    public final int getIncrement() {
+    public int getIncrement() {
         return c;
     }
 
     @Override
-    public Type getType(final ConstantPoolGen cp) {
+    public Type getType(ConstantPoolGen cp) {
         return Type.INT;
     }
 
     @Override
-    public void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
+    public void initFromFile(ByteSequence bytes, boolean wide) throws IOException {
         this.wide = wide;
         if (wide) {
             super.setLength(6);
@@ -70,13 +71,13 @@ public class IINC extends LocalVariableInstruction {
         }
     }
 
-    public final void setIncrement(final int c) {
+    public void setIncrement(int c) {
         this.c = c;
         setWide();
     }
 
     @Override
-    public final void setIndex(final int n) {
+    public void setIndex(int n) {
         if (n < 0) {
             throw new ClassGenException("Negative index value: " + n);
         }
@@ -99,7 +100,7 @@ public class IINC extends LocalVariableInstruction {
     }
 
     @Override
-    public String toString(final boolean verbose) {
+    public String toString(boolean verbose) {
         return super.toString(verbose) + " " + c;
     }
 }

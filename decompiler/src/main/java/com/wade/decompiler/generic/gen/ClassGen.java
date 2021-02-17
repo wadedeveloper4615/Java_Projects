@@ -20,41 +20,40 @@ import com.wade.decompiler.enums.Version;
 import com.wade.decompiler.generic.INVOKESPECIAL;
 import com.wade.decompiler.generic.base.InstructionConst;
 import com.wade.decompiler.generic.base.InstructionList;
-import com.wade.decompiler.generic.base.MethodGen;
-import com.wade.decompiler.generic.base.Type;
+import com.wade.decompiler.generic.type.Type;
 import com.wade.decompiler.util.BCELComparator;
 
 public class ClassGen extends ClassAccessFlagsList implements Cloneable {
     private static BCELComparator bcelComparator = new BCELComparator() {
         @Override
-        public boolean equals(final Object o1, final Object o2) {
-            final ClassGen THIS = (ClassGen) o1;
-            final ClassGen THAT = (ClassGen) o2;
+        public boolean equals(Object o1, Object o2) {
+            ClassGen THIS = (ClassGen) o1;
+            ClassGen THAT = (ClassGen) o2;
             return Objects.equals(THIS.getClassName(), THAT.getClassName());
         }
 
         @Override
-        public int hashCode(final Object o) {
-            final ClassGen THIS = (ClassGen) o;
+        public int hashCode(Object o) {
+            ClassGen THIS = (ClassGen) o;
             return THIS.getClassName().hashCode();
         }
     };
     private String className;
     private String superClassName;
-    private final String fileName;
+    private String fileName;
     private int classNameIndex = -1;
     private int superclass_name_index = -1;
     private Version version = Version.Version_1_1;
     private ConstantPoolGen cp; // Template for building up constant pool
     // ArrayLists instead of arrays to gather fields, methods, etc.
-    private final List<Field> fieldList = new ArrayList<>();
-    private final List<Method> methodList = new ArrayList<>();
-    private final List<Attribute> attributeList = new ArrayList<>();
-    private final List<String> interfaceList = new ArrayList<>();
-    private final List<AnnotationEntryGen> annotationList = new ArrayList<>();
+    private List<Field> fieldList = new ArrayList<>();
+    private List<Method> methodList = new ArrayList<>();
+    private List<Attribute> attributeList = new ArrayList<>();
+    private List<String> interfaceList = new ArrayList<>();
+    private List<AnnotationEntryGen> annotationList = new ArrayList<>();
     private List<ClassObserver> observers;
 
-    public ClassGen(final JavaClass clazz) {
+    public ClassGen(JavaClass clazz) {
         super(clazz.getFlags());
         classNameIndex = clazz.getClassNameIndex();
         superclass_name_index = clazz.getSuperclassNameIndex();
@@ -63,36 +62,36 @@ public class ClassGen extends ClassAccessFlagsList implements Cloneable {
         fileName = clazz.getSourceFileName();
         cp = new ConstantPoolGen(clazz.getConstantPool());
         version = clazz.getVersion();
-        final Attribute[] attributes = clazz.getAttributes();
+        Attribute[] attributes = clazz.getAttributes();
         // J5TODO: Could make unpacking lazy, done on first reference
-        final AnnotationEntryGen[] annotations = unpackAnnotations(attributes);
-        final Method[] methods = clazz.getMethods();
-        final Field[] fields = clazz.getFields();
-        final String[] interfaces = clazz.getInterfaceNames();
-        for (final String interface1 : interfaces) {
+        AnnotationEntryGen[] annotations = unpackAnnotations(attributes);
+        Method[] methods = clazz.getMethods();
+        Field[] fields = clazz.getFields();
+        String[] interfaces = clazz.getInterfaceNames();
+        for (String interface1 : interfaces) {
             addInterface(interface1);
         }
-        for (final Attribute attribute : attributes) {
+        for (Attribute attribute : attributes) {
             if (!(attribute instanceof Annotations)) {
                 addAttribute(attribute);
             }
         }
-        for (final AnnotationEntryGen annotation : annotations) {
+        for (AnnotationEntryGen annotation : annotations) {
             addAnnotationEntry(annotation);
         }
-        for (final Method method : methods) {
+        for (Method method : methods) {
             addMethod(method);
         }
-        for (final Field field : fields) {
+        for (Field field : fields) {
             addField(field);
         }
     }
 
-    public ClassGen(final String className, final String superClassName, final String fileName, final int accessFlags, final String[] interfaces) {
+    public ClassGen(String className, String superClassName, String fileName, int accessFlags, String[] interfaces) {
         this(className, superClassName, fileName, accessFlags, interfaces, new ConstantPoolGen());
     }
 
-    public ClassGen(final String className, final String superClassName, final String fileName, final int accessFlags, final String[] interfaces, final ConstantPoolGen cp) {
+    public ClassGen(String className, String superClassName, String fileName, int accessFlags, String[] interfaces, ConstantPoolGen cp) {
         super(accessFlags);
         this.className = className;
         this.superClassName = superClassName;
@@ -105,43 +104,43 @@ public class ClassGen extends ClassAccessFlagsList implements Cloneable {
         classNameIndex = cp.addClass(className);
         superclass_name_index = cp.addClass(superClassName);
         if (interfaces != null) {
-            for (final String interface1 : interfaces) {
+            for (String interface1 : interfaces) {
                 addInterface(interface1);
             }
         }
     }
 
-    public void addAnnotationEntry(final AnnotationEntryGen a) {
+    public void addAnnotationEntry(AnnotationEntryGen a) {
         annotationList.add(a);
     }
 
-    public void addAttribute(final Attribute a) {
+    public void addAttribute(Attribute a) {
         attributeList.add(a);
     }
 
-    public void addEmptyConstructor(final int access_flags) {
-        final InstructionList il = new InstructionList();
+    public void addEmptyConstructor(int access_flags) {
+        InstructionList il = new InstructionList();
         il.append(InstructionConst.THIS); // Push `this'
         il.append(new INVOKESPECIAL(cp.addMethodref(superClassName, "<init>", "()V")));
         il.append(InstructionConst.RETURN);
-        final MethodGen mg = new MethodGen(access_flags, Type.VOID, Type.NO_ARGS, null, "<init>", className, il, cp);
+        MethodGen mg = new MethodGen(access_flags, Type.VOID, Type.NO_ARGS, null, "<init>", className, il, cp);
         mg.setMaxStack(1);
         addMethod(mg.getMethod());
     }
 
-    public void addField(final Field f) {
+    public void addField(Field f) {
         fieldList.add(f);
     }
 
-    public void addInterface(final String name) {
+    public void addInterface(String name) {
         interfaceList.add(name);
     }
 
-    public void addMethod(final Method m) {
+    public void addMethod(Method m) {
         methodList.add(m);
     }
 
-    public void addObserver(final ClassObserver o) {
+    public void addObserver(ClassObserver o) {
         if (observers == null) {
             observers = new ArrayList<>();
         }
@@ -152,17 +151,17 @@ public class ClassGen extends ClassAccessFlagsList implements Cloneable {
     public Object clone() {
         try {
             return super.clone();
-        } catch (final CloneNotSupportedException e) {
+        } catch (CloneNotSupportedException e) {
             throw new Error("Clone Not Supported"); // never happens
         }
     }
 
-    public boolean containsField(final Field f) {
+    public boolean containsField(Field f) {
         return fieldList.contains(f);
     }
 
-    public Field containsField(final String name) {
-        for (final Field f : fieldList) {
+    public Field containsField(String name) {
+        for (Field f : fieldList) {
             if (f.getName().equals(name)) {
                 return f;
             }
@@ -170,8 +169,8 @@ public class ClassGen extends ClassAccessFlagsList implements Cloneable {
         return null;
     }
 
-    public Method containsMethod(final String name, final String signature) {
-        for (final Method m : methodList) {
+    public Method containsMethod(String name, String signature) {
+        for (Method m : methodList) {
             if (m.getName().equals(name) && m.getSignature().equals(signature)) {
                 return m;
             }
@@ -180,7 +179,7 @@ public class ClassGen extends ClassAccessFlagsList implements Cloneable {
     }
 
     @Override
-    public boolean equals(final Object obj) {
+    public boolean equals(Object obj) {
         return bcelComparator.equals(this, obj);
     }
 
@@ -214,15 +213,15 @@ public class ClassGen extends ClassAccessFlagsList implements Cloneable {
     }
 
     public String[] getInterfaceNames() {
-        final int size = interfaceList.size();
-        final String[] interfaces = new String[size];
+        int size = interfaceList.size();
+        String[] interfaces = new String[size];
         interfaceList.toArray(interfaces);
         return interfaces;
     }
 
     public int[] getInterfaces() {
-        final int size = interfaceList.size();
-        final int[] interfaces = new int[size];
+        int size = interfaceList.size();
+        int[] interfaces = new int[size];
         for (int i = 0; i < size; i++) {
             interfaces[i] = cp.addClass(interfaceList.get(i));
         }
@@ -230,26 +229,26 @@ public class ClassGen extends ClassAccessFlagsList implements Cloneable {
     }
 
     public JavaClass getJavaClass() {
-        final int[] interfaces = getInterfaces();
-        final Field[] fields = getFields();
-        final Method[] methods = getMethods();
+        int[] interfaces = getInterfaces();
+        Field[] fields = getFields();
+        Method[] methods = getMethods();
         Attribute[] attributes = null;
         if (annotationList.isEmpty()) {
             attributes = getAttributes();
         } else {
             // TODO: Sometime later, trash any attributes called 'RuntimeVisibleAnnotations'
             // or 'RuntimeInvisibleAnnotations'
-            final Attribute[] annAttributes = AnnotationEntryGen.getAnnotationAttributes(cp, getAnnotationEntries());
+            Attribute[] annAttributes = AnnotationEntryGen.getAnnotationAttributes(cp, getAnnotationEntries());
             attributes = new Attribute[attributeList.size() + annAttributes.length];
             attributeList.toArray(attributes);
             System.arraycopy(annAttributes, 0, attributes, attributeList.size(), annAttributes.length);
         }
         // Must be last since the above calls may still add something to it
-        final ConstantPool _cp = this.cp.getConstantPool();
+        ConstantPool _cp = this.cp.getConstantPool();
         return new JavaClass(classNameIndex, superclass_name_index, fileName, version, new ClassAccessFlagsList(super.getFlags()), _cp, interfaces, fields, methods, attributes);
     }
 
-    public Method getMethodAt(final int pos) {
+    public Method getMethodAt(int pos) {
         return methodList.get(pos);
     }
 
@@ -274,33 +273,33 @@ public class ClassGen extends ClassAccessFlagsList implements Cloneable {
         return bcelComparator.hashCode(this);
     }
 
-    public void removeAttribute(final Attribute a) {
+    public void removeAttribute(Attribute a) {
         attributeList.remove(a);
     }
 
-    public void removeField(final Field f) {
+    public void removeField(Field f) {
         fieldList.remove(f);
     }
 
-    public void removeInterface(final String name) {
+    public void removeInterface(String name) {
         interfaceList.remove(name);
     }
 
-    public void removeMethod(final Method m) {
+    public void removeMethod(Method m) {
         methodList.remove(m);
     }
 
-    public void removeObserver(final ClassObserver o) {
+    public void removeObserver(ClassObserver o) {
         if (observers != null) {
             observers.remove(o);
         }
     }
 
-    public void replaceField(final Field old, final Field new_) {
+    public void replaceField(Field old, Field new_) {
         if (new_ == null) {
             throw new ClassGenException("Replacement method must not be null");
         }
-        final int i = fieldList.indexOf(old);
+        int i = fieldList.indexOf(old);
         if (i < 0) {
             fieldList.add(new_);
         } else {
@@ -308,11 +307,11 @@ public class ClassGen extends ClassAccessFlagsList implements Cloneable {
         }
     }
 
-    public void replaceMethod(final Method old, final Method new_) {
+    public void replaceMethod(Method old, Method new_) {
         if (new_ == null) {
             throw new ClassGenException("Replacement method must not be null");
         }
-        final int i = methodList.indexOf(old);
+        int i = methodList.indexOf(old);
         if (i < 0) {
             methodList.add(new_);
         } else {
@@ -320,37 +319,37 @@ public class ClassGen extends ClassAccessFlagsList implements Cloneable {
         }
     }
 
-    public void setClassName(final String name) {
+    public void setClassName(String name) {
         className = name.replace('/', '.');
         classNameIndex = cp.addClass(name);
     }
 
-    public void setClassNameIndex(final int class_name_index) {
+    public void setClassNameIndex(int class_name_index) {
         this.classNameIndex = class_name_index;
         className = cp.getConstantPool().getConstantString(class_name_index, ClassFileConstants.CONSTANT_Class).replace('/', '.');
     }
 
-    public void setConstantPool(final ConstantPoolGen constant_pool) {
+    public void setConstantPool(ConstantPoolGen constant_pool) {
         cp = constant_pool;
     }
 
-    public void setMethodAt(final Method method, final int pos) {
+    public void setMethodAt(Method method, int pos) {
         methodList.set(pos, method);
     }
 
-    public void setMethods(final Method[] methods) {
+    public void setMethods(Method[] methods) {
         methodList.clear();
-        for (final Method method : methods) {
+        for (Method method : methods) {
             addMethod(method);
         }
     }
 
-    public void setSuperclassName(final String name) {
+    public void setSuperclassName(String name) {
         superClassName = name.replace('/', '.');
         superclass_name_index = cp.addClass(name);
     }
 
-    public void setSuperclassNameIndex(final int superclass_name_index) {
+    public void setSuperclassNameIndex(int superclass_name_index) {
         this.superclass_name_index = superclass_name_index;
         superClassName = cp.getConstantPool().getConstantString(superclass_name_index, ClassFileConstants.CONSTANT_Class).replace('/', '.');
     }
@@ -359,19 +358,19 @@ public class ClassGen extends ClassAccessFlagsList implements Cloneable {
         this.version = version;
     }
 
-    private AnnotationEntryGen[] unpackAnnotations(final Attribute[] attrs) {
-        final List<AnnotationEntryGen> annotationGenObjs = new ArrayList<>();
-        for (final Attribute attr : attrs) {
+    private AnnotationEntryGen[] unpackAnnotations(Attribute[] attrs) {
+        List<AnnotationEntryGen> annotationGenObjs = new ArrayList<>();
+        for (Attribute attr : attrs) {
             if (attr instanceof RuntimeVisibleAnnotations) {
-                final RuntimeVisibleAnnotations rva = (RuntimeVisibleAnnotations) attr;
-                final AnnotationEntry[] annos = rva.getAnnotationEntries();
-                for (final AnnotationEntry a : annos) {
+                RuntimeVisibleAnnotations rva = (RuntimeVisibleAnnotations) attr;
+                AnnotationEntry[] annos = rva.getAnnotationEntries();
+                for (AnnotationEntry a : annos) {
                     annotationGenObjs.add(new AnnotationEntryGen(a, getConstantPool(), false));
                 }
             } else if (attr instanceof RuntimeInvisibleAnnotations) {
-                final RuntimeInvisibleAnnotations ria = (RuntimeInvisibleAnnotations) attr;
-                final AnnotationEntry[] annos = ria.getAnnotationEntries();
-                for (final AnnotationEntry a : annos) {
+                RuntimeInvisibleAnnotations ria = (RuntimeInvisibleAnnotations) attr;
+                AnnotationEntry[] annos = ria.getAnnotationEntries();
+                for (AnnotationEntry a : annos) {
                     annotationGenObjs.add(new AnnotationEntryGen(a, getConstantPool(), false));
                 }
             }
@@ -381,7 +380,7 @@ public class ClassGen extends ClassAccessFlagsList implements Cloneable {
 
     public void update() {
         if (observers != null) {
-            for (final ClassObserver observer : observers) {
+            for (ClassObserver observer : observers) {
                 observer.notify(this);
             }
         }
@@ -391,7 +390,7 @@ public class ClassGen extends ClassAccessFlagsList implements Cloneable {
         return bcelComparator;
     }
 
-    public static void setComparator(final BCELComparator comparator) {
+    public static void setComparator(BCELComparator comparator) {
         bcelComparator = comparator;
     }
 }

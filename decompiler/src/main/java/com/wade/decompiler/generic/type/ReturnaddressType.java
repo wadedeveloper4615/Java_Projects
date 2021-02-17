@@ -1,26 +1,27 @@
-package com.wade.decompiler.generic.base;
+package com.wade.decompiler.generic.type;
 
 import com.wade.decompiler.Const;
+import com.wade.decompiler.generic.base.InstructionHandle;
 
 public class ReturnaddressType extends Type {
-    public static final ReturnaddressType NO_TARGET = new ReturnaddressType();
+    public static ReturnaddressType NO_TARGET = new ReturnaddressType();
     private InstructionHandle returnTarget;
 
     private ReturnaddressType() {
         super(Const.T_ADDRESS, "<return address>");
     }
 
-    public ReturnaddressType(final InstructionHandle returnTarget) {
+    public ReturnaddressType(InstructionHandle returnTarget) {
         super(Const.T_ADDRESS, "<return address targeting " + returnTarget + ">");
         this.returnTarget = returnTarget;
     }
 
     @Override
-    public boolean equals(final Object rat) {
+    public boolean equals(Object rat) {
         if (!(rat instanceof ReturnaddressType)) {
             return false;
         }
-        final ReturnaddressType that = (ReturnaddressType) rat;
+        ReturnaddressType that = (ReturnaddressType) rat;
         if (this.returnTarget == null || that.returnTarget == null) {
             return that.returnTarget == this.returnTarget;
         }

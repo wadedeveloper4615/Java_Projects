@@ -18,7 +18,7 @@ import com.wade.decompiler.enums.ClassAccessFlags;
 import com.wade.decompiler.enums.ClassAccessFlagsList;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.enums.Version;
-import com.wade.decompiler.generic.base.Type;
+import com.wade.decompiler.generic.type.Type;
 import com.wade.decompiler.util.BCELComparator;
 import com.wade.decompiler.util.ClassQueue;
 import com.wade.decompiler.util.SyntheticRepository;

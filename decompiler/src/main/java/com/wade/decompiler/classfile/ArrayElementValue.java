@@ -5,9 +5,9 @@ import java.io.IOException;
 
 public class ArrayElementValue extends ElementValue {
     // For array types, this is the array
-    private final ElementValue[] elementValues;
+    private ElementValue[] elementValues;
 
-    public ArrayElementValue(final int type, final ElementValue[] datums, final ConstantPool cpool) {
+    public ArrayElementValue(int type, ElementValue[] datums, ConstantPool cpool) {
         super(type, cpool);
         if (type != ARRAY) {
             throw new IllegalArgumentException("Only element values of type array can be built with this ctor - type specified: " + type);
@@ -16,10 +16,10 @@ public class ArrayElementValue extends ElementValue {
     }
 
     @Override
-    public void dump(final DataOutputStream dos) throws IOException {
+    public void dump(DataOutputStream dos) throws IOException {
         dos.writeByte(super.getType()); // u1 type of value (ARRAY == '[')
         dos.writeShort(elementValues.length);
-        for (final ElementValue evalue : elementValues) {
+        for (ElementValue evalue : elementValues) {
             evalue.dump(dos);
         }
     }
@@ -34,7 +34,7 @@ public class ArrayElementValue extends ElementValue {
 
     @Override
     public String stringifyValue() {
-        final StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         sb.append("[");
         for (int i = 0; i < elementValues.length; i++) {
             sb.append(elementValues[i].stringifyValue());
@@ -48,7 +48,7 @@ public class ArrayElementValue extends ElementValue {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         sb.append("{");
         for (int i = 0; i < elementValues.length; i++) {
             sb.append(elementValues[i]);

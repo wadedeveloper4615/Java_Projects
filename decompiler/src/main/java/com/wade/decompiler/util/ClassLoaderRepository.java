@@ -9,10 +9,10 @@ import com.wade.decompiler.classfile.ClassParser;
 import com.wade.decompiler.classfile.JavaClass;
 
 public class ClassLoaderRepository implements Repository {
-    private final java.lang.ClassLoader loader;
-    private final Map<String, JavaClass> loadedClasses = new HashMap<>(); // CLASSNAME X JAVACLASS
+    private java.lang.ClassLoader loader;
+    private Map<String, JavaClass> loadedClasses = new HashMap<>(); // CLASSNAME X JAVACLASS
 
-    public ClassLoaderRepository(final java.lang.ClassLoader loader) {
+    public ClassLoaderRepository(java.lang.ClassLoader loader) {
         this.loader = loader;
     }
 
@@ -22,7 +22,7 @@ public class ClassLoaderRepository implements Repository {
     }
 
     @Override
-    public JavaClass findClass(final String className) {
+    public JavaClass findClass(String className) {
         return loadedClasses.containsKey(className) ? loadedClasses.get(className) : null;
     }
 
@@ -32,13 +32,13 @@ public class ClassLoaderRepository implements Repository {
     }
 
     @Override
-    public JavaClass loadClass(final Class<?> clazz) throws ClassNotFoundException {
+    public JavaClass loadClass(Class<?> clazz) throws ClassNotFoundException {
         return loadClass(clazz.getName());
     }
 
     @Override
-    public JavaClass loadClass(final String className) throws ClassNotFoundException {
-        final String classFile = className.replace('.', '/');
+    public JavaClass loadClass(String className) throws ClassNotFoundException {
+        String classFile = className.replace('.', '/');
         JavaClass RC = findClass(className);
         if (RC != null) {
             return RC;
@@ -47,22 +47,22 @@ public class ClassLoaderRepository implements Repository {
             if (is == null) {
                 throw new ClassNotFoundException(className + " not found.");
             }
-            final ClassParser parser = new ClassParser(is, className);
+            ClassParser parser = new ClassParser(is, className);
             RC = parser.parse();
             storeClass(RC);
             return RC;
-        } catch (final IOException e) {
+        } catch (IOException e) {
             throw new ClassNotFoundException(className + " not found: " + e, e);
         }
     }
 
     @Override
-    public void removeClass(final JavaClass clazz) {
+    public void removeClass(JavaClass clazz) {
         loadedClasses.remove(clazz.getClassName());
     }
 
     @Override
-    public void storeClass(final JavaClass clazz) {
+    public void storeClass(JavaClass clazz) {
         loadedClasses.put(clazz.getClassName(), clazz);
         clazz.setRepository(this);
     }

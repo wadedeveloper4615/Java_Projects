@@ -6,40 +6,40 @@ import java.io.IOException;
 
 import com.wade.decompiler.enums.ClassFileConstants;
 
-public final class ConstantString extends Constant implements ConstantObject {
+public class ConstantString extends Constant implements ConstantObject {
     private int stringIndex; // Identical to ConstantClass except for this name
 
-    public ConstantString(final ConstantString c) {
+    public ConstantString(ConstantString c) {
         this(c.getStringIndex());
     }
 
-    ConstantString(final DataInput file) throws IOException {
+    ConstantString(DataInput file) throws IOException {
         this(file.readUnsignedShort());
     }
 
-    public ConstantString(final int stringIndex) {
+    public ConstantString(int stringIndex) {
         super(ClassFileConstants.CONSTANT_String);
         this.stringIndex = stringIndex;
     }
 
     @Override
-    public void accept(final Visitor v) {
+    public void accept(Visitor v) {
         v.visitConstantString(this);
     }
 
     @Override
-    public void dump(final DataOutputStream file) throws IOException {
+    public void dump(DataOutputStream file) throws IOException {
         file.writeByte(super.getTag().getTag());
         file.writeShort(stringIndex);
     }
 
-    public String getBytes(final ConstantPool cp) {
+    public String getBytes(ConstantPool cp) {
         return (String) getConstantValue(cp);
     }
 
     @Override
-    public Object getConstantValue(final ConstantPool cp) {
-        final Constant c = cp.getConstant(stringIndex, ClassFileConstants.CONSTANT_Utf8);
+    public Object getConstantValue(ConstantPool cp) {
+        Constant c = cp.getConstant(stringIndex, ClassFileConstants.CONSTANT_Utf8);
         return ((ConstantUtf8) c).getBytes();
     }
 
@@ -47,7 +47,7 @@ public final class ConstantString extends Constant implements ConstantObject {
         return stringIndex;
     }
 
-    public void setStringIndex(final int stringIndex) {
+    public void setStringIndex(int stringIndex) {
         this.stringIndex = stringIndex;
     }
 

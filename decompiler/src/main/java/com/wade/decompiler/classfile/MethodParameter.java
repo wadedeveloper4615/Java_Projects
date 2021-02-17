@@ -14,25 +14,25 @@ public class MethodParameter implements Cloneable {
     public MethodParameter() {
     }
 
-    public MethodParameter(final DataInput input) throws IOException {
+    public MethodParameter(DataInput input) throws IOException {
         nameIndex = input.readUnsignedShort();
         accessFlags = input.readUnsignedShort();
     }
 
-    public void accept(final Visitor v) {
+    public void accept(Visitor v) {
         v.visitMethodParameter(this);
     }
 
     public MethodParameter copy() {
         try {
             return (MethodParameter) clone();
-        } catch (final CloneNotSupportedException e) {
+        } catch (CloneNotSupportedException e) {
             // TODO should this throw?
         }
         return null;
     }
 
-    public final void dump(final DataOutputStream file) throws IOException {
+    public void dump(DataOutputStream file) throws IOException {
         file.writeShort(nameIndex);
         file.writeShort(accessFlags);
     }
@@ -45,14 +45,14 @@ public class MethodParameter implements Cloneable {
         return nameIndex;
     }
 
-    public String getParameterName(final ConstantPool constant_pool) {
+    public String getParameterName(ConstantPool constant_pool) {
         if (nameIndex == 0) {
             return null;
         }
         return ((ConstantUtf8) constant_pool.getConstant(nameIndex, ClassFileConstants.CONSTANT_Utf8)).getBytes();
     }
 
-    public boolean isFinal() {
+    public boolean is() {
         return (accessFlags & ClassAccessFlags.ACC_FINAL.getFlag()) != 0;
     }
 
@@ -64,11 +64,11 @@ public class MethodParameter implements Cloneable {
         return (accessFlags & ClassAccessFlags.ACC_SYNTHETIC.getFlag()) != 0;
     }
 
-    public void setAccessFlags(final int access_flags) {
+    public void setAccessFlags(int access_flags) {
         this.accessFlags = access_flags;
     }
 
-    public void setNameIndex(final int name_index) {
+    public void setNameIndex(int name_index) {
         this.nameIndex = name_index;
     }
 }

@@ -4,38 +4,38 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public final class LineNumber implements Cloneable, Node {
+public class LineNumber implements Cloneable, Node {
     private short startPc;
     private short lineNumber;
 
-    LineNumber(final DataInput file) throws IOException {
+    LineNumber(DataInput file) throws IOException {
         this(file.readUnsignedShort(), file.readUnsignedShort());
     }
 
-    public LineNumber(final int startPc, final int lineNumber) {
+    public LineNumber(int startPc, int lineNumber) {
         this.startPc = (short) startPc;
         this.lineNumber = (short) lineNumber;
     }
 
-    public LineNumber(final LineNumber c) {
+    public LineNumber(LineNumber c) {
         this(c.getStartPC(), c.getLineNumber());
     }
 
     @Override
-    public void accept(final Visitor v) {
+    public void accept(Visitor v) {
         v.visitLineNumber(this);
     }
 
     public LineNumber copy() {
         try {
             return (LineNumber) clone();
-        } catch (final CloneNotSupportedException e) {
+        } catch (CloneNotSupportedException e) {
             // TODO should this throw?
         }
         return null;
     }
 
-    public void dump(final DataOutputStream file) throws IOException {
+    public void dump(DataOutputStream file) throws IOException {
         file.writeShort(startPc);
         file.writeShort(lineNumber);
     }
@@ -48,11 +48,11 @@ public final class LineNumber implements Cloneable, Node {
         return 0xffff & startPc;
     }
 
-    public void setLineNumber(final int lineNumber) {
+    public void setLineNumber(int lineNumber) {
         this.lineNumber = (short) lineNumber;
     }
 
-    public void setStartPC(final int startPc) {
+    public void setStartPC(int startPc) {
         this.startPc = (short) startPc;
     }
 

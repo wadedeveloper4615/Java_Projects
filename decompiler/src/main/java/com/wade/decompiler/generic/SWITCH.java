@@ -5,13 +5,13 @@ import com.wade.decompiler.generic.base.Instruction;
 import com.wade.decompiler.generic.base.InstructionHandle;
 import com.wade.decompiler.generic.base.InstructionList;
 
-public final class SWITCH implements CompoundInstruction {
+public class SWITCH implements CompoundInstruction {
     private int[] match;
     private InstructionHandle[] targets;
     private Select instruction;
     private int matchLength;
 
-    public SWITCH(final int[] match, final InstructionHandle[] targets, final InstructionHandle target, final int max_gap) {
+    public SWITCH(int[] match, InstructionHandle[] targets, InstructionHandle target, int max_gap) {
         this.match = match.clone();
         this.targets = targets.clone();
         if ((matchLength = match.length) < 2) {
@@ -27,20 +27,20 @@ public final class SWITCH implements CompoundInstruction {
         }
     }
 
-    public SWITCH(final int[] match, final InstructionHandle[] targets, final InstructionHandle target) {
+    public SWITCH(int[] match, InstructionHandle[] targets, InstructionHandle target) {
         this(match, targets, target, 1);
     }
 
-    private void fillup(final int max_gap, final InstructionHandle target) {
-        final int max_size = matchLength + matchLength * max_gap;
-        final int[] m_vec = new int[max_size];
-        final InstructionHandle[] t_vec = new InstructionHandle[max_size];
+    private void fillup(int max_gap, InstructionHandle target) {
+        int max_size = matchLength + matchLength * max_gap;
+        int[] m_vec = new int[max_size];
+        InstructionHandle[] t_vec = new InstructionHandle[max_size];
         int count = 1;
         m_vec[0] = match[0];
         t_vec[0] = targets[0];
         for (int i = 1; i < matchLength; i++) {
-            final int prev = match[i - 1];
-            final int gap = match[i] - prev;
+            int prev = match[i - 1];
+            int gap = match[i] - prev;
             for (int j = 1; j < gap; j++) {
                 m_vec[count] = prev + j;
                 t_vec[count] = target;
@@ -56,11 +56,11 @@ public final class SWITCH implements CompoundInstruction {
         System.arraycopy(t_vec, 0, targets, 0, count);
     }
 
-    private void sort(final int l, final int r) {
+    private void sort(int l, int r) {
         int i = l;
         int j = r;
         int h;
-        final int m = match[(l + r) >>> 1];
+        int m = match[(l + r) >>> 1];
         InstructionHandle h2;
         do {
             while (match[i] < m) {
@@ -88,7 +88,7 @@ public final class SWITCH implements CompoundInstruction {
         }
     }
 
-    private boolean matchIsOrdered(final int max_gap) {
+    private boolean matchIsOrdered(int max_gap) {
         for (int i = 1; i < matchLength; i++) {
             if (match[i] - match[i - 1] > max_gap) {
                 return false;

@@ -9,16 +9,16 @@ import com.wade.decompiler.enums.ClassFileAttributes;
 public class BootstrapMethods extends Attribute {
     private BootstrapMethod[] bootstrapMethods;
 
-    public BootstrapMethods( BootstrapMethods c) {
+    public BootstrapMethods(BootstrapMethods c) {
         this(c.getNameIndex(), c.getLength(), c.getBootstrapMethods(), c.getConstantPool());
     }
 
-    public BootstrapMethods( int name_index,  int length,  BootstrapMethod[] bootstrapMethods,  ConstantPool constant_pool) {
+    public BootstrapMethods(int name_index, int length, BootstrapMethod[] bootstrapMethods, ConstantPool constant_pool) {
         super(ClassFileAttributes.ATTR_BOOTSTRAP_METHODS, name_index, length, constant_pool);
         this.bootstrapMethods = bootstrapMethods;
     }
 
-    public BootstrapMethods( int name_index,  int length,  DataInput input,  ConstantPool constant_pool) throws IOException {
+    public BootstrapMethods(int name_index, int length, DataInput input, ConstantPool constant_pool) throws IOException {
         this(name_index, length, (BootstrapMethod[]) null, constant_pool);
         int num_bootstrap_methods = input.readUnsignedShort();
         bootstrapMethods = new BootstrapMethod[num_bootstrap_methods];
@@ -28,12 +28,12 @@ public class BootstrapMethods extends Attribute {
     }
 
     @Override
-    public void accept( Visitor v) {
+    public void accept(Visitor v) {
         v.visitBootstrapMethods(this);
     }
 
     @Override
-    public BootstrapMethods copy( ConstantPool _constant_pool) {
+    public BootstrapMethods copy(ConstantPool _constant_pool) {
         BootstrapMethods c = (BootstrapMethods) clone();
         c.bootstrapMethods = new BootstrapMethod[bootstrapMethods.length];
         for (int i = 0; i < bootstrapMethods.length; i++) {
@@ -44,24 +44,24 @@ public class BootstrapMethods extends Attribute {
     }
 
     @Override
-    public  void dump( DataOutputStream file) throws IOException {
+    public void dump(DataOutputStream file) throws IOException {
         super.dump(file);
         file.writeShort(bootstrapMethods.length);
-        for ( BootstrapMethod bootstrap_method : bootstrapMethods) {
+        for (BootstrapMethod bootstrap_method : bootstrapMethods) {
             bootstrap_method.dump(file);
         }
     }
 
-    public  BootstrapMethod[] getBootstrapMethods() {
+    public BootstrapMethod[] getBootstrapMethods() {
         return bootstrapMethods;
     }
 
-    public  void setBootstrapMethods( BootstrapMethod[] bootstrapMethods) {
+    public void setBootstrapMethods(BootstrapMethod[] bootstrapMethods) {
         this.bootstrapMethods = bootstrapMethods;
     }
 
     @Override
-    public  String toString() {
+    public String toString() {
         StringBuilder buf = new StringBuilder();
         buf.append("BootstrapMethods(");
         buf.append(bootstrapMethods.length);

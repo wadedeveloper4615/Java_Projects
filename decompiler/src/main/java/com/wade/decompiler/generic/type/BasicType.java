@@ -1,10 +1,10 @@
-package com.wade.decompiler.generic.base;
+package com.wade.decompiler.generic.type;
 
 import com.wade.decompiler.Const;
 import com.wade.decompiler.generic.gen.ClassGenException;
 
-public final class BasicType extends Type {
-    public BasicType(final byte type) {
+public class BasicType extends Type {
+    public BasicType(byte type) {
         super(type, Const.getShortTypeName(type));
         if ((type < Const.T_BOOLEAN) || (type > Const.T_VOID)) {
             throw new ClassGenException("Invalid type: " + type);
@@ -12,7 +12,7 @@ public final class BasicType extends Type {
     }
 
     @Override
-    public boolean equals(final Object _type) {
+    public boolean equals(Object _type) {
         return (_type instanceof BasicType) ? ((BasicType) _type).getType() == this.getType() : false;
     }
 
@@ -21,8 +21,8 @@ public final class BasicType extends Type {
         return super.getType();
     }
 
-    // @since 6.0 no longer final
-    public static BasicType getType(final byte type) {
+    // @since 6.0 no longer
+    public static BasicType getType(byte type) {
         switch (type) {
             case Const.T_VOID:
                 return VOID;

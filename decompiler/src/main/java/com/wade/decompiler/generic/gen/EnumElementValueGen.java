@@ -6,14 +6,14 @@ import java.io.IOException;
 import com.wade.decompiler.classfile.ConstantUtf8;
 import com.wade.decompiler.classfile.ElementValue;
 import com.wade.decompiler.classfile.EnumElementValue;
-import com.wade.decompiler.generic.base.ObjectType;
+import com.wade.decompiler.generic.type.ObjectType;
 
 public class EnumElementValueGen extends ElementValueGen {
     // For enum types, these two indices point to the type and value
     private int typeIdx;
     private int valueIdx;
 
-    public EnumElementValueGen(final EnumElementValue value, final ConstantPoolGen cpool, final boolean copyPoolEntries) {
+    public EnumElementValueGen(EnumElementValue value, ConstantPoolGen cpool, boolean copyPoolEntries) {
         super(ENUM_CONSTANT, cpool);
         if (copyPoolEntries) {
             typeIdx = cpool.addUtf8(value.getEnumTypeString());// was
@@ -26,7 +26,7 @@ public class EnumElementValueGen extends ElementValueGen {
         }
     }
 
-    protected EnumElementValueGen(final int typeIdx, final int valueIdx, final ConstantPoolGen cpool) {
+    protected EnumElementValueGen(int typeIdx, int valueIdx, ConstantPoolGen cpool) {
         super(ElementValueGen.ENUM_CONSTANT, cpool);
         if (super.getElementValueType() != ENUM_CONSTANT) {
             throw new IllegalArgumentException("Only element values of type enum can be built with this ctor - type specified: " + super.getElementValueType());
@@ -35,14 +35,14 @@ public class EnumElementValueGen extends ElementValueGen {
         this.valueIdx = valueIdx;
     }
 
-    public EnumElementValueGen(final ObjectType t, final String value, final ConstantPoolGen cpool) {
+    public EnumElementValueGen(ObjectType t, String value, ConstantPoolGen cpool) {
         super(ElementValueGen.ENUM_CONSTANT, cpool);
         typeIdx = cpool.addUtf8(t.getSignature());// was addClass(t);
         valueIdx = cpool.addUtf8(value);// was addString(value);
     }
 
     @Override
-    public void dump(final DataOutputStream dos) throws IOException {
+    public void dump(DataOutputStream dos) throws IOException {
         dos.writeByte(super.getElementValueType()); // u1 type of value (ENUM_CONSTANT == 'e')
         dos.writeShort(typeIdx); // u2
         dos.writeShort(valueIdx); // u2
@@ -84,7 +84,7 @@ public class EnumElementValueGen extends ElementValueGen {
 
     @Override
     public String stringifyValue() {
-        final ConstantUtf8 cu8 = (ConstantUtf8) getConstantPool().getConstant(valueIdx);
+        ConstantUtf8 cu8 = (ConstantUtf8) getConstantPool().getConstant(valueIdx);
         return cu8.getBytes();
         // ConstantString cu8 =
         // (ConstantString)getConstantPool().getConstant(valueIdx);

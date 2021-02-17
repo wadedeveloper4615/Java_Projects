@@ -7,9 +7,9 @@ import com.wade.decompiler.classfile.ClassParser;
 import com.wade.decompiler.classfile.JavaClass;
 
 abstract class AbstractClassPathRepository implements Repository {
-    private final ClassPath _path;
+    private ClassPath _path;
 
-    AbstractClassPathRepository(final ClassPath classPath) {
+    AbstractClassPathRepository(ClassPath classPath) {
         _path = classPath;
     }
 
@@ -17,7 +17,7 @@ abstract class AbstractClassPathRepository implements Repository {
     public abstract void clear();
 
     @Override
-    public abstract JavaClass findClass(final String className);
+    public abstract JavaClass findClass(String className);
 
     @Override
     public ClassPath getClassPath() {
@@ -25,39 +25,39 @@ abstract class AbstractClassPathRepository implements Repository {
     }
 
     @Override
-    public JavaClass loadClass(final Class<?> clazz) throws ClassNotFoundException {
-        final String className = clazz.getName();
-        final JavaClass repositoryClass = findClass(className);
+    public JavaClass loadClass(Class<?> clazz) throws ClassNotFoundException {
+        String className = clazz.getName();
+        JavaClass repositoryClass = findClass(className);
         if (repositoryClass != null) {
             return repositoryClass;
         }
         String name = className;
-        final int i = name.lastIndexOf('.');
+        int i = name.lastIndexOf('.');
         if (i > 0) {
             name = name.substring(i + 1);
         }
         try (InputStream clsStream = clazz.getResourceAsStream(name + ".class")) {
             return loadClass(clsStream, className);
-        } catch (final IOException e) {
+        } catch (IOException e) {
             return null;
         }
     }
 
-    private JavaClass loadClass(final InputStream inputStream, final String className) throws ClassNotFoundException {
+    private JavaClass loadClass(InputStream inputStream, String className) throws ClassNotFoundException {
         try {
             if (inputStream != null) {
-                final ClassParser parser = new ClassParser(inputStream, className);
-                final JavaClass clazz = parser.parse();
+                ClassParser parser = new ClassParser(inputStream, className);
+                JavaClass clazz = parser.parse();
                 storeClass(clazz);
                 return clazz;
             }
-        } catch (final IOException e) {
+        } catch (IOException e) {
             throw new ClassNotFoundException("Exception while looking for class " + className + ": " + e, e);
         } finally {
             if (inputStream != null) {
                 try {
                     inputStream.close();
-                } catch (final IOException e) {
+                } catch (IOException e) {
                     // ignored
                 }
             }
@@ -71,20 +71,20 @@ abstract class AbstractClassPathRepository implements Repository {
             throw new IllegalArgumentException("Invalid class name " + className);
         }
         className = className.replace('/', '.'); // Just in case, canonical form
-        final JavaClass clazz = findClass(className);
+        JavaClass clazz = findClass(className);
         if (clazz != null) {
             return clazz;
         }
         try {
             return loadClass(_path.getInputStream(className), className);
-        } catch (final IOException e) {
+        } catch (IOException e) {
             throw new ClassNotFoundException("Exception while looking for class " + className + ": " + e, e);
         }
     }
 
     @Override
-    public abstract void removeClass(final JavaClass javaClass);
+    public abstract void removeClass(JavaClass javaClass);
 
     @Override
-    public abstract void storeClass(final JavaClass javaClass);
+    public abstract void storeClass(JavaClass javaClass);
 }

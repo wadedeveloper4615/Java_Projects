@@ -5,21 +5,21 @@ import java.io.IOException;
 
 import com.wade.decompiler.enums.ClassFileConstants;
 
-public final class ConstantMethodref extends ConstantCP {
-    public ConstantMethodref(final ConstantMethodref c) {
+public class ConstantMethodref extends ConstantCP {
+    public ConstantMethodref(ConstantMethodref c) {
         super(ClassFileConstants.CONSTANT_Methodref, c.getClassIndex(), c.getNameAndTypeIndex());
     }
 
-    ConstantMethodref(final DataInput input) throws IOException {
+    ConstantMethodref(DataInput input) throws IOException {
         super(ClassFileConstants.CONSTANT_Methodref, input);
     }
 
-    public ConstantMethodref(final int class_index, final int name_and_type_index) {
+    public ConstantMethodref(int class_index, int name_and_type_index) {
         super(ClassFileConstants.CONSTANT_Methodref, class_index, name_and_type_index);
     }
 
     @Override
-    public void accept(final Visitor v) {
+    public void accept(Visitor v) {
         v.visitConstantMethodref(this);
     }
 }

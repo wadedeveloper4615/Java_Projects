@@ -19,10 +19,10 @@ import java.util.List;
 import java.util.Map;
 
 public class ModularRuntimeImage implements Closeable {
-    static final String MODULES_PATH = File.separator + "modules";
-    static final String PACKAGES_PATH = File.separator + "packages";
-    private final URLClassLoader classLoader;
-    private final FileSystem fileSystem;
+    static String MODULES_PATH = File.separator + "modules";
+    static String PACKAGES_PATH = File.separator + "packages";
+    private URLClassLoader classLoader;
+    private FileSystem fileSystem;
 
     /**
      * @throws IOException
@@ -31,15 +31,15 @@ public class ModularRuntimeImage implements Closeable {
         this(null, FileSystems.getFileSystem(URI.create("jrt:/")));
     }
 
-    public ModularRuntimeImage(final String javaHome) throws IOException {
-        final Map<String, ?> emptyMap = Collections.emptyMap();
-        final Path jrePath = Paths.get(javaHome);
-        final Path jrtFsPath = jrePath.resolve("lib").resolve("jrt-fs.jar");
+    public ModularRuntimeImage(String javaHome) throws IOException {
+        Map<String, ?> emptyMap = Collections.emptyMap();
+        Path jrePath = Paths.get(javaHome);
+        Path jrtFsPath = jrePath.resolve("lib").resolve("jrt-fs.jar");
         this.classLoader = new URLClassLoader(new URL[] { jrtFsPath.toUri().toURL() });
         this.fileSystem = FileSystems.newFileSystem(URI.create("jrt:/"), emptyMap, classLoader);
     }
 
-    private ModularRuntimeImage(final URLClassLoader cl, final FileSystem fs) {
+    private ModularRuntimeImage(URLClassLoader cl, FileSystem fs) {
         this.classLoader = cl;
         this.fileSystem = fs;
     }
@@ -58,10 +58,10 @@ public class ModularRuntimeImage implements Closeable {
         return fileSystem;
     }
 
-    public List<Path> list(final Path dirPath) throws IOException {
-        final List<Path> list = new ArrayList<>();
+    public List<Path> list(Path dirPath) throws IOException {
+        List<Path> list = new ArrayList<>();
         try (DirectoryStream<Path> ds = Files.newDirectoryStream(dirPath)) {
-            final Iterator<Path> iterator = ds.iterator();
+            Iterator<Path> iterator = ds.iterator();
             while (iterator.hasNext()) {
                 list.add(iterator.next());
             }
@@ -69,7 +69,7 @@ public class ModularRuntimeImage implements Closeable {
         return list;
     }
 
-    public List<Path> list(final String dirName) throws IOException {
+    public List<Path> list(String dirName) throws IOException {
         return list(fileSystem.getPath(dirName));
     }
 

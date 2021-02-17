@@ -1,25 +1,25 @@
 package com.wade.decompiler.generic;
 
-import com.wade.decompiler.Const;
 import com.wade.decompiler.classfile.Constant;
 import com.wade.decompiler.classfile.ConstantDouble;
 import com.wade.decompiler.classfile.ConstantLong;
+import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generic.base.CPInstruction;
 import com.wade.decompiler.generic.base.PushInstruction;
-import com.wade.decompiler.generic.base.Type;
 import com.wade.decompiler.generic.gen.ConstantPoolGen;
 import com.wade.decompiler.generic.gen.Visitor;
+import com.wade.decompiler.generic.type.Type;
 
 public class LDC2_W extends CPInstruction implements PushInstruction {
     public LDC2_W() {
     }
 
-    public LDC2_W(final int index) {
-        super(Const.LDC2_W, index);
+    public LDC2_W(int index) {
+        super(InstructionOpCodes.LDC2_W, index);
     }
 
     @Override
-    public void accept(final Visitor v) {
+    public void accept(Visitor v) {
         v.visitStackProducer(this);
         v.visitPushInstruction(this);
         v.visitTypedInstruction(this);
@@ -28,7 +28,7 @@ public class LDC2_W extends CPInstruction implements PushInstruction {
     }
 
     @Override
-    public Type getType(final ConstantPoolGen cpg) {
+    public Type getType(ConstantPoolGen cpg) {
         Constant c = cpg.getConstantPool().getConstant(super.getIndex());
         switch (c.getTag()) {
             case CONSTANT_Long:
@@ -40,7 +40,7 @@ public class LDC2_W extends CPInstruction implements PushInstruction {
         }
     }
 
-    public Number getValue(final ConstantPoolGen cpg) {
+    public Number getValue(ConstantPoolGen cpg) {
         Constant c = cpg.getConstantPool().getConstant(super.getIndex());
         switch (c.getTag()) {
             case CONSTANT_Long:

@@ -1,7 +1,7 @@
 package com.wade.decompiler.generic;
 
-import com.wade.decompiler.Const;
 import com.wade.decompiler.ExceptionConst;
+import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generic.base.ExceptionThrower;
 import com.wade.decompiler.generic.base.FieldInstruction;
 import com.wade.decompiler.generic.base.StackConsumer;
@@ -13,12 +13,12 @@ public class GETFIELD extends FieldInstruction implements ExceptionThrower, Stac
     public GETFIELD() {
     }
 
-    public GETFIELD(final int index) {
-        super(Const.GETFIELD, index);
+    public GETFIELD(int index) {
+        super(InstructionOpCodes.GETFIELD, index);
     }
 
     @Override
-    public void accept(final Visitor v) {
+    public void accept(Visitor v) {
         v.visitExceptionThrower(this);
         v.visitStackConsumer(this);
         v.visitStackProducer(this);
@@ -36,7 +36,7 @@ public class GETFIELD extends FieldInstruction implements ExceptionThrower, Stac
     }
 
     @Override
-    public int produceStack(final ConstantPoolGen cpg) {
+    public int produceStack(ConstantPoolGen cpg) {
         return getFieldSize(cpg);
     }
 }

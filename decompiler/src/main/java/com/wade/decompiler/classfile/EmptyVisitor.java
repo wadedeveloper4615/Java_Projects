@@ -5,230 +5,230 @@ public class EmptyVisitor implements Visitor {
     }
 
     @Override
-    public void visitAnnotation(final Annotations obj) {
+    public void visitAnnotation(Annotations obj) {
     }
 
     @Override
-    public void visitAnnotationDefault(final AnnotationDefault obj) {
+    public void visitAnnotationDefault(AnnotationDefault obj) {
     }
 
     @Override
-    public void visitAnnotationEntry(final AnnotationEntry obj) {
+    public void visitAnnotationEntry(AnnotationEntry obj) {
     }
 
     @Override
-    public void visitBootstrapMethods(final BootstrapMethods obj) {
+    public void visitBootstrapMethods(BootstrapMethods obj) {
     }
 
     @Override
-    public void visitCode(final Code obj) {
+    public void visitCode(Code obj) {
     }
 
     @Override
-    public void visitCodeException(final CodeException obj) {
+    public void visitCodeException(CodeException obj) {
     }
 
     @Override
-    public void visitConstantClass(final ConstantClass obj) {
+    public void visitConstantClass(ConstantClass obj) {
     }
 
     @Override
-    public void visitConstantDouble(final ConstantDouble obj) {
+    public void visitConstantDouble(ConstantDouble obj) {
     }
 
     @Override
-    public void visitConstantDynamic(final ConstantDynamic obj) {
+    public void visitConstantDynamic(ConstantDynamic obj) {
     }
 
     @Override
-    public void visitConstantFieldref(final ConstantFieldref obj) {
+    public void visitConstantFieldref(ConstantFieldref obj) {
     }
 
     @Override
-    public void visitConstantFloat(final ConstantFloat obj) {
+    public void visitConstantFloat(ConstantFloat obj) {
     }
 
     @Override
-    public void visitConstantInteger(final ConstantInteger obj) {
+    public void visitConstantInteger(ConstantInteger obj) {
     }
 
     @Override
-    public void visitConstantInterfaceMethodref(final ConstantInterfaceMethodref obj) {
+    public void visitConstantInterfaceMethodref(ConstantInterfaceMethodref obj) {
     }
 
     @Override
-    public void visitConstantInvokeDynamic(final ConstantInvokeDynamic obj) {
+    public void visitConstantInvokeDynamic(ConstantInvokeDynamic obj) {
     }
 
     @Override
-    public void visitConstantLong(final ConstantLong obj) {
+    public void visitConstantLong(ConstantLong obj) {
     }
 
     @Override
-    public void visitConstantMethodHandle(final ConstantMethodHandle constantMethodHandle) {
+    public void visitConstantMethodHandle(ConstantMethodHandle constantMethodHandle) {
     }
 
     @Override
-    public void visitConstantMethodref(final ConstantMethodref obj) {
+    public void visitConstantMethodref(ConstantMethodref obj) {
     }
 
     @Override
-    public void visitConstantMethodType(final ConstantMethodType obj) {
+    public void visitConstantMethodType(ConstantMethodType obj) {
     }
 
     @Override
-    public void visitConstantModule(final ConstantModule constantModule) {
+    public void visitConstantModule(ConstantModule constantModule) {
     }
 
     @Override
-    public void visitConstantNameAndType(final ConstantNameAndType obj) {
+    public void visitConstantNameAndType(ConstantNameAndType obj) {
     }
 
     @Override
-    public void visitConstantPackage(final ConstantPackage constantPackage) {
+    public void visitConstantPackage(ConstantPackage constantPackage) {
     }
 
     @Override
-    public void visitConstantPool(final ConstantPool obj) {
+    public void visitConstantPool(ConstantPool obj) {
     }
 
     @Override
-    public void visitConstantString(final ConstantString obj) {
+    public void visitConstantString(ConstantString obj) {
     }
 
     @Override
-    public void visitConstantUtf8(final ConstantUtf8 obj) {
+    public void visitConstantUtf8(ConstantUtf8 obj) {
     }
 
     @Override
-    public void visitConstantValue(final ConstantValue obj) {
+    public void visitConstantValue(ConstantValue obj) {
     }
 
     @Override
-    public void visitDeprecated(final Deprecated obj) {
+    public void visitDeprecated(Deprecated obj) {
     }
 
     @Override
-    public void visitEnclosingMethod(final EnclosingMethod obj) {
+    public void visitEnclosingMethod(EnclosingMethod obj) {
     }
 
     @Override
-    public void visitExceptionTable(final ExceptionTable obj) {
+    public void visitExceptionTable(ExceptionTable obj) {
     }
 
     @Override
-    public void visitField(final Field obj) {
+    public void visitField(Field obj) {
     }
 
     @Override
-    public void visitInnerClass(final InnerClass obj) {
+    public void visitInnerClass(InnerClass obj) {
     }
 
     @Override
-    public void visitInnerClasses(final InnerClasses obj) {
+    public void visitInnerClasses(InnerClasses obj) {
     }
 
     @Override
-    public void visitJavaClass(final JavaClass obj) {
+    public void visitJavaClass(JavaClass obj) {
     }
 
     @Override
-    public void visitLineNumber(final LineNumber obj) {
+    public void visitLineNumber(LineNumber obj) {
     }
 
     @Override
-    public void visitLineNumberTable(final LineNumberTable obj) {
+    public void visitLineNumberTable(LineNumberTable obj) {
     }
 
     @Override
-    public void visitLocalVariable(final LocalVariable obj) {
+    public void visitLocalVariable(LocalVariable obj) {
     }
 
     @Override
-    public void visitLocalVariableTable(final LocalVariableTable obj) {
+    public void visitLocalVariableTable(LocalVariableTable obj) {
     }
 
     @Override
-    public void visitLocalVariableTypeTable(final LocalVariableTypeTable obj) {
+    public void visitLocalVariableTypeTable(LocalVariableTypeTable obj) {
     }
 
     @Override
-    public void visitMethod(final Method obj) {
+    public void visitMethod(Method obj) {
     }
 
     @Override
-    public void visitMethodParameter(final MethodParameter obj) {
+    public void visitMethodParameter(MethodParameter obj) {
     }
 
     @Override
-    public void visitMethodParameters(final MethodParameters obj) {
+    public void visitMethodParameters(MethodParameters obj) {
     }
 
     @Override
-    public void visitModule(final Module obj) {
+    public void visitModule(Module obj) {
     }
 
     @Override
-    public void visitModuleExports(final ModuleExports obj) {
+    public void visitModuleExports(ModuleExports obj) {
     }
 
     @Override
-    public void visitModuleMainClass(final ModuleMainClass obj) {
+    public void visitModuleMainClass(ModuleMainClass obj) {
     }
 
     @Override
-    public void visitModuleOpens(final ModuleOpens obj) {
+    public void visitModuleOpens(ModuleOpens obj) {
     }
 
     @Override
-    public void visitModulePackages(final ModulePackages obj) {
+    public void visitModulePackages(ModulePackages obj) {
     }
 
     @Override
-    public void visitModuleProvides(final ModuleProvides obj) {
+    public void visitModuleProvides(ModuleProvides obj) {
     }
 
     @Override
-    public void visitModuleRequires(final ModuleRequires obj) {
+    public void visitModuleRequires(ModuleRequires obj) {
     }
 
     @Override
-    public void visitNestHost(final NestHost obj) {
+    public void visitNestHost(NestHost obj) {
     }
 
     @Override
-    public void visitNestMembers(final NestMembers obj) {
+    public void visitNestMembers(NestMembers obj) {
     }
 
     @Override
-    public void visitParameterAnnotation(final ParameterAnnotations obj) {
+    public void visitParameterAnnotation(ParameterAnnotations obj) {
     }
 
     @Override
-    public void visitParameterAnnotationEntry(final ParameterAnnotationEntry parameterAnnotationEntry) {
+    public void visitParameterAnnotationEntry(ParameterAnnotationEntry parameterAnnotationEntry) {
     }
 
     @Override
-    public void visitSignature(final Signature obj) {
+    public void visitSignature(Signature obj) {
     }
 
     @Override
-    public void visitSourceFile(final SourceFile obj) {
+    public void visitSourceFile(SourceFile obj) {
     }
 
     @Override
-    public void visitStackMap(final StackMap obj) {
+    public void visitStackMap(StackMap obj) {
     }
 
     @Override
-    public void visitStackMapEntry(final StackMapEntry obj) {
+    public void visitStackMapEntry(StackMapEntry obj) {
     }
 
     @Override
-    public void visitSynthetic(final Synthetic obj) {
+    public void visitSynthetic(Synthetic obj) {
     }
 
     @Override
-    public void visitUnknown(final Unknown obj) {
+    public void visitUnknown(Unknown obj) {
     }
 }

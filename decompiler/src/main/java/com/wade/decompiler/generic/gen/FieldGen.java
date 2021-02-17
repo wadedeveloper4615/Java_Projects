@@ -15,38 +15,38 @@ import com.wade.decompiler.classfile.ConstantValue;
 import com.wade.decompiler.classfile.Field;
 import com.wade.decompiler.classfile.Utility;
 import com.wade.decompiler.enums.ClassAccessFlagsList;
-import com.wade.decompiler.generic.base.ObjectType;
-import com.wade.decompiler.generic.base.Type;
+import com.wade.decompiler.generic.type.ObjectType;
+import com.wade.decompiler.generic.type.Type;
 import com.wade.decompiler.util.BCELComparator;
 
 public class FieldGen extends FieldGenOrMethodGen {
     private static BCELComparator bcelComparator = new BCELComparator() {
         @Override
-        public boolean equals(final Object o1, final Object o2) {
-            final FieldGen THIS = (FieldGen) o1;
-            final FieldGen THAT = (FieldGen) o2;
+        public boolean equals(Object o1, Object o2) {
+            FieldGen THIS = (FieldGen) o1;
+            FieldGen THAT = (FieldGen) o2;
             return Objects.equals(THIS.getName(), THAT.getName()) && Objects.equals(THIS.getSignature(), THAT.getSignature());
         }
 
         @Override
-        public int hashCode(final Object o) {
-            final FieldGen THIS = (FieldGen) o;
+        public int hashCode(Object o) {
+            FieldGen THIS = (FieldGen) o;
             return THIS.getSignature().hashCode() ^ THIS.getName().hashCode();
         }
     };
     private Object value = null;
     private List<FieldObserver> observers;
 
-    public FieldGen(final Field field, final ConstantPoolGen cp) {
+    public FieldGen(Field field, ConstantPoolGen cp) {
         this(field.getFlags(), Type.getType(field.getSignature()), field.getName(), cp);
-        final Attribute[] attrs = field.getAttributes();
-        for (final Attribute attr : attrs) {
+        Attribute[] attrs = field.getAttributes();
+        for (Attribute attr : attrs) {
             if (attr instanceof ConstantValue) {
                 setValue(((ConstantValue) attr).getConstantValueIndex());
             } else if (attr instanceof Annotations) {
-                final Annotations runtimeAnnotations = (Annotations) attr;
-                final AnnotationEntry[] annotationEntries = runtimeAnnotations.getAnnotationEntries();
-                for (final AnnotationEntry element : annotationEntries) {
+                Annotations runtimeAnnotations = (Annotations) attr;
+                AnnotationEntry[] annotationEntries = runtimeAnnotations.getAnnotationEntries();
+                for (AnnotationEntry element : annotationEntries) {
                     addAnnotationEntry(new AnnotationEntryGen(element, cp, false));
                 }
             } else {
@@ -55,16 +55,16 @@ public class FieldGen extends FieldGenOrMethodGen {
         }
     }
 
-    public FieldGen(final int access_flags, final Type type, final String name, final ConstantPoolGen cp) {
+    public FieldGen(int access_flags, Type type, String name, ConstantPoolGen cp) {
         super(access_flags);
         setType(type);
         setName(name);
         setConstantPool(cp);
     }
 
-    private void addAnnotationsAsAttribute(final ConstantPoolGen cp) {
-        final Attribute[] attrs = AnnotationEntryGen.getAnnotationAttributes(cp, super.getAnnotationEntries());
-        for (final Attribute attr : attrs) {
+    private void addAnnotationsAsAttribute(ConstantPoolGen cp) {
+        Attribute[] attrs = AnnotationEntryGen.getAnnotationAttributes(cp, super.getAnnotationEntries());
+        for (Attribute attr : attrs) {
             addAttribute(attr);
         }
     }
@@ -90,7 +90,7 @@ public class FieldGen extends FieldGenOrMethodGen {
         }
     }
 
-    public void addObserver(final FieldObserver o) {
+    public void addObserver(FieldObserver o) {
         if (observers == null) {
             observers = new ArrayList<>();
         }
@@ -101,37 +101,37 @@ public class FieldGen extends FieldGenOrMethodGen {
         value = null;
     }
 
-    private void checkType(final Type atype) {
-        final Type superType = super.getType();
+    private void checkType(Type atype) {
+        Type superType = super.getType();
         if (superType == null) {
             throw new ClassGenException("You haven't defined the type of the field yet");
         }
         if (!isFinal()) {
-            throw new ClassGenException("Only final fields may have an initial value!");
+            throw new ClassGenException("Only  fields may have an initial value!");
         }
         if (!superType.equals(atype)) {
             throw new ClassGenException("Types are not compatible: " + superType + " vs. " + atype);
         }
     }
 
-    public FieldGen copy(final ConstantPoolGen cp) {
-        final FieldGen fg = (FieldGen) clone();
+    public FieldGen copy(ConstantPoolGen cp) {
+        FieldGen fg = (FieldGen) clone();
         fg.setConstantPool(cp);
         return fg;
     }
 
     @Override
-    public boolean equals(final Object obj) {
+    public boolean equals(Object obj) {
         return bcelComparator.equals(this, obj);
     }
 
     public Field getField() {
-        final String signature = getSignature();
-        final int name_index = super.getConstantPool().addUtf8(super.getName());
-        final int signature_index = super.getConstantPool().addUtf8(signature);
+        String signature = getSignature();
+        int name_index = super.getConstantPool().addUtf8(super.getName());
+        int signature_index = super.getConstantPool().addUtf8(signature);
         if (value != null) {
             checkType(super.getType());
-            final int index = addConstant();
+            int index = addConstant();
             addAttribute(new ConstantValue(super.getConstantPool().addUtf8("ConstantValue"), 2, index, super.getConstantPool().getConstantPool())); // sic
         }
         addAnnotationsAsAttribute(super.getConstantPool());
@@ -155,83 +155,83 @@ public class FieldGen extends FieldGenOrMethodGen {
         return bcelComparator.hashCode(this);
     }
 
-    public void removeObserver(final FieldObserver o) {
+    public void removeObserver(FieldObserver o) {
         if (observers != null) {
             observers.remove(o);
         }
     }
 
-    public void setInitValue(final boolean b) {
+    public void setInitValue(boolean b) {
         checkType(Type.BOOLEAN);
         if (b) {
             value = Integer.valueOf(1);
         }
     }
 
-    public void setInitValue(final byte b) {
+    public void setInitValue(byte b) {
         checkType(Type.BYTE);
         if (b != 0) {
             value = Integer.valueOf(b);
         }
     }
 
-    public void setInitValue(final char c) {
+    public void setInitValue(char c) {
         checkType(Type.CHAR);
         if (c != 0) {
             value = Integer.valueOf(c);
         }
     }
 
-    public void setInitValue(final double d) {
+    public void setInitValue(double d) {
         checkType(Type.DOUBLE);
         if (d != 0.0) {
             value = Double.valueOf(d);
         }
     }
 
-    public void setInitValue(final float f) {
+    public void setInitValue(float f) {
         checkType(Type.FLOAT);
         if (f != 0.0) {
             value = Float.valueOf(f);
         }
     }
 
-    public void setInitValue(final int i) {
+    public void setInitValue(int i) {
         checkType(Type.INT);
         if (i != 0) {
             value = Integer.valueOf(i);
         }
     }
 
-    public void setInitValue(final long l) {
+    public void setInitValue(long l) {
         checkType(Type.LONG);
         if (l != 0L) {
             value = Long.valueOf(l);
         }
     }
 
-    public void setInitValue(final short s) {
+    public void setInitValue(short s) {
         checkType(Type.SHORT);
         if (s != 0) {
             value = Integer.valueOf(s);
         }
     }
 
-    public void setInitValue(final String str) {
+    public void setInitValue(String str) {
         checkType(ObjectType.getInstance("java.lang.String"));
         if (str != null) {
             value = str;
         }
     }
 
-    private void setValue(final int index) {
-        final ConstantPool cp = super.getConstantPool().getConstantPool();
-        final Constant c = cp.getConstant(index);
+    private void setValue(int index) {
+        ConstantPool cp = super.getConstantPool().getConstantPool();
+        Constant c = cp.getConstant(index);
         value = ((ConstantObject) c).getConstantValue(cp);
     }
 
     @Override
-    public final String toString() {
+    public String toString() {
         String name;
         String signature;
         String access; // Short cuts to constant pool
@@ -239,9 +239,9 @@ public class FieldGen extends FieldGenOrMethodGen {
         access = access.isEmpty() ? "" : (access + " ");
         signature = super.getType().toString();
         name = getName();
-        final StringBuilder buf = new StringBuilder(32); // CHECKSTYLE IGNORE MagicNumber
+        StringBuilder buf = new StringBuilder(32); // CHECKSTYLE IGNORE MagicNumber
         buf.append(access).append(signature).append(" ").append(name);
-        final String value = getInitValue();
+        String value = getInitValue();
         if (value != null) {
             buf.append(" = ").append(value);
         }
@@ -250,7 +250,7 @@ public class FieldGen extends FieldGenOrMethodGen {
 
     public void update() {
         if (observers != null) {
-            for (final FieldObserver observer : observers) {
+            for (FieldObserver observer : observers) {
                 observer.notify(this);
             }
         }
@@ -260,7 +260,7 @@ public class FieldGen extends FieldGenOrMethodGen {
         return bcelComparator;
     }
 
-    public static void setComparator(final BCELComparator comparator) {
+    public static void setComparator(BCELComparator comparator) {
         bcelComparator = comparator;
     }
 }

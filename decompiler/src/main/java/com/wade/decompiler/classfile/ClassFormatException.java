@@ -7,11 +7,11 @@ public class ClassFormatException extends RuntimeException {
         super();
     }
 
-    public ClassFormatException(final String s) {
+    public ClassFormatException(String s) {
         super(s);
     }
 
-    public ClassFormatException(final String message, final Throwable cause) {
+    public ClassFormatException(String message, Throwable cause) {
         super(message, cause);
     }
 }

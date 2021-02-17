@@ -1,7 +1,7 @@
 package com.wade.decompiler.generic;
 
-import com.wade.decompiler.Const;
 import com.wade.decompiler.ExceptionConst;
+import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generic.base.ExceptionThrower;
 import com.wade.decompiler.generic.base.FieldInstruction;
 import com.wade.decompiler.generic.base.PopInstruction;
@@ -12,12 +12,12 @@ public class PUTSTATIC extends FieldInstruction implements ExceptionThrower, Pop
     public PUTSTATIC() {
     }
 
-    public PUTSTATIC(final int index) {
-        super(Const.PUTSTATIC, index);
+    public PUTSTATIC(int index) {
+        super(InstructionOpCodes.PUTSTATIC, index);
     }
 
     @Override
-    public void accept(final Visitor v) {
+    public void accept(Visitor v) {
         v.visitExceptionThrower(this);
         v.visitStackConsumer(this);
         v.visitPopInstruction(this);
@@ -30,7 +30,7 @@ public class PUTSTATIC extends FieldInstruction implements ExceptionThrower, Pop
     }
 
     @Override
-    public int consumeStack(final ConstantPoolGen cpg) {
+    public int consumeStack(ConstantPoolGen cpg) {
         return getFieldSize(cpg);
     }
 

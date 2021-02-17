@@ -7,9 +7,9 @@ import java.util.Map;
 import com.wade.decompiler.classfile.JavaClass;
 
 public class MemorySensitiveClassPathRepository extends AbstractClassPathRepository {
-    private final Map<String, SoftReference<JavaClass>> loadedClasses = new HashMap<>(); // CLASSNAME X JAVACLASS
+    private Map<String, SoftReference<JavaClass>> loadedClasses = new HashMap<>(); // CLASSNAME X JAVACLASS
 
-    public MemorySensitiveClassPathRepository(final ClassPath path) {
+    public MemorySensitiveClassPathRepository(ClassPath path) {
         super(path);
     }
 
@@ -19,8 +19,8 @@ public class MemorySensitiveClassPathRepository extends AbstractClassPathReposit
     }
 
     @Override
-    public JavaClass findClass(final String className) {
-        final SoftReference<JavaClass> ref = loadedClasses.get(className);
+    public JavaClass findClass(String className) {
+        SoftReference<JavaClass> ref = loadedClasses.get(className);
         if (ref == null) {
             return null;
         }
@@ -28,12 +28,12 @@ public class MemorySensitiveClassPathRepository extends AbstractClassPathReposit
     }
 
     @Override
-    public void removeClass(final JavaClass clazz) {
+    public void removeClass(JavaClass clazz) {
         loadedClasses.remove(clazz.getClassName());
     }
 
     @Override
-    public void storeClass(final JavaClass clazz) {
+    public void storeClass(JavaClass clazz) {
         // Not calling super.storeClass because this subclass maintains the mapping.
         loadedClasses.put(clazz.getClassName(), new SoftReference<>(clazz));
         clazz.setRepository(this);

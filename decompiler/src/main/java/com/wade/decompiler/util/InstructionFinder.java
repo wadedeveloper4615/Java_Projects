@@ -15,13 +15,10 @@ import com.wade.decompiler.generic.base.InstructionList;
 import com.wade.decompiler.generic.gen.ClassGenException;
 
 public class InstructionFinder {
-    public interface CodeConstraint {
-        boolean checkCode(InstructionHandle[] match);
-    }
+    private static int OFFSET = 32767; // char + OFFSET is outside of LATIN-1
 
-    private static final int OFFSET = 32767; // char + OFFSET is outside of LATIN-1
-    private static final int NO_OPCODES = 256; // Potential number, some are not used
-    private static final Map<String, String> map = new HashMap<>();
+    private static int NO_OPCODES = 256; // Potential number, some are not used
+    private static Map<String, String> map = new HashMap<>();
     // Initialize pattern map
     static {
         map.put("arithmeticinstruction", "(irem|lrem|iand|ior|ineg|isub|lneg|fneg|fmul|ldiv|fadd|lxor|frem|idiv|land|ixor|ishr|fsub|lshl|fdiv|iadd|lor|dmul|lsub|ishl|imul|lmul|lushr|dneg|iushr|lshr|ddiv|drem|dadd|ladd|dsub)");
@@ -76,16 +73,16 @@ public class InstructionFinder {
         map.put("fstore", precompile(Const.FSTORE_0, Const.FSTORE_3, Const.FSTORE));
         map.put("astore", precompile(Const.ASTORE_0, Const.ASTORE_3, Const.ASTORE));
         // Compile strings
-        for (final Map.Entry<String, String> entry : map.entrySet()) {
-            final String key = entry.getKey();
-            final String value = entry.getValue();
-            final char ch = value.charAt(1); // Omit already precompiled patterns
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+            char ch = value.charAt(1); // Omit already precompiled patterns
             if (ch < OFFSET) {
                 map.put(key, compilePattern(value)); // precompile all patterns
             }
         }
         // Add instruction alias to match anything
-        final StringBuilder buf = new StringBuilder("(");
+        StringBuilder buf = new StringBuilder("(");
         for (short i = 0; i < NO_OPCODES; i++) {
             if (Const.getNoOfOperands(i) != Const.UNDEFINED) { // Not an invalid opcode
                 buf.append(makeChar(i));
@@ -97,51 +94,56 @@ public class InstructionFinder {
         buf.append(')');
         map.put("instruction", buf.toString());
     }
-    private final InstructionList il;
+
+    public interface CodeConstraint {
+        boolean checkCode(InstructionHandle[] match);
+    }
+
+    private InstructionList il;
     private String ilString; // instruction list as string
     private InstructionHandle[] handles; // map instruction
     // list to array
 
-    public InstructionFinder(final InstructionList il) {
+    public InstructionFinder(InstructionList il) {
         this.il = il;
         reread();
     }
 
-    public final InstructionList getInstructionList() {
+    public InstructionList getInstructionList() {
         return il;
     }
 
-    private InstructionHandle[] getMatch(final int matched_from, final int match_length) {
-        final InstructionHandle[] match = new InstructionHandle[match_length];
+    private InstructionHandle[] getMatch(int matched_from, int match_length) {
+        InstructionHandle[] match = new InstructionHandle[match_length];
         System.arraycopy(handles, matched_from, match, 0, match_length);
         return match;
     }
 
-    public final void reread() {
-        final int size = il.getLength();
-        final char[] buf = new char[size]; // Create a string with length equal to il length
+    public void reread() {
+        int size = il.getLength();
+        char[] buf = new char[size]; // Create a string with length equal to il length
         handles = il.getInstructionHandles();
         // Map opcodes to characters
         for (int i = 0; i < size; i++) {
-            buf[i] = makeChar(handles[i].getInstruction().getOpcode());
+            buf[i] = makeChar((short) handles[i].getInstruction().getOpcode().getOpcode());
         }
         ilString = new String(buf);
     }
 
-    public final Iterator<InstructionHandle[]> search(final String pattern) {
+    public Iterator<InstructionHandle[]> search(String pattern) {
         return search(pattern, il.getStart(), null);
     }
 
-    public final Iterator<InstructionHandle[]> search(final String pattern, final CodeConstraint constraint) {
+    public Iterator<InstructionHandle[]> search(String pattern, CodeConstraint constraint) {
         return search(pattern, il.getStart(), constraint);
     }
 
-    public final Iterator<InstructionHandle[]> search(final String pattern, final InstructionHandle from) {
+    public Iterator<InstructionHandle[]> search(String pattern, InstructionHandle from) {
         return search(pattern, from, null);
     }
 
-    public final Iterator<InstructionHandle[]> search(final String pattern, final InstructionHandle from, final CodeConstraint constraint) {
-        final String search = compilePattern(pattern);
+    public Iterator<InstructionHandle[]> search(String pattern, InstructionHandle from, CodeConstraint constraint) {
+        String search = compilePattern(pattern);
         int start = -1;
         for (int i = 0; i < handles.length; i++) {
             if (handles[i] == from) {
@@ -152,14 +154,14 @@ public class InstructionFinder {
         if (start == -1) {
             throw new ClassGenException("Instruction handle " + from + " not found in instruction list.");
         }
-        final Pattern regex = Pattern.compile(search);
-        final List<InstructionHandle[]> matches = new ArrayList<>();
-        final Matcher matcher = regex.matcher(ilString);
+        Pattern regex = Pattern.compile(search);
+        List<InstructionHandle[]> matches = new ArrayList<>();
+        Matcher matcher = regex.matcher(ilString);
         while (start < ilString.length() && matcher.find(start)) {
-            final int startExpr = matcher.start();
-            final int endExpr = matcher.end();
-            final int lenExpr = endExpr - startExpr;
-            final InstructionHandle[] match = getMatch(startExpr, lenExpr);
+            int startExpr = matcher.start();
+            int endExpr = matcher.end();
+            int lenExpr = endExpr - startExpr;
+            InstructionHandle[] match = getMatch(startExpr, lenExpr);
             if ((constraint == null) || constraint.checkCode(match)) {
                 matches.add(match);
             }
@@ -168,16 +170,16 @@ public class InstructionFinder {
         return matches.iterator();
     }
 
-    private static String compilePattern(final String pattern) {
+    private static String compilePattern(String pattern) {
         // Bug: BCEL-77 - Instructions are assumed to be english, to avoid odd Locale
         // issues
-        final String lower = pattern.toLowerCase(Locale.ENGLISH);
-        final StringBuilder buf = new StringBuilder();
-        final int size = pattern.length();
+        String lower = pattern.toLowerCase(Locale.ENGLISH);
+        StringBuilder buf = new StringBuilder();
+        int size = pattern.length();
         for (int i = 0; i < size; i++) {
             char ch = lower.charAt(i);
             if (Character.isLetterOrDigit(ch)) {
-                final StringBuilder name = new StringBuilder();
+                StringBuilder name = new StringBuilder();
                 while ((Character.isLetterOrDigit(ch) || ch == '_') && i < size) {
                     name.append(ch);
                     if (++i < size) {
@@ -195,12 +197,12 @@ public class InstructionFinder {
         return buf.toString();
     }
 
-    private static char makeChar(final short opcode) {
+    private static char makeChar(short opcode) {
         return (char) (opcode + OFFSET);
     }
 
-    private static String mapName(final String pattern) {
-        final String result = map.get(pattern);
+    private static String mapName(String pattern) {
+        String result = map.get(pattern);
         if (result != null) {
             return result;
         }
@@ -212,8 +214,8 @@ public class InstructionFinder {
         throw new IllegalArgumentException("Instruction unknown: " + pattern);
     }
 
-    private static String precompile(final short from, final short to, final short extra) {
-        final StringBuilder buf = new StringBuilder("(");
+    private static String precompile(short from, short to, short extra) {
+        StringBuilder buf = new StringBuilder("(");
         for (short i = from; i <= to; i++) {
             buf.append(makeChar(i));
             buf.append('|');
@@ -222,10 +224,10 @@ public class InstructionFinder {
         buf.append(")");
         return buf.toString();
     }
-//    private static final String pattern2string( String pattern ) {
+//    private static  String pattern2string( String pattern ) {
 //        return pattern2string(pattern, true);
 //    }
-//    private static final String pattern2string( String pattern, boolean make_string ) {
+//    private static  String pattern2string( String pattern, boolean make_string ) {
 //        StringBuffer buf = new StringBuffer();
 //        for (int i = 0; i < pattern.length(); i++) {
 //            char ch = pattern.charAt(i);

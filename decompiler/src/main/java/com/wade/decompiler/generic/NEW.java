@@ -1,26 +1,26 @@
 package com.wade.decompiler.generic;
 
-import com.wade.decompiler.Const;
 import com.wade.decompiler.ExceptionConst;
+import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generic.base.AllocationInstruction;
 import com.wade.decompiler.generic.base.CPInstruction;
 import com.wade.decompiler.generic.base.ExceptionThrower;
 import com.wade.decompiler.generic.base.LoadClass;
-import com.wade.decompiler.generic.base.ObjectType;
 import com.wade.decompiler.generic.base.StackProducer;
 import com.wade.decompiler.generic.gen.ConstantPoolGen;
 import com.wade.decompiler.generic.gen.Visitor;
+import com.wade.decompiler.generic.type.ObjectType;
 
 public class NEW extends CPInstruction implements LoadClass, AllocationInstruction, ExceptionThrower, StackProducer {
     public NEW() {
     }
 
-    public NEW(final int index) {
-        super(Const.NEW, index);
+    public NEW(int index) {
+        super(InstructionOpCodes.NEW, index);
     }
 
     @Override
-    public void accept(final Visitor v) {
+    public void accept(Visitor v) {
         v.visitLoadClass(this);
         v.visitAllocationInstruction(this);
         v.visitExceptionThrower(this);
@@ -36,7 +36,7 @@ public class NEW extends CPInstruction implements LoadClass, AllocationInstructi
     }
 
     @Override
-    public ObjectType getLoadClassType(final ConstantPoolGen cpg) {
+    public ObjectType getLoadClassType(ConstantPoolGen cpg) {
         return (ObjectType) getType(cpg);
     }
 }

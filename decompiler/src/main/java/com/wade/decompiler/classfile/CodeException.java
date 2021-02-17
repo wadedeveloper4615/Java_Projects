@@ -7,21 +7,21 @@ import java.io.IOException;
 import com.wade.decompiler.Constants;
 import com.wade.decompiler.enums.ClassFileConstants;
 
-public final class CodeException implements Cloneable, Node, Constants {
+public class CodeException implements Cloneable, Node, Constants {
     private int startPc; // Range in the code the exception handler is
     private int endPc; // active. startPc is inclusive, endPc exclusive
     private int handlerPc;
     private int catchType;
 
-    public CodeException(final CodeException c) {
+    public CodeException(CodeException c) {
         this(c.getStartPC(), c.getEndPC(), c.getHandlerPC(), c.getCatchType());
     }
 
-    CodeException(final DataInput file) throws IOException {
+    CodeException(DataInput file) throws IOException {
         this(file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort());
     }
 
-    public CodeException(final int startPc, final int endPc, final int handlerPc, final int catchType) {
+    public CodeException(int startPc, int endPc, int handlerPc, int catchType) {
         this.startPc = startPc;
         this.endPc = endPc;
         this.handlerPc = handlerPc;
@@ -29,20 +29,20 @@ public final class CodeException implements Cloneable, Node, Constants {
     }
 
     @Override
-    public void accept(final Visitor v) {
+    public void accept(Visitor v) {
         v.visitCodeException(this);
     }
 
     public CodeException copy() {
         try {
             return (CodeException) clone();
-        } catch (final CloneNotSupportedException e) {
+        } catch (CloneNotSupportedException e) {
             // TODO should this throw?
         }
         return null;
     }
 
-    public void dump(final DataOutputStream file) throws IOException {
+    public void dump(DataOutputStream file) throws IOException {
         file.writeShort(startPc);
         file.writeShort(endPc);
         file.writeShort(handlerPc);
@@ -65,19 +65,19 @@ public final class CodeException implements Cloneable, Node, Constants {
         return startPc;
     }
 
-    public void setCatchType(final int catchType) {
+    public void setCatchType(int catchType) {
         this.catchType = catchType;
     }
 
-    public void setEndPC(final int endPc) {
+    public void setEndPC(int endPc) {
         this.endPc = endPc;
     }
 
-    public void setHandlerPC(final int handlerPc) { // TODO unused
+    public void setHandlerPC(int handlerPc) { // TODO unused
         this.handlerPc = handlerPc;
     }
 
-    public void setStartPC(final int startPc) { // TODO unused
+    public void setStartPC(int startPc) { // TODO unused
         this.startPc = startPc;
     }
 
@@ -86,11 +86,11 @@ public final class CodeException implements Cloneable, Node, Constants {
         return "CodeException(startPc = " + startPc + ", endPc = " + endPc + ", handlerPc = " + handlerPc + ", catchType = " + catchType + ")";
     }
 
-    public String toString(final ConstantPool cp) {
+    public String toString(ConstantPool cp) {
         return toString(cp, true);
     }
 
-    public String toString(final ConstantPool cp, final boolean verbose) {
+    public String toString(ConstantPool cp, boolean verbose) {
         String str;
         if (catchType == 0) {
             str = "<Any exception>(0)";

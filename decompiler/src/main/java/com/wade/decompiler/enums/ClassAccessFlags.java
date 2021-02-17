@@ -32,7 +32,7 @@ public enum ClassAccessFlags {
     MAX_ACC_FLAG_I(0x8000, 17),
     ACC_DUMMY(0, 18);
   //@formatter:on
-    private String[] ACCESS_NAMES = { "public", "private", "protected", "static", "final", "synchronized", "volatile", "transient", "native", "interface", "abstract", "strictfp", "synthetic", "annotation", "enum", "module", "max flag", "max_flag 2", "DUMMY" };
+    private String[] ACCESS_NAMES = { "public", "private", "protected", "static", "", "synchronized", "volatile", "transient", "native", "interface", "abstract", "strictfp", "synthetic", "annotation", "enum", "module", "max flag", "max_flag 2", "DUMMY" };
     private int flag;
     private String name;
 
@@ -49,8 +49,16 @@ public enum ClassAccessFlags {
         return name;
     }
 
+    public boolean is() {
+        return (flag & ACC_FINAL.getFlag()) != 0;
+    }
+
     public boolean isAbstract() {
         return (flag & ACC_ABSTRACT.getFlag()) != 0;
+    }
+
+    public boolean isAndAbstract() {
+        return this.is() && this.isAbstract();
     }
 
     public boolean isAnnotation() {
@@ -59,14 +67,6 @@ public enum ClassAccessFlags {
 
     public boolean isEnum() {
         return (flag & ACC_ENUM.getFlag()) != 0;
-    }
-
-    public boolean isFinal() {
-        return (flag & ACC_FINAL.getFlag()) != 0;
-    }
-
-    public boolean isFinalAndAbstract() {
-        return this.isFinal() && this.isAbstract();
     }
 
     public boolean isInterface() {

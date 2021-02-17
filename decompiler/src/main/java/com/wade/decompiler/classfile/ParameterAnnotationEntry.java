@@ -8,10 +8,10 @@ import java.util.Collections;
 import java.util.List;
 
 public class ParameterAnnotationEntry implements Node {
-    private final AnnotationEntry[] annotationTable;
+    private AnnotationEntry[] annotationTable;
 
-    ParameterAnnotationEntry(final DataInput input, final ConstantPool constant_pool) throws IOException {
-        final int annotation_table_length = input.readUnsignedShort();
+    ParameterAnnotationEntry(DataInput input, ConstantPool constant_pool) throws IOException {
+        int annotation_table_length = input.readUnsignedShort();
         annotationTable = new AnnotationEntry[annotation_table_length];
         for (int i = 0; i < annotation_table_length; i++) {
             // TODO isRuntimeVisible
@@ -20,13 +20,13 @@ public class ParameterAnnotationEntry implements Node {
     }
 
     @Override
-    public void accept(final Visitor v) {
+    public void accept(Visitor v) {
         v.visitParameterAnnotationEntry(this);
     }
 
-    public void dump(final DataOutputStream dos) throws IOException {
+    public void dump(DataOutputStream dos) throws IOException {
         dos.writeShort(annotationTable.length);
-        for (final AnnotationEntry entry : annotationTable) {
+        for (AnnotationEntry entry : annotationTable) {
             entry.dump(dos);
         }
     }
@@ -35,12 +35,12 @@ public class ParameterAnnotationEntry implements Node {
         return annotationTable;
     }
 
-    public static ParameterAnnotationEntry[] createParameterAnnotationEntries(final Attribute[] attrs) {
+    public static ParameterAnnotationEntry[] createParameterAnnotationEntries(Attribute[] attrs) {
         // Find attributes that contain parameter annotation data
-        final List<ParameterAnnotationEntry> accumulatedAnnotations = new ArrayList<>(attrs.length);
-        for (final Attribute attribute : attrs) {
+        List<ParameterAnnotationEntry> accumulatedAnnotations = new ArrayList<>(attrs.length);
+        for (Attribute attribute : attrs) {
             if (attribute instanceof ParameterAnnotations) {
-                final ParameterAnnotations runtimeAnnotations = (ParameterAnnotations) attribute;
+                ParameterAnnotations runtimeAnnotations = (ParameterAnnotations) attribute;
                 Collections.addAll(accumulatedAnnotations, runtimeAnnotations.getParameterAnnotationEntries());
             }
         }

@@ -6,12 +6,12 @@ import java.io.IOException;
 
 import com.wade.decompiler.enums.ClassFileConstants;
 
-public final class ModuleProvides implements Cloneable, Node {
-    private final int providesIndex; // points to CONSTANT_Class_info
-    private final int providesWithCount;
-    private final int[] providesWithIndex; // points to CONSTANT_Class_info
+public class ModuleProvides implements Cloneable, Node {
+    private int providesIndex; // points to CONSTANT_Class_info
+    private int providesWithCount;
+    private int[] providesWithIndex; // points to CONSTANT_Class_info
 
-    ModuleProvides(final DataInput file) throws IOException {
+    ModuleProvides(DataInput file) throws IOException {
         providesIndex = file.readUnsignedShort();
         providesWithCount = file.readUnsignedShort();
         providesWithIndex = new int[providesWithCount];
@@ -21,7 +21,7 @@ public final class ModuleProvides implements Cloneable, Node {
     }
 
     @Override
-    public void accept(final Visitor v) {
+    public void accept(Visitor v) {
         v.visitModuleProvides(this);
     }
     // TODO add more getters and setters?
@@ -29,16 +29,16 @@ public final class ModuleProvides implements Cloneable, Node {
     public ModuleProvides copy() {
         try {
             return (ModuleProvides) clone();
-        } catch (final CloneNotSupportedException e) {
+        } catch (CloneNotSupportedException e) {
             // TODO should this throw?
         }
         return null;
     }
 
-    public void dump(final DataOutputStream file) throws IOException {
+    public void dump(DataOutputStream file) throws IOException {
         file.writeShort(providesIndex);
         file.writeShort(providesWithCount);
-        for (final int entry : providesWithIndex) {
+        for (int entry : providesWithIndex) {
             file.writeShort(entry);
         }
     }
@@ -48,13 +48,13 @@ public final class ModuleProvides implements Cloneable, Node {
         return "provides(" + providesIndex + ", " + providesWithCount + ", ...)";
     }
 
-    public String toString(final ConstantPool constant_pool) {
-        final StringBuilder buf = new StringBuilder();
-        final String interface_name = constant_pool.constantToString(providesIndex, ClassFileConstants.CONSTANT_Class);
+    public String toString(ConstantPool constant_pool) {
+        StringBuilder buf = new StringBuilder();
+        String interface_name = constant_pool.constantToString(providesIndex, ClassFileConstants.CONSTANT_Class);
         buf.append(Utility.compactClassName(interface_name, false));
         buf.append(", with(").append(providesWithCount).append("):\n");
-        for (final int index : providesWithIndex) {
-            final String class_name = constant_pool.getConstantString(index, ClassFileConstants.CONSTANT_Class);
+        for (int index : providesWithIndex) {
+            String class_name = constant_pool.getConstantString(index, ClassFileConstants.CONSTANT_Class);
             buf.append("      ").append(Utility.compactClassName(class_name, false)).append("\n");
         }
         return buf.substring(0, buf.length() - 1); // remove the last newline

@@ -1,11 +1,16 @@
 package com.wade.decompiler.generic.gen;
 
-import com.wade.decompiler.classfile.*;
-
 import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.lang.Deprecated;
+
+import com.wade.decompiler.classfile.AnnotationElementValue;
+import com.wade.decompiler.classfile.AnnotationEntry;
+import com.wade.decompiler.classfile.ArrayElementValue;
+import com.wade.decompiler.classfile.ClassElementValue;
+import com.wade.decompiler.classfile.ElementValue;
+import com.wade.decompiler.classfile.EnumElementValue;
+import com.wade.decompiler.classfile.SimpleElementValue;
 
 public abstract class ElementValueGen {
     public static final int STRING = 's';
@@ -26,7 +31,7 @@ public abstract class ElementValueGen {
     @Deprecated
     protected ConstantPoolGen cpGen;
 
-    protected ElementValueGen(final int type, final ConstantPoolGen cpGen) {
+    protected ElementValueGen(int type, ConstantPoolGen cpGen) {
         this.type = type;
         this.cpGen = cpGen;
     }
@@ -45,7 +50,7 @@ public abstract class ElementValueGen {
 
     public abstract String stringifyValue();
 
-    public static ElementValueGen copy(final ElementValue value, final ConstantPoolGen cpool, final boolean copyPoolEntries) {
+    public static ElementValueGen copy(ElementValue value, ConstantPoolGen cpool, boolean copyPoolEntries) {
         switch (value.getElementValueType()) {
             case 'B': // byte
             case 'C': // char
@@ -70,8 +75,8 @@ public abstract class ElementValueGen {
         }
     }
 
-    public static ElementValueGen readElementValue(final DataInput dis, final ConstantPoolGen cpGen) throws IOException {
-        final int type = dis.readUnsignedByte();
+    public static ElementValueGen readElementValue(DataInput dis, ConstantPoolGen cpGen) throws IOException {
+        int type = dis.readUnsignedByte();
         switch (type) {
             case 'B': // byte
                 return new SimpleElementValueGen(PRIMITIVE_BYTE, dis.readUnsignedShort(), cpGen);
@@ -100,8 +105,8 @@ public abstract class ElementValueGen {
                 // FIXME
                 return new AnnotationElementValueGen(ANNOTATION, new AnnotationEntryGen(AnnotationEntry.read(dis, cpGen.getConstantPool(), true), cpGen, false), cpGen);
             case '[': // Array
-                final int numArrayVals = dis.readUnsignedShort();
-                final ElementValue[] evalues = new ElementValue[numArrayVals];
+                int numArrayVals = dis.readUnsignedShort();
+                ElementValue[] evalues = new ElementValue[numArrayVals];
                 for (int j = 0; j < numArrayVals; j++) {
                     evalues[j] = ElementValue.readElementValue(dis, cpGen.getConstantPool());
                 }

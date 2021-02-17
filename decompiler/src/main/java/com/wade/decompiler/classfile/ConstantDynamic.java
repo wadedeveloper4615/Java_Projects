@@ -5,21 +5,21 @@ import java.io.IOException;
 
 import com.wade.decompiler.enums.ClassFileConstants;
 
-public final class ConstantDynamic extends ConstantCP {
-    public ConstantDynamic(final ConstantDynamic c) {
+public class ConstantDynamic extends ConstantCP {
+    public ConstantDynamic(ConstantDynamic c) {
         this(c.getBootstrapMethodAttrIndex(), c.getNameAndTypeIndex());
     }
 
-    ConstantDynamic(final DataInput file) throws IOException {
+    ConstantDynamic(DataInput file) throws IOException {
         this(file.readShort(), file.readShort());
     }
 
-    public ConstantDynamic(final int bootstrap_method_attr_index, final int name_and_type_index) {
+    public ConstantDynamic(int bootstrap_method_attr_index, int name_and_type_index) {
         super(ClassFileConstants.CONSTANT_Dynamic, bootstrap_method_attr_index, name_and_type_index);
     }
 
     @Override
-    public void accept(final Visitor v) {
+    public void accept(Visitor v) {
         v.visitConstantDynamic(this);
     }
 

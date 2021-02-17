@@ -6,29 +6,29 @@ import java.io.IOException;
 
 import com.wade.decompiler.enums.ClassFileConstants;
 
-public final class ConstantDouble extends Constant implements ConstantObject {
+public class ConstantDouble extends Constant implements ConstantObject {
     private double bytes;
 
-    public ConstantDouble(final ConstantDouble c) {
+    public ConstantDouble(ConstantDouble c) {
         this(c.getBytes());
     }
 
-    ConstantDouble(final DataInput file) throws IOException {
+    ConstantDouble(DataInput file) throws IOException {
         this(file.readDouble());
     }
 
-    public ConstantDouble(final double bytes) {
+    public ConstantDouble(double bytes) {
         super(ClassFileConstants.CONSTANT_Double);
         this.bytes = bytes;
     }
 
     @Override
-    public void accept(final Visitor v) {
+    public void accept(Visitor v) {
         v.visitConstantDouble(this);
     }
 
     @Override
-    public void dump(final DataOutputStream file) throws IOException {
+    public void dump(DataOutputStream file) throws IOException {
         file.writeByte(super.getTag().getTag());
         file.writeDouble(bytes);
     }
@@ -38,11 +38,11 @@ public final class ConstantDouble extends Constant implements ConstantObject {
     }
 
     @Override
-    public Object getConstantValue(final ConstantPool cp) {
+    public Object getConstantValue(ConstantPool cp) {
         return Double.valueOf(bytes);
     }
 
-    public void setBytes(final double bytes) {
+    public void setBytes(double bytes) {
         this.bytes = bytes;
     }
 

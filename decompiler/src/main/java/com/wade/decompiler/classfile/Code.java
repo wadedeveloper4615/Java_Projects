@@ -5,55 +5,70 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.enums.ClassFileAttributes;
+import com.wade.decompiler.generic.base.Instruction;
+import com.wade.decompiler.generic.base.InstructionList;
 
-public  class Code extends Attribute {
+@SuppressWarnings("unused")
+public class Code extends Attribute {
     private int maxStack;
     private int maxLocals;
-    private byte[] code;
+    private byte[] byteCode;
     private CodeException[] exceptionTable;
     private Attribute[] attributes;
+    private LocalVariableTable localVariableTable;
+    private LineNumberTable lineNumberTable;
+    private Instruction[] instructions;
 
-    public Code( Code c) {
+    public Code(Code c) {
         this(c.getNameIndex(), c.getLength(), c.getMaxStack(), c.getMaxLocals(), c.getCode(), c.getExceptionTable(), c.getAttributes(), c.getConstantPool());
     }
 
-    public Code( int name_index,  int length,  DataInput file,  ConstantPool constant_pool) throws IOException {
-        this(name_index, length, file.readUnsignedShort(), file.readUnsignedShort(), (byte[]) null, (CodeException[]) null, (Attribute[]) null, constant_pool);
-        int code_length = file.readInt();
-        code = new byte[code_length]; // Read byte code
-        file.readFully(code);
+    public Code(int nameIndex, int length, DataInput file, ConstantPool constantPool) throws IOException {
+        this(nameIndex, length, file.readUnsignedShort(), file.readUnsignedShort(), (byte[]) null, (CodeException[]) null, (Attribute[]) null, constantPool);
+
+        int codeLength = file.readInt();
+        byteCode = new byte[codeLength];
+        file.readFully(byteCode);
+        instructions = new InstructionList(byteCode).getInstructions();
+
         int exception_table_length = file.readUnsignedShort();
         exceptionTable = new CodeException[exception_table_length];
         for (int i = 0; i < exception_table_length; i++) {
             exceptionTable[i] = new CodeException(file);
         }
-        int attributes_count = file.readUnsignedShort();
-        attributes = new Attribute[attributes_count];
-        for (int i = 0; i < attributes_count; i++) {
-            attributes[i] = Attribute.readAttribute(file, constant_pool);
+
+        int attributesCount = file.readUnsignedShort();
+        attributes = new Attribute[attributesCount];
+        for (int i = 0; i < attributesCount; i++) {
+            attributes[i] = Attribute.readAttribute(file, constantPool);
+            if (attributes[i] instanceof LocalVariableTable) {
+                this.localVariableTable = (LocalVariableTable) attributes[i];
+            } else if (attributes[i] instanceof LineNumberTable) {
+                this.lineNumberTable = (LineNumberTable) attributes[i];
+            }
         }
         super.setLength(length);
     }
 
-    public Code( int name_index,  int length,  int maxStack,  int maxLocals,  byte[] code,  CodeException[] exceptionTable,  Attribute[] attributes,  ConstantPool constant_pool) {
-        super(ClassFileAttributes.ATTR_CODE, name_index, length, constant_pool);
+    public Code(int nameIndex, int length, int maxStack, int maxLocals, byte[] code, CodeException[] exceptionTable, Attribute[] attributes, ConstantPool constantPool) {
+        super(ClassFileAttributes.ATTR_CODE, nameIndex, length, constantPool);
         this.maxStack = maxStack;
         this.maxLocals = maxLocals;
-        this.code = code != null ? code : new byte[0];
+        this.byteCode = code != null ? code : new byte[0];
         this.exceptionTable = exceptionTable != null ? exceptionTable : new CodeException[0];
         this.attributes = attributes != null ? attributes : new Attribute[0];
         super.setLength(calculateLength()); // Adjust length
     }
 
     @Override
-    public void accept( Visitor v) {
+    public void accept(Visitor v) {
         v.visitCode(this);
     }
 
     private int calculateLength() {
         int len = 0;
         if (attributes != null) {
-            for ( Attribute attribute : attributes) {
+            for (Attribute attribute : attributes) {
                 len += attribute.getLength() + 6;
             }
         }
@@ -61,11 +76,11 @@ public  class Code extends Attribute {
     }
 
     @Override
-    public Attribute copy( ConstantPool _constant_pool) {
+    public Attribute copy(ConstantPool _constant_pool) {
         Code c = (Code) clone();
-        if (code != null) {
-            c.code = new byte[code.length];
-            System.arraycopy(code, 0, c.code, 0, code.length);
+        if (byteCode != null) {
+            c.byteCode = new byte[byteCode.length];
+            System.arraycopy(byteCode, 0, c.byteCode, 0, byteCode.length);
         }
         c.setConstantPool(_constant_pool);
         c.exceptionTable = new CodeException[exceptionTable.length];
@@ -80,18 +95,18 @@ public  class Code extends Attribute {
     }
 
     @Override
-    public void dump( DataOutputStream file) throws IOException {
+    public void dump(DataOutputStream file) throws IOException {
         super.dump(file);
         file.writeShort(maxStack);
         file.writeShort(maxLocals);
-        file.writeInt(code.length);
-        file.write(code, 0, code.length);
+        file.writeInt(byteCode.length);
+        file.write(byteCode, 0, byteCode.length);
         file.writeShort(exceptionTable.length);
-        for ( CodeException exception : exceptionTable) {
+        for (CodeException exception : exceptionTable) {
             exception.dump(file);
         }
         file.writeShort(attributes.length);
-        for ( Attribute attribute : attributes) {
+        for (Attribute attribute : attributes) {
             attribute.dump(file);
         }
     }
@@ -100,20 +115,28 @@ public  class Code extends Attribute {
         return attributes;
     }
 
+    public byte[] getByteCode() {
+        return byteCode;
+    }
+
     public byte[] getCode() {
-        return code;
+        return byteCode;
     }
 
     public CodeException[] getExceptionTable() {
         return exceptionTable;
     }
 
+    public Instruction[] getInstructions() {
+        return instructions;
+    }
+
     private int getInternalLength() {
-        return 2 + 2 + 4 + code.length + 2 + 8 * (exceptionTable == null ? 0 : exceptionTable.length) + 2;
+        return 2 + 2 + 4 + byteCode.length + 2 + 8 * (exceptionTable == null ? 0 : exceptionTable.length) + 2;
     }
 
     public LineNumberTable getLineNumberTable() {
-        for ( Attribute attribute : attributes) {
+        for (Attribute attribute : attributes) {
             if (attribute instanceof LineNumberTable) {
                 return (LineNumberTable) attribute;
             }
@@ -122,7 +145,7 @@ public  class Code extends Attribute {
     }
 
     public LocalVariableTable getLocalVariableTable() {
-        for ( Attribute attribute : attributes) {
+        for (Attribute attribute : attributes) {
             if (attribute instanceof LocalVariableTable) {
                 return (LocalVariableTable) attribute;
             }
@@ -138,26 +161,42 @@ public  class Code extends Attribute {
         return maxStack;
     }
 
-    public void setAttributes( Attribute[] attributes) {
+    public void setAttributes(Attribute[] attributes) {
         this.attributes = attributes != null ? attributes : new Attribute[0];
         super.setLength(calculateLength()); // Adjust length
     }
 
-    public void setCode( byte[] code) {
-        this.code = code != null ? code : new byte[0];
-        super.setLength(calculateLength()); // Adjust length
+    public void setByteCode(byte[] byteCode) {
+        this.byteCode = byteCode;
     }
 
-    public void setExceptionTable( CodeException[] exceptionTable) {
+    public void setCode(byte[] code) {
+        this.byteCode = code != null ? code : new byte[0];
+        super.setLength(calculateLength());
+    }
+
+    public void setExceptionTable(CodeException[] exceptionTable) {
         this.exceptionTable = exceptionTable != null ? exceptionTable : new CodeException[0];
-        super.setLength(calculateLength()); // Adjust length
+        super.setLength(calculateLength());
     }
 
-    public void setMaxLocals( int maxLocals) {
+    public void setInstructions(Instruction[] instructions) {
+        this.instructions = instructions;
+    }
+
+    public void setLineNumberTable(LineNumberTable lineNumberTable) {
+        this.lineNumberTable = lineNumberTable;
+    }
+
+    public void setLocalVariableTable(LocalVariableTable localVariableTable) {
+        this.localVariableTable = localVariableTable;
+    }
+
+    public void setMaxLocals(int maxLocals) {
         this.maxLocals = maxLocals;
     }
 
-    public void setMaxStack( int maxStack) {
+    public void setMaxStack(int maxStack) {
         this.maxStack = maxStack;
     }
 
@@ -166,18 +205,18 @@ public  class Code extends Attribute {
         return toString(true);
     }
 
-    public String toString( boolean verbose) {
+    public String toString(boolean verbose) {
         StringBuilder buf = new StringBuilder(100); // CHECKSTYLE IGNORE MagicNumber
-        buf.append("Code(maxStack = ").append(maxStack).append(", maxLocals = ").append(maxLocals).append(", code_length = ").append(code.length).append(")\n").append(Utility.codeToString(code, super.getConstantPool(), 0, -1, verbose));
+        buf.append("Code(maxStack = ").append(maxStack).append(", maxLocals = ").append(maxLocals).append(", code_length = ").append(byteCode.length).append(")\n").append(Utility.codeToString(byteCode, super.getConstantPool(), 0, -1, verbose));
         if (exceptionTable.length > 0) {
             buf.append("\nException handler(s) = \n").append("From\tTo\tHandler\tType\n");
-            for ( CodeException exception : exceptionTable) {
+            for (CodeException exception : exceptionTable) {
                 buf.append(exception.toString(super.getConstantPool(), verbose)).append("\n");
             }
         }
         if (attributes.length > 0) {
             buf.append("\nAttribute(s) = ");
-            for ( Attribute attribute : attributes) {
+            for (Attribute attribute : attributes) {
                 buf.append("\n").append(attribute.getName()).append(":");
                 buf.append("\n").append(attribute);
             }

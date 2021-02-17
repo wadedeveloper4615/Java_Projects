@@ -3,27 +3,25 @@ package com.wade.decompiler.generic.base;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generic.gen.ClassGenException;
 import com.wade.decompiler.util.ByteSequence;
 
 public abstract class BranchInstruction extends Instruction implements InstructionTargeter {
-    @Deprecated
-    protected int index; // Branch target relative to this instruction
-    @Deprecated
-    protected InstructionHandle target; // Target object in instruction list
-    @Deprecated
-    protected int position; // Byte code offset
+    protected int index;
+    protected InstructionHandle target;
+    protected int position;
 
     public BranchInstruction() {
     }
 
-    public BranchInstruction(final short opcode, final InstructionHandle target) {
-        super(opcode, (short) 3);
+    public BranchInstruction(InstructionOpCodes opcode, InstructionHandle target) {
+        super(opcode, 3);
         setTarget(target);
     }
 
     @Override
-    public boolean containsTarget(final InstructionHandle ih) {
+    public boolean containsTarget(InstructionHandle ih) {
         return target == ih;
     }
 
@@ -35,8 +33,8 @@ public abstract class BranchInstruction extends Instruction implements Instructi
     }
 
     @Override
-    public void dump(final DataOutputStream out) throws IOException {
-        out.writeByte(super.getOpcode());
+    public void dump(DataOutputStream out) throws IOException {
+        out.writeByte(super.getOpcode().getOpcode());
         index = getTargetOffset();
         if (!isValidShort(index)) {
             throw new ClassGenException("Branch target offset too large for short: " + index);
@@ -44,7 +42,7 @@ public abstract class BranchInstruction extends Instruction implements Instructi
         out.writeShort(index); // May be negative, i.e., point backwards
     }
 
-    public final int getIndex() {
+    public int getIndex() {
         return index;
     }
 
@@ -60,11 +58,11 @@ public abstract class BranchInstruction extends Instruction implements Instructi
         return getTargetOffset(target);
     }
 
-    protected int getTargetOffset(final InstructionHandle _target) {
+    protected int getTargetOffset(InstructionHandle _target) {
         if (_target == null) {
             throw new ClassGenException("Target of " + super.toString(true) + " is invalid null handle");
         }
-        final int t = _target.getPosition();
+        int t = _target.getPosition();
         if (t < 0) {
             throw new ClassGenException("Invalid branch target position offset for " + super.toString(true) + ":" + t + ":" + _target);
         }
@@ -72,27 +70,27 @@ public abstract class BranchInstruction extends Instruction implements Instructi
     }
 
     @Override
-    public void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
+    public void initFromFile(ByteSequence bytes, boolean wide) throws IOException {
         super.setLength(3);
         index = bytes.readShort();
     }
 
-    protected void setIndex(final int index) {
+    protected void setIndex(int index) {
         this.index = index;
     }
 
-    protected void setPosition(final int position) {
+    protected void setPosition(int position) {
         this.position = position;
     }
 
-    public void setTarget(final InstructionHandle target) {
+    public void setTarget(InstructionHandle target) {
         notifyTarget(this.target, target, this);
         this.target = target;
     }
 
     @Override
-    public String toString(final boolean verbose) {
-        final String s = super.toString(verbose);
+    public String toString(boolean verbose) {
+        String s = super.toString(verbose);
         String t = "null";
         if (verbose) {
             if (target != null) {
@@ -116,13 +114,13 @@ public abstract class BranchInstruction extends Instruction implements Instructi
         return s + " -> " + t;
     }
 
-    protected int updatePosition(final int offset, final int max_offset) {
+    protected int updatePosition(int offset, int max_offset) {
         position += offset;
         return 0;
     }
 
     @Override
-    public void updateTarget(final InstructionHandle old_ih, final InstructionHandle new_ih) {
+    public void updateTarget(InstructionHandle old_ih, InstructionHandle new_ih) {
         if (target == old_ih) {
             setTarget(new_ih);
         } else {
@@ -130,7 +128,7 @@ public abstract class BranchInstruction extends Instruction implements Instructi
         }
     }
 
-    public static void notifyTarget(final InstructionHandle old_ih, final InstructionHandle new_ih, final InstructionTargeter t) {
+    public static void notifyTarget(InstructionHandle old_ih, InstructionHandle new_ih, InstructionTargeter t) {
         if (old_ih != null) {
             old_ih.removeTargeter(t);
         }

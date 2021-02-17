@@ -11,26 +11,27 @@ import com.wade.decompiler.classfile.ConstantFloat;
 import com.wade.decompiler.classfile.ConstantInteger;
 import com.wade.decompiler.classfile.ConstantString;
 import com.wade.decompiler.classfile.ConstantUtf8;
+import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generic.base.CPInstruction;
 import com.wade.decompiler.generic.base.ExceptionThrower;
-import com.wade.decompiler.generic.base.ObjectType;
 import com.wade.decompiler.generic.base.PushInstruction;
-import com.wade.decompiler.generic.base.Type;
 import com.wade.decompiler.generic.gen.ConstantPoolGen;
 import com.wade.decompiler.generic.gen.Visitor;
+import com.wade.decompiler.generic.type.ObjectType;
+import com.wade.decompiler.generic.type.Type;
 import com.wade.decompiler.util.ByteSequence;
 
 public class LDC extends CPInstruction implements PushInstruction, ExceptionThrower {
     public LDC() {
     }
 
-    public LDC(final int index) {
-        super(Const.LDC_W, index);
+    public LDC(int index) {
+        super(InstructionOpCodes.LDC_W, index);
         setSize();
     }
 
     @Override
-    public void accept(final Visitor v) {
+    public void accept(Visitor v) {
         v.visitStackProducer(this);
         v.visitPushInstruction(this);
         v.visitExceptionThrower(this);
@@ -40,8 +41,8 @@ public class LDC extends CPInstruction implements PushInstruction, ExceptionThro
     }
 
     @Override
-    public void dump(final DataOutputStream out) throws IOException {
-        out.writeByte(super.getOpcode());
+    public void dump(DataOutputStream out) throws IOException {
+        out.writeByte(super.getOpcode().getOpcode());
         if (super.getLength() == 2) { // TODO useless check?
             out.writeByte(super.getIndex());
         } else {
@@ -55,7 +56,7 @@ public class LDC extends CPInstruction implements PushInstruction, ExceptionThro
     }
 
     @Override
-    public Type getType(final ConstantPoolGen cpg) {
+    public Type getType(ConstantPoolGen cpg) {
         switch (cpg.getConstantPool().getConstant(super.getIndex()).getTag()) {
             case CONSTANT_String:
                 return Type.STRING;
@@ -70,11 +71,11 @@ public class LDC extends CPInstruction implements PushInstruction, ExceptionThro
         }
     }
 
-    public Object getValue(final ConstantPoolGen cpg) {
+    public Object getValue(ConstantPoolGen cpg) {
         Constant c = cpg.getConstantPool().getConstant(super.getIndex());
         switch (c.getTag()) {
             case CONSTANT_String:
-                final int i = ((ConstantString) c).getStringIndex();
+                int i = ((ConstantString) c).getStringIndex();
                 c = cpg.getConstantPool().getConstant(i);
                 return ((ConstantUtf8) c).getBytes();
             case CONSTANT_Float:
@@ -82,7 +83,7 @@ public class LDC extends CPInstruction implements PushInstruction, ExceptionThro
             case CONSTANT_Integer:
                 return Integer.valueOf(((ConstantInteger) c).getBytes());
             case CONSTANT_Class:
-                final int nameIndex = ((ConstantClass) c).getNameIndex();
+                int nameIndex = ((ConstantClass) c).getNameIndex();
                 c = cpg.getConstantPool().getConstant(nameIndex);
                 return new ObjectType(((ConstantUtf8) c).getBytes());
             default: // Never reached
@@ -91,24 +92,24 @@ public class LDC extends CPInstruction implements PushInstruction, ExceptionThro
     }
 
     @Override
-    public void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
+    public void initFromFile(ByteSequence bytes, boolean wide) throws IOException {
         super.setLength(2);
         super.setIndex(bytes.readUnsignedByte());
     }
 
     @Override
-    public final void setIndex(final int index) {
+    public void setIndex(int index) {
         super.setIndex(index);
         setSize();
     }
 
     // Adjust to proper size
-    protected final void setSize() {
+    protected void setSize() {
         if (super.getIndex() <= Const.MAX_BYTE) { // Fits in one byte?
-            super.setOpcode(Const.LDC);
+            super.setOpcode(InstructionOpCodes.LDC);
             super.setLength(2);
         } else {
-            super.setOpcode(Const.LDC_W);
+            super.setOpcode(InstructionOpCodes.LDC_W);
             super.setLength(3);
         }
     }

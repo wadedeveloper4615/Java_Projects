@@ -3,11 +3,11 @@ package com.wade.decompiler.classfile;
 import java.util.Stack;
 
 public class DescendingVisitor implements Visitor {
-    private final JavaClass clazz;
-    private final Visitor visitor;
-    private final Stack<Object> stack = new Stack<>();
+    private JavaClass clazz;
+    private Visitor visitor;
+    private Stack<Object> stack = new Stack<>();
 
-    public DescendingVisitor(final JavaClass clazz, final Visitor visitor) {
+    public DescendingVisitor(JavaClass clazz, Visitor visitor) {
         this.clazz = clazz;
         this.visitor = visitor;
     }
@@ -20,8 +20,8 @@ public class DescendingVisitor implements Visitor {
         return predecessor(0);
     }
 
-    public Object predecessor(final int level) {
-        final int size = stack.size();
+    public Object predecessor(int level) {
+        int size = stack.size();
         if ((size < 2) || (level < 0)) {
             return null;
         }
@@ -33,32 +33,32 @@ public class DescendingVisitor implements Visitor {
     }
 
     @Override
-    public void visitAnnotation(final Annotations annotation) {
+    public void visitAnnotation(Annotations annotation) {
         stack.push(annotation);
         annotation.accept(visitor);
-        final AnnotationEntry[] entries = annotation.getAnnotationEntries();
-        for (final AnnotationEntry entrie : entries) {
+        AnnotationEntry[] entries = annotation.getAnnotationEntries();
+        for (AnnotationEntry entrie : entries) {
             entrie.accept(this);
         }
         stack.pop();
     }
 
     @Override
-    public void visitAnnotationDefault(final AnnotationDefault obj) {
+    public void visitAnnotationDefault(AnnotationDefault obj) {
         stack.push(obj);
         obj.accept(visitor);
         stack.pop();
     }
 
     @Override
-    public void visitAnnotationEntry(final AnnotationEntry annotationEntry) {
+    public void visitAnnotationEntry(AnnotationEntry annotationEntry) {
         stack.push(annotationEntry);
         annotationEntry.accept(visitor);
         stack.pop();
     }
 
     @Override
-    public void visitBootstrapMethods(final BootstrapMethods bm) {
+    public void visitBootstrapMethods(BootstrapMethods bm) {
         stack.push(bm);
         bm.accept(visitor);
         // BootstrapMethod[] bms = bm.getBootstrapMethods();
@@ -70,137 +70,137 @@ public class DescendingVisitor implements Visitor {
     }
 
     @Override
-    public void visitCode(final Code code) {
+    public void visitCode(Code code) {
         stack.push(code);
         code.accept(visitor);
-        final CodeException[] table = code.getExceptionTable();
-        for (final CodeException element : table) {
+        CodeException[] table = code.getExceptionTable();
+        for (CodeException element : table) {
             element.accept(this);
         }
-        final Attribute[] attributes = code.getAttributes();
-        for (final Attribute attribute : attributes) {
+        Attribute[] attributes = code.getAttributes();
+        for (Attribute attribute : attributes) {
             attribute.accept(this);
         }
         stack.pop();
     }
 
     @Override
-    public void visitCodeException(final CodeException ce) {
+    public void visitCodeException(CodeException ce) {
         stack.push(ce);
         ce.accept(visitor);
         stack.pop();
     }
 
     @Override
-    public void visitConstantClass(final ConstantClass constant) {
+    public void visitConstantClass(ConstantClass constant) {
         stack.push(constant);
         constant.accept(visitor);
         stack.pop();
     }
 
     @Override
-    public void visitConstantDouble(final ConstantDouble constant) {
+    public void visitConstantDouble(ConstantDouble constant) {
         stack.push(constant);
         constant.accept(visitor);
         stack.pop();
     }
 
     @Override
-    public void visitConstantDynamic(final ConstantDynamic obj) {
+    public void visitConstantDynamic(ConstantDynamic obj) {
         stack.push(obj);
         obj.accept(visitor);
         stack.pop();
     }
 
     @Override
-    public void visitConstantFieldref(final ConstantFieldref constant) {
+    public void visitConstantFieldref(ConstantFieldref constant) {
         stack.push(constant);
         constant.accept(visitor);
         stack.pop();
     }
 
     @Override
-    public void visitConstantFloat(final ConstantFloat constant) {
+    public void visitConstantFloat(ConstantFloat constant) {
         stack.push(constant);
         constant.accept(visitor);
         stack.pop();
     }
 
     @Override
-    public void visitConstantInteger(final ConstantInteger constant) {
+    public void visitConstantInteger(ConstantInteger constant) {
         stack.push(constant);
         constant.accept(visitor);
         stack.pop();
     }
 
     @Override
-    public void visitConstantInterfaceMethodref(final ConstantInterfaceMethodref constant) {
+    public void visitConstantInterfaceMethodref(ConstantInterfaceMethodref constant) {
         stack.push(constant);
         constant.accept(visitor);
         stack.pop();
     }
 
     @Override
-    public void visitConstantInvokeDynamic(final ConstantInvokeDynamic constant) {
+    public void visitConstantInvokeDynamic(ConstantInvokeDynamic constant) {
         stack.push(constant);
         constant.accept(visitor);
         stack.pop();
     }
 
     @Override
-    public void visitConstantLong(final ConstantLong constant) {
+    public void visitConstantLong(ConstantLong constant) {
         stack.push(constant);
         constant.accept(visitor);
         stack.pop();
     }
 
     @Override
-    public void visitConstantMethodHandle(final ConstantMethodHandle obj) {
+    public void visitConstantMethodHandle(ConstantMethodHandle obj) {
         stack.push(obj);
         obj.accept(visitor);
         stack.pop();
     }
 
     @Override
-    public void visitConstantMethodref(final ConstantMethodref constant) {
+    public void visitConstantMethodref(ConstantMethodref constant) {
         stack.push(constant);
         constant.accept(visitor);
         stack.pop();
     }
 
     @Override
-    public void visitConstantMethodType(final ConstantMethodType obj) {
+    public void visitConstantMethodType(ConstantMethodType obj) {
         stack.push(obj);
         obj.accept(visitor);
         stack.pop();
     }
 
     @Override
-    public void visitConstantModule(final ConstantModule obj) {
+    public void visitConstantModule(ConstantModule obj) {
         stack.push(obj);
         obj.accept(visitor);
         stack.pop();
     }
 
     @Override
-    public void visitConstantNameAndType(final ConstantNameAndType constant) {
+    public void visitConstantNameAndType(ConstantNameAndType constant) {
         stack.push(constant);
         constant.accept(visitor);
         stack.pop();
     }
 
     @Override
-    public void visitConstantPackage(final ConstantPackage obj) {
+    public void visitConstantPackage(ConstantPackage obj) {
         stack.push(obj);
         obj.accept(visitor);
         stack.pop();
     }
 
     @Override
-    public void visitConstantPool(final ConstantPool cp) {
+    public void visitConstantPool(ConstantPool cp) {
         stack.push(cp);
         cp.accept(visitor);
-        final Constant[] constants = cp.getConstantPool();
+        Constant[] constants = cp.getConstantPool();
         for (int i = 1; i < constants.length; i++) {
             if (constants[i] != null) {
                 constants[i].accept(this);
@@ -210,90 +210,90 @@ public class DescendingVisitor implements Visitor {
     }
 
     @Override
-    public void visitConstantString(final ConstantString constant) {
+    public void visitConstantString(ConstantString constant) {
         stack.push(constant);
         constant.accept(visitor);
         stack.pop();
     }
 
     @Override
-    public void visitConstantUtf8(final ConstantUtf8 constant) {
+    public void visitConstantUtf8(ConstantUtf8 constant) {
         stack.push(constant);
         constant.accept(visitor);
         stack.pop();
     }
 
     @Override
-    public void visitConstantValue(final ConstantValue cv) {
+    public void visitConstantValue(ConstantValue cv) {
         stack.push(cv);
         cv.accept(visitor);
         stack.pop();
     }
 
     @Override
-    public void visitDeprecated(final Deprecated attribute) {
+    public void visitDeprecated(Deprecated attribute) {
         stack.push(attribute);
         attribute.accept(visitor);
         stack.pop();
     }
 
     @Override
-    public void visitEnclosingMethod(final EnclosingMethod obj) {
+    public void visitEnclosingMethod(EnclosingMethod obj) {
         stack.push(obj);
         obj.accept(visitor);
         stack.pop();
     }
 
     @Override
-    public void visitExceptionTable(final ExceptionTable table) {
+    public void visitExceptionTable(ExceptionTable table) {
         stack.push(table);
         table.accept(visitor);
         stack.pop();
     }
 
     @Override
-    public void visitField(final Field field) {
+    public void visitField(Field field) {
         stack.push(field);
         field.accept(visitor);
-        final Attribute[] attributes = field.getAttributes();
-        for (final Attribute attribute : attributes) {
+        Attribute[] attributes = field.getAttributes();
+        for (Attribute attribute : attributes) {
             attribute.accept(this);
         }
         stack.pop();
     }
 
     @Override
-    public void visitInnerClass(final InnerClass inner) {
+    public void visitInnerClass(InnerClass inner) {
         stack.push(inner);
         inner.accept(visitor);
         stack.pop();
     }
 
     @Override
-    public void visitInnerClasses(final InnerClasses ic) {
+    public void visitInnerClasses(InnerClasses ic) {
         stack.push(ic);
         ic.accept(visitor);
-        final InnerClass[] ics = ic.getInnerClasses();
-        for (final InnerClass ic2 : ics) {
+        InnerClass[] ics = ic.getInnerClasses();
+        for (InnerClass ic2 : ics) {
             ic2.accept(this);
         }
         stack.pop();
     }
 
     @Override
-    public void visitJavaClass(final JavaClass _clazz) {
+    public void visitJavaClass(JavaClass _clazz) {
         stack.push(_clazz);
         _clazz.accept(visitor);
-        final Field[] fields = _clazz.getFields();
-        for (final Field field : fields) {
+        Field[] fields = _clazz.getFields();
+        for (Field field : fields) {
             field.accept(this);
         }
-        final Method[] methods = _clazz.getMethods();
-        for (final Method method : methods) {
+        Method[] methods = _clazz.getMethods();
+        for (Method method : methods) {
             method.accept(this);
         }
-        final Attribute[] attributes = _clazz.getAttributes();
-        for (final Attribute attribute : attributes) {
+        Attribute[] attributes = _clazz.getAttributes();
+        for (Attribute attribute : attributes) {
             attribute.accept(this);
         }
         _clazz.getConstantPool().accept(this);
@@ -301,211 +301,211 @@ public class DescendingVisitor implements Visitor {
     }
 
     @Override
-    public void visitLineNumber(final LineNumber number) {
+    public void visitLineNumber(LineNumber number) {
         stack.push(number);
         number.accept(visitor);
         stack.pop();
     }
 
     @Override
-    public void visitLineNumberTable(final LineNumberTable table) {
+    public void visitLineNumberTable(LineNumberTable table) {
         stack.push(table);
         table.accept(visitor);
-        final LineNumber[] numbers = table.getLineNumberTable();
-        for (final LineNumber number : numbers) {
+        LineNumber[] numbers = table.getLineNumberTable();
+        for (LineNumber number : numbers) {
             number.accept(this);
         }
         stack.pop();
     }
 
     @Override
-    public void visitLocalVariable(final LocalVariable var) {
+    public void visitLocalVariable(LocalVariable var) {
         stack.push(var);
         var.accept(visitor);
         stack.pop();
     }
 
     @Override
-    public void visitLocalVariableTable(final LocalVariableTable table) {
+    public void visitLocalVariableTable(LocalVariableTable table) {
         stack.push(table);
         table.accept(visitor);
-        final LocalVariable[] vars = table.getLocalVariableTable();
-        for (final LocalVariable var : vars) {
+        LocalVariable[] vars = table.getLocalVariableTable();
+        for (LocalVariable var : vars) {
             var.accept(this);
         }
         stack.pop();
     }
 
     @Override
-    public void visitLocalVariableTypeTable(final LocalVariableTypeTable obj) {
+    public void visitLocalVariableTypeTable(LocalVariableTypeTable obj) {
         stack.push(obj);
         obj.accept(visitor);
         stack.pop();
     }
 
     @Override
-    public void visitMethod(final Method method) {
+    public void visitMethod(Method method) {
         stack.push(method);
         method.accept(visitor);
-        final Attribute[] attributes = method.getAttributes();
-        for (final Attribute attribute : attributes) {
+        Attribute[] attributes = method.getAttributes();
+        for (Attribute attribute : attributes) {
             attribute.accept(this);
         }
         stack.pop();
     }
 
     @Override
-    public void visitMethodParameter(final MethodParameter obj) {
+    public void visitMethodParameter(MethodParameter obj) {
         stack.push(obj);
         obj.accept(visitor);
         stack.pop();
     }
 
     @Override
-    public void visitMethodParameters(final MethodParameters obj) {
+    public void visitMethodParameters(MethodParameters obj) {
         stack.push(obj);
         obj.accept(visitor);
-        final MethodParameter[] table = obj.getParameters();
-        for (final MethodParameter element : table) {
+        MethodParameter[] table = obj.getParameters();
+        for (MethodParameter element : table) {
             element.accept(this);
         }
         stack.pop();
     }
 
     @Override
-    public void visitModule(final Module obj) {
+    public void visitModule(Module obj) {
         stack.push(obj);
         obj.accept(visitor);
-        final ModuleRequires[] rtable = obj.getRequiresTable();
-        for (final ModuleRequires element : rtable) {
+        ModuleRequires[] rtable = obj.getRequiresTable();
+        for (ModuleRequires element : rtable) {
             element.accept(this);
         }
-        final ModuleExports[] etable = obj.getExportsTable();
-        for (final ModuleExports element : etable) {
+        ModuleExports[] etable = obj.getExportsTable();
+        for (ModuleExports element : etable) {
             element.accept(this);
         }
-        final ModuleOpens[] otable = obj.getOpensTable();
-        for (final ModuleOpens element : otable) {
+        ModuleOpens[] otable = obj.getOpensTable();
+        for (ModuleOpens element : otable) {
             element.accept(this);
         }
-        final ModuleProvides[] ptable = obj.getProvidesTable();
-        for (final ModuleProvides element : ptable) {
+        ModuleProvides[] ptable = obj.getProvidesTable();
+        for (ModuleProvides element : ptable) {
             element.accept(this);
         }
         stack.pop();
     }
 
     @Override
-    public void visitModuleExports(final ModuleExports obj) {
+    public void visitModuleExports(ModuleExports obj) {
         stack.push(obj);
         obj.accept(visitor);
         stack.pop();
     }
 
     @Override
-    public void visitModuleMainClass(final ModuleMainClass obj) {
+    public void visitModuleMainClass(ModuleMainClass obj) {
         stack.push(obj);
         obj.accept(visitor);
         stack.pop();
     }
 
     @Override
-    public void visitModuleOpens(final ModuleOpens obj) {
+    public void visitModuleOpens(ModuleOpens obj) {
         stack.push(obj);
         obj.accept(visitor);
         stack.pop();
     }
 
     @Override
-    public void visitModulePackages(final ModulePackages obj) {
+    public void visitModulePackages(ModulePackages obj) {
         stack.push(obj);
         obj.accept(visitor);
         stack.pop();
     }
 
     @Override
-    public void visitModuleProvides(final ModuleProvides obj) {
+    public void visitModuleProvides(ModuleProvides obj) {
         stack.push(obj);
         obj.accept(visitor);
         stack.pop();
     }
 
     @Override
-    public void visitModuleRequires(final ModuleRequires obj) {
+    public void visitModuleRequires(ModuleRequires obj) {
         stack.push(obj);
         obj.accept(visitor);
         stack.pop();
     }
 
     @Override
-    public void visitNestHost(final NestHost obj) {
+    public void visitNestHost(NestHost obj) {
         stack.push(obj);
         obj.accept(visitor);
         stack.pop();
     }
 
     @Override
-    public void visitNestMembers(final NestMembers obj) {
+    public void visitNestMembers(NestMembers obj) {
         stack.push(obj);
         obj.accept(visitor);
         stack.pop();
     }
 
     @Override
-    public void visitParameterAnnotation(final ParameterAnnotations obj) {
+    public void visitParameterAnnotation(ParameterAnnotations obj) {
         stack.push(obj);
         obj.accept(visitor);
         stack.pop();
     }
 
     @Override
-    public void visitParameterAnnotationEntry(final ParameterAnnotationEntry obj) {
+    public void visitParameterAnnotationEntry(ParameterAnnotationEntry obj) {
         stack.push(obj);
         obj.accept(visitor);
         stack.pop();
     }
 
     @Override
-    public void visitSignature(final Signature attribute) {
+    public void visitSignature(Signature attribute) {
         stack.push(attribute);
         attribute.accept(visitor);
         stack.pop();
     }
 
     @Override
-    public void visitSourceFile(final SourceFile attribute) {
+    public void visitSourceFile(SourceFile attribute) {
         stack.push(attribute);
         attribute.accept(visitor);
         stack.pop();
     }
 
     @Override
-    public void visitStackMap(final StackMap table) {
+    public void visitStackMap(StackMap table) {
         stack.push(table);
         table.accept(visitor);
-        final StackMapEntry[] vars = table.getStackMap();
-        for (final StackMapEntry var : vars) {
+        StackMapEntry[] vars = table.getStackMap();
+        for (StackMapEntry var : vars) {
             var.accept(this);
         }
         stack.pop();
     }
 
     @Override
-    public void visitStackMapEntry(final StackMapEntry var) {
+    public void visitStackMapEntry(StackMapEntry var) {
         stack.push(var);
         var.accept(visitor);
         stack.pop();
     }
 
     @Override
-    public void visitSynthetic(final Synthetic attribute) {
+    public void visitSynthetic(Synthetic attribute) {
         stack.push(attribute);
         attribute.accept(visitor);
         stack.pop();
     }
 
     @Override
-    public void visitUnknown(final Unknown attribute) {
+    public void visitUnknown(Unknown attribute) {
         stack.push(attribute);
         attribute.accept(visitor);
         stack.pop();

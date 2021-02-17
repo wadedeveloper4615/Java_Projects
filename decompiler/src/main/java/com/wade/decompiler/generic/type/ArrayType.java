@@ -1,28 +1,28 @@
-package com.wade.decompiler.generic.base;
+package com.wade.decompiler.generic.type;
 
 import com.wade.decompiler.Const;
 import com.wade.decompiler.generic.gen.ClassGenException;
 
-public final class ArrayType extends ReferenceType {
+public class ArrayType extends ReferenceType {
     private int dimensions;
     private Type basicType;
 
-    public ArrayType(final byte type, final int dimensions) {
+    public ArrayType(byte type, int dimensions) {
         this(BasicType.getType(type), dimensions);
     }
 
-    public ArrayType(final String class_name, final int dimensions) {
+    public ArrayType(String class_name, int dimensions) {
         this(ObjectType.getInstance(class_name), dimensions);
     }
 
-    public ArrayType(final Type type, final int dimensions) {
+    public ArrayType(Type type, int dimensions) {
         super(Const.T_ARRAY, "<dummy>");
         if ((dimensions < 1) || (dimensions > Const.MAX_BYTE)) {
             throw new ClassGenException("Invalid number of dimensions: " + dimensions);
         }
         basicType = switch (type.getType()) {
             case Const.T_ARRAY -> {
-                final ArrayType array = (ArrayType) type;
+                ArrayType array = (ArrayType) type;
                 this.dimensions = dimensions + array.dimensions;
                 yield array.basicType;
             }
@@ -32,7 +32,7 @@ public final class ArrayType extends ReferenceType {
                 yield type;
             }
         };
-        final StringBuilder buf = new StringBuilder();
+        StringBuilder buf = new StringBuilder();
         for (int i = 0; i < this.dimensions; i++) {
             buf.append('[');
         }
@@ -41,9 +41,9 @@ public final class ArrayType extends ReferenceType {
     }
 
     @Override
-    public boolean equals(final Object _type) {
+    public boolean equals(Object _type) {
         if (_type instanceof ArrayType) {
-            final ArrayType array = (ArrayType) _type;
+            ArrayType array = (ArrayType) _type;
             return (array.dimensions == dimensions) && array.basicType.equals(basicType);
         }
         return false;

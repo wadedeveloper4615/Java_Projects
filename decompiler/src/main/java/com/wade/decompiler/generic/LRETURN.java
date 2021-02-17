@@ -1,15 +1,15 @@
 package com.wade.decompiler.generic;
 
-import com.wade.decompiler.Const;
+import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generic.gen.Visitor;
 
 public class LRETURN extends ReturnInstruction {
     public LRETURN() {
-        super(Const.LRETURN);
+        super(InstructionOpCodes.LRETURN);
     }
 
     @Override
-    public void accept(final Visitor v) {
+    public void accept(Visitor v) {
         v.visitExceptionThrower(this);
         v.visitTypedInstruction(this);
         v.visitStackConsumer(this);

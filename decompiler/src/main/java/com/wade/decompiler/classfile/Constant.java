@@ -32,7 +32,7 @@ public abstract class Constant implements Cloneable, Node {
     public Constant copy() {
         try {
             return (Constant) super.clone();
-        } catch (final CloneNotSupportedException e) {
+        } catch (CloneNotSupportedException e) {
         }
         return null;
     }
@@ -40,7 +40,7 @@ public abstract class Constant implements Cloneable, Node {
     public abstract void dump(DataOutputStream file) throws IOException;
 
     @Override
-    public boolean equals(final Object obj) {
+    public boolean equals(Object obj) {
         return bcelComparator.equals(this, obj);
     }
 
@@ -62,7 +62,7 @@ public abstract class Constant implements Cloneable, Node {
         return bcelComparator;
     }
 
-    public static Constant readConstant(final DataInput dataInput) throws IOException, ClassFormatException {
+    public static Constant readConstant(DataInput dataInput) throws IOException, ClassFormatException {
         ClassFileConstants b = ClassFileConstants.read(dataInput.readByte());
         switch (b) {
             case CONSTANT_Class:
@@ -104,7 +104,7 @@ public abstract class Constant implements Cloneable, Node {
         }
     }
 
-    public static void setComparator(final BCELComparator comparator) {
+    public static void setComparator(BCELComparator comparator) {
         bcelComparator = comparator;
     }
 }

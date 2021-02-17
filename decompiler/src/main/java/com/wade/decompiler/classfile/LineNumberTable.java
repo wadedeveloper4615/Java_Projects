@@ -6,11 +6,11 @@ import java.io.IOException;
 
 import com.wade.decompiler.enums.ClassFileAttributes;
 
-public  class LineNumberTable extends Attribute {
-    private static  int MAX_LINE_LENGTH = 72;
+public class LineNumberTable extends Attribute {
+    private static int MAX_LINE_LENGTH = 72;
     private LineNumber[] lineNumberTable;
 
-    public LineNumberTable( int name_index,  int length,  DataInput input,  ConstantPool constant_pool) throws IOException {
+    public LineNumberTable(int name_index, int length, DataInput input, ConstantPool constant_pool) throws IOException {
         this(name_index, length, (LineNumber[]) null, constant_pool);
         int line_number_table_length = input.readUnsignedShort();
         lineNumberTable = new LineNumber[line_number_table_length];
@@ -19,22 +19,22 @@ public  class LineNumberTable extends Attribute {
         }
     }
 
-    public LineNumberTable( int name_index,  int length,  LineNumber[] line_number_table,  ConstantPool constant_pool) {
+    public LineNumberTable(int name_index, int length, LineNumber[] line_number_table, ConstantPool constant_pool) {
         super(ClassFileAttributes.ATTR_LINE_NUMBER_TABLE, name_index, length, constant_pool);
         this.lineNumberTable = line_number_table;
     }
 
-    public LineNumberTable( LineNumberTable c) {
+    public LineNumberTable(LineNumberTable c) {
         this(c.getNameIndex(), c.getLength(), c.getLineNumberTable(), c.getConstantPool());
     }
 
     @Override
-    public void accept( Visitor v) {
+    public void accept(Visitor v) {
         v.visitLineNumberTable(this);
     }
 
     @Override
-    public Attribute copy( ConstantPool _constant_pool) {
+    public Attribute copy(ConstantPool _constant_pool) {
         // TODO could use the lower level constructor and thereby allow
         // lineNumberTable to be made
         LineNumberTable c = (LineNumberTable) clone();
@@ -47,10 +47,10 @@ public  class LineNumberTable extends Attribute {
     }
 
     @Override
-    public void dump( DataOutputStream file) throws IOException {
+    public void dump(DataOutputStream file) throws IOException {
         super.dump(file);
         file.writeShort(lineNumberTable.length);
-        for ( LineNumber lineNumber : lineNumberTable) {
+        for (LineNumber lineNumber : lineNumberTable) {
             lineNumber.dump(file);
         }
     }
@@ -59,7 +59,7 @@ public  class LineNumberTable extends Attribute {
         return lineNumberTable;
     }
 
-    public int getSourceLine( int pos) {
+    public int getSourceLine(int pos) {
         int l = 0;
         int r = lineNumberTable.length - 1;
         if (r < 0) {
@@ -69,18 +69,18 @@ public  class LineNumberTable extends Attribute {
         int min = -1;
         do {
             int i = (l + r) >>> 1;
-        int j = lineNumberTable[i].getStartPC();
-        if (j == pos) {
-            return lineNumberTable[i].getLineNumber();
-        } else if (pos < j) {
-            r = i - 1;
-        } else {
-            l = i + 1;
-        }
-        if (j < pos && j > min) {
-            min = j;
-            min_index = i;
-        }
+            int j = lineNumberTable[i].getStartPC();
+            if (j == pos) {
+                return lineNumberTable[i].getLineNumber();
+            } else if (pos < j) {
+                r = i - 1;
+            } else {
+                l = i + 1;
+            }
+            if (j < pos && j > min) {
+                min = j;
+                min_index = i;
+            }
         } while (l <= r);
         if (min_index < 0) {
             return -1;
@@ -92,7 +92,7 @@ public  class LineNumberTable extends Attribute {
         return lineNumberTable == null ? 0 : lineNumberTable.length;
     }
 
-    public void setLineNumberTable( LineNumber[] lineNumberTable) {
+    public void setLineNumberTable(LineNumber[] lineNumberTable) {
         this.lineNumberTable = lineNumberTable;
     }
 

@@ -6,29 +6,29 @@ import java.io.IOException;
 
 import com.wade.decompiler.enums.ClassFileConstants;
 
-public final class ConstantMethodType extends Constant {
+public class ConstantMethodType extends Constant {
     private int descriptorIndex;
 
-    public ConstantMethodType(final ConstantMethodType c) {
+    public ConstantMethodType(ConstantMethodType c) {
         this(c.getDescriptorIndex());
     }
 
-    ConstantMethodType(final DataInput file) throws IOException {
+    ConstantMethodType(DataInput file) throws IOException {
         this(file.readUnsignedShort());
     }
 
-    public ConstantMethodType(final int descriptor_index) {
+    public ConstantMethodType(int descriptor_index) {
         super(ClassFileConstants.CONSTANT_MethodType);
         this.descriptorIndex = descriptor_index;
     }
 
     @Override
-    public void accept(final Visitor v) {
+    public void accept(Visitor v) {
         v.visitConstantMethodType(this);
     }
 
     @Override
-    public void dump(final DataOutputStream file) throws IOException {
+    public void dump(DataOutputStream file) throws IOException {
         file.writeByte(super.getTag().getTag());
         file.writeShort(descriptorIndex);
     }
@@ -37,7 +37,7 @@ public final class ConstantMethodType extends Constant {
         return descriptorIndex;
     }
 
-    public void setDescriptorIndex(final int descriptor_index) {
+    public void setDescriptorIndex(int descriptor_index) {
         this.descriptorIndex = descriptor_index;
     }
 

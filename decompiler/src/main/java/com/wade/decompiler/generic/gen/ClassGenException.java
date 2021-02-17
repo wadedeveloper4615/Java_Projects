@@ -7,11 +7,11 @@ public class ClassGenException extends RuntimeException {
         super();
     }
 
-    public ClassGenException(final String s) {
+    public ClassGenException(String s) {
         super(s);
     }
 
-    public ClassGenException(final String s, final Throwable initCause) {
+    public ClassGenException(String s, Throwable initCause) {
         super(s, initCause);
     }
 }

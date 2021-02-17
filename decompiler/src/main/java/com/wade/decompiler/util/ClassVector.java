@@ -5,26 +5,25 @@ import java.util.List;
 
 import com.wade.decompiler.classfile.JavaClass;
 
-@Deprecated
+@SuppressWarnings("unused")
 public class ClassVector implements java.io.Serializable {
     private static final long serialVersionUID = 5600397075672780806L;
-    @Deprecated
     protected List<JavaClass> vec = new ArrayList<>();
 
-    public void addElement(final JavaClass clazz) {
+    public void addElement(JavaClass clazz) {
         vec.add(clazz);
     }
 
-    public JavaClass elementAt(final int index) {
+    public JavaClass elementAt(int index) {
         return vec.get(index);
     }
 
-    public void removeElementAt(final int index) {
+    public void removeElementAt(int index) {
         vec.remove(index);
     }
 
     public JavaClass[] toArray() {
-        final JavaClass[] classes = new JavaClass[vec.size()];
+        JavaClass[] classes = new JavaClass[vec.size()];
         vec.toArray(classes);
         return classes;
     }

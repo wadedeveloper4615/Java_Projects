@@ -7,28 +7,28 @@ import java.io.IOException;
 import com.wade.decompiler.enums.ClassAccessFlagsList;
 import com.wade.decompiler.enums.ClassFileConstants;
 
-public final class InnerClass implements Cloneable, Node {
+public class InnerClass implements Cloneable, Node {
     private int innerClassIndex;
     private int outerClassIndex;
     private int innerNameIndex;
     private ClassAccessFlagsList innerAccessFlags;
 
-    InnerClass(final DataInput file) throws IOException {
+    InnerClass(DataInput file) throws IOException {
         this(file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort());
     }
 
-    public InnerClass(final InnerClass c) {
+    public InnerClass(InnerClass c) {
         this(c.getInnerClassIndex(), c.getOuterClassIndex(), c.getInnerNameIndex(), c.getInnerAccessFlags());
     }
 
-    public InnerClass(final int innerClassIndex, final int outerClassIndex, final int innerNameIndex, ClassAccessFlagsList innerAccessFlags) {
+    public InnerClass(int innerClassIndex, int outerClassIndex, int innerNameIndex, ClassAccessFlagsList innerAccessFlags) {
         this.innerClassIndex = innerClassIndex;
         this.outerClassIndex = outerClassIndex;
         this.innerNameIndex = innerNameIndex;
         this.innerAccessFlags = innerAccessFlags;
     }
 
-    public InnerClass(final int innerClassIndex, final int outerClassIndex, final int innerNameIndex, final int innerAccessFlags) {
+    public InnerClass(int innerClassIndex, int outerClassIndex, int innerNameIndex, int innerAccessFlags) {
         this.innerClassIndex = innerClassIndex;
         this.outerClassIndex = outerClassIndex;
         this.innerNameIndex = innerNameIndex;
@@ -36,20 +36,20 @@ public final class InnerClass implements Cloneable, Node {
     }
 
     @Override
-    public void accept(final Visitor v) {
+    public void accept(Visitor v) {
         v.visitInnerClass(this);
     }
 
     public InnerClass copy() {
         try {
             return (InnerClass) clone();
-        } catch (final CloneNotSupportedException e) {
+        } catch (CloneNotSupportedException e) {
             // TODO should this throw?
         }
         return null;
     }
 
-    public void dump(final DataOutputStream file) throws IOException {
+    public void dump(DataOutputStream file) throws IOException {
         file.writeShort(innerClassIndex);
         file.writeShort(outerClassIndex);
         file.writeShort(innerNameIndex);
@@ -76,15 +76,15 @@ public final class InnerClass implements Cloneable, Node {
         this.innerAccessFlags = innerAccessFlags;
     }
 
-    public void setInnerClassIndex(final int innerClassIndex) {
+    public void setInnerClassIndex(int innerClassIndex) {
         this.innerClassIndex = innerClassIndex;
     }
 
-    public void setInnerNameIndex(final int innerNameIndex) {
+    public void setInnerNameIndex(int innerNameIndex) {
         this.innerNameIndex = innerNameIndex;
     }
 
-    public void setOuterClassIndex(final int outerClassIndex) {
+    public void setOuterClassIndex(int outerClassIndex) {
         this.outerClassIndex = outerClassIndex;
     }
 
@@ -93,7 +93,7 @@ public final class InnerClass implements Cloneable, Node {
         return "InnerClass(" + innerClassIndex + ", " + outerClassIndex + ", " + innerNameIndex + ", " + innerAccessFlags + ")";
     }
 
-    public String toString(final ConstantPool constantPool) {
+    public String toString(ConstantPool constantPool) {
         String outer_class_name;
         String inner_name;
         String inner_class_name = constantPool.getConstantString(innerClassIndex, ClassFileConstants.CONSTANT_Class);

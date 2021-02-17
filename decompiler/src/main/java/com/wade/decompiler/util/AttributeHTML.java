@@ -23,14 +23,14 @@ import com.wade.decompiler.classfile.Utility;
 import com.wade.decompiler.enums.ClassFileAttributes;
 import com.wade.decompiler.enums.ClassFileConstants;
 
-final class AttributeHTML {
-    private final String class_name; // name of current class
-    private final PrintWriter file; // file to write to
+class AttributeHTML {
+    private String class_name; // name of current class
+    private PrintWriter file; // file to write to
     private int attr_count = 0;
-    private final ConstantHTML constant_html;
-    private final ConstantPool constant_pool;
+    private ConstantHTML constant_html;
+    private ConstantPool constant_pool;
 
-    AttributeHTML(final String dir, final String class_name, final ConstantPool constant_pool, final ConstantHTML constant_html) throws IOException {
+    AttributeHTML(String dir, String class_name, ConstantPool constant_pool, ConstantHTML constant_html) throws IOException {
         this.class_name = class_name;
         this.constant_pool = constant_pool;
         this.constant_html = constant_html;
@@ -43,15 +43,15 @@ final class AttributeHTML {
         file.close();
     }
 
-    private String codeLink(final int link, final int method_number) {
+    private String codeLink(int link, int method_number) {
         return "<A HREF=\"" + class_name + "_code.html#code" + method_number + "@" + link + "\" TARGET=Code>" + link + "</A>";
     }
 
-    void writeAttribute(final Attribute attribute, final String anchor) {
+    void writeAttribute(Attribute attribute, String anchor) {
         writeAttribute(attribute, anchor, 0);
     }
 
-    void writeAttribute(final Attribute attribute, final String anchor, final int method_number) {
+    void writeAttribute(Attribute attribute, String anchor, int method_number) {
         ClassFileAttributes tag = attribute.getTag();
         int index;
         if (tag == ClassFileAttributes.ATTR_UNKNOWN) {
@@ -66,16 +66,16 @@ final class AttributeHTML {
         file.println("<H4><A NAME=\"" + anchor + "\">" + attr_count + " " + Const.getAttributeName(tag.getTag()) + "</A></H4>");
         switch (tag) {
             case ATTR_CODE:
-                final Code c = (Code) attribute;
+                Code c = (Code) attribute;
                 // Some directly printable values
                 file.print("<UL><LI>Maximum stack size = " + c.getMaxStack() + "</LI>\n<LI>Number of local variables = " + c.getMaxLocals() + "</LI>\n<LI><A HREF=\"" + class_name + "_code.html#method" + method_number + "\" TARGET=Code>Byte code</A></LI></UL>\n");
                 // Get handled exceptions and list them
-                final CodeException[] ce = c.getExceptionTable();
-                final int len = ce.length;
+                CodeException[] ce = c.getExceptionTable();
+                int len = ce.length;
                 if (len > 0) {
                     file.print("<P><B>Exceptions handled</B><UL>");
-                    for (final CodeException cex : ce) {
-                        final int catch_type = cex.getCatchType(); // Index in constant pool
+                    for (CodeException cex : ce) {
+                        int catch_type = cex.getCatchType(); // Index in constant pool
                         file.print("<LI>");
                         if (catch_type != 0) {
                             file.print(constant_html.referenceConstant(catch_type)); // Create Link to _cp.html
@@ -99,15 +99,15 @@ final class AttributeHTML {
                 break;
             case ATTR_EXCEPTIONS:
                 // List thrown exceptions
-                final int[] indices = ((ExceptionTable) attribute).getExceptionIndexTable();
+                int[] indices = ((ExceptionTable) attribute).getExceptionIndexTable();
                 file.print("<UL>");
-                for (final int indice : indices) {
+                for (int indice : indices) {
                     file.print("<LI><A HREF=\"" + class_name + "_cp.html#cp" + indice + "\" TARGET=\"ConstantPool\">Exception class index(" + indice + ")</A>\n");
                 }
                 file.print("</UL>\n");
                 break;
             case ATTR_LINE_NUMBER_TABLE:
-                final LineNumber[] line_numbers = ((LineNumberTable) attribute).getLineNumberTable();
+                LineNumber[] line_numbers = ((LineNumberTable) attribute).getLineNumberTable();
                 // List line number pairs
                 file.print("<P>");
                 for (int i = 0; i < line_numbers.length; i++) {
@@ -118,24 +118,24 @@ final class AttributeHTML {
                 }
                 break;
             case ATTR_LOCAL_VARIABLE_TABLE:
-                final LocalVariable[] vars = ((LocalVariableTable) attribute).getLocalVariableTable();
+                LocalVariable[] vars = ((LocalVariableTable) attribute).getLocalVariableTable();
                 // List name, range and type
                 file.print("<UL>");
-                for (final LocalVariable var : vars) {
+                for (LocalVariable var : vars) {
                     index = var.getSignatureIndex();
                     String signature = ((ConstantUtf8) constant_pool.getConstant(index, ClassFileConstants.CONSTANT_Utf8)).getBytes();
                     signature = Utility.signatureToString(signature, false);
-                    final int start = var.getStartPC();
-                    final int end = start + var.getLength();
+                    int start = var.getStartPC();
+                    int end = start + var.getLength();
                     file.println("<LI>" + Class2HTML.referenceType(signature) + "&nbsp;<B>" + var.getName() + "</B> in slot %" + var.getIndex() + "<BR>Valid from lines " + "<A HREF=\"" + class_name + "_code.html#code" + method_number + "@" + start + "\" TARGET=Code>" + start + "</A> to " + "<A HREF=\"" + class_name + "_code.html#code" + method_number + "@" + end + "\" TARGET=Code>" + end + "</A></LI>");
                 }
                 file.print("</UL>\n");
                 break;
             case ATTR_INNER_CLASSES:
-                final InnerClass[] classes = ((InnerClasses) attribute).getInnerClasses();
+                InnerClass[] classes = ((InnerClasses) attribute).getInnerClasses();
                 // List inner classes
                 file.print("<UL>");
-                for (final InnerClass classe : classes) {
+                for (InnerClass classe : classes) {
                     String name;
                     String access;
                     index = classe.getInnerNameIndex();

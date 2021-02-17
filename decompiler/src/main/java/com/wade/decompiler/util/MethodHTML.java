@@ -14,20 +14,20 @@ import com.wade.decompiler.classfile.Utility;
 import com.wade.decompiler.enums.ClassAccessFlagsList;
 import com.wade.decompiler.enums.ClassFileAttributes;
 
-final class MethodHTML {
-    private final String className; // name of current class
-    private final PrintWriter file; // file to write to
-    private final ConstantHTML constantHtml;
-    private final AttributeHTML attribute_html;
+class MethodHTML {
+    private String className; // name of current class
+    private PrintWriter file; // file to write to
+    private ConstantHTML constantHtml;
+    private AttributeHTML attribute_html;
 
-    MethodHTML(final String dir, final String class_name, final Method[] methods, final Field[] fields, final ConstantHTML constant_html, final AttributeHTML attribute_html) throws IOException {
+    MethodHTML(String dir, String class_name, Method[] methods, Field[] fields, ConstantHTML constant_html, AttributeHTML attribute_html) throws IOException {
         this.className = class_name;
         this.attribute_html = attribute_html;
         this.constantHtml = constant_html;
         file = new PrintWriter(new FileOutputStream(dir + class_name + "_methods.html"));
         file.println("<HTML><BODY BGCOLOR=\"#C0C0C0\"><TABLE BORDER=0>");
         file.println("<TR><TH ALIGN=LEFT>Access&nbsp;flags</TH><TH ALIGN=LEFT>Type</TH>" + "<TH ALIGN=LEFT>Field&nbsp;name</TH></TR>");
-        for (final Field field : fields) {
+        for (Field field : fields) {
             writeField(field);
         }
         file.println("</TABLE>");
@@ -42,9 +42,9 @@ final class MethodHTML {
     /**
      * @throws IOException
      */
-    private void writeField(final Field field) throws IOException {
-        final String type = Utility.signatureToString(field.getSignature());
-        final String name = field.getName();
+    private void writeField(Field field) throws IOException {
+        String type = Utility.signatureToString(field.getSignature());
+        String name = field.getName();
         String access = Utility.accessToString(new ClassAccessFlagsList(field.getFlags()));
         Attribute[] attributes;
         access = Utility.replace(access, " ", "&nbsp;");
@@ -56,7 +56,7 @@ final class MethodHTML {
         }
         for (int i = 0; i < attributes.length; i++) {
             if (attributes[i].getTag() == ClassFileAttributes.ATTR_CONSTANT_VALUE) { // Default value
-                final String str = ((ConstantValue) attributes[i]).toString();
+                String str = ((ConstantValue) attributes[i]).toString();
                 // Reference attribute in _attributes.html
                 file.print("<TD>= <A HREF=\"" + className + "_attributes.html#" + name + "@" + i + "\" TARGET=\"Attributes\">" + str + "</TD>\n");
                 break;
@@ -65,20 +65,20 @@ final class MethodHTML {
         file.println("</TR>");
     }
 
-    private void writeMethod(final Method method, final int method_number) {
+    private void writeMethod(Method method, int method_number) {
         // Get raw signature
-        final String signature = method.getSignature();
+        String signature = method.getSignature();
         // Get array of strings containing the argument types
-        final String[] args = Utility.methodSignatureArgumentTypes(signature, false);
+        String[] args = Utility.methodSignatureArgumentTypes(signature, false);
         // Get return type string
-        final String type = Utility.methodSignatureReturnType(signature, false);
+        String type = Utility.methodSignatureReturnType(signature, false);
         // Get method name
-        final String name = method.getName();
+        String name = method.getName();
         String html_name;
         // Get method's access flags
         String access = Utility.accessToString(new ClassAccessFlagsList(method.getFlags()));
         // Get the method's attributes, the Code Attribute in particular
-        final Attribute[] attributes = method.getAttributes();
+        Attribute[] attributes = method.getAttributes();
         access = Utility.replace(access, " ", "&nbsp;");
         html_name = Class2HTML.toHTML(name);
         file.print("<TR VALIGN=TOP><TD><FONT COLOR=\"#FF0000\"><A NAME=method" + method_number + ">" + access + "</A></FONT></TD>");
@@ -96,7 +96,7 @@ final class MethodHTML {
             ClassFileAttributes tag = attributes[i].getTag();
             if (tag == ClassFileAttributes.ATTR_EXCEPTIONS) {
                 file.print("<TR VALIGN=TOP><TD COLSPAN=2></TD><TH ALIGN=LEFT>throws</TH><TD>");
-                final int[] exceptions = ((ExceptionTable) attributes[i]).getExceptionIndexTable();
+                int[] exceptions = ((ExceptionTable) attributes[i]).getExceptionIndexTable();
                 for (int j = 0; j < exceptions.length; j++) {
                     file.print(constantHtml.referenceConstant(exceptions[j]));
                     if (j < exceptions.length - 1) {
@@ -105,7 +105,7 @@ final class MethodHTML {
                 }
                 file.println("</TD></TR>");
             } else if (tag == ClassFileAttributes.ATTR_CODE) {
-                final Attribute[] c_a = ((Code) attributes[i]).getAttributes();
+                Attribute[] c_a = ((Code) attributes[i]).getAttributes();
                 for (int j = 0; j < c_a.length; j++) {
                     attribute_html.writeAttribute(c_a[j], "method" + method_number + "@" + i + "@" + j, method_number);
                 }

@@ -14,20 +14,19 @@ public class InstructionHandle {
     private InstructionHandle next;
     private InstructionHandle prev;
     private Instruction instruction;
-    @Deprecated
-    protected int i_position = -1; // byte code offset of instruction
+    protected int i_position = -1;
     private Set<InstructionTargeter> targeters;
     private Map<Object, Object> attributes;
 
-    protected InstructionHandle(final Instruction i) {
+    public InstructionHandle(Instruction i) {
         setInstruction(i);
     }
 
-    public void accept(final Visitor v) {
+    public void accept(Visitor v) {
         instruction.accept(v);
     }
 
-    public void addAttribute(final Object key, final Object attr) {
+    public void addAttribute(Object key, Object attr) {
         if (attributes == null) {
             attributes = new HashMap<>(3);
         }
@@ -39,7 +38,7 @@ public class InstructionHandle {
         // noop
     }
 
-    public void addTargeter(final InstructionTargeter t) {
+    public void addTargeter(InstructionTargeter t) {
         if (targeters == null) {
             targeters = new HashSet<>();
         }
@@ -56,7 +55,7 @@ public class InstructionHandle {
         removeAllTargeters();
     }
 
-    public Object getAttribute(final Object key) {
+    public Object getAttribute(Object key) {
         if (attributes != null) {
             return attributes.get(key);
         }
@@ -70,11 +69,11 @@ public class InstructionHandle {
         return attributes.values();
     }
 
-    public final Instruction getInstruction() {
+    public Instruction getInstruction() {
         return instruction;
     }
 
-    public final InstructionHandle getNext() {
+    public InstructionHandle getNext() {
         return next;
     }
 
@@ -82,7 +81,7 @@ public class InstructionHandle {
         return i_position;
     }
 
-    public final InstructionHandle getPrev() {
+    public InstructionHandle getPrev() {
         return prev;
     }
 
@@ -90,7 +89,7 @@ public class InstructionHandle {
         if (!hasTargeters()) {
             return new InstructionTargeter[0];
         }
-        final InstructionTargeter[] t = new InstructionTargeter[targeters.size()];
+        InstructionTargeter[] t = new InstructionTargeter[targeters.size()];
         targeters.toArray(t);
         return t;
     }
@@ -105,19 +104,19 @@ public class InstructionHandle {
         }
     }
 
-    public void removeAttribute(final Object key) {
+    public void removeAttribute(Object key) {
         if (attributes != null) {
             attributes.remove(key);
         }
     }
 
-    public void removeTargeter(final InstructionTargeter t) {
+    public void removeTargeter(InstructionTargeter t) {
         if (targeters != null) {
             targeters.remove(t);
         }
     }
 
-    public void setInstruction(final Instruction i) { // Overridden in BranchHandle TODO could be package-protected?
+    public void setInstruction(Instruction i) { // Overridden in BranchHandle TODO could be package-protected?
         if (i == null) {
             throw new ClassGenException("Assigning null to handle");
         }
@@ -130,24 +129,24 @@ public class InstructionHandle {
         instruction = i;
     }
 
-    public InstructionHandle setNext(final InstructionHandle next) {
+    public InstructionHandle setNext(InstructionHandle next) {
         this.next = next;
         return next;
     }
 
-    public void setPosition(final int pos) {
+    public void setPosition(int pos) {
         i_position = pos;
     }
 
-    final InstructionHandle setPrev(final InstructionHandle prev) {
+    InstructionHandle setPrev(InstructionHandle prev) {
         this.prev = prev;
         return prev;
     }
 
     // See BCEL-273
     // TODO remove this method in any redesign of BCEL
-    public Instruction swapInstruction(final Instruction i) {
-        final Instruction oldInstruction = instruction;
+    public Instruction swapInstruction(Instruction i) {
+        Instruction oldInstruction = instruction;
         instruction = i;
         return oldInstruction;
     }
@@ -157,16 +156,16 @@ public class InstructionHandle {
         return toString(true);
     }
 
-    public String toString(final boolean verbose) {
+    public String toString(boolean verbose) {
         return Utility.format(i_position, 4, false, ' ') + ": " + instruction.toString(verbose);
     }
 
-    protected int updatePosition(final int offset, final int max_offset) {
+    protected int updatePosition(int offset, int max_offset) {
         i_position += offset;
         return 0;
     }
 
-    static InstructionHandle getInstructionHandle(final Instruction i) {
+    static InstructionHandle getInstructionHandle(Instruction i) {
         return new InstructionHandle(i);
     }
 }

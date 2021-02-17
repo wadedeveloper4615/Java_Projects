@@ -5,7 +5,7 @@ import java.util.Stack;
 import com.wade.decompiler.classfile.JavaClass;
 
 public class ClassStack {
-    private final Stack<JavaClass> stack = new Stack<>();
+    private Stack<JavaClass> stack = new Stack<>();
 
     public boolean empty() {
         return stack.empty();
@@ -15,7 +15,7 @@ public class ClassStack {
         return stack.pop();
     }
 
-    public void push(final JavaClass clazz) {
+    public void push(JavaClass clazz) {
         stack.push(clazz);
     }
 

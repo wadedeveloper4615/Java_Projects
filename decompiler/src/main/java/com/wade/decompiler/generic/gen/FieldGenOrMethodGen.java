@@ -7,7 +7,7 @@ import com.wade.decompiler.Const;
 import com.wade.decompiler.classfile.Attribute;
 import com.wade.decompiler.enums.ClassAccessFlagsList;
 import com.wade.decompiler.generic.base.NamedAndTyped;
-import com.wade.decompiler.generic.base.Type;
+import com.wade.decompiler.generic.type.Type;
 
 public abstract class FieldGenOrMethodGen extends ClassAccessFlagsList implements NamedAndTyped, Cloneable {
     @Deprecated
@@ -16,22 +16,22 @@ public abstract class FieldGenOrMethodGen extends ClassAccessFlagsList implement
     protected Type type;
     @Deprecated
     protected ConstantPoolGen cp;
-    private final List<Attribute> attributeList = new ArrayList<>();
+    private List<Attribute> attributeList = new ArrayList<>();
     // @since 6.0
-    private final List<AnnotationEntryGen> annotationList = new ArrayList<>();
+    private List<AnnotationEntryGen> annotationList = new ArrayList<>();
 
     protected FieldGenOrMethodGen() {
     }
 
-    protected FieldGenOrMethodGen(final int access_flags) { // TODO could this be package protected?
+    protected FieldGenOrMethodGen(int access_flags) { // TODO could this be package protected?
         super(access_flags);
     }
 
-    public void addAnnotationEntry(final AnnotationEntryGen ag) {
+    public void addAnnotationEntry(AnnotationEntryGen ag) {
         annotationList.add(ag);
     }
 
-    public void addAttribute(final Attribute a) {
+    public void addAttribute(Attribute a) {
         attributeList.add(a);
     }
 
@@ -39,19 +39,19 @@ public abstract class FieldGenOrMethodGen extends ClassAccessFlagsList implement
     public Object clone() {
         try {
             return super.clone();
-        } catch (final CloneNotSupportedException e) {
+        } catch (CloneNotSupportedException e) {
             throw new Error("Clone Not Supported"); // never happens
         }
     }
 
     public AnnotationEntryGen[] getAnnotationEntries() {
-        final AnnotationEntryGen[] annotations = new AnnotationEntryGen[annotationList.size()];
+        AnnotationEntryGen[] annotations = new AnnotationEntryGen[annotationList.size()];
         annotationList.toArray(annotations);
         return annotations;
     }
 
     public Attribute[] getAttributes() {
-        final Attribute[] attributes = new Attribute[attributeList.size()];
+        Attribute[] attributes = new Attribute[attributeList.size()];
         attributeList.toArray(attributes);
         return attributes;
     }
@@ -76,11 +76,11 @@ public abstract class FieldGenOrMethodGen extends ClassAccessFlagsList implement
         annotationList.clear();
     }
 
-    public void removeAnnotationEntry(final AnnotationEntryGen ag) {
+    public void removeAnnotationEntry(AnnotationEntryGen ag) {
         annotationList.remove(ag);
     }
 
-    public void removeAttribute(final Attribute a) {
+    public void removeAttribute(Attribute a) {
         attributeList.remove(a);
     }
 
@@ -88,17 +88,17 @@ public abstract class FieldGenOrMethodGen extends ClassAccessFlagsList implement
         attributeList.clear();
     }
 
-    public void setConstantPool(final ConstantPoolGen cp) { // TODO could be package-protected?
+    public void setConstantPool(ConstantPoolGen cp) { // TODO could be package-protected?
         this.cp = cp;
     }
 
     @Override
-    public void setName(final String name) { // TODO could be package-protected?
+    public void setName(String name) { // TODO could be package-protected?
         this.name = name;
     }
 
     @Override
-    public void setType(final Type type) { // TODO could be package-protected?
+    public void setType(Type type) { // TODO could be package-protected?
         if (type.getType() == Const.T_ADDRESS) {
             throw new IllegalArgumentException("Type can not be " + type);
         }

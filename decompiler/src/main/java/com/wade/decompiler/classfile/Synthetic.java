@@ -6,15 +6,15 @@ import java.io.IOException;
 
 import com.wade.decompiler.enums.ClassFileAttributes;
 
-public  class Synthetic extends Attribute {
+public class Synthetic extends Attribute {
     private byte[] bytes;
 
-    public Synthetic( int name_index,  int length,  byte[] bytes,  ConstantPool constant_pool) {
+    public Synthetic(int name_index, int length, byte[] bytes, ConstantPool constant_pool) {
         super(ClassFileAttributes.ATTR_SYNTHETIC, name_index, length, constant_pool);
         this.bytes = bytes;
     }
 
-    public Synthetic( int name_index,  int length,  DataInput input,  ConstantPool constant_pool) throws IOException {
+    public Synthetic(int name_index, int length, DataInput input, ConstantPool constant_pool) throws IOException {
         this(name_index, length, (byte[]) null, constant_pool);
         if (length > 0) {
             bytes = new byte[length];
@@ -23,17 +23,17 @@ public  class Synthetic extends Attribute {
         }
     }
 
-    public Synthetic( Synthetic c) {
+    public Synthetic(Synthetic c) {
         this(c.getNameIndex(), c.getLength(), c.getBytes(), c.getConstantPool());
     }
 
     @Override
-    public void accept( Visitor v) {
+    public void accept(Visitor v) {
         v.visitSynthetic(this);
     }
 
     @Override
-    public Attribute copy( ConstantPool _constant_pool) {
+    public Attribute copy(ConstantPool _constant_pool) {
         Synthetic c = (Synthetic) clone();
         if (bytes != null) {
             c.bytes = new byte[bytes.length];
@@ -44,7 +44,7 @@ public  class Synthetic extends Attribute {
     }
 
     @Override
-    public void dump( DataOutputStream file) throws IOException {
+    public void dump(DataOutputStream file) throws IOException {
         super.dump(file);
         if (super.getLength() > 0) {
             file.write(bytes, 0, super.getLength());
@@ -55,7 +55,7 @@ public  class Synthetic extends Attribute {
         return bytes;
     }
 
-    public void setBytes( byte[] bytes) {
+    public void setBytes(byte[] bytes) {
         this.bytes = bytes;
     }
 

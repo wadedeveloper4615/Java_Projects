@@ -6,53 +6,53 @@ import java.util.Objects;
 
 import com.wade.decompiler.enums.ClassAccessFlagsList;
 import com.wade.decompiler.enums.ClassFileAttributes;
-import com.wade.decompiler.generic.base.Type;
+import com.wade.decompiler.generic.type.Type;
 import com.wade.decompiler.util.BCELComparator;
 
-public final class Field extends FieldOrMethod {
+public class Field extends FieldOrMethod {
     private static BCELComparator bcelComparator = new BCELComparator() {
         @Override
-        public boolean equals(final Object o1, final Object o2) {
-            final Field THIS = (Field) o1;
-            final Field THAT = (Field) o2;
+        public boolean equals(Object o1, Object o2) {
+            Field THIS = (Field) o1;
+            Field THAT = (Field) o2;
             return Objects.equals(THIS.getName(), THAT.getName()) && Objects.equals(THIS.getSignature(), THAT.getSignature());
         }
 
         @Override
-        public int hashCode(final Object o) {
-            final Field THIS = (Field) o;
+        public int hashCode(Object o) {
+            Field THIS = (Field) o;
             return THIS.getSignature().hashCode() ^ THIS.getName().hashCode();
         }
     };
 
-    Field(final DataInput file, final ConstantPool constant_pool) throws IOException, ClassFormatException {
-        super(file, constant_pool);
+    public Field(DataInput file, ConstantPool constantPool) throws IOException, ClassFormatException {
+        super(file, constantPool);
     }
 
-    public Field(final Field c) {
+    public Field(Field c) {
         super(c);
     }
 
-    public Field(final int access_flags, final int name_index, final int signature_index, final Attribute[] attributes, final ConstantPool constant_pool) {
-        super(access_flags, name_index, signature_index, attributes, constant_pool);
+    public Field(int accessFlags, int nameIndex, int signatureIndex, Attribute[] attributes, ConstantPool constantPool) {
+        super(accessFlags, nameIndex, signatureIndex, attributes, constantPool);
     }
 
     @Override
-    public void accept(final Visitor v) {
+    public void accept(Visitor v) {
         v.visitField(this);
     }
 
-    public Field copy(final ConstantPool _constant_pool) {
+    public Field copy(ConstantPool _constant_pool) {
         return (Field) copy_(_constant_pool);
     }
 
     @Override
-    public boolean equals(final Object obj) {
+    public boolean equals(Object obj) {
         return bcelComparator.equals(this, obj);
     }
 
     public ConstantValue getConstantValue() {
-        for (final Attribute attribute : super.getAttributes()) {
+        for (Attribute attribute : super.getAttributes()) {
             if (attribute.getTag() == ClassFileAttributes.ATTR_CONSTANT_VALUE) {
                 return (ConstantValue) attribute;
             }
@@ -79,13 +79,13 @@ public final class Field extends FieldOrMethod {
         access = access.isEmpty() ? "" : (access + " ");
         signature = Utility.signatureToString(getSignature());
         name = getName();
-        final StringBuilder buf = new StringBuilder(64); // CHECKSTYLE IGNORE MagicNumber
+        StringBuilder buf = new StringBuilder(64); // CHECKSTYLE IGNORE MagicNumber
         buf.append(access).append(signature).append(" ").append(name);
-        final ConstantValue cv = getConstantValue();
+        ConstantValue cv = getConstantValue();
         if (cv != null) {
             buf.append(" = ").append(cv);
         }
-        for (final Attribute attribute : super.getAttributes()) {
+        for (Attribute attribute : super.getAttributes()) {
             if (!(attribute instanceof ConstantValue)) {
                 buf.append(" [").append(attribute).append("]");
             }
@@ -97,7 +97,7 @@ public final class Field extends FieldOrMethod {
         return bcelComparator;
     }
 
-    public static void setComparator(final BCELComparator comparator) {
+    public static void setComparator(BCELComparator comparator) {
         bcelComparator = comparator;
     }
 }

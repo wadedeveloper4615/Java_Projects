@@ -1,42 +1,43 @@
 package com.wade.decompiler.generic.base;
 
-import com.wade.decompiler.Const;
+import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generic.gen.ClassGenException;
 import com.wade.decompiler.generic.gen.ConstantPoolGen;
+import com.wade.decompiler.generic.type.Type;
 
 public abstract class ConversionInstruction extends Instruction implements TypedInstruction, StackProducer, StackConsumer {
-    ConversionInstruction() {
+    public ConversionInstruction() {
     }
 
-    protected ConversionInstruction(final short opcode) {
-        super(opcode, (short) 1);
+    public ConversionInstruction(InstructionOpCodes opcode) {
+        super(opcode, 1);
     }
 
     @Override
-    public Type getType(final ConstantPoolGen cp) {
-        final short _opcode = super.getOpcode();
+    public Type getType(ConstantPoolGen cp) {
+        InstructionOpCodes _opcode = super.getOpcode();
         switch (_opcode) {
-            case Const.D2I:
-            case Const.F2I:
-            case Const.L2I:
+            case D2I:
+            case F2I:
+            case L2I:
                 return Type.INT;
-            case Const.D2F:
-            case Const.I2F:
-            case Const.L2F:
+            case D2F:
+            case I2F:
+            case L2F:
                 return Type.FLOAT;
-            case Const.D2L:
-            case Const.F2L:
-            case Const.I2L:
+            case D2L:
+            case F2L:
+            case I2L:
                 return Type.LONG;
-            case Const.F2D:
-            case Const.I2D:
-            case Const.L2D:
+            case F2D:
+            case I2D:
+            case L2D:
                 return Type.DOUBLE;
-            case Const.I2B:
+            case I2B:
                 return Type.BYTE;
-            case Const.I2C:
+            case I2C:
                 return Type.CHAR;
-            case Const.I2S:
+            case I2S:
                 return Type.SHORT;
             default: // Never reached
                 throw new ClassGenException("Unknown type " + _opcode);

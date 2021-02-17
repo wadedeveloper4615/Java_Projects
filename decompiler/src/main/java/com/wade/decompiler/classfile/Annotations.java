@@ -10,15 +10,13 @@ public abstract class Annotations extends Attribute {
     private AnnotationEntry[] annotationTable;
     private boolean isRuntimeVisible;
 
-    public Annotations(ClassFileAttributes annotationType, int nameIndex, int length, AnnotationEntry[] annotationTable,
-            ConstantPool constantPool, boolean isRuntimeVisible) {
+    public Annotations(ClassFileAttributes annotationType, int nameIndex, int length, AnnotationEntry[] annotationTable, ConstantPool constantPool, boolean isRuntimeVisible) {
         super(annotationType, nameIndex, length, constantPool);
         this.annotationTable = annotationTable;
         this.isRuntimeVisible = isRuntimeVisible;
     }
 
-    public Annotations(ClassFileAttributes annotation_type, int name_index, int length, DataInput input,
-            ConstantPool constant_pool, boolean isRuntimeVisible) throws IOException {
+    public Annotations(ClassFileAttributes annotation_type, int name_index, int length, DataInput input, ConstantPool constant_pool, boolean isRuntimeVisible) throws IOException {
         this(annotation_type, name_index, length, (AnnotationEntry[]) null, constant_pool, isRuntimeVisible);
         int annotation_table_length = input.readUnsignedShort();
         annotationTable = new AnnotationEntry[annotation_table_length];

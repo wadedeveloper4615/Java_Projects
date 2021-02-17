@@ -1,4 +1,4 @@
-package com.wade.decompiler.generic.base;
+package com.wade.decompiler.generic.gen;
 
 public interface MethodObserver {
     void notify(MethodGen method);

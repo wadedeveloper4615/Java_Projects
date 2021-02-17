@@ -17,7 +17,7 @@ public interface Visitor {
 
     void visitConstantDouble(ConstantDouble obj);
 
-    default void visitConstantDynamic(final ConstantDynamic constantDynamic) {
+    default void visitConstantDynamic(ConstantDynamic constantDynamic) {
         // empty
     }
 
@@ -79,45 +79,45 @@ public interface Visitor {
 
     void visitMethod(Method obj);
 
-    default void visitMethodParameter(final MethodParameter obj) {
+    default void visitMethodParameter(MethodParameter obj) {
         // empty
     }
 
     void visitMethodParameters(MethodParameters obj);
 
-    default void visitModule(final Module constantModule) {
+    default void visitModule(Module constantModule) {
         // empty
     }
 
-    default void visitModuleExports(final ModuleExports constantModule) {
+    default void visitModuleExports(ModuleExports constantModule) {
         // empty
     }
 
-    default void visitModuleMainClass(final ModuleMainClass obj) {
+    default void visitModuleMainClass(ModuleMainClass obj) {
         // empty
     }
 
-    default void visitModuleOpens(final ModuleOpens constantModule) {
+    default void visitModuleOpens(ModuleOpens constantModule) {
         // empty
     }
 
-    default void visitModulePackages(final ModulePackages constantModule) {
+    default void visitModulePackages(ModulePackages constantModule) {
         // empty
     }
 
-    default void visitModuleProvides(final ModuleProvides constantModule) {
+    default void visitModuleProvides(ModuleProvides constantModule) {
         // empty
     }
 
-    default void visitModuleRequires(final ModuleRequires constantModule) {
+    default void visitModuleRequires(ModuleRequires constantModule) {
         // empty
     }
 
-    default void visitNestHost(final NestHost obj) {
+    default void visitNestHost(NestHost obj) {
         // empty
     }
 
-    default void visitNestMembers(final NestMembers obj) {
+    default void visitNestMembers(NestMembers obj) {
         // empty
     }
 

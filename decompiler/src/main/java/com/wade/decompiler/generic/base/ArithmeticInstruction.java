@@ -1,60 +1,61 @@
 package com.wade.decompiler.generic.base;
 
-import com.wade.decompiler.Const;
+import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generic.gen.ClassGenException;
 import com.wade.decompiler.generic.gen.ConstantPoolGen;
+import com.wade.decompiler.generic.type.Type;
 
 public abstract class ArithmeticInstruction extends Instruction implements TypedInstruction, StackProducer, StackConsumer {
-    ArithmeticInstruction() {
+    public ArithmeticInstruction() {
     }
 
-    protected ArithmeticInstruction(final short opcode) {
-        super(opcode, (short) 1);
+    public ArithmeticInstruction(InstructionOpCodes opcode) {
+        super(opcode, 1);
     }
 
     @Override
-    public Type getType(final ConstantPoolGen cp) {
-        final short _opcode = super.getOpcode();
+    public Type getType(ConstantPoolGen cp) {
+        InstructionOpCodes _opcode = super.getOpcode();
         switch (_opcode) {
-            case Const.DADD:
-            case Const.DDIV:
-            case Const.DMUL:
-            case Const.DNEG:
-            case Const.DREM:
-            case Const.DSUB:
+            case DADD:
+            case DDIV:
+            case DMUL:
+            case DNEG:
+            case DREM:
+            case DSUB:
                 return Type.DOUBLE;
-            case Const.FADD:
-            case Const.FDIV:
-            case Const.FMUL:
-            case Const.FNEG:
-            case Const.FREM:
-            case Const.FSUB:
+            case FADD:
+            case FDIV:
+            case FMUL:
+            case FNEG:
+            case FREM:
+            case FSUB:
                 return Type.FLOAT;
-            case Const.IADD:
-            case Const.IAND:
-            case Const.IDIV:
-            case Const.IMUL:
-            case Const.INEG:
-            case Const.IOR:
-            case Const.IREM:
-            case Const.ISHL:
-            case Const.ISHR:
-            case Const.ISUB:
-            case Const.IUSHR:
-            case Const.IXOR:
+            case IADD:
+            case IAND:
+            case IDIV:
+            case IMUL:
+            case INEG:
+            case IOR:
+            case IREM:
+            case ISHL:
+            case ISHR:
+            case ISUB:
+            case IUSHR:
+            case IXOR:
                 return Type.INT;
-            case Const.LADD:
-            case Const.LAND:
-            case Const.LDIV:
-            case Const.LMUL:
-            case Const.LNEG:
-            case Const.LOR:
-            case Const.LREM:
-            case Const.LSHL:
-            case Const.LSHR:
-            case Const.LSUB:
-            case Const.LUSHR:
-            case Const.LXOR:
+            case LADD:
+            case LAND:
+            case LDIV:
+            case LMUL:
+            case LNEG:
+            case LOR:
+            case LREM:
+            case LSHL:
+            case LSHR:
+            case LSUB:
+            case LUSHR:
+            case LXOR:
                 return Type.LONG;
             default: // Never reached
                 throw new ClassGenException("Unknown type " + _opcode);

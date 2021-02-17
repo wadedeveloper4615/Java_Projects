@@ -16,7 +16,7 @@ public class ClassQueue {
         return vec.isEmpty();
     }
 
-    public void enqueue(final JavaClass clazz) {
+    public void enqueue(JavaClass clazz) {
         vec.addLast(clazz);
     }
 

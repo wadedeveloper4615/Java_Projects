@@ -6,37 +6,37 @@ import java.io.IOException;
 
 import com.wade.decompiler.enums.ClassFileConstants;
 
-public final class ConstantNameAndType extends Constant {
+public class ConstantNameAndType extends Constant {
     private int nameIndex; // Name of field/method
     private int signatureIndex; // and its signature.
 
-    public ConstantNameAndType(final ConstantNameAndType c) {
+    public ConstantNameAndType(ConstantNameAndType c) {
         this(c.getNameIndex(), c.getSignatureIndex());
     }
 
-    ConstantNameAndType(final DataInput file) throws IOException {
+    ConstantNameAndType(DataInput file) throws IOException {
         this(file.readUnsignedShort(), file.readUnsignedShort());
     }
 
-    public ConstantNameAndType(final int nameIndex, final int signatureIndex) {
+    public ConstantNameAndType(int nameIndex, int signatureIndex) {
         super(ClassFileConstants.CONSTANT_NameAndType);
         this.nameIndex = nameIndex;
         this.signatureIndex = signatureIndex;
     }
 
     @Override
-    public void accept(final Visitor v) {
+    public void accept(Visitor v) {
         v.visitConstantNameAndType(this);
     }
 
     @Override
-    public void dump(final DataOutputStream file) throws IOException {
+    public void dump(DataOutputStream file) throws IOException {
         file.writeByte(super.getTag().getTag());
         file.writeShort(nameIndex);
         file.writeShort(signatureIndex);
     }
 
-    public String getName(final ConstantPool cp) {
+    public String getName(ConstantPool cp) {
         return cp.constantToString(getNameIndex(), ClassFileConstants.CONSTANT_Utf8);
     }
 
@@ -44,7 +44,7 @@ public final class ConstantNameAndType extends Constant {
         return nameIndex;
     }
 
-    public String getSignature(final ConstantPool cp) {
+    public String getSignature(ConstantPool cp) {
         return cp.constantToString(getSignatureIndex(), ClassFileConstants.CONSTANT_Utf8);
     }
 
@@ -52,11 +52,11 @@ public final class ConstantNameAndType extends Constant {
         return signatureIndex;
     }
 
-    public void setNameIndex(final int nameIndex) {
+    public void setNameIndex(int nameIndex) {
         this.nameIndex = nameIndex;
     }
 
-    public void setSignatureIndex(final int signatureIndex) {
+    public void setSignatureIndex(int signatureIndex) {
         this.signatureIndex = signatureIndex;
     }
 

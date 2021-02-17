@@ -24,6 +24,18 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 public class ClassPath implements Closeable {
+    private static FilenameFilter ARCHIVE_FILTER = (dir, name) -> {
+        name = name.toLowerCase(Locale.ENGLISH);
+        return name.endsWith(".zip") || name.endsWith(".jar");
+    };
+
+    private static FilenameFilter MODULES_FILTER = (dir, name) -> {
+        name = name.toLowerCase(Locale.ENGLISH);
+        return name.endsWith(".jmod");
+    };
+
+    public static ClassPath SYSTEM_CLASS_PATH = new ClassPath(getClassPath());
+
     private abstract static class AbstractPathEntry implements Closeable {
         abstract ClassFile getClassFile(String name, String suffix) throws IOException;
 
@@ -33,9 +45,9 @@ public class ClassPath implements Closeable {
     }
 
     private abstract static class AbstractZip extends AbstractPathEntry {
-        private final ZipFile zipFile;
+        private ZipFile zipFile;
 
-        AbstractZip(final ZipFile zipFile) {
+        AbstractZip(ZipFile zipFile) {
             this.zipFile = Objects.requireNonNull(zipFile, "zipFile");
         }
 
@@ -47,8 +59,8 @@ public class ClassPath implements Closeable {
         }
 
         @Override
-        ClassFile getClassFile(final String name, final String suffix) throws IOException {
-            final ZipEntry entry = zipFile.getEntry(toEntryName(name, suffix));
+        ClassFile getClassFile(String name, String suffix) throws IOException {
+            ZipEntry entry = zipFile.getEntry(toEntryName(name, suffix));
             if (entry == null) {
                 return null;
             }
@@ -81,26 +93,26 @@ public class ClassPath implements Closeable {
         }
 
         @Override
-        URL getResource(final String name) {
-            final ZipEntry entry = zipFile.getEntry(name);
+        URL getResource(String name) {
+            ZipEntry entry = zipFile.getEntry(name);
             try {
                 return entry != null ? new URL("jar:file:" + zipFile.getName() + "!/" + name) : null;
-            } catch (final MalformedURLException e) {
+            } catch (MalformedURLException e) {
                 return null;
             }
         }
 
         @Override
-        InputStream getResourceAsStream(final String name) {
-            final ZipEntry entry = zipFile.getEntry(name);
+        InputStream getResourceAsStream(String name) {
+            ZipEntry entry = zipFile.getEntry(name);
             try {
                 return entry != null ? zipFile.getInputStream(entry) : null;
-            } catch (final IOException e) {
+            } catch (IOException e) {
                 return null;
             }
         }
 
-        protected abstract String toEntryName(final String name, final String suffix);
+        protected abstract String toEntryName(String name, String suffix);
 
         @Override
         public String toString() {
@@ -121,9 +133,9 @@ public class ClassPath implements Closeable {
     }
 
     private static class Dir extends AbstractPathEntry {
-        private final String dir;
+        private String dir;
 
-        Dir(final String d) {
+        Dir(String d) {
             dir = d;
         }
 
@@ -133,8 +145,8 @@ public class ClassPath implements Closeable {
         }
 
         @Override
-        ClassFile getClassFile(final String name, final String suffix) throws IOException {
-            final File file = new File(dir + File.separatorChar + name.replace('.', File.separatorChar) + suffix);
+        ClassFile getClassFile(String name, String suffix) throws IOException {
+            File file = new File(dir + File.separatorChar + name.replace('.', File.separatorChar) + suffix);
             return file.exists() ? new ClassFile() {
                 @Override
                 public String getBase() {
@@ -150,7 +162,7 @@ public class ClassPath implements Closeable {
                 public String getPath() {
                     try {
                         return file.getCanonicalPath();
-                    } catch (final IOException e) {
+                    } catch (IOException e) {
                         return null;
                     }
                 }
@@ -168,28 +180,28 @@ public class ClassPath implements Closeable {
         }
 
         @Override
-        URL getResource(final String name) {
+        URL getResource(String name) {
             // Resource specification uses '/' whatever the platform
-            final File file = toFile(name);
+            File file = toFile(name);
             try {
                 return file.exists() ? file.toURI().toURL() : null;
-            } catch (final MalformedURLException e) {
+            } catch (MalformedURLException e) {
                 return null;
             }
         }
 
         @Override
-        InputStream getResourceAsStream(final String name) {
+        InputStream getResourceAsStream(String name) {
             // Resource specification uses '/' whatever the platform
-            final File file = toFile(name);
+            File file = toFile(name);
             try {
                 return file.exists() ? new FileInputStream(file) : null;
-            } catch (final IOException e) {
+            } catch (IOException e) {
                 return null;
             }
         }
 
-        private File toFile(final String name) {
+        private File toFile(String name) {
             return new File(dir + File.separatorChar + name.replace('/', File.separatorChar));
         }
 
@@ -200,20 +212,20 @@ public class ClassPath implements Closeable {
     }
 
     private static class Jar extends AbstractZip {
-        Jar(final ZipFile zip) {
+        Jar(ZipFile zip) {
             super(zip);
         }
 
         @Override
-        protected String toEntryName(final String name, final String suffix) {
+        protected String toEntryName(String name, String suffix) {
             return packageToFolder(name) + suffix;
         }
     }
 
     private static class JrtModule extends AbstractPathEntry {
-        private final Path modulePath;
+        private Path modulePath;
 
-        public JrtModule(final Path modulePath) {
+        public JrtModule(Path modulePath) {
             this.modulePath = Objects.requireNonNull(modulePath, "modulePath");
         }
 
@@ -223,8 +235,8 @@ public class ClassPath implements Closeable {
         }
 
         @Override
-        ClassFile getClassFile(final String name, final String suffix) throws IOException {
-            final Path resolved = modulePath.resolve(packageToFolder(name) + suffix);
+        ClassFile getClassFile(String name, String suffix) throws IOException {
+            Path resolved = modulePath.resolve(packageToFolder(name) + suffix);
             if (Files.exists(resolved)) {
                 return new ClassFile() {
                     @Override
@@ -246,7 +258,7 @@ public class ClassPath implements Closeable {
                     public long getSize() {
                         try {
                             return Files.size(resolved);
-                        } catch (final IOException e) {
+                        } catch (IOException e) {
                             return 0;
                         }
                     }
@@ -255,7 +267,7 @@ public class ClassPath implements Closeable {
                     public long getTime() {
                         try {
                             return Files.getLastModifiedTime(resolved).toMillis();
-                        } catch (final IOException e) {
+                        } catch (IOException e) {
                             return 0;
                         }
                     }
@@ -265,20 +277,20 @@ public class ClassPath implements Closeable {
         }
 
         @Override
-        URL getResource(final String name) {
-            final Path resovled = modulePath.resolve(name);
+        URL getResource(String name) {
+            Path resovled = modulePath.resolve(name);
             try {
                 return Files.exists(resovled) ? new URL("jrt:" + modulePath + "/" + name) : null;
-            } catch (final MalformedURLException e) {
+            } catch (MalformedURLException e) {
                 return null;
             }
         }
 
         @Override
-        InputStream getResourceAsStream(final String name) {
+        InputStream getResourceAsStream(String name) {
             try {
                 return Files.newInputStream(modulePath.resolve(name));
-            } catch (final IOException e) {
+            } catch (IOException e) {
                 return null;
             }
         }
@@ -290,12 +302,12 @@ public class ClassPath implements Closeable {
     }
 
     private static class JrtModules extends AbstractPathEntry {
-        private final ModularRuntimeImage modularRuntimeImage;
-        private final JrtModule[] modules;
+        private ModularRuntimeImage modularRuntimeImage;
+        private JrtModule[] modules;
 
-        public JrtModules(final String path) throws IOException {
+        public JrtModules(String path) throws IOException {
             this.modularRuntimeImage = new ModularRuntimeImage();
-            final List<Path> list = modularRuntimeImage.list(path);
+            List<Path> list = modularRuntimeImage.list(path);
             this.modules = new JrtModule[list.size()];
             for (int i = 0; i < modules.length; i++) {
                 modules[i] = new JrtModule(list.get(i));
@@ -317,11 +329,11 @@ public class ClassPath implements Closeable {
         }
 
         @Override
-        ClassFile getClassFile(final String name, final String suffix) throws IOException {
+        ClassFile getClassFile(String name, String suffix) throws IOException {
             // don't use a for each loop to avoid creating an iterator for the GC to
             // collect.
             for (JrtModule module : modules) {
-                final ClassFile classFile = module.getClassFile(name, suffix);
+                ClassFile classFile = module.getClassFile(name, suffix);
                 if (classFile != null) {
                     return classFile;
                 }
@@ -330,11 +342,11 @@ public class ClassPath implements Closeable {
         }
 
         @Override
-        URL getResource(final String name) {
+        URL getResource(String name) {
             // don't use a for each loop to avoid creating an iterator for the GC to
             // collect.
             for (JrtModule module : modules) {
-                final URL url = module.getResource(name);
+                URL url = module.getResource(name);
                 if (url != null) {
                     return url;
                 }
@@ -343,11 +355,11 @@ public class ClassPath implements Closeable {
         }
 
         @Override
-        InputStream getResourceAsStream(final String name) {
+        InputStream getResourceAsStream(String name) {
             // don't use a for each loop to avoid creating an iterator for the GC to
             // collect.
             for (JrtModule module : modules) {
-                final InputStream inputStream = module.getResourceAsStream(name);
+                InputStream inputStream = module.getResourceAsStream(name);
                 if (inputStream != null) {
                     return inputStream;
                 }
@@ -362,47 +374,38 @@ public class ClassPath implements Closeable {
     }
 
     private static class Module extends AbstractZip {
-        Module(final ZipFile zip) {
+        Module(ZipFile zip) {
             super(zip);
         }
 
         @Override
-        protected String toEntryName(final String name, final String suffix) {
+        protected String toEntryName(String name, String suffix) {
             return "classes/" + packageToFolder(name) + suffix;
         }
     }
 
-    private static final FilenameFilter ARCHIVE_FILTER = (dir, name) -> {
-        name = name.toLowerCase(Locale.ENGLISH);
-        return name.endsWith(".zip") || name.endsWith(".jar");
-    };
-    private static final FilenameFilter MODULES_FILTER = (dir, name) -> {
-        name = name.toLowerCase(Locale.ENGLISH);
-        return name.endsWith(".jmod");
-    };
-    public static final ClassPath SYSTEM_CLASS_PATH = new ClassPath(getClassPath());
-    private final String classPath;
+    private String classPath;
     private ClassPath parent;
-    private final AbstractPathEntry[] paths;
+    private AbstractPathEntry[] paths;
 
     @Deprecated
     public ClassPath() {
         this(getClassPath());
     }
 
-    public ClassPath(final ClassPath parent, final String classPath) {
+    public ClassPath(ClassPath parent, String classPath) {
         this(classPath);
         this.parent = parent;
     }
 
     @SuppressWarnings("resource")
-    public ClassPath(final String classPath) {
+    public ClassPath(String classPath) {
         this.classPath = classPath;
-        final List<AbstractPathEntry> list = new ArrayList<>();
-        for (final StringTokenizer tokenizer = new StringTokenizer(classPath, File.pathSeparator); tokenizer.hasMoreTokens();) {
-            final String path = tokenizer.nextToken();
+        List<AbstractPathEntry> list = new ArrayList<>();
+        for (StringTokenizer tokenizer = new StringTokenizer(classPath, File.pathSeparator); tokenizer.hasMoreTokens();) {
+            String path = tokenizer.nextToken();
             if (!path.isEmpty()) {
-                final File file = new File(path);
+                File file = new File(path);
                 try {
                     if (file.exists()) {
                         if (file.isDirectory()) {
@@ -415,7 +418,7 @@ public class ClassPath implements Closeable {
                             list.add(new Jar(new ZipFile(file)));
                         }
                     }
-                } catch (final IOException e) {
+                } catch (IOException e) {
                     if (path.endsWith(".zip") || path.endsWith(".jar")) {
                         System.err.println("CLASSPATH component " + file + ": " + e);
                     }
@@ -429,33 +432,33 @@ public class ClassPath implements Closeable {
     @Override
     public void close() throws IOException {
         if (paths != null) {
-            for (final AbstractPathEntry path : paths) {
+            for (AbstractPathEntry path : paths) {
                 path.close();
             }
         }
     }
 
     @Override
-    public boolean equals(final Object o) {
+    public boolean equals(Object o) {
         if (o instanceof ClassPath) {
-            final ClassPath cp = (ClassPath) o;
+            ClassPath cp = (ClassPath) o;
             return classPath.equals(cp.toString());
         }
         return false;
     }
 
-    public byte[] getBytes(final String name) throws IOException {
+    public byte[] getBytes(String name) throws IOException {
         return getBytes(name, ".class");
     }
 
-    public byte[] getBytes(final String name, final String suffix) throws IOException {
+    public byte[] getBytes(String name, String suffix) throws IOException {
         DataInputStream dis = null;
         try (InputStream inputStream = getInputStream(name, suffix)) {
             if (inputStream == null) {
                 throw new IOException("Couldn't find: " + name + suffix);
             }
             dis = new DataInputStream(inputStream);
-            final byte[] bytes = new byte[inputStream.available()];
+            byte[] bytes = new byte[inputStream.available()];
             dis.readFully(bytes);
             return bytes;
         } finally {
@@ -465,11 +468,11 @@ public class ClassPath implements Closeable {
         }
     }
 
-    public ClassFile getClassFile(final String name) throws IOException {
+    public ClassFile getClassFile(String name) throws IOException {
         return getClassFile(name, ".class");
     }
 
-    public ClassFile getClassFile(final String name, final String suffix) throws IOException {
+    public ClassFile getClassFile(String name, String suffix) throws IOException {
         ClassFile cf = null;
         if (parent != null) {
             cf = parent.getClassFileInternal(name, suffix);
@@ -483,9 +486,9 @@ public class ClassPath implements Closeable {
         throw new IOException("Couldn't find: " + name + suffix);
     }
 
-    private ClassFile getClassFileInternal(final String name, final String suffix) throws IOException {
-        for (final AbstractPathEntry path : paths) {
-            final ClassFile cf = path.getClassFile(name, suffix);
+    private ClassFile getClassFileInternal(String name, String suffix) throws IOException {
+        for (AbstractPathEntry path : paths) {
+            ClassFile cf = path.getClassFile(name, suffix);
             if (cf != null) {
                 return cf;
             }
@@ -493,15 +496,15 @@ public class ClassPath implements Closeable {
         return null;
     }
 
-    public InputStream getInputStream(final String name) throws IOException {
+    public InputStream getInputStream(String name) throws IOException {
         return getInputStream(packageToFolder(name), ".class");
     }
 
-    public InputStream getInputStream(final String name, final String suffix) throws IOException {
+    public InputStream getInputStream(String name, String suffix) throws IOException {
         InputStream inputStream = null;
         try {
             inputStream = getClass().getClassLoader().getResourceAsStream(name + suffix); // may return null
-        } catch (final Exception e) {
+        } catch (Exception e) {
             // ignored
         }
         if (inputStream != null) {
@@ -511,7 +514,7 @@ public class ClassPath implements Closeable {
     }
 
     public String getPath(String name) throws IOException {
-        final int index = name.lastIndexOf('.');
+        int index = name.lastIndexOf('.');
         String suffix = "";
         if (index > 0) {
             suffix = name.substring(index);
@@ -520,12 +523,12 @@ public class ClassPath implements Closeable {
         return getPath(name, suffix);
     }
 
-    public String getPath(final String name, final String suffix) throws IOException {
+    public String getPath(String name, String suffix) throws IOException {
         return getClassFile(name, suffix).getPath();
     }
 
-    public URL getResource(final String name) {
-        for (final AbstractPathEntry path : paths) {
+    public URL getResource(String name) {
+        for (AbstractPathEntry path : paths) {
             URL url;
             if ((url = path.getResource(name)) != null) {
                 return url;
@@ -534,8 +537,8 @@ public class ClassPath implements Closeable {
         return null;
     }
 
-    public InputStream getResourceAsStream(final String name) {
-        for (final AbstractPathEntry path : paths) {
+    public InputStream getResourceAsStream(String name) {
+        for (AbstractPathEntry path : paths) {
             InputStream is;
             if ((is = path.getResourceAsStream(name)) != null) {
                 return is;
@@ -544,9 +547,9 @@ public class ClassPath implements Closeable {
         return null;
     }
 
-    public Enumeration<URL> getResources(final String name) {
-        final Vector<URL> results = new Vector<>();
-        for (final AbstractPathEntry path : paths) {
+    public Enumeration<URL> getResources(String name) {
+        Vector<URL> results = new Vector<>();
+        for (AbstractPathEntry path : paths) {
             URL url;
             if ((url = path.getResource(name)) != null) {
                 results.add(url);
@@ -571,35 +574,35 @@ public class ClassPath implements Closeable {
         return classPath;
     }
 
-    private static void addJdkModules(final String javaHome, final List<String> list) {
+    private static void addJdkModules(String javaHome, List<String> list) {
         String modulesPath = System.getProperty("java.modules.path");
         if (modulesPath == null || modulesPath.trim().isEmpty()) {
             // Default to looking in JAVA_HOME/jmods
             modulesPath = javaHome + File.separator + "jmods";
         }
-        final File modulesDir = new File(modulesPath);
+        File modulesDir = new File(modulesPath);
         if (modulesDir.exists()) {
-            final String[] modules = modulesDir.list(MODULES_FILTER);
+            String[] modules = modulesDir.list(MODULES_FILTER);
             for (String module : modules) {
                 list.add(modulesDir.getPath() + File.separatorChar + module);
             }
         }
     }
 
-    // @since 6.0 no longer final
+    // @since 6.0 no longer
     public static String getClassPath() {
-        final String classPathProp = System.getProperty("java.class.path");
-        final String bootClassPathProp = System.getProperty("sun.boot.class.path");
-        final String extDirs = System.getProperty("java.ext.dirs");
+        String classPathProp = System.getProperty("java.class.path");
+        String bootClassPathProp = System.getProperty("sun.boot.class.path");
+        String extDirs = System.getProperty("java.ext.dirs");
         // System.out.println("java.version = " + System.getProperty("java.version"));
         // System.out.println("java.class.path = " + classPathProp);
         // System.out.println("sun.boot.class.path=" + bootClassPathProp);
         // System.out.println("java.ext.dirs=" + extDirs);
-        final String javaHome = System.getProperty("java.home");
-        final List<String> list = new ArrayList<>();
+        String javaHome = System.getProperty("java.home");
+        List<String> list = new ArrayList<>();
         // Starting in JRE 9, .class files are in the modules directory. Add them to the
         // path.
-        final Path modulesPath = Paths.get(javaHome).resolve("lib/modules");
+        Path modulesPath = Paths.get(javaHome).resolve("lib/modules");
         if (Files.exists(modulesPath) && Files.isRegularFile(modulesPath)) {
             list.add(modulesPath.toAbsolutePath().toString());
         }
@@ -608,20 +611,20 @@ public class ClassPath implements Closeable {
         addJdkModules(javaHome, list);
         getPathComponents(classPathProp, list);
         getPathComponents(bootClassPathProp, list);
-        final List<String> dirs = new ArrayList<>();
+        List<String> dirs = new ArrayList<>();
         getPathComponents(extDirs, dirs);
-        for (final String d : dirs) {
-            final File ext_dir = new File(d);
-            final String[] extensions = ext_dir.list(ARCHIVE_FILTER);
+        for (String d : dirs) {
+            File ext_dir = new File(d);
+            String[] extensions = ext_dir.list(ARCHIVE_FILTER);
             if (extensions != null) {
-                for (final String extension : extensions) {
+                for (String extension : extensions) {
                     list.add(ext_dir.getPath() + File.separatorChar + extension);
                 }
             }
         }
-        final StringBuilder buf = new StringBuilder();
+        StringBuilder buf = new StringBuilder();
         String separator = "";
-        for (final String path : list) {
+        for (String path : list) {
             buf.append(separator);
             separator = File.pathSeparator;
             buf.append(path);
@@ -629,12 +632,12 @@ public class ClassPath implements Closeable {
         return buf.toString().intern();
     }
 
-    private static void getPathComponents(final String path, final List<String> list) {
+    private static void getPathComponents(String path, List<String> list) {
         if (path != null) {
-            final StringTokenizer tokenizer = new StringTokenizer(path, File.pathSeparator);
+            StringTokenizer tokenizer = new StringTokenizer(path, File.pathSeparator);
             while (tokenizer.hasMoreTokens()) {
-                final String name = tokenizer.nextToken();
-                final File file = new File(name);
+                String name = tokenizer.nextToken();
+                File file = new File(name);
                 if (file.exists()) {
                     list.add(name);
                 }
@@ -642,7 +645,7 @@ public class ClassPath implements Closeable {
         }
     }
 
-    static String packageToFolder(final String name) {
+    static String packageToFolder(String name) {
         return name.replace('.', '/');
     }
 }

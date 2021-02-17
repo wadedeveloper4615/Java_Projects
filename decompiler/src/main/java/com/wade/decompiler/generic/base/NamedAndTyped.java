@@ -1,5 +1,7 @@
 package com.wade.decompiler.generic.base;
 
+import com.wade.decompiler.generic.type.Type;
+
 public interface NamedAndTyped {
     String getName();
 

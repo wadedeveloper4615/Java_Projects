@@ -242,7 +242,7 @@ public enum InstructionOpCodes {
     public String ILLEGAL_OPCODE = "<illegal opcode>";
     public String ILLEGAL_TYPE = "<illegal type>";
 
-    private final int[] CONSUME_STACK = {
+    private  int[] CONSUME_STACK = {
             0/*nop*/, 0/*aconst_null*/, 0/*iconst_m1*/, 0/*iconst_0*/, 0/*iconst_1*/,
             0/*iconst_2*/, 0/*iconst_3*/, 0/*iconst_4*/, 0/*iconst_5*/, 0/*lconst_0*/,
             0/*lconst_1*/, 0/*fconst_0*/, 0/*fconst_1*/, 0/*fconst_2*/, 0/*dconst_0*/,
@@ -292,7 +292,7 @@ public enum InstructionOpCodes {
             UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED,
             UNDEFINED, UNPREDICTABLE/*impdep1*/, UNPREDICTABLE/*impdep2*/
           };
-    private final int[] PRODUCE_STACK = {
+    private  int[] PRODUCE_STACK = {
         0/*nop*/, 1/*aconst_null*/, 1/*iconst_m1*/, 1/*iconst_0*/, 1/*iconst_1*/,
         1/*iconst_2*/, 1/*iconst_3*/, 1/*iconst_4*/, 1/*iconst_5*/, 2/*lconst_0*/,
         2/*lconst_1*/, 1/*fconst_0*/, 1/*fconst_1*/, 1/*fconst_2*/, 2/*dconst_0*/,
@@ -342,7 +342,7 @@ public enum InstructionOpCodes {
         UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED,
         UNDEFINED, UNPREDICTABLE/*impdep1*/, UNPREDICTABLE/*impdep2*/
       };
-    private final short[] NO_OF_OPERANDS = {
+    private  short[] NO_OF_OPERANDS = {
             0/*nop*/, 0/*aconst_null*/, 0/*iconst_m1*/, 0/*iconst_0*/,
             0/*iconst_1*/, 0/*iconst_2*/, 0/*iconst_3*/, 0/*iconst_4*/,
             0/*iconst_5*/, 0/*lconst_0*/, 0/*lconst_1*/, 0/*fconst_0*/,
@@ -403,7 +403,7 @@ public enum InstructionOpCodes {
             UNDEFINED, UNDEFINED, RESERVED/*impdep1*/, RESERVED/*impdep2*/
           };
 
-    private final String[] OPCODE_NAMES = {
+    private  String[] OPCODE_NAMES = {
             "nop", "aconst_null", "iconst_m1", "iconst_0", "iconst_1",
             "iconst_2", "iconst_3", "iconst_4", "iconst_5", "lconst_0",
             "lconst_1", "fconst_0", "fconst_1", "fconst_2", "dconst_0",

@@ -1,16 +1,17 @@
 package com.wade.decompiler.generic.base;
 
-import com.wade.decompiler.Const;
 import com.wade.decompiler.ExceptionConst;
+import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generic.gen.ClassGenException;
 import com.wade.decompiler.generic.gen.ConstantPoolGen;
+import com.wade.decompiler.generic.type.Type;
 
 public abstract class ArrayInstruction extends Instruction implements ExceptionThrower, TypedInstruction {
-    ArrayInstruction() {
+    public ArrayInstruction() {
     }
 
-    protected ArrayInstruction(final short opcode) {
-        super(opcode, (short) 1);
+    public ArrayInstruction(InstructionOpCodes opcode) {
+        super(opcode, 1);
     }
 
     @Override
@@ -19,32 +20,32 @@ public abstract class ArrayInstruction extends Instruction implements ExceptionT
     }
 
     @Override
-    public Type getType(final ConstantPoolGen cp) {
-        final short _opcode = super.getOpcode();
+    public Type getType(ConstantPoolGen cp) {
+        InstructionOpCodes _opcode = super.getOpcode();
         switch (_opcode) {
-            case Const.IALOAD:
-            case Const.IASTORE:
+            case IALOAD:
+            case IASTORE:
                 return Type.INT;
-            case Const.CALOAD:
-            case Const.CASTORE:
+            case CALOAD:
+            case CASTORE:
                 return Type.CHAR;
-            case Const.BALOAD:
-            case Const.BASTORE:
+            case BALOAD:
+            case BASTORE:
                 return Type.BYTE;
-            case Const.SALOAD:
-            case Const.SASTORE:
+            case SALOAD:
+            case SASTORE:
                 return Type.SHORT;
-            case Const.LALOAD:
-            case Const.LASTORE:
+            case LALOAD:
+            case LASTORE:
                 return Type.LONG;
-            case Const.DALOAD:
-            case Const.DASTORE:
+            case DALOAD:
+            case DASTORE:
                 return Type.DOUBLE;
-            case Const.FALOAD:
-            case Const.FASTORE:
+            case FALOAD:
+            case FASTORE:
                 return Type.FLOAT;
-            case Const.AALOAD:
-            case Const.AASTORE:
+            case AALOAD:
+            case AASTORE:
                 return Type.OBJECT;
             default:
                 throw new ClassGenException("Unknown case in switch" + _opcode);

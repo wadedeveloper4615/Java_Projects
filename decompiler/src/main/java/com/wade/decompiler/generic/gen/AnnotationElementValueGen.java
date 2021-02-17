@@ -8,19 +8,19 @@ import com.wade.decompiler.classfile.ElementValue;
 
 public class AnnotationElementValueGen extends ElementValueGen {
     // For annotation element values, this is the annotation
-    private final AnnotationEntryGen a;
+    private AnnotationEntryGen a;
 
-    public AnnotationElementValueGen(final AnnotationElementValue value, final ConstantPoolGen cpool, final boolean copyPoolEntries) {
+    public AnnotationElementValueGen(AnnotationElementValue value, ConstantPoolGen cpool, boolean copyPoolEntries) {
         super(ANNOTATION, cpool);
         a = new AnnotationEntryGen(value.getAnnotationEntry(), cpool, copyPoolEntries);
     }
 
-    public AnnotationElementValueGen(final AnnotationEntryGen a, final ConstantPoolGen cpool) {
+    public AnnotationElementValueGen(AnnotationEntryGen a, ConstantPoolGen cpool) {
         super(ANNOTATION, cpool);
         this.a = a;
     }
 
-    public AnnotationElementValueGen(final int type, final AnnotationEntryGen annotation, final ConstantPoolGen cpool) {
+    public AnnotationElementValueGen(int type, AnnotationEntryGen annotation, ConstantPoolGen cpool) {
         super(type, cpool);
         if (type != ANNOTATION) {
             throw new IllegalArgumentException("Only element values of type annotation can be built with this ctor - type specified: " + type);
@@ -29,7 +29,7 @@ public class AnnotationElementValueGen extends ElementValueGen {
     }
 
     @Override
-    public void dump(final DataOutputStream dos) throws IOException {
+    public void dump(DataOutputStream dos) throws IOException {
         dos.writeByte(super.getElementValueType()); // u1 type of value (ANNOTATION == '@')
         a.dump(dos);
     }

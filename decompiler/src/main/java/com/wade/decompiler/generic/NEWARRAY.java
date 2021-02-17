@@ -5,14 +5,15 @@ import java.io.IOException;
 
 import com.wade.decompiler.Const;
 import com.wade.decompiler.ExceptionConst;
+import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generic.base.AllocationInstruction;
-import com.wade.decompiler.generic.base.ArrayType;
-import com.wade.decompiler.generic.base.BasicType;
 import com.wade.decompiler.generic.base.ExceptionThrower;
 import com.wade.decompiler.generic.base.Instruction;
 import com.wade.decompiler.generic.base.StackProducer;
-import com.wade.decompiler.generic.base.Type;
 import com.wade.decompiler.generic.gen.Visitor;
+import com.wade.decompiler.generic.type.ArrayType;
+import com.wade.decompiler.generic.type.BasicType;
+import com.wade.decompiler.generic.type.Type;
 import com.wade.decompiler.util.ByteSequence;
 
 public class NEWARRAY extends Instruction implements AllocationInstruction, ExceptionThrower, StackProducer {
@@ -21,17 +22,17 @@ public class NEWARRAY extends Instruction implements AllocationInstruction, Exce
     public NEWARRAY() {
     }
 
-    public NEWARRAY(final BasicType type) {
+    public NEWARRAY(BasicType type) {
         this(type.getType());
     }
 
-    public NEWARRAY(final byte type) {
-        super(Const.NEWARRAY, (short) 2);
+    public NEWARRAY(byte type) {
+        super(InstructionOpCodes.NEWARRAY, 2);
         this.type = type;
     }
 
     @Override
-    public void accept(final Visitor v) {
+    public void accept(Visitor v) {
         v.visitAllocationInstruction(this);
         v.visitExceptionThrower(this);
         v.visitStackProducer(this);
@@ -39,8 +40,8 @@ public class NEWARRAY extends Instruction implements AllocationInstruction, Exce
     }
 
     @Override
-    public void dump(final DataOutputStream out) throws IOException {
-        out.writeByte(super.getOpcode());
+    public void dump(DataOutputStream out) throws IOException {
+        out.writeByte(super.getOpcode().getOpcode());
         out.writeByte(type);
     }
 
@@ -49,22 +50,22 @@ public class NEWARRAY extends Instruction implements AllocationInstruction, Exce
         return new Class[] { ExceptionConst.NEGATIVE_ARRAY_SIZE_EXCEPTION };
     }
 
-    public final Type getType() {
+    public Type getType() {
         return new ArrayType(BasicType.getType(type), 1);
     }
 
-    public final byte getTypecode() {
+    public byte getTypecode() {
         return type;
     }
 
     @Override
-    public void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
+    public void initFromFile(ByteSequence bytes, boolean wide) throws IOException {
         type = bytes.readByte();
         super.setLength(2);
     }
 
     @Override
-    public String toString(final boolean verbose) {
+    public String toString(boolean verbose) {
         return super.toString(verbose) + " " + Const.getTypeName(type);
     }
 }

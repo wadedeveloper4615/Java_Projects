@@ -6,14 +6,14 @@ import java.io.IOException;
 
 import com.wade.decompiler.enums.ClassFileAttributes;
 
-public  class InnerClasses extends Attribute {
+public class InnerClasses extends Attribute {
     private InnerClass[] innerClasses;
 
-    public InnerClasses( InnerClasses c) {
+    public InnerClasses(InnerClasses c) {
         this(c.getNameIndex(), c.getLength(), c.getInnerClasses(), c.getConstantPool());
     }
 
-    public InnerClasses( int name_index,  int length,  DataInput input,  ConstantPool constant_pool) throws IOException {
+    public InnerClasses(int name_index, int length, DataInput input, ConstantPool constant_pool) throws IOException {
         this(name_index, length, (InnerClass[]) null, constant_pool);
         int number_of_classes = input.readUnsignedShort();
         innerClasses = new InnerClass[number_of_classes];
@@ -22,18 +22,18 @@ public  class InnerClasses extends Attribute {
         }
     }
 
-    public InnerClasses( int name_index,  int length,  InnerClass[] innerClasses,  ConstantPool constant_pool) {
+    public InnerClasses(int name_index, int length, InnerClass[] innerClasses, ConstantPool constant_pool) {
         super(ClassFileAttributes.ATTR_INNER_CLASSES, name_index, length, constant_pool);
         this.innerClasses = innerClasses != null ? innerClasses : new InnerClass[0];
     }
 
     @Override
-    public void accept( Visitor v) {
+    public void accept(Visitor v) {
         v.visitInnerClasses(this);
     }
 
     @Override
-    public Attribute copy( ConstantPool _constant_pool) {
+    public Attribute copy(ConstantPool _constant_pool) {
         InnerClasses c = (InnerClasses) clone();
         c.innerClasses = new InnerClass[innerClasses.length];
         for (int i = 0; i < innerClasses.length; i++) {
@@ -44,10 +44,10 @@ public  class InnerClasses extends Attribute {
     }
 
     @Override
-    public void dump( DataOutputStream file) throws IOException {
+    public void dump(DataOutputStream file) throws IOException {
         super.dump(file);
         file.writeShort(innerClasses.length);
-        for ( InnerClass inner_class : innerClasses) {
+        for (InnerClass inner_class : innerClasses) {
             inner_class.dump(file);
         }
     }
@@ -56,7 +56,7 @@ public  class InnerClasses extends Attribute {
         return innerClasses;
     }
 
-    public void setInnerClasses( InnerClass[] innerClasses) {
+    public void setInnerClasses(InnerClass[] innerClasses) {
         this.innerClasses = innerClasses != null ? innerClasses : new InnerClass[0];
     }
 
@@ -66,7 +66,7 @@ public  class InnerClasses extends Attribute {
         buf.append("InnerClasses(");
         buf.append(innerClasses.length);
         buf.append("):\n");
-        for ( InnerClass inner_class : innerClasses) {
+        for (InnerClass inner_class : innerClasses) {
             buf.append(inner_class.toString(super.getConstantPool())).append("\n");
         }
         return buf.substring(0, buf.length() - 1); // remove the last newline

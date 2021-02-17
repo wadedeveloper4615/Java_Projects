@@ -6,7 +6,7 @@ import com.wade.decompiler.generic.base.BranchInstruction;
 import com.wade.decompiler.generic.base.InstructionHandle;
 import com.wade.decompiler.generic.base.InstructionTargeter;
 import com.wade.decompiler.generic.base.NamedAndTyped;
-import com.wade.decompiler.generic.base.Type;
+import com.wade.decompiler.generic.type.Type;
 
 public class LocalVariableGen implements InstructionTargeter, NamedAndTyped, Cloneable {
     private int index;
@@ -17,7 +17,7 @@ public class LocalVariableGen implements InstructionTargeter, NamedAndTyped, Clo
     private int origIndex; // never changes; used to match up with LocalVariableTypeTable entries
     private boolean liveToEnd;
 
-    public LocalVariableGen(final int index, final String name, final Type type, final InstructionHandle start, final InstructionHandle end) {
+    public LocalVariableGen(int index, String name, Type type, InstructionHandle start, InstructionHandle end) {
         if ((index < 0) || (index > Const.MAX_SHORT)) {
             throw new ClassGenException("Invalid index index: " + index);
         }
@@ -30,7 +30,7 @@ public class LocalVariableGen implements InstructionTargeter, NamedAndTyped, Clo
         this.liveToEnd = end == null;
     }
 
-    public LocalVariableGen(final int index, final String name, final Type type, final InstructionHandle start, final InstructionHandle end, final int origIndex) {
+    public LocalVariableGen(int index, String name, Type type, InstructionHandle start, InstructionHandle end, int origIndex) {
         this(index, name, type, start, end);
         this.origIndex = origIndex;
     }
@@ -39,13 +39,13 @@ public class LocalVariableGen implements InstructionTargeter, NamedAndTyped, Clo
     public Object clone() {
         try {
             return super.clone();
-        } catch (final CloneNotSupportedException e) {
+        } catch (CloneNotSupportedException e) {
             throw new Error("Clone Not Supported"); // never happens
         }
     }
 
     @Override
-    public boolean containsTarget(final InstructionHandle ih) {
+    public boolean containsTarget(InstructionHandle ih) {
         return (start == ih) || (end == ih);
     }
 
@@ -55,11 +55,11 @@ public class LocalVariableGen implements InstructionTargeter, NamedAndTyped, Clo
     }
 
     @Override
-    public boolean equals(final Object o) {
+    public boolean equals(Object o) {
         if (!(o instanceof LocalVariableGen)) {
             return false;
         }
-        final LocalVariableGen l = (LocalVariableGen) o;
+        LocalVariableGen l = (LocalVariableGen) o;
         return (l.index == index) && (l.start == start) && (l.end == end);
     }
 
@@ -75,7 +75,7 @@ public class LocalVariableGen implements InstructionTargeter, NamedAndTyped, Clo
         return liveToEnd;
     }
 
-    public LocalVariable getLocalVariable(final ConstantPoolGen cp) {
+    public LocalVariable getLocalVariable(ConstantPoolGen cp) {
         int start_pc = 0;
         int length = 0;
         if ((start != null) && (end != null)) {
@@ -85,8 +85,8 @@ public class LocalVariableGen implements InstructionTargeter, NamedAndTyped, Clo
                 length += end.getInstruction().getLength();
             }
         }
-        final int name_index = cp.addUtf8(name);
-        final int signature_index = cp.addUtf8(type.getSignature());
+        int name_index = cp.addUtf8(name);
+        int signature_index = cp.addUtf8(type.getSignature());
         return new LocalVariable(start_pc, length, name_index, signature_index, index, cp.getConstantPool(), origIndex);
     }
 
@@ -116,31 +116,31 @@ public class LocalVariableGen implements InstructionTargeter, NamedAndTyped, Clo
         return name.hashCode() ^ type.hashCode();
     }
 
-    public void setEnd(final InstructionHandle end) { // TODO could be package-protected?
+    public void setEnd(InstructionHandle end) { // TODO could be package-protected?
         BranchInstruction.notifyTarget(this.end, end, this);
         this.end = end;
     }
 
-    public void setIndex(final int index) {
+    public void setIndex(int index) {
         this.index = index;
     }
 
-    public void setLiveToEnd(final boolean live_to_end) {
+    public void setLiveToEnd(boolean live_to_end) {
         this.liveToEnd = live_to_end;
     }
 
     @Override
-    public void setName(final String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public void setStart(final InstructionHandle start) { // TODO could be package-protected?
+    public void setStart(InstructionHandle start) { // TODO could be package-protected?
         BranchInstruction.notifyTarget(this.start, start, this);
         this.start = start;
     }
 
     @Override
-    public void setType(final Type type) {
+    public void setType(Type type) {
         this.type = type;
     }
 
@@ -150,7 +150,7 @@ public class LocalVariableGen implements InstructionTargeter, NamedAndTyped, Clo
     }
 
     @Override
-    public void updateTarget(final InstructionHandle old_ih, final InstructionHandle new_ih) {
+    public void updateTarget(InstructionHandle old_ih, InstructionHandle new_ih) {
         boolean targeted = false;
         if (start == old_ih) {
             targeted = true;

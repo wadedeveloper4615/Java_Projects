@@ -139,7 +139,7 @@ public class ClassAccessFlagsList {
 
     public String toString(boolean for_class) {
         Map<Integer, Boolean> map = new HashMap<>();
-        final StringBuilder buf = new StringBuilder();
+        StringBuilder buf = new StringBuilder();
         for (ClassAccessFlags p : flagsList) {
             if (for_class && ((p == ClassAccessFlags.ACC_SUPER) || (p == ClassAccessFlags.ACC_INTERFACE))) {
                 continue;

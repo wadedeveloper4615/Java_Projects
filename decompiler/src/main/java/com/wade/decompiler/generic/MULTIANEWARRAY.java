@@ -3,19 +3,19 @@ package com.wade.decompiler.generic;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import com.wade.decompiler.Const;
 import com.wade.decompiler.ExceptionConst;
 import com.wade.decompiler.classfile.ConstantPool;
+import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generic.base.AllocationInstruction;
-import com.wade.decompiler.generic.base.ArrayType;
 import com.wade.decompiler.generic.base.CPInstruction;
 import com.wade.decompiler.generic.base.ExceptionThrower;
 import com.wade.decompiler.generic.base.LoadClass;
-import com.wade.decompiler.generic.base.ObjectType;
-import com.wade.decompiler.generic.base.Type;
 import com.wade.decompiler.generic.gen.ClassGenException;
 import com.wade.decompiler.generic.gen.ConstantPoolGen;
 import com.wade.decompiler.generic.gen.Visitor;
+import com.wade.decompiler.generic.type.ArrayType;
+import com.wade.decompiler.generic.type.ObjectType;
+import com.wade.decompiler.generic.type.Type;
 import com.wade.decompiler.util.ByteSequence;
 
 public class MULTIANEWARRAY extends CPInstruction implements LoadClass, AllocationInstruction, ExceptionThrower {
@@ -24,8 +24,8 @@ public class MULTIANEWARRAY extends CPInstruction implements LoadClass, Allocati
     public MULTIANEWARRAY() {
     }
 
-    public MULTIANEWARRAY(final int index, final short dimensions) {
-        super(Const.MULTIANEWARRAY, index);
+    public MULTIANEWARRAY(int index, short dimensions) {
+        super(InstructionOpCodes.MULTIANEWARRAY, index);
         if (dimensions < 1) {
             throw new ClassGenException("Invalid dimensions value: " + dimensions);
         }
@@ -34,7 +34,7 @@ public class MULTIANEWARRAY extends CPInstruction implements LoadClass, Allocati
     }
 
     @Override
-    public void accept(final Visitor v) {
+    public void accept(Visitor v) {
         v.visitLoadClass(this);
         v.visitAllocationInstruction(this);
         v.visitExceptionThrower(this);
@@ -44,18 +44,18 @@ public class MULTIANEWARRAY extends CPInstruction implements LoadClass, Allocati
     }
 
     @Override
-    public int consumeStack(final ConstantPoolGen cpg) {
+    public int consumeStack(ConstantPoolGen cpg) {
         return dimensions;
     }
 
     @Override
-    public void dump(final DataOutputStream out) throws IOException {
-        out.writeByte(super.getOpcode());
+    public void dump(DataOutputStream out) throws IOException {
+        out.writeByte(super.getOpcode().getOpcode());
         out.writeShort(super.getIndex());
         out.writeByte(dimensions);
     }
 
-    public final short getDimensions() {
+    public short getDimensions() {
         return dimensions;
     }
 
@@ -65,7 +65,7 @@ public class MULTIANEWARRAY extends CPInstruction implements LoadClass, Allocati
     }
 
     @Override
-    public ObjectType getLoadClassType(final ConstantPoolGen cpg) {
+    public ObjectType getLoadClassType(ConstantPoolGen cpg) {
         Type t = getType(cpg);
         if (t instanceof ArrayType) {
             t = ((ArrayType) t).getBasicType();
@@ -74,19 +74,19 @@ public class MULTIANEWARRAY extends CPInstruction implements LoadClass, Allocati
     }
 
     @Override
-    public void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
+    public void initFromFile(ByteSequence bytes, boolean wide) throws IOException {
         super.initFromFile(bytes, wide);
         dimensions = bytes.readByte();
         super.setLength(4);
     }
 
     @Override
-    public String toString(final boolean verbose) {
+    public String toString(boolean verbose) {
         return super.toString(verbose) + " " + super.getIndex() + " " + dimensions;
     }
 
     @Override
-    public String toString(final ConstantPool cp) {
+    public String toString(ConstantPool cp) {
         return super.toString(cp) + " " + dimensions;
     }
 }

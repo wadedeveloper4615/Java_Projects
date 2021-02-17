@@ -15,16 +15,16 @@ import com.wade.decompiler.enums.ClassFileConstants;
 public abstract class Attribute implements Cloneable, Node {
     private static boolean debug = Boolean.getBoolean(Attribute.class.getCanonicalName() + ".debug"); // Debugging on/off
     private static Map<String, Object> readers = new HashMap<>();
-    protected int name_index;
+    protected int nameIndex;
     protected int length;
     protected ClassFileAttributes tag;
-    protected ConstantPool constant_pool;
+    protected ConstantPool constantPool;
 
-    protected Attribute(ClassFileAttributes tag, int name_index, int length, ConstantPool constant_pool) {
+    protected Attribute(ClassFileAttributes tag, int nameIndex, int length, ConstantPool constantPool) {
         this.tag = tag;
-        this.name_index = name_index;
+        this.nameIndex = nameIndex;
         this.length = length;
-        this.constant_pool = constant_pool;
+        this.constantPool = constantPool;
     }
 
     @Override
@@ -44,12 +44,12 @@ public abstract class Attribute implements Cloneable, Node {
     public abstract Attribute copy(ConstantPool _constant_pool);
 
     public void dump(DataOutputStream file) throws IOException {
-        file.writeShort(name_index);
+        file.writeShort(nameIndex);
         file.writeInt(length);
     }
 
     public ConstantPool getConstantPool() {
-        return constant_pool;
+        return constantPool;
     }
 
     public int getLength() {
@@ -57,28 +57,28 @@ public abstract class Attribute implements Cloneable, Node {
     }
 
     public String getName() {
-        ConstantUtf8 c = (ConstantUtf8) constant_pool.getConstant(name_index, ClassFileConstants.CONSTANT_Utf8);
+        ConstantUtf8 c = (ConstantUtf8) constantPool.getConstant(nameIndex, ClassFileConstants.CONSTANT_Utf8);
         return c.getBytes();
     }
 
     public int getNameIndex() {
-        return name_index;
+        return nameIndex;
     }
 
     public ClassFileAttributes getTag() {
         return tag;
     }
 
-    public void setConstantPool(ConstantPool constant_pool) {
-        this.constant_pool = constant_pool;
+    public void setConstantPool(ConstantPool constantPool) {
+        this.constantPool = constantPool;
     }
 
     public void setLength(int length) {
         this.length = length;
     }
 
-    public void setNameIndex(int name_index) {
-        this.name_index = name_index;
+    public void setNameIndex(int nameIndex) {
+        this.nameIndex = nameIndex;
     }
 
     @Override

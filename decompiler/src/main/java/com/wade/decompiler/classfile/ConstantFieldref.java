@@ -5,21 +5,21 @@ import java.io.IOException;
 
 import com.wade.decompiler.enums.ClassFileConstants;
 
-public final class ConstantFieldref extends ConstantCP {
-    public ConstantFieldref(final ConstantFieldref c) {
+public class ConstantFieldref extends ConstantCP {
+    public ConstantFieldref(ConstantFieldref c) {
         super(ClassFileConstants.CONSTANT_Fieldref, c.getClassIndex(), c.getNameAndTypeIndex());
     }
 
-    ConstantFieldref(final DataInput input) throws IOException {
+    ConstantFieldref(DataInput input) throws IOException {
         super(ClassFileConstants.CONSTANT_Fieldref, input);
     }
 
-    public ConstantFieldref(final int class_index, final int name_and_type_index) {
+    public ConstantFieldref(int class_index, int name_and_type_index) {
         super(ClassFileConstants.CONSTANT_Fieldref, class_index, name_and_type_index);
     }
 
     @Override
-    public void accept(final Visitor v) {
+    public void accept(Visitor v) {
         v.visitConstantFieldref(this);
     }
 }

@@ -13,6 +13,13 @@ import java.util.StringTokenizer;
 import java.util.TreeSet;
 
 import com.wade.decompiler.Const;
+import com.wade.decompiler.classfile.attribute.AnnotationEntry;
+import com.wade.decompiler.classfile.attribute.Attribute;
+import com.wade.decompiler.classfile.attribute.InnerClass;
+import com.wade.decompiler.classfile.attribute.InnerClasses;
+import com.wade.decompiler.classfile.attribute.SourceFile;
+import com.wade.decompiler.classfile.constant.ConstantPool;
+import com.wade.decompiler.classfile.gen.Visitor;
 import com.wade.decompiler.comparators.JavClassComparator;
 import com.wade.decompiler.enums.ClassAccessFlags;
 import com.wade.decompiler.enums.ClassAccessFlagsList;
@@ -22,6 +29,7 @@ import com.wade.decompiler.generic.type.Type;
 import com.wade.decompiler.util.BCELComparator;
 import com.wade.decompiler.util.ClassQueue;
 import com.wade.decompiler.util.SyntheticRepository;
+import com.wade.decompiler.util.Utility;
 
 public class JavaClass extends ClassAccessFlagsList implements Cloneable, Node, Comparable<JavaClass> {
     public static byte HEAP = 1;

@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 
 import com.wade.decompiler.Const;
-import com.wade.decompiler.classfile.Constant;
+import com.wade.decompiler.classfile.constant.Constant;
 import com.wade.decompiler.generic.Select;
 import com.wade.decompiler.generic.gen.ClassGenException;
 import com.wade.decompiler.generic.gen.CodeExceptionGen;

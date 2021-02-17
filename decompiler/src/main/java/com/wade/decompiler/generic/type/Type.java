@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.wade.decompiler.Const;
 import com.wade.decompiler.classfile.ClassFormatException;
-import com.wade.decompiler.classfile.Utility;
+import com.wade.decompiler.util.Utility;
 
 public abstract class Type {
     public static BasicType VOID = new BasicType(Const.T_VOID);

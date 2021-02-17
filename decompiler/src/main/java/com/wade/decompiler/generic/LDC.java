@@ -5,12 +5,12 @@ import java.io.IOException;
 
 import com.wade.decompiler.Const;
 import com.wade.decompiler.ExceptionConst;
-import com.wade.decompiler.classfile.Constant;
-import com.wade.decompiler.classfile.ConstantClass;
-import com.wade.decompiler.classfile.ConstantFloat;
-import com.wade.decompiler.classfile.ConstantInteger;
-import com.wade.decompiler.classfile.ConstantString;
-import com.wade.decompiler.classfile.ConstantUtf8;
+import com.wade.decompiler.classfile.constant.Constant;
+import com.wade.decompiler.classfile.constant.ConstantClass;
+import com.wade.decompiler.classfile.constant.ConstantFloat;
+import com.wade.decompiler.classfile.constant.ConstantInteger;
+import com.wade.decompiler.classfile.constant.ConstantString;
+import com.wade.decompiler.classfile.constant.ConstantUtf8;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generic.base.CPInstruction;
 import com.wade.decompiler.generic.base.ExceptionThrower;

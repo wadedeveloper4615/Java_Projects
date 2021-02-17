@@ -4,13 +4,13 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import com.wade.decompiler.classfile.AnnotationElementValue;
-import com.wade.decompiler.classfile.AnnotationEntry;
-import com.wade.decompiler.classfile.ArrayElementValue;
-import com.wade.decompiler.classfile.ClassElementValue;
-import com.wade.decompiler.classfile.ElementValue;
-import com.wade.decompiler.classfile.EnumElementValue;
-import com.wade.decompiler.classfile.SimpleElementValue;
+import com.wade.decompiler.classfile.attribute.AnnotationEntry;
+import com.wade.decompiler.classfile.element.AnnotationElementValue;
+import com.wade.decompiler.classfile.element.ArrayElementValue;
+import com.wade.decompiler.classfile.element.ClassElementValue;
+import com.wade.decompiler.classfile.element.ElementValue;
+import com.wade.decompiler.classfile.element.EnumElementValue;
+import com.wade.decompiler.classfile.element.SimpleElementValue;
 
 public abstract class ElementValueGen {
     public static final int STRING = 's';

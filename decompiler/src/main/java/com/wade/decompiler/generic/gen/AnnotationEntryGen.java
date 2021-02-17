@@ -9,14 +9,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.wade.decompiler.classfile.AnnotationEntry;
-import com.wade.decompiler.classfile.Attribute;
-import com.wade.decompiler.classfile.ConstantUtf8;
-import com.wade.decompiler.classfile.ElementValuePair;
-import com.wade.decompiler.classfile.RuntimeInvisibleAnnotations;
-import com.wade.decompiler.classfile.RuntimeInvisibleParameterAnnotations;
-import com.wade.decompiler.classfile.RuntimeVisibleAnnotations;
-import com.wade.decompiler.classfile.RuntimeVisibleParameterAnnotations;
+import com.wade.decompiler.classfile.attribute.AnnotationEntry;
+import com.wade.decompiler.classfile.attribute.Attribute;
+import com.wade.decompiler.classfile.attribute.RuntimeInvisibleAnnotations;
+import com.wade.decompiler.classfile.attribute.RuntimeInvisibleParameterAnnotations;
+import com.wade.decompiler.classfile.attribute.RuntimeVisibleAnnotations;
+import com.wade.decompiler.classfile.attribute.RuntimeVisibleParameterAnnotations;
+import com.wade.decompiler.classfile.constant.ConstantUtf8;
+import com.wade.decompiler.classfile.element.ElementValuePair;
 import com.wade.decompiler.generic.type.ObjectType;
 
 public class AnnotationEntryGen {

@@ -2,7 +2,7 @@ package com.wade.decompiler.generic.gen;
 
 import java.util.Objects;
 
-import com.wade.decompiler.classfile.LineNumber;
+import com.wade.decompiler.classfile.attribute.LineNumber;
 import com.wade.decompiler.generic.base.BranchInstruction;
 import com.wade.decompiler.generic.base.InstructionHandle;
 import com.wade.decompiler.generic.base.InstructionTargeter;

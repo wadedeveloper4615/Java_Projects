@@ -5,11 +5,10 @@ import java.io.IOException;
 import java.util.Hashtable;
 
 import com.wade.decompiler.classfile.ClassParser;
-import com.wade.decompiler.classfile.ConstantClass;
-import com.wade.decompiler.classfile.ConstantPool;
-import com.wade.decompiler.classfile.ConstantUtf8;
 import com.wade.decompiler.classfile.JavaClass;
-import com.wade.decompiler.classfile.Utility;
+import com.wade.decompiler.classfile.constant.ConstantClass;
+import com.wade.decompiler.classfile.constant.ConstantPool;
+import com.wade.decompiler.classfile.constant.ConstantUtf8;
 import com.wade.decompiler.enums.ClassFileConstants;
 
 @Deprecated

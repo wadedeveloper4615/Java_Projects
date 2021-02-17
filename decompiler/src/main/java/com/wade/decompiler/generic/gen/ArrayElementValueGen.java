@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.wade.decompiler.classfile.ArrayElementValue;
-import com.wade.decompiler.classfile.ElementValue;
+import com.wade.decompiler.classfile.element.ArrayElementValue;
+import com.wade.decompiler.classfile.element.ElementValue;
 
 public class ArrayElementValueGen extends ElementValueGen {
     // J5TODO: Should we make this an array or a list? A list would be easier to

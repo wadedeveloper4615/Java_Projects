@@ -2,7 +2,7 @@ package com.wade.decompiler.comparators;
 
 import java.util.Objects;
 
-import com.wade.decompiler.classfile.Constant;
+import com.wade.decompiler.classfile.constant.Constant;
 import com.wade.decompiler.util.BCELComparator;
 
 public class ConstantComparator implements BCELComparator {

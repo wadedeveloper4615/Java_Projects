@@ -8,22 +8,21 @@ import java.util.Objects;
 import java.util.Stack;
 
 import com.wade.decompiler.Const;
-import com.wade.decompiler.classfile.AnnotationEntry;
-import com.wade.decompiler.classfile.Annotations;
-import com.wade.decompiler.classfile.Attribute;
-import com.wade.decompiler.classfile.Code;
 import com.wade.decompiler.classfile.CodeException;
-import com.wade.decompiler.classfile.ExceptionTable;
-import com.wade.decompiler.classfile.LineNumber;
-import com.wade.decompiler.classfile.LineNumberTable;
-import com.wade.decompiler.classfile.LocalVariable;
-import com.wade.decompiler.classfile.LocalVariableTable;
-import com.wade.decompiler.classfile.LocalVariableTypeTable;
 import com.wade.decompiler.classfile.Method;
-import com.wade.decompiler.classfile.ParameterAnnotationEntry;
-import com.wade.decompiler.classfile.ParameterAnnotations;
-import com.wade.decompiler.classfile.RuntimeVisibleParameterAnnotations;
-import com.wade.decompiler.classfile.Utility;
+import com.wade.decompiler.classfile.attribute.AnnotationEntry;
+import com.wade.decompiler.classfile.attribute.Annotations;
+import com.wade.decompiler.classfile.attribute.Attribute;
+import com.wade.decompiler.classfile.attribute.Code;
+import com.wade.decompiler.classfile.attribute.ExceptionTable;
+import com.wade.decompiler.classfile.attribute.LineNumber;
+import com.wade.decompiler.classfile.attribute.LineNumberTable;
+import com.wade.decompiler.classfile.attribute.LocalVariable;
+import com.wade.decompiler.classfile.attribute.LocalVariableTable;
+import com.wade.decompiler.classfile.attribute.LocalVariableTypeTable;
+import com.wade.decompiler.classfile.attribute.ParameterAnnotationEntry;
+import com.wade.decompiler.classfile.attribute.ParameterAnnotations;
+import com.wade.decompiler.classfile.attribute.RuntimeVisibleParameterAnnotations;
 import com.wade.decompiler.enums.ClassAccessFlags;
 import com.wade.decompiler.enums.ClassAccessFlagsList;
 import com.wade.decompiler.enums.ClassFileConstants;
@@ -43,6 +42,7 @@ import com.wade.decompiler.generic.base.TypedInstruction;
 import com.wade.decompiler.generic.type.ObjectType;
 import com.wade.decompiler.generic.type.Type;
 import com.wade.decompiler.util.BCELComparator;
+import com.wade.decompiler.util.Utility;
 
 public class MethodGen extends FieldGenOrMethodGen {
     private static BCELComparator bcelComparator = new BCELComparator() {

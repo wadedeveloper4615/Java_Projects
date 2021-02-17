@@ -6,9 +6,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import com.wade.decompiler.classfile.Utility;
 import com.wade.decompiler.generic.gen.ClassGenException;
 import com.wade.decompiler.generic.gen.Visitor;
+import com.wade.decompiler.util.Utility;
 
 public class InstructionHandle {
     private InstructionHandle next;

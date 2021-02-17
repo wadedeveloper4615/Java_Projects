@@ -4,7 +4,10 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import com.wade.decompiler.classfile.constant.ConstantPool;
+import com.wade.decompiler.classfile.gen.Visitor;
 import com.wade.decompiler.enums.ClassFileConstants;
+import com.wade.decompiler.util.Utility;
 
 public class ModuleExports implements Cloneable, Node {
     private int exportsIndex; // points to CONSTANT_Package_info
@@ -12,7 +15,7 @@ public class ModuleExports implements Cloneable, Node {
     private int exportsToCount;
     private int[] exportsToIndex; // points to CONSTANT_Module_info
 
-    ModuleExports(DataInput file) throws IOException {
+    public ModuleExports(DataInput file) throws IOException {
         exportsIndex = file.readUnsignedShort();
         exportsFlags = file.readUnsignedShort();
         exportsToCount = file.readUnsignedShort();

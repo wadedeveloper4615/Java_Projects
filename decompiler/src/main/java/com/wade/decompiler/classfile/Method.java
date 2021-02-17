@@ -4,10 +4,20 @@ import java.io.DataInput;
 import java.io.IOException;
 import java.util.Objects;
 
+import com.wade.decompiler.classfile.attribute.Attribute;
+import com.wade.decompiler.classfile.attribute.Code;
+import com.wade.decompiler.classfile.attribute.ExceptionTable;
+import com.wade.decompiler.classfile.attribute.LineNumberTable;
+import com.wade.decompiler.classfile.attribute.LocalVariableTable;
+import com.wade.decompiler.classfile.attribute.ParameterAnnotationEntry;
+import com.wade.decompiler.classfile.constant.ConstantPool;
+import com.wade.decompiler.classfile.constant.ConstantUtf8;
+import com.wade.decompiler.classfile.gen.Visitor;
 import com.wade.decompiler.enums.ClassAccessFlagsList;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.generic.type.Type;
 import com.wade.decompiler.util.BCELComparator;
+import com.wade.decompiler.util.Utility;
 
 public class Method extends FieldOrMethod {
     private static BCELComparator bcelComparator = new BCELComparator() {

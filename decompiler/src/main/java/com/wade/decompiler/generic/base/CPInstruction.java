@@ -4,9 +4,9 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.Const;
-import com.wade.decompiler.classfile.Constant;
-import com.wade.decompiler.classfile.ConstantClass;
-import com.wade.decompiler.classfile.ConstantPool;
+import com.wade.decompiler.classfile.constant.Constant;
+import com.wade.decompiler.classfile.constant.ConstantClass;
+import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generic.gen.ClassGenException;

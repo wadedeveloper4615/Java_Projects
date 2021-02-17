@@ -3,13 +3,13 @@ package com.wade.decompiler.generic.gen;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import com.wade.decompiler.classfile.ConstantDouble;
-import com.wade.decompiler.classfile.ConstantFloat;
-import com.wade.decompiler.classfile.ConstantInteger;
-import com.wade.decompiler.classfile.ConstantLong;
-import com.wade.decompiler.classfile.ConstantUtf8;
-import com.wade.decompiler.classfile.ElementValue;
-import com.wade.decompiler.classfile.SimpleElementValue;
+import com.wade.decompiler.classfile.constant.ConstantDouble;
+import com.wade.decompiler.classfile.constant.ConstantFloat;
+import com.wade.decompiler.classfile.constant.ConstantInteger;
+import com.wade.decompiler.classfile.constant.ConstantLong;
+import com.wade.decompiler.classfile.constant.ConstantUtf8;
+import com.wade.decompiler.classfile.element.ElementValue;
+import com.wade.decompiler.classfile.element.SimpleElementValue;
 
 public class SimpleElementValueGen extends ElementValueGen {
     // For primitive types and string type, this points to the value entry in

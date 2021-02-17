@@ -4,13 +4,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import com.wade.decompiler.classfile.Attribute;
-import com.wade.decompiler.classfile.Code;
-import com.wade.decompiler.classfile.ConstantValue;
-import com.wade.decompiler.classfile.ExceptionTable;
 import com.wade.decompiler.classfile.Field;
 import com.wade.decompiler.classfile.Method;
-import com.wade.decompiler.classfile.Utility;
+import com.wade.decompiler.classfile.attribute.Attribute;
+import com.wade.decompiler.classfile.attribute.Code;
+import com.wade.decompiler.classfile.attribute.ConstantValue;
+import com.wade.decompiler.classfile.attribute.ExceptionTable;
 import com.wade.decompiler.enums.ClassAccessFlagsList;
 import com.wade.decompiler.enums.ClassFileAttributes;
 

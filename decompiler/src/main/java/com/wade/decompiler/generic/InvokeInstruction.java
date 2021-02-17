@@ -3,9 +3,9 @@ package com.wade.decompiler.generic;
 import java.util.StringTokenizer;
 
 import com.wade.decompiler.Const;
-import com.wade.decompiler.classfile.Constant;
-import com.wade.decompiler.classfile.ConstantCP;
-import com.wade.decompiler.classfile.ConstantPool;
+import com.wade.decompiler.classfile.constant.Constant;
+import com.wade.decompiler.classfile.constant.ConstantCP;
+import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generic.base.ExceptionThrower;

@@ -5,6 +5,12 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import com.wade.decompiler.classfile.attribute.AnnotationEntry;
+import com.wade.decompiler.classfile.attribute.Attribute;
+import com.wade.decompiler.classfile.attribute.Code;
+import com.wade.decompiler.classfile.attribute.Signature;
+import com.wade.decompiler.classfile.constant.ConstantPool;
+import com.wade.decompiler.classfile.constant.ConstantUtf8;
 import com.wade.decompiler.enums.ClassAccessFlagsList;
 import com.wade.decompiler.enums.ClassFileConstants;
 

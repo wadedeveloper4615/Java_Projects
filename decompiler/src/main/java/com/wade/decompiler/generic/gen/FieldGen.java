@@ -5,19 +5,19 @@ import java.util.List;
 import java.util.Objects;
 
 import com.wade.decompiler.Const;
-import com.wade.decompiler.classfile.AnnotationEntry;
-import com.wade.decompiler.classfile.Annotations;
-import com.wade.decompiler.classfile.Attribute;
-import com.wade.decompiler.classfile.Constant;
-import com.wade.decompiler.classfile.ConstantObject;
-import com.wade.decompiler.classfile.ConstantPool;
-import com.wade.decompiler.classfile.ConstantValue;
 import com.wade.decompiler.classfile.Field;
-import com.wade.decompiler.classfile.Utility;
+import com.wade.decompiler.classfile.attribute.AnnotationEntry;
+import com.wade.decompiler.classfile.attribute.Annotations;
+import com.wade.decompiler.classfile.attribute.Attribute;
+import com.wade.decompiler.classfile.attribute.ConstantValue;
+import com.wade.decompiler.classfile.constant.Constant;
+import com.wade.decompiler.classfile.constant.ConstantObject;
+import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.ClassAccessFlagsList;
 import com.wade.decompiler.generic.type.ObjectType;
 import com.wade.decompiler.generic.type.Type;
 import com.wade.decompiler.util.BCELComparator;
+import com.wade.decompiler.util.Utility;
 
 public class FieldGen extends FieldGenOrMethodGen {
     private static BCELComparator bcelComparator = new BCELComparator() {

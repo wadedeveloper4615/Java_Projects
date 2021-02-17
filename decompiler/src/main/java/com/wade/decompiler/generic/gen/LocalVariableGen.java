@@ -1,7 +1,7 @@
 package com.wade.decompiler.generic.gen;
 
 import com.wade.decompiler.Const;
-import com.wade.decompiler.classfile.LocalVariable;
+import com.wade.decompiler.classfile.attribute.LocalVariable;
 import com.wade.decompiler.generic.base.BranchInstruction;
 import com.wade.decompiler.generic.base.InstructionHandle;
 import com.wade.decompiler.generic.base.InstructionTargeter;

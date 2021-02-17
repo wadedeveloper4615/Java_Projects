@@ -4,14 +4,17 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import com.wade.decompiler.classfile.constant.ConstantPool;
+import com.wade.decompiler.classfile.gen.Visitor;
 import com.wade.decompiler.enums.ClassFileConstants;
+import com.wade.decompiler.util.Utility;
 
 public class ModuleRequires implements Cloneable, Node {
     private int requiresIndex; // points to CONSTANT_Module_info
     private int requiresFlags;
     private int requiresVersionIndex; // either 0 or points to CONSTANT_Utf8_info
 
-    ModuleRequires(DataInput file) throws IOException {
+    public ModuleRequires(DataInput file) throws IOException {
         requiresIndex = file.readUnsignedShort();
         requiresFlags = file.readUnsignedShort();
         requiresVersionIndex = file.readUnsignedShort();

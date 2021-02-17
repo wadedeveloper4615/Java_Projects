@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.wade.decompiler.Const;
-import com.wade.decompiler.classfile.Attribute;
+import com.wade.decompiler.classfile.attribute.Attribute;
 import com.wade.decompiler.enums.ClassAccessFlagsList;
 import com.wade.decompiler.generic.base.NamedAndTyped;
 import com.wade.decompiler.generic.type.Type;

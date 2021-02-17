@@ -1,8 +1,8 @@
 package com.wade.decompiler.generic;
 
-import com.wade.decompiler.classfile.Constant;
-import com.wade.decompiler.classfile.ConstantDouble;
-import com.wade.decompiler.classfile.ConstantLong;
+import com.wade.decompiler.classfile.constant.Constant;
+import com.wade.decompiler.classfile.constant.ConstantDouble;
+import com.wade.decompiler.classfile.constant.ConstantLong;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generic.base.CPInstruction;
 import com.wade.decompiler.generic.base.PushInstruction;

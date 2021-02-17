@@ -3,8 +3,8 @@ package com.wade.decompiler.generic.gen;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import com.wade.decompiler.classfile.AnnotationElementValue;
-import com.wade.decompiler.classfile.ElementValue;
+import com.wade.decompiler.classfile.element.AnnotationElementValue;
+import com.wade.decompiler.classfile.element.ElementValue;
 
 public class AnnotationElementValueGen extends ElementValueGen {
     // For annotation element values, this is the annotation

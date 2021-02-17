@@ -3,9 +3,9 @@ package com.wade.decompiler.generic.gen;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import com.wade.decompiler.classfile.ConstantUtf8;
-import com.wade.decompiler.classfile.ElementValue;
-import com.wade.decompiler.classfile.ElementValuePair;
+import com.wade.decompiler.classfile.constant.ConstantUtf8;
+import com.wade.decompiler.classfile.element.ElementValue;
+import com.wade.decompiler.classfile.element.ElementValuePair;
 
 public class ElementValuePairGen {
     private int nameIdx;

@@ -4,14 +4,17 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import com.wade.decompiler.classfile.constant.ConstantPool;
+import com.wade.decompiler.classfile.gen.Visitor;
 import com.wade.decompiler.enums.ClassFileConstants;
+import com.wade.decompiler.util.Utility;
 
 public class ModuleProvides implements Cloneable, Node {
     private int providesIndex; // points to CONSTANT_Class_info
     private int providesWithCount;
     private int[] providesWithIndex; // points to CONSTANT_Class_info
 
-    ModuleProvides(DataInput file) throws IOException {
+    public ModuleProvides(DataInput file) throws IOException {
         providesIndex = file.readUnsignedShort();
         providesWithCount = file.readUnsignedShort();
         providesWithIndex = new int[providesWithCount];

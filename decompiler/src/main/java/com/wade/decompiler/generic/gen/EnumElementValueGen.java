@@ -3,9 +3,9 @@ package com.wade.decompiler.generic.gen;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import com.wade.decompiler.classfile.ConstantUtf8;
-import com.wade.decompiler.classfile.ElementValue;
-import com.wade.decompiler.classfile.EnumElementValue;
+import com.wade.decompiler.classfile.constant.ConstantUtf8;
+import com.wade.decompiler.classfile.element.ElementValue;
+import com.wade.decompiler.classfile.element.EnumElementValue;
 import com.wade.decompiler.generic.type.ObjectType;
 
 public class EnumElementValueGen extends ElementValueGen {

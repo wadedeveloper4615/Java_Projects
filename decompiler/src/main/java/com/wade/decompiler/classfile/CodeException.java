@@ -5,7 +5,10 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.Constants;
+import com.wade.decompiler.classfile.constant.ConstantPool;
+import com.wade.decompiler.classfile.gen.Visitor;
 import com.wade.decompiler.enums.ClassFileConstants;
+import com.wade.decompiler.util.Utility;
 
 public class CodeException implements Cloneable, Node, Constants {
     private int startPc; // Range in the code the exception handler is
@@ -17,7 +20,7 @@ public class CodeException implements Cloneable, Node, Constants {
         this(c.getStartPC(), c.getEndPC(), c.getHandlerPC(), c.getCatchType());
     }
 
-    CodeException(DataInput file) throws IOException {
+    public CodeException(DataInput file) throws IOException {
         this(file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort());
     }
 

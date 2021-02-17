@@ -8,7 +8,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import com.wade.decompiler.Const;
-import com.wade.decompiler.classfile.Utility;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generic.CHECKCAST;
 import com.wade.decompiler.generic.IINC;

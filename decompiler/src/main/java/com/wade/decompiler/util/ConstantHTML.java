@@ -5,16 +5,15 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import com.wade.decompiler.Const;
-import com.wade.decompiler.classfile.Constant;
-import com.wade.decompiler.classfile.ConstantClass;
-import com.wade.decompiler.classfile.ConstantFieldref;
-import com.wade.decompiler.classfile.ConstantInterfaceMethodref;
-import com.wade.decompiler.classfile.ConstantMethodref;
-import com.wade.decompiler.classfile.ConstantNameAndType;
-import com.wade.decompiler.classfile.ConstantPool;
-import com.wade.decompiler.classfile.ConstantString;
 import com.wade.decompiler.classfile.Method;
-import com.wade.decompiler.classfile.Utility;
+import com.wade.decompiler.classfile.constant.Constant;
+import com.wade.decompiler.classfile.constant.ConstantClass;
+import com.wade.decompiler.classfile.constant.ConstantFieldref;
+import com.wade.decompiler.classfile.constant.ConstantInterfaceMethodref;
+import com.wade.decompiler.classfile.constant.ConstantMethodref;
+import com.wade.decompiler.classfile.constant.ConstantNameAndType;
+import com.wade.decompiler.classfile.constant.ConstantPool;
+import com.wade.decompiler.classfile.constant.ConstantString;
 import com.wade.decompiler.enums.ClassFileConstants;
 
 class ConstantHTML {

@@ -8,12 +8,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.wade.decompiler.Constants;
-import com.wade.decompiler.classfile.Attribute;
 import com.wade.decompiler.classfile.ClassParser;
-import com.wade.decompiler.classfile.ConstantPool;
 import com.wade.decompiler.classfile.JavaClass;
 import com.wade.decompiler.classfile.Method;
-import com.wade.decompiler.classfile.Utility;
+import com.wade.decompiler.classfile.attribute.Attribute;
+import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.ClassFileConstants;
 
 public class Class2HTML implements Constants {

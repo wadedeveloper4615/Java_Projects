@@ -4,13 +4,12 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.Const;
+import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.InstructionOpCodes;
+import com.wade.decompiler.generic.base.ClassGenException;
 import com.wade.decompiler.generic.base.IndexedInstruction;
 import com.wade.decompiler.generic.base.Instruction;
 import com.wade.decompiler.generic.base.TypedInstruction;
-import com.wade.decompiler.generic.gen.ClassGenException;
-import com.wade.decompiler.generic.gen.ConstantPoolGen;
-import com.wade.decompiler.generic.gen.Visitor;
 import com.wade.decompiler.generic.type.ReturnaddressType;
 import com.wade.decompiler.generic.type.Type;
 import com.wade.decompiler.util.ByteSequence;
@@ -25,11 +24,6 @@ public class RET extends Instruction implements IndexedInstruction, TypedInstruc
     public RET(int index) {
         super(InstructionOpCodes.RET, 2);
         setIndex(index);
-    }
-
-    @Override
-    public void accept(Visitor v) {
-        v.visitRET(this);
     }
 
     @Override
@@ -51,7 +45,7 @@ public class RET extends Instruction implements IndexedInstruction, TypedInstruc
     }
 
     @Override
-    public Type getType(ConstantPoolGen cp) {
+    public Type getType(ConstantPool cp) {
         return ReturnaddressType.NO_TARGET;
     }
 

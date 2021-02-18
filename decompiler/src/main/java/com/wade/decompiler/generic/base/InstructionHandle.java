@@ -6,8 +6,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import com.wade.decompiler.generic.gen.ClassGenException;
-import com.wade.decompiler.generic.gen.Visitor;
 import com.wade.decompiler.util.Utility;
 
 public class InstructionHandle {
@@ -20,10 +18,6 @@ public class InstructionHandle {
 
     public InstructionHandle(Instruction i) {
         setInstruction(i);
-    }
-
-    public void accept(Visitor v) {
-        instruction.accept(v);
     }
 
     public void addAttribute(Object key, Object attr) {

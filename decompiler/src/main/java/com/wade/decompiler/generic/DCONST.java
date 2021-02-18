@@ -1,11 +1,10 @@
 package com.wade.decompiler.generic;
 
+import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.InstructionOpCodes;
+import com.wade.decompiler.generic.base.ClassGenException;
 import com.wade.decompiler.generic.base.ConstantPushInstruction;
 import com.wade.decompiler.generic.base.Instruction;
-import com.wade.decompiler.generic.gen.ClassGenException;
-import com.wade.decompiler.generic.gen.ConstantPoolGen;
-import com.wade.decompiler.generic.gen.Visitor;
 import com.wade.decompiler.generic.type.Type;
 
 public class DCONST extends Instruction implements ConstantPushInstruction {
@@ -27,16 +26,7 @@ public class DCONST extends Instruction implements ConstantPushInstruction {
     }
 
     @Override
-    public void accept(Visitor v) {
-        v.visitPushInstruction(this);
-        v.visitStackProducer(this);
-        v.visitTypedInstruction(this);
-        v.visitConstantPushInstruction(this);
-        v.visitDCONST(this);
-    }
-
-    @Override
-    public Type getType(ConstantPoolGen cp) {
+    public Type getType(ConstantPool cp) {
         return Type.DOUBLE;
     }
 

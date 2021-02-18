@@ -7,7 +7,6 @@ import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generic.base.GotoInstruction;
 import com.wade.decompiler.generic.base.InstructionHandle;
 import com.wade.decompiler.generic.base.VariableLengthInstruction;
-import com.wade.decompiler.generic.gen.Visitor;
 
 public class GOTO extends GotoInstruction implements VariableLengthInstruction {
     public GOTO() {
@@ -15,15 +14,6 @@ public class GOTO extends GotoInstruction implements VariableLengthInstruction {
 
     public GOTO(InstructionHandle target) {
         super(InstructionOpCodes.GOTO, target);
-    }
-
-    @Override
-    public void accept(Visitor v) {
-        v.visitVariableLengthInstruction(this);
-        v.visitUnconditionalBranch(this);
-        v.visitBranchInstruction(this);
-        v.visitGotoInstruction(this);
-        v.visitGOTO(this);
     }
 
     @Override

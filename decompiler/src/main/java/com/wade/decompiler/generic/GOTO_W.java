@@ -6,7 +6,6 @@ import java.io.IOException;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generic.base.GotoInstruction;
 import com.wade.decompiler.generic.base.InstructionHandle;
-import com.wade.decompiler.generic.gen.Visitor;
 import com.wade.decompiler.util.ByteSequence;
 
 public class GOTO_W extends GotoInstruction {
@@ -16,14 +15,6 @@ public class GOTO_W extends GotoInstruction {
     public GOTO_W(InstructionHandle target) {
         super(InstructionOpCodes.GOTO_W, target);
         super.setLength(5);
-    }
-
-    @Override
-    public void accept(Visitor v) {
-        v.visitUnconditionalBranch(this);
-        v.visitBranchInstruction(this);
-        v.visitGotoInstruction(this);
-        v.visitGOTO_W(this);
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.wade.decompiler.generic.base;
 
+import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.InstructionOpCodes;
-import com.wade.decompiler.generic.gen.ConstantPoolGen;
 import com.wade.decompiler.generic.type.Type;
 
 public abstract class StackInstruction extends Instruction {
@@ -12,7 +12,7 @@ public abstract class StackInstruction extends Instruction {
         super(opcode, 1);
     }
 
-    public Type getType(ConstantPoolGen cp) {
+    public Type getType(ConstantPool cp) {
         return Type.UNKNOWN;
     }
 }

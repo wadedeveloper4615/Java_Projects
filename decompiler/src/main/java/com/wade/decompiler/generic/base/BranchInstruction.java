@@ -4,7 +4,6 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.enums.InstructionOpCodes;
-import com.wade.decompiler.generic.gen.ClassGenException;
 import com.wade.decompiler.util.ByteSequence;
 
 public abstract class BranchInstruction extends Instruction implements InstructionTargeter {

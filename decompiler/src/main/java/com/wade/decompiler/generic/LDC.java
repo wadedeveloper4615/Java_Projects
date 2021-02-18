@@ -9,14 +9,13 @@ import com.wade.decompiler.classfile.constant.Constant;
 import com.wade.decompiler.classfile.constant.ConstantClass;
 import com.wade.decompiler.classfile.constant.ConstantFloat;
 import com.wade.decompiler.classfile.constant.ConstantInteger;
+import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.constant.ConstantString;
 import com.wade.decompiler.classfile.constant.ConstantUtf8;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generic.base.CPInstruction;
 import com.wade.decompiler.generic.base.ExceptionThrower;
 import com.wade.decompiler.generic.base.PushInstruction;
-import com.wade.decompiler.generic.gen.ConstantPoolGen;
-import com.wade.decompiler.generic.gen.Visitor;
 import com.wade.decompiler.generic.type.ObjectType;
 import com.wade.decompiler.generic.type.Type;
 import com.wade.decompiler.util.ByteSequence;
@@ -28,16 +27,6 @@ public class LDC extends CPInstruction implements PushInstruction, ExceptionThro
     public LDC(int index) {
         super(InstructionOpCodes.LDC_W, index);
         setSize();
-    }
-
-    @Override
-    public void accept(Visitor v) {
-        v.visitStackProducer(this);
-        v.visitPushInstruction(this);
-        v.visitExceptionThrower(this);
-        v.visitTypedInstruction(this);
-        v.visitCPInstruction(this);
-        v.visitLDC(this);
     }
 
     @Override
@@ -56,8 +45,8 @@ public class LDC extends CPInstruction implements PushInstruction, ExceptionThro
     }
 
     @Override
-    public Type getType(ConstantPoolGen cpg) {
-        switch (cpg.getConstantPool().getConstant(super.getIndex()).getTag()) {
+    public Type getType(ConstantPool cpg) {
+        switch (cpg.getConstant(super.getIndex()).getTag()) {
             case CONSTANT_String:
                 return Type.STRING;
             case CONSTANT_Float:
@@ -71,12 +60,12 @@ public class LDC extends CPInstruction implements PushInstruction, ExceptionThro
         }
     }
 
-    public Object getValue(ConstantPoolGen cpg) {
-        Constant c = cpg.getConstantPool().getConstant(super.getIndex());
+    public Object getValue(ConstantPool cpg) {
+        Constant c = cpg.getConstant(super.getIndex());
         switch (c.getTag()) {
             case CONSTANT_String:
                 int i = ((ConstantString) c).getStringIndex();
-                c = cpg.getConstantPool().getConstant(i);
+                c = cpg.getConstant(i);
                 return ((ConstantUtf8) c).getBytes();
             case CONSTANT_Float:
                 return Float.valueOf(((ConstantFloat) c).getBytes());
@@ -84,7 +73,7 @@ public class LDC extends CPInstruction implements PushInstruction, ExceptionThro
                 return Integer.valueOf(((ConstantInteger) c).getBytes());
             case CONSTANT_Class:
                 int nameIndex = ((ConstantClass) c).getNameIndex();
-                c = cpg.getConstantPool().getConstant(nameIndex);
+                c = cpg.getConstant(nameIndex);
                 return new ObjectType(((ConstantUtf8) c).getBytes());
             default: // Never reached
                 throw new IllegalArgumentException("Unknown or invalid constant type at " + super.getIndex());

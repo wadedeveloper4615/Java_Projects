@@ -4,11 +4,10 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.Const;
+import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.InstructionOpCodes;
+import com.wade.decompiler.generic.base.ClassGenException;
 import com.wade.decompiler.generic.base.LocalVariableInstruction;
-import com.wade.decompiler.generic.gen.ClassGenException;
-import com.wade.decompiler.generic.gen.ConstantPoolGen;
-import com.wade.decompiler.generic.gen.Visitor;
 import com.wade.decompiler.generic.type.Type;
 import com.wade.decompiler.util.ByteSequence;
 
@@ -28,15 +27,9 @@ public class IINC extends LocalVariableInstruction {
     }
 
     @Override
-    public void accept(Visitor v) {
-        v.visitLocalVariableInstruction(this);
-        v.visitIINC(this);
-    }
-
-    @Override
     public void dump(DataOutputStream out) throws IOException {
         if (wide) {
-            out.writeByte(Const.WIDE);
+            out.writeByte(InstructionOpCodes.WIDE.getOpcode());
         }
         out.writeByte(super.getOpcode().getOpcode());
         if (wide) {
@@ -53,7 +46,7 @@ public class IINC extends LocalVariableInstruction {
     }
 
     @Override
-    public Type getType(ConstantPoolGen cp) {
+    public Type getType(ConstantPool cp) {
         return Type.INT;
     }
 

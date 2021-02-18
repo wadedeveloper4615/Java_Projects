@@ -9,8 +9,6 @@ import com.wade.decompiler.classfile.constant.ConstantNameAndType;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.enums.InstructionOpCodes;
-import com.wade.decompiler.generic.gen.ConstantPoolGen;
-import com.wade.decompiler.generic.gen.Visitor;
 import com.wade.decompiler.generic.type.ObjectType;
 import com.wade.decompiler.generic.type.ReferenceType;
 import com.wade.decompiler.util.ByteSequence;
@@ -24,19 +22,6 @@ public class INVOKEDYNAMIC extends InvokeInstruction {
     }
 
     @Override
-    public void accept(Visitor v) {
-        v.visitExceptionThrower(this);
-        v.visitTypedInstruction(this);
-        v.visitStackConsumer(this);
-        v.visitStackProducer(this);
-        v.visitLoadClass(this);
-        v.visitCPInstruction(this);
-        v.visitFieldOrMethod(this);
-        v.visitInvokeInstruction(this);
-        v.visitINVOKEDYNAMIC(this);
-    }
-
-    @Override
     public void dump(DataOutputStream out) throws IOException {
         out.writeByte(super.getOpcode().getOpcode());
         out.writeShort(super.getIndex());
@@ -45,8 +30,7 @@ public class INVOKEDYNAMIC extends InvokeInstruction {
     }
 
     @Override
-    public String getClassName(ConstantPoolGen cpg) {
-        ConstantPool cp = cpg.getConstantPool();
+    public String getClassName(ConstantPool cp) {
         ConstantInvokeDynamic cid = (ConstantInvokeDynamic) cp.getConstant(super.getIndex(), ClassFileConstants.CONSTANT_InvokeDynamic);
         return ((ConstantNameAndType) cp.getConstant(cid.getNameAndTypeIndex())).getName(cp);
     }
@@ -57,7 +41,7 @@ public class INVOKEDYNAMIC extends InvokeInstruction {
     }
 
     @Override
-    public ReferenceType getReferenceType(ConstantPoolGen cpg) {
+    public ReferenceType getReferenceType(ConstantPool cpg) {
         return new ObjectType(Object.class.getName());
     }
 

@@ -4,14 +4,12 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.Const;
+import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.InstructionOpCodes;
-import com.wade.decompiler.generic.gen.ClassGenException;
-import com.wade.decompiler.generic.gen.ConstantPoolGen;
 import com.wade.decompiler.generic.type.Type;
 import com.wade.decompiler.util.ByteSequence;
 
 public abstract class LocalVariableInstruction extends Instruction implements TypedInstruction, IndexedInstruction {
-    @Deprecated
     protected int n = -1; // index of referenced variable
     private InstructionOpCodes cTag = null; // compact version, such as ILOAD_0
     private InstructionOpCodes canonTag = null; // canonical tag such as ILOAD
@@ -35,7 +33,7 @@ public abstract class LocalVariableInstruction extends Instruction implements Ty
     @Override
     public void dump(DataOutputStream out) throws IOException {
         if (wide()) {
-            out.writeByte(Const.WIDE);
+            out.writeByte(InstructionOpCodes.WIDE.getOpcode());
         }
         out.writeByte(super.getOpcode().getOpcode());
         if (super.getLength() > 1) { // Otherwise ILOAD_n, instruction, e.g.
@@ -57,7 +55,7 @@ public abstract class LocalVariableInstruction extends Instruction implements Ty
     }
 
     @Override
-    public Type getType(ConstantPoolGen cp) {
+    public Type getType(ConstantPool cp) {
         switch (canonTag) {
             case ILOAD:
             case ISTORE:
@@ -86,14 +84,14 @@ public abstract class LocalVariableInstruction extends Instruction implements Ty
             super.setLength(4);
         } else {
             short _opcode = (short) super.getOpcode().getOpcode();
-            if (((_opcode >= Const.ILOAD) && (_opcode <= Const.ALOAD)) || ((_opcode >= Const.ISTORE) && (_opcode <= Const.ASTORE))) {
+            if (((_opcode >= InstructionOpCodes.ILOAD.getOpcode()) && (_opcode <= InstructionOpCodes.ALOAD.getOpcode())) || ((_opcode >= InstructionOpCodes.ISTORE.getOpcode()) && (_opcode <= InstructionOpCodes.ASTORE.getOpcode()))) {
                 n = bytes.readUnsignedByte();
                 super.setLength(2);
-            } else if (_opcode <= Const.ALOAD_3) { // compact load instruction such as ILOAD_2
-                n = (_opcode - Const.ILOAD_0) % 4;
+            } else if (_opcode <= InstructionOpCodes.ALOAD_3.getOpcode()) { // compact load instruction such as ILOAD_2
+                n = (_opcode - InstructionOpCodes.ILOAD_0.getOpcode()) % 4;
                 super.setLength(1);
             } else { // Assert ISTORE_0 <= tag <= ASTORE_3
-                n = (_opcode - Const.ISTORE_0) % 4;
+                n = (_opcode - InstructionOpCodes.ISTORE_0.getOpcode()) % 4;
                 super.setLength(1);
             }
         }
@@ -126,7 +124,7 @@ public abstract class LocalVariableInstruction extends Instruction implements Ty
     @Override
     public String toString(boolean verbose) {
         short _opcode = (short) super.getOpcode().getOpcode();
-        if (((_opcode >= Const.ILOAD_0) && (_opcode <= Const.ALOAD_3)) || ((_opcode >= Const.ISTORE_0) && (_opcode <= Const.ASTORE_3))) {
+        if (((_opcode >= InstructionOpCodes.ILOAD_0.getOpcode()) && (_opcode <= InstructionOpCodes.ALOAD_3.getOpcode())) || ((_opcode >= InstructionOpCodes.ISTORE_0.getOpcode()) && (_opcode <= InstructionOpCodes.ASTORE_3.getOpcode()))) {
             return super.toString(verbose);
         }
         return super.toString(verbose) + " " + n;

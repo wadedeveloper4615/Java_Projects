@@ -12,7 +12,6 @@ import com.wade.decompiler.generic.base.ExceptionThrower;
 import com.wade.decompiler.generic.base.FieldOrMethod;
 import com.wade.decompiler.generic.base.StackConsumer;
 import com.wade.decompiler.generic.base.StackProducer;
-import com.wade.decompiler.generic.gen.ConstantPoolGen;
 import com.wade.decompiler.generic.type.Type;
 
 public abstract class InvokeInstruction extends FieldOrMethod implements ExceptionThrower, StackConsumer, StackProducer {
@@ -24,7 +23,7 @@ public abstract class InvokeInstruction extends FieldOrMethod implements Excepti
     }
 
     @Override
-    public int consumeStack(ConstantPoolGen cpg) {
+    public int consumeStack(ConstantPool cpg) {
         int sum;
         if ((super.getOpcode() == InstructionOpCodes.INVOKESTATIC) || (super.getOpcode() == InstructionOpCodes.INVOKEDYNAMIC)) {
             sum = 0;
@@ -36,33 +35,32 @@ public abstract class InvokeInstruction extends FieldOrMethod implements Excepti
         return sum;
     }
 
-    public Type[] getArgumentTypes(ConstantPoolGen cpg) {
+    public Type[] getArgumentTypes(ConstantPool cpg) {
         return Type.getArgumentTypes(getSignature(cpg));
     }
 
     @Override
-    public String getClassName(ConstantPoolGen cpg) {
-        ConstantPool cp = cpg.getConstantPool();
+    public String getClassName(ConstantPool cp) {
         ConstantCP cmr = (ConstantCP) cp.getConstant(super.getIndex());
         String className = cp.getConstantString(cmr.getClassIndex(), ClassFileConstants.CONSTANT_Class);
         return className.replace('/', '.');
     }
 
-    public String getMethodName(ConstantPoolGen cpg) {
+    public String getMethodName(ConstantPool cpg) {
         return getName(cpg);
     }
 
-    public Type getReturnType(ConstantPoolGen cpg) {
+    public Type getReturnType(ConstantPool cpg) {
         return Type.getReturnType(getSignature(cpg));
     }
 
     @Override
-    public Type getType(ConstantPoolGen cpg) {
+    public Type getType(ConstantPool cpg) {
         return getReturnType(cpg);
     }
 
     @Override
-    public int produceStack(ConstantPoolGen cpg) {
+    public int produceStack(ConstantPool cpg) {
         String signature = getSignature(cpg);
         return Type.getReturnTypeSize(signature);
     }

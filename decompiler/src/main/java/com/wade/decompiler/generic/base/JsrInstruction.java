@@ -1,7 +1,7 @@
 package com.wade.decompiler.generic.base;
 
+import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.InstructionOpCodes;
-import com.wade.decompiler.generic.gen.ConstantPoolGen;
 import com.wade.decompiler.generic.type.ReturnaddressType;
 import com.wade.decompiler.generic.type.Type;
 
@@ -14,7 +14,7 @@ public abstract class JsrInstruction extends BranchInstruction implements Uncond
     }
 
     @Override
-    public Type getType(ConstantPoolGen cp) {
+    public Type getType(ConstantPool cp) {
         return new ReturnaddressType(physicalSuccessor());
     }
 

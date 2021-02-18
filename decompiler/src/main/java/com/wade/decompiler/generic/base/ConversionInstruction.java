@@ -1,8 +1,7 @@
 package com.wade.decompiler.generic.base;
 
+import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.InstructionOpCodes;
-import com.wade.decompiler.generic.gen.ClassGenException;
-import com.wade.decompiler.generic.gen.ConstantPoolGen;
 import com.wade.decompiler.generic.type.Type;
 
 public abstract class ConversionInstruction extends Instruction implements TypedInstruction, StackProducer, StackConsumer {
@@ -14,7 +13,7 @@ public abstract class ConversionInstruction extends Instruction implements Typed
     }
 
     @Override
-    public Type getType(ConstantPoolGen cp) {
+    public Type getType(ConstantPool cp) {
         InstructionOpCodes _opcode = super.getOpcode();
         switch (_opcode) {
             case D2I:

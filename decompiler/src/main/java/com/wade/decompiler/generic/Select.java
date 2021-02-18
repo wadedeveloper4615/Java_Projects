@@ -5,26 +5,20 @@ import java.io.IOException;
 
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generic.base.BranchInstruction;
+import com.wade.decompiler.generic.base.ClassGenException;
 import com.wade.decompiler.generic.base.InstructionHandle;
 import com.wade.decompiler.generic.base.StackConsumer;
 import com.wade.decompiler.generic.base.StackProducer;
 import com.wade.decompiler.generic.base.VariableLengthInstruction;
-import com.wade.decompiler.generic.gen.ClassGenException;
 import com.wade.decompiler.util.ByteSequence;
 
 public abstract class Select extends BranchInstruction implements VariableLengthInstruction, StackConsumer, StackProducer {
-    @Deprecated
-    protected int[] match; // matches, i.e., case 1: ... TODO could be package-protected?
-    @Deprecated
-    protected int[] indices; // target offsets TODO could be package-protected?
-    @Deprecated
-    protected InstructionHandle[] targets; // target objects in instruction list TODO could be package-protected?
-    @Deprecated
-    protected int fixed_length; // fixed length defined by subclasses TODO could be package-protected?
-    @Deprecated
-    protected int match_length; // number of cases TODO could be package-protected?
-    @Deprecated
-    protected int padding = 0; // number of pad bytes for alignment TODO could be package-protected?
+    protected int[] match;
+    protected int[] indices;
+    protected InstructionHandle[] targets;
+    protected int fixed_length;
+    protected int match_length;
+    protected int padding = 0;
 
     public Select() {
     }

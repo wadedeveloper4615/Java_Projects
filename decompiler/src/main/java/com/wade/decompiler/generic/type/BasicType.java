@@ -1,7 +1,7 @@
 package com.wade.decompiler.generic.type;
 
 import com.wade.decompiler.Const;
-import com.wade.decompiler.generic.gen.ClassGenException;
+import com.wade.decompiler.generic.base.ClassGenException;
 
 public class BasicType extends Type {
     public BasicType(byte type) {

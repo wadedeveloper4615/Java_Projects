@@ -4,7 +4,6 @@ import com.wade.decompiler.Const;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.enums.InstructionOpCodes;
-import com.wade.decompiler.generic.gen.ConstantPoolGen;
 import com.wade.decompiler.generic.type.Type;
 
 public abstract class FieldInstruction extends FieldOrMethod {
@@ -15,21 +14,21 @@ public abstract class FieldInstruction extends FieldOrMethod {
         super(opcode, index);
     }
 
-    public String getFieldName(ConstantPoolGen cpg) {
+    public String getFieldName(ConstantPool cpg) {
         return getName(cpg);
     }
 
-    protected int getFieldSize(ConstantPoolGen cpg) {
+    protected int getFieldSize(ConstantPool cpg) {
         return Type.size(Type.getTypeSize(getSignature(cpg)));
     }
 
-    public Type getFieldType(ConstantPoolGen cpg) {
+    public Type getFieldType(ConstantPool cpg) {
         return Type.getType(getSignature(cpg));
     }
 
     @Override
-    public Type getType(ConstantPoolGen cpg) {
-        return getFieldType(cpg);
+    public Type getType(ConstantPool cp) {
+        return getFieldType(cp);
     }
 
     @Override

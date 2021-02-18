@@ -6,9 +6,7 @@ import java.io.IOException;
 import com.wade.decompiler.ExceptionConst;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.InstructionOpCodes;
-import com.wade.decompiler.generic.gen.ClassGenException;
-import com.wade.decompiler.generic.gen.ConstantPoolGen;
-import com.wade.decompiler.generic.gen.Visitor;
+import com.wade.decompiler.generic.base.ClassGenException;
 import com.wade.decompiler.util.ByteSequence;
 
 public class INVOKEINTERFACE extends InvokeInstruction {
@@ -28,20 +26,7 @@ public class INVOKEINTERFACE extends InvokeInstruction {
     }
 
     @Override
-    public void accept(Visitor v) {
-        v.visitExceptionThrower(this);
-        v.visitTypedInstruction(this);
-        v.visitStackConsumer(this);
-        v.visitStackProducer(this);
-        v.visitLoadClass(this);
-        v.visitCPInstruction(this);
-        v.visitFieldOrMethod(this);
-        v.visitInvokeInstruction(this);
-        v.visitINVOKEINTERFACE(this);
-    }
-
-    @Override
-    public int consumeStack(ConstantPoolGen cpg) { // nargs is given in byte-code
+    public int consumeStack(ConstantPool cpg) { // nargs is given in byte-code
         return nargs; // nargs includes this reference
     }
 

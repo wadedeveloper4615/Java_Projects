@@ -5,18 +5,10 @@ import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generic.base.ExceptionThrower;
 import com.wade.decompiler.generic.base.Instruction;
 import com.wade.decompiler.generic.base.UnconditionalBranch;
-import com.wade.decompiler.generic.gen.Visitor;
 
 public class ATHROW extends Instruction implements UnconditionalBranch, ExceptionThrower {
     public ATHROW() {
         super(InstructionOpCodes.ATHROW, 1);
-    }
-
-    @Override
-    public void accept(Visitor v) {
-        v.visitUnconditionalBranch(this);
-        v.visitExceptionThrower(this);
-        v.visitATHROW(this);
     }
 
     @Override

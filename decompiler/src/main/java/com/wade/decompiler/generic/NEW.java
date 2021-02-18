@@ -1,14 +1,13 @@
 package com.wade.decompiler.generic;
 
 import com.wade.decompiler.ExceptionConst;
+import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generic.base.AllocationInstruction;
 import com.wade.decompiler.generic.base.CPInstruction;
 import com.wade.decompiler.generic.base.ExceptionThrower;
 import com.wade.decompiler.generic.base.LoadClass;
 import com.wade.decompiler.generic.base.StackProducer;
-import com.wade.decompiler.generic.gen.ConstantPoolGen;
-import com.wade.decompiler.generic.gen.Visitor;
 import com.wade.decompiler.generic.type.ObjectType;
 
 public class NEW extends CPInstruction implements LoadClass, AllocationInstruction, ExceptionThrower, StackProducer {
@@ -20,23 +19,12 @@ public class NEW extends CPInstruction implements LoadClass, AllocationInstructi
     }
 
     @Override
-    public void accept(Visitor v) {
-        v.visitLoadClass(this);
-        v.visitAllocationInstruction(this);
-        v.visitExceptionThrower(this);
-        v.visitStackProducer(this);
-        v.visitTypedInstruction(this);
-        v.visitCPInstruction(this);
-        v.visitNEW(this);
-    }
-
-    @Override
     public Class<?>[] getExceptions() {
         return ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_CLASS_AND_INTERFACE_RESOLUTION, ExceptionConst.ILLEGAL_ACCESS_ERROR, ExceptionConst.INSTANTIATION_ERROR);
     }
 
     @Override
-    public ObjectType getLoadClassType(ConstantPoolGen cpg) {
+    public ObjectType getLoadClassType(ConstantPool cpg) {
         return (ObjectType) getType(cpg);
     }
 }

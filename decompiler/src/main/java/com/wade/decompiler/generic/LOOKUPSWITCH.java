@@ -5,7 +5,6 @@ import java.io.IOException;
 
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generic.base.InstructionHandle;
-import com.wade.decompiler.generic.gen.Visitor;
 import com.wade.decompiler.util.ByteSequence;
 
 public class LOOKUPSWITCH extends Select {
@@ -17,15 +16,6 @@ public class LOOKUPSWITCH extends Select {
         short _length = (short) (9 + getMatch_length() * 8);
         super.setLength(_length);
         setFixed_length(_length);
-    }
-
-    @Override
-    public void accept(Visitor v) {
-        v.visitVariableLengthInstruction(this);
-        v.visitStackConsumer(this);
-        v.visitBranchInstruction(this);
-        v.visitSelect(this);
-        v.visitLOOKUPSWITCH(this);
     }
 
     @Override

@@ -6,7 +6,6 @@ import java.io.IOException;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generic.base.InstructionHandle;
 import com.wade.decompiler.generic.base.JsrInstruction;
-import com.wade.decompiler.generic.gen.Visitor;
 import com.wade.decompiler.util.ByteSequence;
 
 public class JSR_W extends JsrInstruction {
@@ -16,14 +15,6 @@ public class JSR_W extends JsrInstruction {
     public JSR_W(InstructionHandle target) {
         super(InstructionOpCodes.JSR_W, target);
         super.setLength(5);
-    }
-
-    @Override
-    public void accept(Visitor v) {
-        v.visitStackProducer(this);
-        v.visitBranchInstruction(this);
-        v.visitJsrInstruction(this);
-        v.visitJSR_W(this);
     }
 
     @Override

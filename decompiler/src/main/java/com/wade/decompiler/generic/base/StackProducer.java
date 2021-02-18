@@ -1,7 +1,7 @@
 package com.wade.decompiler.generic.base;
 
-import com.wade.decompiler.generic.gen.ConstantPoolGen;
+import com.wade.decompiler.classfile.constant.ConstantPool;
 
 public interface StackProducer {
-    int produceStack(ConstantPoolGen cpg);
+    int produceStack(ConstantPool cpg);
 }

@@ -1,13 +1,13 @@
 package com.wade.decompiler.generic;
 
 import com.wade.decompiler.ExceptionConst;
+import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.InstructionOpCodes;
+import com.wade.decompiler.generic.base.ClassGenException;
 import com.wade.decompiler.generic.base.ExceptionThrower;
 import com.wade.decompiler.generic.base.Instruction;
 import com.wade.decompiler.generic.base.StackConsumer;
 import com.wade.decompiler.generic.base.TypedInstruction;
-import com.wade.decompiler.generic.gen.ClassGenException;
-import com.wade.decompiler.generic.gen.ConstantPoolGen;
 import com.wade.decompiler.generic.type.Type;
 
 public abstract class ReturnInstruction extends Instruction implements ExceptionThrower, TypedInstruction, StackConsumer {
@@ -23,7 +23,8 @@ public abstract class ReturnInstruction extends Instruction implements Exception
         return new Class[] { ExceptionConst.ILLEGAL_MONITOR_STATE };
     }
 
-    public Type getType() {
+    @Override
+    public Type getType(ConstantPool cp) {
         InstructionOpCodes _opcode = super.getOpcode();
         switch (_opcode) {
             case IRETURN:
@@ -41,10 +42,5 @@ public abstract class ReturnInstruction extends Instruction implements Exception
             default:
                 throw new ClassGenException("Unknown type " + _opcode);
         }
-    }
-
-    @Override
-    public Type getType(ConstantPoolGen cp) {
-        return getType();
     }
 }

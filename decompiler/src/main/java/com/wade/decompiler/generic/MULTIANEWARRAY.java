@@ -8,11 +8,9 @@ import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generic.base.AllocationInstruction;
 import com.wade.decompiler.generic.base.CPInstruction;
+import com.wade.decompiler.generic.base.ClassGenException;
 import com.wade.decompiler.generic.base.ExceptionThrower;
 import com.wade.decompiler.generic.base.LoadClass;
-import com.wade.decompiler.generic.gen.ClassGenException;
-import com.wade.decompiler.generic.gen.ConstantPoolGen;
-import com.wade.decompiler.generic.gen.Visitor;
 import com.wade.decompiler.generic.type.ArrayType;
 import com.wade.decompiler.generic.type.ObjectType;
 import com.wade.decompiler.generic.type.Type;
@@ -34,17 +32,7 @@ public class MULTIANEWARRAY extends CPInstruction implements LoadClass, Allocati
     }
 
     @Override
-    public void accept(Visitor v) {
-        v.visitLoadClass(this);
-        v.visitAllocationInstruction(this);
-        v.visitExceptionThrower(this);
-        v.visitTypedInstruction(this);
-        v.visitCPInstruction(this);
-        v.visitMULTIANEWARRAY(this);
-    }
-
-    @Override
-    public int consumeStack(ConstantPoolGen cpg) {
+    public int consumeStack(ConstantPool cpg) {
         return dimensions;
     }
 
@@ -65,7 +53,7 @@ public class MULTIANEWARRAY extends CPInstruction implements LoadClass, Allocati
     }
 
     @Override
-    public ObjectType getLoadClassType(ConstantPoolGen cpg) {
+    public ObjectType getLoadClassType(ConstantPool cpg) {
         Type t = getType(cpg);
         if (t instanceof ArrayType) {
             t = ((ArrayType) t).getBasicType();

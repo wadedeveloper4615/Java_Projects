@@ -1,9 +1,8 @@
 package com.wade.decompiler.generic.base;
 
 import com.wade.decompiler.ExceptionConst;
+import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.InstructionOpCodes;
-import com.wade.decompiler.generic.gen.ClassGenException;
-import com.wade.decompiler.generic.gen.ConstantPoolGen;
 import com.wade.decompiler.generic.type.Type;
 
 public abstract class ArrayInstruction extends Instruction implements ExceptionThrower, TypedInstruction {
@@ -20,7 +19,7 @@ public abstract class ArrayInstruction extends Instruction implements ExceptionT
     }
 
     @Override
-    public Type getType(ConstantPoolGen cp) {
+    public Type getType(ConstantPool cp) {
         InstructionOpCodes _opcode = super.getOpcode();
         switch (_opcode) {
             case IALOAD:

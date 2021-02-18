@@ -9,8 +9,6 @@ import com.wade.decompiler.classfile.constant.ConstantClass;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.enums.InstructionOpCodes;
-import com.wade.decompiler.generic.gen.ClassGenException;
-import com.wade.decompiler.generic.gen.ConstantPoolGen;
 import com.wade.decompiler.generic.type.Type;
 import com.wade.decompiler.util.ByteSequence;
 
@@ -37,8 +35,7 @@ public abstract class CPInstruction extends Instruction implements TypedInstruct
     }
 
     @Override
-    public Type getType(ConstantPoolGen cpg) {
-        ConstantPool cp = cpg.getConstantPool();
+    public Type getType(ConstantPool cp) {
         String name = cp.getConstantString(index, ClassFileConstants.CONSTANT_Class);
         if (!name.startsWith("[")) {
             name = "L" + name + ";";

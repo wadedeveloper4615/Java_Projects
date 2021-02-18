@@ -1,7 +1,5 @@
 package com.wade.decompiler.generic.base;
 
-import com.wade.decompiler.generic.gen.ClassGenException;
-
 public class BranchHandle extends InstructionHandle {
     private BranchInstruction bi;
 

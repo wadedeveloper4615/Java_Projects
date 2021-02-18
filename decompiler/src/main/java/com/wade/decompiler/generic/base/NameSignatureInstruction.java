@@ -5,7 +5,6 @@ import com.wade.decompiler.classfile.constant.ConstantNameAndType;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.constant.ConstantUtf8;
 import com.wade.decompiler.enums.InstructionOpCodes;
-import com.wade.decompiler.generic.gen.ConstantPoolGen;
 
 public abstract class NameSignatureInstruction extends CPInstruction {
     public NameSignatureInstruction() {
@@ -16,21 +15,18 @@ public abstract class NameSignatureInstruction extends CPInstruction {
         super(opcode, index);
     }
 
-    public String getName(ConstantPoolGen cpg) {
-        ConstantPool cp = cpg.getConstantPool();
-        ConstantNameAndType cnat = getNameAndType(cpg);
+    public String getName(ConstantPool cp) {
+        ConstantNameAndType cnat = getNameAndType(cp);
         return ((ConstantUtf8) cp.getConstant(cnat.getNameIndex())).getBytes();
     }
 
-    public ConstantNameAndType getNameAndType(ConstantPoolGen cpg) {
-        ConstantPool cp = cpg.getConstantPool();
+    public ConstantNameAndType getNameAndType(ConstantPool cp) {
         ConstantCP cmr = (ConstantCP) cp.getConstant(super.getIndex());
         return (ConstantNameAndType) cp.getConstant(cmr.getNameAndTypeIndex());
     }
 
-    public String getSignature(ConstantPoolGen cpg) {
-        ConstantPool cp = cpg.getConstantPool();
-        ConstantNameAndType cnat = getNameAndType(cpg);
+    public String getSignature(ConstantPool cp) {
+        ConstantNameAndType cnat = getNameAndType(cp);
         return ((ConstantUtf8) cp.getConstant(cnat.getSignatureIndex())).getBytes();
     }
 }

@@ -10,7 +10,6 @@ import com.wade.decompiler.generic.base.AllocationInstruction;
 import com.wade.decompiler.generic.base.ExceptionThrower;
 import com.wade.decompiler.generic.base.Instruction;
 import com.wade.decompiler.generic.base.StackProducer;
-import com.wade.decompiler.generic.gen.Visitor;
 import com.wade.decompiler.generic.type.ArrayType;
 import com.wade.decompiler.generic.type.BasicType;
 import com.wade.decompiler.generic.type.Type;
@@ -29,14 +28,6 @@ public class NEWARRAY extends Instruction implements AllocationInstruction, Exce
     public NEWARRAY(byte type) {
         super(InstructionOpCodes.NEWARRAY, 2);
         this.type = type;
-    }
-
-    @Override
-    public void accept(Visitor v) {
-        v.visitAllocationInstruction(this);
-        v.visitExceptionThrower(this);
-        v.visitStackProducer(this);
-        v.visitNEWARRAY(this);
     }
 
     @Override

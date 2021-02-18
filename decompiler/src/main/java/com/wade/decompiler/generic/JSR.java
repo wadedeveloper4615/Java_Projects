@@ -7,7 +7,6 @@ import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generic.base.InstructionHandle;
 import com.wade.decompiler.generic.base.JsrInstruction;
 import com.wade.decompiler.generic.base.VariableLengthInstruction;
-import com.wade.decompiler.generic.gen.Visitor;
 
 public class JSR extends JsrInstruction implements VariableLengthInstruction {
     public JSR() {
@@ -15,15 +14,6 @@ public class JSR extends JsrInstruction implements VariableLengthInstruction {
 
     public JSR(InstructionHandle target) {
         super(InstructionOpCodes.JSR, target);
-    }
-
-    @Override
-    public void accept(Visitor v) {
-        v.visitStackProducer(this);
-        v.visitVariableLengthInstruction(this);
-        v.visitBranchInstruction(this);
-        v.visitJsrInstruction(this);
-        v.visitJSR(this);
     }
 
     @Override

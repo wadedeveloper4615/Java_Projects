@@ -5,7 +5,6 @@ import java.io.IOException;
 
 import com.wade.decompiler.ExceptionConst;
 import com.wade.decompiler.enums.InstructionOpCodes;
-import com.wade.decompiler.generic.gen.Visitor;
 
 public class INVOKEVIRTUAL extends InvokeInstruction {
     public INVOKEVIRTUAL() {
@@ -13,19 +12,6 @@ public class INVOKEVIRTUAL extends InvokeInstruction {
 
     public INVOKEVIRTUAL(int index) {
         super(InstructionOpCodes.INVOKEVIRTUAL, index);
-    }
-
-    @Override
-    public void accept(Visitor v) {
-        v.visitExceptionThrower(this);
-        v.visitTypedInstruction(this);
-        v.visitStackConsumer(this);
-        v.visitStackProducer(this);
-        v.visitLoadClass(this);
-        v.visitCPInstruction(this);
-        v.visitFieldOrMethod(this);
-        v.visitInvokeInstruction(this);
-        v.visitINVOKEVIRTUAL(this);
     }
 
     @Override

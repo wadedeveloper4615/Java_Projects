@@ -71,6 +71,6 @@ public enum TypeEnum {
                 return attr;
             }
         }
-        return null;
+        return T_UNKNOWN;
     }
 }

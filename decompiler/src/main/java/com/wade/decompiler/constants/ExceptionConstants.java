@@ -1,4 +1,4 @@
-package com.wade.decompiler;
+package com.wade.decompiler.constants;
 
 @Deprecated
 public interface ExceptionConstants {

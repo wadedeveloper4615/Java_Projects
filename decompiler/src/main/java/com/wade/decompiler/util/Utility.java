@@ -17,12 +17,12 @@ import java.util.Locale;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
-import com.wade.decompiler.Const;
 import com.wade.decompiler.classfile.ClassFormatException;
 import com.wade.decompiler.classfile.attribute.LocalVariable;
 import com.wade.decompiler.classfile.attribute.LocalVariableTable;
 import com.wade.decompiler.classfile.constant.Constant;
 import com.wade.decompiler.classfile.constant.ConstantPool;
+import com.wade.decompiler.constants.Const;
 import com.wade.decompiler.enums.ClassAccessFlagsList;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.enums.InstructionOpCodes;

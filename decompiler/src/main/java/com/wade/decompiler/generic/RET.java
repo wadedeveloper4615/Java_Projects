@@ -2,8 +2,8 @@ package com.wade.decompiler.generic;
 
 import java.io.IOException;
 
-import com.wade.decompiler.Const;
 import com.wade.decompiler.classfile.constant.ConstantPool;
+import com.wade.decompiler.constants.Const;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generic.base.ClassGenException;
 import com.wade.decompiler.generic.base.IndexedInstruction;

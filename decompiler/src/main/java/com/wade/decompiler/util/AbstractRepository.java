@@ -1,13 +1,12 @@
-package com.wade.decompiler;
+package com.wade.decompiler.util;
 
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.JavaClass;
-import com.wade.decompiler.util.ClassPath;
-import com.wade.decompiler.util.SyntheticRepository;
+import com.wade.decompiler.util.ClassPath.ClassFile;
 
-public abstract class Repository {
-    private static com.wade.decompiler.util.Repository repository = SyntheticRepository.getInstance();
+public abstract class AbstractRepository {
+    private static Repository repository = SyntheticRepository.getInstance();
 
     public static JavaClass addClass(JavaClass clazz) {
         JavaClass old = repository.findClass(clazz.getClassName());
@@ -80,7 +79,7 @@ public abstract class Repository {
         return repository.loadClass(class_name);
     }
 
-    public static ClassPath.ClassFile lookupClassFile(String class_name) {
+    public static ClassFile lookupClassFile(String class_name) {
         try {
             ClassPath path = repository.getClassPath();
             if (path == null) {

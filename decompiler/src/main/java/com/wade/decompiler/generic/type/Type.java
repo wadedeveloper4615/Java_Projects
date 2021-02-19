@@ -3,8 +3,8 @@ package com.wade.decompiler.generic.type;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.wade.decompiler.Const;
 import com.wade.decompiler.classfile.ClassFormatException;
+import com.wade.decompiler.constants.Const;
 import com.wade.decompiler.util.Utility;
 
 public abstract class Type {

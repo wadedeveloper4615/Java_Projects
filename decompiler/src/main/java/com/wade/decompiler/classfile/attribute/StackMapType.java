@@ -4,8 +4,8 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import com.wade.decompiler.Const;
 import com.wade.decompiler.classfile.constant.ConstantPool;
+import com.wade.decompiler.constants.Const;
 import com.wade.decompiler.enums.ClassFileConstants;
 
 public class StackMapType implements Cloneable {

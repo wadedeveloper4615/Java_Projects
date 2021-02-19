@@ -3,9 +3,9 @@ package com.wade.decompiler.classfile.constant;
 import java.io.DataInput;
 import java.io.IOException;
 
-import com.wade.decompiler.Const;
 import com.wade.decompiler.classfile.ClassFormatException;
 import com.wade.decompiler.comparators.ConstantComparator;
+import com.wade.decompiler.constants.Const;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.util.BCELComparator;
 

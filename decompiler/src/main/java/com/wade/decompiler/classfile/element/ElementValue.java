@@ -3,9 +3,9 @@ package com.wade.decompiler.classfile.element;
 import java.io.DataInput;
 import java.io.IOException;
 
-import com.wade.decompiler.Const;
 import com.wade.decompiler.classfile.attribute.AnnotationEntry;
 import com.wade.decompiler.classfile.constant.ConstantPool;
+import com.wade.decompiler.constants.Const;
 
 public abstract class ElementValue {
     public static final byte STRING = 's';

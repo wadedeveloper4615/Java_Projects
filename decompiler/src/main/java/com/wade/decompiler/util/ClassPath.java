@@ -398,7 +398,6 @@ public class ClassPath implements Closeable {
         this.parent = parent;
     }
 
-    @SuppressWarnings("resource")
     public ClassPath(String classPath) {
         this.classPath = classPath;
         List<AbstractPathEntry> list = new ArrayList<>();

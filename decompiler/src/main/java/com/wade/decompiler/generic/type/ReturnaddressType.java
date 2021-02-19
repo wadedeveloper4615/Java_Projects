@@ -1,6 +1,6 @@
 package com.wade.decompiler.generic.type;
 
-import com.wade.decompiler.Const;
+import com.wade.decompiler.constants.Const;
 import com.wade.decompiler.generic.base.InstructionHandle;
 
 public class ReturnaddressType extends Type {

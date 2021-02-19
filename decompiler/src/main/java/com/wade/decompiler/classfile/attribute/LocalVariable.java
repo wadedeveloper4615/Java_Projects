@@ -3,9 +3,9 @@ package com.wade.decompiler.classfile.attribute;
 import java.io.DataInput;
 import java.io.IOException;
 
-import com.wade.decompiler.Constants;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.constant.ConstantUtf8;
+import com.wade.decompiler.constants.Constants;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.util.Utility;
 

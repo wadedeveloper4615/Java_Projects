@@ -1,8 +1,8 @@
 package com.wade.decompiler.generic.type;
 
-import com.wade.decompiler.Const;
-import com.wade.decompiler.Repository;
 import com.wade.decompiler.classfile.JavaClass;
+import com.wade.decompiler.constants.Const;
+import com.wade.decompiler.util.AbstractRepository;
 
 public abstract class ReferenceType extends Type {
     public ReferenceType() {
@@ -38,8 +38,8 @@ public abstract class ReferenceType extends Type {
         // this and t are ObjectTypes, see above.
         ObjectType thiz = (ObjectType) this;
         ObjectType other = (ObjectType) t;
-        JavaClass[] thiz_sups = Repository.getSuperClasses(thiz.getClassName());
-        JavaClass[] other_sups = Repository.getSuperClasses(other.getClassName());
+        JavaClass[] thiz_sups = AbstractRepository.getSuperClasses(thiz.getClassName());
+        JavaClass[] other_sups = AbstractRepository.getSuperClasses(other.getClassName());
         if ((thiz_sups == null) || (other_sups == null)) {
             return null;
         }
@@ -48,8 +48,8 @@ public abstract class ReferenceType extends Type {
         JavaClass[] t_sups = new JavaClass[other_sups.length + 1];
         System.arraycopy(thiz_sups, 0, this_sups, 1, thiz_sups.length);
         System.arraycopy(other_sups, 0, t_sups, 1, other_sups.length);
-        this_sups[0] = Repository.lookupClass(thiz.getClassName());
-        t_sups[0] = Repository.lookupClass(other.getClassName());
+        this_sups[0] = AbstractRepository.lookupClass(thiz.getClassName());
+        t_sups[0] = AbstractRepository.lookupClass(other.getClassName());
         for (JavaClass t_sup : t_sups) {
             for (JavaClass this_sup : this_sups) {
                 if (this_sup.equals(t_sup)) {
@@ -92,8 +92,8 @@ public abstract class ReferenceType extends Type {
         // this and t are ObjectTypes, see above.
         ObjectType thiz = (ObjectType) this;
         ObjectType other = (ObjectType) t;
-        JavaClass[] thiz_sups = Repository.getSuperClasses(thiz.getClassName());
-        JavaClass[] other_sups = Repository.getSuperClasses(other.getClassName());
+        JavaClass[] thiz_sups = AbstractRepository.getSuperClasses(thiz.getClassName());
+        JavaClass[] other_sups = AbstractRepository.getSuperClasses(other.getClassName());
         if ((thiz_sups == null) || (other_sups == null)) {
             return null;
         }
@@ -102,8 +102,8 @@ public abstract class ReferenceType extends Type {
         JavaClass[] t_sups = new JavaClass[other_sups.length + 1];
         System.arraycopy(thiz_sups, 0, this_sups, 1, thiz_sups.length);
         System.arraycopy(other_sups, 0, t_sups, 1, other_sups.length);
-        this_sups[0] = Repository.lookupClass(thiz.getClassName());
-        t_sups[0] = Repository.lookupClass(other.getClassName());
+        this_sups[0] = AbstractRepository.lookupClass(thiz.getClassName());
+        t_sups[0] = AbstractRepository.lookupClass(other.getClassName());
         for (JavaClass t_sup : t_sups) {
             for (JavaClass this_sup : this_sups) {
                 if (this_sup.equals(t_sup)) {
@@ -128,12 +128,12 @@ public abstract class ReferenceType extends Type {
                 if (this.equals(T)) {
                     return true;
                 }
-                if (Repository.instanceOf(((ObjectType) this).getClassName(), ((ObjectType) T).getClassName())) {
+                if (AbstractRepository.instanceOf(((ObjectType) this).getClassName(), ((ObjectType) T).getClassName())) {
                     return true;
                 }
             }
             if ((T instanceof ObjectType) && (((ObjectType) T).referencesInterfaceExact())) {
-                if (Repository.implementationOf(((ObjectType) this).getClassName(), ((ObjectType) T).getClassName())) {
+                if (AbstractRepository.implementationOf(((ObjectType) this).getClassName(), ((ObjectType) T).getClassName())) {
                     return true;
                 }
             }
@@ -148,7 +148,7 @@ public abstract class ReferenceType extends Type {
                 if (this.equals(T)) {
                     return true;
                 }
-                if (Repository.implementationOf(((ObjectType) this).getClassName(), ((ObjectType) T).getClassName())) {
+                if (AbstractRepository.implementationOf(((ObjectType) this).getClassName(), ((ObjectType) T).getClassName())) {
                     return true;
                 }
             }

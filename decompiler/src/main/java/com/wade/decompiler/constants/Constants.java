@@ -1,4 +1,4 @@
-package com.wade.decompiler;
+package com.wade.decompiler.constants;
 
 public interface Constants {
     short MAJOR_1_1 = 45;

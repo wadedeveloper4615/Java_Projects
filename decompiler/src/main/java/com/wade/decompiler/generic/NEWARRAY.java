@@ -2,9 +2,9 @@ package com.wade.decompiler.generic;
 
 import java.io.IOException;
 
-import com.wade.decompiler.Const;
-import com.wade.decompiler.ExceptionConst;
 import com.wade.decompiler.classfile.constant.ConstantPool;
+import com.wade.decompiler.constants.Const;
+import com.wade.decompiler.constants.ExceptionConst;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generic.base.AllocationInstruction;
 import com.wade.decompiler.generic.base.ExceptionThrower;

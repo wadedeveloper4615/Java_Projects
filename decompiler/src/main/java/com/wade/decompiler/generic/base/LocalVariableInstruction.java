@@ -2,7 +2,6 @@ package com.wade.decompiler.generic.base;
 
 import java.io.IOException;
 
-import com.wade.decompiler.Const;
 import com.wade.decompiler.classfile.constant.Constant;
 import com.wade.decompiler.classfile.constant.ConstantClass;
 import com.wade.decompiler.classfile.constant.ConstantFieldref;
@@ -10,6 +9,7 @@ import com.wade.decompiler.classfile.constant.ConstantMethodref;
 import com.wade.decompiler.classfile.constant.ConstantNameAndType;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.constant.ConstantUtf8;
+import com.wade.decompiler.constants.Const;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generic.type.Type;

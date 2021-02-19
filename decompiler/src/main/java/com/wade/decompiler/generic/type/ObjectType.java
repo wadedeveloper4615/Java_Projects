@@ -1,8 +1,8 @@
 package com.wade.decompiler.generic.type;
 
-import com.wade.decompiler.Const;
-import com.wade.decompiler.Repository;
 import com.wade.decompiler.classfile.JavaClass;
+import com.wade.decompiler.constants.Const;
+import com.wade.decompiler.util.AbstractRepository;
 
 public class ObjectType extends ReferenceType {
     private String className; // Class name of type
@@ -13,11 +13,11 @@ public class ObjectType extends ReferenceType {
     }
 
     public boolean accessibleTo(ObjectType accessor) throws ClassNotFoundException {
-        JavaClass jc = Repository.lookupClass(className);
+        JavaClass jc = AbstractRepository.lookupClass(className);
         if (jc.isPublic()) {
             return true;
         }
-        JavaClass acc = Repository.lookupClass(accessor.className);
+        JavaClass acc = AbstractRepository.lookupClass(accessor.className);
         return acc.getPackageName().equals(jc.getPackageName());
     }
 
@@ -38,7 +38,7 @@ public class ObjectType extends ReferenceType {
     @Deprecated
     public boolean referencesClass() {
         try {
-            JavaClass jc = Repository.lookupClass(className);
+            JavaClass jc = AbstractRepository.lookupClass(className);
             return jc.isClass();
         } catch (ClassNotFoundException e) {
             return false;
@@ -46,14 +46,14 @@ public class ObjectType extends ReferenceType {
     }
 
     public boolean referencesClassExact() throws ClassNotFoundException {
-        JavaClass jc = Repository.lookupClass(className);
+        JavaClass jc = AbstractRepository.lookupClass(className);
         return jc.isClass();
     }
 
     @Deprecated
     public boolean referencesInterface() {
         try {
-            JavaClass jc = Repository.lookupClass(className);
+            JavaClass jc = AbstractRepository.lookupClass(className);
             return !jc.isClass();
         } catch (ClassNotFoundException e) {
             return false;
@@ -61,7 +61,7 @@ public class ObjectType extends ReferenceType {
     }
 
     public boolean referencesInterfaceExact() throws ClassNotFoundException {
-        JavaClass jc = Repository.lookupClass(className);
+        JavaClass jc = AbstractRepository.lookupClass(className);
         return !jc.isClass();
     }
 
@@ -69,7 +69,7 @@ public class ObjectType extends ReferenceType {
         if (this.referencesInterfaceExact() || superclass.referencesInterfaceExact()) {
             return false;
         }
-        return Repository.instanceOf(this.className, superclass.className);
+        return AbstractRepository.instanceOf(this.className, superclass.className);
     }
 
     public static ObjectType getInstance(String className) {

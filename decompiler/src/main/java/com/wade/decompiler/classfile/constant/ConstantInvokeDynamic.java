@@ -5,12 +5,8 @@ import java.io.IOException;
 
 import com.wade.decompiler.enums.ClassFileConstants;
 
-public class ConstantInvokeDynamic extends ConstantCP {
-    public ConstantInvokeDynamic(ConstantInvokeDynamic c) {
-        this(c.getBootstrapMethodAttrIndex(), c.getNameAndTypeIndex());
-    }
-
-    ConstantInvokeDynamic(DataInput file) throws IOException {
+public class ConstantInvokeDynamic extends ConstantConstantPool {
+    public ConstantInvokeDynamic(DataInput file) throws IOException {
         this(file.readShort(), file.readShort());
     }
 

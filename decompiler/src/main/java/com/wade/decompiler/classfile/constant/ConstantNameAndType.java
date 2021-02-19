@@ -6,14 +6,10 @@ import java.io.IOException;
 import com.wade.decompiler.enums.ClassFileConstants;
 
 public class ConstantNameAndType extends Constant {
-    private int nameIndex; // Name of field/method
-    private int signatureIndex; // and its signature.
+    private final int nameIndex;
+    private final int signatureIndex;
 
-    public ConstantNameAndType(ConstantNameAndType c) {
-        this(c.getNameIndex(), c.getSignatureIndex());
-    }
-
-    ConstantNameAndType(DataInput file) throws IOException {
+    public ConstantNameAndType(DataInput file) throws IOException {
         this(file.readUnsignedShort(), file.readUnsignedShort());
     }
 
@@ -37,14 +33,6 @@ public class ConstantNameAndType extends Constant {
 
     public int getSignatureIndex() {
         return signatureIndex;
-    }
-
-    public void setNameIndex(int nameIndex) {
-        this.nameIndex = nameIndex;
-    }
-
-    public void setSignatureIndex(int signatureIndex) {
-        this.signatureIndex = signatureIndex;
     }
 
     @Override

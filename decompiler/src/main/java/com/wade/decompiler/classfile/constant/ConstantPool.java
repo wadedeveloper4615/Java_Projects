@@ -9,7 +9,7 @@ import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.util.Utility;
 
 public class ConstantPool {
-    private Constant[] constantPool;
+    private final Constant[] constantPool;
 
     public ConstantPool(Constant[] constantPool) {
         this.constantPool = constantPool;
@@ -29,10 +29,9 @@ public class ConstantPool {
     }
 
     public String constantToString(Constant c) throws ClassFormatException {
-        String str;
         int i;
         ClassFileConstants tag = c.getTag();
-        str = switch (tag) {
+        String str = switch (tag) {
             case CONSTANT_Class -> {
                 i = ((ConstantClass) c).getNameIndex();
                 c = getConstant(i, ClassFileConstants.CONSTANT_Utf8);
@@ -49,7 +48,7 @@ public class ConstantPool {
             case CONSTANT_Long -> String.valueOf(((ConstantLong) c).getBytes());
             case CONSTANT_Integer -> String.valueOf(((ConstantInteger) c).getBytes());
             case CONSTANT_NameAndType -> constantToString(((ConstantNameAndType) c).getNameIndex(), ClassFileConstants.CONSTANT_Utf8) + " " + constantToString(((ConstantNameAndType) c).getSignatureIndex(), ClassFileConstants.CONSTANT_Utf8);
-            case CONSTANT_InterfaceMethodref, CONSTANT_Methodref, CONSTANT_Fieldref -> constantToString(((ConstantCP) c).getClassIndex(), ClassFileConstants.CONSTANT_Class) + "." + constantToString(((ConstantCP) c).getNameAndTypeIndex(), ClassFileConstants.CONSTANT_NameAndType);
+            case CONSTANT_InterfaceMethodref, CONSTANT_Methodref, CONSTANT_Fieldref -> constantToString(((ConstantConstantPool) c).getClassIndex(), ClassFileConstants.CONSTANT_Class) + "." + constantToString(((ConstantConstantPool) c).getNameAndTypeIndex(), ClassFileConstants.CONSTANT_NameAndType);
             case CONSTANT_MethodHandle -> {
                 // Note that the ReferenceIndex may point to a Fieldref, Methodref or
                 // InterfaceMethodref - so we need to peek ahead to get the actual type.
@@ -80,14 +79,14 @@ public class ConstantPool {
     }
 
     public String constantToString(int index, ClassFileConstants tag) throws ClassFormatException {
-        Constant c = getConstant(index, tag.getTag());
-        return constantToString(c);
-    }
-
-    public String constantToString(int index, int tag) throws ClassFormatException {
         Constant c = getConstant(index, tag);
         return constantToString(c);
     }
+
+//    public String constantToString(int index, int tag) throws ClassFormatException {
+//        Constant c = getConstant(index, tag);
+//        return constantToString(c);
+//    }
 
     public Constant getConstant(int index) {
         if (index >= constantPool.length || index < 0) {
@@ -103,21 +102,21 @@ public class ConstantPool {
             throw new ClassFormatException("Constant pool at index " + index + " is null.");
         }
         if (c.getTag() != tag) {
-            throw new ClassFormatException("Expected class `" + Const.getConstantName(tag.getTag()) + "' at index " + index + " and got " + c);
+            throw new ClassFormatException("Expected class `" + tag.getName() + "' at index " + index + " and got " + c);
         }
         return c;
     }
 
-    public Constant getConstant(int index, int tag) throws ClassFormatException {
-        Constant c = getConstant(index);
-        if (c == null) {
-            throw new ClassFormatException("Constant pool at index " + index + " is null.");
-        }
-        if (c.getTag().getTag() != tag) {
-            throw new ClassFormatException("Expected class `" + Const.getConstantName(tag) + "' at index " + index + " and got " + c);
-        }
-        return c;
-    }
+//    public Constant getConstant(int index, int tag) throws ClassFormatException {
+//        Constant c = getConstant(index);
+//        if (c == null) {
+//            throw new ClassFormatException("Constant pool at index " + index + " is null.");
+//        }
+//        if (c.getTag().getTag() != tag) {
+//            throw new ClassFormatException("Expected class `" + tag.getName() + "' at index " + index + " and got " + c);
+//        }
+//        return c;
+//    }
 
     public Constant[] getConstantPool() {
         return constantPool;
@@ -142,10 +141,6 @@ public class ConstantPool {
 
     public void setConstant(int index, Constant constant) {
         constantPool[index] = constant;
-    }
-
-    public void setConstantPool(Constant[] constantPool) {
-        this.constantPool = constantPool;
     }
 
     @Override

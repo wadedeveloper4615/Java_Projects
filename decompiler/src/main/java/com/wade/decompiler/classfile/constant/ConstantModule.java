@@ -6,13 +6,9 @@ import java.io.IOException;
 import com.wade.decompiler.enums.ClassFileConstants;
 
 public class ConstantModule extends Constant implements ConstantObject {
-    private int nameIndex;
+    private final int nameIndex;
 
-    public ConstantModule(ConstantModule c) {
-        this(c.getNameIndex());
-    }
-
-    ConstantModule(DataInput file) throws IOException {
+    public ConstantModule(DataInput file) throws IOException {
         this(file.readUnsignedShort());
     }
 
@@ -33,10 +29,6 @@ public class ConstantModule extends Constant implements ConstantObject {
 
     public int getNameIndex() {
         return nameIndex;
-    }
-
-    public void setNameIndex(int nameIndex) {
-        this.nameIndex = nameIndex;
     }
 
     @Override

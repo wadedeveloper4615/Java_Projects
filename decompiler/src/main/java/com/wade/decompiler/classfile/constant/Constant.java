@@ -4,13 +4,9 @@ import java.io.DataInput;
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.ClassFormatException;
-import com.wade.decompiler.comparators.ConstantComparator;
-import com.wade.decompiler.constants.Const;
 import com.wade.decompiler.enums.ClassFileConstants;
-import com.wade.decompiler.util.BCELComparator;
 
 public abstract class Constant {
-    private static BCELComparator bcelComparator = new ConstantComparator();
     protected ClassFileConstants tag;
 
     public Constant(ClassFileConstants tag) {
@@ -19,7 +15,16 @@ public abstract class Constant {
 
     @Override
     public boolean equals(Object obj) {
-        return bcelComparator.equals(this, obj);
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Constant other = (Constant) obj;
+        if (tag != other.tag)
+            return false;
+        return true;
     }
 
     public ClassFileConstants getTag() {
@@ -28,29 +33,28 @@ public abstract class Constant {
 
     @Override
     public int hashCode() {
-        return bcelComparator.hashCode(this);
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((tag == null) ? 0 : tag.hashCode());
+        return result;
     }
 
     @Override
     public String toString() {
-        return Const.getConstantName(tag.getTag()) + "[" + tag + "]";
-    }
-
-    public static BCELComparator getComparator() {
-        return bcelComparator;
+        return tag.getName() + "[" + tag + "]";
     }
 
     public static Constant readConstant(DataInput dataInput) throws IOException, ClassFormatException {
-        ClassFileConstants b = ClassFileConstants.read(dataInput.readByte());
-        switch (b) {
+        ClassFileConstants constant = ClassFileConstants.read(dataInput.readByte());
+        switch (constant) {
             case CONSTANT_Class:
                 return new ConstantClass(dataInput);
             case CONSTANT_Fieldref:
-                return new ConstantFieldref(dataInput);
+                return new ConstantFieldRef(dataInput);
             case CONSTANT_Methodref:
                 return new ConstantMethodref(dataInput);
             case CONSTANT_InterfaceMethodref:
-                return new ConstantInterfaceMethodref(dataInput);
+                return new ConstantInterfaceMethodRef(dataInput);
             case CONSTANT_String:
                 return new ConstantString(dataInput);
             case CONSTANT_Integer:
@@ -64,7 +68,7 @@ public abstract class Constant {
             case CONSTANT_NameAndType:
                 return new ConstantNameAndType(dataInput);
             case CONSTANT_Utf8:
-                return ConstantUtf8.getInstance(dataInput);
+                return new ConstantUtf8(dataInput);
             case CONSTANT_MethodHandle:
                 return new ConstantMethodHandle(dataInput);
             case CONSTANT_MethodType:
@@ -78,11 +82,7 @@ public abstract class Constant {
             case CONSTANT_Package:
                 return new ConstantPackage(dataInput);
             default:
-                throw new ClassFormatException("Invalid byte tag in constant pool: " + b);
+                throw new ClassFormatException("Invalid byte tag in constant pool: " + constant);
         }
-    }
-
-    public static void setComparator(BCELComparator comparator) {
-        bcelComparator = comparator;
     }
 }

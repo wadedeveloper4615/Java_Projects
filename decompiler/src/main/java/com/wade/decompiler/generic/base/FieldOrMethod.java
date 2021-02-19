@@ -1,6 +1,6 @@
 package com.wade.decompiler.generic.base;
 
-import com.wade.decompiler.classfile.constant.ConstantCP;
+import com.wade.decompiler.classfile.constant.ConstantConstantPool;
 import com.wade.decompiler.classfile.constant.ConstantNameAndType;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.constant.ConstantUtf8;
@@ -20,7 +20,7 @@ public abstract class FieldOrMethod extends CPInstruction implements LoadClass {
     }
 
     public String getClassName(ConstantPool cp) {
-        ConstantCP cmr = (ConstantCP) cp.getConstant(super.getIndex());
+        ConstantConstantPool cmr = (ConstantConstantPool) cp.getConstant(super.getIndex());
         String className = cp.getConstantString(cmr.getClassIndex(), ClassFileConstants.CONSTANT_Class);
         if (className.startsWith("[")) {
             // Turn array classes into java.lang.Object.
@@ -43,13 +43,13 @@ public abstract class FieldOrMethod extends CPInstruction implements LoadClass {
     }
 
     public String getName(ConstantPool cp) {
-        ConstantCP cmr = (ConstantCP) cp.getConstant(super.getIndex());
+        ConstantConstantPool cmr = (ConstantConstantPool) cp.getConstant(super.getIndex());
         ConstantNameAndType cnat = (ConstantNameAndType) cp.getConstant(cmr.getNameAndTypeIndex());
         return ((ConstantUtf8) cp.getConstant(cnat.getNameIndex())).getBytes();
     }
 
     public ReferenceType getReferenceType(ConstantPool cp) {
-        ConstantCP cmr = (ConstantCP) cp.getConstant(super.getIndex());
+        ConstantConstantPool cmr = (ConstantConstantPool) cp.getConstant(super.getIndex());
         String className = cp.getConstantString(cmr.getClassIndex(), ClassFileConstants.CONSTANT_Class);
         if (className.startsWith("[")) {
             return (ArrayType) Type.getType(className);
@@ -59,7 +59,7 @@ public abstract class FieldOrMethod extends CPInstruction implements LoadClass {
     }
 
     public String getSignature(ConstantPool cp) {
-        ConstantCP cmr = (ConstantCP) cp.getConstant(super.getIndex());
+        ConstantConstantPool cmr = (ConstantConstantPool) cp.getConstant(super.getIndex());
         ConstantNameAndType cnat = (ConstantNameAndType) cp.getConstant(cmr.getNameAndTypeIndex());
         return ((ConstantUtf8) cp.getConstant(cnat.getSignatureIndex())).getBytes();
     }

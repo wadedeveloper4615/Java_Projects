@@ -998,24 +998,10 @@ public class Const {
 		return CLASS_TYPE_NAMES[index];
 	}
 
+//	public static String getConstantName( int index) {
+//		return CONSTANT_NAMES[index];
+//	}
 
-	// Constants defining the behavior of the Method Handles (JVMS �5.4.3.5)
-
-	/**
-	 *
-	 * @param index
-	 * @return the CONSTANT_NAMES entry at the given index
-	 * @since 6.0
-	 */
-	public static String getConstantName( int index) {
-		return CONSTANT_NAMES[index];
-	}
-	/**
-	 *
-	 * @param index
-	 * @return Number of words consumed on operand stack
-	 * @since 6.0
-	 */
 	public static int getConsumeStack( int index) {
 		return CONSUME_STACK[index];
 	}

@@ -6,17 +6,13 @@ import java.io.IOException;
 import com.wade.decompiler.enums.ClassFileConstants;
 
 public class ConstantClass extends Constant implements ConstantObject {
-    private int nameIndex;
-
-    public ConstantClass(ConstantClass c) {
-        this(c.getNameIndex());
-    }
+    private final int nameIndex;
 
     public ConstantClass(DataInput dataInput) throws IOException {
         this(dataInput.readUnsignedShort());
     }
 
-    public ConstantClass(int nameIndex) {
+    private ConstantClass(int nameIndex) {
         super(ClassFileConstants.CONSTANT_Class);
         this.nameIndex = nameIndex;
     }
@@ -27,16 +23,12 @@ public class ConstantClass extends Constant implements ConstantObject {
 
     @Override
     public Object getConstantValue(ConstantPool cp) {
-        Constant c = cp.getConstant(nameIndex, ClassFileConstants.CONSTANT_Utf8.getTag());
+        Constant c = cp.getConstant(nameIndex, ClassFileConstants.CONSTANT_Utf8);
         return ((ConstantUtf8) c).getBytes();
     }
 
     public int getNameIndex() {
         return nameIndex;
-    }
-
-    public void setNameIndex(int nameIndex) {
-        this.nameIndex = nameIndex;
     }
 
     @Override

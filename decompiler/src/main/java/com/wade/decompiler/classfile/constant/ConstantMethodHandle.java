@@ -6,14 +6,10 @@ import java.io.IOException;
 import com.wade.decompiler.enums.ClassFileConstants;
 
 public class ConstantMethodHandle extends Constant {
-    private int referenceKind;
-    private int referenceIndex;
+    private final int referenceKind;
+    private final int referenceIndex;
 
-    public ConstantMethodHandle(ConstantMethodHandle c) {
-        this(c.getReferenceKind(), c.getReferenceIndex());
-    }
-
-    ConstantMethodHandle(DataInput file) throws IOException {
+    public ConstantMethodHandle(DataInput file) throws IOException {
         this(file.readUnsignedByte(), file.readUnsignedShort());
     }
 
@@ -29,14 +25,6 @@ public class ConstantMethodHandle extends Constant {
 
     public int getReferenceKind() {
         return referenceKind;
-    }
-
-    public void setReferenceIndex(int reference_index) {
-        this.referenceIndex = reference_index;
-    }
-
-    public void setReferenceKind(int reference_kind) {
-        this.referenceKind = reference_kind;
     }
 
     @Override

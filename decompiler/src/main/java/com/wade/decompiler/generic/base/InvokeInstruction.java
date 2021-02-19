@@ -1,6 +1,6 @@
 package com.wade.decompiler.generic.base;
 
-import com.wade.decompiler.classfile.constant.ConstantCP;
+import com.wade.decompiler.classfile.constant.ConstantConstantPool;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.enums.InstructionOpCodes;
@@ -33,7 +33,7 @@ public abstract class InvokeInstruction extends FieldOrMethod implements Excepti
 
     @Override
     public String getClassName(ConstantPool cp) {
-        ConstantCP cmr = (ConstantCP) cp.getConstant(super.getIndex());
+        ConstantConstantPool cmr = (ConstantConstantPool) cp.getConstant(super.getIndex());
         String className = cp.getConstantString(cmr.getClassIndex(), ClassFileConstants.CONSTANT_Class);
         return className.replace('/', '.');
     }

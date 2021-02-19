@@ -5,12 +5,8 @@ import java.io.IOException;
 
 import com.wade.decompiler.enums.ClassFileConstants;
 
-public class ConstantDynamic extends ConstantCP {
-    public ConstantDynamic(ConstantDynamic c) {
-        this(c.getBootstrapMethodAttrIndex(), c.getNameAndTypeIndex());
-    }
-
-    ConstantDynamic(DataInput file) throws IOException {
+public class ConstantDynamic extends ConstantConstantPool {
+    public ConstantDynamic(DataInput file) throws IOException {
         this(file.readShort(), file.readShort());
     }
 
@@ -19,7 +15,7 @@ public class ConstantDynamic extends ConstantCP {
     }
 
     public int getBootstrapMethodAttrIndex() {
-        return super.getClassIndex(); // AKA bootstrap_method_attr_index
+        return super.getClassIndex();
     }
 
     @Override

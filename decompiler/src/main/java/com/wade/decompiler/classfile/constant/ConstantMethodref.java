@@ -5,12 +5,8 @@ import java.io.IOException;
 
 import com.wade.decompiler.enums.ClassFileConstants;
 
-public class ConstantMethodref extends ConstantCP {
-    public ConstantMethodref(ConstantMethodref c) {
-        super(ClassFileConstants.CONSTANT_Methodref, c.getClassIndex(), c.getNameAndTypeIndex());
-    }
-
-    ConstantMethodref(DataInput input) throws IOException {
+public class ConstantMethodref extends ConstantConstantPool {
+    public ConstantMethodref(DataInput input) throws IOException {
         super(ClassFileConstants.CONSTANT_Methodref, input);
     }
 

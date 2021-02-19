@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.Constant;
 import com.wade.decompiler.classfile.constant.ConstantClass;
-import com.wade.decompiler.classfile.constant.ConstantFieldref;
+import com.wade.decompiler.classfile.constant.ConstantFieldRef;
 import com.wade.decompiler.classfile.constant.ConstantMethodref;
 import com.wade.decompiler.classfile.constant.ConstantNameAndType;
 import com.wade.decompiler.classfile.constant.ConstantPool;
@@ -114,9 +114,9 @@ public abstract class LocalVariableInstruction extends Instruction implements Ty
             superName = ((ConstantUtf8) constantPool.getConstant(cc.getNameIndex(), ClassFileConstants.CONSTANT_Utf8)).getBytes();
             methodName = ((ConstantUtf8) constantPool.getConstant(cnt.getNameIndex(), ClassFileConstants.CONSTANT_Utf8)).getBytes();
             signature = ((ConstantUtf8) constantPool.getConstant(cnt.getSignatureIndex(), ClassFileConstants.CONSTANT_Utf8)).getBytes();
-        } else if (c instanceof ConstantFieldref) {
-            int classIndex = ((ConstantFieldref) c).getClassIndex();
-            int nameAndTypeIndex = ((ConstantFieldref) c).getNameAndTypeIndex();
+        } else if (c instanceof ConstantFieldRef) {
+            int classIndex = ((ConstantFieldRef) c).getClassIndex();
+            int nameAndTypeIndex = ((ConstantFieldRef) c).getNameAndTypeIndex();
 
             ConstantClass cc = (ConstantClass) constantPool.getConstant(classIndex, ClassFileConstants.CONSTANT_Class);
             ConstantNameAndType cnt = (ConstantNameAndType) constantPool.getConstant(nameAndTypeIndex, ClassFileConstants.CONSTANT_NameAndType);

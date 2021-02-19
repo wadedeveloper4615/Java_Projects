@@ -5,7 +5,6 @@ import java.io.IOException;
 
 import com.wade.decompiler.classfile.attribute.AnnotationEntry;
 import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.constants.Const;
 
 public abstract class ElementValue {
     public static final byte STRING = 's';
@@ -55,7 +54,7 @@ public abstract class ElementValue {
     public static ElementValue readElementValue(DataInput input, ConstantPool cpool) throws IOException {
         byte type = input.readByte();
         switch (type) {
-            case Const.T_ADDRESS:
+            case 16:
             case PRIMITIVE_CHAR:
             case PRIMITIVE_DOUBLE:
             case PRIMITIVE_FLOAT:

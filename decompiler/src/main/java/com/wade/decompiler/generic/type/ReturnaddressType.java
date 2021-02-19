@@ -1,6 +1,6 @@
 package com.wade.decompiler.generic.type;
 
-import com.wade.decompiler.constants.Const;
+import com.wade.decompiler.enums.TypeEnum;
 import com.wade.decompiler.generic.base.InstructionHandle;
 
 public class ReturnaddressType extends Type {
@@ -8,11 +8,11 @@ public class ReturnaddressType extends Type {
     private InstructionHandle returnTarget;
 
     private ReturnaddressType() {
-        super(Const.T_ADDRESS, "<return address>");
+        super(TypeEnum.T_ADDRESS, "<return address>");
     }
 
     public ReturnaddressType(InstructionHandle returnTarget) {
-        super(Const.T_ADDRESS, "<return address targeting " + returnTarget + ">");
+        super(TypeEnum.T_ADDRESS, "<return address targeting " + returnTarget + ">");
         this.returnTarget = returnTarget;
     }
 

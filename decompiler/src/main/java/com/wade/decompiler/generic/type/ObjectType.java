@@ -1,14 +1,14 @@
 package com.wade.decompiler.generic.type;
 
 import com.wade.decompiler.classfile.JavaClass;
-import com.wade.decompiler.constants.Const;
+import com.wade.decompiler.enums.TypeEnum;
 import com.wade.decompiler.util.AbstractRepository;
 
 public class ObjectType extends ReferenceType {
     private String className; // Class name of type
 
     public ObjectType(String className) {
-        super(Const.T_REFERENCE, "L" + className.replace('.', '/') + ";");
+        super(TypeEnum.T_REFERENCE, "L" + className.replace('.', '/') + ";");
         this.className = className.replace('/', '.');
     }
 

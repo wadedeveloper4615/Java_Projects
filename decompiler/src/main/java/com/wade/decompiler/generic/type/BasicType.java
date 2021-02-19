@@ -1,46 +1,76 @@
 package com.wade.decompiler.generic.type;
 
-import com.wade.decompiler.constants.Const;
+import com.wade.decompiler.enums.TypeEnum;
 import com.wade.decompiler.generic.base.ClassGenException;
 
 public class BasicType extends Type {
-    public BasicType(byte type) {
-        super(type, Const.getShortTypeName(type));
-        if ((type < Const.T_BOOLEAN) || (type > Const.T_VOID)) {
+    public BasicType(TypeEnum type) {
+        super(type, type.getShortTypeName());
+        if ((type.getTag() < TypeEnum.T_BOOLEAN.getTag()) || (type.getTag() > TypeEnum.T_VOID.getTag())) {
             throw new ClassGenException("Invalid type: " + type);
         }
     }
 
     @Override
-    public boolean equals(Object _type) {
-        return (_type instanceof BasicType) ? ((BasicType) _type).getType() == this.getType() : false;
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        return true;
     }
 
     @Override
     public int hashCode() {
-        return super.getType();
+        return super.hashCode();
     }
 
-    // @since 6.0 no longer
-    public static BasicType getType(byte type) {
-        switch (type) {
-            case Const.T_VOID:
+    public static BasicType getType(int type) {
+        switch (TypeEnum.read(type)) {
+            case T_VOID:
                 return VOID;
-            case Const.T_BOOLEAN:
+            case T_BOOLEAN:
                 return BOOLEAN;
-            case Const.T_BYTE:
+            case T_BYTE:
                 return BYTE;
-            case Const.T_SHORT:
+            case T_SHORT:
                 return SHORT;
-            case Const.T_CHAR:
+            case T_CHAR:
                 return CHAR;
-            case Const.T_INT:
+            case T_INT:
                 return INT;
-            case Const.T_LONG:
+            case T_LONG:
                 return LONG;
-            case Const.T_DOUBLE:
+            case T_DOUBLE:
                 return DOUBLE;
-            case Const.T_FLOAT:
+            case T_FLOAT:
+                return FLOAT;
+            default:
+                throw new ClassGenException("Invalid type: " + type);
+        }
+    }
+
+    public static BasicType getType(TypeEnum type) {
+        switch (type) {
+            case T_VOID:
+                return VOID;
+            case T_BOOLEAN:
+                return BOOLEAN;
+            case T_BYTE:
+                return BYTE;
+            case T_SHORT:
+                return SHORT;
+            case T_CHAR:
+                return CHAR;
+            case T_INT:
+                return INT;
+            case T_LONG:
+                return LONG;
+            case T_DOUBLE:
+                return DOUBLE;
+            case T_FLOAT:
                 return FLOAT;
             default:
                 throw new ClassGenException("Invalid type: " + type);

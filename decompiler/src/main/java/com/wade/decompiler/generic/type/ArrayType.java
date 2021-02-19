@@ -1,6 +1,7 @@
 package com.wade.decompiler.generic.type;
 
 import com.wade.decompiler.constants.Const;
+import com.wade.decompiler.enums.TypeEnum;
 import com.wade.decompiler.generic.base.ClassGenException;
 
 public class ArrayType extends ReferenceType {
@@ -16,17 +17,17 @@ public class ArrayType extends ReferenceType {
     }
 
     public ArrayType(Type type, int dimensions) {
-        super(Const.T_ARRAY, "<dummy>");
+        super(TypeEnum.T_ARRAY, "<dummy>");
         if ((dimensions < 1) || (dimensions > Const.MAX_BYTE)) {
             throw new ClassGenException("Invalid number of dimensions: " + dimensions);
         }
         basicType = switch (type.getType()) {
-            case Const.T_ARRAY -> {
+            case T_ARRAY -> {
                 ArrayType array = (ArrayType) type;
                 this.dimensions = dimensions + array.dimensions;
                 yield array.basicType;
             }
-            case Const.T_VOID -> throw new ClassGenException("Invalid type: void[]");
+            case T_VOID -> throw new ClassGenException("Invalid type: void[]");
             default -> {
                 this.dimensions = dimensions;
                 yield type;

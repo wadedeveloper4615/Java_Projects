@@ -47,7 +47,7 @@ public class ConstantValue extends Attribute {
             case CONSTANT_String -> {
                 int i = ((ConstantString) constantValue).getStringIndex();
                 Constant c = super.getConstantPool().getConstant(i, ClassFileConstants.CONSTANT_Utf8);
-                yield "\"" + Utility.convertString(((ConstantUtf8) constantValue).getBytes()) + "\"";
+                yield "\"" + Utility.convertString(((ConstantUtf8) c).getBytes()) + "\"";
             }
             default -> throw new IllegalStateException("Type of ConstValue invalid: " + constantValue);
         };

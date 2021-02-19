@@ -3,9 +3,9 @@ package com.wade.decompiler.generic;
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.constants.Const;
 import com.wade.decompiler.constants.ExceptionConst;
 import com.wade.decompiler.enums.InstructionOpCodes;
+import com.wade.decompiler.enums.TypeEnum;
 import com.wade.decompiler.generic.base.AllocationInstruction;
 import com.wade.decompiler.generic.base.ExceptionThrower;
 import com.wade.decompiler.generic.base.Instruction;
@@ -16,7 +16,7 @@ import com.wade.decompiler.generic.type.Type;
 import com.wade.decompiler.util.ByteSequence;
 
 public class NEWARRAY extends Instruction implements AllocationInstruction, ExceptionThrower, StackProducer {
-    private byte type;
+    private TypeEnum type;
 
     public NEWARRAY() {
     }
@@ -25,7 +25,12 @@ public class NEWARRAY extends Instruction implements AllocationInstruction, Exce
         this(type.getType(), cp);
     }
 
-    public NEWARRAY(byte type, ConstantPool cp) {
+    public NEWARRAY(int type, ConstantPool cp) {
+        super(InstructionOpCodes.NEWARRAY, 2, cp);
+        this.type = TypeEnum.read(type);
+    }
+
+    public NEWARRAY(TypeEnum type, ConstantPool cp) {
         super(InstructionOpCodes.NEWARRAY, 2, cp);
         this.type = type;
     }
@@ -39,18 +44,18 @@ public class NEWARRAY extends Instruction implements AllocationInstruction, Exce
         return new ArrayType(BasicType.getType(type), 1);
     }
 
-    public byte getTypecode() {
+    public TypeEnum getTypecode() {
         return type;
     }
 
     @Override
     public void initFromFile(ByteSequence bytes, boolean wide) throws IOException {
-        type = bytes.readByte();
+        type = TypeEnum.read(bytes.readByte());
         super.setLength(2);
     }
 
     @Override
     public String toString() {
-        return super.toString() + " " + Const.getTypeName(type);
+        return super.toString() + " " + type.getTypeName();
     }
 }

@@ -236,12 +236,75 @@ public enum InstructionOpCodes {
     PUTFIELD_QUICK_W(228),
     IMPDEP1(254),
     IMPDEP2(255);
+    private TypeEnum[][] TYPE_OF_OPERANDS = {
+      {}/*nop*/, {}/*aconst_null*/, {}/*iconst_m1*/, {}/*iconst_0*/,
+      {}/*iconst_1*/, {}/*iconst_2*/, {}/*iconst_3*/, {}/*iconst_4*/,
+      {}/*iconst_5*/, {}/*lconst_0*/, {}/*lconst_1*/, {}/*fconst_0*/,
+      {}/*fconst_1*/, {}/*fconst_2*/, {}/*dconst_0*/, {}/*dconst_1*/,
+      {TypeEnum.T_BYTE}/*bipush*/, {TypeEnum.T_SHORT}/*sipush*/, {TypeEnum.T_BYTE}/*ldc*/,
+      {TypeEnum.T_SHORT}/*ldc_w*/, {TypeEnum.T_SHORT}/*ldc2_w*/,
+      {TypeEnum.T_BYTE}/*iload*/, {TypeEnum.T_BYTE}/*lload*/, {TypeEnum.T_BYTE}/*fload*/,
+      {TypeEnum.T_BYTE}/*dload*/, {TypeEnum.T_BYTE}/*aload*/, {}/*iload_0*/,
+      {}/*iload_1*/, {}/*iload_2*/, {}/*iload_3*/, {}/*lload_0*/,
+      {}/*lload_1*/, {}/*lload_2*/, {}/*lload_3*/, {}/*fload_0*/,
+      {}/*fload_1*/, {}/*fload_2*/, {}/*fload_3*/, {}/*dload_0*/,
+      {}/*dload_1*/, {}/*dload_2*/, {}/*dload_3*/, {}/*aload_0*/,
+      {}/*aload_1*/, {}/*aload_2*/, {}/*aload_3*/, {}/*iaload*/,
+      {}/*laload*/, {}/*faload*/, {}/*daload*/, {}/*aaload*/,
+      {}/*baload*/, {}/*caload*/, {}/*saload*/, {TypeEnum.T_BYTE}/*istore*/,
+      {TypeEnum.T_BYTE}/*lstore*/, {TypeEnum.T_BYTE}/*fstore*/, {TypeEnum.T_BYTE}/*dstore*/,
+      {TypeEnum.T_BYTE}/*astore*/, {}/*istore_0*/, {}/*istore_1*/,
+      {}/*istore_2*/, {}/*istore_3*/, {}/*lstore_0*/, {}/*lstore_1*/,
+      {}/*lstore_2*/, {}/*lstore_3*/, {}/*fstore_0*/, {}/*fstore_1*/,
+      {}/*fstore_2*/, {}/*fstore_3*/, {}/*dstore_0*/, {}/*dstore_1*/,
+      {}/*dstore_2*/, {}/*dstore_3*/, {}/*astore_0*/, {}/*astore_1*/,
+      {}/*astore_2*/, {}/*astore_3*/, {}/*iastore*/, {}/*lastore*/,
+      {}/*fastore*/, {}/*dastore*/, {}/*aastore*/, {}/*bastore*/,
+      {}/*castore*/, {}/*sastore*/, {}/*pop*/, {}/*pop2*/, {}/*dup*/,
+      {}/*dup_x1*/, {}/*dup_x2*/, {}/*dup2*/, {}/*dup2_x1*/,
+      {}/*dup2_x2*/, {}/*swap*/, {}/*iadd*/, {}/*ladd*/, {}/*fadd*/,
+      {}/*dadd*/, {}/*isub*/, {}/*lsub*/, {}/*fsub*/, {}/*dsub*/,
+      {}/*imul*/, {}/*lmul*/, {}/*fmul*/, {}/*dmul*/, {}/*idiv*/,
+      {}/*ldiv*/, {}/*fdiv*/, {}/*ddiv*/, {}/*irem*/, {}/*lrem*/,
+      {}/*frem*/, {}/*drem*/, {}/*ineg*/, {}/*lneg*/, {}/*fneg*/,
+      {}/*dneg*/, {}/*ishl*/, {}/*lshl*/, {}/*ishr*/, {}/*lshr*/,
+      {}/*iushr*/, {}/*lushr*/, {}/*iand*/, {}/*land*/, {}/*ior*/,
+      {}/*lor*/, {}/*ixor*/, {}/*lxor*/, {TypeEnum.T_BYTE, TypeEnum.T_BYTE}/*iinc*/,
+      {}/*i2l*/, {}/*i2f*/, {}/*i2d*/, {}/*l2i*/, {}/*l2f*/, {}/*l2d*/,
+      {}/*f2i*/, {}/*f2l*/, {}/*f2d*/, {}/*d2i*/, {}/*d2l*/, {}/*d2f*/,
+      {}/*i2b*/, {}/*i2c*/, {}/*i2s*/, {}/*lcmp*/, {}/*fcmpl*/,
+      {}/*fcmpg*/, {}/*dcmpl*/, {}/*dcmpg*/, {TypeEnum.T_SHORT}/*ifeq*/,
+      {TypeEnum.T_SHORT}/*ifne*/, {TypeEnum.T_SHORT}/*iflt*/, {TypeEnum.T_SHORT}/*ifge*/,
+      {TypeEnum.T_SHORT}/*ifgt*/, {TypeEnum.T_SHORT}/*ifle*/, {TypeEnum.T_SHORT}/*if_icmpeq*/,
+      {TypeEnum.T_SHORT}/*if_icmpne*/, {TypeEnum.T_SHORT}/*if_icmplt*/,
+      {TypeEnum.T_SHORT}/*if_icmpge*/, {TypeEnum.T_SHORT}/*if_icmpgt*/,
+      {TypeEnum.T_SHORT}/*if_icmple*/, {TypeEnum.T_SHORT}/*if_acmpeq*/,
+      {TypeEnum.T_SHORT}/*if_acmpne*/, {TypeEnum.T_SHORT}/*goto*/, {TypeEnum.T_SHORT}/*jsr*/,
+      {TypeEnum.T_BYTE}/*ret*/, {}/*tableswitch*/, {}/*lookupswitch*/,
+      {}/*ireturn*/, {}/*lreturn*/, {}/*freturn*/, {}/*dreturn*/,
+      {}/*areturn*/, {}/*return*/, {TypeEnum.T_SHORT}/*getstatic*/,
+      {TypeEnum.T_SHORT}/*putstatic*/, {TypeEnum.T_SHORT}/*getfield*/,
+      {TypeEnum.T_SHORT}/*putfield*/, {TypeEnum.T_SHORT}/*invokevirtual*/,
+      {TypeEnum.T_SHORT}/*invokespecial*/, {TypeEnum.T_SHORT}/*invokestatic*/,
+      {TypeEnum.T_SHORT, TypeEnum.T_BYTE, TypeEnum.T_BYTE}/*invokeinterface*/, {TypeEnum.T_SHORT, TypeEnum.T_BYTE, TypeEnum.T_BYTE}/*invokedynamic*/,
+      {TypeEnum.T_SHORT}/*new*/, {TypeEnum.T_BYTE}/*newarray*/,
+      {TypeEnum.T_SHORT}/*anewarray*/, {}/*arraylength*/, {}/*athrow*/,
+      {TypeEnum.T_SHORT}/*checkcast*/, {TypeEnum.T_SHORT}/*instanceof*/,
+      {}/*monitorenter*/, {}/*monitorexit*/, {TypeEnum.T_BYTE}/*wide*/,
+      {TypeEnum.T_SHORT, TypeEnum.T_BYTE}/*multianewarray*/, {TypeEnum.T_SHORT}/*ifnull*/,
+      {TypeEnum.T_SHORT}/*ifnonnull*/, {TypeEnum.T_INT}/*goto_w*/, {TypeEnum.T_INT}/*jsr_w*/,
+      {}/*breakpoint*/, {}, {}, {}, {}, {}, {}, {},
+      {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {},
+      {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {},
+      {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {},
+      {}/*impdep1*/, {}/*impdep2*/
+    };
     public short UNDEFINED = -1;
     public short UNPREDICTABLE = -2;
     public short RESERVED = -3;
     public String ILLEGAL_OPCODE = "<illegal opcode>";
-    public String ILLEGAL_TYPE = "<illegal type>";
 
+    public String ILLEGAL_TYPE = "<illegal type>";
     private  int[] CONSUME_STACK = {
             0/*nop*/, 0/*aconst_null*/, 0/*iconst_m1*/, 0/*iconst_0*/, 0/*iconst_1*/,
             0/*iconst_2*/, 0/*iconst_3*/, 0/*iconst_4*/, 0/*iconst_5*/, 0/*lconst_0*/,
@@ -342,6 +405,7 @@ public enum InstructionOpCodes {
             UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED,
             UNDEFINED, UNPREDICTABLE/*impdep1*/, UNPREDICTABLE/*impdep2*/
     };
+
     private  short[] NO_OF_OPERANDS = {
             0/*nop*/, 0/*aconst_null*/, 0/*iconst_m1*/, 0/*iconst_0*/,
             0/*iconst_1*/, 0/*iconst_2*/, 0/*iconst_3*/, 0/*iconst_4*/,
@@ -402,61 +466,61 @@ public enum InstructionOpCodes {
             UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED,
             UNDEFINED, UNDEFINED, RESERVED/*impdep1*/, RESERVED/*impdep2*/
     };
-
-    private  String[] OPCODE_NAMES = {
-            "nop", "aconst_null", "iconst_m1", "iconst_0", "iconst_1",
-            "iconst_2", "iconst_3", "iconst_4", "iconst_5", "lconst_0",
-            "lconst_1", "fconst_0", "fconst_1", "fconst_2", "dconst_0",
-            "dconst_1", "bipush", "sipush", "ldc", "ldc_w", "ldc2_w", "iload",
-            "lload", "fload", "dload", "aload", "iload_0", "iload_1", "iload_2",
-            "iload_3", "lload_0", "lload_1", "lload_2", "lload_3", "fload_0",
-            "fload_1", "fload_2", "fload_3", "dload_0", "dload_1", "dload_2",
-            "dload_3", "aload_0", "aload_1", "aload_2", "aload_3", "iaload",
-            "laload", "faload", "daload", "aaload", "baload", "caload", "saload",
-            "istore", "lstore", "fstore", "dstore", "astore", "istore_0",
-            "istore_1", "istore_2", "istore_3", "lstore_0", "lstore_1",
-            "lstore_2", "lstore_3", "fstore_0", "fstore_1", "fstore_2",
-            "fstore_3", "dstore_0", "dstore_1", "dstore_2", "dstore_3",
-            "astore_0", "astore_1", "astore_2", "astore_3", "iastore", "lastore",
-            "fastore", "dastore", "aastore", "bastore", "castore", "sastore",
-            "pop", "pop2", "dup", "dup_x1", "dup_x2", "dup2", "dup2_x1",
-            "dup2_x2", "swap", "iadd", "ladd", "fadd", "dadd", "isub", "lsub",
-            "fsub", "dsub", "imul", "lmul", "fmul", "dmul", "idiv", "ldiv",
-            "fdiv", "ddiv", "irem", "lrem", "frem", "drem", "ineg", "lneg",
-            "fneg", "dneg", "ishl", "lshl", "ishr", "lshr", "iushr", "lushr",
-            "iand", "land", "ior", "lor", "ixor", "lxor", "iinc", "i2l", "i2f",
-            "i2d", "l2i", "l2f", "l2d", "f2i", "f2l", "f2d", "d2i", "d2l", "d2f",
-            "i2b", "i2c", "i2s", "lcmp", "fcmpl", "fcmpg",
-            "dcmpl", "dcmpg", "ifeq", "ifne", "iflt", "ifge", "ifgt", "ifle",
-            "if_icmpeq", "if_icmpne", "if_icmplt", "if_icmpge", "if_icmpgt",
-            "if_icmple", "if_acmpeq", "if_acmpne", "goto", "jsr", "ret",
-            "tableswitch", "lookupswitch", "ireturn", "lreturn", "freturn",
-            "dreturn", "areturn", "return", "getstatic", "putstatic", "getfield",
-            "putfield", "invokevirtual", "invokespecial", "invokestatic",
-            "invokeinterface", "invokedynamic", "new", "newarray", "anewarray",
-            "arraylength", "athrow", "checkcast", "instanceof", "monitorenter",
-            "monitorexit", "wide", "multianewarray", "ifnull", "ifnonnull",
-            "goto_w", "jsr_w", "breakpoint", ILLEGAL_OPCODE, ILLEGAL_OPCODE,
-            ILLEGAL_OPCODE, ILLEGAL_OPCODE, ILLEGAL_OPCODE, ILLEGAL_OPCODE,
-            ILLEGAL_OPCODE, ILLEGAL_OPCODE, ILLEGAL_OPCODE, ILLEGAL_OPCODE,
-            ILLEGAL_OPCODE, ILLEGAL_OPCODE, ILLEGAL_OPCODE, ILLEGAL_OPCODE,
-            ILLEGAL_OPCODE, ILLEGAL_OPCODE, ILLEGAL_OPCODE, ILLEGAL_OPCODE,
-            ILLEGAL_OPCODE, ILLEGAL_OPCODE, ILLEGAL_OPCODE, ILLEGAL_OPCODE,
-            ILLEGAL_OPCODE, ILLEGAL_OPCODE, ILLEGAL_OPCODE, ILLEGAL_OPCODE,
-            ILLEGAL_OPCODE, ILLEGAL_OPCODE, ILLEGAL_OPCODE, ILLEGAL_OPCODE,
-            ILLEGAL_OPCODE, ILLEGAL_OPCODE, ILLEGAL_OPCODE, ILLEGAL_OPCODE,
-            ILLEGAL_OPCODE, ILLEGAL_OPCODE, ILLEGAL_OPCODE, ILLEGAL_OPCODE,
-            ILLEGAL_OPCODE, ILLEGAL_OPCODE, ILLEGAL_OPCODE, ILLEGAL_OPCODE,
-            ILLEGAL_OPCODE, ILLEGAL_OPCODE, ILLEGAL_OPCODE, ILLEGAL_OPCODE,
-            ILLEGAL_OPCODE, ILLEGAL_OPCODE, ILLEGAL_OPCODE, ILLEGAL_OPCODE,
-            ILLEGAL_OPCODE, "impdep1", "impdep2"
-    };
+  private  String[] OPCODE_NAMES = {
+        "nop", "aconst_null", "iconst_m1", "iconst_0", "iconst_1",
+        "iconst_2", "iconst_3", "iconst_4", "iconst_5", "lconst_0",
+        "lconst_1", "fconst_0", "fconst_1", "fconst_2", "dconst_0",
+        "dconst_1", "bipush", "sipush", "ldc", "ldc_w", "ldc2_w", "iload",
+        "lload", "fload", "dload", "aload", "iload_0", "iload_1", "iload_2",
+        "iload_3", "lload_0", "lload_1", "lload_2", "lload_3", "fload_0",
+        "fload_1", "fload_2", "fload_3", "dload_0", "dload_1", "dload_2",
+        "dload_3", "aload_0", "aload_1", "aload_2", "aload_3", "iaload",
+        "laload", "faload", "daload", "aaload", "baload", "caload", "saload",
+        "istore", "lstore", "fstore", "dstore", "astore", "istore_0",
+        "istore_1", "istore_2", "istore_3", "lstore_0", "lstore_1",
+        "lstore_2", "lstore_3", "fstore_0", "fstore_1", "fstore_2",
+        "fstore_3", "dstore_0", "dstore_1", "dstore_2", "dstore_3",
+        "astore_0", "astore_1", "astore_2", "astore_3", "iastore", "lastore",
+        "fastore", "dastore", "aastore", "bastore", "castore", "sastore",
+        "pop", "pop2", "dup", "dup_x1", "dup_x2", "dup2", "dup2_x1",
+        "dup2_x2", "swap", "iadd", "ladd", "fadd", "dadd", "isub", "lsub",
+        "fsub", "dsub", "imul", "lmul", "fmul", "dmul", "idiv", "ldiv",
+        "fdiv", "ddiv", "irem", "lrem", "frem", "drem", "ineg", "lneg",
+        "fneg", "dneg", "ishl", "lshl", "ishr", "lshr", "iushr", "lushr",
+        "iand", "land", "ior", "lor", "ixor", "lxor", "iinc", "i2l", "i2f",
+        "i2d", "l2i", "l2f", "l2d", "f2i", "f2l", "f2d", "d2i", "d2l", "d2f",
+        "i2b", "i2c", "i2s", "lcmp", "fcmpl", "fcmpg",
+        "dcmpl", "dcmpg", "ifeq", "ifne", "iflt", "ifge", "ifgt", "ifle",
+        "if_icmpeq", "if_icmpne", "if_icmplt", "if_icmpge", "if_icmpgt",
+        "if_icmple", "if_acmpeq", "if_acmpne", "goto", "jsr", "ret",
+        "tableswitch", "lookupswitch", "ireturn", "lreturn", "freturn",
+        "dreturn", "areturn", "return", "getstatic", "putstatic", "getfield",
+        "putfield", "invokevirtual", "invokespecial", "invokestatic",
+        "invokeinterface", "invokedynamic", "new", "newarray", "anewarray",
+        "arraylength", "athrow", "checkcast", "instanceof", "monitorenter",
+        "monitorexit", "wide", "multianewarray", "ifnull", "ifnonnull",
+        "goto_w", "jsr_w", "breakpoint", ILLEGAL_OPCODE, ILLEGAL_OPCODE,
+        ILLEGAL_OPCODE, ILLEGAL_OPCODE, ILLEGAL_OPCODE, ILLEGAL_OPCODE,
+        ILLEGAL_OPCODE, ILLEGAL_OPCODE, ILLEGAL_OPCODE, ILLEGAL_OPCODE,
+        ILLEGAL_OPCODE, ILLEGAL_OPCODE, ILLEGAL_OPCODE, ILLEGAL_OPCODE,
+        ILLEGAL_OPCODE, ILLEGAL_OPCODE, ILLEGAL_OPCODE, ILLEGAL_OPCODE,
+        ILLEGAL_OPCODE, ILLEGAL_OPCODE, ILLEGAL_OPCODE, ILLEGAL_OPCODE,
+        ILLEGAL_OPCODE, ILLEGAL_OPCODE, ILLEGAL_OPCODE, ILLEGAL_OPCODE,
+        ILLEGAL_OPCODE, ILLEGAL_OPCODE, ILLEGAL_OPCODE, ILLEGAL_OPCODE,
+        ILLEGAL_OPCODE, ILLEGAL_OPCODE, ILLEGAL_OPCODE, ILLEGAL_OPCODE,
+        ILLEGAL_OPCODE, ILLEGAL_OPCODE, ILLEGAL_OPCODE, ILLEGAL_OPCODE,
+        ILLEGAL_OPCODE, ILLEGAL_OPCODE, ILLEGAL_OPCODE, ILLEGAL_OPCODE,
+        ILLEGAL_OPCODE, ILLEGAL_OPCODE, ILLEGAL_OPCODE, ILLEGAL_OPCODE,
+        ILLEGAL_OPCODE, ILLEGAL_OPCODE, ILLEGAL_OPCODE, ILLEGAL_OPCODE,
+        ILLEGAL_OPCODE, "impdep1", "impdep2"
+};
     //@formatter:on
     private int opcode;
     private String name;
     private short numberOfOperands;
     private int consumeStack;
     private int produceStack;
+    private TypeEnum[] typeOfOperands;
 
     InstructionOpCodes(int tag) {
         this.opcode = tag;
@@ -464,6 +528,7 @@ public enum InstructionOpCodes {
         this.numberOfOperands = NO_OF_OPERANDS[tag];
         this.consumeStack = CONSUME_STACK[tag];
         this.produceStack = PRODUCE_STACK[tag];
+        this.typeOfOperands = TYPE_OF_OPERANDS[tag];
     }
 
     public int getConsumeStack() {
@@ -484,6 +549,10 @@ public enum InstructionOpCodes {
 
     public int getProduceStack() {
         return produceStack;
+    }
+
+    public TypeEnum[] getTypeOfOperands() {
+        return typeOfOperands;
     }
 
     public static InstructionOpCodes read(int i) {

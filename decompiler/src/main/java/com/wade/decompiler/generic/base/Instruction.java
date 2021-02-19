@@ -3,7 +3,6 @@ package com.wade.decompiler.generic.base;
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.constants.Const;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generic.*;
 import com.wade.decompiler.util.ByteSequence;
@@ -27,9 +26,9 @@ public abstract class Instruction implements InstructionInit {
     public Instruction(InstructionOpCodes opcode, int length, ConstantPool constantPool) {
         this.length = (short) length;
         this.opcode = opcode;
-        this.name = Const.getOpcodeName(opcode.getOpcode());
-        this.consumeStack = Const.getConsumeStack(opcode.getOpcode());
-        this.produceStack = Const.getProduceStack(opcode.getOpcode());
+        this.name = opcode.getName();
+        this.consumeStack = opcode.getConsumeStack();
+        this.produceStack = opcode.getProduceStack();
         this.constantPool = constantPool;
     }
 

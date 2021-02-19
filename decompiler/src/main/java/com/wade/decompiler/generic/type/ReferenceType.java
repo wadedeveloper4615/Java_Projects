@@ -2,14 +2,15 @@ package com.wade.decompiler.generic.type;
 
 import com.wade.decompiler.classfile.JavaClass;
 import com.wade.decompiler.constants.Const;
+import com.wade.decompiler.enums.TypeEnum;
 import com.wade.decompiler.util.AbstractRepository;
 
 public abstract class ReferenceType extends Type {
     public ReferenceType() {
-        super(Const.T_OBJECT, "<null object>");
+        super(TypeEnum.T_OBJECT, "<null object>");
     }
 
-    public ReferenceType(byte t, String s) {
+    public ReferenceType(TypeEnum t, String s) {
         super(t, s);
     }
 

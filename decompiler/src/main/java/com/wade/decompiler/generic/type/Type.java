@@ -4,19 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.wade.decompiler.classfile.ClassFormatException;
-import com.wade.decompiler.constants.Const;
+import com.wade.decompiler.enums.TypeEnum;
 import com.wade.decompiler.util.Utility;
 
 public abstract class Type {
-    public static BasicType VOID = new BasicType(Const.T_VOID);
-    public static BasicType BOOLEAN = new BasicType(Const.T_BOOLEAN);
-    public static BasicType INT = new BasicType(Const.T_INT);
-    public static BasicType SHORT = new BasicType(Const.T_SHORT);
-    public static BasicType BYTE = new BasicType(Const.T_BYTE);
-    public static BasicType LONG = new BasicType(Const.T_LONG);
-    public static BasicType DOUBLE = new BasicType(Const.T_DOUBLE);
-    public static BasicType FLOAT = new BasicType(Const.T_FLOAT);
-    public static BasicType CHAR = new BasicType(Const.T_CHAR);
+    public static BasicType VOID = new BasicType(TypeEnum.T_VOID);
+    public static BasicType BOOLEAN = new BasicType(TypeEnum.T_BOOLEAN);
+    public static BasicType INT = new BasicType(TypeEnum.T_INT);
+    public static BasicType SHORT = new BasicType(TypeEnum.T_SHORT);
+    public static BasicType BYTE = new BasicType(TypeEnum.T_BYTE);
+    public static BasicType LONG = new BasicType(TypeEnum.T_LONG);
+    public static BasicType DOUBLE = new BasicType(TypeEnum.T_DOUBLE);
+    public static BasicType FLOAT = new BasicType(TypeEnum.T_FLOAT);
+    public static BasicType CHAR = new BasicType(TypeEnum.T_CHAR);
     public static ObjectType OBJECT = new ObjectType("java.lang.Object");
     public static ObjectType CLASS = new ObjectType("java.lang.Class");
     public static ObjectType STRING = new ObjectType("java.lang.String");
@@ -25,31 +25,39 @@ public abstract class Type {
     public static Type[] NO_ARGS = new Type[0]; // EMPTY, so immutable
     public static ReferenceType NULL = new ReferenceType() {
     };
-    public static Type UNKNOWN = new Type(Const.T_UNKNOWN, "<unknown object>") {
+    public static Type UNKNOWN = new Type(TypeEnum.T_UNKNOWN, "<unknown object>") {
     };
     private static ThreadLocal<Integer> consumed_chars = new ThreadLocal<Integer>() {
         @Override
         protected Integer initialValue() {
             return Integer.valueOf(0);
         }
-    };// int consumed_chars=0; // Remember position in string, see getArgumentTypes
-    @Deprecated
-    protected byte type; // TODO should be (and private)
-    @Deprecated
-    protected String signature; // signature for the type TODO should be private
+    };
+    protected TypeEnum type;
+    protected String signature;
 
-    public Type(byte t, String s) {
+    public Type(TypeEnum t, String s) {
         type = t;
         signature = s;
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (o instanceof Type) {
-            Type t = (Type) o;
-            return (type == t.type) && signature.equals(t.signature);
-        }
-        return false;
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Type other = (Type) obj;
+        if (signature == null) {
+            if (other.signature != null)
+                return false;
+        } else if (!signature.equals(other.signature))
+            return false;
+        if (type != other.type)
+            return false;
+        return true;
     }
 
     public String getSignature() {
@@ -58,23 +66,27 @@ public abstract class Type {
 
     public int getSize() {
         switch (type) {
-            case Const.T_DOUBLE:
-            case Const.T_LONG:
+            case T_DOUBLE:
+            case T_LONG:
                 return 2;
-            case Const.T_VOID:
+            case T_VOID:
                 return 0;
             default:
                 return 1;
         }
     }
 
-    public byte getType() {
+    public TypeEnum getType() {
         return type;
     }
 
     @Override
     public int hashCode() {
-        return type ^ signature.hashCode();
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((signature == null) ? 0 : signature.hashCode());
+        result = prime * result + ((type == null) ? 0 : type.hashCode());
+        return result;
     }
 
     public Type normalizeForStackOrLocal() {
@@ -90,7 +102,7 @@ public abstract class Type {
 
     @Override
     public String toString() {
-        return ((this.equals(Type.NULL) || (type >= Const.T_UNKNOWN))) ? signature : Utility.signatureToString(signature, false);
+        return "Type [type=" + type + ", signature=" + signature + "]";
     }
 
     static int consumed(int coded) {
@@ -217,32 +229,36 @@ public abstract class Type {
         }
     }
 
-    // @since 6.0 no longer
-    public static Type getType(String signature) throws StringIndexOutOfBoundsException {
-        byte type = Utility.typeOfSignature(signature);
-        if (type <= Const.T_VOID) {
-            // corrected concurrent private static field acess
-            wrap(consumed_chars, 1);
-            return BasicType.getType(type);
-        } else if (type == Const.T_ARRAY) {
-            int dim = 0;
-            do { // Count dimensions
-                dim++;
-            } while (signature.charAt(dim) == '[');
-            // Recurse, but just once, if the signature is ok
-            Type t = getType(signature.substring(dim));
-            // corrected concurrent private static field acess
-            // consumed_chars += dim; // update counter - is replaced by
-            int _temp = unwrap(consumed_chars) + dim;
-            wrap(consumed_chars, _temp);
-            return new ArrayType(t, dim);
-        } else { // type == T_REFERENCE
-            // Utility.typeSignatureToString understands how to parse generic types.
-            String parsedSignature = Utility.typeSignatureToString(signature, false);
-            wrap(consumed_chars, parsedSignature.length() + 2); // "Lblabla;" `L' and `;' are removed
-            return ObjectType.getInstance(parsedSignature.replace('/', '.'));
-        }
+    public static Type getType(String name) {
+        return null;
     }
+
+    // @since 6.0 no longer
+//    public static Type getType(String signature) throws StringIndexOutOfBoundsException {
+//        byte type = Utility.typeOfSignature(signature);
+//        if (type <= TypeEnum.T_VOID.getTag()) {
+//            // corrected concurrent private static field acess
+//            wrap(consumed_chars, 1);
+//            return BasicType.getType(type);
+//        } else if (type == TypeEnum.T_ARRAY.getTag()) {
+//            int dim = 0;
+//            do { // Count dimensions
+//                dim++;
+//            } while (signature.charAt(dim) == '[');
+//            // Recurse, but just once, if the signature is ok
+//            Type t = getType(signature.substring(dim));
+//            // corrected concurrent private static field acess
+//            // consumed_chars += dim; // update counter - is replaced by
+//            int _temp = unwrap(consumed_chars) + dim;
+//            wrap(consumed_chars, _temp);
+//            return new ArrayType(t, dim);
+//        } else { // type == T_REFERENCE
+//            // Utility.typeSignatureToString understands how to parse generic types.
+//            String parsedSignature = Utility.typeSignatureToString(signature, false);
+//            wrap(consumed_chars, parsedSignature.length() + 2); // "Lblabla;" `L' and `;' are removed
+//            return ObjectType.getInstance(parsedSignature.replace('/', '.'));
+//        }
+//    }
 
     public static Type[] getTypes(java.lang.Class<?>[] classes) {
         Type[] ret = new Type[classes.length];
@@ -254,9 +270,9 @@ public abstract class Type {
 
     public static int getTypeSize(String signature) throws StringIndexOutOfBoundsException {
         byte type = Utility.typeOfSignature(signature);
-        if (type <= Const.T_VOID) {
+        if (type <= TypeEnum.T_VOID.getTag()) {
             return encode(BasicType.getType(type).getSize(), 1);
-        } else if (type == Const.T_ARRAY) {
+        } else if (type == TypeEnum.T_ARRAY.getTag()) {
             int dim = 0;
             do { // Count dimensions
                 dim++;
@@ -281,7 +297,7 @@ public abstract class Type {
         return tl.get().intValue();
     }
 
-    private static void wrap(ThreadLocal<Integer> tl, int value) {
-        tl.set(Integer.valueOf(value));
-    }
+//    private static void wrap(ThreadLocal<Integer> tl, int value) {
+//        tl.set(Integer.valueOf(value));
+//    }
 }

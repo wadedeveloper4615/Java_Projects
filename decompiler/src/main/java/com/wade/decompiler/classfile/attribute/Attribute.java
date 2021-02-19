@@ -7,7 +7,6 @@ import java.io.IOException;
 import com.wade.decompiler.classfile.ClassFormatException;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.constant.ConstantUtf8;
-import com.wade.decompiler.constants.Const;
 import com.wade.decompiler.enums.ClassFileAttributes;
 import com.wade.decompiler.enums.ClassFileConstants;
 
@@ -60,8 +59,7 @@ public abstract class Attribute {
         String name = ((ConstantUtf8) constant_pool.getConstant(name_index, ClassFileConstants.CONSTANT_Utf8)).getBytes();
         int length = file.readInt();
 
-        for (byte i = 0; i < Const.KNOWN_ATTRIBUTES; i++) {
-            ClassFileAttributes currentTag = ClassFileAttributes.read(i);
+        for (ClassFileAttributes currentTag : ClassFileAttributes.values()) {
             if (name.equals(currentTag.getName())) {
                 tag = currentTag;
                 break;

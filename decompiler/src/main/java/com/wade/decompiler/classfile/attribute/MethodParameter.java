@@ -35,16 +35,16 @@ public class MethodParameter {
         return accessFlags.isAbstract();
     }
 
-    public boolean isAndAbstract() {
-        return accessFlags.isAndAbstract();
-    }
-
     public boolean isAnnotation() {
         return accessFlags.isAnnotation();
     }
 
     public boolean isEnum() {
         return accessFlags.isEnum();
+    }
+
+    public boolean isFinalAndAbstract() {
+        return accessFlags.isFinalAndAbstract();
     }
 
     public boolean isInterface() {

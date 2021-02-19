@@ -13,7 +13,6 @@ import java.io.Reader;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
@@ -22,10 +21,10 @@ import com.wade.decompiler.classfile.attribute.LocalVariable;
 import com.wade.decompiler.classfile.attribute.LocalVariableTable;
 import com.wade.decompiler.classfile.constant.Constant;
 import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.constants.Const;
 import com.wade.decompiler.enums.ClassAccessFlagsList;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.enums.InstructionOpCodes;
+import com.wade.decompiler.enums.TypeEnum;
 
 // @since 6.0 methods are no longer
 public abstract class Utility {
@@ -198,14 +197,14 @@ public abstract class Utility {
         int[] jump_table;
         int no_pad_bytes = 0;
         int offset;
-        StringBuilder buf = new StringBuilder(Const.getOpcodeName(opcode));
+        StringBuilder buf = new StringBuilder(opcode.getName());
         if ((opcode == InstructionOpCodes.TABLESWITCH) || (opcode == InstructionOpCodes.LOOKUPSWITCH)) {
             int remainder = bytes.getIndex() % 4;
             no_pad_bytes = (remainder == 0) ? 0 : 4 - remainder;
             for (int i = 0; i < no_pad_bytes; i++) {
                 byte b;
                 if ((b = bytes.readByte()) != 0) {
-                    System.err.println("Warning: Padding byte != 0 in " + Const.getOpcodeName(opcode) + ":" + b);
+                    System.err.println("Warning: Padding byte != 0 in " + opcode.getName() + ":" + b);
                 }
             }
             // Both cases have a field default_offset in common
@@ -294,7 +293,7 @@ public abstract class Utility {
                 buf.append("\t(wide)");
                 break;
             case NEWARRAY:
-                buf.append("\t\t<").append(Const.getTypeName(bytes.readByte())).append(">");
+                buf.append("\t\t<").append(TypeEnum.read(bytes.readByte())).append(">");
                 break;
             case GETFIELD:
             case GETSTATIC:
@@ -364,17 +363,17 @@ public abstract class Utility {
                 buf.append("\t\t%").append(vindex).append("\t").append(constant);
                 break;
             default:
-                if (Const.getNoOfOperands(opcode.getOpcode()) > 0) {
-                    for (int i = 0; i < Const.getOperandTypeCount(opcode.getOpcode()); i++) {
+                if (opcode.getNumberOfOperands() > 0) {
+                    for (int i = 0; i < opcode.getTypeOfOperands().length; i++) {
                         buf.append("\t\t");
-                        switch (Const.getOperandType(opcode.getOpcode(), i)) {
-                            case Const.T_BYTE:
+                        switch (opcode.getTypeOfOperands()[i]) {
+                            case T_BYTE:
                                 buf.append(bytes.readByte());
                                 break;
-                            case Const.T_SHORT:
+                            case T_SHORT:
                                 buf.append(bytes.readShort());
                                 break;
-                            case Const.T_INT:
+                            case T_INT:
                                 buf.append(bytes.readInt());
                                 break;
                             default: // Never reached
@@ -573,10 +572,11 @@ public abstract class Utility {
             buf.append('[');
         }
         boolean found = false;
-        for (int i = Const.T_BOOLEAN; (i <= Const.T_VOID) && !found; i++) {
-            if (Const.getTypeName(i).equals(type)) {
+        for (int i = TypeEnum.T_BOOLEAN.getTag(); (i <= TypeEnum.T_VOID.getTag()) && !found; i++) {
+            TypeEnum var = TypeEnum.read(i);
+            if (var.getTypeName().equals(type)) {
                 found = true;
-                buf.append(Const.getShortTypeName(i));
+                buf.append(var.getShortTypeName());
             }
         }
         if (!found) {
@@ -774,15 +774,15 @@ public abstract class Utility {
         return str;
     }
 
-    public static short searchOpcode(String name) {
-        name = name.toLowerCase(Locale.ENGLISH);
-        for (short i = 0; i < Const.OPCODE_NAMES_LENGTH; i++) {
-            if (Const.getOpcodeName(i).equals(name)) {
-                return i;
-            }
-        }
-        return -1;
-    }
+//    public static short searchOpcode(String name) {
+//        name = name.toLowerCase(Locale.ENGLISH);
+//        for (short i = 0; i < Const.OPCODE_NAMES_LENGTH; i++) {
+//            if (Const.getOpcodeName(i).equals(name)) {
+//                return i;
+//            }
+//        }
+//        return -1;
+//    }
 
     public static int setBit(int flag, int i) {
         return flag | pow2(i);
@@ -869,28 +869,28 @@ public abstract class Utility {
         try {
             switch (signature.charAt(0)) {
                 case 'B':
-                    return Const.T_BYTE;
+                    return (byte) TypeEnum.T_BYTE.getTag();
                 case 'C':
-                    return Const.T_CHAR;
+                    return (byte) TypeEnum.T_CHAR.getTag();
                 case 'D':
-                    return Const.T_DOUBLE;
+                    return (byte) TypeEnum.T_DOUBLE.getTag();
                 case 'F':
-                    return Const.T_FLOAT;
+                    return (byte) TypeEnum.T_FLOAT.getTag();
                 case 'I':
-                    return Const.T_INT;
+                    return (byte) TypeEnum.T_INT.getTag();
                 case 'J':
-                    return Const.T_LONG;
+                    return (byte) TypeEnum.T_LONG.getTag();
                 case 'L':
                 case 'T':
-                    return Const.T_REFERENCE;
+                    return (byte) TypeEnum.T_REFERENCE.getTag();
                 case '[':
-                    return Const.T_ARRAY;
+                    return (byte) TypeEnum.T_ARRAY.getTag();
                 case 'V':
-                    return Const.T_VOID;
+                    return (byte) TypeEnum.T_VOID.getTag();
                 case 'Z':
-                    return Const.T_BOOLEAN;
+                    return (byte) TypeEnum.T_BOOLEAN.getTag();
                 case 'S':
-                    return Const.T_SHORT;
+                    return (byte) TypeEnum.T_SHORT.getTag();
                 case '!':
                 case '+':
                 case '*':

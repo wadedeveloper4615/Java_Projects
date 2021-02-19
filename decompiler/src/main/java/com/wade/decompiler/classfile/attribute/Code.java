@@ -92,21 +92,11 @@ public class Code extends Attribute {
     }
 
     public LineNumberTable getLineNumberTable() {
-        for (Attribute attribute : attributes) {
-            if (attribute instanceof LineNumberTable) {
-                return (LineNumberTable) attribute;
-            }
-        }
-        return null;
+        return lineNumberTable;
     }
 
     public LocalVariableTable getLocalVariableTable() {
-        for (Attribute attribute : attributes) {
-            if (attribute instanceof LocalVariableTable) {
-                return (LocalVariableTable) attribute;
-            }
-        }
-        return null;
+        return localVariableTable;
     }
 
     public int getMaxLocals() {
@@ -123,7 +113,7 @@ public class Code extends Attribute {
     }
 
     public String toString(boolean verbose) {
-        StringBuilder buf = new StringBuilder(100); // CHECKSTYLE IGNORE MagicNumber
+        StringBuilder buf = new StringBuilder(100);
         buf.append("Code(maxStack = ").append(maxStack).append(", maxLocals = ").append(maxLocals).append(", code_length = ").append(byteCode.length).append(")\n").append(Utility.codeToString(byteCode, super.getConstantPool(), 0, -1, verbose));
         if (exceptionTable.length > 0) {
             buf.append("\nException handler(s) = \n").append("From\tTo\tHandler\tType\n");

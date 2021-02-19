@@ -49,16 +49,8 @@ public enum ClassAccessFlags {
         return name;
     }
 
-    public boolean is() {
-        return (flag & ACC_FINAL.getFlag()) != 0;
-    }
-
     public boolean isAbstract() {
         return (flag & ACC_ABSTRACT.getFlag()) != 0;
-    }
-
-    public boolean isAndAbstract() {
-        return this.is() && this.isAbstract();
     }
 
     public boolean isAnnotation() {
@@ -67,6 +59,14 @@ public enum ClassAccessFlags {
 
     public boolean isEnum() {
         return (flag & ACC_ENUM.getFlag()) != 0;
+    }
+
+    public boolean isFinal() {
+        return (flag & ACC_FINAL.getFlag()) != 0;
+    }
+
+    public boolean isFinalAndAbstract() {
+        return this.isFinal() && this.isAbstract();
     }
 
     public boolean isInterface() {

@@ -34,7 +34,6 @@ public abstract class FieldOrMethod extends ClassAccessFlagsList {
         attributes = new Attribute[attributes_count];
         for (int i = 0; i < attributes_count; i++) {
             attributes[i] = Attribute.readAttribute(file, constant_pool);
-            attributes[i].setConstantPool(constant_pool);
             if (attributes[i] instanceof Code) {
                 code = (Code) attributes[i];
             }

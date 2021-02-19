@@ -31,15 +31,6 @@ public class StackMap extends Attribute {
         return map;
     }
 
-    public void setStackMap(StackMapEntry[] map) {
-        this.map = map;
-        int len = 2; // Length of 'number_of_entries' field prior to the array of stack maps
-        for (StackMapEntry element : map) {
-            len += element.getMapEntrySize();
-        }
-        setLength(len);
-    }
-
     @Override
     public String toString() {
         StringBuilder buf = new StringBuilder("StackMap(");

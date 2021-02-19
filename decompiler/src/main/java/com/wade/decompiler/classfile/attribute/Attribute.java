@@ -3,8 +3,6 @@ package com.wade.decompiler.classfile.attribute;
 import java.io.DataInput;
 import java.io.DataInputStream;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 import com.wade.decompiler.classfile.ClassFormatException;
 import com.wade.decompiler.classfile.constant.ConstantPool;
@@ -13,14 +11,11 @@ import com.wade.decompiler.constants.Const;
 import com.wade.decompiler.enums.ClassFileAttributes;
 import com.wade.decompiler.enums.ClassFileConstants;
 
-@SuppressWarnings("deprecation")
 public abstract class Attribute {
-    private static boolean debug = Boolean.getBoolean(Attribute.class.getCanonicalName() + ".debug"); // Debugging on/off
-    private static Map<String, Object> readers = new HashMap<>();
-    protected int nameIndex;
+    protected final int nameIndex;
     protected int length;
-    protected ClassFileAttributes tag;
-    protected ConstantPool constantPool;
+    protected final ClassFileAttributes tag;
+    protected final ConstantPool constantPool;
 
     protected Attribute(ClassFileAttributes tag, int nameIndex, int length, ConstantPool constantPool) {
         this.tag = tag;
@@ -50,35 +45,13 @@ public abstract class Attribute {
         return tag;
     }
 
-    public void setConstantPool(ConstantPool constantPool) {
-        this.constantPool = constantPool;
-    }
-
     public void setLength(int length) {
         this.length = length;
     }
 
-    public void setNameIndex(int nameIndex) {
-        this.nameIndex = nameIndex;
-    }
-
     @Override
     public String toString() {
-        return Const.getAttributeName(tag.getTag());
-    }
-
-    public static void addAttributeReader(String name, AttributeReader r) {
-        readers.put(name, r);
-    }
-
-    public static void addAttributeReader(String name, UnknownAttributeReader r) {
-        readers.put(name, r);
-    }
-
-    protected static void println(String msg) {
-        if (debug) {
-            System.err.println(msg);
-        }
+        return tag.getName();
     }
 
     public static Attribute readAttribute(DataInput file, ConstantPool constant_pool) throws IOException, ClassFormatException {
@@ -88,17 +61,14 @@ public abstract class Attribute {
         int length = file.readInt();
 
         for (byte i = 0; i < Const.KNOWN_ATTRIBUTES; i++) {
-            if (name.equals(Const.getAttributeName(i))) {
-                tag = ClassFileAttributes.read(i);
+            ClassFileAttributes currentTag = ClassFileAttributes.read(i);
+            if (name.equals(currentTag.getName())) {
+                tag = currentTag;
                 break;
             }
         }
         switch (tag) {
             case ATTR_UNKNOWN:
-                Object r = readers.get(name);
-                if (r instanceof UnknownAttributeReader) {
-                    return ((UnknownAttributeReader) r).createAttribute(name_index, length, file, constant_pool);
-                }
                 return new Unknown(name_index, length, file, constant_pool);
             case ATTR_CONSTANT_VALUE:
                 return new ConstantValue(name_index, length, file, constant_pool);
@@ -123,7 +93,6 @@ public abstract class Attribute {
             case ATTR_SIGNATURE:
                 return new Signature(name_index, length, file, constant_pool);
             case ATTR_STACK_MAP:
-                println("Warning: Obsolete StackMap attribute ignored.");
                 return new Unknown(name_index, length, file, constant_pool);
             case ATTR_RUNTIME_VISIBLE_ANNOTATIONS:
                 return new RuntimeVisibleAnnotations(name_index, length, file, constant_pool);
@@ -156,16 +125,11 @@ public abstract class Attribute {
             case ATTR_NEST_MEMBERS:
                 return new NestMembers(name_index, length, file, constant_pool);
             default:
-                // Never reached
                 throw new IllegalStateException("Unrecognized attribute type tag parsed: " + tag);
         }
     }
 
     public static Attribute readAttribute(DataInputStream file, ConstantPool constant_pool) throws IOException, ClassFormatException {
         return readAttribute((DataInput) file, constant_pool);
-    }
-
-    public static void removeAttributeReader(String name) {
-        readers.remove(name);
     }
 }

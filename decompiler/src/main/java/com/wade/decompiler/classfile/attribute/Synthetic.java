@@ -20,20 +20,11 @@ public class Synthetic extends Attribute {
         if (length > 0) {
             bytes = new byte[length];
             input.readFully(bytes);
-            println("Synthetic attribute with length > 0");
         }
-    }
-
-    public Synthetic(Synthetic c) {
-        this(c.getNameIndex(), c.getLength(), c.getBytes(), c.getConstantPool());
     }
 
     public byte[] getBytes() {
         return bytes;
-    }
-
-    public void setBytes(byte[] bytes) {
-        this.bytes = bytes;
     }
 
     @Override

@@ -11,6 +11,8 @@ import com.wade.decompiler.enums.ClassFileConstants;
 public class PMGClass extends Attribute {
     private int pmgClassIndex;
     private int pmgIndex;
+    private String pmgClass;
+    private String pmg;
 
     public PMGClass(int name_index, int length, DataInput input, ConstantPool constant_pool) throws IOException {
         this(name_index, length, input.readUnsignedShort(), input.readUnsignedShort(), constant_pool);
@@ -20,40 +22,28 @@ public class PMGClass extends Attribute {
         super(ClassFileAttributes.ATTR_PMG, name_index, length, constantPool);
         this.pmgIndex = pmgIndex;
         this.pmgClassIndex = pmgClassIndex;
+        this.pmgClass = ((ConstantUtf8) super.getConstantPool().getConstant(pmgClassIndex, ClassFileConstants.CONSTANT_Utf8)).getBytes();
+        this.pmg = ((ConstantUtf8) super.getConstantPool().getConstant(pmgIndex, ClassFileConstants.CONSTANT_Utf8)).getBytes();
     }
 
-    public PMGClass(PMGClass pgmClass) {
-        this(pgmClass.getNameIndex(), pgmClass.getLength(), pgmClass.getPMGIndex(), pgmClass.getPMGClassIndex(), pgmClass.getConstantPool());
+    public String getPmg() {
+        return pmg;
     }
 
-    public int getPMGClassIndex() {
+    public String getPmgClass() {
+        return pmgClass;
+    }
+
+    public int getPmgClassIndex() {
         return pmgClassIndex;
     }
 
-    public String getPMGClassName() {
-        ConstantUtf8 c = (ConstantUtf8) super.getConstantPool().getConstant(pmgClassIndex, ClassFileConstants.CONSTANT_Utf8);
-        return c.getBytes();
-    }
-
-    public int getPMGIndex() {
+    public int getPmgIndex() {
         return pmgIndex;
-    }
-
-    public String getPMGName() {
-        ConstantUtf8 c = (ConstantUtf8) super.getConstantPool().getConstant(pmgIndex, ClassFileConstants.CONSTANT_Utf8);
-        return c.getBytes();
-    }
-
-    public void setPMGClassIndex(int pmgClassIndex) {
-        this.pmgClassIndex = pmgClassIndex;
-    }
-
-    public void setPMGIndex(int pmgIndex) {
-        this.pmgIndex = pmgIndex;
     }
 
     @Override
     public String toString() {
-        return "PMGClass(" + getPMGName() + ", " + getPMGClassName() + ")";
+        return "PMGClass [pmgClassIndex=" + pmgClassIndex + ", pmgIndex=" + pmgIndex + ", pmgClass=" + pmgClass + ", pmg=" + pmg + "]";
     }
 }

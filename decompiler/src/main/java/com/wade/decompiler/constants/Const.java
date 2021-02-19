@@ -970,30 +970,15 @@ public class Const {
 
 	private Const() { } // not instantiable
 	//#formatter:on
-	/**
-	 * @param index
-	 * @return the ACCESS_NAMES entry at the given index
-	 * @since 6.0
-	 */
+
 	public static String getAccessName( int index) {
 		return ACCESS_NAMES[index];
 	}
-	/**
-	 *
-	 * @param index
-	 * @return the attribute name
-	 * @since 6.0
-	 */
-	public static String getAttributeName( int index) {
-		return ATTRIBUTE_NAMES[index];
-	}
-	/**
-	 * The primitive class names corresponding to the T_XX constants,
-	 * e.g., CLASS_TYPE_NAMES[T_INT] = "java.lang.Integer"
-	 * @param index
-	 * @return the class name
-	 * @since 6.0
-	 */
+
+//	public static String getAttributeName( int index) {
+//		return ATTRIBUTE_NAMES[index];
+//	}
+
 	public static String getClassTypeName( int index) {
 		return CLASS_TYPE_NAMES[index];
 	}

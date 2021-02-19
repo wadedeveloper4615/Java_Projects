@@ -80,7 +80,7 @@ public class JavaClass extends ClassAccessFlagsList implements Comparable<JavaCl
         this.source = source;
         for (Attribute attribute : attributes) {
             if (attribute instanceof SourceFile) {
-                sourceFileName = ((SourceFile) attribute).getSourceFileName();
+                sourceFileName = ((SourceFile) attribute).getSourceFile();
                 break;
             }
         }

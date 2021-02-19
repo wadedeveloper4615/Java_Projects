@@ -5,31 +5,6 @@ import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.ClassFileAttributes;
-// The new table is used when generic types are about...
-//LocalVariableTable_attribute {
-//       u2 attribute_name_index;
-//       u4 attribute_length;
-//       u2 local_variable_table_length;
-//       {  u2 start_pc;
-//          u2 length;
-//          u2 name_index;
-//          u2 descriptor_index;
-//          u2 index;
-//       } local_variable_table[local_variable_table_length];
-//     }
-//LocalVariableTypeTable_attribute {
-//    u2 attribute_name_index;
-//    u4 attribute_length;
-//    u2 local_variable_type_table_length;
-//    {
-//      u2 start_pc;
-//      u2 length;
-//      u2 name_index;
-//      u2 signature_index;
-//      u2 index;
-//    } localVariableTypeTable[local_variable_type_table_length];
-//  }
-// J5TODO: Needs some testing !
 
 public class LocalVariableTypeTable extends Attribute {
     private LocalVariable[] localVariableTypeTable;
@@ -48,10 +23,6 @@ public class LocalVariableTypeTable extends Attribute {
         this.localVariableTypeTable = local_variable_table;
     }
 
-    public LocalVariableTypeTable(LocalVariableTypeTable c) {
-        this(c.getNameIndex(), c.getLength(), c.getLocalVariableTypeTable(), c.getConstantPool());
-    }
-
     public LocalVariable getLocalVariable(int index) {
         for (LocalVariable variable : localVariableTypeTable) {
             if (variable.getIndex() == index) {
@@ -67,10 +38,6 @@ public class LocalVariableTypeTable extends Attribute {
 
     public int getTableLength() {
         return localVariableTypeTable == null ? 0 : localVariableTypeTable.length;
-    }
-
-    public void setLocalVariableTable(LocalVariable[] local_variable_table) {
-        this.localVariableTypeTable = local_variable_table;
     }
 
     @Override

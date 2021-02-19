@@ -17,11 +17,13 @@ public class AnnotationEntry {
     private ConstantPool constantPool;
     private boolean isRuntimeVisible;
     private List<ElementValuePair> elementValuePairs;
+    private String annotationType;
 
     public AnnotationEntry(int type_index, ConstantPool constant_pool, boolean isRuntimeVisible) {
         this.typeIndex = type_index;
         this.constantPool = constant_pool;
         this.isRuntimeVisible = isRuntimeVisible;
+        this.annotationType = ((ConstantUtf8) constantPool.getConstant(typeIndex, ClassFileConstants.CONSTANT_Utf8)).getBytes();
     }
 
     public void addElementNameValuePair(ElementValuePair elementNameValuePair) {
@@ -29,8 +31,7 @@ public class AnnotationEntry {
     }
 
     public String getAnnotationType() {
-        ConstantUtf8 c = (ConstantUtf8) constantPool.getConstant(typeIndex, ClassFileConstants.CONSTANT_Utf8);
-        return c.getBytes();
+        return annotationType;
     }
 
     public int getAnnotationTypeIndex() {

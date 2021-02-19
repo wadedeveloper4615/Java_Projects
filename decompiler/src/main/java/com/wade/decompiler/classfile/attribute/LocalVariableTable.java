@@ -23,20 +23,6 @@ public class LocalVariableTable extends Attribute {
         this.localVariableTable = localVariableTable;
     }
 
-    public LocalVariableTable(LocalVariableTable c) {
-        this(c.getNameIndex(), c.getLength(), c.getLocalVariableTable(), c.getConstantPool());
-    }
-
-    @java.lang.Deprecated
-    public LocalVariable getLocalVariable(int index) {
-        for (LocalVariable variable : localVariableTable) {
-            if (variable.getIndex() == index) {
-                return variable;
-            }
-        }
-        return null;
-    }
-
     public LocalVariable getLocalVariable(int index, int pc) {
         for (LocalVariable variable : localVariableTable) {
             if (variable.getIndex() == index) {

@@ -18,6 +18,22 @@ public class Test1 {
         this.var4 = var4;
     }
 
+    public char add1(char var) {
+        return (char) (var + 5);
+    }
+
+    public int add2(int var) {
+        return var - 5;
+    }
+
+    public long add3(long var) {
+        return var * 5;
+    }
+
+    public short add4(short var) {
+        return (short) (var / 5);
+    }
+
     public char getVar1() {
         return var1;
     }

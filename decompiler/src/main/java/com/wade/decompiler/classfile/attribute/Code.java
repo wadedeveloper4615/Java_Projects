@@ -10,7 +10,6 @@ import com.wade.decompiler.generic.base.Instruction;
 import com.wade.decompiler.generic.base.InstructionList;
 import com.wade.decompiler.util.Utility;
 
-@SuppressWarnings("unused")
 public class Code extends Attribute {
     private int maxStack;
     private int maxLocals;
@@ -20,10 +19,6 @@ public class Code extends Attribute {
     private LocalVariableTable localVariableTable;
     private LineNumberTable lineNumberTable;
     private Instruction[] instructions;
-
-    public Code(Code c) {
-        this(c.getNameIndex(), c.getLength(), c.getMaxStack(), c.getMaxLocals(), c.getCode(), c.getExceptionTable(), c.getAttributes(), c.getConstantPool());
-    }
 
     public Code(int nameIndex, int length, DataInput file, ConstantPool constantPool) throws IOException {
         this(nameIndex, length, file.readUnsignedShort(), file.readUnsignedShort(), (byte[]) null, (CodeException[]) null, (Attribute[]) null, constantPool);
@@ -120,45 +115,6 @@ public class Code extends Attribute {
 
     public int getMaxStack() {
         return maxStack;
-    }
-
-    public void setAttributes(Attribute[] attributes) {
-        this.attributes = attributes != null ? attributes : new Attribute[0];
-        super.setLength(calculateLength()); // Adjust length
-    }
-
-    public void setByteCode(byte[] byteCode) {
-        this.byteCode = byteCode;
-    }
-
-    public void setCode(byte[] code) {
-        this.byteCode = code != null ? code : new byte[0];
-        super.setLength(calculateLength());
-    }
-
-    public void setExceptionTable(CodeException[] exceptionTable) {
-        this.exceptionTable = exceptionTable != null ? exceptionTable : new CodeException[0];
-        super.setLength(calculateLength());
-    }
-
-    public void setInstructions(Instruction[] instructions) {
-        this.instructions = instructions;
-    }
-
-    public void setLineNumberTable(LineNumberTable lineNumberTable) {
-        this.lineNumberTable = lineNumberTable;
-    }
-
-    public void setLocalVariableTable(LocalVariableTable localVariableTable) {
-        this.localVariableTable = localVariableTable;
-    }
-
-    public void setMaxLocals(int maxLocals) {
-        this.maxLocals = maxLocals;
-    }
-
-    public void setMaxStack(int maxStack) {
-        this.maxStack = maxStack;
     }
 
     @Override

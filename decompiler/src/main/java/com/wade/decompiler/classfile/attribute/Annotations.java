@@ -39,8 +39,4 @@ public abstract class Annotations extends Attribute {
     public boolean isRuntimeVisible() {
         return isRuntimeVisible;
     }
-
-    public void setAnnotationTable(AnnotationEntry[] annotationTable) {
-        this.annotationTable = annotationTable;
-    }
 }

@@ -1,7 +1,6 @@
 package com.wade.decompiler.classfile.attribute;
 
 import java.io.DataInput;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -9,46 +8,26 @@ import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.util.Utility;
 
-public class BootstrapMethod implements Cloneable {
+public class BootstrapMethod {
     private int bootstrapMethodRef;
     private int[] bootstrapArguments;
+    private String bootstrap_method_name;
 
-    public BootstrapMethod(BootstrapMethod c) {
-        this(c.getBootstrapMethodRef(), c.getBootstrapArguments());
-    }
-
-    BootstrapMethod(DataInput input) throws IOException {
-        this(input.readUnsignedShort(), input.readUnsignedShort());
+    public BootstrapMethod(DataInput input, ConstantPool constantPool) throws IOException {
+        this(input.readUnsignedShort(), input.readUnsignedShort(), constantPool);
         for (int i = 0; i < bootstrapArguments.length; i++) {
             bootstrapArguments[i] = input.readUnsignedShort();
         }
     }
 
-    // helper method
-    private BootstrapMethod(int bootstrap_method_ref, int num_bootstrap_arguments) {
+    private BootstrapMethod(int bootstrap_method_ref, int num_bootstrap_arguments, ConstantPool constantPool) {
         this(bootstrap_method_ref, new int[num_bootstrap_arguments]);
+        bootstrap_method_name = constantPool.constantToString(bootstrapMethodRef, ClassFileConstants.CONSTANT_MethodHandle);
     }
 
     public BootstrapMethod(int bootstrapMethodRef, int[] bootstrapArguments) {
         this.bootstrapMethodRef = bootstrapMethodRef;
         this.bootstrapArguments = bootstrapArguments;
-    }
-
-    public BootstrapMethod copy() {
-        try {
-            return (BootstrapMethod) clone();
-        } catch (CloneNotSupportedException e) {
-            // TODO should this throw?
-        }
-        return null;
-    }
-
-    public void dump(DataOutputStream file) throws IOException {
-        file.writeShort(bootstrapMethodRef);
-        file.writeShort(bootstrapArguments.length);
-        for (int bootstrap_argument : bootstrapArguments) {
-            file.writeShort(bootstrap_argument);
-        }
     }
 
     public int[] getBootstrapArguments() {
@@ -63,14 +42,6 @@ public class BootstrapMethod implements Cloneable {
         return bootstrapArguments.length;
     }
 
-    public void setBootstrapArguments(int[] bootstrapArguments) {
-        this.bootstrapArguments = bootstrapArguments;
-    }
-
-    public void setBootstrapMethodRef(int bootstrapMethodRef) {
-        this.bootstrapMethodRef = bootstrapMethodRef;
-    }
-
     @Override
     public String toString() {
         return "BootstrapMethod(" + bootstrapMethodRef + ", " + bootstrapArguments.length + ", " + Arrays.toString(bootstrapArguments) + ")";
@@ -78,8 +49,6 @@ public class BootstrapMethod implements Cloneable {
 
     public String toString(ConstantPool constantPool) {
         StringBuilder buf = new StringBuilder();
-        String bootstrap_method_name;
-        bootstrap_method_name = constantPool.constantToString(bootstrapMethodRef, ClassFileConstants.CONSTANT_MethodHandle);
         buf.append(Utility.compactClassName(bootstrap_method_name, false));
         int num_bootstrap_arguments = bootstrapArguments.length;
         if (num_bootstrap_arguments > 0) {

@@ -10,6 +10,7 @@ import com.wade.decompiler.enums.ClassFileConstants;
 
 public class SourceFile extends Attribute {
     private int sourceFileIndex;
+    private String sourceFile;
 
     public SourceFile(int name_index, int length, DataInput input, ConstantPool constant_pool) throws IOException {
         this(name_index, length, input.readUnsignedShort(), constant_pool);
@@ -18,27 +19,19 @@ public class SourceFile extends Attribute {
     public SourceFile(int name_index, int length, int sourceFileIndex, ConstantPool constantPool) {
         super(ClassFileAttributes.ATTR_SOURCE_FILE, name_index, length, constantPool);
         this.sourceFileIndex = sourceFileIndex;
+        this.sourceFile = ((ConstantUtf8) constantPool.getConstant(sourceFileIndex, ClassFileConstants.CONSTANT_Utf8)).getBytes();
     }
 
-    public SourceFile(SourceFile c) {
-        this(c.getNameIndex(), c.getLength(), c.getSourceFileIndex(), c.getConstantPool());
+    public String getSourceFile() {
+        return sourceFile;
     }
 
     public int getSourceFileIndex() {
         return sourceFileIndex;
     }
 
-    public String getSourceFileName() {
-        ConstantUtf8 c = (ConstantUtf8) super.getConstantPool().getConstant(sourceFileIndex, ClassFileConstants.CONSTANT_Utf8);
-        return c.getBytes();
-    }
-
-    public void setSourceFileIndex(int sourceFileIndex) {
-        this.sourceFileIndex = sourceFileIndex;
-    }
-
     @Override
     public String toString() {
-        return "SourceFile: " + getSourceFileName();
+        return "SourceFile [sourceFileIndex=" + sourceFileIndex + ", sourceFile=" + sourceFile + "]";
     }
 }

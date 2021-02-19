@@ -1,7 +1,6 @@
 package com.wade.decompiler.classfile.attribute;
 
 import java.io.DataInput;
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
@@ -15,9 +14,12 @@ public class InnerClass {
     private int outerClassIndex;
     private int innerNameIndex;
     private ClassAccessFlagsList innerAccessFlags;
+    private String innerName;
+    private String outerClassName;
+    private String innerClassName;
 
-    InnerClass(DataInput file) throws IOException {
-        this(file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort());
+    public InnerClass(DataInput file, ConstantPool constantPool) throws IOException {
+        this(file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort(), constantPool);
     }
 
     public InnerClass(InnerClass c) {
@@ -31,18 +33,14 @@ public class InnerClass {
         this.innerAccessFlags = innerAccessFlags;
     }
 
-    public InnerClass(int innerClassIndex, int outerClassIndex, int innerNameIndex, int innerAccessFlags) {
+    public InnerClass(int innerClassIndex, int outerClassIndex, int innerNameIndex, int innerAccessFlags, ConstantPool constantPool) {
         this.innerClassIndex = innerClassIndex;
         this.outerClassIndex = outerClassIndex;
         this.innerNameIndex = innerNameIndex;
         this.innerAccessFlags = new ClassAccessFlagsList(innerAccessFlags);
-    }
-
-    public void dump(DataOutputStream file) throws IOException {
-        file.writeShort(innerClassIndex);
-        file.writeShort(outerClassIndex);
-        file.writeShort(innerNameIndex);
-        file.writeShort(innerAccessFlags.getFlags());
+        this.innerClassName = constantPool.getConstantString(innerClassIndex, ClassFileConstants.CONSTANT_Class);
+        this.outerClassName = constantPool.getConstantString(outerClassIndex, ClassFileConstants.CONSTANT_Class);
+        this.innerName = ((ConstantUtf8) constantPool.getConstant(innerNameIndex, ClassFileConstants.CONSTANT_Utf8)).getBytes();
     }
 
     public ClassAccessFlagsList getInnerAccessFlags() {
@@ -53,6 +51,14 @@ public class InnerClass {
         return innerClassIndex;
     }
 
+    public String getInnerClassName() {
+        return innerClassName;
+    }
+
+    public String getInnerName() {
+        return innerName;
+    }
+
     public int getInnerNameIndex() {
         return innerNameIndex;
     }
@@ -61,20 +67,8 @@ public class InnerClass {
         return outerClassIndex;
     }
 
-    public void setInnerAccessFlags(ClassAccessFlagsList innerAccessFlags) {
-        this.innerAccessFlags = innerAccessFlags;
-    }
-
-    public void setInnerClassIndex(int innerClassIndex) {
-        this.innerClassIndex = innerClassIndex;
-    }
-
-    public void setInnerNameIndex(int innerNameIndex) {
-        this.innerNameIndex = innerNameIndex;
-    }
-
-    public void setOuterClassIndex(int outerClassIndex) {
-        this.outerClassIndex = outerClassIndex;
+    public String getOuterClassName() {
+        return outerClassName;
     }
 
     @Override
@@ -85,11 +79,9 @@ public class InnerClass {
     public String toString(ConstantPool constantPool) {
         String outer_class_name;
         String inner_name;
-        String inner_class_name = constantPool.getConstantString(innerClassIndex, ClassFileConstants.CONSTANT_Class);
-        inner_class_name = Utility.compactClassName(inner_class_name, false);
+        innerClassName = Utility.compactClassName(innerClassName, false);
         if (outerClassIndex != 0) {
-            outer_class_name = constantPool.getConstantString(outerClassIndex, ClassFileConstants.CONSTANT_Class);
-            outer_class_name = " of class " + Utility.compactClassName(outer_class_name, false);
+            outer_class_name = " of class " + Utility.compactClassName(outerClassName, false);
         } else {
             outer_class_name = "";
         }
@@ -100,6 +92,6 @@ public class InnerClass {
         }
         String access = Utility.accessToString(innerAccessFlags, true);
         access = access.isEmpty() ? "" : (access + " ");
-        return "  " + access + inner_name + "=class " + inner_class_name + outer_class_name;
+        return "  " + access + inner_name + "=class " + innerClassName + outer_class_name;
     }
 }

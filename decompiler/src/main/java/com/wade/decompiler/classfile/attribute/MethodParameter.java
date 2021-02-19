@@ -10,48 +10,88 @@ import com.wade.decompiler.enums.ClassFileConstants;
 
 public class MethodParameter {
     private int nameIndex;
-    private int accessFlags;
+    private ClassAccessFlags accessFlags;
+    private String name;
 
-    public MethodParameter() {
-    }
-
-    public MethodParameter(DataInput input) throws IOException {
+    public MethodParameter(DataInput input, ConstantPool constant_pool) throws IOException {
         nameIndex = input.readUnsignedShort();
-        accessFlags = input.readUnsignedShort();
+        accessFlags = ClassAccessFlags.read(input.readUnsignedShort());
+        name = ((ConstantUtf8) constant_pool.getConstant(nameIndex, ClassFileConstants.CONSTANT_Utf8)).getBytes();
     }
 
-    public int getAccessFlags() {
+    public ClassAccessFlags getAccessFlags() {
         return accessFlags;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public int getNameIndex() {
         return nameIndex;
     }
 
-    public String getParameterName(ConstantPool constant_pool) {
-        if (nameIndex == 0) {
-            return null;
-        }
-        return ((ConstantUtf8) constant_pool.getConstant(nameIndex, ClassFileConstants.CONSTANT_Utf8)).getBytes();
+    public boolean isAbstract() {
+        return accessFlags.isAbstract();
     }
 
-    public boolean is() {
-        return (accessFlags & ClassAccessFlags.ACC_FINAL.getFlag()) != 0;
+    public boolean isAndAbstract() {
+        return accessFlags.isAndAbstract();
     }
 
-    public boolean isMandated() {
-        return (accessFlags & ClassAccessFlags.ACC_MANDATED.getFlag()) != 0;
+    public boolean isAnnotation() {
+        return accessFlags.isAnnotation();
     }
 
-    public boolean isSynthetic() {
-        return (accessFlags & ClassAccessFlags.ACC_SYNTHETIC.getFlag()) != 0;
+    public boolean isEnum() {
+        return accessFlags.isEnum();
     }
 
-    public void setAccessFlags(int access_flags) {
-        this.accessFlags = access_flags;
+    public boolean isInterface() {
+        return accessFlags.isInterface();
     }
 
-    public void setNameIndex(int name_index) {
-        this.nameIndex = name_index;
+    public boolean isNative() {
+        return accessFlags.isNative();
+    }
+
+    public boolean isPrivate() {
+        return accessFlags.isPrivate();
+    }
+
+    public boolean isProtected() {
+        return accessFlags.isProtected();
+    }
+
+    public boolean isPublic() {
+        return accessFlags.isPublic();
+    }
+
+    public boolean isStatic() {
+        return accessFlags.isStatic();
+    }
+
+    public boolean isStrictfp() {
+        return accessFlags.isStrictfp();
+    }
+
+    public boolean isSuper() {
+        return accessFlags.isSuper();
+    }
+
+    public boolean isSynchronized() {
+        return accessFlags.isSynchronized();
+    }
+
+    public boolean isTransient() {
+        return accessFlags.isTransient();
+    }
+
+    public boolean isVarArgs() {
+        return accessFlags.isVarArgs();
+    }
+
+    public boolean isVolatile() {
+        return accessFlags.isVolatile();
     }
 }

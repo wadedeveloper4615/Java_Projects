@@ -10,35 +10,33 @@ import com.wade.decompiler.util.Utility;
 
 public class ModuleMainClass extends Attribute {
     private int mainClassIndex;
+    private String className;
 
     public ModuleMainClass(int nameIndex, int length, DataInput input, ConstantPool constantPool) throws IOException {
         this(nameIndex, length, 0, constantPool);
         mainClassIndex = input.readUnsignedShort();
+        this.className = constantPool.getConstantString(mainClassIndex, ClassFileConstants.CONSTANT_Class);
     }
 
     public ModuleMainClass(int name_index, int length, int mainClassIndex, ConstantPool constantPool) {
         super(ClassFileAttributes.ATTR_NEST_MEMBERS, name_index, length, constantPool);
         this.mainClassIndex = mainClassIndex;
+        this.className = constantPool.getConstantString(mainClassIndex, ClassFileConstants.CONSTANT_Class);
     }
 
-    public ModuleMainClass(ModuleMainClass c) {
-        this(c.getNameIndex(), c.getLength(), c.getHostClassIndex(), c.getConstantPool());
+    public String getClassName() {
+        return className;
     }
 
-    public int getHostClassIndex() {
+    public int getMainClassIndex() {
         return mainClassIndex;
-    }
-
-    public void setHostClassIndex(int mainClassIndex) {
-        this.mainClassIndex = mainClassIndex;
     }
 
     @Override
     public String toString() {
         StringBuilder buf = new StringBuilder();
         buf.append("ModuleMainClass: ");
-        String class_name = super.getConstantPool().getConstantString(mainClassIndex, ClassFileConstants.CONSTANT_Class);
-        buf.append(Utility.compactClassName(class_name, false));
+        buf.append(Utility.compactClassName(className, false));
         return buf.toString();
     }
 }

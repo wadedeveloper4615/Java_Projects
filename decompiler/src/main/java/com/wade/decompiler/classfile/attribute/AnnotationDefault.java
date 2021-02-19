@@ -23,8 +23,4 @@ public class AnnotationDefault extends Attribute {
     public ElementValue getDefaultValue() {
         return defaultValue;
     }
-
-    public void setDefaultValue(ElementValue defaultValue) {
-        this.defaultValue = defaultValue;
-    }
 }

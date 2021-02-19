@@ -9,11 +9,8 @@ import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.util.Utility;
 
 public class ExceptionTable extends Attribute {
-    private int[] exceptionIndexTable; // constant pool
-
-    public ExceptionTable(ExceptionTable c) {
-        this(c.getNameIndex(), c.getLength(), c.getExceptionIndexTable(), c.getConstantPool());
-    }
+    private int[] exceptionIndexTable;
+    private String[] exceptionTableNames;
 
     public ExceptionTable(int nameIndex, int length, DataInput input, ConstantPool constantPool) throws IOException {
         this(nameIndex, length, (int[]) null, constantPool);
@@ -21,6 +18,10 @@ public class ExceptionTable extends Attribute {
         exceptionIndexTable = new int[number_of_exceptions];
         for (int i = 0; i < number_of_exceptions; i++) {
             exceptionIndexTable[i] = input.readUnsignedShort();
+        }
+        this.exceptionTableNames = new String[exceptionIndexTable.length];
+        for (int i = 0; i < exceptionIndexTable.length; i++) {
+            this.exceptionTableNames[i] = constantPool.getConstantString(exceptionIndexTable[i], ClassFileConstants.CONSTANT_Class).replace('/', '.');
         }
     }
 
@@ -34,29 +35,19 @@ public class ExceptionTable extends Attribute {
     }
 
     public String[] getExceptionNames() {
-        String[] names = new String[exceptionIndexTable.length];
-        for (int i = 0; i < exceptionIndexTable.length; i++) {
-            names[i] = super.getConstantPool().getConstantString(exceptionIndexTable[i], ClassFileConstants.CONSTANT_Class).replace('/', '.');
-        }
-        return names;
+        return exceptionTableNames;
     }
 
     public int getNumberOfExceptions() {
         return exceptionIndexTable == null ? 0 : exceptionIndexTable.length;
     }
 
-    public void setExceptionIndexTable(int[] exceptionIndexTable) {
-        this.exceptionIndexTable = exceptionIndexTable != null ? exceptionIndexTable : new int[0];
-    }
-
     @Override
     public String toString() {
         StringBuilder buf = new StringBuilder();
-        String str;
         buf.append("Exceptions: ");
         for (int i = 0; i < exceptionIndexTable.length; i++) {
-            str = super.getConstantPool().getConstantString(exceptionIndexTable[i], ClassFileConstants.CONSTANT_Class);
-            buf.append(Utility.compactClassName(str, false));
+            buf.append(Utility.compactClassName(exceptionTableNames[i], false));
             if (i < exceptionIndexTable.length - 1) {
                 buf.append(", ");
             }

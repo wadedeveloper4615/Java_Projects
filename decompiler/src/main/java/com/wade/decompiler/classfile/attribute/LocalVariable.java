@@ -10,15 +10,15 @@ import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.util.Utility;
 
 public class LocalVariable implements Constants {
-    private int startPc; // Range in which the variable is valid
+    private int startPc;
     private int length;
-    private int nameIndex; // Index in constant pool of variable name
-    // Technically, a decscriptor_index for a local variable table entry
-    // and a signatureIndex for a local variable type table entry.
-    private int signatureIndex; // Index of variable signature
+    private int nameIndex;
+    private int signatureIndex;
     private int index;
     private ConstantPool constantPool;
-    private int origIndex; // never changes; used to match up with LocalVariableTypeTable entries
+    private int origIndex;
+    private String name;
+    private String signature;
 
     public LocalVariable(DataInput file, ConstantPool constant_pool) throws IOException {
         this(file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort(), constant_pool);
@@ -32,6 +32,8 @@ public class LocalVariable implements Constants {
         this.index = index;
         this.constantPool = constantPool;
         this.origIndex = index;
+        this.name = ((ConstantUtf8) constantPool.getConstant(nameIndex, ClassFileConstants.CONSTANT_Utf8)).getBytes();
+        this.signature = ((ConstantUtf8) constantPool.getConstant(signatureIndex, ClassFileConstants.CONSTANT_Utf8)).getBytes();
     }
 
     public LocalVariable(int startPc, int length, int nameIndex, int signatureIndex, int index, ConstantPool constantPool, int origIndex) {
@@ -42,6 +44,8 @@ public class LocalVariable implements Constants {
         this.index = index;
         this.constantPool = constantPool;
         this.origIndex = origIndex;
+        this.name = ((ConstantUtf8) constantPool.getConstant(nameIndex, ClassFileConstants.CONSTANT_Utf8)).getBytes();
+        this.signature = ((ConstantUtf8) constantPool.getConstant(signatureIndex, ClassFileConstants.CONSTANT_Utf8)).getBytes();
     }
 
     public LocalVariable(LocalVariable localVariable) {
@@ -62,9 +66,7 @@ public class LocalVariable implements Constants {
     }
 
     public String getName() {
-        ConstantUtf8 c;
-        c = (ConstantUtf8) constantPool.getConstant(nameIndex, ClassFileConstants.CONSTANT_Utf8);
-        return c.getBytes();
+        return name;
     }
 
     public int getNameIndex() {
@@ -76,9 +78,7 @@ public class LocalVariable implements Constants {
     }
 
     public String getSignature() {
-        ConstantUtf8 c;
-        c = (ConstantUtf8) constantPool.getConstant(signatureIndex, ClassFileConstants.CONSTANT_Utf8);
-        return c.getBytes();
+        return signature;
     }
 
     public int getSignatureIndex() {
@@ -87,30 +87,6 @@ public class LocalVariable implements Constants {
 
     public int getStartPC() {
         return startPc;
-    }
-
-    public void setConstantPool(ConstantPool constantPool) {
-        this.constantPool = constantPool;
-    }
-
-    public void setIndex(int index) { // TODO unused
-        this.index = index;
-    }
-
-    public void setLength(int length) {
-        this.length = length;
-    }
-
-    public void setNameIndex(int nameIndex) { // TODO unused
-        this.nameIndex = nameIndex;
-    }
-
-    public void setSignatureIndex(int signatureIndex) { // TODO unused
-        this.signatureIndex = signatureIndex;
-    }
-
-    public void setStartPC(int startPc) { // TODO unused
-        this.startPc = startPc;
     }
 
     @Override

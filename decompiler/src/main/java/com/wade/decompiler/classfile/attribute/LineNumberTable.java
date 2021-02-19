@@ -24,10 +24,6 @@ public class LineNumberTable extends Attribute {
         this.lineNumberTable = line_number_table;
     }
 
-    public LineNumberTable(LineNumberTable c) {
-        this(c.getNameIndex(), c.getLength(), c.getLineNumberTable(), c.getConstantPool());
-    }
-
     public LineNumber[] getLineNumberTable() {
         return lineNumberTable;
     }

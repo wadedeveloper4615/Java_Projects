@@ -5,6 +5,7 @@ import java.io.IOException;
 import com.wade.decompiler.classfile.constant.Constant;
 import com.wade.decompiler.classfile.constant.ConstantClass;
 import com.wade.decompiler.classfile.constant.ConstantFieldRef;
+import com.wade.decompiler.classfile.constant.ConstantLong;
 import com.wade.decompiler.classfile.constant.ConstantMethodref;
 import com.wade.decompiler.classfile.constant.ConstantNameAndType;
 import com.wade.decompiler.classfile.constant.ConstantPool;
@@ -22,6 +23,8 @@ public abstract class LocalVariableInstruction extends Instruction implements Ty
     private String superName;
     private String methodName;
     private String signature;
+    private Object constantValue;
+    private String constantString;
 
     public LocalVariableInstruction() {
     }
@@ -39,12 +42,55 @@ public abstract class LocalVariableInstruction extends Instruction implements Ty
         setIndex(n);
     }
 
+    private void extractConstantPoolInfo(Constant c) {
+        if (c instanceof ConstantMethodref) {
+            int classIndex = ((ConstantMethodref) c).getClassIndex();
+            int nameAndTypeIndex = ((ConstantMethodref) c).getNameAndTypeIndex();
+
+            ConstantClass cc = (ConstantClass) constantPool.getConstant(classIndex, ClassFileConstants.CONSTANT_Class);
+            ConstantNameAndType cnt = (ConstantNameAndType) constantPool.getConstant(nameAndTypeIndex, ClassFileConstants.CONSTANT_NameAndType);
+
+            superName = ((ConstantUtf8) constantPool.getConstant(cc.getNameIndex(), ClassFileConstants.CONSTANT_Utf8)).getBytes();
+            methodName = ((ConstantUtf8) constantPool.getConstant(cnt.getNameIndex(), ClassFileConstants.CONSTANT_Utf8)).getBytes();
+            signature = ((ConstantUtf8) constantPool.getConstant(cnt.getSignatureIndex(), ClassFileConstants.CONSTANT_Utf8)).getBytes();
+        } else if (c instanceof ConstantFieldRef) {
+            int classIndex = ((ConstantFieldRef) c).getClassIndex();
+            int nameAndTypeIndex = ((ConstantFieldRef) c).getNameAndTypeIndex();
+
+            ConstantClass cc = (ConstantClass) constantPool.getConstant(classIndex, ClassFileConstants.CONSTANT_Class);
+            ConstantNameAndType cnt = (ConstantNameAndType) constantPool.getConstant(nameAndTypeIndex, ClassFileConstants.CONSTANT_NameAndType);
+
+            superName = ((ConstantUtf8) constantPool.getConstant(cc.getNameIndex(), ClassFileConstants.CONSTANT_Utf8)).getBytes();
+            methodName = ((ConstantUtf8) constantPool.getConstant(cnt.getNameIndex(), ClassFileConstants.CONSTANT_Utf8)).getBytes();
+            signature = ((ConstantUtf8) constantPool.getConstant(cnt.getSignatureIndex(), ClassFileConstants.CONSTANT_Utf8)).getBytes();
+        } else if (c instanceof ConstantClass) {
+            constantValue = ((ConstantClass) c).getConstantValue(constantPool);
+        } else if (c instanceof ConstantUtf8) {
+            constantString = ((ConstantUtf8) c).getBytes();
+        } else if (c instanceof ConstantNameAndType) {
+            methodName = ((ConstantNameAndType) c).getName(constantPool);
+            signature = ((ConstantNameAndType) c).getSignature(constantPool);
+        } else if (c instanceof ConstantLong) {
+            constantValue = ((ConstantLong) c).getConstantValue(constantPool);
+        } else {
+            System.out.println(c.getClass().getName());
+        }
+    }
+
     public InstructionOpCodes getCanonicalTag() {
         return canonTag;
     }
 
     public InstructionOpCodes getCanonTag() {
         return canonTag;
+    }
+
+    public String getConstantString() {
+        return constantString;
+    }
+
+    public Object getConstantValue() {
+        return constantValue;
     }
 
     public InstructionOpCodes getcTag() {
@@ -54,6 +100,18 @@ public abstract class LocalVariableInstruction extends Instruction implements Ty
     @Override
     public int getIndex() {
         return index;
+    }
+
+    public String getMethodName() {
+        return methodName;
+    }
+
+    public String getSignature() {
+        return signature;
+    }
+
+    public String getSuperName() {
+        return superName;
     }
 
     @Override
@@ -103,32 +161,6 @@ public abstract class LocalVariableInstruction extends Instruction implements Ty
         }
     }
 
-    private void extractConstantPoolInfo(Constant c) {
-        if (c instanceof ConstantMethodref) {
-            int classIndex = ((ConstantMethodref) c).getClassIndex();
-            int nameAndTypeIndex = ((ConstantMethodref) c).getNameAndTypeIndex();
-
-            ConstantClass cc = (ConstantClass) constantPool.getConstant(classIndex, ClassFileConstants.CONSTANT_Class);
-            ConstantNameAndType cnt = (ConstantNameAndType) constantPool.getConstant(nameAndTypeIndex, ClassFileConstants.CONSTANT_NameAndType);
-
-            superName = ((ConstantUtf8) constantPool.getConstant(cc.getNameIndex(), ClassFileConstants.CONSTANT_Utf8)).getBytes();
-            methodName = ((ConstantUtf8) constantPool.getConstant(cnt.getNameIndex(), ClassFileConstants.CONSTANT_Utf8)).getBytes();
-            signature = ((ConstantUtf8) constantPool.getConstant(cnt.getSignatureIndex(), ClassFileConstants.CONSTANT_Utf8)).getBytes();
-        } else if (c instanceof ConstantFieldRef) {
-            int classIndex = ((ConstantFieldRef) c).getClassIndex();
-            int nameAndTypeIndex = ((ConstantFieldRef) c).getNameAndTypeIndex();
-
-            ConstantClass cc = (ConstantClass) constantPool.getConstant(classIndex, ClassFileConstants.CONSTANT_Class);
-            ConstantNameAndType cnt = (ConstantNameAndType) constantPool.getConstant(nameAndTypeIndex, ClassFileConstants.CONSTANT_NameAndType);
-
-            superName = ((ConstantUtf8) constantPool.getConstant(cc.getNameIndex(), ClassFileConstants.CONSTANT_Utf8)).getBytes();
-            methodName = ((ConstantUtf8) constantPool.getConstant(cnt.getNameIndex(), ClassFileConstants.CONSTANT_Utf8)).getBytes();
-            signature = ((ConstantUtf8) constantPool.getConstant(cnt.getSignatureIndex(), ClassFileConstants.CONSTANT_Utf8)).getBytes();
-        } else {
-            System.out.println(c.getClass().getName());
-        }
-    }
-
     public void setCanonTag(InstructionOpCodes canonTag) {
         this.canonTag = canonTag;
     }
@@ -162,7 +194,7 @@ public abstract class LocalVariableInstruction extends Instruction implements Ty
 
     @Override
     public String toString() {
-        return super.toString() + "[index=" + index + ", superName=" + superName + ", methodName=" + methodName + ", signature=" + signature + "]";
+        return super.toString() + "[index=" + index + ", superName=" + superName + ", methodName=" + methodName + ", signature=" + signature + ", constantValue=" + constantValue + ", constantString=" + constantString + "]";
     }
 
     private boolean wide() {

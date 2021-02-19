@@ -2,8 +2,6 @@ package com.wade.decompiler.classfile.attribute;
 
 import java.io.DataInput;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.constant.ConstantUtf8;
@@ -12,15 +10,13 @@ import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.util.Utility;
 
 public class Unknown extends Attribute {
-    private static Map<String, Unknown> unknownAttributes = new HashMap<>();
     private byte[] bytes;
     private String name;
 
     public Unknown(int name_index, int length, byte[] bytes, ConstantPool constant_pool) {
         super(ClassFileAttributes.ATTR_UNKNOWN, name_index, length, constant_pool);
         this.bytes = bytes;
-        name = ((ConstantUtf8) constant_pool.getConstant(name_index, ClassFileConstants.CONSTANT_Utf8)).getBytes();
-        unknownAttributes.put(name, this);
+        this.name = ((ConstantUtf8) constant_pool.getConstant(name_index, ClassFileConstants.CONSTANT_Utf8)).getBytes();
     }
 
     public Unknown(int name_index, int length, DataInput input, ConstantPool constant_pool) throws IOException {
@@ -29,10 +25,6 @@ public class Unknown extends Attribute {
             bytes = new byte[length];
             input.readFully(bytes);
         }
-    }
-
-    public Unknown(Unknown c) {
-        this(c.getNameIndex(), c.getLength(), c.getBytes(), c.getConstantPool());
     }
 
     public byte[] getBytes() {
@@ -62,12 +54,5 @@ public class Unknown extends Attribute {
             hex = Utility.toHexString(bytes);
         }
         return "(Unknown attribute " + name + ": " + hex + ")";
-    }
-
-    static Unknown[] getUnknownAttributes() {
-        Unknown[] unknowns = new Unknown[unknownAttributes.size()];
-        unknownAttributes.values().toArray(unknowns);
-        unknownAttributes.clear();
-        return unknowns;
     }
 }

@@ -9,10 +9,6 @@ import com.wade.decompiler.enums.ClassFileAttributes;
 public class BootstrapMethods extends Attribute {
     private BootstrapMethod[] bootstrapMethods;
 
-    public BootstrapMethods(BootstrapMethods c) {
-        this(c.getNameIndex(), c.getLength(), c.getBootstrapMethods(), c.getConstantPool());
-    }
-
     public BootstrapMethods(int name_index, int length, BootstrapMethod[] bootstrapMethods, ConstantPool constant_pool) {
         super(ClassFileAttributes.ATTR_BOOTSTRAP_METHODS, name_index, length, constant_pool);
         this.bootstrapMethods = bootstrapMethods;
@@ -23,16 +19,12 @@ public class BootstrapMethods extends Attribute {
         int num_bootstrap_methods = input.readUnsignedShort();
         bootstrapMethods = new BootstrapMethod[num_bootstrap_methods];
         for (int i = 0; i < num_bootstrap_methods; i++) {
-            bootstrapMethods[i] = new BootstrapMethod(input);
+            bootstrapMethods[i] = new BootstrapMethod(input, constant_pool);
         }
     }
 
     public BootstrapMethod[] getBootstrapMethods() {
         return bootstrapMethods;
-    }
-
-    public void setBootstrapMethods(BootstrapMethod[] bootstrapMethods) {
-        this.bootstrapMethods = bootstrapMethods;
     }
 
     @Override

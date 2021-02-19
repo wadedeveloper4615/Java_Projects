@@ -30,8 +30,4 @@ public abstract class ParameterAnnotations extends Attribute {
     public ParameterAnnotationEntry[] getParameterAnnotationTable() {
         return parameterAnnotationTable;
     }
-
-    public void setParameterAnnotationTable(ParameterAnnotationEntry[] parameterAnnotationTable) {
-        this.parameterAnnotationTable = parameterAnnotationTable;
-    }
 }

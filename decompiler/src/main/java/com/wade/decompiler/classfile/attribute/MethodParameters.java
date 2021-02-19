@@ -14,15 +14,11 @@ public class MethodParameters extends Attribute {
         int parameters_count = input.readUnsignedByte();
         parameters = new MethodParameter[parameters_count];
         for (int i = 0; i < parameters_count; i++) {
-            parameters[i] = new MethodParameter(input);
+            parameters[i] = new MethodParameter(input, constantPool);
         }
     }
 
     public MethodParameter[] getParameters() {
         return parameters;
-    }
-
-    public void setParameters(MethodParameter[] parameters) {
-        this.parameters = parameters;
     }
 }

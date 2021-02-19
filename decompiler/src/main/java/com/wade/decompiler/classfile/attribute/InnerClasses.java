@@ -9,16 +9,12 @@ import com.wade.decompiler.enums.ClassFileAttributes;
 public class InnerClasses extends Attribute {
     private InnerClass[] innerClasses;
 
-    public InnerClasses(InnerClasses c) {
-        this(c.getNameIndex(), c.getLength(), c.getInnerClasses(), c.getConstantPool());
-    }
-
     public InnerClasses(int name_index, int length, DataInput input, ConstantPool constant_pool) throws IOException {
         this(name_index, length, (InnerClass[]) null, constant_pool);
         int number_of_classes = input.readUnsignedShort();
         innerClasses = new InnerClass[number_of_classes];
         for (int i = 0; i < number_of_classes; i++) {
-            innerClasses[i] = new InnerClass(input);
+            innerClasses[i] = new InnerClass(input, constant_pool);
         }
     }
 
@@ -29,10 +25,6 @@ public class InnerClasses extends Attribute {
 
     public InnerClass[] getInnerClasses() {
         return innerClasses;
-    }
-
-    public void setInnerClasses(InnerClass[] innerClasses) {
-        this.innerClasses = innerClasses != null ? innerClasses : new InnerClass[0];
     }
 
     @Override

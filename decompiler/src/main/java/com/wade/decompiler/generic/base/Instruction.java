@@ -135,7 +135,7 @@ public abstract class Instruction implements InstructionInit {
 
     @Override
     public String toString() {
-        return "Instruction [length=" + length + ", opcode=" + opcode + ", consumeStack=" + consumeStack + ", produceStack=" + produceStack + "]";
+        return "Instruction [opcode=" + opcode + "]";
     }
 
     public static Instruction getInstructions(InstructionOpCodes opcode, ConstantPool cp) {

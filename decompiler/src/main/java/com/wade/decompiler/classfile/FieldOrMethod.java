@@ -2,7 +2,6 @@ package com.wade.decompiler.classfile;
 
 import java.io.DataInput;
 import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.attribute.AnnotationEntry;
@@ -15,7 +14,7 @@ import com.wade.decompiler.enums.ClassAccessFlagsList;
 import com.wade.decompiler.enums.ClassFileConstants;
 
 @SuppressWarnings("unused")
-public abstract class FieldOrMethod extends ClassAccessFlagsList implements Cloneable, Node {
+public abstract class FieldOrMethod extends ClassAccessFlagsList {
     protected int name_index;
     protected int signature_index;
     protected Attribute[] attributes;
@@ -35,6 +34,7 @@ public abstract class FieldOrMethod extends ClassAccessFlagsList implements Clon
         attributes = new Attribute[attributes_count];
         for (int i = 0; i < attributes_count; i++) {
             attributes[i] = Attribute.readAttribute(file, constant_pool);
+            attributes[i].setConstantPool(constant_pool);
             if (attributes[i] instanceof Code) {
                 code = (Code) attributes[i];
             }
@@ -56,34 +56,6 @@ public abstract class FieldOrMethod extends ClassAccessFlagsList implements Clon
         this.signature_index = signature_index;
         this.constant_pool = constant_pool;
         setAttributes(attributes);
-    }
-
-    protected FieldOrMethod copy_(ConstantPool _constant_pool) {
-        FieldOrMethod c = null;
-        try {
-            c = (FieldOrMethod) clone();
-        } catch (CloneNotSupportedException e) {
-            // ignored, but will cause NPE ...
-        }
-        c.constant_pool = constant_pool;
-        c.attributes = new Attribute[attributes.length];
-        c.attributes_count = attributes_count; // init deprecated field
-        for (int i = 0; i < attributes.length; i++) {
-            c.attributes[i] = attributes[i].copy(constant_pool);
-        }
-        return c;
-    }
-
-    public void dump(DataOutputStream file) throws IOException {
-        file.writeShort(super.getFlags());
-        file.writeShort(name_index);
-        file.writeShort(signature_index);
-        file.writeShort(attributes_count);
-        if (attributes != null) {
-            for (Attribute attribute : attributes) {
-                attribute.dump(file);
-            }
-        }
     }
 
     public AnnotationEntry[] getAnnotationEntries() {

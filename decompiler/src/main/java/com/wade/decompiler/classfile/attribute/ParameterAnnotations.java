@@ -1,11 +1,9 @@
 package com.wade.decompiler.classfile.attribute;
 
 import java.io.DataInput;
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.classfile.gen.Visitor;
 import com.wade.decompiler.enums.ClassFileAttributes;
 
 public abstract class ParameterAnnotations extends Attribute {
@@ -23,25 +21,6 @@ public abstract class ParameterAnnotations extends Attribute {
     public ParameterAnnotations(ClassFileAttributes parameterAnnotationType, int nameIndex, int length, ParameterAnnotationEntry[] parameterAnnotationTable, ConstantPool constantPool) {
         super(parameterAnnotationType, nameIndex, length, constantPool);
         this.parameterAnnotationTable = parameterAnnotationTable;
-    }
-
-    @Override
-    public void accept(Visitor v) {
-        v.visitParameterAnnotation(this);
-    }
-
-    @Override
-    public Attribute copy(ConstantPool constant_pool) {
-        return (Attribute) clone();
-    }
-
-    @Override
-    public void dump(DataOutputStream dos) throws IOException {
-        super.dump(dos);
-        dos.writeByte(parameterAnnotationTable.length);
-        for (ParameterAnnotationEntry element : parameterAnnotationTable) {
-            element.dump(dos);
-        }
     }
 
     public ParameterAnnotationEntry[] getParameterAnnotationEntries() {

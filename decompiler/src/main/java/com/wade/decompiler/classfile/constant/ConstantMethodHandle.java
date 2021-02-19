@@ -1,10 +1,8 @@
 package com.wade.decompiler.classfile.constant;
 
 import java.io.DataInput;
-import java.io.DataOutputStream;
 import java.io.IOException;
 
-import com.wade.decompiler.classfile.gen.Visitor;
 import com.wade.decompiler.enums.ClassFileConstants;
 
 public class ConstantMethodHandle extends Constant {
@@ -23,18 +21,6 @@ public class ConstantMethodHandle extends Constant {
         super(ClassFileConstants.CONSTANT_MethodHandle);
         this.referenceKind = reference_kind;
         this.referenceIndex = reference_index;
-    }
-
-    @Override
-    public void accept(Visitor v) {
-        v.visitConstantMethodHandle(this);
-    }
-
-    @Override
-    public void dump(DataOutputStream file) throws IOException {
-        file.writeByte(super.getTag().getTag());
-        file.writeByte(referenceKind);
-        file.writeShort(referenceIndex);
     }
 
     public int getReferenceIndex() {

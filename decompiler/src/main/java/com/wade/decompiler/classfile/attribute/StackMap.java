@@ -1,11 +1,9 @@
 package com.wade.decompiler.classfile.attribute;
 
 import java.io.DataInput;
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.classfile.gen.Visitor;
 import com.wade.decompiler.enums.ClassFileAttributes;
 
 public class StackMap extends Attribute {
@@ -23,31 +21,6 @@ public class StackMap extends Attribute {
     public StackMap(int name_index, int length, StackMapEntry[] map, ConstantPool constant_pool) {
         super(ClassFileAttributes.ATTR_STACK_MAP, name_index, length, constant_pool);
         this.map = map;
-    }
-
-    @Override
-    public void accept(Visitor v) {
-        v.visitStackMap(this);
-    }
-
-    @Override
-    public Attribute copy(ConstantPool _constant_pool) {
-        StackMap c = (StackMap) clone();
-        c.map = new StackMapEntry[map.length];
-        for (int i = 0; i < map.length; i++) {
-            c.map[i] = map[i].copy();
-        }
-        c.setConstantPool(_constant_pool);
-        return c;
-    }
-
-    @Override
-    public void dump(DataOutputStream file) throws IOException {
-        super.dump(file);
-        file.writeShort(map.length);
-        for (StackMapEntry entry : map) {
-            entry.dump(file);
-        }
     }
 
     public int getMapLength() {

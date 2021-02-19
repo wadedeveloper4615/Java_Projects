@@ -1,6 +1,5 @@
 package com.wade.decompiler.generic;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.ExceptionConst;
@@ -9,6 +8,7 @@ import com.wade.decompiler.classfile.constant.ConstantNameAndType;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.enums.InstructionOpCodes;
+import com.wade.decompiler.generic.base.InvokeInstruction;
 import com.wade.decompiler.generic.type.ObjectType;
 import com.wade.decompiler.generic.type.ReferenceType;
 import com.wade.decompiler.util.ByteSequence;
@@ -17,16 +17,8 @@ public class INVOKEDYNAMIC extends InvokeInstruction {
     public INVOKEDYNAMIC() {
     }
 
-    public INVOKEDYNAMIC(int index) {
-        super(InstructionOpCodes.INVOKEDYNAMIC, index);
-    }
-
-    @Override
-    public void dump(DataOutputStream out) throws IOException {
-        out.writeByte(super.getOpcode().getOpcode());
-        out.writeShort(super.getIndex());
-        out.writeByte(0);
-        out.writeByte(0);
+    public INVOKEDYNAMIC(int index, ConstantPool cp) {
+        super(InstructionOpCodes.INVOKEDYNAMIC, index, cp);
     }
 
     @Override
@@ -49,12 +41,12 @@ public class INVOKEDYNAMIC extends InvokeInstruction {
     public void initFromFile(ByteSequence bytes, boolean wide) throws IOException {
         super.initFromFile(bytes, wide);
         super.setLength(5);
-        bytes.readByte(); // Skip 0 byte
-        bytes.readByte(); // Skip 0 byte
+        bytes.readByte();
+        bytes.readByte();
     }
 
     @Override
-    public String toString(ConstantPool cp) {
-        return super.toString(cp);
+    public String toString() {
+        return super.toString();
     }
 }

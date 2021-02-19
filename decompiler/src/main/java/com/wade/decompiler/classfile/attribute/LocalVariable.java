@@ -1,18 +1,15 @@
 package com.wade.decompiler.classfile.attribute;
 
 import java.io.DataInput;
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.Constants;
-import com.wade.decompiler.classfile.Node;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.constant.ConstantUtf8;
-import com.wade.decompiler.classfile.gen.Visitor;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.util.Utility;
 
-public class LocalVariable implements Cloneable, Node, Constants {
+public class LocalVariable implements Constants {
     private int startPc; // Range in which the variable is valid
     private int length;
     private int nameIndex; // Index in constant pool of variable name
@@ -50,28 +47,6 @@ public class LocalVariable implements Cloneable, Node, Constants {
     public LocalVariable(LocalVariable localVariable) {
         this(localVariable.getStartPC(), localVariable.getLength(), localVariable.getNameIndex(), localVariable.getSignatureIndex(), localVariable.getIndex(), localVariable.getConstantPool());
         this.origIndex = localVariable.getOrigIndex();
-    }
-
-    @Override
-    public void accept(Visitor v) {
-        v.visitLocalVariable(this);
-    }
-
-    public LocalVariable copy() {
-        try {
-            return (LocalVariable) clone();
-        } catch (CloneNotSupportedException e) {
-            // TODO should this throw?
-        }
-        return null;
-    }
-
-    public void dump(DataOutputStream dataOutputStream) throws IOException {
-        dataOutputStream.writeShort(startPc);
-        dataOutputStream.writeShort(length);
-        dataOutputStream.writeShort(nameIndex);
-        dataOutputStream.writeShort(signatureIndex);
-        dataOutputStream.writeShort(index);
     }
 
     public ConstantPool getConstantPool() {

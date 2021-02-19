@@ -1,11 +1,9 @@
 package com.wade.decompiler.classfile.attribute;
 
 import java.io.DataInput;
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.classfile.gen.Visitor;
 import com.wade.decompiler.enums.ClassFileAttributes;
 
 public class LocalVariableTable extends Attribute {
@@ -27,31 +25,6 @@ public class LocalVariableTable extends Attribute {
 
     public LocalVariableTable(LocalVariableTable c) {
         this(c.getNameIndex(), c.getLength(), c.getLocalVariableTable(), c.getConstantPool());
-    }
-
-    @Override
-    public void accept(Visitor v) {
-        v.visitLocalVariableTable(this);
-    }
-
-    @Override
-    public Attribute copy(ConstantPool _constant_pool) {
-        LocalVariableTable c = (LocalVariableTable) clone();
-        c.localVariableTable = new LocalVariable[localVariableTable.length];
-        for (int i = 0; i < localVariableTable.length; i++) {
-            c.localVariableTable[i] = localVariableTable[i].copy();
-        }
-        c.setConstantPool(_constant_pool);
-        return c;
-    }
-
-    @Override
-    public void dump(DataOutputStream file) throws IOException {
-        super.dump(file);
-        file.writeShort(localVariableTable.length);
-        for (LocalVariable variable : localVariableTable) {
-            variable.dump(file);
-        }
     }
 
     @java.lang.Deprecated

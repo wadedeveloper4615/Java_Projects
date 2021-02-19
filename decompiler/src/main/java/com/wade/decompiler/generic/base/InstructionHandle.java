@@ -147,11 +147,7 @@ public class InstructionHandle {
 
     @Override
     public String toString() {
-        return toString(true);
-    }
-
-    public String toString(boolean verbose) {
-        return Utility.format(i_position, 4, false, ' ') + ": " + instruction.toString(verbose);
+        return Utility.format(i_position, 4, false, ' ') + ": " + instruction.toString();
     }
 
     protected int updatePosition(int offset, int max_offset) {

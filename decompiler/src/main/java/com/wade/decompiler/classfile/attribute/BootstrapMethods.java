@@ -1,11 +1,9 @@
 package com.wade.decompiler.classfile.attribute;
 
 import java.io.DataInput;
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.classfile.gen.Visitor;
 import com.wade.decompiler.enums.ClassFileAttributes;
 
 public class BootstrapMethods extends Attribute {
@@ -26,31 +24,6 @@ public class BootstrapMethods extends Attribute {
         bootstrapMethods = new BootstrapMethod[num_bootstrap_methods];
         for (int i = 0; i < num_bootstrap_methods; i++) {
             bootstrapMethods[i] = new BootstrapMethod(input);
-        }
-    }
-
-    @Override
-    public void accept(Visitor v) {
-        v.visitBootstrapMethods(this);
-    }
-
-    @Override
-    public BootstrapMethods copy(ConstantPool _constant_pool) {
-        BootstrapMethods c = (BootstrapMethods) clone();
-        c.bootstrapMethods = new BootstrapMethod[bootstrapMethods.length];
-        for (int i = 0; i < bootstrapMethods.length; i++) {
-            c.bootstrapMethods[i] = bootstrapMethods[i].copy();
-        }
-        c.setConstantPool(_constant_pool);
-        return c;
-    }
-
-    @Override
-    public void dump(DataOutputStream file) throws IOException {
-        super.dump(file);
-        file.writeShort(bootstrapMethods.length);
-        for (BootstrapMethod bootstrap_method : bootstrapMethods) {
-            bootstrap_method.dump(file);
         }
     }
 

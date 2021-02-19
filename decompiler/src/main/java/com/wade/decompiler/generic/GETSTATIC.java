@@ -11,8 +11,8 @@ public class GETSTATIC extends FieldInstruction implements PushInstruction, Exce
     public GETSTATIC() {
     }
 
-    public GETSTATIC(int index) {
-        super(InstructionOpCodes.GETSTATIC, index);
+    public GETSTATIC(int index, ConstantPool cp) {
+        super(InstructionOpCodes.GETSTATIC, cp, index);
     }
 
     @Override

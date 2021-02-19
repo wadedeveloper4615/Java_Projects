@@ -1,8 +1,8 @@
 package com.wade.decompiler.generic;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
 
+import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generic.base.BranchInstruction;
 import com.wade.decompiler.generic.base.ClassGenException;
@@ -23,9 +23,9 @@ public abstract class Select extends BranchInstruction implements VariableLength
     public Select() {
     }
 
-    public Select(InstructionOpCodes opcode, int[] match, InstructionHandle[] targets, InstructionHandle defaultTarget) {
+    public Select(InstructionOpCodes opcode, int[] match, InstructionHandle[] targets, InstructionHandle defaultTarget, ConstantPool cp) {
         // don't set default target before instuction is built
-        super(opcode, null);
+        super(opcode, null, cp);
         this.match = match;
         this.targets = targets;
         // now it's safe to set default target
@@ -67,16 +67,6 @@ public abstract class Select extends BranchInstruction implements VariableLength
         for (InstructionHandle target2 : targets) {
             target2.removeTargeter(this);
         }
-    }
-
-    @Override
-    public void dump(DataOutputStream out) throws IOException {
-        out.writeByte(super.getOpcode().getOpcode());
-        for (int i = 0; i < padding; i++) {
-            out.writeByte(0);
-        }
-        super.setIndex(getTargetOffset()); // Write default target offset
-        out.writeInt(super.getIndex());
     }
 
     int getFixed_length() {
@@ -161,18 +151,14 @@ public abstract class Select extends BranchInstruction implements VariableLength
     }
 
     @Override
-    public String toString(boolean verbose) {
-        StringBuilder buf = new StringBuilder(super.toString(verbose));
-        if (verbose) {
-            for (int i = 0; i < match_length; i++) {
-                String s = "null";
-                if (targets[i] != null) {
-                    s = targets[i].getInstruction().toString();
-                }
-                buf.append("(").append(match[i]).append(", ").append(s).append(" = {").append(indices[i]).append("})");
+    public String toString() {
+        StringBuilder buf = new StringBuilder(super.toString());
+        for (int i = 0; i < match_length; i++) {
+            String s = "null";
+            if (targets[i] != null) {
+                s = targets[i].getInstruction().toString();
             }
-        } else {
-            buf.append(" ...");
+            buf.append("(").append(match[i]).append(", ").append(s).append(" = {").append(indices[i]).append("})");
         }
         return buf.toString();
     }

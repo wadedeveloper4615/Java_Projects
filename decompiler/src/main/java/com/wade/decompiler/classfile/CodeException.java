@@ -1,16 +1,14 @@
 package com.wade.decompiler.classfile;
 
 import java.io.DataInput;
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.Constants;
 import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.classfile.gen.Visitor;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.util.Utility;
 
-public class CodeException implements Cloneable, Node, Constants {
+public class CodeException implements Constants {
     private int startPc; // Range in the code the exception handler is
     private int endPc; // active. startPc is inclusive, endPc exclusive
     private int handlerPc;
@@ -29,27 +27,6 @@ public class CodeException implements Cloneable, Node, Constants {
         this.endPc = endPc;
         this.handlerPc = handlerPc;
         this.catchType = catchType;
-    }
-
-    @Override
-    public void accept(Visitor v) {
-        v.visitCodeException(this);
-    }
-
-    public CodeException copy() {
-        try {
-            return (CodeException) clone();
-        } catch (CloneNotSupportedException e) {
-            // TODO should this throw?
-        }
-        return null;
-    }
-
-    public void dump(DataOutputStream file) throws IOException {
-        file.writeShort(startPc);
-        file.writeShort(endPc);
-        file.writeShort(handlerPc);
-        file.writeShort(catchType);
     }
 
     public int getCatchType() {

@@ -8,8 +8,8 @@ public abstract class ConversionInstruction extends Instruction implements Typed
     public ConversionInstruction() {
     }
 
-    public ConversionInstruction(InstructionOpCodes opcode) {
-        super(opcode, 1);
+    public ConversionInstruction(InstructionOpCodes opcode, ConstantPool constantPool) {
+        super(opcode, 1, constantPool);
     }
 
     @Override

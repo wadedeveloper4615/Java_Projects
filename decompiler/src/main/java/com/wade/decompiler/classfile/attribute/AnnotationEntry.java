@@ -1,21 +1,18 @@
 package com.wade.decompiler.classfile.attribute;
 
 import java.io.DataInput;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.wade.decompiler.classfile.Node;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.constant.ConstantUtf8;
 import com.wade.decompiler.classfile.element.ElementValue;
 import com.wade.decompiler.classfile.element.ElementValuePair;
-import com.wade.decompiler.classfile.gen.Visitor;
 import com.wade.decompiler.enums.ClassFileConstants;
 
-public class AnnotationEntry implements Node {
+public class AnnotationEntry {
     private int typeIndex;
     private ConstantPool constantPool;
     private boolean isRuntimeVisible;
@@ -27,22 +24,8 @@ public class AnnotationEntry implements Node {
         this.isRuntimeVisible = isRuntimeVisible;
     }
 
-    @Override
-    public void accept(Visitor v) {
-        v.visitAnnotationEntry(this);
-    }
-
     public void addElementNameValuePair(ElementValuePair elementNameValuePair) {
         elementValuePairs.add(elementNameValuePair);
-    }
-
-    public void dump(DataOutputStream dos) throws IOException {
-        dos.writeShort(typeIndex); // u2 index of type name in cpool
-        dos.writeShort(elementValuePairs.size()); // u2 element_value pair
-        // count
-        for (ElementValuePair envp : elementValuePairs) {
-            envp.dump(dos);
-        }
     }
 
     public String getAnnotationType() {
@@ -59,7 +42,6 @@ public class AnnotationEntry implements Node {
     }
 
     public ElementValuePair[] getElementValuePairs() {
-        // TODO return List
         return elementValuePairs.toArray(new ElementValuePair[elementValuePairs.size()]);
     }
 

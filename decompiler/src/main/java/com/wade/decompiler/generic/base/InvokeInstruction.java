@@ -1,25 +1,17 @@
-package com.wade.decompiler.generic;
+package com.wade.decompiler.generic.base;
 
-import java.util.StringTokenizer;
-
-import com.wade.decompiler.Const;
-import com.wade.decompiler.classfile.constant.Constant;
 import com.wade.decompiler.classfile.constant.ConstantCP;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.enums.InstructionOpCodes;
-import com.wade.decompiler.generic.base.ExceptionThrower;
-import com.wade.decompiler.generic.base.FieldOrMethod;
-import com.wade.decompiler.generic.base.StackConsumer;
-import com.wade.decompiler.generic.base.StackProducer;
 import com.wade.decompiler.generic.type.Type;
 
 public abstract class InvokeInstruction extends FieldOrMethod implements ExceptionThrower, StackConsumer, StackProducer {
-    InvokeInstruction() {
+    public InvokeInstruction() {
     }
 
-    protected InvokeInstruction(InstructionOpCodes opcode, int index) {
-        super(opcode, index);
+    public InvokeInstruction(InstructionOpCodes opcode, int index, ConstantPool cp) {
+        super(opcode, cp, index);
     }
 
     @Override
@@ -63,21 +55,5 @@ public abstract class InvokeInstruction extends FieldOrMethod implements Excepti
     public int produceStack(ConstantPool cpg) {
         String signature = getSignature(cpg);
         return Type.getReturnTypeSize(signature);
-    }
-
-    @Override
-    public String toString(ConstantPool cp) {
-        Constant c = cp.getConstant(super.getIndex());
-        StringTokenizer tok = new StringTokenizer(cp.constantToString(c));
-        String opcodeName = Const.getOpcodeName(super.getOpcode());
-        StringBuilder sb = new StringBuilder(opcodeName);
-        if (tok.hasMoreTokens()) {
-            sb.append(" ");
-            sb.append(tok.nextToken().replace('.', '/'));
-            if (tok.hasMoreTokens()) {
-                sb.append(tok.nextToken());
-            }
-        }
-        return sb.toString();
     }
 }

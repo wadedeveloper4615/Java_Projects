@@ -6,7 +6,6 @@ import java.io.IOException;
 import com.wade.decompiler.classfile.attribute.Attribute;
 import com.wade.decompiler.classfile.attribute.ConstantValue;
 import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.classfile.gen.Visitor;
 import com.wade.decompiler.comparators.FieldComparators;
 import com.wade.decompiler.enums.ClassAccessFlagsList;
 import com.wade.decompiler.enums.ClassFileAttributes;
@@ -27,15 +26,6 @@ public class Field extends FieldOrMethod {
 
     public Field(int accessFlags, int nameIndex, int signatureIndex, Attribute[] attributes, ConstantPool constantPool) {
         super(accessFlags, nameIndex, signatureIndex, attributes, constantPool);
-    }
-
-    @Override
-    public void accept(Visitor v) {
-        v.visitField(this);
-    }
-
-    public Field copy(ConstantPool _constant_pool) {
-        return (Field) copy_(_constant_pool);
     }
 
     @Override

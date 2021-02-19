@@ -16,8 +16,8 @@ public class INSTANCEOF extends CPInstruction implements LoadClass, ExceptionThr
     public INSTANCEOF() {
     }
 
-    public INSTANCEOF(int index) {
-        super(InstructionOpCodes.INSTANCEOF, index);
+    public INSTANCEOF(int index, ConstantPool cp) {
+        super(InstructionOpCodes.INSTANCEOF, cp, index);
     }
 
     @Override

@@ -1,8 +1,5 @@
 package com.wade.decompiler.classfile.element;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
-
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.constant.ConstantUtf8;
 import com.wade.decompiler.enums.ClassFileConstants;
@@ -16,12 +13,6 @@ public class ClassElementValue extends ElementValue {
     public ClassElementValue(int type, int idx, ConstantPool cpool) {
         super(type, cpool);
         this.idx = idx;
-    }
-
-    @Override
-    public void dump(DataOutputStream dos) throws IOException {
-        dos.writeByte(super.getType()); // u1 kind of value
-        dos.writeShort(idx);
     }
 
     public String getClassString() {

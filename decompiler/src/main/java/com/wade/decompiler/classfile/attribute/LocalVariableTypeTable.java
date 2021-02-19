@@ -1,11 +1,9 @@
 package com.wade.decompiler.classfile.attribute;
 
 import java.io.DataInput;
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.classfile.gen.Visitor;
 import com.wade.decompiler.enums.ClassFileAttributes;
 // The new table is used when generic types are about...
 //LocalVariableTable_attribute {
@@ -52,31 +50,6 @@ public class LocalVariableTypeTable extends Attribute {
 
     public LocalVariableTypeTable(LocalVariableTypeTable c) {
         this(c.getNameIndex(), c.getLength(), c.getLocalVariableTypeTable(), c.getConstantPool());
-    }
-
-    @Override
-    public void accept(Visitor v) {
-        v.visitLocalVariableTypeTable(this);
-    }
-
-    @Override
-    public Attribute copy(ConstantPool constant_pool) {
-        LocalVariableTypeTable c = (LocalVariableTypeTable) clone();
-        c.localVariableTypeTable = new LocalVariable[localVariableTypeTable.length];
-        for (int i = 0; i < localVariableTypeTable.length; i++) {
-            c.localVariableTypeTable[i] = localVariableTypeTable[i].copy();
-        }
-        c.setConstantPool(constant_pool);
-        return c;
-    }
-
-    @Override
-    public void dump(DataOutputStream file) throws IOException {
-        super.dump(file);
-        file.writeShort(localVariableTypeTable.length);
-        for (LocalVariable variable : localVariableTypeTable) {
-            variable.dump(file);
-        }
     }
 
     public LocalVariable getLocalVariable(int index) {

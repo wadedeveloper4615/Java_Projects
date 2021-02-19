@@ -1,8 +1,8 @@
 package com.wade.decompiler.generic;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
 
+import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generic.base.InstructionHandle;
 import com.wade.decompiler.generic.base.JsrInstruction;
@@ -12,16 +12,9 @@ public class JSR_W extends JsrInstruction {
     public JSR_W() {
     }
 
-    public JSR_W(InstructionHandle target) {
-        super(InstructionOpCodes.JSR_W, target);
+    public JSR_W(InstructionHandle target, ConstantPool cp) {
+        super(InstructionOpCodes.JSR_W, target, cp);
         super.setLength(5);
-    }
-
-    @Override
-    public void dump(DataOutputStream out) throws IOException {
-        super.setIndex(getTargetOffset());
-        out.writeByte(super.getOpcode().getOpcode());
-        out.writeInt(super.getIndex());
     }
 
     @Override

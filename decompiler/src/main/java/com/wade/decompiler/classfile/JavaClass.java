@@ -1,25 +1,17 @@
 package com.wade.decompiler.classfile;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.TreeSet;
 
-import com.wade.decompiler.Const;
 import com.wade.decompiler.classfile.attribute.AnnotationEntry;
 import com.wade.decompiler.classfile.attribute.Attribute;
 import com.wade.decompiler.classfile.attribute.InnerClass;
 import com.wade.decompiler.classfile.attribute.InnerClasses;
 import com.wade.decompiler.classfile.attribute.SourceFile;
 import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.classfile.gen.Visitor;
 import com.wade.decompiler.comparators.JavClassComparator;
 import com.wade.decompiler.enums.ClassAccessFlags;
 import com.wade.decompiler.enums.ClassAccessFlagsList;
@@ -31,7 +23,7 @@ import com.wade.decompiler.util.ClassQueue;
 import com.wade.decompiler.util.SyntheticRepository;
 import com.wade.decompiler.util.Utility;
 
-public class JavaClass extends ClassAccessFlagsList implements Cloneable, Node, Comparable<JavaClass> {
+public class JavaClass extends ClassAccessFlagsList implements Comparable<JavaClass> {
     public static byte HEAP = 1;
     public static byte FILE = 2;
     public static byte ZIP = 3;
@@ -114,11 +106,6 @@ public class JavaClass extends ClassAccessFlagsList implements Cloneable, Node, 
     }
 
     @Override
-    public void accept(Visitor v) {
-        v.visitJavaClass(this);
-    }
-
-    @Override
     public int compareTo(JavaClass obj) {
         return getClassName().compareTo(obj.getClassName());
     }
@@ -147,84 +134,6 @@ public class JavaClass extends ClassAccessFlagsList implements Cloneable, Node, 
             }
         }
         this.computedNestedTypeStatus = true;
-    }
-
-    public JavaClass copy() {
-        JavaClass c = null;
-        try {
-            c = (JavaClass) clone();
-            c.constantPool = constantPool.copy();
-            c.interfaces = interfaces.clone();
-            c.interfaceNames = interfaceNames.clone();
-            c.fields = new Field[fields.length];
-            for (int i = 0; i < fields.length; i++) {
-                c.fields[i] = fields[i].copy(c.constantPool);
-            }
-            c.methods = new Method[methods.length];
-            for (int i = 0; i < methods.length; i++) {
-                c.methods[i] = methods[i].copy(c.constantPool);
-            }
-            c.attributes = new Attribute[attributes.length];
-            for (int i = 0; i < attributes.length; i++) {
-                c.attributes[i] = attributes[i].copy(c.constantPool);
-            }
-        } catch (CloneNotSupportedException e) {
-        }
-        return c;
-    }
-
-    public void dump(DataOutputStream file) throws IOException {
-        file.writeInt(Const.JVM_CLASSFILE_MAGIC);
-        file.writeShort(version.getMinor());
-        file.writeShort(version.getMajor());
-        constantPool.dump(file);
-        file.writeShort(super.getFlags());
-        file.writeShort(classNameIndex);
-        file.writeShort(superclassNameIndex);
-        file.writeShort(interfaces.length);
-        for (int interface1 : interfaces) {
-            file.writeShort(interface1);
-        }
-        file.writeShort(fields.length);
-        for (Field field : fields) {
-            field.dump(file);
-        }
-        file.writeShort(methods.length);
-        for (Method method : methods) {
-            method.dump(file);
-        }
-        if (attributes != null) {
-            file.writeShort(attributes.length);
-            for (Attribute attribute : attributes) {
-                attribute.dump(file);
-            }
-        } else {
-            file.writeShort(0);
-        }
-        file.flush();
-    }
-
-    public void dump(File file) throws IOException {
-        String parent = file.getParent();
-        if (parent != null) {
-            File dir = new File(parent);
-            if (!dir.mkdirs()) { // either was not created or already existed
-                if (!dir.isDirectory()) {
-                    throw new IOException("Could not create the directory " + dir);
-                }
-            }
-        }
-        try (DataOutputStream dos = new DataOutputStream(new FileOutputStream(file))) {
-            dump(dos);
-        }
-    }
-
-    public void dump(OutputStream file) throws IOException {
-        dump(new DataOutputStream(file));
-    }
-
-    public void dump(String _file_name) throws IOException {
-        dump(new File(_file_name));
     }
 
     @Override
@@ -261,23 +170,6 @@ public class JavaClass extends ClassAccessFlagsList implements Cloneable, Node, 
 
     public Attribute[] getAttributes() {
         return attributes;
-    }
-
-    public byte[] getBytes() {
-        ByteArrayOutputStream s = new ByteArrayOutputStream();
-        DataOutputStream ds = new DataOutputStream(s);
-        try {
-            dump(ds);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                ds.close();
-            } catch (IOException e2) {
-                e2.printStackTrace();
-            }
-        }
-        return s.toByteArray();
     }
 
     public String getClassName() {

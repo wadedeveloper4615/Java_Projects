@@ -1,17 +1,13 @@
 package com.wade.decompiler.classfile.attribute;
 
 import java.io.DataInput;
-import java.io.DataOutputStream;
 import java.io.IOException;
 
-import com.wade.decompiler.classfile.Node;
-import com.wade.decompiler.classfile.gen.Visitor;
-
-public class LineNumber implements Cloneable, Node {
+public class LineNumber {
     private short startPc;
     private short lineNumber;
 
-    LineNumber(DataInput file) throws IOException {
+    public LineNumber(DataInput file) throws IOException {
         this(file.readUnsignedShort(), file.readUnsignedShort());
     }
 
@@ -22,25 +18,6 @@ public class LineNumber implements Cloneable, Node {
 
     public LineNumber(LineNumber c) {
         this(c.getStartPC(), c.getLineNumber());
-    }
-
-    @Override
-    public void accept(Visitor v) {
-        v.visitLineNumber(this);
-    }
-
-    public LineNumber copy() {
-        try {
-            return (LineNumber) clone();
-        } catch (CloneNotSupportedException e) {
-            // TODO should this throw?
-        }
-        return null;
-    }
-
-    public void dump(DataOutputStream file) throws IOException {
-        file.writeShort(startPc);
-        file.writeShort(lineNumber);
     }
 
     public int getLineNumber() {

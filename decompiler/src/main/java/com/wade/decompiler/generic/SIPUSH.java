@@ -1,6 +1,5 @@
 package com.wade.decompiler.generic;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
@@ -16,15 +15,9 @@ public class SIPUSH extends Instruction implements ConstantPushInstruction {
     public SIPUSH() {
     }
 
-    public SIPUSH(short b) {
-        super(InstructionOpCodes.SIPUSH, 3);
+    public SIPUSH(short b, ConstantPool cp) {
+        super(InstructionOpCodes.SIPUSH, 3, cp);
         this.b = b;
-    }
-
-    @Override
-    public void dump(DataOutputStream out) throws IOException {
-        super.dump(out);
-        out.writeShort(b);
     }
 
     @Override
@@ -44,7 +37,7 @@ public class SIPUSH extends Instruction implements ConstantPushInstruction {
     }
 
     @Override
-    public String toString(boolean verbose) {
-        return super.toString(verbose) + " " + b;
+    public String toString() {
+        return super.toString() + " " + b;
     }
 }

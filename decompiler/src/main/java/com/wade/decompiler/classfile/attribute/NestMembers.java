@@ -1,11 +1,9 @@
 package com.wade.decompiler.classfile.attribute;
 
 import java.io.DataInput;
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.classfile.gen.Visitor;
 import com.wade.decompiler.enums.ClassFileAttributes;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.util.Utility;
@@ -29,31 +27,6 @@ public class NestMembers extends Attribute {
 
     public NestMembers(NestMembers c) {
         this(c.getNameIndex(), c.getLength(), c.getClasses(), c.getConstantPool());
-    }
-
-    @Override
-    public void accept(Visitor v) {
-        v.visitNestMembers(this);
-    }
-
-    @Override
-    public Attribute copy(ConstantPool _constant_pool) {
-        NestMembers c = (NestMembers) clone();
-        if (classes != null) {
-            c.classes = new int[classes.length];
-            System.arraycopy(classes, 0, c.classes, 0, classes.length);
-        }
-        c.setConstantPool(_constant_pool);
-        return c;
-    }
-
-    @Override
-    public void dump(DataOutputStream file) throws IOException {
-        super.dump(file);
-        file.writeShort(classes.length);
-        for (int index : classes) {
-            file.writeShort(index);
-        }
     }
 
     public int[] getClasses() {

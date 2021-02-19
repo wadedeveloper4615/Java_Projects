@@ -1,6 +1,5 @@
 package com.wade.decompiler.generic;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
@@ -16,15 +15,9 @@ public class BIPUSH extends Instruction implements ConstantPushInstruction {
     public BIPUSH() {
     }
 
-    public BIPUSH(byte b) {
-        super(InstructionOpCodes.BIPUSH, 2);
+    public BIPUSH(byte b, ConstantPool cp) {
+        super(InstructionOpCodes.BIPUSH, 2, cp);
         this.b = b;
-    }
-
-    @Override
-    public void dump(DataOutputStream out) throws IOException {
-        super.dump(out);
-        out.writeByte(b);
     }
 
     @Override
@@ -44,7 +37,7 @@ public class BIPUSH extends Instruction implements ConstantPushInstruction {
     }
 
     @Override
-    public String toString(boolean verbose) {
-        return super.toString(verbose) + " " + b;
+    public String toString() {
+        return super.toString() + " " + b;
     }
 }

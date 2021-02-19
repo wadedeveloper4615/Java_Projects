@@ -1,57 +1,59 @@
 package com.wade.decompiler.generic.base;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.Const;
+import com.wade.decompiler.classfile.constant.Constant;
+import com.wade.decompiler.classfile.constant.ConstantClass;
+import com.wade.decompiler.classfile.constant.ConstantFieldref;
+import com.wade.decompiler.classfile.constant.ConstantMethodref;
+import com.wade.decompiler.classfile.constant.ConstantNameAndType;
 import com.wade.decompiler.classfile.constant.ConstantPool;
+import com.wade.decompiler.classfile.constant.ConstantUtf8;
+import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generic.type.Type;
 import com.wade.decompiler.util.ByteSequence;
 
 public abstract class LocalVariableInstruction extends Instruction implements TypedInstruction, IndexedInstruction {
-    protected int n = -1; // index of referenced variable
-    private InstructionOpCodes cTag = null; // compact version, such as ILOAD_0
-    private InstructionOpCodes canonTag = null; // canonical tag such as ILOAD
+    protected int index = -1;
+    private InstructionOpCodes cTag = null;
+    private InstructionOpCodes canonTag = null;
+    private String superName;
+    private String methodName;
+    private String signature;
 
     public LocalVariableInstruction() {
     }
 
-    public LocalVariableInstruction(InstructionOpCodes canon_tag, InstructionOpCodes c_tag) {
-        super();
-        this.canonTag = canon_tag;
+    public LocalVariableInstruction(InstructionOpCodes canonTag, InstructionOpCodes c_tag, ConstantPool cp) {
+        this.setConstantPool(cp);
+        this.canonTag = canonTag;
         this.cTag = c_tag;
     }
 
-    protected LocalVariableInstruction(InstructionOpCodes opcode, InstructionOpCodes cTag, int n) {
-        super(opcode, 2);
+    protected LocalVariableInstruction(InstructionOpCodes opcode, InstructionOpCodes cTag, int n, ConstantPool constantPool) {
+        super(opcode, 2, constantPool);
         this.cTag = cTag;
-        canonTag = opcode;
+        this.canonTag = opcode;
         setIndex(n);
-    }
-
-    @Override
-    public void dump(DataOutputStream out) throws IOException {
-        if (wide()) {
-            out.writeByte(InstructionOpCodes.WIDE.getOpcode());
-        }
-        out.writeByte(super.getOpcode().getOpcode());
-        if (super.getLength() > 1) { // Otherwise ILOAD_n, instruction, e.g.
-            if (wide()) {
-                out.writeShort(n);
-            } else {
-                out.writeByte(n);
-            }
-        }
     }
 
     public InstructionOpCodes getCanonicalTag() {
         return canonTag;
     }
 
+    public InstructionOpCodes getCanonTag() {
+        return canonTag;
+    }
+
+    public InstructionOpCodes getcTag() {
+        return cTag;
+    }
+
     @Override
     public int getIndex() {
-        return n;
+        return index;
     }
 
     @Override
@@ -80,32 +82,69 @@ public abstract class LocalVariableInstruction extends Instruction implements Ty
     @Override
     public void initFromFile(ByteSequence bytes, boolean wide) throws IOException {
         if (wide) {
-            n = bytes.readUnsignedShort();
+            index = bytes.readUnsignedShort();
             super.setLength(4);
         } else {
             short _opcode = (short) super.getOpcode().getOpcode();
             if (((_opcode >= InstructionOpCodes.ILOAD.getOpcode()) && (_opcode <= InstructionOpCodes.ALOAD.getOpcode())) || ((_opcode >= InstructionOpCodes.ISTORE.getOpcode()) && (_opcode <= InstructionOpCodes.ASTORE.getOpcode()))) {
-                n = bytes.readUnsignedByte();
+                index = bytes.readUnsignedByte();
                 super.setLength(2);
             } else if (_opcode <= InstructionOpCodes.ALOAD_3.getOpcode()) { // compact load instruction such as ILOAD_2
-                n = (_opcode - InstructionOpCodes.ILOAD_0.getOpcode()) % 4;
+                index = (_opcode - InstructionOpCodes.ILOAD_0.getOpcode()) % 4;
                 super.setLength(1);
             } else { // Assert ISTORE_0 <= tag <= ASTORE_3
-                n = (_opcode - InstructionOpCodes.ISTORE_0.getOpcode()) % 4;
+                index = (_opcode - InstructionOpCodes.ISTORE_0.getOpcode()) % 4;
                 super.setLength(1);
             }
         }
+        if (index > 0) {
+            Constant c = constantPool.getConstant(index);
+            extractConstantPoolInfo(c);
+        }
+    }
+
+    private void extractConstantPoolInfo(Constant c) {
+        if (c instanceof ConstantMethodref) {
+            int classIndex = ((ConstantMethodref) c).getClassIndex();
+            int nameAndTypeIndex = ((ConstantMethodref) c).getNameAndTypeIndex();
+
+            ConstantClass cc = (ConstantClass) constantPool.getConstant(classIndex, ClassFileConstants.CONSTANT_Class);
+            ConstantNameAndType cnt = (ConstantNameAndType) constantPool.getConstant(nameAndTypeIndex, ClassFileConstants.CONSTANT_NameAndType);
+
+            superName = ((ConstantUtf8) constantPool.getConstant(cc.getNameIndex(), ClassFileConstants.CONSTANT_Utf8)).getBytes();
+            methodName = ((ConstantUtf8) constantPool.getConstant(cnt.getNameIndex(), ClassFileConstants.CONSTANT_Utf8)).getBytes();
+            signature = ((ConstantUtf8) constantPool.getConstant(cnt.getSignatureIndex(), ClassFileConstants.CONSTANT_Utf8)).getBytes();
+        } else if (c instanceof ConstantFieldref) {
+            int classIndex = ((ConstantFieldref) c).getClassIndex();
+            int nameAndTypeIndex = ((ConstantFieldref) c).getNameAndTypeIndex();
+
+            ConstantClass cc = (ConstantClass) constantPool.getConstant(classIndex, ClassFileConstants.CONSTANT_Class);
+            ConstantNameAndType cnt = (ConstantNameAndType) constantPool.getConstant(nameAndTypeIndex, ClassFileConstants.CONSTANT_NameAndType);
+
+            superName = ((ConstantUtf8) constantPool.getConstant(cc.getNameIndex(), ClassFileConstants.CONSTANT_Utf8)).getBytes();
+            methodName = ((ConstantUtf8) constantPool.getConstant(cnt.getNameIndex(), ClassFileConstants.CONSTANT_Utf8)).getBytes();
+            signature = ((ConstantUtf8) constantPool.getConstant(cnt.getSignatureIndex(), ClassFileConstants.CONSTANT_Utf8)).getBytes();
+        } else {
+            System.out.println(c.getClass().getName());
+        }
+    }
+
+    public void setCanonTag(InstructionOpCodes canonTag) {
+        this.canonTag = canonTag;
+    }
+
+    public void setcTag(InstructionOpCodes cTag) {
+        this.cTag = cTag;
     }
 
     @Override
-    public void setIndex(int n) { // TODO could be package-protected?
-        if ((n < 0) || (n > Const.MAX_SHORT)) {
-            throw new ClassGenException("Illegal value: " + n);
+    public void setIndex(int index) {
+        if ((index < 0) || (index > Const.MAX_SHORT)) {
+            throw new ClassGenException("Illegal value: " + index);
         }
-        this.n = n;
-        // Cannot be < 0 as this is checked above
-        if (n <= 3) { // Use more compact instruction xLOAD_n
-            super.setOpcode(InstructionOpCodes.read((short) (cTag.getOpcode() + n)));
+        this.index = index;
+        if (index <= 3) {
+            super.setOpcode(InstructionOpCodes.read((short) (cTag.getOpcode() + index)));
             super.setLength(1);
         } else {
             super.setOpcode(canonTag);
@@ -117,20 +156,16 @@ public abstract class LocalVariableInstruction extends Instruction implements Ty
         }
     }
 
-    public void setIndexOnly(int n) {
-        this.n = n;
+    public void setIndexOnly(int index) {
+        this.index = index;
     }
 
     @Override
-    public String toString(boolean verbose) {
-        short _opcode = (short) super.getOpcode().getOpcode();
-        if (((_opcode >= InstructionOpCodes.ILOAD_0.getOpcode()) && (_opcode <= InstructionOpCodes.ALOAD_3.getOpcode())) || ((_opcode >= InstructionOpCodes.ISTORE_0.getOpcode()) && (_opcode <= InstructionOpCodes.ASTORE_3.getOpcode()))) {
-            return super.toString(verbose);
-        }
-        return super.toString(verbose) + " " + n;
+    public String toString() {
+        return super.toString() + "[index=" + index + ", superName=" + superName + ", methodName=" + methodName + ", signature=" + signature + "]";
     }
 
     private boolean wide() {
-        return n > Const.MAX_BYTE;
+        return index > Const.MAX_BYTE;
     }
 }

@@ -1,11 +1,9 @@
 package com.wade.decompiler.classfile.attribute;
 
 import java.io.DataInput;
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.classfile.gen.Visitor;
 import com.wade.decompiler.enums.ClassFileAttributes;
 
 public class LineNumberTable extends Attribute {
@@ -28,33 +26,6 @@ public class LineNumberTable extends Attribute {
 
     public LineNumberTable(LineNumberTable c) {
         this(c.getNameIndex(), c.getLength(), c.getLineNumberTable(), c.getConstantPool());
-    }
-
-    @Override
-    public void accept(Visitor v) {
-        v.visitLineNumberTable(this);
-    }
-
-    @Override
-    public Attribute copy(ConstantPool _constant_pool) {
-        // TODO could use the lower level constructor and thereby allow
-        // lineNumberTable to be made
-        LineNumberTable c = (LineNumberTable) clone();
-        c.lineNumberTable = new LineNumber[lineNumberTable.length];
-        for (int i = 0; i < lineNumberTable.length; i++) {
-            c.lineNumberTable[i] = lineNumberTable[i].copy();
-        }
-        c.setConstantPool(_constant_pool);
-        return c;
-    }
-
-    @Override
-    public void dump(DataOutputStream file) throws IOException {
-        super.dump(file);
-        file.writeShort(lineNumberTable.length);
-        for (LineNumber lineNumber : lineNumberTable) {
-            lineNumber.dump(file);
-        }
     }
 
     public LineNumber[] getLineNumberTable() {

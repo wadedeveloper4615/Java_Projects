@@ -1,14 +1,12 @@
 package com.wade.decompiler.classfile.attribute;
 
 import java.io.DataInput;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.constant.ConstantUtf8;
-import com.wade.decompiler.classfile.gen.Visitor;
 import com.wade.decompiler.enums.ClassFileAttributes;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.util.Utility;
@@ -35,30 +33,6 @@ public class Unknown extends Attribute {
 
     public Unknown(Unknown c) {
         this(c.getNameIndex(), c.getLength(), c.getBytes(), c.getConstantPool());
-    }
-
-    @Override
-    public void accept(Visitor v) {
-        v.visitUnknown(this);
-    }
-
-    @Override
-    public Attribute copy(ConstantPool _constant_pool) {
-        Unknown c = (Unknown) clone();
-        if (bytes != null) {
-            c.bytes = new byte[bytes.length];
-            System.arraycopy(bytes, 0, c.bytes, 0, bytes.length);
-        }
-        c.setConstantPool(_constant_pool);
-        return c;
-    }
-
-    @Override
-    public void dump(DataOutputStream file) throws IOException {
-        super.dump(file);
-        if (super.getLength() > 0) {
-            file.write(bytes, 0, super.getLength());
-        }
     }
 
     public byte[] getBytes() {

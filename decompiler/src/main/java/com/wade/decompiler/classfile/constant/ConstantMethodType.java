@@ -1,10 +1,8 @@
 package com.wade.decompiler.classfile.constant;
 
 import java.io.DataInput;
-import java.io.DataOutputStream;
 import java.io.IOException;
 
-import com.wade.decompiler.classfile.gen.Visitor;
 import com.wade.decompiler.enums.ClassFileConstants;
 
 public class ConstantMethodType extends Constant {
@@ -14,24 +12,13 @@ public class ConstantMethodType extends Constant {
         this(c.getDescriptorIndex());
     }
 
-    ConstantMethodType(DataInput file) throws IOException {
+    public ConstantMethodType(DataInput file) throws IOException {
         this(file.readUnsignedShort());
     }
 
     public ConstantMethodType(int descriptor_index) {
         super(ClassFileConstants.CONSTANT_MethodType);
         this.descriptorIndex = descriptor_index;
-    }
-
-    @Override
-    public void accept(Visitor v) {
-        v.visitConstantMethodType(this);
-    }
-
-    @Override
-    public void dump(DataOutputStream file) throws IOException {
-        file.writeByte(super.getTag().getTag());
-        file.writeShort(descriptorIndex);
     }
 
     public int getDescriptorIndex() {

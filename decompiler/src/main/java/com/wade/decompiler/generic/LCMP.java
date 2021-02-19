@@ -9,8 +9,8 @@ import com.wade.decompiler.generic.base.TypedInstruction;
 import com.wade.decompiler.generic.type.Type;
 
 public class LCMP extends Instruction implements TypedInstruction, StackProducer, StackConsumer {
-    public LCMP() {
-        super(InstructionOpCodes.LCMP, 1);
+    public LCMP(ConstantPool cp) {
+        super(InstructionOpCodes.LCMP, 1, cp);
     }
 
     @Override

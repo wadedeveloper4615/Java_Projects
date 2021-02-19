@@ -1,46 +1,21 @@
 package com.wade.decompiler.classfile.constant;
 
 import java.io.DataInput;
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.Const;
 import com.wade.decompiler.classfile.ClassFormatException;
-import com.wade.decompiler.classfile.Node;
-import com.wade.decompiler.classfile.gen.Visitor;
 import com.wade.decompiler.comparators.ConstantComparator;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.util.BCELComparator;
 
-public abstract class Constant implements Cloneable, Node {
+public abstract class Constant {
     private static BCELComparator bcelComparator = new ConstantComparator();
     protected ClassFileConstants tag;
 
     public Constant(ClassFileConstants tag) {
         this.tag = tag;
     }
-
-    @Override
-    public abstract void accept(Visitor v);
-
-    @Override
-    public Object clone() {
-        try {
-            return super.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new Error("Clone Not Supported");
-        }
-    }
-
-    public Constant copy() {
-        try {
-            return (Constant) super.clone();
-        } catch (CloneNotSupportedException e) {
-        }
-        return null;
-    }
-
-    public abstract void dump(DataOutputStream file) throws IOException;
 
     @Override
     public boolean equals(Object obj) {

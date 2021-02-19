@@ -9,8 +9,8 @@ import com.wade.decompiler.generic.base.TypedInstruction;
 import com.wade.decompiler.generic.type.Type;
 
 public class FCMPG extends Instruction implements TypedInstruction, StackProducer, StackConsumer {
-    public FCMPG() {
-        super(InstructionOpCodes.FCMPG, 1);
+    public FCMPG(ConstantPool cp) {
+        super(InstructionOpCodes.FCMPG, 1, cp);
     }
 
     @Override

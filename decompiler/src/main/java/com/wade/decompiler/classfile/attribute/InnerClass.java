@@ -4,15 +4,13 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import com.wade.decompiler.classfile.Node;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.constant.ConstantUtf8;
-import com.wade.decompiler.classfile.gen.Visitor;
 import com.wade.decompiler.enums.ClassAccessFlagsList;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.util.Utility;
 
-public class InnerClass implements Cloneable, Node {
+public class InnerClass {
     private int innerClassIndex;
     private int outerClassIndex;
     private int innerNameIndex;
@@ -38,20 +36,6 @@ public class InnerClass implements Cloneable, Node {
         this.outerClassIndex = outerClassIndex;
         this.innerNameIndex = innerNameIndex;
         this.innerAccessFlags = new ClassAccessFlagsList(innerAccessFlags);
-    }
-
-    @Override
-    public void accept(Visitor v) {
-        v.visitInnerClass(this);
-    }
-
-    public InnerClass copy() {
-        try {
-            return (InnerClass) clone();
-        } catch (CloneNotSupportedException e) {
-            // TODO should this throw?
-        }
-        return null;
     }
 
     public void dump(DataOutputStream file) throws IOException {

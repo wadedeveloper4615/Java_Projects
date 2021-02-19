@@ -1,7 +1,6 @@
 package com.wade.decompiler.classfile.attribute;
 
 import java.io.DataInput;
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.Constant;
@@ -12,7 +11,6 @@ import com.wade.decompiler.classfile.constant.ConstantLong;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.constant.ConstantString;
 import com.wade.decompiler.classfile.constant.ConstantUtf8;
-import com.wade.decompiler.classfile.gen.Visitor;
 import com.wade.decompiler.enums.ClassFileAttributes;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.util.Utility;
@@ -31,24 +29,6 @@ public class ConstantValue extends Attribute {
     public ConstantValue(int name_index, int length, int constantValueIndex, ConstantPool constant_pool) {
         super(ClassFileAttributes.ATTR_CONSTANT_VALUE, name_index, length, constant_pool);
         this.constantValueIndex = constantValueIndex;
-    }
-
-    @Override
-    public void accept(Visitor v) {
-        v.visitConstantValue(this);
-    }
-
-    @Override
-    public Attribute copy(ConstantPool _constant_pool) {
-        ConstantValue c = (ConstantValue) clone();
-        c.setConstantPool(_constant_pool);
-        return c;
-    }
-
-    @Override
-    public void dump(DataOutputStream file) throws IOException {
-        super.dump(file);
-        file.writeShort(constantValueIndex);
     }
 
     public int getConstantValueIndex() {

@@ -1,12 +1,10 @@
 package com.wade.decompiler.classfile.attribute;
 
 import java.io.DataInput;
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.constant.ConstantUtf8;
-import com.wade.decompiler.classfile.gen.Visitor;
 import com.wade.decompiler.enums.ClassFileAttributes;
 import com.wade.decompiler.enums.ClassFileConstants;
 
@@ -24,22 +22,6 @@ public class SourceFile extends Attribute {
 
     public SourceFile(SourceFile c) {
         this(c.getNameIndex(), c.getLength(), c.getSourceFileIndex(), c.getConstantPool());
-    }
-
-    @Override
-    public void accept(Visitor v) {
-        v.visitSourceFile(this);
-    }
-
-    @Override
-    public Attribute copy(ConstantPool _constant_pool) {
-        return (Attribute) clone();
-    }
-
-    @Override
-    public void dump(DataOutputStream file) throws IOException {
-        super.dump(file);
-        file.writeShort(sourceFileIndex);
     }
 
     public int getSourceFileIndex() {

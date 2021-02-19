@@ -1,7 +1,6 @@
 package com.wade.decompiler.classfile.element;
 
 import java.io.DataInput;
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.Const;
@@ -22,17 +21,13 @@ public abstract class ElementValue {
     public static final byte PRIMITIVE_LONG = 'J';
     public static final byte PRIMITIVE_SHORT = 'S';
     public static final byte PRIMITIVE_BOOLEAN = 'Z';
-    @java.lang.Deprecated
-    protected int type; // TODO should be
-    @java.lang.Deprecated
-    protected ConstantPool cpool; // TODO should be
+    protected int type;
+    protected ConstantPool cpool;
 
     protected ElementValue(int type, ConstantPool cpool) {
         this.type = type;
         this.cpool = cpool;
     }
-
-    public abstract void dump(DataOutputStream dos) throws IOException;
 
     public ConstantPool getConstantPool() {
         return cpool;

@@ -14,8 +14,8 @@ public abstract class ReturnInstruction extends Instruction implements Exception
     public ReturnInstruction() {
     }
 
-    protected ReturnInstruction(InstructionOpCodes opcode) {
-        super(opcode, 1);
+    public ReturnInstruction(InstructionOpCodes opcode, ConstantPool cp) {
+        super(opcode, 1, cp);
     }
 
     @Override

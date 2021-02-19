@@ -13,8 +13,8 @@ public class FCONST extends Instruction implements ConstantPushInstruction {
     public FCONST() {
     }
 
-    public FCONST(float f) {
-        super(InstructionOpCodes.FCONST_0, 1);
+    public FCONST(float f, ConstantPool cp) {
+        super(InstructionOpCodes.FCONST_0, 1, cp);
         if (f == 0.0) {
             super.setOpcode(InstructionOpCodes.FCONST_0);
         } else if (f == 1.0) {

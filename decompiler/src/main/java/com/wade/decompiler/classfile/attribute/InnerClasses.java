@@ -1,11 +1,9 @@
 package com.wade.decompiler.classfile.attribute;
 
 import java.io.DataInput;
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.classfile.gen.Visitor;
 import com.wade.decompiler.enums.ClassFileAttributes;
 
 public class InnerClasses extends Attribute {
@@ -27,31 +25,6 @@ public class InnerClasses extends Attribute {
     public InnerClasses(int name_index, int length, InnerClass[] innerClasses, ConstantPool constant_pool) {
         super(ClassFileAttributes.ATTR_INNER_CLASSES, name_index, length, constant_pool);
         this.innerClasses = innerClasses != null ? innerClasses : new InnerClass[0];
-    }
-
-    @Override
-    public void accept(Visitor v) {
-        v.visitInnerClasses(this);
-    }
-
-    @Override
-    public Attribute copy(ConstantPool _constant_pool) {
-        InnerClasses c = (InnerClasses) clone();
-        c.innerClasses = new InnerClass[innerClasses.length];
-        for (int i = 0; i < innerClasses.length; i++) {
-            c.innerClasses[i] = innerClasses[i].copy();
-        }
-        c.setConstantPool(_constant_pool);
-        return c;
-    }
-
-    @Override
-    public void dump(DataOutputStream file) throws IOException {
-        super.dump(file);
-        file.writeShort(innerClasses.length);
-        for (InnerClass inner_class : innerClasses) {
-            inner_class.dump(file);
-        }
     }
 
     public InnerClass[] getInnerClasses() {

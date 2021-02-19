@@ -1,11 +1,9 @@
 package com.wade.decompiler.classfile.attribute;
 
 import java.io.DataInput;
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.classfile.gen.Visitor;
 import com.wade.decompiler.enums.ClassFileAttributes;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.util.Utility;
@@ -29,31 +27,6 @@ public class ExceptionTable extends Attribute {
     public ExceptionTable(int name_index, int length, int[] exceptionIndexTable, ConstantPool constant_pool) {
         super(ClassFileAttributes.ATTR_EXCEPTIONS, name_index, length, constant_pool);
         this.exceptionIndexTable = exceptionIndexTable != null ? exceptionIndexTable : new int[0];
-    }
-
-    @Override
-    public void accept(Visitor v) {
-        v.visitExceptionTable(this);
-    }
-
-    @Override
-    public Attribute copy(ConstantPool _constant_pool) {
-        ExceptionTable c = (ExceptionTable) clone();
-        if (exceptionIndexTable != null) {
-            c.exceptionIndexTable = new int[exceptionIndexTable.length];
-            System.arraycopy(exceptionIndexTable, 0, c.exceptionIndexTable, 0, exceptionIndexTable.length);
-        }
-        c.setConstantPool(_constant_pool);
-        return c;
-    }
-
-    @Override
-    public void dump(DataOutputStream file) throws IOException {
-        super.dump(file);
-        file.writeShort(exceptionIndexTable.length);
-        for (int index : exceptionIndexTable) {
-            file.writeShort(index);
-        }
     }
 
     public int[] getExceptionIndexTable() {

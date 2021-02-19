@@ -8,8 +8,8 @@ public abstract class ArithmeticInstruction extends Instruction implements Typed
     public ArithmeticInstruction() {
     }
 
-    public ArithmeticInstruction(InstructionOpCodes opcode) {
-        super(opcode, 1);
+    public ArithmeticInstruction(InstructionOpCodes opcode, ConstantPool constantPool) {
+        super(opcode, 1, constantPool);
     }
 
     @Override

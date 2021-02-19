@@ -8,8 +8,8 @@ import com.wade.decompiler.generic.base.TypedInstruction;
 import com.wade.decompiler.generic.type.Type;
 
 public class ACONST_NULL extends Instruction implements PushInstruction, TypedInstruction {
-    public ACONST_NULL() {
-        super(InstructionOpCodes.ACONST_NULL, 1);
+    public ACONST_NULL(ConstantPool cp) {
+        super(InstructionOpCodes.ACONST_NULL, 1, cp);
     }
 
     @Override

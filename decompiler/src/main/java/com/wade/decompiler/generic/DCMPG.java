@@ -9,8 +9,8 @@ import com.wade.decompiler.generic.base.TypedInstruction;
 import com.wade.decompiler.generic.type.Type;
 
 public class DCMPG extends Instruction implements TypedInstruction, StackProducer, StackConsumer {
-    public DCMPG() {
-        super(InstructionOpCodes.DCMPG, 1);
+    public DCMPG(ConstantPool cp) {
+        super(InstructionOpCodes.DCMPG, 1, cp);
     }
 
     @Override

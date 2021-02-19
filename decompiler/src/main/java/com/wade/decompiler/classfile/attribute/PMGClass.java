@@ -1,12 +1,10 @@
 package com.wade.decompiler.classfile.attribute;
 
 import java.io.DataInput;
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.constant.ConstantUtf8;
-import com.wade.decompiler.classfile.gen.Visitor;
 import com.wade.decompiler.enums.ClassFileAttributes;
 import com.wade.decompiler.enums.ClassFileConstants;
 
@@ -26,23 +24,6 @@ public class PMGClass extends Attribute {
 
     public PMGClass(PMGClass pgmClass) {
         this(pgmClass.getNameIndex(), pgmClass.getLength(), pgmClass.getPMGIndex(), pgmClass.getPMGClassIndex(), pgmClass.getConstantPool());
-    }
-
-    @Override
-    public void accept(Visitor v) {
-        println("Visiting non-standard PMGClass object");
-    }
-
-    @Override
-    public Attribute copy(ConstantPool _constant_pool) {
-        return (Attribute) clone();
-    }
-
-    @Override
-    public void dump(DataOutputStream file) throws IOException {
-        super.dump(file);
-        file.writeShort(pmgIndex);
-        file.writeShort(pmgClassIndex);
     }
 
     public int getPMGClassIndex() {

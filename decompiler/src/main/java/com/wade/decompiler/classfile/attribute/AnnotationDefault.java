@@ -1,12 +1,10 @@
 package com.wade.decompiler.classfile.attribute;
 
 import java.io.DataInput;
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.element.ElementValue;
-import com.wade.decompiler.classfile.gen.Visitor;
 import com.wade.decompiler.enums.ClassFileAttributes;
 
 public class AnnotationDefault extends Attribute {
@@ -20,22 +18,6 @@ public class AnnotationDefault extends Attribute {
     public AnnotationDefault(int name_index, int length, ElementValue defaultValue, ConstantPool constant_pool) {
         super(ClassFileAttributes.ATTR_ANNOTATION_DEFAULT, name_index, length, constant_pool);
         this.defaultValue = defaultValue;
-    }
-
-    @Override
-    public void accept(Visitor v) {
-        v.visitAnnotationDefault(this);
-    }
-
-    @Override
-    public Attribute copy(ConstantPool _constant_pool) {
-        return (Attribute) clone();
-    }
-
-    @Override
-    public void dump(DataOutputStream dos) throws IOException {
-        super.dump(dos);
-        defaultValue.dump(dos);
     }
 
     public ElementValue getDefaultValue() {

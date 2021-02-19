@@ -1,8 +1,5 @@
 package com.wade.decompiler.classfile.element;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
-
 import com.wade.decompiler.classfile.constant.ConstantDouble;
 import com.wade.decompiler.classfile.constant.ConstantFloat;
 import com.wade.decompiler.classfile.constant.ConstantInteger;
@@ -17,27 +14,6 @@ public class SimpleElementValue extends ElementValue {
     public SimpleElementValue(int type, int index, ConstantPool cpool) {
         super(type, cpool);
         this.index = index;
-    }
-
-    @Override
-    public void dump(DataOutputStream dos) throws IOException {
-        int _type = super.getType();
-        dos.writeByte(_type); // u1 kind of value
-        switch (_type) {
-            case PRIMITIVE_INT:
-            case PRIMITIVE_BYTE:
-            case PRIMITIVE_CHAR:
-            case PRIMITIVE_FLOAT:
-            case PRIMITIVE_LONG:
-            case PRIMITIVE_BOOLEAN:
-            case PRIMITIVE_SHORT:
-            case PRIMITIVE_DOUBLE:
-            case STRING:
-                dos.writeShort(getIndex());
-                break;
-            default:
-                throw new IllegalStateException("SimpleElementValue doesnt know how to write out type " + _type);
-        }
     }
 
     public int getIndex() {

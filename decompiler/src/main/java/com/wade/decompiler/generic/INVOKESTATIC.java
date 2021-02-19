@@ -1,23 +1,16 @@
 package com.wade.decompiler.generic;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
-
 import com.wade.decompiler.ExceptionConst;
+import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.InstructionOpCodes;
+import com.wade.decompiler.generic.base.InvokeInstruction;
 
 public class INVOKESTATIC extends InvokeInstruction {
     public INVOKESTATIC() {
     }
 
-    public INVOKESTATIC(int index) {
-        super(InstructionOpCodes.INVOKESTATIC, index);
-    }
-
-    @Override
-    public void dump(DataOutputStream out) throws IOException {
-        out.writeByte(super.getOpcode().getOpcode());
-        out.writeShort(super.getIndex());
+    public INVOKESTATIC(int index, ConstantPool cp) {
+        super(InstructionOpCodes.INVOKESTATIC, index, cp);
     }
 
     @Override

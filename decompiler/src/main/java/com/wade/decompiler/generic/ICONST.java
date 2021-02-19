@@ -13,8 +13,8 @@ public class ICONST extends Instruction implements ConstantPushInstruction {
     public ICONST() {
     }
 
-    public ICONST(int i) {
-        super(InstructionOpCodes.ICONST_0, 1);
+    public ICONST(int i, ConstantPool cp) {
+        super(InstructionOpCodes.ICONST_0, 1, cp);
         if ((i >= -1) && (i <= 5)) {
             super.setOpcode(InstructionOpCodes.read((short) (InstructionOpCodes.ICONST_0.getOpcode() + i))); // Even works for i == -1
         } else {

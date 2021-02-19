@@ -1,8 +1,5 @@
 package com.wade.decompiler.classfile.element;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
-
 import com.wade.decompiler.classfile.constant.ConstantPool;
 
 public class ArrayElementValue extends ElementValue {
@@ -15,15 +12,6 @@ public class ArrayElementValue extends ElementValue {
             throw new IllegalArgumentException("Only element values of type array can be built with this ctor - type specified: " + type);
         }
         this.elementValues = datums;
-    }
-
-    @Override
-    public void dump(DataOutputStream dos) throws IOException {
-        dos.writeByte(super.getType()); // u1 type of value (ARRAY == '[')
-        dos.writeShort(elementValues.length);
-        for (ElementValue evalue : elementValues) {
-            evalue.dump(dos);
-        }
     }
 
     public ElementValue[] getElementValuesArray() {

@@ -1,8 +1,8 @@
 package com.wade.decompiler.generic.base;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
 
+import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.util.ByteSequence;
 
@@ -14,8 +14,8 @@ public abstract class BranchInstruction extends Instruction implements Instructi
     public BranchInstruction() {
     }
 
-    public BranchInstruction(InstructionOpCodes opcode, InstructionHandle target) {
-        super(opcode, 3);
+    public BranchInstruction(InstructionOpCodes opcode, InstructionHandle target, ConstantPool constantPool) {
+        super(opcode, 3, constantPool);
         setTarget(target);
     }
 
@@ -29,16 +29,6 @@ public abstract class BranchInstruction extends Instruction implements Instructi
         setTarget(null);
         index = -1;
         position = -1;
-    }
-
-    @Override
-    public void dump(DataOutputStream out) throws IOException {
-        out.writeByte(super.getOpcode().getOpcode());
-        index = getTargetOffset();
-        if (!isValidShort(index)) {
-            throw new ClassGenException("Branch target offset too large for short: " + index);
-        }
-        out.writeShort(index); // May be negative, i.e., point backwards
     }
 
     public int getIndex() {
@@ -59,11 +49,11 @@ public abstract class BranchInstruction extends Instruction implements Instructi
 
     protected int getTargetOffset(InstructionHandle _target) {
         if (_target == null) {
-            throw new ClassGenException("Target of " + super.toString(true) + " is invalid null handle");
+            throw new ClassGenException("Target of " + super.toString() + " is invalid null handle");
         }
         int t = _target.getPosition();
         if (t < 0) {
-            throw new ClassGenException("Invalid branch target position offset for " + super.toString(true) + ":" + t + ":" + _target);
+            throw new ClassGenException("Invalid branch target position offset for " + super.toString() + ":" + t + ":" + _target);
         }
         return t - position;
     }
@@ -88,27 +78,17 @@ public abstract class BranchInstruction extends Instruction implements Instructi
     }
 
     @Override
-    public String toString(boolean verbose) {
-        String s = super.toString(verbose);
+    public String toString() {
+        String s = super.toString();
         String t = "null";
-        if (verbose) {
-            if (target != null) {
-                if (target.getInstruction() == this) {
-                    t = "<points to itself>";
-                } else if (target.getInstruction() == null) {
-                    t = "<null instruction!!!?>";
-                } else {
-                    // I'm more interested in the address of the target then
-                    // the instruction located there.
-                    // t = target.getInstruction().toString(false); // Avoid circles
-                    t = "" + target.getPosition();
-                }
+        if (target != null) {
+            if (target.getInstruction() == this) {
+                t = "<points to itself>";
+            } else if (target.getInstruction() == null) {
+                t = "<null instruction!!!?>";
+            } else {
+                t = "" + target.getPosition();
             }
-        } else if (target != null) {
-            index = target.getPosition();
-            // index = getTargetOffset(); crashes if positions haven't been set
-            // t = "" + (index + position);
-            t = "" + index;
         }
         return s + " -> " + t;
     }

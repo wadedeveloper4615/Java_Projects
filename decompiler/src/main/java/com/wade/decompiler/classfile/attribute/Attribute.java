@@ -2,22 +2,19 @@ package com.wade.decompiler.classfile.attribute;
 
 import java.io.DataInput;
 import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import com.wade.decompiler.Const;
 import com.wade.decompiler.classfile.ClassFormatException;
-import com.wade.decompiler.classfile.Node;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.constant.ConstantUtf8;
-import com.wade.decompiler.classfile.gen.Visitor;
 import com.wade.decompiler.enums.ClassFileAttributes;
 import com.wade.decompiler.enums.ClassFileConstants;
 
 @SuppressWarnings("deprecation")
-public abstract class Attribute implements Cloneable, Node {
+public abstract class Attribute {
     private static boolean debug = Boolean.getBoolean(Attribute.class.getCanonicalName() + ".debug"); // Debugging on/off
     private static Map<String, Object> readers = new HashMap<>();
     protected int nameIndex;
@@ -30,27 +27,6 @@ public abstract class Attribute implements Cloneable, Node {
         this.nameIndex = nameIndex;
         this.length = length;
         this.constantPool = constantPool;
-    }
-
-    @Override
-    public abstract void accept(Visitor v);
-
-    @Override
-    public Object clone() {
-        Attribute attr = null;
-        try {
-            attr = (Attribute) super.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new Error("Clone Not Supported");
-        }
-        return attr;
-    }
-
-    public abstract Attribute copy(ConstantPool _constant_pool);
-
-    public void dump(DataOutputStream file) throws IOException {
-        file.writeShort(nameIndex);
-        file.writeInt(length);
     }
 
     public ConstantPool getConstantPool() {

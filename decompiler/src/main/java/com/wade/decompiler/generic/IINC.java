@@ -1,6 +1,5 @@
 package com.wade.decompiler.generic;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.Const;
@@ -18,27 +17,13 @@ public class IINC extends LocalVariableInstruction {
     public IINC() {
     }
 
-    public IINC(int n, int c) {
-        super(); // Default behavior of LocalVariableInstruction causes error
+    public IINC(int n, int c, ConstantPool cp) {
+        super();
+        super.setConstantPool(cp);
         super.setOpcode(InstructionOpCodes.IINC);
         super.setLength((short) 3);
-        setIndex(n); // May set wide as side effect
+        setIndex(n);
         setIncrement(c);
-    }
-
-    @Override
-    public void dump(DataOutputStream out) throws IOException {
-        if (wide) {
-            out.writeByte(InstructionOpCodes.WIDE.getOpcode());
-        }
-        out.writeByte(super.getOpcode().getOpcode());
-        if (wide) {
-            out.writeShort(super.getIndex());
-            out.writeShort(c);
-        } else {
-            out.writeByte(super.getIndex());
-            out.writeByte(c);
-        }
     }
 
     public int getIncrement() {
@@ -93,7 +78,7 @@ public class IINC extends LocalVariableInstruction {
     }
 
     @Override
-    public String toString(boolean verbose) {
-        return super.toString(verbose) + " " + c;
+    public String toString() {
+        return super.toString() + " " + c;
     }
 }

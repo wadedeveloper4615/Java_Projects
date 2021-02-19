@@ -1,13 +1,11 @@
 package com.wade.decompiler.classfile.attribute;
 
 import java.io.DataInput;
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantClass;
 import com.wade.decompiler.classfile.constant.ConstantNameAndType;
 import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.classfile.gen.Visitor;
 import com.wade.decompiler.enums.ClassFileAttributes;
 import com.wade.decompiler.enums.ClassFileConstants;
 
@@ -34,23 +32,6 @@ public class EnclosingMethod extends Attribute {
         super(ClassFileAttributes.ATTR_ENCLOSING_METHOD, nameIndex, len, cpool);
         classIndex = classIdx;
         methodIndex = methodIdx;
-    }
-
-    @Override
-    public void accept(Visitor v) {
-        v.visitEnclosingMethod(this);
-    }
-
-    @Override
-    public Attribute copy(ConstantPool constant_pool) {
-        return (Attribute) clone();
-    }
-
-    @Override
-    public void dump(DataOutputStream file) throws IOException {
-        super.dump(file);
-        file.writeShort(classIndex);
-        file.writeShort(methodIndex);
     }
 
     public ConstantClass getEnclosingClass() {

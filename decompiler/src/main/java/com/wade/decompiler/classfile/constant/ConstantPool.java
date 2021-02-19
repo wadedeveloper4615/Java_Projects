@@ -1,17 +1,14 @@
 package com.wade.decompiler.classfile.constant;
 
 import java.io.DataInput;
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.Const;
 import com.wade.decompiler.classfile.ClassFormatException;
-import com.wade.decompiler.classfile.Node;
-import com.wade.decompiler.classfile.gen.Visitor;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.util.Utility;
 
-public class ConstantPool implements Cloneable, Node {
+public class ConstantPool {
     private Constant[] constantPool;
 
     public ConstantPool(Constant[] constantPool) {
@@ -29,11 +26,6 @@ public class ConstantPool implements Cloneable, Node {
                 i++;
             }
         }
-    }
-
-    @Override
-    public void accept(Visitor v) {
-        v.visitConstantPool(this);
     }
 
     public String constantToString(Constant c) throws ClassFormatException {
@@ -97,33 +89,9 @@ public class ConstantPool implements Cloneable, Node {
         return constantToString(c);
     }
 
-    public ConstantPool copy() {
-        ConstantPool c = null;
-        try {
-            c = (ConstantPool) clone();
-            c.constantPool = new Constant[constantPool.length];
-            for (int i = 1; i < constantPool.length; i++) {
-                if (constantPool[i] != null) {
-                    c.constantPool[i] = constantPool[i].copy();
-                }
-            }
-        } catch (CloneNotSupportedException e) {
-            // TODO should this throw?
-        }
-        return c;
-    }
-
-    public void dump(DataOutputStream file) throws IOException {
-        file.writeShort(constantPool.length);
-        for (int i = 1; i < constantPool.length; i++) {
-            if (constantPool[i] != null) {
-                constantPool[i].dump(file);
-            }
-        }
-    }
-
     public Constant getConstant(int index) {
         if (index >= constantPool.length || index < 0) {
+            System.out.println("Invalid constant pool reference: " + index + ". Constant pool size is: " + constantPool.length);
             throw new ClassFormatException("Invalid constant pool reference: " + index + ". Constant pool size is: " + constantPool.length);
         }
         return constantPool[index];

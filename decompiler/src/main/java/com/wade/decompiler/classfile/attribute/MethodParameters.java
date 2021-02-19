@@ -1,11 +1,9 @@
 package com.wade.decompiler.classfile.attribute;
 
 import java.io.DataInput;
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.classfile.gen.Visitor;
 import com.wade.decompiler.enums.ClassFileAttributes;
 
 public class MethodParameters extends Attribute {
@@ -17,31 +15,6 @@ public class MethodParameters extends Attribute {
         parameters = new MethodParameter[parameters_count];
         for (int i = 0; i < parameters_count; i++) {
             parameters[i] = new MethodParameter(input);
-        }
-    }
-
-    @Override
-    public void accept(Visitor v) {
-        v.visitMethodParameters(this);
-    }
-
-    @Override
-    public Attribute copy(ConstantPool _constant_pool) {
-        MethodParameters c = (MethodParameters) clone();
-        c.parameters = new MethodParameter[parameters.length];
-        for (int i = 0; i < parameters.length; i++) {
-            c.parameters[i] = parameters[i].copy();
-        }
-        c.setConstantPool(_constant_pool);
-        return c;
-    }
-
-    @Override
-    public void dump(DataOutputStream file) throws IOException {
-        super.dump(file);
-        file.writeByte(parameters.length);
-        for (MethodParameter parameter : parameters) {
-            parameter.dump(file);
         }
     }
 

@@ -16,8 +16,8 @@ public class CHECKCAST extends CPInstruction implements LoadClass, ExceptionThro
     public CHECKCAST() {
     }
 
-    public CHECKCAST(int index) {
-        super(InstructionOpCodes.CHECKCAST, index);
+    public CHECKCAST(int index, ConstantPool cp) {
+        super(InstructionOpCodes.CHECKCAST, cp, index);
     }
 
     @Override

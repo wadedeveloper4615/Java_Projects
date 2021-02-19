@@ -12,8 +12,8 @@ public class GETFIELD extends FieldInstruction implements ExceptionThrower, Stac
     public GETFIELD() {
     }
 
-    public GETFIELD(int index) {
-        super(InstructionOpCodes.GETFIELD, index);
+    public GETFIELD(int index, ConstantPool cp) {
+        super(InstructionOpCodes.GETFIELD, cp, index);
     }
 
     @Override

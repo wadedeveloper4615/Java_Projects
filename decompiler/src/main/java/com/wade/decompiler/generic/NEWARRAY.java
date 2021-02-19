@@ -1,10 +1,10 @@
 package com.wade.decompiler.generic;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.Const;
 import com.wade.decompiler.ExceptionConst;
+import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generic.base.AllocationInstruction;
 import com.wade.decompiler.generic.base.ExceptionThrower;
@@ -21,19 +21,13 @@ public class NEWARRAY extends Instruction implements AllocationInstruction, Exce
     public NEWARRAY() {
     }
 
-    public NEWARRAY(BasicType type) {
-        this(type.getType());
+    public NEWARRAY(BasicType type, ConstantPool cp) {
+        this(type.getType(), cp);
     }
 
-    public NEWARRAY(byte type) {
-        super(InstructionOpCodes.NEWARRAY, 2);
+    public NEWARRAY(byte type, ConstantPool cp) {
+        super(InstructionOpCodes.NEWARRAY, 2, cp);
         this.type = type;
-    }
-
-    @Override
-    public void dump(DataOutputStream out) throws IOException {
-        out.writeByte(super.getOpcode().getOpcode());
-        out.writeByte(type);
     }
 
     @Override
@@ -56,7 +50,7 @@ public class NEWARRAY extends Instruction implements AllocationInstruction, Exce
     }
 
     @Override
-    public String toString(boolean verbose) {
-        return super.toString(verbose) + " " + Const.getTypeName(type);
+    public String toString() {
+        return super.toString() + " " + Const.getTypeName(type);
     }
 }

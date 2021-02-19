@@ -15,8 +15,8 @@ public abstract class FieldOrMethod extends CPInstruction implements LoadClass {
     public FieldOrMethod() {
     }
 
-    public FieldOrMethod(InstructionOpCodes opcode, int index) {
-        super(opcode, index);
+    public FieldOrMethod(InstructionOpCodes opcode, ConstantPool constantPool, int index) {
+        super(opcode, constantPool, index);
     }
 
     public String getClassName(ConstantPool cp) {

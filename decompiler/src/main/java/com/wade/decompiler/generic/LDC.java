@@ -1,6 +1,5 @@
 package com.wade.decompiler.generic;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.Const;
@@ -24,19 +23,9 @@ public class LDC extends CPInstruction implements PushInstruction, ExceptionThro
     public LDC() {
     }
 
-    public LDC(int index) {
-        super(InstructionOpCodes.LDC_W, index);
+    public LDC(int index, ConstantPool cp) {
+        super(InstructionOpCodes.LDC_W, cp, index);
         setSize();
-    }
-
-    @Override
-    public void dump(DataOutputStream out) throws IOException {
-        out.writeByte(super.getOpcode().getOpcode());
-        if (super.getLength() == 2) { // TODO useless check?
-            out.writeByte(super.getIndex());
-        } else {
-            out.writeShort(super.getIndex());
-        }
     }
 
     @Override

@@ -17,8 +17,8 @@ public class ANEWARRAY extends CPInstruction implements LoadClass, AllocationIns
     public ANEWARRAY() {
     }
 
-    public ANEWARRAY(int index) {
-        super(InstructionOpCodes.ANEWARRAY, index);
+    public ANEWARRAY(int index, ConstantPool cp) {
+        super(InstructionOpCodes.ANEWARRAY, cp, index);
     }
 
     @Override

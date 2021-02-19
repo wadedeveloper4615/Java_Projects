@@ -1,23 +1,16 @@
 package com.wade.decompiler.generic;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
-
 import com.wade.decompiler.ExceptionConst;
+import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.InstructionOpCodes;
+import com.wade.decompiler.generic.base.InvokeInstruction;
 
 public class INVOKEVIRTUAL extends InvokeInstruction {
     public INVOKEVIRTUAL() {
     }
 
-    public INVOKEVIRTUAL(int index) {
-        super(InstructionOpCodes.INVOKEVIRTUAL, index);
-    }
-
-    @Override
-    public void dump(DataOutputStream out) throws IOException {
-        out.writeByte(super.getOpcode().getOpcode());
-        out.writeShort(super.getIndex());
+    public INVOKEVIRTUAL(int index, ConstantPool cp) {
+        super(InstructionOpCodes.INVOKEVIRTUAL, index, cp);
     }
 
     @Override

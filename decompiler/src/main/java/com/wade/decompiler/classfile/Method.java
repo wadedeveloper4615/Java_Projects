@@ -11,7 +11,6 @@ import com.wade.decompiler.classfile.attribute.LocalVariableTable;
 import com.wade.decompiler.classfile.attribute.ParameterAnnotationEntry;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.constant.ConstantUtf8;
-import com.wade.decompiler.classfile.gen.Visitor;
 import com.wade.decompiler.comparators.MethodComparator;
 import com.wade.decompiler.enums.ClassAccessFlagsList;
 import com.wade.decompiler.enums.ClassFileConstants;
@@ -36,15 +35,6 @@ public class Method extends FieldOrMethod {
 
     public Method(Method c) {
         super(c);
-    }
-
-    @Override
-    public void accept(Visitor v) {
-        v.visitMethod(this);
-    }
-
-    public Method copy(ConstantPool _constant_pool) {
-        return (Method) copy_(_constant_pool);
     }
 
     @Override

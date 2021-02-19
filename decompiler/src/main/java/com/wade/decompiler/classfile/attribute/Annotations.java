@@ -1,11 +1,9 @@
 package com.wade.decompiler.classfile.attribute;
 
 import java.io.DataInput;
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.classfile.gen.Visitor;
 import com.wade.decompiler.enums.ClassFileAttributes;
 
 public abstract class Annotations extends Attribute {
@@ -27,11 +25,6 @@ public abstract class Annotations extends Attribute {
         }
     }
 
-    @Override
-    public void accept(Visitor v) {
-        v.visitAnnotation(this);
-    }
-
     public AnnotationEntry[] getAnnotationEntries() {
         return annotationTable;
     }
@@ -49,15 +42,5 @@ public abstract class Annotations extends Attribute {
 
     public void setAnnotationTable(AnnotationEntry[] annotationTable) {
         this.annotationTable = annotationTable;
-    }
-
-    protected void writeAnnotations(DataOutputStream dos) throws IOException {
-        if (annotationTable == null) {
-            return;
-        }
-        dos.writeShort(annotationTable.length);
-        for (AnnotationEntry element : annotationTable) {
-            element.dump(dos);
-        }
     }
 }

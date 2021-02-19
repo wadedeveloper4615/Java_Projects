@@ -3,7 +3,6 @@ package com.wade.decompiler.classfile.constant;
 import java.io.DataInput;
 import java.io.IOException;
 
-import com.wade.decompiler.classfile.gen.Visitor;
 import com.wade.decompiler.enums.ClassFileConstants;
 
 public class ConstantInvokeDynamic extends ConstantCP {
@@ -17,11 +16,6 @@ public class ConstantInvokeDynamic extends ConstantCP {
 
     public ConstantInvokeDynamic(int bootstrap_method_attr_index, int name_and_type_index) {
         super(ClassFileConstants.CONSTANT_InvokeDynamic, bootstrap_method_attr_index, name_and_type_index);
-    }
-
-    @Override
-    public void accept(Visitor v) {
-        v.visitConstantInvokeDynamic(this);
     }
 
     public int getBootstrapMethodAttrIndex() {

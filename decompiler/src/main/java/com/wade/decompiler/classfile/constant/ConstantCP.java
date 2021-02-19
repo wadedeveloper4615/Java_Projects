@@ -1,7 +1,6 @@
 package com.wade.decompiler.classfile.constant;
 
 import java.io.DataInput;
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.enums.ClassFileConstants;
@@ -22,13 +21,6 @@ public abstract class ConstantCP extends Constant {
 
     public ConstantCP(ConstantCP c) {
         this(c.getTag(), c.getClassIndex(), c.getNameAndTypeIndex());
-    }
-
-    @Override
-    public void dump(DataOutputStream file) throws IOException {
-        file.writeByte(super.getTag().getTag());
-        file.writeShort(class_index);
-        file.writeShort(name_and_type_index);
     }
 
     public String getClass(ConstantPool cp) {

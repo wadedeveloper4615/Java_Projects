@@ -1,8 +1,6 @@
 package com.wade.decompiler.generic;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
-
+import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generic.base.GotoInstruction;
 import com.wade.decompiler.generic.base.InstructionHandle;
@@ -12,21 +10,8 @@ public class GOTO extends GotoInstruction implements VariableLengthInstruction {
     public GOTO() {
     }
 
-    public GOTO(InstructionHandle target) {
-        super(InstructionOpCodes.GOTO, target);
-    }
-
-    @Override
-    public void dump(DataOutputStream out) throws IOException {
-        super.setIndex(getTargetOffset());
-        InstructionOpCodes _opcode = getOpcode();
-        if (_opcode == InstructionOpCodes.GOTO) {
-            super.dump(out);
-        } else { // GOTO_W
-            super.setIndex(getTargetOffset());
-            out.writeByte(_opcode.getOpcode());
-            out.writeInt(super.getIndex());
-        }
+    public GOTO(InstructionHandle target, ConstantPool cp) {
+        super(InstructionOpCodes.GOTO, target, cp);
     }
 
     @Override

@@ -13,8 +13,8 @@ public class DCONST extends Instruction implements ConstantPushInstruction {
     public DCONST() {
     }
 
-    public DCONST(double f) {
-        super(InstructionOpCodes.DCONST_0, 1);
+    public DCONST(double f, ConstantPool cp) {
+        super(InstructionOpCodes.DCONST_0, 1, cp);
         if (f == 0.0) {
             super.setOpcode(InstructionOpCodes.DCONST_0);
         } else if (f == 1.0) {

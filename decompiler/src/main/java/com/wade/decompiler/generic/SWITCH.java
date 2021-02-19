@@ -1,5 +1,6 @@
 package com.wade.decompiler.generic;
 
+import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.generic.base.CompoundInstruction;
 import com.wade.decompiler.generic.base.Instruction;
 import com.wade.decompiler.generic.base.InstructionHandle;
@@ -11,24 +12,24 @@ public class SWITCH implements CompoundInstruction {
     private Select instruction;
     private int matchLength;
 
-    public SWITCH(int[] match, InstructionHandle[] targets, InstructionHandle target, int max_gap) {
+    public SWITCH(int[] match, InstructionHandle[] targets, InstructionHandle target, ConstantPool cp) {
+        this(match, targets, target, 1, cp);
+    }
+
+    public SWITCH(int[] match, InstructionHandle[] targets, InstructionHandle target, int max_gap, ConstantPool cp) {
         this.match = match.clone();
         this.targets = targets.clone();
         if ((matchLength = match.length) < 2) {
-            instruction = new TABLESWITCH(match, targets, target);
+            instruction = new TABLESWITCH(match, targets, target, cp);
         } else {
             sort(0, matchLength - 1);
             if (matchIsOrdered(max_gap)) {
                 fillup(max_gap, target);
-                instruction = new TABLESWITCH(this.match, this.targets, target);
+                instruction = new TABLESWITCH(this.match, this.targets, target, cp);
             } else {
-                instruction = new LOOKUPSWITCH(this.match, this.targets, target);
+                instruction = new LOOKUPSWITCH(this.match, this.targets, target, cp);
             }
         }
-    }
-
-    public SWITCH(int[] match, InstructionHandle[] targets, InstructionHandle target) {
-        this(match, targets, target, 1);
     }
 
     private void fillup(int max_gap, InstructionHandle target) {
@@ -54,6 +55,24 @@ public class SWITCH implements CompoundInstruction {
         targets = new InstructionHandle[count];
         System.arraycopy(m_vec, 0, match, 0, count);
         System.arraycopy(t_vec, 0, targets, 0, count);
+    }
+
+    public Instruction getInstruction() {
+        return instruction;
+    }
+
+    @Override
+    public InstructionList getInstructionList() {
+        return new InstructionList(instruction);
+    }
+
+    private boolean matchIsOrdered(int max_gap) {
+        for (int i = 1; i < matchLength; i++) {
+            if (match[i] - match[i - 1] > max_gap) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private void sort(int l, int r) {
@@ -86,23 +105,5 @@ public class SWITCH implements CompoundInstruction {
         if (i < r) {
             sort(i, r);
         }
-    }
-
-    private boolean matchIsOrdered(int max_gap) {
-        for (int i = 1; i < matchLength; i++) {
-            if (match[i] - match[i - 1] > max_gap) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    @Override
-    public InstructionList getInstructionList() {
-        return new InstructionList(instruction);
-    }
-
-    public Instruction getInstruction() {
-        return instruction;
     }
 }

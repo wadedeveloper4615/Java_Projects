@@ -2,12 +2,10 @@ package com.wade.decompiler.classfile.attribute;
 
 import java.io.ByteArrayInputStream;
 import java.io.DataInput;
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.constant.ConstantUtf8;
-import com.wade.decompiler.classfile.gen.Visitor;
 import com.wade.decompiler.enums.ClassFileAttributes;
 import com.wade.decompiler.enums.ClassFileConstants;
 
@@ -41,23 +39,6 @@ public class Signature extends Attribute {
 
     public Signature(Signature c) {
         this(c.getNameIndex(), c.getLength(), c.getSignatureIndex(), c.getConstantPool());
-    }
-
-    @Override
-    public void accept(Visitor v) {
-        // System.err.println("Visiting non-standard Signature object");
-        v.visitSignature(this);
-    }
-
-    @Override
-    public Attribute copy(ConstantPool _constant_pool) {
-        return (Attribute) clone();
-    }
-
-    @Override
-    public void dump(DataOutputStream file) throws IOException {
-        super.dump(file);
-        file.writeShort(signatureIndex);
     }
 
     public String getSignature() {

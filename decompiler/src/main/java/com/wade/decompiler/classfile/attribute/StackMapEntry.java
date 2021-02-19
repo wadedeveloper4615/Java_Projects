@@ -1,16 +1,13 @@
 package com.wade.decompiler.classfile.attribute;
 
 import java.io.DataInput;
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.Const;
 import com.wade.decompiler.classfile.ClassFormatException;
-import com.wade.decompiler.classfile.Node;
 import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.classfile.gen.Visitor;
 
-public class StackMapEntry implements Node, Cloneable {
+public class StackMapEntry {
     private int frameType;
     private int byteCodeOffset;
     private StackMapType[] typesOfLocals;
@@ -71,62 +68,6 @@ public class StackMapEntry implements Node, Cloneable {
         this.typesOfLocals = typesOfLocals != null ? typesOfLocals : new StackMapType[0];
         this.typesOfStackItems = typesOfStackItems != null ? typesOfStackItems : new StackMapType[0];
         this.constantPool = constantPool;
-    }
-
-    @Override
-    public void accept(Visitor v) {
-        v.visitStackMapEntry(this);
-    }
-
-    public StackMapEntry copy() {
-        StackMapEntry e;
-        try {
-            e = (StackMapEntry) clone();
-        } catch (CloneNotSupportedException ex) {
-            throw new Error("Clone Not Supported");
-        }
-        e.typesOfLocals = new StackMapType[typesOfLocals.length];
-        for (int i = 0; i < typesOfLocals.length; i++) {
-            e.typesOfLocals[i] = typesOfLocals[i].copy();
-        }
-        e.typesOfStackItems = new StackMapType[typesOfStackItems.length];
-        for (int i = 0; i < typesOfStackItems.length; i++) {
-            e.typesOfStackItems[i] = typesOfStackItems[i].copy();
-        }
-        return e;
-    }
-
-    public void dump(DataOutputStream file) throws IOException {
-        file.write(frameType);
-        if (frameType >= Const.SAME_FRAME && frameType <= Const.SAME_FRAME_MAX) {
-            // nothing to be done
-        } else if (frameType >= Const.SAME_LOCALS_1_STACK_ITEM_FRAME && frameType <= Const.SAME_LOCALS_1_STACK_ITEM_FRAME_MAX) {
-            typesOfStackItems[0].dump(file);
-        } else if (frameType == Const.SAME_LOCALS_1_STACK_ITEM_FRAME_EXTENDED) {
-            file.writeShort(byteCodeOffset);
-            typesOfStackItems[0].dump(file);
-        } else if (frameType >= Const.CHOP_FRAME && frameType <= Const.CHOP_FRAME_MAX) {
-            file.writeShort(byteCodeOffset);
-        } else if (frameType == Const.SAME_FRAME_EXTENDED) {
-            file.writeShort(byteCodeOffset);
-        } else if (frameType >= Const.APPEND_FRAME && frameType <= Const.APPEND_FRAME_MAX) {
-            file.writeShort(byteCodeOffset);
-            for (StackMapType type : typesOfLocals) {
-                type.dump(file);
-            }
-        } else if (frameType == Const.FULL_FRAME) {
-            file.writeShort(byteCodeOffset);
-            file.writeShort(typesOfLocals.length);
-            for (StackMapType type : typesOfLocals) {
-                type.dump(file);
-            }
-            file.writeShort(typesOfStackItems.length);
-            for (StackMapType type : typesOfStackItems) {
-                type.dump(file);
-            }
-        } else {
-            throw new ClassFormatException("Invalid Stack map table tag: " + frameType);
-        }
     }
 
     public int getByteCodeOffset() {

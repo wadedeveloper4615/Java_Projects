@@ -9,8 +9,8 @@ public abstract class ArrayInstruction extends Instruction implements ExceptionT
     public ArrayInstruction() {
     }
 
-    public ArrayInstruction(InstructionOpCodes opcode) {
-        super(opcode, 1);
+    public ArrayInstruction(InstructionOpCodes opcode, ConstantPool constantPool) {
+        super(opcode, 1, constantPool);
     }
 
     @Override

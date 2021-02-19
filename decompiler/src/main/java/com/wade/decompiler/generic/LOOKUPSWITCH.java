@@ -1,8 +1,8 @@
 package com.wade.decompiler.generic;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
 
+import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generic.base.InstructionHandle;
 import com.wade.decompiler.util.ByteSequence;
@@ -11,22 +11,11 @@ public class LOOKUPSWITCH extends Select {
     public LOOKUPSWITCH() {
     }
 
-    public LOOKUPSWITCH(int[] match, InstructionHandle[] targets, InstructionHandle defaultTarget) {
-        super(InstructionOpCodes.LOOKUPSWITCH, match, targets, defaultTarget);
+    public LOOKUPSWITCH(int[] match, InstructionHandle[] targets, InstructionHandle defaultTarget, ConstantPool cp) {
+        super(InstructionOpCodes.LOOKUPSWITCH, match, targets, defaultTarget, cp);
         short _length = (short) (9 + getMatch_length() * 8);
         super.setLength(_length);
         setFixed_length(_length);
-    }
-
-    @Override
-    public void dump(DataOutputStream out) throws IOException {
-        super.dump(out);
-        int _match_length = getMatch_length();
-        out.writeInt(_match_length); // npairs
-        for (int i = 0; i < _match_length; i++) {
-            out.writeInt(super.getMatch(i)); // match-offset pairs
-            out.writeInt(setIndices(i, getTargetOffset(super.getTarget(i))));
-        }
     }
 
     @Override

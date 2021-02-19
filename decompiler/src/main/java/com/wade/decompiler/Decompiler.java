@@ -5,6 +5,7 @@ import com.wade.decompiler.classfile.JavaClass;
 
 public class Decompiler {
     private void decompile(JavaClass javaClass) {
+        System.out.println(javaClass.getConstantPool().toString());
         System.out.println(javaClass.toString());
     }
 

@@ -11,8 +11,8 @@ public abstract class NameSignatureInstruction extends CPInstruction {
         super();
     }
 
-    public NameSignatureInstruction(InstructionOpCodes opcode, int index) {
-        super(opcode, index);
+    public NameSignatureInstruction(InstructionOpCodes opcode, ConstantPool constantPool, int index) {
+        super(opcode, constantPool, index);
     }
 
     public String getName(ConstantPool cp) {

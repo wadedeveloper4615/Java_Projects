@@ -1,15 +1,13 @@
 package com.wade.decompiler.classfile;
 
 import java.io.DataInput;
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.classfile.gen.Visitor;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.util.Utility;
 
-public class ModuleExports implements Cloneable, Node {
+public class ModuleExports {
     private int exportsIndex; // points to CONSTANT_Package_info
     private int exportsFlags;
     private int exportsToCount;
@@ -22,30 +20,6 @@ public class ModuleExports implements Cloneable, Node {
         exportsToIndex = new int[exportsToCount];
         for (int i = 0; i < exportsToCount; i++) {
             exportsToIndex[i] = file.readUnsignedShort();
-        }
-    }
-
-    @Override
-    public void accept(Visitor v) {
-        v.visitModuleExports(this);
-    }
-    // TODO add more getters and setters?
-
-    public ModuleExports copy() {
-        try {
-            return (ModuleExports) clone();
-        } catch (CloneNotSupportedException e) {
-            // TODO should this throw?
-        }
-        return null;
-    }
-
-    public void dump(DataOutputStream file) throws IOException {
-        file.writeShort(exportsIndex);
-        file.writeShort(exportsFlags);
-        file.writeShort(exportsToCount);
-        for (int entry : exportsToIndex) {
-            file.writeShort(entry);
         }
     }
 

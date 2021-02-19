@@ -11,8 +11,8 @@ public class PUTFIELD extends FieldInstruction implements PopInstruction, Except
     public PUTFIELD() {
     }
 
-    public PUTFIELD(int index) {
-        super(InstructionOpCodes.PUTFIELD, index);
+    public PUTFIELD(int index, ConstantPool cp) {
+        super(InstructionOpCodes.PUTFIELD, cp, index);
     }
 
     @Override

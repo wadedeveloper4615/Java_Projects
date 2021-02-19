@@ -1,8 +1,8 @@
 package com.wade.decompiler.generic;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
 
+import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generic.base.InstructionHandle;
 import com.wade.decompiler.util.ByteSequence;
@@ -11,24 +11,11 @@ public class TABLESWITCH extends Select {
     public TABLESWITCH() {
     }
 
-    public TABLESWITCH(int[] match, InstructionHandle[] targets, InstructionHandle defaultTarget) {
-        super(InstructionOpCodes.TABLESWITCH, match, targets, defaultTarget);
+    public TABLESWITCH(int[] match, InstructionHandle[] targets, InstructionHandle defaultTarget, ConstantPool cp) {
+        super(InstructionOpCodes.TABLESWITCH, match, targets, defaultTarget, cp);
         short _length = (short) (13 + getMatch_length() * 4);
         super.setLength(_length);
         setFixed_length(_length);
-    }
-
-    @Override
-    public void dump(DataOutputStream out) throws IOException {
-        super.dump(out);
-        int _match_length = getMatch_length();
-        int low = (_match_length > 0) ? super.getMatch(0) : 0;
-        out.writeInt(low);
-        int high = (_match_length > 0) ? super.getMatch(_match_length - 1) : 0;
-        out.writeInt(high);
-        for (int i = 0; i < _match_length; i++) {
-            out.writeInt(setIndices(i, getTargetOffset(super.getTarget(i))));
-        }
     }
 
     @Override

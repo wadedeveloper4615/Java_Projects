@@ -1,11 +1,9 @@
 package com.wade.decompiler.classfile.attribute;
 
 import java.io.DataInput;
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.classfile.gen.Visitor;
 import com.wade.decompiler.enums.ClassFileAttributes;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.util.Utility;
@@ -29,31 +27,6 @@ public class ModulePackages extends Attribute {
 
     public ModulePackages(ModulePackages c) {
         this(c.getNameIndex(), c.getLength(), c.getPackageIndexTable(), c.getConstantPool());
-    }
-
-    @Override
-    public void accept(Visitor v) {
-        v.visitModulePackages(this);
-    }
-
-    @Override
-    public Attribute copy(ConstantPool _constant_pool) {
-        ModulePackages c = (ModulePackages) clone();
-        if (packageIndexTable != null) {
-            c.packageIndexTable = new int[packageIndexTable.length];
-            System.arraycopy(packageIndexTable, 0, c.packageIndexTable, 0, packageIndexTable.length);
-        }
-        c.setConstantPool(_constant_pool);
-        return c;
-    }
-
-    @Override
-    public void dump(DataOutputStream file) throws IOException {
-        super.dump(file);
-        file.writeShort(packageIndexTable.length);
-        for (int index : packageIndexTable) {
-            file.writeShort(index);
-        }
     }
 
     public int getNumberOfPackages() {

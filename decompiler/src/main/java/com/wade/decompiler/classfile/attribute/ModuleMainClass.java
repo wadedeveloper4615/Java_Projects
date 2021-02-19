@@ -1,11 +1,9 @@
 package com.wade.decompiler.classfile.attribute;
 
 import java.io.DataInput;
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.classfile.gen.Visitor;
 import com.wade.decompiler.enums.ClassFileAttributes;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.util.Utility;
@@ -25,24 +23,6 @@ public class ModuleMainClass extends Attribute {
 
     public ModuleMainClass(ModuleMainClass c) {
         this(c.getNameIndex(), c.getLength(), c.getHostClassIndex(), c.getConstantPool());
-    }
-
-    @Override
-    public void accept(Visitor v) {
-        v.visitModuleMainClass(this);
-    }
-
-    @Override
-    public Attribute copy(ConstantPool _constant_pool) {
-        ModuleMainClass c = (ModuleMainClass) clone();
-        c.setConstantPool(_constant_pool);
-        return c;
-    }
-
-    @Override
-    public void dump(DataOutputStream file) throws IOException {
-        super.dump(file);
-        file.writeShort(mainClassIndex);
     }
 
     public int getHostClassIndex() {

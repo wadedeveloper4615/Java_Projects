@@ -1,6 +1,5 @@
 package com.wade.decompiler.generic;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.Const;
@@ -21,22 +20,9 @@ public class RET extends Instruction implements IndexedInstruction, TypedInstruc
     public RET() {
     }
 
-    public RET(int index) {
-        super(InstructionOpCodes.RET, 2);
+    public RET(int index, ConstantPool cp) {
+        super(InstructionOpCodes.RET, 2, cp);
         setIndex(index);
-    }
-
-    @Override
-    public void dump(DataOutputStream out) throws IOException {
-        if (wide) {
-            out.writeByte(InstructionOpCodes.WIDE.getOpcode());
-        }
-        out.writeByte(super.getOpcode().getOpcode());
-        if (wide) {
-            out.writeShort(index);
-        } else {
-            out.writeByte(index);
-        }
     }
 
     @Override
@@ -80,7 +66,7 @@ public class RET extends Instruction implements IndexedInstruction, TypedInstruc
     }
 
     @Override
-    public String toString(boolean verbose) {
-        return super.toString(verbose) + " " + index;
+    public String toString() {
+        return super.toString() + " " + index;
     }
 }

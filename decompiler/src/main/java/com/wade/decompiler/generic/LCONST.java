@@ -13,8 +13,8 @@ public class LCONST extends Instruction implements ConstantPushInstruction {
     public LCONST() {
     }
 
-    public LCONST(long l) {
-        super(InstructionOpCodes.LCONST_0, 1);
+    public LCONST(long l, ConstantPool cp) {
+        super(InstructionOpCodes.LCONST_0, 1, cp);
         if (l == 0) {
             super.setOpcode(InstructionOpCodes.LCONST_0);
         } else if (l == 1) {

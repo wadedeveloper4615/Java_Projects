@@ -11,8 +11,8 @@ public class PUTSTATIC extends FieldInstruction implements ExceptionThrower, Pop
     public PUTSTATIC() {
     }
 
-    public PUTSTATIC(int index) {
-        super(InstructionOpCodes.PUTSTATIC, index);
+    public PUTSTATIC(int index, ConstantPool cp) {
+        super(InstructionOpCodes.PUTSTATIC, cp, index);
     }
 
     @Override

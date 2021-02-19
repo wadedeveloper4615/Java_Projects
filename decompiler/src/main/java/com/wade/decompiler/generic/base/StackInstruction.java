@@ -8,8 +8,8 @@ public abstract class StackInstruction extends Instruction {
     public StackInstruction() {
     }
 
-    public StackInstruction(InstructionOpCodes opcode) {
-        super(opcode, 1);
+    public StackInstruction(InstructionOpCodes opcode, ConstantPool constantPool) {
+        super(opcode, 1, constantPool);
     }
 
     public Type getType(ConstantPool cp) {

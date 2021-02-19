@@ -9,8 +9,8 @@ public abstract class JsrInstruction extends BranchInstruction implements Uncond
     public JsrInstruction() {
     }
 
-    public JsrInstruction(InstructionOpCodes opcode, InstructionHandle target) {
-        super(opcode, target);
+    public JsrInstruction(InstructionOpCodes opcode, InstructionHandle target, ConstantPool constantPool) {
+        super(opcode, target, constantPool);
     }
 
     @Override

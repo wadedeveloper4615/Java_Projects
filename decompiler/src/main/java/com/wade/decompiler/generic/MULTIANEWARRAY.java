@@ -1,6 +1,5 @@
 package com.wade.decompiler.generic;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.ExceptionConst;
@@ -22,8 +21,8 @@ public class MULTIANEWARRAY extends CPInstruction implements LoadClass, Allocati
     public MULTIANEWARRAY() {
     }
 
-    public MULTIANEWARRAY(int index, short dimensions) {
-        super(InstructionOpCodes.MULTIANEWARRAY, index);
+    public MULTIANEWARRAY(int index, short dimensions, ConstantPool cp) {
+        super(InstructionOpCodes.MULTIANEWARRAY, cp, index);
         if (dimensions < 1) {
             throw new ClassGenException("Invalid dimensions value: " + dimensions);
         }
@@ -34,13 +33,6 @@ public class MULTIANEWARRAY extends CPInstruction implements LoadClass, Allocati
     @Override
     public int consumeStack(ConstantPool cpg) {
         return dimensions;
-    }
-
-    @Override
-    public void dump(DataOutputStream out) throws IOException {
-        out.writeByte(super.getOpcode().getOpcode());
-        out.writeShort(super.getIndex());
-        out.writeByte(dimensions);
     }
 
     public short getDimensions() {
@@ -69,12 +61,7 @@ public class MULTIANEWARRAY extends CPInstruction implements LoadClass, Allocati
     }
 
     @Override
-    public String toString(boolean verbose) {
-        return super.toString(verbose) + " " + super.getIndex() + " " + dimensions;
-    }
-
-    @Override
-    public String toString(ConstantPool cp) {
-        return super.toString(cp) + " " + dimensions;
+    public String toString() {
+        return super.toString() + " " + super.getIndex() + " " + dimensions;
     }
 }

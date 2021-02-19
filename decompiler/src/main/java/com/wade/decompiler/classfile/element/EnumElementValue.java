@@ -1,8 +1,5 @@
 package com.wade.decompiler.classfile.element;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
-
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.constant.ConstantUtf8;
 import com.wade.decompiler.enums.ClassFileConstants;
@@ -19,13 +16,6 @@ public class EnumElementValue extends ElementValue {
         }
         this.typeIdx = typeIdx;
         this.valueIdx = valueIdx;
-    }
-
-    @Override
-    public void dump(DataOutputStream dos) throws IOException {
-        dos.writeByte(super.getType()); // u1 type of value (ENUM_CONSTANT == 'e')
-        dos.writeShort(typeIdx); // u2
-        dos.writeShort(valueIdx); // u2
     }
 
     public String getEnumTypeString() {

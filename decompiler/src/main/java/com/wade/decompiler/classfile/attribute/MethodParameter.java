@@ -1,16 +1,14 @@
 package com.wade.decompiler.classfile.attribute;
 
 import java.io.DataInput;
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.constant.ConstantUtf8;
-import com.wade.decompiler.classfile.gen.Visitor;
 import com.wade.decompiler.enums.ClassAccessFlags;
 import com.wade.decompiler.enums.ClassFileConstants;
 
-public class MethodParameter implements Cloneable {
+public class MethodParameter {
     private int nameIndex;
     private int accessFlags;
 
@@ -20,24 +18,6 @@ public class MethodParameter implements Cloneable {
     public MethodParameter(DataInput input) throws IOException {
         nameIndex = input.readUnsignedShort();
         accessFlags = input.readUnsignedShort();
-    }
-
-    public void accept(Visitor v) {
-        v.visitMethodParameter(this);
-    }
-
-    public MethodParameter copy() {
-        try {
-            return (MethodParameter) clone();
-        } catch (CloneNotSupportedException e) {
-            // TODO should this throw?
-        }
-        return null;
-    }
-
-    public void dump(DataOutputStream file) throws IOException {
-        file.writeShort(nameIndex);
-        file.writeShort(accessFlags);
     }
 
     public int getAccessFlags() {

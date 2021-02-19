@@ -1,12 +1,12 @@
 package com.wade.decompiler.generic;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.ExceptionConst;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generic.base.ClassGenException;
+import com.wade.decompiler.generic.base.InvokeInstruction;
 import com.wade.decompiler.util.ByteSequence;
 
 public class INVOKEINTERFACE extends InvokeInstruction {
@@ -16,8 +16,8 @@ public class INVOKEINTERFACE extends InvokeInstruction {
     public INVOKEINTERFACE() {
     }
 
-    public INVOKEINTERFACE(int index, int nargs) {
-        super(InstructionOpCodes.INVOKEINTERFACE, index);
+    public INVOKEINTERFACE(int index, int nargs, ConstantPool cp) {
+        super(InstructionOpCodes.INVOKEINTERFACE, index, cp);
         super.setLength(5);
         if (nargs < 1) {
             throw new ClassGenException("Number of arguments must be > 0 " + nargs);
@@ -28,14 +28,6 @@ public class INVOKEINTERFACE extends InvokeInstruction {
     @Override
     public int consumeStack(ConstantPool cpg) { // nargs is given in byte-code
         return nargs; // nargs includes this reference
-    }
-
-    @Override
-    public void dump(DataOutputStream out) throws IOException {
-        out.writeByte(super.getOpcode().getOpcode());
-        out.writeShort(super.getIndex());
-        out.writeByte(nargs);
-        out.writeByte(0);
     }
 
     public int getCount() {
@@ -56,7 +48,7 @@ public class INVOKEINTERFACE extends InvokeInstruction {
     }
 
     @Override
-    public String toString(ConstantPool cp) {
-        return super.toString(cp) + " " + nargs;
+    public String toString() {
+        return super.toString() + " " + nargs;
     }
 }

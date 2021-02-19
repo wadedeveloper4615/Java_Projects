@@ -1,10 +1,8 @@
 package com.wade.decompiler.classfile.constant;
 
 import java.io.DataInput;
-import java.io.DataOutputStream;
 import java.io.IOException;
 
-import com.wade.decompiler.classfile.gen.Visitor;
 import com.wade.decompiler.enums.ClassFileConstants;
 
 public class ConstantString extends Constant implements ConstantObject {
@@ -21,17 +19,6 @@ public class ConstantString extends Constant implements ConstantObject {
     public ConstantString(int stringIndex) {
         super(ClassFileConstants.CONSTANT_String);
         this.stringIndex = stringIndex;
-    }
-
-    @Override
-    public void accept(Visitor v) {
-        v.visitConstantString(this);
-    }
-
-    @Override
-    public void dump(DataOutputStream file) throws IOException {
-        file.writeByte(super.getTag().getTag());
-        file.writeShort(stringIndex);
     }
 
     public String getBytes(ConstantPool cp) {

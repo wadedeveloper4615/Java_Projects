@@ -1,12 +1,10 @@
 package com.wade.decompiler.classfile.attribute;
 
 import java.io.DataInput;
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.CodeException;
 import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.classfile.gen.Visitor;
 import com.wade.decompiler.enums.ClassFileAttributes;
 import com.wade.decompiler.generic.base.Instruction;
 import com.wade.decompiler.generic.base.InstructionList;
@@ -33,7 +31,7 @@ public class Code extends Attribute {
         int codeLength = file.readInt();
         byteCode = new byte[codeLength];
         file.readFully(byteCode);
-        instructions = new InstructionList(byteCode).getInstructions();
+        instructions = new InstructionList(byteCode, constantPool).getInstructions();
 
         int exception_table_length = file.readUnsignedShort();
         exceptionTable = new CodeException[exception_table_length];
@@ -64,11 +62,6 @@ public class Code extends Attribute {
         super.setLength(calculateLength()); // Adjust length
     }
 
-    @Override
-    public void accept(Visitor v) {
-        v.visitCode(this);
-    }
-
     private int calculateLength() {
         int len = 0;
         if (attributes != null) {
@@ -77,42 +70,6 @@ public class Code extends Attribute {
             }
         }
         return len + getInternalLength();
-    }
-
-    @Override
-    public Attribute copy(ConstantPool _constant_pool) {
-        Code c = (Code) clone();
-        if (byteCode != null) {
-            c.byteCode = new byte[byteCode.length];
-            System.arraycopy(byteCode, 0, c.byteCode, 0, byteCode.length);
-        }
-        c.setConstantPool(_constant_pool);
-        c.exceptionTable = new CodeException[exceptionTable.length];
-        for (int i = 0; i < exceptionTable.length; i++) {
-            c.exceptionTable[i] = exceptionTable[i].copy();
-        }
-        c.attributes = new Attribute[attributes.length];
-        for (int i = 0; i < attributes.length; i++) {
-            c.attributes[i] = attributes[i].copy(_constant_pool);
-        }
-        return c;
-    }
-
-    @Override
-    public void dump(DataOutputStream file) throws IOException {
-        super.dump(file);
-        file.writeShort(maxStack);
-        file.writeShort(maxLocals);
-        file.writeInt(byteCode.length);
-        file.write(byteCode, 0, byteCode.length);
-        file.writeShort(exceptionTable.length);
-        for (CodeException exception : exceptionTable) {
-            exception.dump(file);
-        }
-        file.writeShort(attributes.length);
-        for (Attribute attribute : attributes) {
-            attribute.dump(file);
-        }
     }
 
     public Attribute[] getAttributes() {

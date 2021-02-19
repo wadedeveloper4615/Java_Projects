@@ -1,13 +1,11 @@
 package com.wade.decompiler.classfile.constant;
 
 import java.io.DataInput;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import com.wade.decompiler.classfile.gen.Visitor;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.util.Utility;
 
@@ -71,17 +69,6 @@ public class ConstantUtf8 extends Constant {
         }
         this.value = value;
         created++;
-    }
-
-    @Override
-    public void accept(Visitor v) {
-        v.visitConstantUtf8(this);
-    }
-
-    @Override
-    public void dump(DataOutputStream file) throws IOException {
-        file.writeByte(super.getTag().getTag());
-        file.writeUTF(value);
     }
 
     public String getBytes() {

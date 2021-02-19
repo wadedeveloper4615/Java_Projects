@@ -14,8 +14,8 @@ public class NEW extends CPInstruction implements LoadClass, AllocationInstructi
     public NEW() {
     }
 
-    public NEW(int index) {
-        super(InstructionOpCodes.NEW, index);
+    public NEW(int index, ConstantPool cp) {
+        super(InstructionOpCodes.NEW, cp, index);
     }
 
     @Override

@@ -1,6 +1,9 @@
 package com.wade.decompiler.test;
 
-public class Test1 {
+import java.io.Serializable;
+
+public class Test1 implements Serializable {
+    private static final long serialVersionUID = -5103281989426867172L;
     private char var1;
     private short var2;
     private int var3;

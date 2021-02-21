@@ -5,9 +5,9 @@ import java.io.IOException;
 
 import com.wade.decompiler.classfile.CodeException;
 import com.wade.decompiler.classfile.constant.ConstantPool;
+import com.wade.decompiler.classfile.instructions.base.Instruction;
+import com.wade.decompiler.classfile.instructions.base.InstructionList;
 import com.wade.decompiler.enums.ClassFileAttributes;
-import com.wade.decompiler.generic.base.Instruction;
-import com.wade.decompiler.generic.base.InstructionList;
 import com.wade.decompiler.util.Utility;
 
 public class Code extends Attribute {
@@ -109,25 +109,6 @@ public class Code extends Attribute {
 
     @Override
     public String toString() {
-        return toString(true);
-    }
-
-    public String toString(boolean verbose) {
-        StringBuilder buf = new StringBuilder(100);
-        buf.append("Code(maxStack = ").append(maxStack).append(", maxLocals = ").append(maxLocals).append(", code_length = ").append(byteCode.length).append(")\n").append(Utility.codeToString(byteCode, super.getConstantPool(), 0, -1, verbose));
-        if (exceptionTable.length > 0) {
-            buf.append("\nException handler(s) = \n").append("From\tTo\tHandler\tType\n");
-            for (CodeException exception : exceptionTable) {
-                buf.append(exception.toString(super.getConstantPool(), verbose)).append("\n");
-            }
-        }
-        if (attributes.length > 0) {
-            buf.append("\nAttribute(s) = ");
-            for (Attribute attribute : attributes) {
-                buf.append("\n").append(attribute.getName()).append(":");
-                buf.append("\n").append(attribute);
-            }
-        }
-        return buf.toString();
+        return "Code [maxStack=" + maxStack + ", maxLocals=" + maxLocals + ", exceptionTable=" + Utility.toString(exceptionTable) + ", attributes=" + Utility.toString(attributes) + ", localVariableTable=" + localVariableTable + ", lineNumberTable=" + lineNumberTable + ", instructions=" + Utility.toString(instructions) + "]";
     }
 }

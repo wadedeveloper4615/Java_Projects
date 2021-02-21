@@ -3,14 +3,10 @@ package com.wade.decompiler.classfile;
 import java.io.DataInput;
 import java.io.IOException;
 
-import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.enums.ClassFileConstants;
-import com.wade.decompiler.util.Utility;
-
 public class ModuleRequires {
-    private int requiresIndex; // points to CONSTANT_Module_info
+    private int requiresIndex;
     private int requiresFlags;
-    private int requiresVersionIndex; // either 0 or points to CONSTANT_Utf8_info
+    private int requiresVersionIndex;
 
     public ModuleRequires(DataInput file) throws IOException {
         requiresIndex = file.readUnsignedShort();
@@ -19,17 +15,30 @@ public class ModuleRequires {
     }
 
     @Override
-    public String toString() {
-        return "requires(" + requiresIndex + ", " + String.format("%04x", requiresFlags) + ", " + requiresVersionIndex + ")";
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        ModuleRequires other = (ModuleRequires) obj;
+        if (requiresFlags != other.requiresFlags)
+            return false;
+        if (requiresIndex != other.requiresIndex)
+            return false;
+        if (requiresVersionIndex != other.requiresVersionIndex)
+            return false;
+        return true;
     }
 
-    public String toString(ConstantPool constant_pool) {
-        StringBuilder buf = new StringBuilder();
-        String module_name = constant_pool.constantToString(requiresIndex, ClassFileConstants.CONSTANT_Module);
-        buf.append(Utility.compactClassName(module_name, false));
-        buf.append(", ").append(String.format("%04x", requiresFlags));
-        String version = requiresVersionIndex == 0 ? "0" : constant_pool.getConstantString(requiresVersionIndex, ClassFileConstants.CONSTANT_Utf8);
-        buf.append(", ").append(version);
-        return buf.toString();
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + requiresFlags;
+        result = prime * result + requiresIndex;
+        result = prime * result + requiresVersionIndex;
+        return result;
     }
 }

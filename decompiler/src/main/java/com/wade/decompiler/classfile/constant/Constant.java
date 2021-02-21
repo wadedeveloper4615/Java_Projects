@@ -41,7 +41,7 @@ public abstract class Constant {
 
     @Override
     public String toString() {
-        return tag.getName() + "[" + tag + "]";
+        return tag.getName();
     }
 
     public static Constant readConstant(DataInput dataInput) throws IOException, ClassFormatException {

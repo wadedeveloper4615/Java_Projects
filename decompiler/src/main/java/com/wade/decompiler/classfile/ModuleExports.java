@@ -2,16 +2,13 @@ package com.wade.decompiler.classfile;
 
 import java.io.DataInput;
 import java.io.IOException;
-
-import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.enums.ClassFileConstants;
-import com.wade.decompiler.util.Utility;
+import java.util.Arrays;
 
 public class ModuleExports {
-    private int exportsIndex; // points to CONSTANT_Package_info
+    private int exportsIndex;
     private int exportsFlags;
     private int exportsToCount;
-    private int[] exportsToIndex; // points to CONSTANT_Module_info
+    private int[] exportsToIndex;
 
     public ModuleExports(DataInput file) throws IOException {
         exportsIndex = file.readUnsignedShort();
@@ -24,20 +21,33 @@ public class ModuleExports {
     }
 
     @Override
-    public String toString() {
-        return "exports(" + exportsIndex + ", " + exportsFlags + ", " + exportsToCount + ", ...)";
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        ModuleExports other = (ModuleExports) obj;
+        if (exportsFlags != other.exportsFlags)
+            return false;
+        if (exportsIndex != other.exportsIndex)
+            return false;
+        if (exportsToCount != other.exportsToCount)
+            return false;
+        if (!Arrays.equals(exportsToIndex, other.exportsToIndex))
+            return false;
+        return true;
     }
 
-    public String toString(ConstantPool constant_pool) {
-        StringBuilder buf = new StringBuilder();
-        String package_name = constant_pool.constantToString(exportsIndex, ClassFileConstants.CONSTANT_Package);
-        buf.append(Utility.compactClassName(package_name, false));
-        buf.append(", ").append(String.format("%04x", exportsFlags));
-        buf.append(", to(").append(exportsToCount).append("):\n");
-        for (int index : exportsToIndex) {
-            String module_name = constant_pool.getConstantString(index, ClassFileConstants.CONSTANT_Module);
-            buf.append("      ").append(Utility.compactClassName(module_name, false)).append("\n");
-        }
-        return buf.substring(0, buf.length() - 1); // remove the last newline
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + exportsFlags;
+        result = prime * result + exportsIndex;
+        result = prime * result + exportsToCount;
+        result = prime * result + Arrays.hashCode(exportsToIndex);
+        return result;
     }
 }

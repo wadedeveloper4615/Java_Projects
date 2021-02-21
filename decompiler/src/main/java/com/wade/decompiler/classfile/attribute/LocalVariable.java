@@ -7,7 +7,6 @@ import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.constant.ConstantUtf8;
 import com.wade.decompiler.constants.Constants;
 import com.wade.decompiler.enums.ClassFileConstants;
-import com.wade.decompiler.util.Utility;
 
 public class LocalVariable implements Constants {
     private int startPc;
@@ -91,13 +90,6 @@ public class LocalVariable implements Constants {
 
     @Override
     public String toString() {
-        return toStringShared(false);
-    }
-
-    public String toStringShared(boolean typeTable) {
-        String name = getName();
-        String signature = Utility.signatureToString(getSignature(), false);
-        String label = "LocalVariable" + (typeTable ? "Types" : "");
-        return label + "(startPc = " + startPc + ", length = " + length + ", index = " + index + ":" + signature + " " + name + ")";
+        return "LocalVariable [startPc=" + startPc + ", length=" + length + ", nameIndex=" + nameIndex + ", signatureIndex=" + signatureIndex + ", index=" + index + ", origIndex=" + origIndex + ", name=" + name + ", signature=" + signature + "]";
     }
 }

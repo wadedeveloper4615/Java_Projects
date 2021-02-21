@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.ClassFileAttributes;
+import com.wade.decompiler.util.Utility;
 
 public class LocalVariableTable extends Attribute {
     private LocalVariable[] localVariableTable;
@@ -50,13 +51,6 @@ public class LocalVariableTable extends Attribute {
 
     @Override
     public String toString() {
-        StringBuilder buf = new StringBuilder();
-        for (int i = 0; i < localVariableTable.length; i++) {
-            buf.append(localVariableTable[i]);
-            if (i < localVariableTable.length - 1) {
-                buf.append('\n');
-            }
-        }
-        return buf.toString();
+        return "LocalVariableTable [localVariableTable=" + Utility.toString(localVariableTable) + "]";
     }
 }

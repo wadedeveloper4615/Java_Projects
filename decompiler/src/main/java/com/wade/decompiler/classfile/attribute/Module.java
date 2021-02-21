@@ -2,6 +2,7 @@ package com.wade.decompiler.classfile.attribute;
 
 import java.io.DataInput;
 import java.io.IOException;
+import java.util.Arrays;
 
 import com.wade.decompiler.classfile.ModuleExports;
 import com.wade.decompiler.classfile.ModuleOpens;
@@ -9,8 +10,6 @@ import com.wade.decompiler.classfile.ModuleProvides;
 import com.wade.decompiler.classfile.ModuleRequires;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.ClassFileAttributes;
-import com.wade.decompiler.enums.ClassFileConstants;
-import com.wade.decompiler.util.Utility;
 
 public class Module extends Attribute {
     private int moduleNameIndex;
@@ -55,52 +54,49 @@ public class Module extends Attribute {
         }
     }
 
-    public ModuleExports[] getExportsTable() {
-        return exportsTable;
-    }
-
-    public ModuleOpens[] getOpensTable() {
-        return opensTable;
-    }
-
-    public ModuleProvides[] getProvidesTable() {
-        return providesTable;
-    }
-
-    public ModuleRequires[] getRequiresTable() {
-        return requiresTable;
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Module other = (Module) obj;
+        if (!Arrays.equals(exportsTable, other.exportsTable))
+            return false;
+        if (moduleFlags != other.moduleFlags)
+            return false;
+        if (moduleNameIndex != other.moduleNameIndex)
+            return false;
+        if (moduleVersionIndex != other.moduleVersionIndex)
+            return false;
+        if (!Arrays.equals(opensTable, other.opensTable))
+            return false;
+        if (!Arrays.equals(providesTable, other.providesTable))
+            return false;
+        if (!Arrays.equals(requiresTable, other.requiresTable))
+            return false;
+        if (usesCount != other.usesCount)
+            return false;
+        if (!Arrays.equals(usesIndex, other.usesIndex))
+            return false;
+        return true;
     }
 
     @Override
-    public String toString() {
-        ConstantPool cp = super.getConstantPool();
-        StringBuilder buf = new StringBuilder();
-        buf.append("Module:\n");
-        buf.append("  name:    ").append(cp.getConstantString(moduleNameIndex, ClassFileConstants.CONSTANT_Module).replace('/', '.')).append("\n");
-        buf.append("  flags:   ").append(String.format("%04x", moduleFlags)).append("\n");
-        String version = moduleVersionIndex == 0 ? "0" : cp.getConstantString(moduleVersionIndex, ClassFileConstants.CONSTANT_Utf8);
-        buf.append("  version: ").append(version).append("\n");
-        buf.append("  requires(").append(requiresTable.length).append("):\n");
-        for (ModuleRequires module : requiresTable) {
-            buf.append("    ").append(module.toString(cp)).append("\n");
-        }
-        buf.append("  exports(").append(exportsTable.length).append("):\n");
-        for (ModuleExports module : exportsTable) {
-            buf.append("    ").append(module.toString(cp)).append("\n");
-        }
-        buf.append("  opens(").append(opensTable.length).append("):\n");
-        for (ModuleOpens module : opensTable) {
-            buf.append("    ").append(module.toString(cp)).append("\n");
-        }
-        buf.append("  uses(").append(usesIndex.length).append("):\n");
-        for (int index : usesIndex) {
-            String class_name = cp.getConstantString(index, ClassFileConstants.CONSTANT_Class);
-            buf.append("    ").append(Utility.compactClassName(class_name, false)).append("\n");
-        }
-        buf.append("  provides(").append(providesTable.length).append("):\n");
-        for (ModuleProvides module : providesTable) {
-            buf.append("    ").append(module.toString(cp)).append("\n");
-        }
-        return buf.substring(0, buf.length() - 1); // remove the last newline
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + Arrays.hashCode(exportsTable);
+        result = prime * result + moduleFlags;
+        result = prime * result + moduleNameIndex;
+        result = prime * result + moduleVersionIndex;
+        result = prime * result + Arrays.hashCode(opensTable);
+        result = prime * result + Arrays.hashCode(providesTable);
+        result = prime * result + Arrays.hashCode(requiresTable);
+        result = prime * result + usesCount;
+        result = prime * result + Arrays.hashCode(usesIndex);
+        return result;
     }
 }

@@ -9,14 +9,10 @@ import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.util.Utility;
 
 public class CodeException implements Constants {
-    private int startPc; // Range in the code the exception handler is
-    private int endPc; // active. startPc is inclusive, endPc exclusive
+    private int startPc;
+    private int endPc;
     private int handlerPc;
     private int catchType;
-
-    public CodeException(CodeException c) {
-        this(c.getStartPC(), c.getEndPC(), c.getHandlerPC(), c.getCatchType());
-    }
 
     public CodeException(DataInput file) throws IOException {
         this(file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort());

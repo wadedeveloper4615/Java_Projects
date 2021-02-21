@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.ClassFileAttributes;
+import com.wade.decompiler.util.Utility;
 
 public class LineNumberTable extends Attribute {
     private static int MAX_LINE_LENGTH = 72;
@@ -67,21 +68,6 @@ public class LineNumberTable extends Attribute {
 
     @Override
     public String toString() {
-        StringBuilder buf = new StringBuilder();
-        StringBuilder line = new StringBuilder();
-        String newLine = System.getProperty("line.separator", "\n");
-        for (int i = 0; i < lineNumberTable.length; i++) {
-            line.append(lineNumberTable[i].toString());
-            if (i < lineNumberTable.length - 1) {
-                line.append(", ");
-            }
-            if ((line.length() > MAX_LINE_LENGTH) && (i < lineNumberTable.length - 1)) {
-                line.append(newLine);
-                buf.append(line);
-                line.setLength(0);
-            }
-        }
-        buf.append(line);
-        return buf.toString();
+        return "LineNumberTable [lineNumberTable=" + Utility.toString(lineNumberTable) + "]";
     }
 }

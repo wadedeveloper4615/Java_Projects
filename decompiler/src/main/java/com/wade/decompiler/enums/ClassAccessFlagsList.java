@@ -137,6 +137,11 @@ public class ClassAccessFlagsList {
         this.setFlags();
     }
 
+    @Override
+    public String toString() {
+        return flagsList.toString();
+    }
+
     public String toString(boolean for_class) {
         Map<Integer, Boolean> map = new HashMap<>();
         StringBuilder buf = new StringBuilder();

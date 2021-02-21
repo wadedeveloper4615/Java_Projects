@@ -26,7 +26,6 @@ import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.enums.TypeEnum;
 
-// @since 6.0 methods are no longer
 public abstract class Utility {
     private static ThreadLocal<Integer> consumed_chars = new ThreadLocal<Integer>() {
         @Override
@@ -850,6 +849,41 @@ public abstract class Utility {
             }
         }
         return buf.toString();
+    }
+
+    public static String toString(int[] a) {
+        if (a == null)
+            return "null";
+        int iMax = a.length - 1;
+        if (iMax == -1)
+            return "[]";
+
+        StringBuilder b = new StringBuilder();
+        b.append('[');
+        for (int i = 0;; i++) {
+            b.append(a[i]);
+            if (i == iMax)
+                return b.append(']').toString();
+            b.append(", ");
+        }
+    }
+
+    public static String toString(Object[] a) {
+        if (a == null)
+            return "null";
+
+        int iMax = a.length - 1;
+        if (iMax == -1)
+            return "[]";
+
+        StringBuilder b = new StringBuilder();
+        b.append('[');
+        for (int i = 0;; i++) {
+            b.append(String.valueOf(a[i]));
+            if (i == iMax)
+                return b.append(']').toString();
+            b.append(", ");
+        }
     }
 
     public static byte typeOfMethodSignature(String signature) throws ClassFormatException {

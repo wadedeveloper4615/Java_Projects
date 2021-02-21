@@ -96,7 +96,7 @@ public class ClassParser {
             } catch (IOException ioe) {
             }
         }
-        return new JavaClass(classNameIndex, superclassNameIndex, fileName, version, accessFlags, constantPool, interfaces, fields, methods, attributes, isZip ? JavaClass.ZIP : JavaClass.FILE);
+        return new JavaClass(classNameIndex, superclassNameIndex, fileName, version, accessFlags, constantPool, interfaces, fields, methods, attributes);
     }
 
     private void readAttributes() throws IOException, ClassFormatException {
@@ -113,7 +113,7 @@ public class ClassParser {
             accessFlags.addFlag(ClassAccessFlags.ACC_ABSTRACT);
         }
         if (accessFlags.isFinalAndAbstract()) {
-            throw new ClassFormatException("Class " + fileName + " can't be both  and abstract");
+            throw new ClassFormatException("Class " + fileName + " can't be both final and abstract");
         }
         classNameIndex = dataInputStream.readUnsignedShort();
         superclassNameIndex = dataInputStream.readUnsignedShort();
@@ -154,6 +154,6 @@ public class ClassParser {
     }
 
     private void readVersion() throws IOException, ClassFormatException {
-        version = Version.read(dataInputStream);
+        version = Version.read(dataInputStream.readUnsignedShort(), dataInputStream.readUnsignedShort());
     }
 }

@@ -4,125 +4,30 @@ import java.io.DataInput;
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.attribute.Attribute;
-import com.wade.decompiler.classfile.attribute.Code;
-import com.wade.decompiler.classfile.attribute.ExceptionTable;
-import com.wade.decompiler.classfile.attribute.LineNumberTable;
-import com.wade.decompiler.classfile.attribute.LocalVariableTable;
-import com.wade.decompiler.classfile.attribute.ParameterAnnotationEntry;
 import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.classfile.constant.ConstantUtf8;
-import com.wade.decompiler.comparators.MethodComparator;
-import com.wade.decompiler.enums.ClassAccessFlagsList;
-import com.wade.decompiler.enums.ClassFileConstants;
-import com.wade.decompiler.generic.type.Type;
-import com.wade.decompiler.util.BCELComparator;
 import com.wade.decompiler.util.Utility;
 
 public class Method extends FieldOrMethod {
-    private static BCELComparator bcelComparator = new MethodComparator();
-    private ParameterAnnotationEntry[] parameterAnnotationEntries;
-
-    public Method() {
+    public Method(DataInput file, ConstantPool constantPool) throws IOException, ClassFormatException {
+        super(file, constantPool);
     }
 
-    public Method(DataInput file, ConstantPool constant_pool) throws IOException, ClassFormatException {
-        super(file, constant_pool);
-    }
-
-    public Method(int access_flags, int name_index, int signature_index, Attribute[] attributes, ConstantPool constant_pool) {
-        super(access_flags, name_index, signature_index, attributes, constant_pool);
-    }
-
-    public Method(Method c) {
-        super(c);
+    public Method(int accessFlags, int nameIndex, int signatureIndex, Attribute[] attributes, ConstantPool constantPool) {
+        super(accessFlags, nameIndex, signatureIndex, attributes, constantPool);
     }
 
     @Override
     public boolean equals(Object obj) {
-        return bcelComparator.equals(this, obj);
-    }
-
-    public Type[] getArgumentTypes() {
-        return Type.getArgumentTypes(getSignature());
-    }
-
-    public Code getCode() {
-        for (Attribute attribute : super.getAttributes()) {
-            if (attribute instanceof Code) {
-                return (Code) attribute;
-            }
-        }
-        return null;
-    }
-
-    public ExceptionTable getExceptionTable() {
-        for (Attribute attribute : super.getAttributes()) {
-            if (attribute instanceof ExceptionTable) {
-                return (ExceptionTable) attribute;
-            }
-        }
-        return null;
-    }
-
-    public LineNumberTable getLineNumberTable() {
-        Code code = getCode();
-        if (code == null) {
-            return null;
-        }
-        return code.getLineNumberTable();
-    }
-
-    public LocalVariableTable getLocalVariableTable() {
-        Code code = getCode();
-        if (code == null) {
-            return null;
-        }
-        return code.getLocalVariableTable();
-    }
-
-    public ParameterAnnotationEntry[] getParameterAnnotationEntries() {
-        if (parameterAnnotationEntries == null) {
-            parameterAnnotationEntries = ParameterAnnotationEntry.createParameterAnnotationEntries(getAttributes());
-        }
-        return parameterAnnotationEntries;
-    }
-
-    public Type getReturnType() {
-        return Type.getReturnType(getSignature());
+        return super.equals(obj);
     }
 
     @Override
     public int hashCode() {
-        return bcelComparator.hashCode(this);
+        return super.hashCode();
     }
 
     @Override
     public String toString() {
-        String access = Utility.accessToString(new ClassAccessFlagsList(super.getFlags()));
-        String signature = ((ConstantUtf8) super.getConstantPool().getConstant(super.getSignatureIndex(), ClassFileConstants.CONSTANT_Utf8)).getBytes();
-        String name = ((ConstantUtf8) super.getConstantPool().getConstant(super.getNameIndex(), ClassFileConstants.CONSTANT_Utf8)).getBytes();
-        signature = Utility.methodSignatureToString(signature, name, access, true, getLocalVariableTable());
-        StringBuilder buf = new StringBuilder(signature);
-        for (Attribute attribute : super.getAttributes()) {
-            if (!((attribute instanceof Code) || (attribute instanceof ExceptionTable))) {
-                buf.append(" [").append(attribute).append("]");
-            }
-        }
-        ExceptionTable e = getExceptionTable();
-        if (e != null) {
-            String str = e.toString();
-            if (!str.isEmpty()) {
-                buf.append("\n\t\tthrows ").append(str);
-            }
-        }
-        return buf.toString();
-    }
-
-    public static BCELComparator getComparator() {
-        return bcelComparator;
-    }
-
-    public static void setComparator(BCELComparator comparator) {
-        bcelComparator = comparator;
+        return "\n\tMethod [nameIndex=" + nameIndex + ", signatureIndex=" + signatureIndex + ", accessFlags=" + accessFlags + " attributes=" + Utility.toString(attributes) + "]";
     }
 }

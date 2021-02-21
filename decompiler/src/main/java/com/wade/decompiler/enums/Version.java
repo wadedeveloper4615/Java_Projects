@@ -1,8 +1,5 @@
 package com.wade.decompiler.enums;
 
-import java.io.DataInputStream;
-import java.io.IOException;
-
 public enum Version {
     //@formatter:off
     Version_1_1(45, 3, "1.1"),
@@ -43,14 +40,13 @@ public enum Version {
         return versionString;
     }
 
-    public static Version read(DataInputStream dataInputStream) throws IOException {
-        int minor = dataInputStream.readUnsignedShort();
-        int major = dataInputStream.readUnsignedShort();
+    public static Version read(int minor, int major) {
         for (Version v : Version.values()) {
             if (v.getMajor() == major && v.getMinor() == minor) {
                 return v;
             }
         }
+        System.out.println("major=" + major + " minor=" + minor);
         return Unknown;
     }
 }

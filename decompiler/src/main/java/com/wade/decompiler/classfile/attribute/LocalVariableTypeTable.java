@@ -2,6 +2,7 @@ package com.wade.decompiler.classfile.attribute;
 
 import java.io.DataInput;
 import java.io.IOException;
+import java.util.Arrays;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.ClassFileAttributes;
@@ -42,13 +43,6 @@ public class LocalVariableTypeTable extends Attribute {
 
     @Override
     public String toString() {
-        StringBuilder buf = new StringBuilder();
-        for (int i = 0; i < localVariableTypeTable.length; i++) {
-            buf.append(localVariableTypeTable[i].toStringShared(true));
-            if (i < localVariableTypeTable.length - 1) {
-                buf.append('\n');
-            }
-        }
-        return buf.toString();
+        return "LocalVariableTypeTable [localVariableTypeTable=" + Arrays.toString(localVariableTypeTable) + "]";
     }
 }

@@ -2,15 +2,12 @@ package com.wade.decompiler.classfile;
 
 import java.io.DataInput;
 import java.io.IOException;
-
-import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.enums.ClassFileConstants;
-import com.wade.decompiler.util.Utility;
+import java.util.Arrays;
 
 public class ModuleProvides {
-    private int providesIndex; // points to CONSTANT_Class_info
+    private int providesIndex;
     private int providesWithCount;
-    private int[] providesWithIndex; // points to CONSTANT_Class_info
+    private int[] providesWithIndex;
 
     public ModuleProvides(DataInput file) throws IOException {
         providesIndex = file.readUnsignedShort();
@@ -22,19 +19,30 @@ public class ModuleProvides {
     }
 
     @Override
-    public String toString() {
-        return "provides(" + providesIndex + ", " + providesWithCount + ", ...)";
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        ModuleProvides other = (ModuleProvides) obj;
+        if (providesIndex != other.providesIndex)
+            return false;
+        if (providesWithCount != other.providesWithCount)
+            return false;
+        if (!Arrays.equals(providesWithIndex, other.providesWithIndex))
+            return false;
+        return true;
     }
 
-    public String toString(ConstantPool constant_pool) {
-        StringBuilder buf = new StringBuilder();
-        String interface_name = constant_pool.constantToString(providesIndex, ClassFileConstants.CONSTANT_Class);
-        buf.append(Utility.compactClassName(interface_name, false));
-        buf.append(", with(").append(providesWithCount).append("):\n");
-        for (int index : providesWithIndex) {
-            String class_name = constant_pool.getConstantString(index, ClassFileConstants.CONSTANT_Class);
-            buf.append("      ").append(Utility.compactClassName(class_name, false)).append("\n");
-        }
-        return buf.substring(0, buf.length() - 1); // remove the last newline
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + providesIndex;
+        result = prime * result + providesWithCount;
+        result = prime * result + Arrays.hashCode(providesWithIndex);
+        return result;
     }
 }

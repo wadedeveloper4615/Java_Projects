@@ -2,16 +2,13 @@ package com.wade.decompiler.classfile;
 
 import java.io.DataInput;
 import java.io.IOException;
-
-import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.enums.ClassFileConstants;
-import com.wade.decompiler.util.Utility;
+import java.util.Arrays;
 
 public class ModuleOpens {
-    private int opensIndex; // points to CONSTANT_Package_info
+    private int opensIndex;
     private int opensFlags;
     private int opensToCount;
-    private int[] opensToIndex; // points to CONSTANT_Module_info
+    private int[] opensToIndex;
 
     public ModuleOpens(DataInput file) throws IOException {
         opensIndex = file.readUnsignedShort();
@@ -24,20 +21,33 @@ public class ModuleOpens {
     }
 
     @Override
-    public String toString() {
-        return "opens(" + opensIndex + ", " + opensFlags + ", " + opensToCount + ", ...)";
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        ModuleOpens other = (ModuleOpens) obj;
+        if (opensFlags != other.opensFlags)
+            return false;
+        if (opensIndex != other.opensIndex)
+            return false;
+        if (opensToCount != other.opensToCount)
+            return false;
+        if (!Arrays.equals(opensToIndex, other.opensToIndex))
+            return false;
+        return true;
     }
 
-    public String toString(ConstantPool constant_pool) {
-        StringBuilder buf = new StringBuilder();
-        String package_name = constant_pool.constantToString(opensIndex, ClassFileConstants.CONSTANT_Package);
-        buf.append(Utility.compactClassName(package_name, false));
-        buf.append(", ").append(String.format("%04x", opensFlags));
-        buf.append(", to(").append(opensToCount).append("):\n");
-        for (int index : opensToIndex) {
-            String module_name = constant_pool.getConstantString(index, ClassFileConstants.CONSTANT_Module);
-            buf.append("      ").append(Utility.compactClassName(module_name, false)).append("\n");
-        }
-        return buf.substring(0, buf.length() - 1); // remove the last newline
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + opensFlags;
+        result = prime * result + opensIndex;
+        result = prime * result + opensToCount;
+        result = prime * result + Arrays.hashCode(opensToIndex);
+        return result;
     }
 }

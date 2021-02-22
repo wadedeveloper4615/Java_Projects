@@ -6,9 +6,6 @@ import com.wade.decompiler.constants.ExceptionConst;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
 public class INVOKESTATIC extends InvokeInstruction {
-    public INVOKESTATIC() {
-    }
-
     public INVOKESTATIC(int index, ConstantPool cp) {
         super(InstructionOpCodes.INVOKESTATIC, index, cp);
     }

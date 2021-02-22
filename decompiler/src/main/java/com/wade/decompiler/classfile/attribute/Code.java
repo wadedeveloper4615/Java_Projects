@@ -2,13 +2,11 @@ package com.wade.decompiler.classfile.attribute;
 
 import java.io.DataInput;
 import java.io.IOException;
+import java.util.Arrays;
 
 import com.wade.decompiler.classfile.CodeException;
 import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.classfile.instructions.base.Instruction;
-import com.wade.decompiler.classfile.instructions.base.InstructionList;
 import com.wade.decompiler.enums.ClassFileAttributes;
-import com.wade.decompiler.util.Utility;
 
 public class Code extends Attribute {
     private int maxStack;
@@ -18,7 +16,6 @@ public class Code extends Attribute {
     private Attribute[] attributes;
     private LocalVariableTable localVariableTable;
     private LineNumberTable lineNumberTable;
-    private Instruction[] instructions;
 
     public Code(int nameIndex, int length, DataInput file, ConstantPool constantPool) throws IOException {
         this(nameIndex, length, file.readUnsignedShort(), file.readUnsignedShort(), (byte[]) null, (CodeException[]) null, (Attribute[]) null, constantPool);
@@ -26,7 +23,6 @@ public class Code extends Attribute {
         int codeLength = file.readInt();
         byteCode = new byte[codeLength];
         file.readFully(byteCode);
-        instructions = new InstructionList(byteCode, constantPool).getInstructions();
 
         int exception_table_length = file.readUnsignedShort();
         exceptionTable = new CodeException[exception_table_length];
@@ -67,6 +63,28 @@ public class Code extends Attribute {
         return len + getInternalLength();
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Code other = (Code) obj;
+        if (!Arrays.equals(attributes, other.attributes))
+            return false;
+        if (!Arrays.equals(byteCode, other.byteCode))
+            return false;
+        if (!Arrays.equals(exceptionTable, other.exceptionTable))
+            return false;
+        if (maxLocals != other.maxLocals)
+            return false;
+        if (maxStack != other.maxStack)
+            return false;
+        return true;
+    }
+
     public Attribute[] getAttributes() {
         return attributes;
     }
@@ -81,10 +99,6 @@ public class Code extends Attribute {
 
     public CodeException[] getExceptionTable() {
         return exceptionTable;
-    }
-
-    public Instruction[] getInstructions() {
-        return instructions;
     }
 
     private int getInternalLength() {
@@ -108,7 +122,19 @@ public class Code extends Attribute {
     }
 
     @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + Arrays.hashCode(attributes);
+        result = prime * result + Arrays.hashCode(byteCode);
+        result = prime * result + Arrays.hashCode(exceptionTable);
+        result = prime * result + maxLocals;
+        result = prime * result + maxStack;
+        return result;
+    }
+
+    @Override
     public String toString() {
-        return "Code [maxStack=" + maxStack + ", maxLocals=" + maxLocals + ", exceptionTable=" + Utility.toString(exceptionTable) + ", attributes=" + Utility.toString(attributes) + ", localVariableTable=" + localVariableTable + ", lineNumberTable=" + lineNumberTable + ", instructions=" + Utility.toString(instructions) + "]";
+        return "Code [maxStack=" + maxStack + ", maxLocals=" + maxLocals + ", byteCode=" + Arrays.toString(byteCode) + ", exceptionTable=" + Arrays.toString(exceptionTable) + ", attributes=" + Arrays.toString(attributes) + "]";
     }
 }

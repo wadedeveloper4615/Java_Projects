@@ -2,15 +2,13 @@ package com.wade.decompiler.classfile.attribute;
 
 import java.io.DataInput;
 import java.io.IOException;
+import java.util.Arrays;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.ClassFileAttributes;
-import com.wade.decompiler.enums.ClassFileConstants;
-import com.wade.decompiler.util.Utility;
 
 public class ExceptionTable extends Attribute {
     private int[] exceptionIndexTable;
-    private String[] exceptionTableNames;
 
     public ExceptionTable(int nameIndex, int length, DataInput input, ConstantPool constantPool) throws IOException {
         this(nameIndex, length, (int[]) null, constantPool);
@@ -19,10 +17,6 @@ public class ExceptionTable extends Attribute {
         for (int i = 0; i < number_of_exceptions; i++) {
             exceptionIndexTable[i] = input.readUnsignedShort();
         }
-        this.exceptionTableNames = new String[exceptionIndexTable.length];
-        for (int i = 0; i < exceptionIndexTable.length; i++) {
-            this.exceptionTableNames[i] = constantPool.getConstantString(exceptionIndexTable[i], ClassFileConstants.CONSTANT_Class).replace('/', '.');
-        }
     }
 
     public ExceptionTable(int name_index, int length, int[] exceptionIndexTable, ConstantPool constant_pool) {
@@ -30,12 +24,22 @@ public class ExceptionTable extends Attribute {
         this.exceptionIndexTable = exceptionIndexTable != null ? exceptionIndexTable : new int[0];
     }
 
-    public int[] getExceptionIndexTable() {
-        return exceptionIndexTable;
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        ExceptionTable other = (ExceptionTable) obj;
+        if (!Arrays.equals(exceptionIndexTable, other.exceptionIndexTable))
+            return false;
+        return true;
     }
 
-    public String[] getExceptionNames() {
-        return exceptionTableNames;
+    public int[] getExceptionIndexTable() {
+        return exceptionIndexTable;
     }
 
     public int getNumberOfExceptions() {
@@ -43,15 +47,15 @@ public class ExceptionTable extends Attribute {
     }
 
     @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + Arrays.hashCode(exceptionIndexTable);
+        return result;
+    }
+
+    @Override
     public String toString() {
-        StringBuilder buf = new StringBuilder();
-        buf.append("Exceptions: ");
-        for (int i = 0; i < exceptionIndexTable.length; i++) {
-            buf.append(Utility.compactClassName(exceptionTableNames[i], false));
-            if (i < exceptionIndexTable.length - 1) {
-                buf.append(", ");
-            }
-        }
-        return buf.toString();
+        return "ExceptionTable [exceptionIndexTable=" + Arrays.toString(exceptionIndexTable) + "]";
     }
 }

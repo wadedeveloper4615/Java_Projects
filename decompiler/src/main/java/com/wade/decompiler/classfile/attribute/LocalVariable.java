@@ -4,9 +4,7 @@ import java.io.DataInput;
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.classfile.constant.ConstantUtf8;
 import com.wade.decompiler.constants.Constants;
-import com.wade.decompiler.enums.ClassFileConstants;
 
 public class LocalVariable implements Constants {
     private int startPc;
@@ -16,8 +14,6 @@ public class LocalVariable implements Constants {
     private int index;
     private ConstantPool constantPool;
     private int origIndex;
-    private String name;
-    private String signature;
 
     public LocalVariable(DataInput file, ConstantPool constant_pool) throws IOException {
         this(file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort(), constant_pool);
@@ -31,8 +27,6 @@ public class LocalVariable implements Constants {
         this.index = index;
         this.constantPool = constantPool;
         this.origIndex = index;
-        this.name = ((ConstantUtf8) constantPool.getConstant(nameIndex, ClassFileConstants.CONSTANT_Utf8)).getBytes();
-        this.signature = ((ConstantUtf8) constantPool.getConstant(signatureIndex, ClassFileConstants.CONSTANT_Utf8)).getBytes();
     }
 
     public LocalVariable(int startPc, int length, int nameIndex, int signatureIndex, int index, ConstantPool constantPool, int origIndex) {
@@ -43,13 +37,35 @@ public class LocalVariable implements Constants {
         this.index = index;
         this.constantPool = constantPool;
         this.origIndex = origIndex;
-        this.name = ((ConstantUtf8) constantPool.getConstant(nameIndex, ClassFileConstants.CONSTANT_Utf8)).getBytes();
-        this.signature = ((ConstantUtf8) constantPool.getConstant(signatureIndex, ClassFileConstants.CONSTANT_Utf8)).getBytes();
     }
 
     public LocalVariable(LocalVariable localVariable) {
         this(localVariable.getStartPC(), localVariable.getLength(), localVariable.getNameIndex(), localVariable.getSignatureIndex(), localVariable.getIndex(), localVariable.getConstantPool());
         this.origIndex = localVariable.getOrigIndex();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        LocalVariable other = (LocalVariable) obj;
+        if (index != other.index)
+            return false;
+        if (length != other.length)
+            return false;
+        if (nameIndex != other.nameIndex)
+            return false;
+        if (origIndex != other.origIndex)
+            return false;
+        if (signatureIndex != other.signatureIndex)
+            return false;
+        if (startPc != other.startPc)
+            return false;
+        return true;
     }
 
     public ConstantPool getConstantPool() {
@@ -64,20 +80,12 @@ public class LocalVariable implements Constants {
         return length;
     }
 
-    public String getName() {
-        return name;
-    }
-
     public int getNameIndex() {
         return nameIndex;
     }
 
     public int getOrigIndex() {
         return origIndex;
-    }
-
-    public String getSignature() {
-        return signature;
     }
 
     public int getSignatureIndex() {
@@ -89,7 +97,20 @@ public class LocalVariable implements Constants {
     }
 
     @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + index;
+        result = prime * result + length;
+        result = prime * result + nameIndex;
+        result = prime * result + origIndex;
+        result = prime * result + signatureIndex;
+        result = prime * result + startPc;
+        return result;
+    }
+
+    @Override
     public String toString() {
-        return "LocalVariable [startPc=" + startPc + ", length=" + length + ", nameIndex=" + nameIndex + ", signatureIndex=" + signatureIndex + ", index=" + index + ", origIndex=" + origIndex + ", name=" + name + ", signature=" + signature + "]";
+        return "LocalVariable [startPc=" + startPc + ", length=" + length + ", nameIndex=" + nameIndex + ", signatureIndex=" + signatureIndex + ", index=" + index + ", origIndex=" + origIndex + "]";
     }
 }

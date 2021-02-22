@@ -2,13 +2,13 @@ package com.wade.decompiler.classfile.attribute;
 
 import java.io.DataInput;
 import java.io.IOException;
+import java.util.Arrays;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.ClassFileAttributes;
 import com.wade.decompiler.util.Utility;
 
 public class LineNumberTable extends Attribute {
-    private static int MAX_LINE_LENGTH = 72;
     private LineNumber[] lineNumberTable;
 
     public LineNumberTable(int name_index, int length, DataInput input, ConstantPool constant_pool) throws IOException {
@@ -25,49 +25,38 @@ public class LineNumberTable extends Attribute {
         this.lineNumberTable = line_number_table;
     }
 
-    public LineNumber[] getLineNumberTable() {
-        return lineNumberTable;
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        LineNumberTable other = (LineNumberTable) obj;
+        if (!Arrays.equals(lineNumberTable, other.lineNumberTable))
+            return false;
+        return true;
     }
 
-    public int getSourceLine(int pos) {
-        int l = 0;
-        int r = lineNumberTable.length - 1;
-        if (r < 0) {
-            return -1;
-        }
-        int min_index = -1;
-        int min = -1;
-        do {
-            int i = (l + r) >>> 1;
-            int j = lineNumberTable[i].getStartPC();
-            if (j == pos) {
-                return lineNumberTable[i].getLineNumber();
-            } else if (pos < j) {
-                r = i - 1;
-            } else {
-                l = i + 1;
-            }
-            if (j < pos && j > min) {
-                min = j;
-                min_index = i;
-            }
-        } while (l <= r);
-        if (min_index < 0) {
-            return -1;
-        }
-        return lineNumberTable[min_index].getLineNumber();
+    public LineNumber[] getLineNumberTable() {
+        return lineNumberTable;
     }
 
     public int getTableLength() {
         return lineNumberTable == null ? 0 : lineNumberTable.length;
     }
 
-    public void setLineNumberTable(LineNumber[] lineNumberTable) {
-        this.lineNumberTable = lineNumberTable;
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + Arrays.hashCode(lineNumberTable);
+        return result;
     }
 
     @Override
     public String toString() {
-        return "LineNumberTable [lineNumberTable=" + Utility.toString(lineNumberTable) + "]";
+        return "LineNumberTable [" + Utility.toString(lineNumberTable) + "]";
     }
 }

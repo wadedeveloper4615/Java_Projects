@@ -14,9 +14,6 @@ import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.util.ByteSequence;
 
 public class INVOKEDYNAMIC extends InvokeInstruction {
-    public INVOKEDYNAMIC() {
-    }
-
     public INVOKEDYNAMIC(int index, ConstantPool cp) {
         super(InstructionOpCodes.INVOKEDYNAMIC, index, cp);
     }

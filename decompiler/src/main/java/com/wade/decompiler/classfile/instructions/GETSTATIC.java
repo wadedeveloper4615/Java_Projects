@@ -8,9 +8,6 @@ import com.wade.decompiler.constants.ExceptionConst;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
 public class GETSTATIC extends FieldInstruction implements PushInstruction, ExceptionThrower {
-    public GETSTATIC() {
-    }
-
     public GETSTATIC(int index, ConstantPool cp) {
         super(InstructionOpCodes.GETSTATIC, cp, index);
     }

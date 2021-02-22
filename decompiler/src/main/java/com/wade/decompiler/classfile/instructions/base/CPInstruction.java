@@ -16,10 +16,10 @@ import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.util.ByteSequence;
 
 public abstract class CPInstruction extends Instruction implements TypedInstruction, IndexedInstruction {
-    protected int index;
+    private int index;
     private String superName;
     private String methodName;
-    private String signature;
+    protected String signature;
     private Object constantValue;
     private String constantString;
 

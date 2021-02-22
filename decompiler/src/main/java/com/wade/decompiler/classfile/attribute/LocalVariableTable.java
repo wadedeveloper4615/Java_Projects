@@ -25,10 +25,10 @@ public class LocalVariableTable extends Attribute {
     }
 
     public LocalVariable getLocalVariable(int index, int pc) {
-        for (LocalVariable variable : localVariableTable) {
+        for (final LocalVariable variable : localVariableTable) {
             if (variable.getIndex() == index) {
-                int start_pc = variable.getStartPC();
-                int end_pc = start_pc + variable.getLength();
+                final int start_pc = variable.getStartPC();
+                final int end_pc = start_pc + variable.getLength();
                 if ((pc >= start_pc) && (pc <= end_pc)) {
                     return variable;
                 }
@@ -51,6 +51,6 @@ public class LocalVariableTable extends Attribute {
 
     @Override
     public String toString() {
-        return "LocalVariableTable [localVariableTable=" + Utility.toString(localVariableTable) + "]";
+        return "LocalVariableTable [" + Utility.toString(localVariableTable) + "]";
     }
 }

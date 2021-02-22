@@ -23,6 +23,24 @@ public abstract class Attribute {
         this.constantPool = constantPool;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Attribute other = (Attribute) obj;
+        if (length != other.length)
+            return false;
+        if (nameIndex != other.nameIndex)
+            return false;
+        if (tag != other.tag)
+            return false;
+        return true;
+    }
+
     public ConstantPool getConstantPool() {
         return constantPool;
     }
@@ -31,17 +49,22 @@ public abstract class Attribute {
         return length;
     }
 
-    public String getName() {
-        ConstantUtf8 c = (ConstantUtf8) constantPool.getConstant(nameIndex, ClassFileConstants.CONSTANT_Utf8);
-        return c.getBytes();
-    }
-
     public int getNameIndex() {
         return nameIndex;
     }
 
     public ClassFileAttributes getTag() {
         return tag;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + length;
+        result = prime * result + nameIndex;
+        result = prime * result + ((tag == null) ? 0 : tag.hashCode());
+        return result;
     }
 
     public void setLength(int length) {

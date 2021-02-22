@@ -2,6 +2,7 @@ package com.wade.decompiler.classfile.attribute;
 
 import java.io.DataInput;
 import java.io.IOException;
+import java.util.Arrays;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.ClassFileAttributes;
@@ -23,19 +24,34 @@ public class InnerClasses extends Attribute {
         this.innerClasses = innerClasses != null ? innerClasses : new InnerClass[0];
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        InnerClasses other = (InnerClasses) obj;
+        if (!Arrays.equals(innerClasses, other.innerClasses))
+            return false;
+        return true;
+    }
+
     public InnerClass[] getInnerClasses() {
         return innerClasses;
     }
 
     @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + Arrays.hashCode(innerClasses);
+        return result;
+    }
+
+    @Override
     public String toString() {
-        StringBuilder buf = new StringBuilder();
-        buf.append("InnerClasses(");
-        buf.append(innerClasses.length);
-        buf.append("):\n");
-        for (InnerClass inner_class : innerClasses) {
-            buf.append(inner_class.toString(super.getConstantPool())).append("\n");
-        }
-        return buf.substring(0, buf.length() - 1); // remove the last newline
+        return "InnerClasses [innerClasses=" + Arrays.toString(innerClasses) + "]";
     }
 }

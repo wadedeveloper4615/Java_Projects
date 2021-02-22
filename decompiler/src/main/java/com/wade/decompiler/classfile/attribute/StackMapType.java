@@ -20,7 +20,11 @@ public class StackMapType {
         this.type = type;
         this.index = index;
         this.constantPool = constant_pool;
-        this.name = constantPool.constantToString(index, ClassFileConstants.CONSTANT_Class);
+        if (index >= 1) {
+            this.name = constantPool.constantToString(index, ClassFileConstants.CONSTANT_Class);
+        } else {
+            this.name = "Unknown";
+        }
     }
 
     public StackMapType(DataInput file, ConstantPool constant_pool) throws IOException {

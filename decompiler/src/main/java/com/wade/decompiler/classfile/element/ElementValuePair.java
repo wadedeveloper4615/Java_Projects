@@ -1,36 +1,54 @@
 package com.wade.decompiler.classfile.element;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.classfile.constant.ConstantUtf8;
-import com.wade.decompiler.enums.ClassFileConstants;
 
 public class ElementValuePair {
     private ElementValue elementValue;
-    private ConstantPool constantPool;
     private int elementNameIndex;
 
     public ElementValuePair(int elementNameIndex, ElementValue elementValue, ConstantPool constantPool) {
         this.elementValue = elementValue;
         this.elementNameIndex = elementNameIndex;
-        this.constantPool = constantPool;
     }
 
-    public int getNameIndex() {
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        ElementValuePair other = (ElementValuePair) obj;
+        if (elementNameIndex != other.elementNameIndex)
+            return false;
+        if (elementValue == null) {
+            if (other.elementValue != null)
+                return false;
+        } else if (!elementValue.equals(other.elementValue))
+            return false;
+        return true;
+    }
+
+    public int getElementNameIndex() {
         return elementNameIndex;
     }
 
-    public String getNameString() {
-        ConstantUtf8 c = (ConstantUtf8) constantPool.getConstant(elementNameIndex, ClassFileConstants.CONSTANT_Utf8);
-        return c.getBytes();
-    }
-
-    public ElementValue getValue() {
+    public ElementValue getElementValue() {
         return elementValue;
     }
 
-    public String toShortString() {
-        StringBuilder result = new StringBuilder();
-        result.append(getNameString()).append("=").append(getValue().toShortString());
-        return result.toString();
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + elementNameIndex;
+        result = prime * result + ((elementValue == null) ? 0 : elementValue.hashCode());
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "ElementValuePair [elementValue=" + elementValue + ", elementNameIndex=" + elementNameIndex + "]";
     }
 }

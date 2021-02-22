@@ -12,7 +12,7 @@ public class ConstantClass extends Constant implements ConstantObject {
         this(dataInput.readUnsignedShort());
     }
 
-    private ConstantClass(int nameIndex) {
+    public ConstantClass(int nameIndex) {
         super(ClassFileConstants.CONSTANT_Class);
         this.nameIndex = nameIndex;
     }

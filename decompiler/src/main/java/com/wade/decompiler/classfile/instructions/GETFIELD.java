@@ -9,9 +9,6 @@ import com.wade.decompiler.constants.ExceptionConst;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
 public class GETFIELD extends FieldInstruction implements ExceptionThrower, StackConsumer, StackProducer {
-    public GETFIELD() {
-    }
-
     public GETFIELD(int index, ConstantPool cp) {
         super(InstructionOpCodes.GETFIELD, cp, index);
     }

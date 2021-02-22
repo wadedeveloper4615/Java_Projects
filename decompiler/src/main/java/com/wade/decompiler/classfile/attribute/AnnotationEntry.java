@@ -3,35 +3,47 @@ package com.wade.decompiler.classfile.attribute;
 import java.io.DataInput;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.classfile.constant.ConstantUtf8;
 import com.wade.decompiler.classfile.element.ElementValue;
 import com.wade.decompiler.classfile.element.ElementValuePair;
-import com.wade.decompiler.enums.ClassFileConstants;
 
 public class AnnotationEntry {
     private int typeIndex;
     private ConstantPool constantPool;
     private boolean isRuntimeVisible;
     private List<ElementValuePair> elementValuePairs;
-    private String annotationType;
 
     public AnnotationEntry(int type_index, ConstantPool constant_pool, boolean isRuntimeVisible) {
         this.typeIndex = type_index;
         this.constantPool = constant_pool;
         this.isRuntimeVisible = isRuntimeVisible;
-        this.annotationType = ((ConstantUtf8) constantPool.getConstant(typeIndex, ClassFileConstants.CONSTANT_Utf8)).getBytes();
     }
 
-    public void addElementNameValuePair(ElementValuePair elementNameValuePair) {
-        elementValuePairs.add(elementNameValuePair);
+    public void addElementNameValuePair(ElementValuePair e) {
+        elementValuePairs.add(e);
     }
 
-    public String getAnnotationType() {
-        return annotationType;
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        AnnotationEntry other = (AnnotationEntry) obj;
+        if (elementValuePairs == null) {
+            if (other.elementValuePairs != null)
+                return false;
+        } else if (!elementValuePairs.equals(other.elementValuePairs))
+            return false;
+        if (isRuntimeVisible != other.isRuntimeVisible)
+            return false;
+        if (typeIndex != other.typeIndex)
+            return false;
+        return true;
     }
 
     public int getAnnotationTypeIndex() {
@@ -54,40 +66,23 @@ public class AnnotationEntry {
         return typeIndex;
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((elementValuePairs == null) ? 0 : elementValuePairs.hashCode());
+        result = prime * result + (isRuntimeVisible ? 1231 : 1237);
+        result = prime * result + typeIndex;
+        return result;
+    }
+
     public boolean isRuntimeVisible() {
         return isRuntimeVisible;
     }
 
-    public String toShortString() {
-        StringBuilder result = new StringBuilder();
-        result.append("@");
-        result.append(getAnnotationType());
-        ElementValuePair[] evPairs = getElementValuePairs();
-        if (evPairs.length > 0) {
-            result.append("(");
-            for (ElementValuePair element : evPairs) {
-                result.append(element.toShortString());
-            }
-            result.append(")");
-        }
-        return result.toString();
-    }
-
     @Override
     public String toString() {
-        return toShortString();
-    }
-
-    public static AnnotationEntry[] createAnnotationEntries(Attribute[] attrs) {
-        // Find attributes that contain annotation data
-        List<AnnotationEntry> accumulatedAnnotations = new ArrayList<>(attrs.length);
-        for (Attribute attribute : attrs) {
-            if (attribute instanceof Annotations) {
-                Annotations runtimeAnnotations = (Annotations) attribute;
-                Collections.addAll(accumulatedAnnotations, runtimeAnnotations.getAnnotationEntries());
-            }
-        }
-        return accumulatedAnnotations.toArray(new AnnotationEntry[accumulatedAnnotations.size()]);
+        return "AnnotationEntry [typeIndex=" + typeIndex + ", constantPool=" + constantPool + ", isRuntimeVisible=" + isRuntimeVisible + ", elementValuePairs=" + elementValuePairs + "]";
     }
 
     public static AnnotationEntry read(DataInput input, ConstantPool constant_pool, boolean isRuntimeVisible) throws IOException {

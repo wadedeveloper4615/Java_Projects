@@ -10,11 +10,7 @@ import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.util.ByteSequence;
 
 public class INVOKEINTERFACE extends InvokeInstruction {
-    private int nargs; // Number of arguments on stack (number of stack slots), called "count" in
-    // vmspec2
-
-    public INVOKEINTERFACE() {
-    }
+    private int nargs;
 
     public INVOKEINTERFACE(int index, int nargs, ConstantPool cp) {
         super(InstructionOpCodes.INVOKEINTERFACE, index, cp);

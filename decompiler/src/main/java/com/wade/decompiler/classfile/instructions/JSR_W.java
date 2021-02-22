@@ -3,17 +3,13 @@ package com.wade.decompiler.classfile.instructions;
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.classfile.instructions.base.InstructionHandle;
 import com.wade.decompiler.classfile.instructions.base.JsrInstruction;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.util.ByteSequence;
 
 public class JSR_W extends JsrInstruction {
-    public JSR_W() {
-    }
-
-    public JSR_W(InstructionHandle target, ConstantPool cp) {
-        super(InstructionOpCodes.JSR_W, target, cp);
+    public JSR_W(ConstantPool cp) {
+        super(InstructionOpCodes.JSR_W, cp);
         super.setLength(5);
     }
 

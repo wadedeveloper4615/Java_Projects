@@ -18,7 +18,7 @@ import com.wade.spring.examples.jpa.mvc.service.EmployeeService;
 
 @Controller
 public class IndexController {
-	Logger logger = LoggerFactory.getLogger(IndexController.class);
+	private Logger logger = LoggerFactory.getLogger(IndexController.class);
 	@Autowired
 	private EmployeeService service;
 

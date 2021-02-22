@@ -6,32 +6,27 @@ import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
-public abstract class InvokeInstruction extends FieldOrMethod implements ExceptionThrower, StackConsumer, StackProducer {
-    public InvokeInstruction() {
-    }
-
+public abstract class InvokeInstruction extends FieldOrMethodInstruction implements ExceptionThrower, StackConsumer, StackProducer {
     public InvokeInstruction(InstructionOpCodes opcode, int index, ConstantPool cp) {
         super(opcode, cp, index);
     }
 
     @Override
     public int consumeStack(ConstantPool cpg) {
-        int sum;
+        int sum = 0;
         if ((super.getOpcode() == InstructionOpCodes.INVOKESTATIC) || (super.getOpcode() == InstructionOpCodes.INVOKEDYNAMIC)) {
             sum = 0;
         } else {
-            sum = 1; // this reference
+            sum = 1;
         }
-        String signature = getSignature(cpg);
         sum += Type.getArgumentTypesSize(signature);
         return sum;
     }
 
     public Type[] getArgumentTypes(ConstantPool cpg) {
-        return Type.getArgumentTypes(getSignature(cpg));
+        return Type.getArgumentTypes(this.getSignature());
     }
 
-    @Override
     public String getClassName(ConstantPool cp) {
         ConstantConstantPool cmr = (ConstantConstantPool) cp.getConstant(super.getIndex());
         String className = cp.getConstantString(cmr.getClassIndex(), ClassFileConstants.CONSTANT_Class);
@@ -39,11 +34,11 @@ public abstract class InvokeInstruction extends FieldOrMethod implements Excepti
     }
 
     public String getMethodName(ConstantPool cpg) {
-        return getName(cpg);
+        return this.getMethodName();
     }
 
     public Type getReturnType(ConstantPool cpg) {
-        return Type.getReturnType(getSignature(cpg));
+        return Type.getReturnType(this.getSignature());
     }
 
     @Override
@@ -53,7 +48,6 @@ public abstract class InvokeInstruction extends FieldOrMethod implements Excepti
 
     @Override
     public int produceStack(ConstantPool cpg) {
-        String signature = getSignature(cpg);
         return Type.getReturnTypeSize(signature);
     }
 }

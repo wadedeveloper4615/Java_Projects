@@ -3,21 +3,11 @@ package com.wade.decompiler.classfile.attribute;
 import java.io.DataInput;
 import java.io.IOException;
 
-import com.wade.decompiler.classfile.constant.Constant;
-import com.wade.decompiler.classfile.constant.ConstantDouble;
-import com.wade.decompiler.classfile.constant.ConstantFloat;
-import com.wade.decompiler.classfile.constant.ConstantInteger;
-import com.wade.decompiler.classfile.constant.ConstantLong;
 import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.classfile.constant.ConstantString;
-import com.wade.decompiler.classfile.constant.ConstantUtf8;
 import com.wade.decompiler.enums.ClassFileAttributes;
-import com.wade.decompiler.enums.ClassFileConstants;
-import com.wade.decompiler.util.Utility;
 
 public class ConstantValue extends Attribute {
     private final int constantValueIndex;
-    private final Constant constantValue;
 
     public ConstantValue(int name_index, int length, DataInput input, ConstantPool constant_pool) throws IOException {
         this(name_index, length, input.readUnsignedShort(), constant_pool);
@@ -26,11 +16,20 @@ public class ConstantValue extends Attribute {
     public ConstantValue(int name_index, int length, int constantValueIndex, ConstantPool constant_pool) {
         super(ClassFileAttributes.ATTR_CONSTANT_VALUE, name_index, length, constant_pool);
         this.constantValueIndex = constantValueIndex;
-        this.constantValue = constant_pool.getConstant(constantValueIndex);
     }
 
-    public Constant getConstantValue() {
-        return constantValue;
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        ConstantValue other = (ConstantValue) obj;
+        if (constantValueIndex != other.constantValueIndex)
+            return false;
+        return true;
     }
 
     public int getConstantValueIndex() {
@@ -38,19 +37,15 @@ public class ConstantValue extends Attribute {
     }
 
     @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + constantValueIndex;
+        return result;
+    }
+
+    @Override
     public String toString() {
-        String buf = switch (constantValue.getTag()) {
-            case CONSTANT_Long -> String.valueOf(((ConstantLong) constantValue).getBytes());
-            case CONSTANT_Float -> String.valueOf(((ConstantFloat) constantValue).getBytes());
-            case CONSTANT_Double -> String.valueOf(((ConstantDouble) constantValue).getBytes());
-            case CONSTANT_Integer -> String.valueOf(((ConstantInteger) constantValue).getBytes());
-            case CONSTANT_String -> {
-                int i = ((ConstantString) constantValue).getStringIndex();
-                Constant c = super.getConstantPool().getConstant(i, ClassFileConstants.CONSTANT_Utf8);
-                yield "\"" + Utility.convertString(((ConstantUtf8) c).getBytes()) + "\"";
-            }
-            default -> throw new IllegalStateException("Type of ConstValue invalid: " + constantValue);
-        };
-        return buf;
+        return "ConstantValue [constantValueIndex=" + constantValueIndex + "]";
     }
 }

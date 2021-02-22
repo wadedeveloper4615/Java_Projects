@@ -8,9 +8,6 @@ import com.wade.decompiler.constants.ExceptionConst;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
 public class PUTFIELD extends FieldInstruction implements PopInstruction, ExceptionThrower {
-    public PUTFIELD() {
-    }
-
     public PUTFIELD(int index, ConstantPool cp) {
         super(InstructionOpCodes.PUTFIELD, cp, index);
     }

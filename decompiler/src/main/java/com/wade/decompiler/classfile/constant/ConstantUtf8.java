@@ -14,6 +14,14 @@ public class ConstantUtf8 extends Constant {
         this.value = dataInput.readUTF();
     }
 
+    public ConstantUtf8(final String value) {
+        super(ClassFileConstants.CONSTANT_Utf8);
+        if (value == null) {
+            throw new IllegalArgumentException("Value must not be null.");
+        }
+        this.value = value;
+    }
+
     public String getBytes() {
         return value;
     }

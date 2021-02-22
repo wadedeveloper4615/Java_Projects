@@ -6,9 +6,6 @@ import com.wade.decompiler.constants.ExceptionConst;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
 public class INVOKESPECIAL extends InvokeInstruction {
-    public INVOKESPECIAL() {
-    }
-
     public INVOKESPECIAL(int index, ConstantPool cp) {
         super(InstructionOpCodes.INVOKESPECIAL, index, cp);
     }

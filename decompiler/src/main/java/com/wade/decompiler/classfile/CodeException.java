@@ -41,22 +41,6 @@ public class CodeException implements Constants {
         return startPc;
     }
 
-    public void setCatchType(int catchType) {
-        this.catchType = catchType;
-    }
-
-    public void setEndPC(int endPc) {
-        this.endPc = endPc;
-    }
-
-    public void setHandlerPC(int handlerPc) { // TODO unused
-        this.handlerPc = handlerPc;
-    }
-
-    public void setStartPC(int startPc) { // TODO unused
-        this.startPc = startPc;
-    }
-
     @Override
     public String toString() {
         return "CodeException(startPc = " + startPc + ", endPc = " + endPc + ", handlerPc = " + handlerPc + ", catchType = " + catchType + ")";

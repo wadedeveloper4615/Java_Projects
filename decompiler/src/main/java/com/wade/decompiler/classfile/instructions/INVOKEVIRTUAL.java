@@ -6,9 +6,6 @@ import com.wade.decompiler.constants.ExceptionConst;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
 public class INVOKEVIRTUAL extends InvokeInstruction {
-    public INVOKEVIRTUAL() {
-    }
-
     public INVOKEVIRTUAL(int index, ConstantPool cp) {
         super(InstructionOpCodes.INVOKEVIRTUAL, index, cp);
     }

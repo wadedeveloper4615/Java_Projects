@@ -4,7 +4,7 @@ import java.io.InputStream;
 
 import com.wade.decompiler.classfile.ClassParser;
 import com.wade.decompiler.classfile.JavaClass;
-import com.wade.decompiler.gen.JavaClassGen;
+import com.wade.decompiler.generate.JavaClassGen;
 
 public class Decompiler {
     private void decompile(JavaClass javaClass) {
@@ -17,6 +17,7 @@ public class Decompiler {
         try {
             Class<Decompiler> c = Decompiler.class;
             String resource = "/com/wade/decompiler/test/Test1.class";
+            // String resource = "/java/lang/Object.class";
             InputStream rs = c.getResourceAsStream(resource);
             JavaClass javaClass = new ClassParser(rs, "Test1.class").parse();
             new Decompiler().decompile(javaClass);

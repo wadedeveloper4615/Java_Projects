@@ -61,6 +61,22 @@ public abstract class FieldOrMethod {
         return true;
     }
 
+    public int getAccessFlags() {
+        return accessFlags;
+    }
+
+    public Attribute[] getAttributes() {
+        return attributes;
+    }
+
+    public int getNameIndex() {
+        return nameIndex;
+    }
+
+    public int getSignatureIndex() {
+        return signatureIndex;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;

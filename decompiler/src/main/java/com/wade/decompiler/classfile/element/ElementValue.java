@@ -69,7 +69,6 @@ public abstract class ElementValue {
             case CLASS:
                 return new ClassElementValue(CLASS, input.readUnsignedShort(), cpool);
             case ANNOTATION:
-                // TODO isRuntimeVisible
                 return new AnnotationElementValue(ANNOTATION, AnnotationEntry.read(input, cpool, false), cpool);
             case ARRAY:
                 int numArrayVals = input.readUnsignedShort();

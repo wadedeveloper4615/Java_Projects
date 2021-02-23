@@ -135,6 +135,6 @@ public class Code extends Attribute {
 
     @Override
     public String toString() {
-        return "Code [maxStack=" + maxStack + ", maxLocals=" + maxLocals + ", byteCode=" + Arrays.toString(byteCode) + ", exceptionTable=" + Arrays.toString(exceptionTable) + ", attributes=" + Arrays.toString(attributes) + "]";
+        return "Code [maxStack=" + maxStack + ", maxLocals=" + maxLocals + ", exceptionTable=" + Arrays.toString(exceptionTable) + ", attributes=" + Arrays.toString(attributes) + "]";
     }
 }

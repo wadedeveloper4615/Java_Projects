@@ -5,10 +5,12 @@ import java.util.Arrays;
 import com.wade.decompiler.classfile.Field;
 import com.wade.decompiler.classfile.JavaClass;
 import com.wade.decompiler.classfile.Method;
+import com.wade.decompiler.classfile.attribute.Attribute;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.ClassAccessFlagsList;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.enums.Version;
+import com.wade.decompiler.util.Utility;
 
 public class JavaClassGen {
     private String className;
@@ -19,6 +21,7 @@ public class JavaClassGen {
     private String[] interfaceNames;
     private FieldGen[] fields;
     private MethodGen[] methods;
+    private Attribute[] attributes;
 
     public JavaClassGen(JavaClass javaClass) {
         ConstantPool constantPool = javaClass.getConstantPool();
@@ -45,6 +48,8 @@ public class JavaClassGen {
         for (int i = 0; i < methods.length; i++) {
             this.methods[i] = new MethodGen(methods[i], constantPool);
         }
+
+        this.attributes = javaClass.getAttributes();
     }
 
     @Override
@@ -60,6 +65,8 @@ public class JavaClassGen {
             if (other.accessFlags != null)
                 return false;
         } else if (!accessFlags.equals(other.accessFlags))
+            return false;
+        if (!Arrays.equals(attributes, other.attributes))
             return false;
         if (className == null) {
             if (other.className != null)
@@ -89,6 +96,10 @@ public class JavaClassGen {
 
     public ClassAccessFlagsList getAccessFlags() {
         return accessFlags;
+    }
+
+    public Attribute[] getAttributes() {
+        return attributes;
     }
 
     public String getClassName() {
@@ -124,6 +135,7 @@ public class JavaClassGen {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((accessFlags == null) ? 0 : accessFlags.hashCode());
+        result = prime * result + Arrays.hashCode(attributes);
         result = prime * result + ((className == null) ? 0 : className.hashCode());
         result = prime * result + Arrays.hashCode(fields);
         result = prime * result + ((filename == null) ? 0 : filename.hashCode());
@@ -136,6 +148,6 @@ public class JavaClassGen {
 
     @Override
     public String toString() {
-        return "JavaClassGen [className=" + className + ", superClassName=" + superClassName + ", filename=" + filename + ", version=" + version + ", accessFlags=" + accessFlags + ", interfaceNames=" + Arrays.toString(interfaceNames) + ", fields=" + Arrays.toString(fields) + ", methods=" + Arrays.toString(methods) + "]";
+        return "JavaClassGen [\n\tclassName=" + className + ",\n\tsuperClassName=" + superClassName + ",\n\tfilename=" + filename + ",\n\tversion=" + version + ",\n\taccessFlags=" + accessFlags + ",\n\tinterfaceNames=" + Utility.toString(interfaceNames) + ",\n\tfields=" + Utility.toString(fields) + ",\n\tmethods=" + Utility.toString(methods) + ",\n\tattributes=" + Utility.toString(attributes) + "\n]";
     }
 }

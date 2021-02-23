@@ -1,5 +1,6 @@
 package com.wade.decompiler.generate;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 import com.wade.decompiler.classfile.FieldOrMethod;
@@ -8,18 +9,23 @@ import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.constant.ConstantUtf8;
 import com.wade.decompiler.enums.ClassAccessFlagsList;
 import com.wade.decompiler.enums.ClassFileConstants;
+import com.wade.decompiler.generate.attribute.AttributeGen;
 
 public class FieldOrMethodGen {
     protected String name;
     protected String signature;
     protected ClassAccessFlagsList accessFlags;
-    protected Attribute[] attributes;
+    protected AttributeGen[] attributes;
 
-    public FieldOrMethodGen(FieldOrMethod value, ConstantPool constantPool) {
+    public FieldOrMethodGen(FieldOrMethod value, ConstantPool constantPool) throws IOException {
         this.name = ((ConstantUtf8) constantPool.getConstant(value.getNameIndex(), ClassFileConstants.CONSTANT_Utf8)).getBytes();
         this.signature = ((ConstantUtf8) constantPool.getConstant(value.getSignatureIndex(), ClassFileConstants.CONSTANT_Utf8)).getBytes();
         this.accessFlags = new ClassAccessFlagsList(value.getAccessFlags());
-        this.attributes = value.getAttributes();
+        Attribute[] attributes = value.getAttributes();
+        this.attributes = new AttributeGen[attributes.length];
+        for (int i = 0; i < attributes.length; i++) {
+            this.attributes[i] = AttributeGen.readAttribute(attributes[i], constantPool);
+        }
     }
 
     @Override
@@ -55,7 +61,7 @@ public class FieldOrMethodGen {
         return accessFlags;
     }
 
-    public Attribute[] getAttributes() {
+    public AttributeGen[] getAttributes() {
         return attributes;
     }
 

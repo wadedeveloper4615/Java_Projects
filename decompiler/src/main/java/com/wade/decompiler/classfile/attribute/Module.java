@@ -84,6 +84,42 @@ public class Module extends Attribute {
         return true;
     }
 
+    public ModuleExports[] getExportsTable() {
+        return exportsTable;
+    }
+
+    public int getModuleFlags() {
+        return moduleFlags;
+    }
+
+    public int getModuleNameIndex() {
+        return moduleNameIndex;
+    }
+
+    public int getModuleVersionIndex() {
+        return moduleVersionIndex;
+    }
+
+    public ModuleOpens[] getOpensTable() {
+        return opensTable;
+    }
+
+    public ModuleProvides[] getProvidesTable() {
+        return providesTable;
+    }
+
+    public ModuleRequires[] getRequiresTable() {
+        return requiresTable;
+    }
+
+    public int getUsesCount() {
+        return usesCount;
+    }
+
+    public int[] getUsesIndex() {
+        return usesIndex;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;

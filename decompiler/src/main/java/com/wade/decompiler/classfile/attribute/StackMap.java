@@ -2,6 +2,7 @@ package com.wade.decompiler.classfile.attribute;
 
 import java.io.DataInput;
 import java.io.IOException;
+import java.util.Arrays;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.ClassFileAttributes;
@@ -23,12 +24,34 @@ public class StackMap extends Attribute {
         this.map = map;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        StackMap other = (StackMap) obj;
+        if (!Arrays.equals(map, other.map))
+            return false;
+        return true;
+    }
+
     public int getMapLength() {
         return map == null ? 0 : map.length;
     }
 
     public StackMapEntry[] getStackMap() {
         return map;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + Arrays.hashCode(map);
+        return result;
     }
 
     @Override

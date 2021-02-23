@@ -40,6 +40,22 @@ public class ModuleOpens {
         return true;
     }
 
+    public int getOpensFlags() {
+        return opensFlags;
+    }
+
+    public int getOpensIndex() {
+        return opensIndex;
+    }
+
+    public int getOpensToCount() {
+        return opensToCount;
+    }
+
+    public int[] getOpensToIndex() {
+        return opensToIndex;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;

@@ -19,6 +19,27 @@ public class MethodParameter {
         name = ((ConstantUtf8) constant_pool.getConstant(nameIndex, ClassFileConstants.CONSTANT_Utf8)).getBytes();
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        MethodParameter other = (MethodParameter) obj;
+        if (accessFlags != other.accessFlags)
+            return false;
+        if (name == null) {
+            if (other.name != null)
+                return false;
+        } else if (!name.equals(other.name))
+            return false;
+        if (nameIndex != other.nameIndex)
+            return false;
+        return true;
+    }
+
     public ClassAccessFlags getAccessFlags() {
         return accessFlags;
     }
@@ -29,6 +50,16 @@ public class MethodParameter {
 
     public int getNameIndex() {
         return nameIndex;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((accessFlags == null) ? 0 : accessFlags.hashCode());
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + nameIndex;
+        return result;
     }
 
     public boolean isAbstract() {
@@ -93,5 +124,10 @@ public class MethodParameter {
 
     public boolean isVolatile() {
         return accessFlags.isVolatile();
+    }
+
+    @Override
+    public String toString() {
+        return "MethodParameter [nameIndex=" + nameIndex + ", accessFlags=" + accessFlags + ", name=" + name + "]";
     }
 }

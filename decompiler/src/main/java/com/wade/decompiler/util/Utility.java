@@ -381,33 +381,33 @@ public abstract class Utility {
         return str;
     }
 
-//    public static String convertString(String label) {
-//        char[] ch = label.toCharArray();
-//        StringBuilder buf = new StringBuilder();
-//        for (char element : ch) {
-//            switch (element) {
-//                case '\n':
-//                    buf.append("\\n");
-//                    break;
-//                case '\r':
-//                    buf.append("\\r");
-//                    break;
-//                case '\"':
-//                    buf.append("\\\"");
-//                    break;
-//                case '\'':
-//                    buf.append("\\'");
-//                    break;
-//                case '\\':
-//                    buf.append("\\\\");
-//                    break;
-//                default:
-//                    buf.append(element);
-//                    break;
-//            }
-//        }
-//        return buf.toString();
-//    }
+    public static String convertString(String label) {
+        char[] ch = label.toCharArray();
+        StringBuilder buf = new StringBuilder();
+        for (char element : ch) {
+            switch (element) {
+                case '\n':
+                    buf.append("\\n");
+                    break;
+                case '\r':
+                    buf.append("\\r");
+                    break;
+                case '\"':
+                    buf.append("\\\"");
+                    break;
+                case '\'':
+                    buf.append("\\'");
+                    break;
+                case '\\':
+                    buf.append("\\\\");
+                    break;
+                default:
+                    buf.append(element);
+                    break;
+            }
+        }
+        return buf.toString();
+    }
 //
 //    private static int countBrackets(String brackets) {
 //        char[] chars = brackets.toCharArray();

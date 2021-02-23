@@ -34,6 +34,29 @@ public class InnerClass {
         this.innerAccessFlags = new ClassAccessFlagsList(innerAccessFlags);
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        InnerClass other = (InnerClass) obj;
+        if (innerAccessFlags == null) {
+            if (other.innerAccessFlags != null)
+                return false;
+        } else if (!innerAccessFlags.equals(other.innerAccessFlags))
+            return false;
+        if (innerClassIndex != other.innerClassIndex)
+            return false;
+        if (innerNameIndex != other.innerNameIndex)
+            return false;
+        if (outerClassIndex != other.outerClassIndex)
+            return false;
+        return true;
+    }
+
     public ClassAccessFlagsList getInnerAccessFlags() {
         return innerAccessFlags;
     }
@@ -48,6 +71,17 @@ public class InnerClass {
 
     public int getOuterClassIndex() {
         return outerClassIndex;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((innerAccessFlags == null) ? 0 : innerAccessFlags.hashCode());
+        result = prime * result + innerClassIndex;
+        result = prime * result + innerNameIndex;
+        result = prime * result + outerClassIndex;
+        return result;
     }
 
     @Override

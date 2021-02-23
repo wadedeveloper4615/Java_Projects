@@ -9,9 +9,9 @@ public class ModuleRequires {
     private int requiresVersionIndex;
 
     public ModuleRequires(DataInput file) throws IOException {
-        requiresIndex = file.readUnsignedShort();
-        requiresFlags = file.readUnsignedShort();
-        requiresVersionIndex = file.readUnsignedShort();
+        this.requiresIndex = file.readUnsignedShort();
+        this.requiresFlags = file.readUnsignedShort();
+        this.requiresVersionIndex = file.readUnsignedShort();
     }
 
     @Override
@@ -32,6 +32,18 @@ public class ModuleRequires {
         return true;
     }
 
+    public int getRequiresFlags() {
+        return requiresFlags;
+    }
+
+    public int getRequiresIndex() {
+        return requiresIndex;
+    }
+
+    public int getRequiresVersionIndex() {
+        return requiresVersionIndex;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -40,5 +52,10 @@ public class ModuleRequires {
         result = prime * result + requiresIndex;
         result = prime * result + requiresVersionIndex;
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "ModuleRequires [requiresIndex=" + requiresIndex + ", requiresFlags=" + requiresFlags + ", requiresVersionIndex=" + requiresVersionIndex + "]";
     }
 }

@@ -1,5 +1,6 @@
 package com.wade.decompiler.generate;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 import com.wade.decompiler.classfile.Field;
@@ -10,6 +11,7 @@ import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.ClassAccessFlagsList;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.enums.Version;
+import com.wade.decompiler.generate.attribute.AttributeGen;
 import com.wade.decompiler.util.Utility;
 
 public class JavaClassGen {
@@ -21,9 +23,9 @@ public class JavaClassGen {
     private String[] interfaceNames;
     private FieldGen[] fields;
     private MethodGen[] methods;
-    private Attribute[] attributes;
+    private AttributeGen[] attributes;
 
-    public JavaClassGen(JavaClass javaClass) {
+    public JavaClassGen(JavaClass javaClass) throws IOException {
         ConstantPool constantPool = javaClass.getConstantPool();
         this.className = constantPool.constantToString(javaClass.getClassNameIndex(), ClassFileConstants.CONSTANT_Class);
         this.superClassName = constantPool.constantToString(javaClass.getSuperclassNameIndex(), ClassFileConstants.CONSTANT_Class);
@@ -49,7 +51,11 @@ public class JavaClassGen {
             this.methods[i] = new MethodGen(methods[i], constantPool);
         }
 
-        this.attributes = javaClass.getAttributes();
+        Attribute[] attributes = javaClass.getAttributes();
+        this.attributes = new AttributeGen[attributes.length];
+        for (int i = 0; i < attributes.length; i++) {
+            this.attributes[i] = new AttributeGen(attributes[i], constantPool);
+        }
     }
 
     @Override
@@ -98,7 +104,7 @@ public class JavaClassGen {
         return accessFlags;
     }
 
-    public Attribute[] getAttributes() {
+    public AttributeGen[] getAttributes() {
         return attributes;
     }
 

@@ -40,6 +40,22 @@ public class ModuleExports {
         return true;
     }
 
+    public int getExportsFlags() {
+        return exportsFlags;
+    }
+
+    public int getExportsIndex() {
+        return exportsIndex;
+    }
+
+    public int getExportsToCount() {
+        return exportsToCount;
+    }
+
+    public int[] getExportsToIndex() {
+        return exportsToIndex;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -49,5 +65,10 @@ public class ModuleExports {
         result = prime * result + exportsToCount;
         result = prime * result + Arrays.hashCode(exportsToIndex);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "ModuleExports [exportsIndex=" + exportsIndex + ", exportsFlags=" + exportsFlags + ", exportsToCount=" + exportsToCount + ", exportsToIndex=" + Arrays.toString(exportsToIndex) + "]";
     }
 }

@@ -2,15 +2,13 @@ package com.wade.decompiler.classfile.attribute;
 
 import java.io.DataInput;
 import java.io.IOException;
+import java.util.Arrays;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.ClassFileAttributes;
-import com.wade.decompiler.enums.ClassFileConstants;
-import com.wade.decompiler.util.Utility;
 
 public class ModulePackages extends Attribute {
     private int[] packageIndexTable;
-    private String[] packageIndexNames;
 
     public ModulePackages(int name_index, int length, DataInput input, ConstantPool constantPool) throws IOException {
         this(name_index, length, (int[]) null, constantPool);
@@ -19,51 +17,41 @@ public class ModulePackages extends Attribute {
         for (int i = 0; i < number_of_packages; i++) {
             packageIndexTable[i] = input.readUnsignedShort();
         }
-        packageIndexNames = new String[packageIndexTable.length];
-        for (int i = 0; i < packageIndexTable.length; i++) {
-            packageIndexNames[i] = constantPool.getConstantString(packageIndexTable[i], ClassFileConstants.CONSTANT_Package).replace('/', '.');
-        }
     }
 
     public ModulePackages(int nameIndex, int length, int[] packageIndexTable, ConstantPool constantPool) {
         super(ClassFileAttributes.ATTR_MODULE_PACKAGES, nameIndex, length, constantPool);
         this.packageIndexTable = packageIndexTable != null ? packageIndexTable : new int[0];
-        packageIndexNames = new String[packageIndexTable.length];
-        for (int i = 0; i < packageIndexTable.length; i++) {
-            packageIndexNames[i] = constantPool.getConstantString(packageIndexTable[i], ClassFileConstants.CONSTANT_Package).replace('/', '.');
-        }
     }
 
-    public int getNumberOfPackages() {
-        return packageIndexTable == null ? 0 : packageIndexTable.length;
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        ModulePackages other = (ModulePackages) obj;
+        if (!Arrays.equals(packageIndexTable, other.packageIndexTable))
+            return false;
+        return true;
     }
 
     public int[] getPackageIndexTable() {
         return packageIndexTable;
     }
 
-    public String[] getPackageNames() {
-        String[] names = new String[packageIndexTable.length];
-        for (int i = 0; i < packageIndexTable.length; i++) {
-            names[i] = super.getConstantPool().getConstantString(packageIndexTable[i], ClassFileConstants.CONSTANT_Package).replace('/', '.');
-        }
-        return names;
-    }
-
-    public void setPackageIndexTable(int[] packageIndexTable) {
-        this.packageIndexTable = packageIndexTable != null ? packageIndexTable : new int[0];
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + Arrays.hashCode(packageIndexTable);
+        return result;
     }
 
     @Override
     public String toString() {
-        StringBuilder buf = new StringBuilder();
-        buf.append("ModulePackages(");
-        buf.append(packageIndexTable.length);
-        buf.append("):\n");
-        for (int index : packageIndexTable) {
-            String package_name = super.getConstantPool().getConstantString(index, ClassFileConstants.CONSTANT_Package);
-            buf.append("  ").append(Utility.compactClassName(package_name, false)).append("\n");
-        }
-        return buf.substring(0, buf.length() - 1); // remove the last newline
+        return "ModulePackages [packageIndexTable=" + Arrays.toString(packageIndexTable) + "]";
     }
 }

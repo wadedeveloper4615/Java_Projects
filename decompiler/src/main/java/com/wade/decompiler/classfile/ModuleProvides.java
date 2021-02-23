@@ -36,6 +36,18 @@ public class ModuleProvides {
         return true;
     }
 
+    public int getProvidesIndex() {
+        return providesIndex;
+    }
+
+    public int getProvidesWithCount() {
+        return providesWithCount;
+    }
+
+    public int[] getProvidesWithIndex() {
+        return providesWithIndex;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -44,5 +56,10 @@ public class ModuleProvides {
         result = prime * result + providesWithCount;
         result = prime * result + Arrays.hashCode(providesWithIndex);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "ModuleProvides [providesIndex=" + providesIndex + ", providesWithCount=" + providesWithCount + ", providesWithIndex=" + Arrays.toString(providesWithIndex) + "]";
     }
 }

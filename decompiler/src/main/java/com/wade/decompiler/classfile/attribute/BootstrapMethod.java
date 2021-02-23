@@ -30,6 +30,22 @@ public class BootstrapMethod {
         this.bootstrapArguments = bootstrapArguments;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        BootstrapMethod other = (BootstrapMethod) obj;
+        if (!Arrays.equals(bootstrapArguments, other.bootstrapArguments))
+            return false;
+        if (bootstrapMethodRef != other.bootstrapMethodRef)
+            return false;
+        return true;
+    }
+
     public int[] getBootstrapArguments() {
         return bootstrapArguments;
     }
@@ -43,8 +59,17 @@ public class BootstrapMethod {
     }
 
     @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + Arrays.hashCode(bootstrapArguments);
+        result = prime * result + bootstrapMethodRef;
+        return result;
+    }
+
+    @Override
     public String toString() {
-        return "BootstrapMethod(" + bootstrapMethodRef + ", " + bootstrapArguments.length + ", " + Arrays.toString(bootstrapArguments) + ")";
+        return "BootstrapMethod [bootstrapMethodRef=" + bootstrapMethodRef + ", bootstrapArguments=" + Arrays.toString(bootstrapArguments) + "]";
     }
 
     public String toString(ConstantPool constantPool) {

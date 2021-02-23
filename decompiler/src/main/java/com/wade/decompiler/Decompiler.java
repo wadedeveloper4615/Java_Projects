@@ -7,7 +7,7 @@ import com.wade.decompiler.classfile.JavaClass;
 import com.wade.decompiler.generate.JavaClassGen;
 
 public class Decompiler {
-    private void decompile(JavaClass javaClass) {
+    private void decompile(JavaClass javaClass) throws Exception {
         JavaClassGen jgen = new JavaClassGen(javaClass);
         System.out.println(javaClass.toString());
         System.out.println(jgen.toString());

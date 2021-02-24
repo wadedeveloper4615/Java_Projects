@@ -1,6 +1,8 @@
 package com.wade.decompiler.decompiler;
 
 import com.wade.decompiler.classfile.instructions.base.Instruction;
+import com.wade.decompiler.enums.ClassAccessFlags;
+import com.wade.decompiler.enums.ClassAccessFlagsList;
 import com.wade.decompiler.generate.FieldGen;
 import com.wade.decompiler.generate.JavaClassGen;
 import com.wade.decompiler.generate.MethodGen;
@@ -14,8 +16,11 @@ public class JavaClassFileDecompiler {
 
     public JavaClassFileDecompiler(JavaClassGen jgen) {
         this.jgen = jgen;
-        String access = Utility.accessToString(jgen.getAccessFlags(), true);
-        String type = Utility.classOrInterface(jgen.getAccessFlags());
+        ClassAccessFlagsList accessFlags = jgen.getAccessFlags();
+        boolean isAbstract = accessFlags.isAbstract();
+        boolean isAnnotation = accessFlags.isAnnotation();
+        String type = Utility.classType(accessFlags);
+        String access = Utility.accessToString(accessFlags, true);
         String fileBase = String.format("%s %s %s extends %s", access, type, jgen.getClassName(), jgen.getSuperClassName());
         String[] interfaceNames = jgen.getInterfaceNames();
         int size = interfaceNames.length;
@@ -29,26 +34,30 @@ public class JavaClassFileDecompiler {
             }
         }
         System.out.println("/*");
+        System.out.println("\tFilename = " + jgen.getFilename());
+        System.out.println("\tVersion=" + jgen.getVersion());
         System.out.println(jgen.getConstantPool().toString("\t"));
         System.out.println("*/");
         System.out.println(fileBase + " {");
         deompileFields(jgen.getFields());
         System.out.println();
-        deompileMethods(jgen.getMethods());
+        deompileMethods(jgen.getMethods(), isAbstract, isAnnotation);
         System.out.println("}");
     }
 
     private void decompileInstructions(CodeGen codeGen, LocalVariableTableGen localVariables) {
         System.out.println("\t\t/*");
-        System.out.println("\t\t\tlength     = " + codeGen.getLength());
-        System.out.println("\t\t\tmax locals = " + codeGen.getMaxLocals());
-        System.out.println("\t\t\tmax stack  = " + codeGen.getMaxStack());
-        for (LocalVariableGen lv : localVariables.getLocalVariableTable()) {
-            System.out.println("\t\t\t" + lv.toString());
-        }
-        System.out.println();
-        for (Instruction instr : codeGen.getInstructions()) {
-            System.out.println("\t\t\t" + instr.toString());
+        if (codeGen != null) {
+            System.out.println("\t\t\tlength     = " + codeGen.getLength());
+            System.out.println("\t\t\tmax locals = " + codeGen.getMaxLocals());
+            System.out.println("\t\t\tmax stack  = " + codeGen.getMaxStack());
+            for (LocalVariableGen lv : localVariables.getLocalVariableTable()) {
+                System.out.println("\t\t\t" + lv.toString());
+            }
+            System.out.println();
+            for (Instruction instr : codeGen.getInstructions()) {
+                System.out.println("\t\t\t" + instr.toString());
+            }
         }
         System.out.println("\t\t*/");
     }
@@ -67,9 +76,13 @@ public class JavaClassFileDecompiler {
         }
     }
 
-    private void deompileMethods(MethodGen[] methods) {
+    private void deompileMethods(MethodGen[] methods, boolean isAbstract, boolean isAnnotation) {
         for (MethodGen mg : methods) {
-            String access = Utility.accessToString(mg.getAccessFlags(), true);
+            ClassAccessFlagsList flags = mg.getAccessFlags();
+            if (isAbstract || isAnnotation) {
+                flags.remove(ClassAccessFlags.ACC_ABSTRACT);
+            }
+            String access = Utility.accessToString(flags, true);
             String name = mg.getName();
             boolean constructor = false;
             if (name.equals("<init>")) {
@@ -77,11 +90,14 @@ public class JavaClassFileDecompiler {
                 constructor = true;
             }
             String signature = Utility.methodSignatureToString(mg.getSignature(), name, access, true, mg.getLocalVariableTable(), constructor);
-            System.out.println("\t" + signature + "{");
-            decompileInstructions(mg.getCode(), mg.getLocalVariableTable());
-            System.out.println("\t}");
+            if (!(isAbstract || isAnnotation)) {
+                System.out.println("\t" + signature + "{");
+                decompileInstructions(mg.getCode(), mg.getLocalVariableTable());
+                System.out.println("\t}");
+            } else {
+                System.out.println("\t" + signature);
+            }
             System.out.println();
         }
-
     }
 }

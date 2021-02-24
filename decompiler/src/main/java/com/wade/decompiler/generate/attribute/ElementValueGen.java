@@ -23,11 +23,9 @@ public class ElementValueGen {
     public static final byte PRIMITIVE_SHORT = 'S';
     public static final byte PRIMITIVE_BOOLEAN = 'Z';
     protected int type;
-    private ConstantPool cpool;
 
     protected ElementValueGen(int type, ConstantPool cpool) {
         this.type = type;
-        this.cpool = cpool;
     }
 
     @Override

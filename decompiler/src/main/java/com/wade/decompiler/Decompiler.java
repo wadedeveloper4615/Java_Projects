@@ -11,11 +11,14 @@ public class Decompiler {
     private void decompile(JavaClass javaClass) throws Exception {
         JavaClassGen jgen = new JavaClassGen(javaClass);
         JavaClassFileDecompiler jcfd = new JavaClassFileDecompiler(jgen);
+        jcfd.toString();
     }
 
     public static void main(String[] argv) {
         try {
             Class<Decompiler> c = Decompiler.class;
+            // String resource = "/com/wade/decompiler/test/MyCustomAnnotation.class";
+            // String resource = "/com/wade/decompiler/test/Test2.class";
             String resource = "/com/wade/decompiler/test/Test1.class";
             // String resource = "/java/lang/Object.class";
             InputStream rs = c.getResourceAsStream(resource);

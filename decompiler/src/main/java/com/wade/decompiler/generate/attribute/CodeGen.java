@@ -24,7 +24,6 @@ public class CodeGen extends AttributeGen {
         this.maxStack = attribute.getMaxStack();
         this.maxLocals = attribute.getMaxLocals();
         this.codeException = attribute.getExceptionTable();
-        this.instructions = new InstructionList(attribute.getByteCode(), constantPool).getInstructions();
         Attribute[] attributes = attribute.getAttributes();
         this.attributes = new AttributeGen[attributes.length];
         for (int i = 0; i < attributes.length; i++) {
@@ -36,6 +35,7 @@ public class CodeGen extends AttributeGen {
                 localVariableTable = (LocalVariableTableGen) this.attributes[i];
             }
         }
+        this.instructions = new InstructionList(attribute.getByteCode(), localVariableTable, constantPool).getInstructions();
     }
 
     @Override

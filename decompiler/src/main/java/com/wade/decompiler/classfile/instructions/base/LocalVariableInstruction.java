@@ -14,6 +14,8 @@ import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.constants.Const;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.enums.InstructionOpCodes;
+import com.wade.decompiler.generate.attribute.LocalVariableGen;
+import com.wade.decompiler.generate.attribute.LocalVariableTableGen;
 import com.wade.decompiler.util.ByteSequence;
 
 public abstract class LocalVariableInstruction extends Instruction implements TypedInstruction, IndexedInstruction {
@@ -25,6 +27,7 @@ public abstract class LocalVariableInstruction extends Instruction implements Ty
     private String signature;
     private Object constantValue;
     private String constantString;
+    protected LocalVariableGen localVariable;
 
     public LocalVariableInstruction() {
     }
@@ -35,11 +38,15 @@ public abstract class LocalVariableInstruction extends Instruction implements Ty
         this.cTag = c_tag;
     }
 
-    protected LocalVariableInstruction(InstructionOpCodes opcode, InstructionOpCodes cTag, int n, ConstantPool constantPool) {
+    protected LocalVariableInstruction(InstructionOpCodes opcode, InstructionOpCodes cTag, int n, LocalVariableTableGen localVariableTable, ConstantPool constantPool) {
         super(opcode, 2, constantPool);
         this.cTag = cTag;
         this.canonTag = opcode;
         setIndex(n);
+        LocalVariableGen[] localVariableTableEntries = localVariableTable.getLocalVariableTable();
+        if (localVariableTableEntries != null && localVariableTableEntries.length > n) {
+            localVariable = localVariableTableEntries[n];
+        }
     }
 
     private void extractConstantPoolInfo(Constant c) {
@@ -73,7 +80,8 @@ public abstract class LocalVariableInstruction extends Instruction implements Ty
         } else if (c instanceof ConstantLong) {
             constantValue = ((ConstantLong) c).getConstantValue(constantPool);
         } else {
-            System.out.println(c.getClass().getName());
+            if (c != null)
+                System.out.println(c.getClass().getName());
         }
     }
 
@@ -100,6 +108,10 @@ public abstract class LocalVariableInstruction extends Instruction implements Ty
     @Override
     public int getIndex() {
         return index;
+    }
+
+    public LocalVariableGen getLocalVariable() {
+        return localVariable;
     }
 
     public String getMethodName() {
@@ -194,7 +206,7 @@ public abstract class LocalVariableInstruction extends Instruction implements Ty
 
     @Override
     public String toString() {
-        return super.toString() + "[index=" + index + ", superName=" + superName + ", methodName=" + methodName + ", signature=" + signature + ", constantValue=" + constantValue + ", constantString=" + constantString + "]";
+        return super.toString() + "[localVariable=" + localVariable + "index=" + index + ", superName=" + superName + ", methodName=" + methodName + ", signature=" + signature + ", constantValue=" + constantValue + ", constantString=" + constantString + "]";
     }
 
     private boolean wide() {

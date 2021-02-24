@@ -180,5 +180,4 @@ class ClassAccessFlagsTest {
         flag.setFlag(6);
         assertTrue(flag.isVolatile());
     }
-
 }

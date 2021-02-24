@@ -71,10 +71,6 @@ public class MethodParameterGen {
         return accessFlags.isFinal();
     }
 
-    public boolean isFinalAndAbstract() {
-        return accessFlags.isFinalAndAbstract();
-    }
-
     public boolean isInterface() {
         return accessFlags.isInterface();
     }

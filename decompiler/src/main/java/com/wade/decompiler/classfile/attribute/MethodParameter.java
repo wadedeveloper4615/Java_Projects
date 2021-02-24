@@ -74,10 +74,6 @@ public class MethodParameter {
         return accessFlags.isEnum();
     }
 
-    public boolean isFinalAndAbstract() {
-        return accessFlags.isFinalAndAbstract();
-    }
-
     public boolean isInterface() {
         return accessFlags.isInterface();
     }

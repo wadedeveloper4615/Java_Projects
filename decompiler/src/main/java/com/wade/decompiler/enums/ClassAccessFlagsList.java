@@ -2,21 +2,11 @@ package com.wade.decompiler.enums;
 
 import java.io.DataInputStream;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ClassAccessFlagsList {
     private int flags;
     private List<ClassAccessFlags> flagsList;
-
-    public ClassAccessFlagsList() {
-    }
-
-    public ClassAccessFlagsList(ClassAccessFlagsList access_flags) {
-        this.flags = access_flags.getFlags();
-        this.flagsList = access_flags.getFlagsList();
-    }
 
     public ClassAccessFlagsList(DataInputStream dataInputStream) throws IOException {
         this.flags = dataInputStream.readUnsignedShort();
@@ -121,15 +111,17 @@ public class ClassAccessFlagsList {
         return hasFlag(ClassAccessFlags.ACC_VOLATILE);
     }
 
+    public boolean remove(Object o) {
+        boolean remove = flagsList.remove(o);
+        setFlags();
+        return remove;
+    }
+
     private void setFlags() {
         flags = 0;
         for (ClassAccessFlags v : flagsList) {
             flags |= v.getFlag();
         }
-    }
-
-    public void setFlags(int flags) {
-        this.flags = flags;
     }
 
     public void setFlagsList(List<ClassAccessFlags> flagsList) {
@@ -140,20 +132,5 @@ public class ClassAccessFlagsList {
     @Override
     public String toString() {
         return flagsList.toString();
-    }
-
-    public String toString(boolean for_class) {
-        Map<Integer, Boolean> map = new HashMap<>();
-        StringBuilder buf = new StringBuilder();
-        for (ClassAccessFlags p : flagsList) {
-            if (for_class && ((p == ClassAccessFlags.ACC_SUPER) || (p == ClassAccessFlags.ACC_INTERFACE))) {
-                continue;
-            }
-            if (map.get(p.getFlag()) == null) {
-                buf.append(p.getName()).append(" ");
-                map.put(p.getFlag(), Boolean.TRUE);
-            }
-        }
-        return buf.toString().trim();
     }
 }

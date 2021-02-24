@@ -5,6 +5,7 @@ import java.io.IOException;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.instructions.*;
 import com.wade.decompiler.enums.InstructionOpCodes;
+import com.wade.decompiler.generate.attribute.LocalVariableTableGen;
 import com.wade.decompiler.util.ByteSequence;
 
 public abstract class Instruction implements InstructionInit {
@@ -137,7 +138,7 @@ public abstract class Instruction implements InstructionInit {
         return "Instruction [opcode=" + opcode + "]";
     }
 
-    public static Instruction getInstructions(InstructionOpCodes opcode, ConstantPool cp) {
+    public static Instruction getInstructions(InstructionOpCodes opcode, LocalVariableTableGen localVariableTable, ConstantPool cp) {
         Instruction obj = switch (opcode) {
             case NOP -> new NOP(cp);
             case ACONST_NULL -> new ACONST_NULL(cp);
@@ -164,27 +165,27 @@ public abstract class Instruction implements InstructionInit {
             case LLOAD -> new LLOAD(cp);
             case FLOAD -> new FLOAD(cp);
             case DLOAD -> new DLOAD(cp);
-            case ALOAD -> new ALOAD(cp);
-            case ILOAD_0 -> new ILOAD(0, cp);
-            case ILOAD_1 -> new ILOAD(1, cp);
-            case ILOAD_2 -> new ILOAD(2, cp);
-            case ILOAD_3 -> new ILOAD(3, cp);
-            case LLOAD_0 -> new LLOAD(0, cp);
-            case LLOAD_1 -> new LLOAD(1, cp);
-            case LLOAD_2 -> new LLOAD(2, cp);
-            case LLOAD_3 -> new LLOAD(3, cp);
-            case FLOAD_0 -> new FLOAD(0, cp);
-            case FLOAD_1 -> new FLOAD(1, cp);
-            case FLOAD_2 -> new FLOAD(2, cp);
-            case FLOAD_3 -> new FLOAD(3, cp);
-            case DLOAD_0 -> new DLOAD(0, cp);
-            case DLOAD_1 -> new DLOAD(1, cp);
-            case DLOAD_2 -> new DLOAD(2, cp);
-            case DLOAD_3 -> new DLOAD(3, cp);
-            case ALOAD_0 -> new ALOAD(0, cp);
-            case ALOAD_1 -> new ALOAD(1, cp);
-            case ALOAD_2 -> new ALOAD(2, cp);
-            case ALOAD_3 -> new ALOAD(3, cp);
+            case ALOAD -> new ALOAD(localVariableTable, cp);
+            case ILOAD_0 -> new ILOAD(0, localVariableTable, cp);
+            case ILOAD_1 -> new ILOAD(1, localVariableTable, cp);
+            case ILOAD_2 -> new ILOAD(2, localVariableTable, cp);
+            case ILOAD_3 -> new ILOAD(3, localVariableTable, cp);
+            case LLOAD_0 -> new LLOAD(0, localVariableTable, cp);
+            case LLOAD_1 -> new LLOAD(1, localVariableTable, cp);
+            case LLOAD_2 -> new LLOAD(2, localVariableTable, cp);
+            case LLOAD_3 -> new LLOAD(3, localVariableTable, cp);
+            case FLOAD_0 -> new FLOAD(0, localVariableTable, cp);
+            case FLOAD_1 -> new FLOAD(1, localVariableTable, cp);
+            case FLOAD_2 -> new FLOAD(2, localVariableTable, cp);
+            case FLOAD_3 -> new FLOAD(3, localVariableTable, cp);
+            case DLOAD_0 -> new DLOAD(0, localVariableTable, cp);
+            case DLOAD_1 -> new DLOAD(1, localVariableTable, cp);
+            case DLOAD_2 -> new DLOAD(2, localVariableTable, cp);
+            case DLOAD_3 -> new DLOAD(3, localVariableTable, cp);
+            case ALOAD_0 -> new ALOAD(0, localVariableTable, cp);
+            case ALOAD_1 -> new ALOAD(1, localVariableTable, cp);
+            case ALOAD_2 -> new ALOAD(2, localVariableTable, cp);
+            case ALOAD_3 -> new ALOAD(3, localVariableTable, cp);
             case IALOAD -> new IALOAD(cp);
             case LALOAD -> new LALOAD(cp);
             case FALOAD -> new FALOAD(cp);
@@ -198,26 +199,26 @@ public abstract class Instruction implements InstructionInit {
             case FSTORE -> new FSTORE(cp);
             case DSTORE -> new DSTORE(cp);
             case ASTORE -> new ASTORE(cp);
-            case ISTORE_0 -> new ISTORE(0, cp);
-            case ISTORE_1 -> new ISTORE(1, cp);
-            case ISTORE_2 -> new ISTORE(2, cp);
-            case ISTORE_3 -> new ISTORE(3, cp);
-            case LSTORE_0 -> new LSTORE(0, cp);
-            case LSTORE_1 -> new LSTORE(1, cp);
-            case LSTORE_2 -> new LSTORE(2, cp);
-            case LSTORE_3 -> new LSTORE(3, cp);
-            case FSTORE_0 -> new FSTORE(0, cp);
-            case FSTORE_1 -> new FSTORE(1, cp);
-            case FSTORE_2 -> new FSTORE(2, cp);
-            case FSTORE_3 -> new FSTORE(3, cp);
-            case DSTORE_0 -> new DSTORE(0, cp);
-            case DSTORE_1 -> new DSTORE(1, cp);
-            case DSTORE_2 -> new DSTORE(2, cp);
-            case DSTORE_3 -> new DSTORE(3, cp);
-            case ASTORE_0 -> new ASTORE(0, cp);
-            case ASTORE_1 -> new ASTORE(1, cp);
-            case ASTORE_2 -> new ASTORE(2, cp);
-            case ASTORE_3 -> new ASTORE(3, cp);
+            case ISTORE_0 -> new ISTORE(0, localVariableTable, cp);
+            case ISTORE_1 -> new ISTORE(1, localVariableTable, cp);
+            case ISTORE_2 -> new ISTORE(2, localVariableTable, cp);
+            case ISTORE_3 -> new ISTORE(3, localVariableTable, cp);
+            case LSTORE_0 -> new LSTORE(0, localVariableTable, cp);
+            case LSTORE_1 -> new LSTORE(1, localVariableTable, cp);
+            case LSTORE_2 -> new LSTORE(2, localVariableTable, cp);
+            case LSTORE_3 -> new LSTORE(3, localVariableTable, cp);
+            case FSTORE_0 -> new FSTORE(0, localVariableTable, cp);
+            case FSTORE_1 -> new FSTORE(1, localVariableTable, cp);
+            case FSTORE_2 -> new FSTORE(2, localVariableTable, cp);
+            case FSTORE_3 -> new FSTORE(3, localVariableTable, cp);
+            case DSTORE_0 -> new DSTORE(0, localVariableTable, cp);
+            case DSTORE_1 -> new DSTORE(1, localVariableTable, cp);
+            case DSTORE_2 -> new DSTORE(2, localVariableTable, cp);
+            case DSTORE_3 -> new DSTORE(3, localVariableTable, cp);
+            case ASTORE_0 -> new ASTORE(0, localVariableTable, cp);
+            case ASTORE_1 -> new ASTORE(1, localVariableTable, cp);
+            case ASTORE_2 -> new ASTORE(2, localVariableTable, cp);
+            case ASTORE_3 -> new ASTORE(3, localVariableTable, cp);
             case IASTORE -> new IASTORE(cp);
             case LASTORE -> new LASTORE(cp);
             case FASTORE -> new FASTORE(cp);
@@ -356,14 +357,14 @@ public abstract class Instruction implements InstructionInit {
         return value >= Short.MIN_VALUE && value <= Short.MAX_VALUE;
     }
 
-    public static Instruction readInstruction(ByteSequence bytes, ConstantPool cp) throws IOException {
+    public static Instruction readInstruction(ByteSequence bytes, LocalVariableTableGen localVariableTable, ConstantPool cp) throws IOException {
         boolean wide = false;
         InstructionOpCodes opcode = InstructionOpCodes.read(bytes.readUnsignedByte());
         if (opcode == InstructionOpCodes.WIDE) {
             wide = true;
             opcode = InstructionOpCodes.read(bytes.readUnsignedByte());
         }
-        Instruction obj = getInstructions(opcode, cp);
+        Instruction obj = getInstructions(opcode, localVariableTable, cp);
         if (wide && !((obj instanceof LocalVariableInstruction) || (obj instanceof IINC) || (obj instanceof RET))) {
             throw new ClassGenException("Illegal opcode after wide: " + opcode);
         }

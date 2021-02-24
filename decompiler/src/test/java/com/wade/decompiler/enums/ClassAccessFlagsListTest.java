@@ -4,10 +4,25 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.when;
 
+import java.io.DataInputStream;
+import java.io.InputStream;
+
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+@ExtendWith(MockitoExtension.class)
+@DisplayName("Decompiler JUnit 5 class accesss flags test")
 class ClassAccessFlagsListTest {
+    DataInputStream dataInputStream;
+
+    @Mock
+    InputStream mockInputStream;
+
     private void check2Flags(ClassAccessFlags flag1, ClassAccessFlags flag2) {
         int flag = flag1.getFlag() | flag2.getFlag();
         ClassAccessFlagsList flagsList = new ClassAccessFlagsList(flag);
@@ -19,6 +34,24 @@ class ClassAccessFlagsListTest {
         ClassAccessFlagsList flagsList = new ClassAccessFlagsList(flag.getFlag());
         assertEquals(flagsList.getFlagsList().get(0).getFlag(), flag.getFlag());
         assertNotEquals(0, flagsList.getFlags());
+    }
+
+    @Test
+    void initTest() throws Exception {
+        when(mockInputStream.read()).thenReturn(0).thenReturn(ClassAccessFlags.ACC_INTERFACE.getFlag());
+        dataInputStream = new DataInputStream(mockInputStream);
+        ClassAccessFlagsList flagsList = new ClassAccessFlagsList(this.dataInputStream);
+        assertTrue(flagsList.isInterface());
+    }
+
+    @Test
+    void testAdd() {
+        ClassAccessFlagsList flagsList = new ClassAccessFlagsList(ClassAccessFlags.ACC_SYNTHETIC.getFlag());
+        assertFalse(flagsList.isPublic());
+        assertTrue(flagsList.isSynthetic());
+        flagsList.addFlag(ClassAccessFlags.ACC_PUBLIC);
+        assertTrue(flagsList.isPublic());
+        assertTrue(flagsList.isSynthetic());
     }
 
     @Test
@@ -179,5 +212,23 @@ class ClassAccessFlagsListTest {
     void testIsSet9() {
         ClassAccessFlagsList flagsList = new ClassAccessFlagsList(ClassAccessFlags.ACC_SYNTHETIC.getFlag());
         assertTrue(flagsList.isSynthetic());
+    }
+
+    @Test
+    void testIsUnset0() {
+        int flag = ClassAccessFlags.ACC_FINAL.getFlag() | ClassAccessFlags.ACC_PUBLIC.getFlag();
+        ClassAccessFlagsList flagsList = new ClassAccessFlagsList(flag);
+        assertTrue(flagsList.isFinal());
+        assertTrue(flagsList.isPublic());
+        flagsList.remove(ClassAccessFlags.ACC_FINAL);
+        flagsList.setFlagsList(flagsList.getFlagsList());
+        assertFalse(flagsList.isFinal());
+        assertTrue(flagsList.isPublic());
+    }
+
+    @Test
+    void testToString1() {
+        ClassAccessFlagsList flagsList = new ClassAccessFlagsList(ClassAccessFlags.ACC_SYNTHETIC.getFlag());
+        assertEquals("[ACC_SYNTHETIC]", flagsList.toString());
     }
 }

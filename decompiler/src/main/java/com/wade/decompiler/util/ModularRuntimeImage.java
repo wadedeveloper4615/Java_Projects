@@ -24,9 +24,7 @@ public class ModularRuntimeImage implements Closeable {
     private URLClassLoader classLoader;
     private FileSystem fileSystem;
 
-    /**
-     * @throws IOException
-     */
+
     public ModularRuntimeImage() throws IOException {
         this(null, FileSystems.getFileSystem(URI.create("jrt:/")));
     }

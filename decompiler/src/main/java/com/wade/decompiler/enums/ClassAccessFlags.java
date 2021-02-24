@@ -65,10 +65,6 @@ public enum ClassAccessFlags {
         return (flag & ACC_FINAL.getFlag()) != 0;
     }
 
-    public boolean isFinalAndAbstract() {
-        return this.isFinal() && this.isAbstract();
-    }
-
     public boolean isInterface() {
         return (flag & ACC_INTERFACE.getFlag()) != 0;
     }

@@ -1,6 +1,6 @@
 package com.wade.decompiler.test;
 
-@interface MyCustomAnnotation {
+public @interface MyCustomAnnotation {
     String[] books();
 
     int count();

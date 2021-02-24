@@ -24,11 +24,16 @@ public class JavaClassGen {
     private FieldGen[] fields;
     private MethodGen[] methods;
     private AttributeGen[] attributes;
+    private ConstantPool constantPool;
 
     public JavaClassGen(JavaClass javaClass) throws IOException {
-        ConstantPool constantPool = javaClass.getConstantPool();
+        this.constantPool = javaClass.getConstantPool();
         this.className = constantPool.constantToString(javaClass.getClassNameIndex(), ClassFileConstants.CONSTANT_Class);
-        this.superClassName = constantPool.constantToString(javaClass.getSuperclassNameIndex(), ClassFileConstants.CONSTANT_Class);
+        if (javaClass.getSuperclassNameIndex() != 0) {
+            this.superClassName = constantPool.constantToString(javaClass.getSuperclassNameIndex(), ClassFileConstants.CONSTANT_Class);
+        } else {
+            this.superClassName = "";
+        }
         this.filename = javaClass.getFileName();
         this.version = javaClass.getVersion();
         this.accessFlags = javaClass.getAccessFlags();
@@ -110,6 +115,10 @@ public class JavaClassGen {
 
     public String getClassName() {
         return className;
+    }
+
+    public ConstantPool getConstantPool() {
+        return constantPool;
     }
 
     public FieldGen[] getFields() {

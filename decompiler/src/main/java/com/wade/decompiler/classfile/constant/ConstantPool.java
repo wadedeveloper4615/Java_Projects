@@ -145,9 +145,13 @@ public class ConstantPool {
 
     @Override
     public String toString() {
+        return this.toString("");
+    }
+
+    public String toString(String indent) {
         StringBuilder buf = new StringBuilder();
         for (int i = 1; i < constantPool.length; i++) {
-            buf.append(i).append(")").append(constantPool[i]).append("\n");
+            buf.append(indent).append(i).append(")").append(constantPool[i]).append("\n");
         }
         return buf.toString();
     }

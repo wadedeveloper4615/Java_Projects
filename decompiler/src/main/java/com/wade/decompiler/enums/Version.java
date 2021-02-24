@@ -16,6 +16,7 @@ public enum Version {
     Version_12(56, 0, "12"),
     Version_13(57, 0, "13"),
     Version_14(58, 0, "14"),
+    Version_14Plus(59, 0, "14+"),
     Unknown(-1, -1, "Unknown");
     //@formatter:on
     private int major;

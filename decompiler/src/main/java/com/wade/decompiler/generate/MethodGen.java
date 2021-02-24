@@ -76,6 +76,6 @@ public class MethodGen extends FieldOrMethodGen {
 
     @Override
     public String toString() {
-        return "\n\tMethodGen [\n\tcode=" + code + ",\n\tlineNumberTable=" + lineNumberTable + ",\n\tlocalVariableTable=" + localVariableTable + "\n\t]";
+        return "\n\t\tMethodGen [\n\t\t\tcode=" + code + ",\n\t\t\tlineNumberTable=" + lineNumberTable + ",\n\t\t\tlocalVariableTable=" + localVariableTable + "\n\t\t]";
     }
 }

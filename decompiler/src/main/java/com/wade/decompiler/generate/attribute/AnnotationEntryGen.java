@@ -66,6 +66,9 @@ public class AnnotationEntryGen {
 
     public static AnnotationEntryGen read(AnnotationEntry ae, ConstantPool constantPool) {
         AnnotationEntryGen annotationEntry = new AnnotationEntryGen(ae, constantPool);
+        if (annotationEntry.elementValuePairs == null) {
+            annotationEntry.elementValuePairs = new ArrayList<>();
+        }
         int num_element_value_pairs = annotationEntry.elementValuePairs.size();
         annotationEntry.elementValuePairs = new ArrayList<ElementValuePairGen>();
         for (int i = 0; i < num_element_value_pairs; i++) {

@@ -28,7 +28,6 @@ import com.wade.decompiler.classfile.attribute.Signature;
 import com.wade.decompiler.classfile.attribute.SourceFile;
 import com.wade.decompiler.classfile.attribute.StackMap;
 import com.wade.decompiler.classfile.attribute.Synthetic;
-import com.wade.decompiler.classfile.attribute.Unknown;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.constant.ConstantUtf8;
 import com.wade.decompiler.enums.ClassFileAttributes;
@@ -107,7 +106,7 @@ public class AttributeGen {
     public static AttributeGen readAttribute(Attribute attribute, ConstantPool constantPool) throws IOException, ClassFormatException {
         switch (attribute.getTag()) {
             case ATTR_UNKNOWN:
-                return new UnknownGen((Unknown) attribute, constantPool);
+                return new UnknownGen(attribute, constantPool);
             case ATTR_CONSTANT_VALUE:
                 return new ConstantValueGen((ConstantValue) attribute, constantPool);
             case ATTR_SOURCE_FILE:
@@ -131,7 +130,7 @@ public class AttributeGen {
             case ATTR_SIGNATURE:
                 return new SignatureGen((Signature) attribute, constantPool);
             case ATTR_STACK_MAP:
-                return new UnknownGen((Unknown) attribute, constantPool);
+                return new UnknownGen(attribute, constantPool);
             case ATTR_RUNTIME_VISIBLE_ANNOTATIONS:
                 return new RuntimeVisibleAnnotationsGen((RuntimeVisibleAnnotations) attribute, constantPool);
             case ATTR_RUNTIME_INVISIBLE_ANNOTATIONS:

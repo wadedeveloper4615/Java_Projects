@@ -13,7 +13,7 @@ public class AnnotationEntry {
     private int typeIndex;
     private ConstantPool constantPool;
     private boolean isRuntimeVisible;
-    private List<ElementValuePair> elementValuePairs;
+    private List<ElementValuePair> elementValuePairs = new ArrayList<>();
 
     public AnnotationEntry(int type_index, ConstantPool constant_pool, boolean isRuntimeVisible) {
         this.typeIndex = type_index;

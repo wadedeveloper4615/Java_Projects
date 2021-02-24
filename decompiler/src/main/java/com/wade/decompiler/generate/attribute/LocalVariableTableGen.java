@@ -32,6 +32,19 @@ public class LocalVariableTableGen extends AttributeGen {
         return true;
     }
 
+    public LocalVariableGen getLocalVariable(int index, int pc) {
+        for (LocalVariableGen variable : localVariableTable) {
+            if (variable.getIndex() == index) {
+                final int start_pc = variable.getStartPc();
+                final int end_pc = start_pc + variable.getLength();
+                if ((pc >= start_pc) && (pc <= end_pc)) {
+                    return variable;
+                }
+            }
+        }
+        return null;
+    }
+
     public LocalVariableGen[] getLocalVariableTable() {
         return localVariableTable;
     }

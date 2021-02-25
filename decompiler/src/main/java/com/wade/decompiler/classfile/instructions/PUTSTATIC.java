@@ -13,8 +13,8 @@ public class PUTSTATIC extends FieldInstruction implements ExceptionThrower, Pop
     }
 
     @Override
-    public int consumeStack(ConstantPool cpg) {
-        return getFieldSize(cpg);
+    public int consumeStack() {
+        return getFieldSize();
     }
 
     @Override

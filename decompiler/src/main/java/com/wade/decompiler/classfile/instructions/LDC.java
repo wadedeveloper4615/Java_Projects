@@ -34,8 +34,8 @@ public class LDC extends CPInstruction implements PushInstruction, ExceptionThro
     }
 
     @Override
-    public Type getType(ConstantPool cpg) {
-        switch (cpg.getConstant(super.getIndex()).getTag()) {
+    public Type getType() {
+        switch (this.constantPool.getConstant(super.getIndex()).getTag()) {
             case CONSTANT_String:
                 return Type.STRING;
             case CONSTANT_Float:

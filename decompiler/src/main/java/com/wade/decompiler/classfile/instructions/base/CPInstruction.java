@@ -88,8 +88,8 @@ public abstract class CPInstruction extends Instruction implements TypedInstruct
     }
 
     @Override
-    public Type getType(ConstantPool cp) {
-        String name = cp.getConstantString(index, ClassFileConstants.CONSTANT_Class);
+    public Type getType() {
+        String name = this.constantPool.getConstantString(index, ClassFileConstants.CONSTANT_Class);
         if (!name.startsWith("[")) {
             name = "L" + name + ";";
         }

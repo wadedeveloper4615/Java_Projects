@@ -19,7 +19,7 @@ public class GETFIELD extends FieldInstruction implements ExceptionThrower, Stac
     }
 
     @Override
-    public int produceStack(ConstantPool cpg) {
-        return getFieldSize(cpg);
+    public int produceStack() {
+        return getFieldSize();
     }
 }

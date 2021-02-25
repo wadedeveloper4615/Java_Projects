@@ -18,8 +18,8 @@ public class LDC2_W extends CPInstruction implements PushInstruction {
     }
 
     @Override
-    public Type getType(ConstantPool cpg) {
-        Constant c = cpg.getConstant(super.getIndex());
+    public Type getType() {
+        Constant c = this.constantPool.getConstant(super.getIndex());
         switch (c.getTag()) {
             case CONSTANT_Long:
                 return Type.LONG;

@@ -10,7 +10,7 @@ public abstract class JsrInstruction extends BranchInstruction implements Uncond
     }
 
     @Override
-    public Type getType(ConstantPool cp) {
+    public Type getType() {
         return null;
     }
 }

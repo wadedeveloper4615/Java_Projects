@@ -85,12 +85,10 @@ public class JavaClassFileDecompiler {
             }
             String access = Utility.accessToString(flags, true);
             String name = mg.getName();
-            boolean constructor = false;
             if (name.equals("<init>")) {
                 name = Utility.extractClassName(jgen.getClassName(), false);
-                constructor = true;
             }
-            String signature = Utility.methodSignatureToString(mg.getSignature(), name, access, true, mg.getLocalVariableTable(), constructor);
+            String signature = Utility.methodSignatureToString(mg.getSignature(), name, access, true, mg.getLocalVariableTable());
             if (!(isAbstract || isAnnotation)) {
                 System.out.println("\t" + signature + "{");
                 decompileInstructions(mg.getCode(), mg.getLocalVariableTable());

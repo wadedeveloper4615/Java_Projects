@@ -683,14 +683,14 @@ public abstract class Utility {
     }
 
     public static String methodSignatureToString(final String signature, final String name, final String access) {
-        return methodSignatureToString(signature, name, access, true, null, false);
+        return methodSignatureToString(signature, name, access, true, null);
     }
 
-    public static String methodSignatureToString(final String signature, final String name, final String access, final boolean chopit, boolean constructor) {
-        return methodSignatureToString(signature, name, access, chopit, null, false);
+    public static String methodSignatureToString(final String signature, final String name, final String access, final boolean chopit) {
+        return methodSignatureToString(signature, name, access, chopit, null);
     }
 
-    public static String methodSignatureToString(final String signature, final String name, final String access, final boolean chopit, final LocalVariableTableGen vars, boolean constructor) throws ClassFormatException {
+    public static String methodSignatureToString(final String signature, final String name, final String access, final boolean chopit, final LocalVariableTableGen vars) throws ClassFormatException {
         final StringBuilder buf = new StringBuilder("(");
         String type;
         int index;

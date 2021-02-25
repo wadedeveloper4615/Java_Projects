@@ -15,8 +15,8 @@ public abstract class FieldOrMethodInstruction extends CPInstruction implements 
     }
 
     @Override
-    public ObjectType getLoadClassType(final ConstantPool cp) {
-        final ReferenceType rt = getReferenceType(cp);
+    public ObjectType getLoadClassType() {
+        final ReferenceType rt = getReferenceType(this.constantPool);
         if (rt instanceof ObjectType) {
             return (ObjectType) rt;
         }

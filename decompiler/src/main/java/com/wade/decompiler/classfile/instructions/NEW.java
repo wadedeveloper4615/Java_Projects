@@ -24,7 +24,7 @@ public class NEW extends CPInstruction implements LoadClass, AllocationInstructi
     }
 
     @Override
-    public ObjectType getLoadClassType(ConstantPool cpg) {
-        return (ObjectType) getType(cpg);
+    public ObjectType getLoadClassType() {
+        return (ObjectType) getType();
     }
 }

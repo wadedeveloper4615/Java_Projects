@@ -14,7 +14,7 @@ public class LCMP extends Instruction implements TypedInstruction, StackProducer
     }
 
     @Override
-    public Type getType(ConstantPool cp) {
+    public Type getType() {
         return Type.LONG;
     }
 }

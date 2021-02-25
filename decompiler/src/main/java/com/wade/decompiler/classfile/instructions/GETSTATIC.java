@@ -18,7 +18,7 @@ public class GETSTATIC extends FieldInstruction implements PushInstruction, Exce
     }
 
     @Override
-    public int produceStack(ConstantPool cpg) {
-        return getFieldSize(cpg);
+    public int produceStack() {
+        return getFieldSize();
     }
 }

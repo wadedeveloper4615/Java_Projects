@@ -3,7 +3,6 @@ package com.wade.decompiler.classfile.attribute;
 import java.io.DataInputStream;
 import java.io.IOException;
 
-import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.ClassAccessFlagsList;
 
 public class InnerClass {
@@ -12,8 +11,8 @@ public class InnerClass {
     private int innerNameIndex;
     private ClassAccessFlagsList innerAccessFlags;
 
-    public InnerClass(DataInputStream file, ConstantPool constantPool) throws IOException {
-        this(file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort(), constantPool);
+    public InnerClass(DataInputStream file) throws IOException {
+        this(file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort());
     }
 
     public InnerClass(InnerClass c) {
@@ -27,7 +26,7 @@ public class InnerClass {
         this.innerAccessFlags = innerAccessFlags;
     }
 
-    public InnerClass(int innerClassIndex, int outerClassIndex, int innerNameIndex, int innerAccessFlags, ConstantPool constantPool) {
+    public InnerClass(int innerClassIndex, int outerClassIndex, int innerNameIndex, int innerAccessFlags) {
         this.innerClassIndex = innerClassIndex;
         this.outerClassIndex = outerClassIndex;
         this.innerNameIndex = innerNameIndex;

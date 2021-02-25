@@ -1,17 +1,16 @@
 package com.wade.decompiler.generate.attribute;
 
-import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.element.AnnotationElementValue;
 
 public class AnnotationElementValueGen extends ElementValueGen {
     private AnnotationEntryGen annotationEntry;
 
-    public AnnotationElementValueGen(byte type, AnnotationElementValue value, ConstantPool constantPool) {
-        super(type, constantPool);
+    public AnnotationElementValueGen(byte type, AnnotationElementValue value) {
+        super(type);
         if (type != ANNOTATION) {
             throw new IllegalArgumentException("Only element values of type annotation can be built with this ctor - type specified: " + type);
         }
-        this.annotationEntry = new AnnotationEntryGen(value.getAnnotationEntry(), constantPool);
+        this.annotationEntry = new AnnotationEntryGen(value.getAnnotationEntry());
     }
 
     @Override

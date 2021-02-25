@@ -14,8 +14,8 @@ public class PUTFIELD extends FieldInstruction implements PopInstruction, Except
     }
 
     @Override
-    public int consumeStack(ConstantPool cpg) {
-        return getFieldSize(cpg) + 1;
+    public int consumeStack() {
+        return getFieldSize() + 1;
     }
 
     @Override

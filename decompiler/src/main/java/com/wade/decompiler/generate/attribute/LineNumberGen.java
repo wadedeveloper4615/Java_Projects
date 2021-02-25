@@ -1,13 +1,12 @@
 package com.wade.decompiler.generate.attribute;
 
 import com.wade.decompiler.classfile.attribute.LineNumber;
-import com.wade.decompiler.classfile.constant.ConstantPool;
 
 public class LineNumberGen {
     private int startPc;
     private int lineNumber;
 
-    public LineNumberGen(LineNumber attribute, ConstantPool constantPool) {
+    public LineNumberGen(LineNumber attribute) {
         this.startPc = attribute.getStartPC();
         this.lineNumber = attribute.getLineNumber();
     }

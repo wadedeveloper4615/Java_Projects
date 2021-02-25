@@ -15,7 +15,7 @@ public class InnerClasses extends Attribute {
         int number_of_classes = input.readUnsignedShort();
         innerClasses = new InnerClass[number_of_classes];
         for (int i = 0; i < number_of_classes; i++) {
-            innerClasses[i] = new InnerClass(input, constant_pool);
+            innerClasses[i] = new InnerClass(input);
         }
     }
 

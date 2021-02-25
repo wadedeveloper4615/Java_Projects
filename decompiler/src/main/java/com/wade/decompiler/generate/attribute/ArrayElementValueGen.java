@@ -10,7 +10,7 @@ public class ArrayElementValueGen extends ElementValueGen {
     private ElementValueGen[] value;
 
     public ArrayElementValueGen(byte type, ArrayElementValue element, ConstantPool constantPool) {
-        super(type, constantPool);
+        super(type);
         ElementValue[] value = element.getElementValuesArray();
         this.value = new ElementValueGen[value.length];
         for (int i = 0; i < value.length; i++) {

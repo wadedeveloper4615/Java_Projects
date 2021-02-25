@@ -31,7 +31,7 @@ public class IINC extends LocalVariableInstruction {
     }
 
     @Override
-    public Type getType(ConstantPool cp) {
+    public Type getType() {
         return Type.INT;
     }
 

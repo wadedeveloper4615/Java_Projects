@@ -33,7 +33,7 @@ public abstract class Instruction implements InstructionInit {
         this.constantPool = constantPool;
     }
 
-    public int consumeStack(ConstantPool cpg) {
+    public int consumeStack() {
         return consumeStack;
     }
 
@@ -105,7 +105,7 @@ public abstract class Instruction implements InstructionInit {
     public void initFromFile(ByteSequence bytes, boolean wide) throws IOException {
     }
 
-    public int produceStack(ConstantPool cpg) {
+    public int produceStack() {
         return produceStack;
     }
 
@@ -165,7 +165,7 @@ public abstract class Instruction implements InstructionInit {
             case LLOAD -> new LLOAD(cp);
             case FLOAD -> new FLOAD(cp);
             case DLOAD -> new DLOAD(cp);
-            case ALOAD -> new ALOAD(localVariableTable, cp);
+            case ALOAD -> new ALOAD(cp);
             case ILOAD_0 -> new ILOAD(0, localVariableTable, cp);
             case ILOAD_1 -> new ILOAD(1, localVariableTable, cp);
             case ILOAD_2 -> new ILOAD(2, localVariableTable, cp);

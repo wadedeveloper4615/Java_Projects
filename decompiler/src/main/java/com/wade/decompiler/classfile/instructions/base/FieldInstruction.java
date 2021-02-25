@@ -9,7 +9,7 @@ public abstract class FieldInstruction extends FieldOrMethodInstruction {
         super(opcode, cp, index);
     }
 
-    public int getFieldSize(ConstantPool cpg) {
+    public int getFieldSize() {
         return Type.size(Type.getTypeSize(getSignature()));
     }
 }

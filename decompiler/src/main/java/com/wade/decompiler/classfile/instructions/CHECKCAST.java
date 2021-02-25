@@ -26,8 +26,8 @@ public class CHECKCAST extends CPInstruction implements LoadClass, ExceptionThro
     }
 
     @Override
-    public ObjectType getLoadClassType(ConstantPool cpg) {
-        Type t = getType(cpg);
+    public ObjectType getLoadClassType() {
+        Type t = getType();
         if (t instanceof ArrayType) {
             t = ((ArrayType) t).getBasicType();
         }

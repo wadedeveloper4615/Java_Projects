@@ -31,7 +31,7 @@ public class RET extends Instruction implements IndexedInstruction, TypedInstruc
     }
 
     @Override
-    public Type getType(ConstantPool cp) {
+    public Type getType() {
         return ReturnaddressType.NO_TARGET;
     }
 

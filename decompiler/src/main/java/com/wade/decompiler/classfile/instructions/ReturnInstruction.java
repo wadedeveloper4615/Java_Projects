@@ -24,7 +24,7 @@ public abstract class ReturnInstruction extends Instruction implements Exception
     }
 
     @Override
-    public Type getType(ConstantPool cp) {
+    public Type getType() {
         InstructionOpCodes _opcode = super.getOpcode();
         switch (_opcode) {
             case IRETURN:

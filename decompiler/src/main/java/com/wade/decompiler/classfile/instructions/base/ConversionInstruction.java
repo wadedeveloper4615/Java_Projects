@@ -13,7 +13,7 @@ public abstract class ConversionInstruction extends Instruction implements Typed
     }
 
     @Override
-    public Type getType(ConstantPool cp) {
+    public Type getType() {
         InstructionOpCodes _opcode = super.getOpcode();
         switch (_opcode) {
             case D2I:

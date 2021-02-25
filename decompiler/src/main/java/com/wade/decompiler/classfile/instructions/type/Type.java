@@ -229,6 +229,7 @@ public abstract class Type {
         }
     }
 
+    @SuppressWarnings("unused")
     public static Type getType(String name) {
         return null;
     }

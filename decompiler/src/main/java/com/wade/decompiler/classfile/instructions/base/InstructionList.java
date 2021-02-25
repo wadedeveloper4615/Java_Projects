@@ -23,6 +23,7 @@ public class InstructionList {
         // System.out.println();
     }
 
+    @SuppressWarnings("unused")
     public InstructionList(Select instruction) {
     }
 

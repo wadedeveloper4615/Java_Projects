@@ -22,7 +22,7 @@ public class INVOKEINTERFACE extends InvokeInstruction {
     }
 
     @Override
-    public int consumeStack(ConstantPool cpg) { // nargs is given in byte-code
+    public int consumeStack() { // nargs is given in byte-code
         return nargs; // nargs includes this reference
     }
 

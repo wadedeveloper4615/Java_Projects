@@ -24,7 +24,7 @@ public class ElementValueGen {
     public static final byte PRIMITIVE_BOOLEAN = 'Z';
     protected int type;
 
-    protected ElementValueGen(int type, ConstantPool cpool) {
+    protected ElementValueGen(int type) {
         this.type = type;
     }
 
@@ -76,7 +76,7 @@ public class ElementValueGen {
             case CLASS:
                 return new ClassElementValueGen(CLASS, (ClassElementValue) value, constantPool);
             case ANNOTATION:
-                return new AnnotationElementValueGen(ANNOTATION, (AnnotationElementValue) value, constantPool);
+                return new AnnotationElementValueGen(ANNOTATION, (AnnotationElementValue) value);
             case ARRAY:
                 return new ArrayElementValueGen(ARRAY, (ArrayElementValue) value, constantPool);
             default:

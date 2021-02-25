@@ -13,7 +13,7 @@ public class SimpleElementValueGen extends ElementValueGen {
     private Constant indexConstant;
 
     public SimpleElementValueGen(SimpleElementValue element, ConstantPool constantPool) {
-        super(element.getType(), constantPool);
+        super(element.getType());
         this.indexConstant = constantPool.getConstant(element.getIndex());
         this.type = element.getType();
     }

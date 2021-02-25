@@ -28,7 +28,7 @@ public class FCONST extends Instruction implements ConstantPushInstruction {
     }
 
     @Override
-    public Type getType(ConstantPool cp) {
+    public Type getType() {
         return Type.FLOAT;
     }
 

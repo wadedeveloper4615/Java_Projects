@@ -10,7 +10,7 @@ public class EnumElementValueGen extends ElementValueGen {
     private String typeName;
 
     public EnumElementValueGen(int type, EnumElementValue element, ConstantPool constantPool) {
-        super(type, constantPool);
+        super(type);
         this.typeName = ((ConstantUtf8) constantPool.getConstant(element.getTypeIndex(), ClassFileConstants.CONSTANT_Utf8)).getBytes();
         this.valueName = ((ConstantUtf8) constantPool.getConstant(element.getValueIndex(), ClassFileConstants.CONSTANT_Utf8)).getBytes();
     }

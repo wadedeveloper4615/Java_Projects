@@ -12,7 +12,7 @@ public abstract class InvokeInstruction extends FieldOrMethodInstruction impleme
     }
 
     @Override
-    public int consumeStack(ConstantPool cpg) {
+    public int consumeStack() {
         int sum = 0;
         if ((super.getOpcode() == InstructionOpCodes.INVOKESTATIC) || (super.getOpcode() == InstructionOpCodes.INVOKEDYNAMIC)) {
             sum = 0;
@@ -23,7 +23,7 @@ public abstract class InvokeInstruction extends FieldOrMethodInstruction impleme
         return sum;
     }
 
-    public Type[] getArgumentTypes(ConstantPool cpg) {
+    public Type[] getArgumentTypes() {
         return Type.getArgumentTypes(this.getSignature());
     }
 
@@ -33,21 +33,22 @@ public abstract class InvokeInstruction extends FieldOrMethodInstruction impleme
         return className.replace('/', '.');
     }
 
-    public String getMethodName(ConstantPool cpg) {
+    @Override
+    public String getMethodName() {
         return this.getMethodName();
     }
 
-    public Type getReturnType(ConstantPool cpg) {
+    public Type getReturnType() {
         return Type.getReturnType(this.getSignature());
     }
 
     @Override
-    public Type getType(ConstantPool cpg) {
-        return getReturnType(cpg);
+    public Type getType() {
+        return getReturnType();
     }
 
     @Override
-    public int produceStack(ConstantPool cpg) {
+    public int produceStack() {
         return Type.getReturnTypeSize(signature);
     }
 }

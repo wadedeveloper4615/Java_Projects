@@ -12,7 +12,7 @@ public abstract class StackInstruction extends Instruction {
         super(opcode, 1, constantPool);
     }
 
-    public Type getType(ConstantPool cp) {
+    public Type getType() {
         return Type.UNKNOWN;
     }
 }

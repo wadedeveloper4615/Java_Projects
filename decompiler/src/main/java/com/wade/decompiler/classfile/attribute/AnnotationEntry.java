@@ -115,7 +115,7 @@ public class AnnotationEntry {
         for (int i = 0; i < num_element_value_pairs; i++) {
             index = input.readUnsignedShort();
             ElementValue element = ElementValue.readElementValue(input, constant_pool);
-            annotationEntry.elementValuePairs.add(new ElementValuePair(index, element, constant_pool));
+            annotationEntry.elementValuePairs.add(new ElementValuePair(index, element));
         }
         return annotationEntry;
     }

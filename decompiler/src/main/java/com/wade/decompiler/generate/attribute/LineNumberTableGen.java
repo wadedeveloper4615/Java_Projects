@@ -14,7 +14,7 @@ public class LineNumberTableGen extends AttributeGen {
         LineNumber[] lineNumberTable = attribute.getLineNumberTable();
         this.lineNumberTable = new LineNumberGen[lineNumberTable.length];
         for (int i = 0; i < lineNumberTable.length; i++) {
-            this.lineNumberTable[i] = new LineNumberGen(lineNumberTable[i], constantPool);
+            this.lineNumberTable[i] = new LineNumberGen(lineNumberTable[i]);
         }
     }
 

@@ -9,7 +9,7 @@ public class ClassElementValueGen extends ElementValueGen {
     private String index;
 
     public ClassElementValueGen(byte type, ClassElementValue value, ConstantPool constantPool) {
-        super(type, constantPool);
+        super(type);
         this.index = ((ConstantUtf8) constantPool.getConstant(value.getIndex(), ClassFileConstants.CONSTANT_Utf8)).getBytes();
     }
 

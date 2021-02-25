@@ -1,12 +1,10 @@
 package com.wade.decompiler.classfile.element;
 
-import com.wade.decompiler.classfile.constant.ConstantPool;
-
 public class ElementValuePair {
     private ElementValue elementValue;
     private int elementNameIndex;
 
-    public ElementValuePair(int elementNameIndex, ElementValue elementValue, ConstantPool constantPool) {
+    public ElementValuePair(int elementNameIndex, ElementValue elementValue) {
         this.elementValue = elementValue;
         this.elementNameIndex = elementNameIndex;
     }

@@ -11,7 +11,7 @@ public class AnnotationEntryGen {
     private int typeIndex;
     private boolean isRuntimeVisible;
 
-    public AnnotationEntryGen(AnnotationEntry annotationEntry, ConstantPool constantPool) {
+    public AnnotationEntryGen(AnnotationEntry annotationEntry) {
         this.typeIndex = annotationEntry.getTypeIndex();
         this.isRuntimeVisible = annotationEntry.isRuntimeVisible();
     }
@@ -65,7 +65,7 @@ public class AnnotationEntryGen {
     }
 
     public static AnnotationEntryGen read(AnnotationEntry ae, ConstantPool constantPool) {
-        AnnotationEntryGen annotationEntry = new AnnotationEntryGen(ae, constantPool);
+        AnnotationEntryGen annotationEntry = new AnnotationEntryGen(ae);
         if (annotationEntry.elementValuePairs == null) {
             annotationEntry.elementValuePairs = new ArrayList<>();
         }

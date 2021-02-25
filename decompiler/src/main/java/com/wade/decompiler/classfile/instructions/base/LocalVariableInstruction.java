@@ -127,7 +127,7 @@ public abstract class LocalVariableInstruction extends Instruction implements Ty
     }
 
     @Override
-    public Type getType(ConstantPool cp) {
+    public Type getType() {
         switch (canonTag) {
             case ILOAD:
             case ISTORE:

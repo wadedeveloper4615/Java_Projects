@@ -87,6 +87,7 @@ public class ClassParser {
                         dataInputStream.close();
                     }
                 } catch (IOException ioe) {
+                    ioe.printStackTrace();
                 }
             }
             try {
@@ -94,6 +95,7 @@ public class ClassParser {
                     zip.close();
                 }
             } catch (IOException ioe) {
+                ioe.printStackTrace();
             }
         }
         return new JavaClass(classNameIndex, superclassNameIndex, fileName, version, accessFlags, constantPool, interfaces, fields, methods, attributes);

@@ -31,7 +31,7 @@ public class MULTIANEWARRAY extends CPInstruction implements LoadClass, Allocati
     }
 
     @Override
-    public int consumeStack(ConstantPool cpg) {
+    public int consumeStack() {
         return dimensions;
     }
 
@@ -45,8 +45,8 @@ public class MULTIANEWARRAY extends CPInstruction implements LoadClass, Allocati
     }
 
     @Override
-    public ObjectType getLoadClassType(ConstantPool cpg) {
-        Type t = getType(cpg);
+    public ObjectType getLoadClassType() {
+        Type t = getType();
         if (t instanceof ArrayType) {
             t = ((ArrayType) t).getBasicType();
         }

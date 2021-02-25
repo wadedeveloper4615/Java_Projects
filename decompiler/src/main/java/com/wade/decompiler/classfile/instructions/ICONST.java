@@ -24,7 +24,7 @@ public class ICONST extends Instruction implements ConstantPushInstruction {
     }
 
     @Override
-    public Type getType(ConstantPool cp) {
+    public Type getType() {
         return Type.INT;
     }
 

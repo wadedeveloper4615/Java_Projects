@@ -19,7 +19,7 @@ public abstract class ArrayInstruction extends Instruction implements ExceptionT
     }
 
     @Override
-    public Type getType(ConstantPool cp) {
+    public Type getType() {
         InstructionOpCodes _opcode = super.getOpcode();
         switch (_opcode) {
             case IALOAD:

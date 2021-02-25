@@ -3,6 +3,7 @@ package com.wade.decompiler.classfile.attribute;
 import java.io.DataInput;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -19,8 +20,30 @@ public class ParameterAnnotationEntry {
         }
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        ParameterAnnotationEntry other = (ParameterAnnotationEntry) obj;
+        if (!Arrays.equals(annotationTable, other.annotationTable))
+            return false;
+        return true;
+    }
+
     public AnnotationEntry[] getAnnotationEntries() {
         return annotationTable;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + Arrays.hashCode(annotationTable);
+        return result;
     }
 
     public static ParameterAnnotationEntry[] createParameterAnnotationEntries(Attribute[] attrs) {

@@ -53,6 +53,11 @@ public class LocalVariable implements Constants {
         if (getClass() != obj.getClass())
             return false;
         LocalVariable other = (LocalVariable) obj;
+        if (constantPool == null) {
+            if (other.constantPool != null)
+                return false;
+        } else if (!constantPool.equals(other.constantPool))
+            return false;
         if (index != other.index)
             return false;
         if (length != other.length)
@@ -100,6 +105,7 @@ public class LocalVariable implements Constants {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
+        result = prime * result + ((constantPool == null) ? 0 : constantPool.hashCode());
         result = prime * result + index;
         result = prime * result + length;
         result = prime * result + nameIndex;

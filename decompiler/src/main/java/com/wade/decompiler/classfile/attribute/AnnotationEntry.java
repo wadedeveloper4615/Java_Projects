@@ -34,6 +34,11 @@ public class AnnotationEntry {
         if (getClass() != obj.getClass())
             return false;
         AnnotationEntry other = (AnnotationEntry) obj;
+        if (constantPool == null) {
+            if (other.constantPool != null)
+                return false;
+        } else if (!constantPool.equals(other.constantPool))
+            return false;
         if (elementValuePairs == null) {
             if (other.elementValuePairs != null)
                 return false;
@@ -70,6 +75,7 @@ public class AnnotationEntry {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
+        result = prime * result + ((constantPool == null) ? 0 : constantPool.hashCode());
         result = prime * result + ((elementValuePairs == null) ? 0 : elementValuePairs.hashCode());
         result = prime * result + (isRuntimeVisible ? 1231 : 1237);
         result = prime * result + typeIndex;
@@ -80,17 +86,36 @@ public class AnnotationEntry {
         return isRuntimeVisible;
     }
 
+    public void setConstantPool(ConstantPool constantPool) {
+        this.constantPool = constantPool;
+    }
+
+    public void setElementValuePairs(List<ElementValuePair> elementValuePairs) {
+        this.elementValuePairs = elementValuePairs;
+    }
+
+    public void setRuntimeVisible(boolean isRuntimeVisible) {
+        this.isRuntimeVisible = isRuntimeVisible;
+    }
+
+    public void setTypeIndex(int typeIndex) {
+        this.typeIndex = typeIndex;
+    }
+
     @Override
     public String toString() {
         return "AnnotationEntry [typeIndex=" + typeIndex + ", constantPool=" + constantPool + ", isRuntimeVisible=" + isRuntimeVisible + ", elementValuePairs=" + elementValuePairs + "]";
     }
 
     public static AnnotationEntry read(DataInput input, ConstantPool constant_pool, boolean isRuntimeVisible) throws IOException {
-        AnnotationEntry annotationEntry = new AnnotationEntry(input.readUnsignedShort(), constant_pool, isRuntimeVisible);
+        int index = input.readUnsignedShort();
+        AnnotationEntry annotationEntry = new AnnotationEntry(index, constant_pool, isRuntimeVisible);
         int num_element_value_pairs = input.readUnsignedShort();
         annotationEntry.elementValuePairs = new ArrayList<>();
         for (int i = 0; i < num_element_value_pairs; i++) {
-            annotationEntry.elementValuePairs.add(new ElementValuePair(input.readUnsignedShort(), ElementValue.readElementValue(input, constant_pool), constant_pool));
+            index = input.readUnsignedShort();
+            ElementValue element = ElementValue.readElementValue(input, constant_pool);
+            annotationEntry.elementValuePairs.add(new ElementValuePair(index, element, constant_pool));
         }
         return annotationEntry;
     }

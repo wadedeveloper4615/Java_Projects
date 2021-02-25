@@ -131,6 +131,46 @@ public class JavaClass {
         return result;
     }
 
+    public void setAccessFlags(ClassAccessFlagsList accessFlags) {
+        this.accessFlags = accessFlags;
+    }
+
+    public void setAttributes(Attribute[] attributes) {
+        this.attributes = attributes;
+    }
+
+    public void setClassNameIndex(int classNameIndex) {
+        this.classNameIndex = classNameIndex;
+    }
+
+    public void setConstantPool(ConstantPool constantPool) {
+        this.constantPool = constantPool;
+    }
+
+    public void setFields(Field[] fields) {
+        this.fields = fields;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public void setInterfaces(int[] interfaces) {
+        this.interfaces = interfaces;
+    }
+
+    public void setMethods(Method[] methods) {
+        this.methods = methods;
+    }
+
+    public void setSuperclassNameIndex(int superclassNameIndex) {
+        this.superclassNameIndex = superclassNameIndex;
+    }
+
+    public void setVersion(Version version) {
+        this.version = version;
+    }
+
     @Override
     public String toString() {
         StringBuilder buffer = new StringBuilder();
@@ -144,9 +184,5 @@ public class JavaClass {
         buffer.append("Fields                 = " + Utility.toString(fields) + "\n");
         buffer.append("Methods                = " + Utility.toString(methods) + "\n");
         return buffer.toString();
-    }
-
-    public String toString2() {
-        return "JavaClass [interfaces=" + Utility.toString(interfaces) + ", fields=" + Utility.toString(fields) + ", methods=" + Utility.toString(methods) + ", attributes=" + Utility.toString(attributes) + "]";
     }
 }

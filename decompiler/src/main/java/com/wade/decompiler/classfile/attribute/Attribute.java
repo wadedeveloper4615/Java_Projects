@@ -11,10 +11,10 @@ import com.wade.decompiler.enums.ClassFileAttributes;
 import com.wade.decompiler.enums.ClassFileConstants;
 
 public abstract class Attribute {
-    protected final int nameIndex;
+    protected int nameIndex;
     protected int length;
-    protected final ClassFileAttributes tag;
-    protected final ConstantPool constantPool;
+    protected ClassFileAttributes tag;
+    protected ConstantPool constantPool;
 
     protected Attribute(ClassFileAttributes tag, int nameIndex, int length, ConstantPool constantPool) {
         this.tag = tag;
@@ -67,8 +67,20 @@ public abstract class Attribute {
         return result;
     }
 
+    public void setConstantPool(ConstantPool constantPool) {
+        this.constantPool = constantPool;
+    }
+
     public void setLength(int length) {
         this.length = length;
+    }
+
+    public void setNameIndex(int nameIndex) {
+        this.nameIndex = nameIndex;
+    }
+
+    public void setTag(ClassFileAttributes tag) {
+        this.tag = tag;
     }
 
     @Override

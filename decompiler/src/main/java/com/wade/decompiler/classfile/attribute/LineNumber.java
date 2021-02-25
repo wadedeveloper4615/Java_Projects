@@ -16,12 +16,37 @@ public class LineNumber {
         this.lineNumber = (short) lineNumber;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        LineNumber other = (LineNumber) obj;
+        if (lineNumber != other.lineNumber)
+            return false;
+        if (startPc != other.startPc)
+            return false;
+        return true;
+    }
+
     public int getLineNumber() {
         return 0xffff & lineNumber;
     }
 
     public int getStartPC() {
         return 0xffff & startPc;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + lineNumber;
+        result = prime * result + startPc;
+        return result;
     }
 
     @Override

@@ -78,6 +78,16 @@ public class Code extends Attribute {
             return false;
         if (!Arrays.equals(exceptionTable, other.exceptionTable))
             return false;
+        if (lineNumberTable == null) {
+            if (other.lineNumberTable != null)
+                return false;
+        } else if (!lineNumberTable.equals(other.lineNumberTable))
+            return false;
+        if (localVariableTable == null) {
+            if (other.localVariableTable != null)
+                return false;
+        } else if (!localVariableTable.equals(other.localVariableTable))
+            return false;
         if (maxLocals != other.maxLocals)
             return false;
         if (maxStack != other.maxStack)
@@ -128,6 +138,8 @@ public class Code extends Attribute {
         result = prime * result + Arrays.hashCode(attributes);
         result = prime * result + Arrays.hashCode(byteCode);
         result = prime * result + Arrays.hashCode(exceptionTable);
+        result = prime * result + ((lineNumberTable == null) ? 0 : lineNumberTable.hashCode());
+        result = prime * result + ((localVariableTable == null) ? 0 : localVariableTable.hashCode());
         result = prime * result + maxLocals;
         result = prime * result + maxStack;
         return result;

@@ -43,6 +43,11 @@ public class BootstrapMethod {
             return false;
         if (bootstrapMethodRef != other.bootstrapMethodRef)
             return false;
+        if (bootstrap_method_name == null) {
+            if (other.bootstrap_method_name != null)
+                return false;
+        } else if (!bootstrap_method_name.equals(other.bootstrap_method_name))
+            return false;
         return true;
     }
 
@@ -64,6 +69,7 @@ public class BootstrapMethod {
         int result = 1;
         result = prime * result + Arrays.hashCode(bootstrapArguments);
         result = prime * result + bootstrapMethodRef;
+        result = prime * result + ((bootstrap_method_name == null) ? 0 : bootstrap_method_name.hashCode());
         return result;
     }
 

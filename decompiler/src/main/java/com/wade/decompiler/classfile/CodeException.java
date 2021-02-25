@@ -25,6 +25,26 @@ public class CodeException implements Constants {
         this.catchType = catchType;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        CodeException other = (CodeException) obj;
+        if (catchType != other.catchType)
+            return false;
+        if (endPc != other.endPc)
+            return false;
+        if (handlerPc != other.handlerPc)
+            return false;
+        if (startPc != other.startPc)
+            return false;
+        return true;
+    }
+
     public int getCatchType() {
         return catchType;
     }
@@ -39,6 +59,17 @@ public class CodeException implements Constants {
 
     public int getStartPC() {
         return startPc;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + catchType;
+        result = prime * result + endPc;
+        result = prime * result + handlerPc;
+        result = prime * result + startPc;
+        return result;
     }
 
     @Override

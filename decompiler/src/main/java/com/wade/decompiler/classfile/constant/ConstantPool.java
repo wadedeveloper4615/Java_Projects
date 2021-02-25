@@ -2,6 +2,7 @@ package com.wade.decompiler.classfile.constant;
 
 import java.io.DataInput;
 import java.io.IOException;
+import java.util.Arrays;
 
 import com.wade.decompiler.classfile.ClassFormatException;
 import com.wade.decompiler.constants.Const;
@@ -9,7 +10,10 @@ import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.util.Utility;
 
 public class ConstantPool {
-    private final Constant[] constantPool;
+    private Constant[] constantPool;
+
+    public ConstantPool() {
+    }
 
     public ConstantPool(Constant[] constantPool) {
         this.constantPool = constantPool;
@@ -88,23 +92,26 @@ public class ConstantPool {
 //        return constantToString(c);
 //    }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        ConstantPool other = (ConstantPool) obj;
+        if (!Arrays.equals(constantPool, other.constantPool))
+            return false;
+        return true;
+    }
+
     public Constant getConstant(int index) {
         if (index >= constantPool.length || index < 0) {
             System.out.println("Invalid constant pool reference: " + index + ". Constant pool size is: " + constantPool.length);
             throw new ClassFormatException("Invalid constant pool reference: " + index + ". Constant pool size is: " + constantPool.length);
         }
         return constantPool[index];
-    }
-
-    public Constant getConstant(int index, ClassFileConstants tag) throws ClassFormatException {
-        Constant c = getConstant(index);
-        if (c == null) {
-            throw new ClassFormatException("Constant pool at index " + index + " is null.");
-        }
-        if (c.getTag() != tag) {
-            throw new ClassFormatException("Expected class `" + tag.getName() + "' at index " + index + " and got " + c);
-        }
-        return c;
     }
 
 //    public Constant getConstant(int index, int tag) throws ClassFormatException {
@@ -117,6 +124,17 @@ public class ConstantPool {
 //        }
 //        return c;
 //    }
+
+    public Constant getConstant(int index, ClassFileConstants tag) throws ClassFormatException {
+        Constant c = getConstant(index);
+        if (c == null) {
+            throw new ClassFormatException("Constant pool at index " + index + " is null.");
+        }
+        if (c.getTag() != tag) {
+            throw new ClassFormatException("Expected class `" + tag.getName() + "' at index " + index + " and got " + c);
+        }
+        return c;
+    }
 
     public Constant[] getConstantPool() {
         return constantPool;
@@ -137,6 +155,14 @@ public class ConstantPool {
 
     public int getLength() {
         return constantPool == null ? 0 : constantPool.length;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + Arrays.hashCode(constantPool);
+        return result;
     }
 
     public void setConstant(int index, Constant constant) {

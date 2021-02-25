@@ -2,6 +2,7 @@ package com.wade.decompiler.classfile.attribute;
 
 import java.io.DataInput;
 import java.io.IOException;
+import java.util.Arrays;
 
 import com.wade.decompiler.classfile.ClassFormatException;
 import com.wade.decompiler.classfile.constant.ConstantPool;
@@ -62,6 +63,31 @@ public class StackMapEntry {
         this.constantPool = constantPool;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        StackMapEntry other = (StackMapEntry) obj;
+        if (byteCodeOffset != other.byteCodeOffset)
+            return false;
+        if (constantPool == null) {
+            if (other.constantPool != null)
+                return false;
+        } else if (!constantPool.equals(other.constantPool))
+            return false;
+        if (frameType != other.frameType)
+            return false;
+        if (!Arrays.equals(typesOfLocals, other.typesOfLocals))
+            return false;
+        if (!Arrays.equals(typesOfStackItems, other.typesOfStackItems))
+            return false;
+        return true;
+    }
+
     public int getByteCodeOffset() {
         return byteCodeOffset;
     }
@@ -119,6 +145,18 @@ public class StackMapEntry {
 
     public StackMapType[] getTypesOfStackItems() {
         return typesOfStackItems;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + byteCodeOffset;
+        result = prime * result + ((constantPool == null) ? 0 : constantPool.hashCode());
+        result = prime * result + frameType;
+        result = prime * result + Arrays.hashCode(typesOfLocals);
+        result = prime * result + Arrays.hashCode(typesOfStackItems);
+        return result;
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.wade.decompiler.test;
 
 import java.io.Serializable;
 
+@SuppressWarnings("unused")
 public class Test1 implements Serializable {
     private static final long serialVersionUID = -5103281989426867172L;
     private char var1;

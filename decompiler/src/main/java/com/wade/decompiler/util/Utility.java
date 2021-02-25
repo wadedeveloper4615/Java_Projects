@@ -25,6 +25,7 @@ import com.wade.decompiler.enums.ClassAccessFlags;
 import com.wade.decompiler.enums.ClassAccessFlagsList;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.enums.InstructionOpCodes;
+import com.wade.decompiler.enums.TypeEnum;
 import com.wade.decompiler.generate.attribute.LocalVariableGen;
 import com.wade.decompiler.generate.attribute.LocalVariableTableGen;
 
@@ -325,7 +326,7 @@ public abstract class Utility {
                 break;
 
             case NEWARRAY:
-                buf.append("\t\t<").append(Const.getTypeName(bytes.readByte())).append(">");
+                buf.append("\t\t<").append(TypeEnum.read(bytes.readByte()).getTypeName()).append(">");
                 break;
 
             case GETFIELD:
@@ -402,17 +403,17 @@ public abstract class Utility {
                 buf.append("\t\t%").append(vindex).append("\t").append(constant);
                 break;
             default:
-                if (Const.getNoOfOperands(opcode.getOpcode()) > 0) {
-                    for (int i = 0; i < Const.getOperandTypeCount(opcode.getOpcode()); i++) {
+                if (opcode.getNumberOfOperands() > 0) {
+                    for (int i = 0; i < opcode.getTypeOfOperands().length; i++) {
                         buf.append("\t\t");
-                        switch (Const.getOperandType(opcode.getOpcode(), i)) {
-                            case Const.T_BYTE:
+                        switch (opcode.getTypeOfOperands()[i]) {
+                            case T_BYTE:
                                 buf.append(bytes.readByte());
                                 break;
-                            case Const.T_SHORT:
+                            case T_SHORT:
                                 buf.append(bytes.readShort());
                                 break;
-                            case Const.T_INT:
+                            case T_INT:
                                 buf.append(bytes.readInt());
                                 break;
                             default: // Never reached
@@ -617,10 +618,10 @@ public abstract class Utility {
             buf.append('[');
         }
         boolean found = false;
-        for (int i = Const.T_BOOLEAN; (i <= Const.T_VOID) && !found; i++) {
-            if (Const.getTypeName(i).equals(type)) {
+        for (int i = TypeEnum.T_BOOLEAN.getTag(); (i <= TypeEnum.T_VOID.getTag()) && !found; i++) {
+            if (TypeEnum.read(i).getTypeName().equals(type)) {
                 found = true;
-                buf.append(Const.getShortTypeName(i));
+                buf.append(TypeEnum.read(i).getShortTypeName());
             }
         }
         if (!found) {
@@ -820,7 +821,7 @@ public abstract class Utility {
     public static short searchOpcode(String name) {
         name = name.toLowerCase(Locale.ENGLISH);
         for (short i = 0; i < Const.OPCODE_NAMES_LENGTH; i++) {
-            if (Const.getOpcodeName(i).equals(name)) {
+            if (InstructionOpCodes.read(i).getName().equals(name)) {
                 return i;
             }
         }
@@ -930,7 +931,7 @@ public abstract class Utility {
         }
     }
 
-    public static byte typeOfMethodSignature(final String signature) throws ClassFormatException {
+    public static TypeEnum typeOfMethodSignature(final String signature) throws ClassFormatException {
         int index;
         try {
             if (signature.charAt(0) != '(') {
@@ -943,32 +944,33 @@ public abstract class Utility {
         }
     }
 
-    public static byte typeOfSignature(final String signature) throws ClassFormatException {
+    public static TypeEnum typeOfSignature(final String signature) throws ClassFormatException {
+
         try {
             switch (signature.charAt(0)) {
                 case 'B':
-                    return Const.T_BYTE;
+                    return TypeEnum.T_BYTE;
                 case 'C':
-                    return Const.T_CHAR;
+                    return TypeEnum.T_CHAR;
                 case 'D':
-                    return Const.T_DOUBLE;
+                    return TypeEnum.T_DOUBLE;
                 case 'F':
-                    return Const.T_FLOAT;
+                    return TypeEnum.T_FLOAT;
                 case 'I':
-                    return Const.T_INT;
+                    return TypeEnum.T_INT;
                 case 'J':
-                    return Const.T_LONG;
+                    return TypeEnum.T_LONG;
                 case 'L':
                 case 'T':
-                    return Const.T_REFERENCE;
+                    return TypeEnum.T_REFERENCE;
                 case '[':
-                    return Const.T_ARRAY;
+                    return TypeEnum.T_ARRAY;
                 case 'V':
-                    return Const.T_VOID;
+                    return TypeEnum.T_VOID;
                 case 'Z':
-                    return Const.T_BOOLEAN;
+                    return TypeEnum.T_BOOLEAN;
                 case 'S':
-                    return Const.T_SHORT;
+                    return TypeEnum.T_SHORT;
                 case '!':
                 case '+':
                 case '*':

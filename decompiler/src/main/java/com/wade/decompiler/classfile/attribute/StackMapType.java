@@ -4,8 +4,8 @@ import java.io.DataInput;
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.constants.Const;
 import com.wade.decompiler.enums.ClassFileConstants;
+import com.wade.decompiler.enums.ItemNamesEnum;
 
 public class StackMapType {
     private byte type;
@@ -14,7 +14,7 @@ public class StackMapType {
     private String name;
 
     public StackMapType(byte type, int index, ConstantPool constant_pool) {
-        if ((type < Const.ITEM_Bogus) || (type > Const.ITEM_NewObject)) {
+        if ((type < ItemNamesEnum.ITEM_Bogus.getTag()) || (type > ItemNamesEnum.ITEM_NewObject.getTag())) {
             throw new IllegalArgumentException("Illegal type for StackMapType: " + type);
         }
         this.type = type;
@@ -89,7 +89,7 @@ public class StackMapType {
     }
 
     public boolean hasIndex() {
-        return type == Const.ITEM_Object || type == Const.ITEM_NewObject;
+        return type == ItemNamesEnum.ITEM_Object.getTag() || type == ItemNamesEnum.ITEM_NewObject.getTag();
     }
 
     public void setConstantPool(ConstantPool constantPool) {

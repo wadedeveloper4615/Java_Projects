@@ -35,6 +35,7 @@ public class JavaClassFileDecompiler {
         }
         System.out.println("/*");
         System.out.println("\tFilename = " + jgen.getFilename());
+        System.out.println("\tFilename = " + jgen.getFilename());
         System.out.println("\tVersion=" + jgen.getVersion());
         System.out.println(jgen.getConstantPool().toString("\t"));
         System.out.println("*/");

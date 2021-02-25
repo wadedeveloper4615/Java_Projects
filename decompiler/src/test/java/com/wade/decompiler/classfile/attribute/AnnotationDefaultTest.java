@@ -107,6 +107,7 @@ public class AnnotationDefaultTest {
         assertTrue(annotation1.equals(annotation2));
     }
 
+    @SuppressWarnings("unlikely-arg-type")
     @Test
     void testEqualsObject7() throws Exception {
         when(mockInputStream.read()).thenReturn((int) ElementValue.PRIMITIVE_LONG).thenReturn(0).thenReturn(1);

@@ -269,7 +269,7 @@ public abstract class Type {
     }
 
     public static int getTypeSize(String signature) throws StringIndexOutOfBoundsException {
-        byte type = Utility.typeOfSignature(signature);
+        byte type = (byte) Utility.typeOfSignature(signature).getTag();
         if (type <= TypeEnum.T_VOID.getTag()) {
             return encode(BasicType.getType(type).getSize(), 1);
         } else if (type == TypeEnum.T_ARRAY.getTag()) {

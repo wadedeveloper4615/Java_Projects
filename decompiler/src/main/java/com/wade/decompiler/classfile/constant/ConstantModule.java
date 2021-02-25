@@ -1,6 +1,6 @@
 package com.wade.decompiler.classfile.constant;
 
-import java.io.DataInput;
+import java.io.DataInputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.enums.ClassFileConstants;
@@ -8,7 +8,7 @@ import com.wade.decompiler.enums.ClassFileConstants;
 public class ConstantModule extends Constant implements ConstantObject {
     private final int nameIndex;
 
-    public ConstantModule(DataInput file) throws IOException {
+    public ConstantModule(DataInputStream file) throws IOException {
         this(file.readUnsignedShort());
     }
 

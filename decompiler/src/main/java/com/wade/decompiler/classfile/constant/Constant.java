@@ -1,6 +1,6 @@
 package com.wade.decompiler.classfile.constant;
 
-import java.io.DataInput;
+import java.io.DataInputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.ClassFormatException;
@@ -44,7 +44,7 @@ public abstract class Constant {
         return tag.getName();
     }
 
-    public static Constant readConstant(DataInput dataInput) throws IOException, ClassFormatException {
+    public static Constant readConstant(DataInputStream dataInput) throws IOException, ClassFormatException {
         ClassFileConstants constant = ClassFileConstants.read(dataInput.readByte());
         switch (constant) {
             case CONSTANT_Class:

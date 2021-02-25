@@ -1,6 +1,6 @@
 package com.wade.decompiler.classfile.attribute;
 
-import java.io.DataInput;
+import java.io.DataInputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
@@ -27,7 +27,7 @@ public class StackMapType {
         }
     }
 
-    public StackMapType(DataInput file, ConstantPool constant_pool) throws IOException {
+    public StackMapType(DataInputStream file, ConstantPool constant_pool) throws IOException {
         this(file.readByte(), -1, constant_pool);
         if (hasIndex()) {
             this.index = file.readShort();

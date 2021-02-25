@@ -1,6 +1,5 @@
 package com.wade.decompiler.classfile.attribute;
 
-import java.io.DataInput;
 import java.io.DataInputStream;
 import java.io.IOException;
 
@@ -88,7 +87,7 @@ public abstract class Attribute {
         return tag.getName();
     }
 
-    public static Attribute readAttribute(DataInput file, ConstantPool constant_pool) throws IOException, ClassFormatException {
+    public static Attribute readAttribute(DataInputStream file, ConstantPool constant_pool) throws IOException, ClassFormatException {
         ClassFileAttributes tag = ClassFileAttributes.ATTR_UNKNOWN;
         int name_index = file.readUnsignedShort();
         String name = ((ConstantUtf8) constant_pool.getConstant(name_index, ClassFileConstants.CONSTANT_Utf8)).getBytes();
@@ -160,9 +159,5 @@ public abstract class Attribute {
             default:
                 throw new IllegalStateException("Unrecognized attribute type tag parsed: " + tag);
         }
-    }
-
-    public static Attribute readAttribute(DataInputStream file, ConstantPool constant_pool) throws IOException, ClassFormatException {
-        return readAttribute((DataInput) file, constant_pool);
     }
 }

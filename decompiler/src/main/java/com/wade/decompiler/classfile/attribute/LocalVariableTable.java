@@ -1,6 +1,6 @@
 package com.wade.decompiler.classfile.attribute;
 
-import java.io.DataInput;
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -11,7 +11,7 @@ import com.wade.decompiler.util.Utility;
 public class LocalVariableTable extends Attribute {
     private LocalVariable[] localVariableTable;
 
-    public LocalVariableTable(int name_index, int length, DataInput input, ConstantPool constant_pool) throws IOException {
+    public LocalVariableTable(int name_index, int length, DataInputStream input, ConstantPool constant_pool) throws IOException {
         this(name_index, length, (LocalVariable[]) null, constant_pool);
         int local_variable_table_length = input.readUnsignedShort();
         localVariableTable = new LocalVariable[local_variable_table_length];

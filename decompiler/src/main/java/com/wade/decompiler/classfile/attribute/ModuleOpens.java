@@ -1,6 +1,6 @@
-package com.wade.decompiler.classfile;
+package com.wade.decompiler.classfile.attribute;
 
-import java.io.DataInput;
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -10,7 +10,7 @@ public class ModuleOpens {
     private int opensToCount;
     private int[] opensToIndex;
 
-    public ModuleOpens(DataInput file) throws IOException {
+    public ModuleOpens(DataInputStream file) throws IOException {
         opensIndex = file.readUnsignedShort();
         opensFlags = file.readUnsignedShort();
         opensToCount = file.readUnsignedShort();

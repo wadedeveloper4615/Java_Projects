@@ -1,6 +1,6 @@
 package com.wade.decompiler.classfile.constant;
 
-import java.io.DataInput;
+import java.io.DataInputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.enums.ClassFileConstants;
@@ -8,7 +8,7 @@ import com.wade.decompiler.enums.ClassFileConstants;
 public class ConstantLong extends Constant implements ConstantObject {
     private final long bytes;
 
-    public ConstantLong(DataInput file) throws IOException {
+    public ConstantLong(DataInputStream file) throws IOException {
         this(file.readLong());
     }
 

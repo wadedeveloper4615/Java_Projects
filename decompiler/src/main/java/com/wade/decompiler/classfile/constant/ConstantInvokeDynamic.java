@@ -1,12 +1,12 @@
 package com.wade.decompiler.classfile.constant;
 
-import java.io.DataInput;
+import java.io.DataInputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.enums.ClassFileConstants;
 
 public class ConstantInvokeDynamic extends ConstantConstantPool {
-    public ConstantInvokeDynamic(DataInput file) throws IOException {
+    public ConstantInvokeDynamic(DataInputStream file) throws IOException {
         this(file.readShort(), file.readShort());
     }
 

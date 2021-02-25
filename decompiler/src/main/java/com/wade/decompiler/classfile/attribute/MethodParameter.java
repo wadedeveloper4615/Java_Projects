@@ -1,6 +1,6 @@
 package com.wade.decompiler.classfile.attribute;
 
-import java.io.DataInput;
+import java.io.DataInputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
@@ -13,7 +13,7 @@ public class MethodParameter {
     private ClassAccessFlags accessFlags;
     private String name;
 
-    public MethodParameter(DataInput input, ConstantPool constant_pool) throws IOException {
+    public MethodParameter(DataInputStream input, ConstantPool constant_pool) throws IOException {
         nameIndex = input.readUnsignedShort();
         accessFlags = ClassAccessFlags.read(input.readUnsignedShort());
         name = ((ConstantUtf8) constant_pool.getConstant(nameIndex, ClassFileConstants.CONSTANT_Utf8)).getBytes();

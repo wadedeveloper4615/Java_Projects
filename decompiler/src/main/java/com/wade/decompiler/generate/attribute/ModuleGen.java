@@ -2,11 +2,11 @@ package com.wade.decompiler.generate.attribute;
 
 import java.util.Arrays;
 
-import com.wade.decompiler.classfile.ModuleExports;
-import com.wade.decompiler.classfile.ModuleOpens;
-import com.wade.decompiler.classfile.ModuleProvides;
-import com.wade.decompiler.classfile.ModuleRequires;
 import com.wade.decompiler.classfile.attribute.Module;
+import com.wade.decompiler.classfile.attribute.ModuleExports;
+import com.wade.decompiler.classfile.attribute.ModuleOpens;
+import com.wade.decompiler.classfile.attribute.ModuleProvides;
+import com.wade.decompiler.classfile.attribute.ModuleRequires;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.ClassAccessFlagsList;
 import com.wade.decompiler.enums.ClassFileConstants;

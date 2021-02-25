@@ -1,6 +1,6 @@
 package com.wade.decompiler.classfile.attribute;
 
-import java.io.DataInput;
+import java.io.DataInputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
@@ -9,7 +9,7 @@ import com.wade.decompiler.enums.ClassFileAttributes;
 public class NestHost extends Attribute {
     private int hostClassIndex;
 
-    public NestHost(int name_index, int length, DataInput input, ConstantPool constant_pool) throws IOException {
+    public NestHost(int name_index, int length, DataInputStream input, ConstantPool constant_pool) throws IOException {
         this(name_index, length, 0, constant_pool);
         hostClassIndex = input.readUnsignedShort();
     }

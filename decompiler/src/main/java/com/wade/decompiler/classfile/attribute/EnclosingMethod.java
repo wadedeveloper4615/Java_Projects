@@ -1,6 +1,6 @@
 package com.wade.decompiler.classfile.attribute;
 
-import java.io.DataInput;
+import java.io.DataInputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
@@ -10,7 +10,7 @@ public class EnclosingMethod extends Attribute {
     private int classIndex;
     private int methodIndex;
 
-    public EnclosingMethod(int nameIndex, int len, DataInput input, ConstantPool cpool) throws IOException {
+    public EnclosingMethod(int nameIndex, int len, DataInputStream input, ConstantPool cpool) throws IOException {
         this(nameIndex, len, input.readUnsignedShort(), input.readUnsignedShort(), cpool);
     }
 

@@ -1,6 +1,6 @@
 package com.wade.decompiler.generate.attribute;
 
-import com.wade.decompiler.classfile.ModuleRequires;
+import com.wade.decompiler.classfile.attribute.ModuleRequires;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.ClassAccessFlagsList;
 import com.wade.decompiler.enums.ClassFileConstants;

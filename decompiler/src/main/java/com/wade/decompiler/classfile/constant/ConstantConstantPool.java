@@ -1,6 +1,6 @@
 package com.wade.decompiler.classfile.constant;
 
-import java.io.DataInput;
+import java.io.DataInputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.enums.ClassFileConstants;
@@ -9,7 +9,7 @@ public abstract class ConstantConstantPool extends Constant {
     protected final int classIndex;
     protected final int nameAndTypeIndex;
 
-    public ConstantConstantPool(ClassFileConstants tag, DataInput file) throws IOException {
+    public ConstantConstantPool(ClassFileConstants tag, DataInputStream file) throws IOException {
         this(tag, file.readUnsignedShort(), file.readUnsignedShort());
     }
 

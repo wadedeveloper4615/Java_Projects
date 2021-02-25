@@ -1,20 +1,19 @@
 package com.wade.decompiler.classfile;
 
-import java.io.DataInput;
+import java.io.DataInputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.constants.Constants;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.util.Utility;
 
-public class CodeException implements Constants {
+public class CodeException {
     private int startPc;
     private int endPc;
     private int handlerPc;
     private int catchType;
 
-    public CodeException(DataInput file) throws IOException {
+    public CodeException(DataInputStream file) throws IOException {
         this(file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort());
     }
 

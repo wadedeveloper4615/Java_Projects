@@ -1,6 +1,6 @@
 package com.wade.decompiler.classfile.attribute;
 
-import java.io.DataInput;
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -10,7 +10,7 @@ import com.wade.decompiler.enums.ClassFileAttributes;
 public class LocalVariableTypeTable extends Attribute {
     private LocalVariable[] localVariableTypeTable;
 
-    public LocalVariableTypeTable(int nameIdx, int len, DataInput input, ConstantPool cpool) throws IOException {
+    public LocalVariableTypeTable(int nameIdx, int len, DataInputStream input, ConstantPool cpool) throws IOException {
         this(nameIdx, len, (LocalVariable[]) null, cpool);
         int local_variable_type_table_length = input.readUnsignedShort();
         localVariableTypeTable = new LocalVariable[local_variable_type_table_length];

@@ -1,6 +1,6 @@
 package com.wade.decompiler.classfile.attribute;
 
-import java.io.DataInput;
+import java.io.DataInputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
@@ -12,7 +12,7 @@ public class InnerClass {
     private int innerNameIndex;
     private ClassAccessFlagsList innerAccessFlags;
 
-    public InnerClass(DataInput file, ConstantPool constantPool) throws IOException {
+    public InnerClass(DataInputStream file, ConstantPool constantPool) throws IOException {
         this(file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort(), constantPool);
     }
 

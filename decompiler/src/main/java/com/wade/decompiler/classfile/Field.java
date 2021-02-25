@@ -1,6 +1,6 @@
 package com.wade.decompiler.classfile;
 
-import java.io.DataInput;
+import java.io.DataInputStream;
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.attribute.Attribute;
@@ -8,7 +8,7 @@ import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.util.Utility;
 
 public class Field extends FieldOrMethod {
-    public Field(DataInput file, ConstantPool constantPool) throws IOException, ClassFormatException {
+    public Field(DataInputStream file, ConstantPool constantPool) throws IOException, ClassFormatException {
         super(file, constantPool);
     }
 

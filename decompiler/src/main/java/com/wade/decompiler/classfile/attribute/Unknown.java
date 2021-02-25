@@ -1,6 +1,6 @@
 package com.wade.decompiler.classfile.attribute;
 
-import java.io.DataInput;
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -15,7 +15,7 @@ public class Unknown extends Attribute {
         this.bytes = bytes;
     }
 
-    public Unknown(int nameIndex, int length, DataInput input, ConstantPool constant_pool) throws IOException {
+    public Unknown(int nameIndex, int length, DataInputStream input, ConstantPool constant_pool) throws IOException {
         this(nameIndex, length, (byte[]) null, constant_pool);
         if (length > 0) {
             bytes = new byte[length];

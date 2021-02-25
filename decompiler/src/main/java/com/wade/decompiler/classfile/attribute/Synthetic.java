@@ -1,6 +1,6 @@
 package com.wade.decompiler.classfile.attribute;
 
-import java.io.DataInput;
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -15,7 +15,7 @@ public class Synthetic extends Attribute {
         this.bytes = bytes;
     }
 
-    public Synthetic(int name_index, int length, DataInput input, ConstantPool constant_pool) throws IOException {
+    public Synthetic(int name_index, int length, DataInputStream input, ConstantPool constant_pool) throws IOException {
         this(name_index, length, (byte[]) null, constant_pool);
         if (length > 0) {
             bytes = new byte[length];

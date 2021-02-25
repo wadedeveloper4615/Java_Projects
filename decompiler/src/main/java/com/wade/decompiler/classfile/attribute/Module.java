@@ -1,13 +1,9 @@
 package com.wade.decompiler.classfile.attribute;
 
-import java.io.DataInput;
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.Arrays;
 
-import com.wade.decompiler.classfile.ModuleExports;
-import com.wade.decompiler.classfile.ModuleOpens;
-import com.wade.decompiler.classfile.ModuleProvides;
-import com.wade.decompiler.classfile.ModuleRequires;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.ClassFileAttributes;
 
@@ -22,7 +18,7 @@ public class Module extends Attribute {
     private int[] usesIndex;
     private ModuleProvides[] providesTable;
 
-    public Module(int name_index, int length, DataInput input, ConstantPool constant_pool) throws IOException {
+    public Module(int name_index, int length, DataInputStream input, ConstantPool constant_pool) throws IOException {
         super(ClassFileAttributes.ATTR_MODULE, name_index, length, constant_pool);
         moduleNameIndex = input.readUnsignedShort();
         moduleFlags = input.readUnsignedShort();

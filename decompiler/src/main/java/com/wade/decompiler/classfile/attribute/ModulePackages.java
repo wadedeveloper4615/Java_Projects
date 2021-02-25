@@ -1,6 +1,6 @@
 package com.wade.decompiler.classfile.attribute;
 
-import java.io.DataInput;
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -10,7 +10,7 @@ import com.wade.decompiler.enums.ClassFileAttributes;
 public class ModulePackages extends Attribute {
     private int[] packageIndexTable;
 
-    public ModulePackages(int name_index, int length, DataInput input, ConstantPool constantPool) throws IOException {
+    public ModulePackages(int name_index, int length, DataInputStream input, ConstantPool constantPool) throws IOException {
         this(name_index, length, (int[]) null, constantPool);
         int number_of_packages = input.readUnsignedShort();
         packageIndexTable = new int[number_of_packages];

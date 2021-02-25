@@ -17,6 +17,7 @@ import com.wade.decompiler.enums.ClassAccessFlags;
 import com.wade.decompiler.enums.ClassAccessFlagsList;
 import com.wade.decompiler.enums.Version;
 
+@SuppressWarnings("unused")
 public class ClassParser {
     private static int BUFSIZE = 8192;
     private InputStream inputStream;
@@ -59,58 +60,6 @@ public class ClassParser {
             throw new IOException("File " + fileName + " not found");
         }
         inputStream = new BufferedInputStream(zip.getInputStream(entry), BUFSIZE);
-    }
-
-    public ClassAccessFlagsList getAccessFlags() {
-        return accessFlags;
-    }
-
-    public Attribute[] getAttributes() {
-        return attributes;
-    }
-
-    public int getClassNameIndex() {
-        return classNameIndex;
-    }
-
-    public ConstantPool getConstantPool() {
-        return constantPool;
-    }
-
-    public Field[] getFields() {
-        return fields;
-    }
-
-    public String getFileName() {
-        return fileName;
-    }
-
-    public InputStream getInputStream() {
-        return inputStream;
-    }
-
-    public int[] getInterfaces() {
-        return interfaces;
-    }
-
-    public Method[] getMethods() {
-        return methods;
-    }
-
-    public int getSuperclassNameIndex() {
-        return superclassNameIndex;
-    }
-
-    public Version getVersion() {
-        return version;
-    }
-
-    public ZipFile getZip() {
-        return zip;
-    }
-
-    public boolean isZip() {
-        return isZip;
     }
 
     public JavaClass parse() throws IOException, ClassFormatException {

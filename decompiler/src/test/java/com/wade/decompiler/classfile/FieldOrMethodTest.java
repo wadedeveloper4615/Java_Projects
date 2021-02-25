@@ -51,6 +51,7 @@ class FieldOrMethodTest {
         assertFalse(field1.equals(null));
     }
 
+    @SuppressWarnings("unlikely-arg-type")
     @Test
     void testEqualsObject4() {
         FieldOrMethod field1 = new Field(1, 2, 3, new Attribute[] { new ConstantValue(0, 0, 0, null) }, new ConstantPool());

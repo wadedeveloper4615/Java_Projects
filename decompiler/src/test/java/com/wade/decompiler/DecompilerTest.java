@@ -209,6 +209,7 @@ class DecompilerTest {
         assertNotNull(javaClass1.hashCode());
     }
 
+    @SuppressWarnings("unlikely-arg-type")
     @Test
     void testEquals23() throws Exception {
         Class<Decompiler> c = Decompiler.class;

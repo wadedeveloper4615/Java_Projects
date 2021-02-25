@@ -1,6 +1,6 @@
 package com.wade.decompiler.classfile.attribute;
 
-import java.io.DataInputStream;
+import java.io.DataInput;
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -15,7 +15,7 @@ public class BootstrapMethods extends Attribute {
         this.bootstrapMethods = bootstrapMethods;
     }
 
-    public BootstrapMethods(int nameIndex, int length, DataInputStream input, ConstantPool constantPool) throws IOException {
+    public BootstrapMethods(int nameIndex, int length, DataInput input, ConstantPool constantPool) throws IOException {
         this(nameIndex, length, (BootstrapMethod[]) null, constantPool);
         int num_bootstrap_methods = input.readUnsignedShort();
         bootstrapMethods = new BootstrapMethod[num_bootstrap_methods];

@@ -1,14 +1,15 @@
 package com.wade.decompiler.classfile;
 
-import java.io.DataInputStream;
+import java.io.DataInput;
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.attribute.Attribute;
 import com.wade.decompiler.classfile.constant.ConstantPool;
+import com.wade.decompiler.classfile.exceptions.ClassFormatException;
 import com.wade.decompiler.util.Utility;
 
 public class Method extends FieldOrMethod {
-    public Method(DataInputStream file, ConstantPool constantPool) throws IOException, ClassFormatException {
+    public Method(DataInput file, ConstantPool constantPool) throws IOException, ClassFormatException {
         super(file, constantPool);
     }
 

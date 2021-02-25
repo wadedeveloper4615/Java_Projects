@@ -1,6 +1,6 @@
 package com.wade.decompiler.classfile.attribute;
 
-import java.io.DataInputStream;
+import java.io.DataInput;
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
@@ -10,7 +10,7 @@ public class PMGClass extends Attribute {
     private int pmgClassIndex;
     private int pmgIndex;
 
-    public PMGClass(int nameIndex, int length, DataInputStream input, ConstantPool constantPool) throws IOException {
+    public PMGClass(int nameIndex, int length, DataInput input, ConstantPool constantPool) throws IOException {
         this(nameIndex, length, input.readUnsignedShort(), input.readUnsignedShort(), constantPool);
     }
 

@@ -1,6 +1,6 @@
 package com.wade.decompiler.enums;
 
-import java.io.DataInputStream;
+import java.io.DataInput;
 import java.io.IOException;
 import java.util.List;
 
@@ -8,7 +8,7 @@ public class ClassAccessFlagsList {
     private int flags;
     private List<ClassAccessFlags> flagsList;
 
-    public ClassAccessFlagsList(DataInputStream dataInputStream) throws IOException {
+    public ClassAccessFlagsList(DataInput dataInputStream) throws IOException {
         this.flags = dataInputStream.readUnsignedShort();
         this.flagsList = ClassAccessFlags.readList(flags);
     }

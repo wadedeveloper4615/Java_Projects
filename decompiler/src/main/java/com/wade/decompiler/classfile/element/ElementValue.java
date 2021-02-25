@@ -1,6 +1,6 @@
 package com.wade.decompiler.classfile.element;
 
-import java.io.DataInputStream;
+import java.io.DataInput;
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.attribute.AnnotationEntry;
@@ -79,7 +79,7 @@ public abstract class ElementValue {
         return stringifyValue();
     }
 
-    public static ElementValue readElementValue(DataInputStream input, ConstantPool cpool) throws IOException {
+    public static ElementValue readElementValue(DataInput input, ConstantPool cpool) throws IOException {
         byte type = input.readByte();
         switch (type) {
             case 16:

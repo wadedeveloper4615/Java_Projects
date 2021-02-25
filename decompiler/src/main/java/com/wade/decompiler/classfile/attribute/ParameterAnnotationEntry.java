@@ -1,6 +1,6 @@
 package com.wade.decompiler.classfile.attribute;
 
-import java.io.DataInputStream;
+import java.io.DataInput;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,7 +12,7 @@ import com.wade.decompiler.classfile.constant.ConstantPool;
 public class ParameterAnnotationEntry {
     private AnnotationEntry[] annotationTable;
 
-    public ParameterAnnotationEntry(DataInputStream input, ConstantPool constantPool) throws IOException {
+    public ParameterAnnotationEntry(DataInput input, ConstantPool constantPool) throws IOException {
         int annotation_table_length = input.readUnsignedShort();
         annotationTable = new AnnotationEntry[annotation_table_length];
         for (int i = 0; i < annotation_table_length; i++) {

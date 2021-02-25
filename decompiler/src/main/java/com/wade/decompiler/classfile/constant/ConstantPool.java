@@ -1,10 +1,10 @@
 package com.wade.decompiler.classfile.constant;
 
-import java.io.DataInputStream;
+import java.io.DataInput;
 import java.io.IOException;
 import java.util.Arrays;
 
-import com.wade.decompiler.classfile.ClassFormatException;
+import com.wade.decompiler.classfile.exceptions.ClassFormatException;
 import com.wade.decompiler.constants.Const;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.util.Utility;
@@ -19,7 +19,7 @@ public class ConstantPool {
         this.constantPool = constantPool;
     }
 
-    public ConstantPool(DataInputStream input) throws IOException, ClassFormatException {
+    public ConstantPool(DataInput input) throws IOException, ClassFormatException {
         ClassFileConstants tag;
         int constantPool_count = input.readUnsignedShort();
         constantPool = new Constant[constantPool_count];

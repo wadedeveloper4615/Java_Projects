@@ -1,13 +1,13 @@
 package com.wade.decompiler.classfile.attribute;
 
-import java.io.DataInputStream;
+import java.io.DataInput;
 import java.io.IOException;
 
 public class LineNumber {
     private final short startPc;
     private final short lineNumber;
 
-    public LineNumber(DataInputStream file) throws IOException {
+    public LineNumber(DataInput file) throws IOException {
         this(file.readUnsignedShort(), file.readUnsignedShort());
     }
 

@@ -1,6 +1,6 @@
 package com.wade.decompiler.classfile.attribute;
 
-import java.io.DataInputStream;
+import java.io.DataInput;
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -18,7 +18,7 @@ public class Module extends Attribute {
     private int[] usesIndex;
     private ModuleProvides[] providesTable;
 
-    public Module(int nameIndex, int length, DataInputStream input, ConstantPool constantPool) throws IOException {
+    public Module(int nameIndex, int length, DataInput input, ConstantPool constantPool) throws IOException {
         super(ClassFileAttributes.ATTR_MODULE, nameIndex, length, constantPool);
         moduleNameIndex = input.readUnsignedShort();
         moduleFlags = input.readUnsignedShort();

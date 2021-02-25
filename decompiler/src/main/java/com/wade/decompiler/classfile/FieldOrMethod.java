@@ -1,6 +1,6 @@
 package com.wade.decompiler.classfile;
 
-import java.io.DataInputStream;
+import java.io.DataInput;
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -14,7 +14,7 @@ public abstract class FieldOrMethod {
     protected ConstantPool constantPool;
     protected int accessFlags;
 
-    protected FieldOrMethod(DataInputStream file, ConstantPool constantPool) throws IOException {
+    protected FieldOrMethod(DataInput file, ConstantPool constantPool) throws IOException {
         this(file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort(), null, constantPool);
         int attributes_count = file.readUnsignedShort();
         attributes = new Attribute[attributes_count];
@@ -64,6 +64,10 @@ public abstract class FieldOrMethod {
         return attributes;
     }
 
+    public ConstantPool getConstantPool() {
+        return constantPool;
+    }
+
     public int getNameIndex() {
         return nameIndex;
     }
@@ -82,5 +86,25 @@ public abstract class FieldOrMethod {
         result = prime * result + nameIndex;
         result = prime * result + signatureIndex;
         return result;
+    }
+
+    public void setAccessFlags(int accessFlags) {
+        this.accessFlags = accessFlags;
+    }
+
+    public void setAttributes(Attribute[] attributes) {
+        this.attributes = attributes;
+    }
+
+    public void setConstantPool(ConstantPool constantPool) {
+        this.constantPool = constantPool;
+    }
+
+    public void setNameIndex(int nameIndex) {
+        this.nameIndex = nameIndex;
+    }
+
+    public void setSignatureIndex(int signatureIndex) {
+        this.signatureIndex = signatureIndex;
     }
 }

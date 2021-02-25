@@ -1,6 +1,6 @@
 package com.wade.decompiler.classfile.attribute;
 
-import java.io.DataInputStream;
+import java.io.DataInput;
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -10,7 +10,7 @@ import com.wade.decompiler.enums.ClassFileAttributes;
 public class ExceptionTable extends Attribute {
     private int[] exceptionIndexTable;
 
-    public ExceptionTable(int nameIndex, int length, DataInputStream input, ConstantPool constantPool) throws IOException {
+    public ExceptionTable(int nameIndex, int length, DataInput input, ConstantPool constantPool) throws IOException {
         this(nameIndex, length, (int[]) null, constantPool);
         int number_of_exceptions = input.readUnsignedShort();
         exceptionIndexTable = new int[number_of_exceptions];

@@ -1,6 +1,6 @@
 package com.wade.decompiler.classfile.attribute;
 
-import java.io.DataInputStream;
+import java.io.DataInput;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -107,7 +107,7 @@ public class AnnotationEntry {
         return "AnnotationEntry [typeIndex=" + typeIndex + ", constantPool=" + constantPool + ", isRuntimeVisible=" + isRuntimeVisible + ", elementValuePairs=" + elementValuePairs + "]";
     }
 
-    public static AnnotationEntry read(DataInputStream input, ConstantPool constantPool, boolean isRuntimeVisible) throws IOException {
+    public static AnnotationEntry read(DataInput input, ConstantPool constantPool, boolean isRuntimeVisible) throws IOException {
         int index = input.readUnsignedShort();
         AnnotationEntry annotationEntry = new AnnotationEntry(index, constantPool, isRuntimeVisible);
         int num_element_value_pairs = input.readUnsignedShort();

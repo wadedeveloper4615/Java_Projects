@@ -1,6 +1,6 @@
 package com.wade.decompiler.classfile.attribute;
 
-import java.io.DataInputStream;
+import java.io.DataInput;
 import java.io.IOException;
 
 import com.wade.decompiler.enums.ClassAccessFlagsList;
@@ -11,7 +11,7 @@ public class InnerClass {
     private int innerNameIndex;
     private ClassAccessFlagsList innerAccessFlags;
 
-    public InnerClass(DataInputStream file) throws IOException {
+    public InnerClass(DataInput file) throws IOException {
         this(file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort());
     }
 

@@ -6,8 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
-import java.io.DataInputStream;
-import java.io.InputStream;
+import java.io.DataInput;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,10 +17,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Decompiler JUnit 5 class accesss flags test")
 class ClassAccessFlagsListTest {
-    DataInputStream dataInputStream;
-
     @Mock
-    InputStream mockInputStream;
+    private DataInput dataInputStream;
 
     private void check2Flags(ClassAccessFlags flag1, ClassAccessFlags flag2) {
         int flag = flag1.getFlag() | flag2.getFlag();
@@ -38,9 +35,8 @@ class ClassAccessFlagsListTest {
 
     @Test
     void initTest() throws Exception {
-        when(mockInputStream.read()).thenReturn(0).thenReturn(ClassAccessFlags.ACC_INTERFACE.getFlag());
-        dataInputStream = new DataInputStream(mockInputStream);
-        ClassAccessFlagsList flagsList = new ClassAccessFlagsList(this.dataInputStream);
+        when(dataInputStream.readUnsignedShort()).thenReturn(ClassAccessFlags.ACC_INTERFACE.getFlag());
+        ClassAccessFlagsList flagsList = new ClassAccessFlagsList(dataInputStream);
         assertTrue(flagsList.isInterface());
     }
 

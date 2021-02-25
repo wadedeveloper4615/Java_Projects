@@ -1,6 +1,6 @@
 package com.wade.decompiler.classfile.attribute;
 
-import java.io.DataInputStream;
+import java.io.DataInput;
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -11,7 +11,7 @@ import com.wade.decompiler.util.Utility;
 public class LineNumberTable extends Attribute {
     private LineNumber[] lineNumberTable;
 
-    public LineNumberTable(int nameIndex, int length, DataInputStream input, ConstantPool constantPool) throws IOException {
+    public LineNumberTable(int nameIndex, int length, DataInput input, ConstantPool constantPool) throws IOException {
         this(nameIndex, length, (LineNumber[]) null, constantPool);
         int line_number_table_length = input.readUnsignedShort();
         lineNumberTable = new LineNumber[line_number_table_length];

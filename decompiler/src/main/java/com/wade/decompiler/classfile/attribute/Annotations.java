@@ -1,6 +1,6 @@
 package com.wade.decompiler.classfile.attribute;
 
-import java.io.DataInputStream;
+import java.io.DataInput;
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -17,7 +17,7 @@ public abstract class Annotations extends Attribute {
         this.isRuntimeVisible = isRuntimeVisible;
     }
 
-    public Annotations(ClassFileAttributes annotation_type, int nameIndex, int length, DataInputStream input, ConstantPool constantPool, boolean isRuntimeVisible) throws IOException {
+    public Annotations(ClassFileAttributes annotation_type, int nameIndex, int length, DataInput input, ConstantPool constantPool, boolean isRuntimeVisible) throws IOException {
         this(annotation_type, nameIndex, length, (AnnotationEntry[]) null, constantPool, isRuntimeVisible);
         int annotation_table_length = input.readUnsignedShort();
         annotationTable = new AnnotationEntry[annotation_table_length];

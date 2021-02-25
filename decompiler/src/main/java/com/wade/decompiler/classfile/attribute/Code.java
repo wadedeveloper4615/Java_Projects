@@ -1,10 +1,9 @@
 package com.wade.decompiler.classfile.attribute;
 
-import java.io.DataInputStream;
+import java.io.DataInput;
 import java.io.IOException;
 import java.util.Arrays;
 
-import com.wade.decompiler.classfile.CodeException;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.ClassFileAttributes;
 
@@ -17,7 +16,7 @@ public class Code extends Attribute {
     private LocalVariableTable localVariableTable;
     private LineNumberTable lineNumberTable;
 
-    public Code(int nameIndex, int length, DataInputStream file, ConstantPool constantPool) throws IOException {
+    public Code(int nameIndex, int length, DataInput file, ConstantPool constantPool) throws IOException {
         this(nameIndex, length, file.readUnsignedShort(), file.readUnsignedShort(), (byte[]) null, (CodeException[]) null, (Attribute[]) null, constantPool);
 
         int codeLength = file.readInt();

@@ -1,6 +1,6 @@
 package com.wade.decompiler.classfile.constant;
 
-import java.io.DataInputStream;
+import java.io.DataInput;
 import java.io.IOException;
 
 import com.wade.decompiler.enums.ClassFileConstants;
@@ -9,7 +9,7 @@ public class ConstantNameAndType extends Constant {
     private final int nameIndex;
     private final int signatureIndex;
 
-    public ConstantNameAndType(DataInputStream file) throws IOException {
+    public ConstantNameAndType(DataInput file) throws IOException {
         this(file.readUnsignedShort(), file.readUnsignedShort());
     }
 

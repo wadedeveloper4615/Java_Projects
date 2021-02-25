@@ -1,6 +1,6 @@
 package com.wade.decompiler.classfile.attribute;
 
-import java.io.DataInputStream;
+import java.io.DataInput;
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
@@ -10,7 +10,7 @@ import com.wade.decompiler.enums.ClassFileAttributes;
 public class AnnotationDefault extends Attribute {
     private ElementValue defaultValue;
 
-    public AnnotationDefault(int nameIndex, int length, DataInputStream input, ConstantPool constantPool) throws IOException {
+    public AnnotationDefault(int nameIndex, int length, DataInput input, ConstantPool constantPool) throws IOException {
         this(nameIndex, length, ElementValue.readElementValue(input, constantPool), constantPool);
     }
 

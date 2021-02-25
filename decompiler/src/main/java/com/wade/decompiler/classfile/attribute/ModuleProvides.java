@@ -1,6 +1,6 @@
 package com.wade.decompiler.classfile.attribute;
 
-import java.io.DataInputStream;
+import java.io.DataInput;
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -9,7 +9,7 @@ public class ModuleProvides {
     private int providesWithCount;
     private int[] providesWithIndex;
 
-    public ModuleProvides(DataInputStream file) throws IOException {
+    public ModuleProvides(DataInput file) throws IOException {
         providesIndex = file.readUnsignedShort();
         providesWithCount = file.readUnsignedShort();
         providesWithIndex = new int[providesWithCount];

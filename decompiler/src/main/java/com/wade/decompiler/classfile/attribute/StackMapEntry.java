@@ -1,11 +1,11 @@
 package com.wade.decompiler.classfile.attribute;
 
-import java.io.DataInputStream;
+import java.io.DataInput;
 import java.io.IOException;
 import java.util.Arrays;
 
-import com.wade.decompiler.classfile.ClassFormatException;
 import com.wade.decompiler.classfile.constant.ConstantPool;
+import com.wade.decompiler.classfile.exceptions.ClassFormatException;
 import com.wade.decompiler.constants.Const;
 
 public class StackMapEntry {
@@ -15,7 +15,7 @@ public class StackMapEntry {
     private StackMapType[] typesOfStackItems;
     private ConstantPool constantPool;
 
-    public StackMapEntry(DataInputStream input, ConstantPool constantPool) throws IOException {
+    public StackMapEntry(DataInput input, ConstantPool constantPool) throws IOException {
         this(input.readByte() & 0xFF, -1, null, null, constantPool);
         if (frameType >= Const.SAME_FRAME && frameType <= Const.SAME_FRAME_MAX) {
             byteCodeOffset = frameType - Const.SAME_FRAME;

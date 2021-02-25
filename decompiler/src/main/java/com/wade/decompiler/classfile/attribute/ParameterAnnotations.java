@@ -1,6 +1,6 @@
 package com.wade.decompiler.classfile.attribute;
 
-import java.io.DataInputStream;
+import java.io.DataInput;
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -10,7 +10,7 @@ import com.wade.decompiler.enums.ClassFileAttributes;
 public abstract class ParameterAnnotations extends Attribute {
     private ParameterAnnotationEntry[] parameterAnnotationTable;
 
-    public ParameterAnnotations(ClassFileAttributes parameter_annotation_type, int nameIndex, int length, DataInputStream input, ConstantPool constantPool) throws IOException {
+    public ParameterAnnotations(ClassFileAttributes parameter_annotation_type, int nameIndex, int length, DataInput input, ConstantPool constantPool) throws IOException {
         this(parameter_annotation_type, nameIndex, length, (ParameterAnnotationEntry[]) null, constantPool);
         int num_parameters = input.readUnsignedByte();
         parameterAnnotationTable = new ParameterAnnotationEntry[num_parameters];

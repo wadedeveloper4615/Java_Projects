@@ -1,6 +1,6 @@
 package com.wade.decompiler.classfile.attribute;
 
-import java.io.DataInputStream;
+import java.io.DataInput;
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
@@ -14,7 +14,7 @@ public class LocalVariable {
     private ConstantPool constantPool;
     private int origIndex;
 
-    public LocalVariable(DataInputStream file, ConstantPool constantPool) throws IOException {
+    public LocalVariable(DataInput file, ConstantPool constantPool) throws IOException {
         this(file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort(), constantPool);
     }
 

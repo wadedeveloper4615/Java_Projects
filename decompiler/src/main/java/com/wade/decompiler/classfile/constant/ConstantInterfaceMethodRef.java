@@ -1,12 +1,12 @@
 package com.wade.decompiler.classfile.constant;
 
-import java.io.DataInputStream;
+import java.io.DataInput;
 import java.io.IOException;
 
 import com.wade.decompiler.enums.ClassFileConstants;
 
 public class ConstantInterfaceMethodRef extends ConstantConstantPool {
-    public ConstantInterfaceMethodRef(DataInputStream input) throws IOException {
+    public ConstantInterfaceMethodRef(DataInput input) throws IOException {
         super(ClassFileConstants.CONSTANT_InterfaceMethodref, input);
     }
 

@@ -3,9 +3,9 @@ package com.wade.decompiler.generate.attribute;
 import java.io.IOException;
 import java.util.Arrays;
 
-import com.wade.decompiler.classfile.CodeException;
 import com.wade.decompiler.classfile.attribute.Attribute;
 import com.wade.decompiler.classfile.attribute.Code;
+import com.wade.decompiler.classfile.attribute.CodeException;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.instructions.base.Instruction;
 import com.wade.decompiler.classfile.instructions.base.InstructionList;

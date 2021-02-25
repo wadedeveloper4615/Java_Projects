@@ -1,6 +1,6 @@
 package com.wade.decompiler.classfile.attribute;
 
-import java.io.DataInputStream;
+import java.io.DataInput;
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -10,7 +10,7 @@ import com.wade.decompiler.enums.ClassFileAttributes;
 public class MethodParameters extends Attribute {
     private MethodParameter[] parameters = new MethodParameter[0];
 
-    public MethodParameters(int nameIndex, int length, DataInputStream input, ConstantPool constantPool) throws IOException {
+    public MethodParameters(int nameIndex, int length, DataInput input, ConstantPool constantPool) throws IOException {
         super(ClassFileAttributes.ATTR_METHOD_PARAMETERS, nameIndex, length, constantPool);
         int parameters_count = input.readUnsignedByte();
         parameters = new MethodParameter[parameters_count];

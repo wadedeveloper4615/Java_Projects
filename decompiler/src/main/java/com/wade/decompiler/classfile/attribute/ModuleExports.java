@@ -1,6 +1,6 @@
 package com.wade.decompiler.classfile.attribute;
 
-import java.io.DataInputStream;
+import java.io.DataInput;
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -10,7 +10,7 @@ public class ModuleExports {
     private int exportsToCount;
     private int[] exportsToIndex;
 
-    public ModuleExports(DataInputStream file) throws IOException {
+    public ModuleExports(DataInput file) throws IOException {
         exportsIndex = file.readUnsignedShort();
         exportsFlags = file.readUnsignedShort();
         exportsToCount = file.readUnsignedShort();

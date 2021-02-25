@@ -1,6 +1,7 @@
 package com.wade.decompiler.classfile;
 
 import java.io.BufferedInputStream;
+import java.io.DataInput;
 import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -10,6 +11,7 @@ import java.util.zip.ZipFile;
 
 import com.wade.decompiler.classfile.attribute.Attribute;
 import com.wade.decompiler.classfile.constant.ConstantPool;
+import com.wade.decompiler.classfile.exceptions.ClassFormatException;
 import com.wade.decompiler.constants.Const;
 import com.wade.decompiler.enums.ClassAccessFlags;
 import com.wade.decompiler.enums.ClassAccessFlagsList;
@@ -112,7 +114,8 @@ public class ClassParser {
     }
 
     public JavaClass parse() throws IOException, ClassFormatException {
-        try (DataInputStream dataInputStream = new DataInputStream(inputStream)) {
+        DataInput dataInputStream = new DataInputStream(inputStream);
+        try {
             readID(dataInputStream);
             readVersion(dataInputStream);
             readConstantPool(dataInputStream);
@@ -123,6 +126,9 @@ public class ClassParser {
             readAttributes(dataInputStream);
         } finally {
             try {
+                if (dataInputStream != null) {
+                    ((DataInputStream) dataInputStream).close();
+                }
                 if (zip != null) {
                     zip.close();
                 }
@@ -133,7 +139,7 @@ public class ClassParser {
         return new JavaClass(classNameIndex, superclassNameIndex, fileName, version, accessFlags, constantPool, interfaces, fields, methods, attributes);
     }
 
-    private void readAttributes(DataInputStream inputStream) throws IOException, ClassFormatException {
+    private void readAttributes(DataInput inputStream) throws IOException, ClassFormatException {
         int attributes_count = inputStream.readUnsignedShort();
         attributes = new Attribute[attributes_count];
         for (int i = 0; i < attributes_count; i++) {
@@ -141,7 +147,7 @@ public class ClassParser {
         }
     }
 
-    private void readClassInfo(DataInputStream inputStream) throws IOException, ClassFormatException {
+    private void readClassInfo(DataInput inputStream) throws IOException, ClassFormatException {
         accessFlags = new ClassAccessFlagsList(inputStream);
         if (accessFlags.isInterface()) {
             accessFlags.addFlag(ClassAccessFlags.ACC_ABSTRACT);
@@ -153,11 +159,11 @@ public class ClassParser {
         superclassNameIndex = inputStream.readUnsignedShort();
     }
 
-    private void readConstantPool(DataInputStream inputStream) throws IOException, ClassFormatException {
+    private void readConstantPool(DataInput inputStream) throws IOException, ClassFormatException {
         constantPool = new ConstantPool(inputStream);
     }
 
-    private void readFields(DataInputStream inputStream) throws IOException, ClassFormatException {
+    private void readFields(DataInput inputStream) throws IOException, ClassFormatException {
         int fields_count = inputStream.readUnsignedShort();
         fields = new Field[fields_count];
         for (int i = 0; i < fields_count; i++) {
@@ -165,13 +171,13 @@ public class ClassParser {
         }
     }
 
-    private void readID(DataInputStream inputStream) throws IOException, ClassFormatException {
+    private void readID(DataInput inputStream) throws IOException, ClassFormatException {
         if (inputStream.readInt() != Const.JVM_CLASSFILE_MAGIC) {
             throw new ClassFormatException(fileName + " is not a Java .class file");
         }
     }
 
-    private void readInterfaces(DataInputStream inputStream) throws IOException, ClassFormatException {
+    private void readInterfaces(DataInput inputStream) throws IOException, ClassFormatException {
         int interfaces_count = inputStream.readUnsignedShort();
         interfaces = new int[interfaces_count];
         for (int i = 0; i < interfaces_count; i++) {
@@ -179,7 +185,7 @@ public class ClassParser {
         }
     }
 
-    private void readMethods(DataInputStream inputStream) throws IOException, ClassFormatException {
+    private void readMethods(DataInput inputStream) throws IOException, ClassFormatException {
         int methods_count = inputStream.readUnsignedShort();
         methods = new Method[methods_count];
         for (int i = 0; i < methods_count; i++) {
@@ -187,7 +193,7 @@ public class ClassParser {
         }
     }
 
-    private void readVersion(DataInputStream inputStream) throws IOException, ClassFormatException {
+    private void readVersion(DataInput inputStream) throws IOException, ClassFormatException {
         version = Version.read(inputStream.readUnsignedShort(), inputStream.readUnsignedShort());
     }
 }

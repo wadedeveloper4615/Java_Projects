@@ -1,6 +1,6 @@
 package com.wade.decompiler.classfile.attribute;
 
-import java.io.DataInputStream;
+import java.io.DataInput;
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -13,7 +13,7 @@ public class BootstrapMethod {
     private int[] bootstrapArguments;
     private String bootstrap_method_name;
 
-    public BootstrapMethod(DataInputStream input, ConstantPool constantPool) throws IOException {
+    public BootstrapMethod(DataInput input, ConstantPool constantPool) throws IOException {
         this(input.readUnsignedShort(), input.readUnsignedShort(), constantPool);
         for (int i = 0; i < bootstrapArguments.length; i++) {
             bootstrapArguments[i] = input.readUnsignedShort();

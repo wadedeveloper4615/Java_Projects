@@ -2,7 +2,6 @@ package com.wade.decompiler.generate.attribute;
 
 import java.io.IOException;
 
-import com.wade.decompiler.classfile.ClassFormatException;
 import com.wade.decompiler.classfile.attribute.AnnotationDefault;
 import com.wade.decompiler.classfile.attribute.Attribute;
 import com.wade.decompiler.classfile.attribute.BootstrapMethods;
@@ -30,6 +29,7 @@ import com.wade.decompiler.classfile.attribute.StackMap;
 import com.wade.decompiler.classfile.attribute.Synthetic;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.constant.ConstantUtf8;
+import com.wade.decompiler.classfile.exceptions.ClassFormatException;
 import com.wade.decompiler.enums.ClassFileAttributes;
 import com.wade.decompiler.enums.ClassFileConstants;
 

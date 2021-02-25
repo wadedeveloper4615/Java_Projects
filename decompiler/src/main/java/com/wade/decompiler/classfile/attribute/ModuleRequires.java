@@ -1,6 +1,6 @@
 package com.wade.decompiler.classfile.attribute;
 
-import java.io.DataInputStream;
+import java.io.DataInput;
 import java.io.IOException;
 
 public class ModuleRequires {
@@ -8,7 +8,7 @@ public class ModuleRequires {
     private int requiresFlags;
     private int requiresVersionIndex;
 
-    public ModuleRequires(DataInputStream file) throws IOException {
+    public ModuleRequires(DataInput file) throws IOException {
         this.requiresIndex = file.readUnsignedShort();
         this.requiresFlags = file.readUnsignedShort();
         this.requiresVersionIndex = file.readUnsignedShort();

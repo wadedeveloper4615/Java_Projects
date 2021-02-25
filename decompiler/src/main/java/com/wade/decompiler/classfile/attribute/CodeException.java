@@ -1,6 +1,6 @@
-package com.wade.decompiler.classfile;
+package com.wade.decompiler.classfile.attribute;
 
-import java.io.DataInputStream;
+import java.io.DataInput;
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
@@ -13,7 +13,7 @@ public class CodeException {
     private int handlerPc;
     private int catchType;
 
-    public CodeException(DataInputStream file) throws IOException {
+    public CodeException(DataInput file) throws IOException {
         this(file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort());
     }
 

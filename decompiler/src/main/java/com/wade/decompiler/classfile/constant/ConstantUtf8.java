@@ -1,6 +1,6 @@
 package com.wade.decompiler.classfile.constant;
 
-import java.io.DataInputStream;
+import java.io.DataInput;
 import java.io.IOException;
 
 import com.wade.decompiler.enums.ClassFileConstants;
@@ -9,7 +9,7 @@ import com.wade.decompiler.util.Utility;
 public class ConstantUtf8 extends Constant {
     private final String value;
 
-    public ConstantUtf8(DataInputStream dataInput) throws IOException {
+    public ConstantUtf8(DataInput dataInput) throws IOException {
         super(ClassFileConstants.CONSTANT_Utf8);
         this.value = dataInput.readUTF();
     }

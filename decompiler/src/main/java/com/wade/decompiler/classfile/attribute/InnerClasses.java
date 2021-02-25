@@ -1,6 +1,6 @@
 package com.wade.decompiler.classfile.attribute;
 
-import java.io.DataInputStream;
+import java.io.DataInput;
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -10,7 +10,7 @@ import com.wade.decompiler.enums.ClassFileAttributes;
 public class InnerClasses extends Attribute {
     private InnerClass[] innerClasses;
 
-    public InnerClasses(int nameIndex, int length, DataInputStream input, ConstantPool constantPool) throws IOException {
+    public InnerClasses(int nameIndex, int length, DataInput input, ConstantPool constantPool) throws IOException {
         this(nameIndex, length, (InnerClass[]) null, constantPool);
         int number_of_classes = input.readUnsignedShort();
         innerClasses = new InnerClass[number_of_classes];

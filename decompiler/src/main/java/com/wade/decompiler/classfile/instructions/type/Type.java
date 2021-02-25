@@ -3,7 +3,7 @@ package com.wade.decompiler.classfile.instructions.type;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.wade.decompiler.classfile.ClassFormatException;
+import com.wade.decompiler.classfile.exceptions.ClassFormatException;
 import com.wade.decompiler.enums.TypeEnum;
 import com.wade.decompiler.util.Utility;
 

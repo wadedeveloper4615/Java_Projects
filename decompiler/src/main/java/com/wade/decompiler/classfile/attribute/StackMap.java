@@ -1,6 +1,6 @@
 package com.wade.decompiler.classfile.attribute;
 
-import java.io.DataInputStream;
+import java.io.DataInput;
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -10,7 +10,7 @@ import com.wade.decompiler.enums.ClassFileAttributes;
 public class StackMap extends Attribute {
     private StackMapEntry[] map;
 
-    public StackMap(int nameIndex, int length, DataInputStream input, ConstantPool constantPool) throws IOException {
+    public StackMap(int nameIndex, int length, DataInput input, ConstantPool constantPool) throws IOException {
         this(nameIndex, length, (StackMapEntry[]) null, constantPool);
         int map_length = input.readUnsignedShort();
         map = new StackMapEntry[map_length];

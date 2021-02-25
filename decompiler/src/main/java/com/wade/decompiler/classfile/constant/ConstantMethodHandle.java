@@ -1,6 +1,6 @@
 package com.wade.decompiler.classfile.constant;
 
-import java.io.DataInputStream;
+import java.io.DataInput;
 import java.io.IOException;
 
 import com.wade.decompiler.enums.ClassFileConstants;
@@ -9,7 +9,7 @@ public class ConstantMethodHandle extends Constant {
     private final int referenceKind;
     private final int referenceIndex;
 
-    public ConstantMethodHandle(DataInputStream file) throws IOException {
+    public ConstantMethodHandle(DataInput file) throws IOException {
         this(file.readUnsignedByte(), file.readUnsignedShort());
     }
 

@@ -1,13 +1,13 @@
 package com.wade.decompiler.classfile.attribute;
 
-import java.io.DataInputStream;
+import java.io.DataInput;
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.ClassFileAttributes;
 
 public class RuntimeInvisibleParameterAnnotations extends ParameterAnnotations {
-    public RuntimeInvisibleParameterAnnotations(int nameIndex, int length, DataInputStream input, ConstantPool constantPool) throws IOException {
+    public RuntimeInvisibleParameterAnnotations(int nameIndex, int length, DataInput input, ConstantPool constantPool) throws IOException {
         super(ClassFileAttributes.ATTR_RUNTIME_INVISIBLE_PARAMETER_ANNOTATIONS, nameIndex, length, input, constantPool);
     }
 

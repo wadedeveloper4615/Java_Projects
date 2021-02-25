@@ -1,10 +1,11 @@
 package com.wade.decompiler.classfile.attribute;
 
-import java.io.DataInputStream;
+import java.io.DataInput;
 import java.io.IOException;
 
-import com.wade.decompiler.classfile.ClassFormatException;
 import com.wade.decompiler.classfile.constant.ConstantPool;
+import com.wade.decompiler.classfile.constant.ConstantUtf8;
+import com.wade.decompiler.classfile.exceptions.ClassFormatException;
 import com.wade.decompiler.enums.ClassFileAttributes;
 import com.wade.decompiler.enums.ClassFileConstants;
 
@@ -86,10 +87,10 @@ public abstract class Attribute {
         return tag.getName();
     }
 
-    public static Attribute readAttribute(DataInputStream file, ConstantPool constantPool) throws IOException, ClassFormatException {
+    public static Attribute readAttribute(DataInput file, ConstantPool constantPool) throws IOException, ClassFormatException {
         ClassFileAttributes tag = ClassFileAttributes.ATTR_UNKNOWN;
         int nameIndex = file.readUnsignedShort();
-        String name = constantPool.getConstantString(nameIndex, ClassFileConstants.CONSTANT_Utf8);
+        String name = ((ConstantUtf8) constantPool.getConstant(nameIndex, ClassFileConstants.CONSTANT_Utf8)).getBytes();
         int length = file.readInt();
 
         for (ClassFileAttributes currentTag : ClassFileAttributes.values()) {

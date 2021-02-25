@@ -10,13 +10,13 @@ import com.wade.decompiler.enums.ClassFileAttributes;
 public class Unknown extends Attribute {
     private byte[] bytes;
 
-    public Unknown(int nameIndex, int length, byte[] bytes, ConstantPool constant_pool) {
-        super(ClassFileAttributes.ATTR_UNKNOWN, nameIndex, length, constant_pool);
+    public Unknown(int nameIndex, int length, byte[] bytes, ConstantPool constantPool) {
+        super(ClassFileAttributes.ATTR_UNKNOWN, nameIndex, length, constantPool);
         this.bytes = bytes;
     }
 
-    public Unknown(int nameIndex, int length, DataInputStream input, ConstantPool constant_pool) throws IOException {
-        this(nameIndex, length, (byte[]) null, constant_pool);
+    public Unknown(int nameIndex, int length, DataInputStream input, ConstantPool constantPool) throws IOException {
+        this(nameIndex, length, (byte[]) null, constantPool);
         if (length > 0) {
             bytes = new byte[length];
             input.readFully(bytes);

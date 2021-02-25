@@ -21,9 +21,9 @@ public class ConstantPool {
 
     public ConstantPool(DataInputStream input) throws IOException, ClassFormatException {
         ClassFileConstants tag;
-        int constant_pool_count = input.readUnsignedShort();
-        constantPool = new Constant[constant_pool_count];
-        for (int i = 1; i < constant_pool_count; i++) {
+        int constantPool_count = input.readUnsignedShort();
+        constantPool = new Constant[constantPool_count];
+        for (int i = 1; i < constantPool_count; i++) {
             constantPool[i] = Constant.readConstant(input);
             tag = constantPool[i].getTag();
             if ((tag == ClassFileConstants.CONSTANT_Double) || (tag == ClassFileConstants.CONSTANT_Long)) {

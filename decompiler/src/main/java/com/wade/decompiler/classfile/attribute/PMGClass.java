@@ -10,12 +10,12 @@ public class PMGClass extends Attribute {
     private int pmgClassIndex;
     private int pmgIndex;
 
-    public PMGClass(int name_index, int length, DataInputStream input, ConstantPool constant_pool) throws IOException {
-        this(name_index, length, input.readUnsignedShort(), input.readUnsignedShort(), constant_pool);
+    public PMGClass(int nameIndex, int length, DataInputStream input, ConstantPool constantPool) throws IOException {
+        this(nameIndex, length, input.readUnsignedShort(), input.readUnsignedShort(), constantPool);
     }
 
-    public PMGClass(int name_index, int length, int pmgIndex, int pmgClassIndex, ConstantPool constantPool) {
-        super(ClassFileAttributes.ATTR_PMG, name_index, length, constantPool);
+    public PMGClass(int nameIndex, int length, int pmgIndex, int pmgClassIndex, ConstantPool constantPool) {
+        super(ClassFileAttributes.ATTR_PMG, nameIndex, length, constantPool);
         this.pmgIndex = pmgIndex;
         this.pmgClassIndex = pmgClassIndex;
     }

@@ -183,20 +183,20 @@ public abstract class Utility {
         return (flag & bit) == 0 ? flag : flag ^ bit;
     }
 
-    public static String codeToString(final byte[] code, final ConstantPool constant_pool, final int index, final int length) {
-        return codeToString(code, constant_pool, index, length, true);
+    public static String codeToString(final byte[] code, final ConstantPool constantPool, final int index, final int length) {
+        return codeToString(code, constantPool, index, length, true);
     }
 
-    public static String codeToString(final byte[] code, final ConstantPool constant_pool, final int index, final int length, final boolean verbose) {
+    public static String codeToString(final byte[] code, final ConstantPool constantPool, final int index, final int length, final boolean verbose) {
         final StringBuilder buf = new StringBuilder(code.length * 20); // Should be sufficient // CHECKSTYLE IGNORE MagicNumber
         try (ByteSequence stream = new ByteSequence(code)) {
             for (int i = 0; i < index; i++) {
-                codeToString(stream, constant_pool, verbose);
+                codeToString(stream, constantPool, verbose);
             }
             for (int i = 0; stream.available() > 0; i++) {
                 if ((length < 0) || (i < length)) {
                     final String indices = fillup(stream.getIndex() + ":", 6, true, ' ');
-                    buf.append(indices).append(codeToString(stream, constant_pool, verbose)).append('\n');
+                    buf.append(indices).append(codeToString(stream, constantPool, verbose)).append('\n');
                 }
             }
         } catch (final IOException e) {
@@ -205,11 +205,11 @@ public abstract class Utility {
         return buf.toString();
     }
 
-    public static String codeToString(final ByteSequence bytes, final ConstantPool constant_pool) throws IOException {
-        return codeToString(bytes, constant_pool, true);
+    public static String codeToString(final ByteSequence bytes, final ConstantPool constantPool) throws IOException {
+        return codeToString(bytes, constantPool, true);
     }
 
-    public static String codeToString(final ByteSequence bytes, final ConstantPool constant_pool, final boolean verbose) throws IOException {
+    public static String codeToString(final ByteSequence bytes, final ConstantPool constantPool, final boolean verbose) throws IOException {
         InstructionOpCodes opcode = InstructionOpCodes.read((short) bytes.readUnsignedByte());
         int default_offset = 0;
         int low;
@@ -334,7 +334,7 @@ public abstract class Utility {
             case PUTFIELD:
             case PUTSTATIC:
                 index = bytes.readUnsignedShort();
-                buf.append("\t\t").append(constant_pool.constantToString(index, ClassFileConstants.CONSTANT_Fieldref)).append(verbose ? " (" + index + ")" : "");
+                buf.append("\t\t").append(constantPool.constantToString(index, ClassFileConstants.CONSTANT_Fieldref)).append(verbose ? " (" + index + ")" : "");
                 break;
 
             case NEW:
@@ -343,51 +343,51 @@ public abstract class Utility {
                 //$FALL-THROUGH$
             case INSTANCEOF:
                 index = bytes.readUnsignedShort();
-                buf.append("\t<").append(constant_pool.constantToString(index, ClassFileConstants.CONSTANT_Class)).append(">").append(verbose ? " (" + index + ")" : "");
+                buf.append("\t<").append(constantPool.constantToString(index, ClassFileConstants.CONSTANT_Class)).append(">").append(verbose ? " (" + index + ")" : "");
                 break;
 
             case INVOKESPECIAL:
             case INVOKESTATIC:
                 index = bytes.readUnsignedShort();
-                final Constant c = constant_pool.getConstant(index);
+                final Constant c = constantPool.getConstant(index);
                 // With Java8 operand may be either a CONSTANT_Methodref
                 // or a CONSTANT_InterfaceMethodref. (markro)
-                buf.append("\t").append(constant_pool.constantToString(index, c.getTag())).append(verbose ? " (" + index + ")" : "");
+                buf.append("\t").append(constantPool.constantToString(index, c.getTag())).append(verbose ? " (" + index + ")" : "");
                 break;
             case INVOKEVIRTUAL:
                 index = bytes.readUnsignedShort();
-                buf.append("\t").append(constant_pool.constantToString(index, ClassFileConstants.CONSTANT_Methodref)).append(verbose ? " (" + index + ")" : "");
+                buf.append("\t").append(constantPool.constantToString(index, ClassFileConstants.CONSTANT_Methodref)).append(verbose ? " (" + index + ")" : "");
                 break;
             case INVOKEINTERFACE:
                 index = bytes.readUnsignedShort();
                 final int nargs = bytes.readUnsignedByte(); // historical, redundant
-                buf.append("\t").append(constant_pool.constantToString(index, ClassFileConstants.CONSTANT_InterfaceMethodref)).append(verbose ? " (" + index + ")\t" : "").append(nargs).append("\t").append(bytes.readUnsignedByte()); // Last byte is a reserved space
+                buf.append("\t").append(constantPool.constantToString(index, ClassFileConstants.CONSTANT_InterfaceMethodref)).append(verbose ? " (" + index + ")\t" : "").append(nargs).append("\t").append(bytes.readUnsignedByte()); // Last byte is a reserved space
                 break;
             case INVOKEDYNAMIC:
                 index = bytes.readUnsignedShort();
-                buf.append("\t").append(constant_pool.constantToString(index, ClassFileConstants.CONSTANT_InvokeDynamic)).append(verbose ? " (" + index + ")\t" : "").append(bytes.readUnsignedByte()) // Thrid byte is a reserved space
+                buf.append("\t").append(constantPool.constantToString(index, ClassFileConstants.CONSTANT_InvokeDynamic)).append(verbose ? " (" + index + ")\t" : "").append(bytes.readUnsignedByte()) // Thrid byte is a reserved space
                         .append(bytes.readUnsignedByte()); // Last byte is a reserved space
                 break;
 
             case LDC_W:
             case LDC2_W:
                 index = bytes.readUnsignedShort();
-                buf.append("\t\t").append(constant_pool.constantToString(index, constant_pool.getConstant(index).getTag())).append(verbose ? " (" + index + ")" : "");
+                buf.append("\t\t").append(constantPool.constantToString(index, constantPool.getConstant(index).getTag())).append(verbose ? " (" + index + ")" : "");
                 break;
             case LDC:
                 index = bytes.readUnsignedByte();
-                buf.append("\t\t").append(constant_pool.constantToString(index, constant_pool.getConstant(index).getTag())).append(verbose ? " (" + index + ")" : "");
+                buf.append("\t\t").append(constantPool.constantToString(index, constantPool.getConstant(index).getTag())).append(verbose ? " (" + index + ")" : "");
                 break;
 
             case ANEWARRAY:
                 index = bytes.readUnsignedShort();
-                buf.append("\t\t<").append(compactClassName(constant_pool.getConstantString(index, ClassFileConstants.CONSTANT_Class), false)).append(">").append(verbose ? " (" + index + ")" : "");
+                buf.append("\t\t<").append(compactClassName(constantPool.getConstantString(index, ClassFileConstants.CONSTANT_Class), false)).append(">").append(verbose ? " (" + index + ")" : "");
                 break;
 
             case MULTIANEWARRAY: {
                 index = bytes.readUnsignedShort();
                 final int dimensions = bytes.readUnsignedByte();
-                buf.append("\t<").append(compactClassName(constant_pool.getConstantString(index, ClassFileConstants.CONSTANT_Class), false)).append(">\t").append(dimensions).append(verbose ? " (" + index + ")" : "");
+                buf.append("\t<").append(compactClassName(constantPool.getConstantString(index, ClassFileConstants.CONSTANT_Class), false)).append(">\t").append(dimensions).append(verbose ? " (" + index + ")" : "");
             }
                 break;
 

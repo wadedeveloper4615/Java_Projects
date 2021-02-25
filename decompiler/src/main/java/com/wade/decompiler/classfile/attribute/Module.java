@@ -18,8 +18,8 @@ public class Module extends Attribute {
     private int[] usesIndex;
     private ModuleProvides[] providesTable;
 
-    public Module(int name_index, int length, DataInputStream input, ConstantPool constant_pool) throws IOException {
-        super(ClassFileAttributes.ATTR_MODULE, name_index, length, constant_pool);
+    public Module(int nameIndex, int length, DataInputStream input, ConstantPool constantPool) throws IOException {
+        super(ClassFileAttributes.ATTR_MODULE, nameIndex, length, constantPool);
         moduleNameIndex = input.readUnsignedShort();
         moduleFlags = input.readUnsignedShort();
         moduleVersionIndex = input.readUnsignedShort();

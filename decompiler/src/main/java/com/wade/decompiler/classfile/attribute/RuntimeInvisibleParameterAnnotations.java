@@ -7,8 +7,8 @@ import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.ClassFileAttributes;
 
 public class RuntimeInvisibleParameterAnnotations extends ParameterAnnotations {
-    public RuntimeInvisibleParameterAnnotations(int name_index, int length, DataInputStream input, ConstantPool constant_pool) throws IOException {
-        super(ClassFileAttributes.ATTR_RUNTIME_INVISIBLE_PARAMETER_ANNOTATIONS, name_index, length, input, constant_pool);
+    public RuntimeInvisibleParameterAnnotations(int nameIndex, int length, DataInputStream input, ConstantPool constantPool) throws IOException {
+        super(ClassFileAttributes.ATTR_RUNTIME_INVISIBLE_PARAMETER_ANNOTATIONS, nameIndex, length, input, constantPool);
     }
 
     @Override

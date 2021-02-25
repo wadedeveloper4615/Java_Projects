@@ -19,8 +19,8 @@ public class ExceptionTable extends Attribute {
         }
     }
 
-    public ExceptionTable(int name_index, int length, int[] exceptionIndexTable, ConstantPool constant_pool) {
-        super(ClassFileAttributes.ATTR_EXCEPTIONS, name_index, length, constant_pool);
+    public ExceptionTable(int nameIndex, int length, int[] exceptionIndexTable, ConstantPool constantPool) {
+        super(ClassFileAttributes.ATTR_EXCEPTIONS, nameIndex, length, constantPool);
         this.exceptionIndexTable = exceptionIndexTable != null ? exceptionIndexTable : new int[0];
     }
 

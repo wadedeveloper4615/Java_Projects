@@ -10,13 +10,13 @@ import com.wade.decompiler.enums.ClassFileAttributes;
 public class Deprecated extends Attribute {
     private byte[] bytes;
 
-    public Deprecated(int name_index, int length, byte[] bytes, ConstantPool constant_pool) {
-        super(ClassFileAttributes.ATTR_DEPRECATED, name_index, length, constant_pool);
+    public Deprecated(int nameIndex, int length, byte[] bytes, ConstantPool constantPool) {
+        super(ClassFileAttributes.ATTR_DEPRECATED, nameIndex, length, constantPool);
         this.bytes = bytes;
     }
 
-    public Deprecated(int name_index, int length, DataInputStream input, ConstantPool constant_pool) throws IOException {
-        this(name_index, length, (byte[]) null, constant_pool);
+    public Deprecated(int nameIndex, int length, DataInputStream input, ConstantPool constantPool) throws IOException {
+        this(nameIndex, length, (byte[]) null, constantPool);
         if (length > 0) {
             bytes = new byte[length];
             input.readFully(bytes);

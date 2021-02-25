@@ -10,17 +10,17 @@ import com.wade.decompiler.enums.ClassFileAttributes;
 public class StackMap extends Attribute {
     private StackMapEntry[] map;
 
-    public StackMap(int name_index, int length, DataInputStream input, ConstantPool constant_pool) throws IOException {
-        this(name_index, length, (StackMapEntry[]) null, constant_pool);
+    public StackMap(int nameIndex, int length, DataInputStream input, ConstantPool constantPool) throws IOException {
+        this(nameIndex, length, (StackMapEntry[]) null, constantPool);
         int map_length = input.readUnsignedShort();
         map = new StackMapEntry[map_length];
         for (int i = 0; i < map_length; i++) {
-            map[i] = new StackMapEntry(input, constant_pool);
+            map[i] = new StackMapEntry(input, constantPool);
         }
     }
 
-    public StackMap(int name_index, int length, StackMapEntry[] map, ConstantPool constant_pool) {
-        super(ClassFileAttributes.ATTR_STACK_MAP, name_index, length, constant_pool);
+    public StackMap(int nameIndex, int length, StackMapEntry[] map, ConstantPool constantPool) {
+        super(ClassFileAttributes.ATTR_STACK_MAP, nameIndex, length, constantPool);
         this.map = map;
     }
 

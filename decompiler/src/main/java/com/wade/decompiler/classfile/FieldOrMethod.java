@@ -14,12 +14,12 @@ public abstract class FieldOrMethod {
     protected ConstantPool constantPool;
     protected int accessFlags;
 
-    protected FieldOrMethod(DataInputStream file, ConstantPool constant_pool) throws IOException {
-        this(file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort(), null, constant_pool);
+    protected FieldOrMethod(DataInputStream file, ConstantPool constantPool) throws IOException {
+        this(file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort(), null, constantPool);
         int attributes_count = file.readUnsignedShort();
         attributes = new Attribute[attributes_count];
         for (int i = 0; i < attributes_count; i++) {
-            attributes[i] = Attribute.readAttribute(file, constant_pool);
+            attributes[i] = Attribute.readAttribute(file, constantPool);
         }
     }
 

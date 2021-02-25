@@ -17,12 +17,12 @@ public abstract class Annotations extends Attribute {
         this.isRuntimeVisible = isRuntimeVisible;
     }
 
-    public Annotations(ClassFileAttributes annotation_type, int name_index, int length, DataInputStream input, ConstantPool constant_pool, boolean isRuntimeVisible) throws IOException {
-        this(annotation_type, name_index, length, (AnnotationEntry[]) null, constant_pool, isRuntimeVisible);
+    public Annotations(ClassFileAttributes annotation_type, int nameIndex, int length, DataInputStream input, ConstantPool constantPool, boolean isRuntimeVisible) throws IOException {
+        this(annotation_type, nameIndex, length, (AnnotationEntry[]) null, constantPool, isRuntimeVisible);
         int annotation_table_length = input.readUnsignedShort();
         annotationTable = new AnnotationEntry[annotation_table_length];
         for (int i = 0; i < annotation_table_length; i++) {
-            annotationTable[i] = AnnotationEntry.read(input, constant_pool, isRuntimeVisible);
+            annotationTable[i] = AnnotationEntry.read(input, constantPool, isRuntimeVisible);
         }
     }
 

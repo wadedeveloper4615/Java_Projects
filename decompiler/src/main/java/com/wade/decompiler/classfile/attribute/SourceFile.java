@@ -9,12 +9,12 @@ import com.wade.decompiler.enums.ClassFileAttributes;
 public class SourceFile extends Attribute {
     private int sourceFileIndex;
 
-    public SourceFile(int name_index, int length, DataInputStream input, ConstantPool constant_pool) throws IOException {
-        this(name_index, length, input.readUnsignedShort(), constant_pool);
+    public SourceFile(int nameIndex, int length, DataInputStream input, ConstantPool constantPool) throws IOException {
+        this(nameIndex, length, input.readUnsignedShort(), constantPool);
     }
 
-    public SourceFile(int name_index, int length, int sourceFileIndex, ConstantPool constantPool) {
-        super(ClassFileAttributes.ATTR_SOURCE_FILE, name_index, length, constantPool);
+    public SourceFile(int nameIndex, int length, int sourceFileIndex, ConstantPool constantPool) {
+        super(ClassFileAttributes.ATTR_SOURCE_FILE, nameIndex, length, constantPool);
         this.sourceFileIndex = sourceFileIndex;
     }
 

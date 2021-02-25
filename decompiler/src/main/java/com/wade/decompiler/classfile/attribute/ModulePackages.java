@@ -10,8 +10,8 @@ import com.wade.decompiler.enums.ClassFileAttributes;
 public class ModulePackages extends Attribute {
     private int[] packageIndexTable;
 
-    public ModulePackages(int name_index, int length, DataInputStream input, ConstantPool constantPool) throws IOException {
-        this(name_index, length, (int[]) null, constantPool);
+    public ModulePackages(int nameIndex, int length, DataInputStream input, ConstantPool constantPool) throws IOException {
+        this(nameIndex, length, (int[]) null, constantPool);
         int number_of_packages = input.readUnsignedShort();
         packageIndexTable = new int[number_of_packages];
         for (int i = 0; i < number_of_packages; i++) {

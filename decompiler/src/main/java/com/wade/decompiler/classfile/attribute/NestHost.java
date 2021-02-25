@@ -9,8 +9,8 @@ import com.wade.decompiler.enums.ClassFileAttributes;
 public class NestHost extends Attribute {
     private int hostClassIndex;
 
-    public NestHost(int name_index, int length, DataInputStream input, ConstantPool constant_pool) throws IOException {
-        this(name_index, length, 0, constant_pool);
+    public NestHost(int nameIndex, int length, DataInputStream input, ConstantPool constantPool) throws IOException {
+        this(nameIndex, length, 0, constantPool);
         hostClassIndex = input.readUnsignedShort();
     }
 

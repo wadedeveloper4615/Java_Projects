@@ -19,8 +19,8 @@ public class LocalVariableTypeTable extends Attribute {
         }
     }
 
-    public LocalVariableTypeTable(int name_index, int length, LocalVariable[] local_variable_table, ConstantPool constant_pool) {
-        super(ClassFileAttributes.ATTR_LOCAL_VARIABLE_TYPE_TABLE, name_index, length, constant_pool);
+    public LocalVariableTypeTable(int nameIndex, int length, LocalVariable[] local_variable_table, ConstantPool constantPool) {
+        super(ClassFileAttributes.ATTR_LOCAL_VARIABLE_TYPE_TABLE, nameIndex, length, constantPool);
         this.localVariableTypeTable = local_variable_table;
     }
 

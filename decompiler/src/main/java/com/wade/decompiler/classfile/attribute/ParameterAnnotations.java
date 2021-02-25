@@ -10,12 +10,12 @@ import com.wade.decompiler.enums.ClassFileAttributes;
 public abstract class ParameterAnnotations extends Attribute {
     private ParameterAnnotationEntry[] parameterAnnotationTable;
 
-    public ParameterAnnotations(ClassFileAttributes parameter_annotation_type, int name_index, int length, DataInputStream input, ConstantPool constant_pool) throws IOException {
-        this(parameter_annotation_type, name_index, length, (ParameterAnnotationEntry[]) null, constant_pool);
+    public ParameterAnnotations(ClassFileAttributes parameter_annotation_type, int nameIndex, int length, DataInputStream input, ConstantPool constantPool) throws IOException {
+        this(parameter_annotation_type, nameIndex, length, (ParameterAnnotationEntry[]) null, constantPool);
         int num_parameters = input.readUnsignedByte();
         parameterAnnotationTable = new ParameterAnnotationEntry[num_parameters];
         for (int i = 0; i < num_parameters; i++) {
-            parameterAnnotationTable[i] = new ParameterAnnotationEntry(input, constant_pool);
+            parameterAnnotationTable[i] = new ParameterAnnotationEntry(input, constantPool);
         }
     }
 

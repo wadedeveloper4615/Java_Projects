@@ -11,8 +11,8 @@ import com.wade.decompiler.util.Utility;
 public class LineNumberTable extends Attribute {
     private LineNumber[] lineNumberTable;
 
-    public LineNumberTable(int name_index, int length, DataInputStream input, ConstantPool constant_pool) throws IOException {
-        this(name_index, length, (LineNumber[]) null, constant_pool);
+    public LineNumberTable(int nameIndex, int length, DataInputStream input, ConstantPool constantPool) throws IOException {
+        this(nameIndex, length, (LineNumber[]) null, constantPool);
         int line_number_table_length = input.readUnsignedShort();
         lineNumberTable = new LineNumber[line_number_table_length];
         for (int i = 0; i < line_number_table_length; i++) {
@@ -20,8 +20,8 @@ public class LineNumberTable extends Attribute {
         }
     }
 
-    public LineNumberTable(int name_index, int length, LineNumber[] line_number_table, ConstantPool constant_pool) {
-        super(ClassFileAttributes.ATTR_LINE_NUMBER_TABLE, name_index, length, constant_pool);
+    public LineNumberTable(int nameIndex, int length, LineNumber[] line_number_table, ConstantPool constantPool) {
+        super(ClassFileAttributes.ATTR_LINE_NUMBER_TABLE, nameIndex, length, constantPool);
         this.lineNumberTable = line_number_table;
     }
 

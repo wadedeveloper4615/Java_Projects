@@ -10,12 +10,12 @@ import com.wade.decompiler.enums.ClassFileAttributes;
 public class AnnotationDefault extends Attribute {
     private ElementValue defaultValue;
 
-    public AnnotationDefault(int name_index, int length, DataInputStream input, ConstantPool constant_pool) throws IOException {
-        this(name_index, length, ElementValue.readElementValue(input, constant_pool), constant_pool);
+    public AnnotationDefault(int nameIndex, int length, DataInputStream input, ConstantPool constantPool) throws IOException {
+        this(nameIndex, length, ElementValue.readElementValue(input, constantPool), constantPool);
     }
 
-    public AnnotationDefault(int name_index, int length, ElementValue defaultValue, ConstantPool constant_pool) {
-        super(ClassFileAttributes.ATTR_ANNOTATION_DEFAULT, name_index, length, constant_pool);
+    public AnnotationDefault(int nameIndex, int length, ElementValue defaultValue, ConstantPool constantPool) {
+        super(ClassFileAttributes.ATTR_ANNOTATION_DEFAULT, nameIndex, length, constantPool);
         this.defaultValue = defaultValue;
     }
 

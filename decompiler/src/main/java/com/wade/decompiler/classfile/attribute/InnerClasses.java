@@ -10,8 +10,8 @@ import com.wade.decompiler.enums.ClassFileAttributes;
 public class InnerClasses extends Attribute {
     private InnerClass[] innerClasses;
 
-    public InnerClasses(int name_index, int length, DataInputStream input, ConstantPool constant_pool) throws IOException {
-        this(name_index, length, (InnerClass[]) null, constant_pool);
+    public InnerClasses(int nameIndex, int length, DataInputStream input, ConstantPool constantPool) throws IOException {
+        this(nameIndex, length, (InnerClass[]) null, constantPool);
         int number_of_classes = input.readUnsignedShort();
         innerClasses = new InnerClass[number_of_classes];
         for (int i = 0; i < number_of_classes; i++) {
@@ -19,8 +19,8 @@ public class InnerClasses extends Attribute {
         }
     }
 
-    public InnerClasses(int name_index, int length, InnerClass[] innerClasses, ConstantPool constant_pool) {
-        super(ClassFileAttributes.ATTR_INNER_CLASSES, name_index, length, constant_pool);
+    public InnerClasses(int nameIndex, int length, InnerClass[] innerClasses, ConstantPool constantPool) {
+        super(ClassFileAttributes.ATTR_INNER_CLASSES, nameIndex, length, constantPool);
         this.innerClasses = innerClasses != null ? innerClasses : new InnerClass[0];
     }
 

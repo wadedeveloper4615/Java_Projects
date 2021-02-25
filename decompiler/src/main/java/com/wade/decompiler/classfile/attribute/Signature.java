@@ -9,12 +9,12 @@ import com.wade.decompiler.enums.ClassFileAttributes;
 public class Signature extends Attribute {
     private int signatureIndex;
 
-    public Signature(int name_index, int length, DataInputStream input, ConstantPool constant_pool) throws IOException {
-        this(name_index, length, input.readUnsignedShort(), constant_pool);
+    public Signature(int nameIndex, int length, DataInputStream input, ConstantPool constantPool) throws IOException {
+        this(nameIndex, length, input.readUnsignedShort(), constantPool);
     }
 
-    public Signature(int name_index, int length, int signatureIndex, ConstantPool constant_pool) {
-        super(ClassFileAttributes.ATTR_SIGNATURE, name_index, length, constant_pool);
+    public Signature(int nameIndex, int length, int signatureIndex, ConstantPool constantPool) {
+        super(ClassFileAttributes.ATTR_SIGNATURE, nameIndex, length, constantPool);
         this.signatureIndex = signatureIndex;
     }
 

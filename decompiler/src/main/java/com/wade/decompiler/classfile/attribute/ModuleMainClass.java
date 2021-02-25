@@ -14,8 +14,8 @@ public class ModuleMainClass extends Attribute {
         mainClassIndex = input.readUnsignedShort();
     }
 
-    public ModuleMainClass(int name_index, int length, int mainClassIndex, ConstantPool constantPool) {
-        super(ClassFileAttributes.ATTR_NEST_MEMBERS, name_index, length, constantPool);
+    public ModuleMainClass(int nameIndex, int length, int mainClassIndex, ConstantPool constantPool) {
+        super(ClassFileAttributes.ATTR_NEST_MEMBERS, nameIndex, length, constantPool);
         this.mainClassIndex = mainClassIndex;
     }
 

@@ -13,13 +13,13 @@ public class StackMapType {
     private ConstantPool constantPool;
     private String name;
 
-    public StackMapType(byte type, int index, ConstantPool constant_pool) {
+    public StackMapType(byte type, int index, ConstantPool constantPool) {
         if ((type < ItemNamesEnum.ITEM_Bogus.getTag()) || (type > ItemNamesEnum.ITEM_NewObject.getTag())) {
             throw new IllegalArgumentException("Illegal type for StackMapType: " + type);
         }
         this.type = type;
         this.index = index;
-        this.constantPool = constant_pool;
+        this.constantPool = constantPool;
         if (index >= 1) {
             this.name = constantPool.constantToString(index, ClassFileConstants.CONSTANT_Class);
         } else {
@@ -27,12 +27,12 @@ public class StackMapType {
         }
     }
 
-    public StackMapType(DataInputStream file, ConstantPool constant_pool) throws IOException {
-        this(file.readByte(), -1, constant_pool);
+    public StackMapType(DataInputStream file, ConstantPool constantPool) throws IOException {
+        this(file.readByte(), -1, constantPool);
         if (hasIndex()) {
             this.index = file.readShort();
         }
-        this.constantPool = constant_pool;
+        this.constantPool = constantPool;
     }
 
     @Override

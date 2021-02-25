@@ -9,12 +9,12 @@ import com.wade.decompiler.enums.ClassFileAttributes;
 public class ConstantValue extends Attribute {
     private final int constantValueIndex;
 
-    public ConstantValue(int name_index, int length, DataInputStream input, ConstantPool constant_pool) throws IOException {
-        this(name_index, length, input.readUnsignedShort(), constant_pool);
+    public ConstantValue(int nameIndex, int length, DataInputStream input, ConstantPool constantPool) throws IOException {
+        this(nameIndex, length, input.readUnsignedShort(), constantPool);
     }
 
-    public ConstantValue(int name_index, int length, int constantValueIndex, ConstantPool constant_pool) {
-        super(ClassFileAttributes.ATTR_CONSTANT_VALUE, name_index, length, constant_pool);
+    public ConstantValue(int nameIndex, int length, int constantValueIndex, ConstantPool constantPool) {
+        super(ClassFileAttributes.ATTR_CONSTANT_VALUE, nameIndex, length, constantPool);
         this.constantValueIndex = constantValueIndex;
     }
 

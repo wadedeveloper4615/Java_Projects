@@ -13,10 +13,10 @@ public class MethodParameter {
     private ClassAccessFlags accessFlags;
     private String name;
 
-    public MethodParameter(DataInputStream input, ConstantPool constant_pool) throws IOException {
+    public MethodParameter(DataInputStream input, ConstantPool constantPool) throws IOException {
         nameIndex = input.readUnsignedShort();
         accessFlags = ClassAccessFlags.read(input.readUnsignedShort());
-        name = ((ConstantUtf8) constant_pool.getConstant(nameIndex, ClassFileConstants.CONSTANT_Utf8)).getBytes();
+        name = ((ConstantUtf8) constantPool.getConstant(nameIndex, ClassFileConstants.CONSTANT_Utf8)).getBytes();
     }
 
     @Override

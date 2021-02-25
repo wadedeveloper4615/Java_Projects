@@ -15,9 +15,9 @@ public class AnnotationEntry {
     private boolean isRuntimeVisible;
     private List<ElementValuePair> elementValuePairs = new ArrayList<>();
 
-    public AnnotationEntry(int type_index, ConstantPool constant_pool, boolean isRuntimeVisible) {
+    public AnnotationEntry(int type_index, ConstantPool constantPool, boolean isRuntimeVisible) {
         this.typeIndex = type_index;
-        this.constantPool = constant_pool;
+        this.constantPool = constantPool;
         this.isRuntimeVisible = isRuntimeVisible;
     }
 
@@ -107,14 +107,14 @@ public class AnnotationEntry {
         return "AnnotationEntry [typeIndex=" + typeIndex + ", constantPool=" + constantPool + ", isRuntimeVisible=" + isRuntimeVisible + ", elementValuePairs=" + elementValuePairs + "]";
     }
 
-    public static AnnotationEntry read(DataInputStream input, ConstantPool constant_pool, boolean isRuntimeVisible) throws IOException {
+    public static AnnotationEntry read(DataInputStream input, ConstantPool constantPool, boolean isRuntimeVisible) throws IOException {
         int index = input.readUnsignedShort();
-        AnnotationEntry annotationEntry = new AnnotationEntry(index, constant_pool, isRuntimeVisible);
+        AnnotationEntry annotationEntry = new AnnotationEntry(index, constantPool, isRuntimeVisible);
         int num_element_value_pairs = input.readUnsignedShort();
         annotationEntry.elementValuePairs = new ArrayList<>();
         for (int i = 0; i < num_element_value_pairs; i++) {
             index = input.readUnsignedShort();
-            ElementValue element = ElementValue.readElementValue(input, constant_pool);
+            ElementValue element = ElementValue.readElementValue(input, constantPool);
             annotationEntry.elementValuePairs.add(new ElementValuePair(index, element));
         }
         return annotationEntry;

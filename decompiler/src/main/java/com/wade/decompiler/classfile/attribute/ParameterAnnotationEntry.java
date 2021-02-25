@@ -12,11 +12,11 @@ import com.wade.decompiler.classfile.constant.ConstantPool;
 public class ParameterAnnotationEntry {
     private AnnotationEntry[] annotationTable;
 
-    public ParameterAnnotationEntry(DataInputStream input, ConstantPool constant_pool) throws IOException {
+    public ParameterAnnotationEntry(DataInputStream input, ConstantPool constantPool) throws IOException {
         int annotation_table_length = input.readUnsignedShort();
         annotationTable = new AnnotationEntry[annotation_table_length];
         for (int i = 0; i < annotation_table_length; i++) {
-            annotationTable[i] = AnnotationEntry.read(input, constant_pool, false);
+            annotationTable[i] = AnnotationEntry.read(input, constantPool, false);
         }
     }
 

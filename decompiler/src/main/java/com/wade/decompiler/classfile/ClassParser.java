@@ -17,10 +17,8 @@ import com.wade.decompiler.enums.Version;
 
 public class ClassParser {
     private static int BUFSIZE = 8192;
-    private DataInputStream dataInputStream;
-    private boolean fileOwned;
+    private InputStream inputStream;
     private String fileName;
-    private String zipFile;
     private int classNameIndex;
     private int superclassNameIndex;
     private ClassAccessFlagsList accessFlags;
@@ -31,65 +29,99 @@ public class ClassParser {
     private Attribute[] attributes;
     private boolean isZip;
     private Version version;
+    private ZipFile zip;
 
     public ClassParser(InputStream inputStream, String fileName) {
         this.fileName = fileName;
-        fileOwned = false;
         String clazz = inputStream.getClass().getName();
-        isZip = clazz.startsWith("java.util.zip.") || clazz.startsWith("java.util.jar.");
+        this.isZip = clazz.startsWith("java.util.zip.") || clazz.startsWith("java.util.jar.");
+        this.zip = null;
         if (inputStream instanceof DataInputStream) {
-            this.dataInputStream = (DataInputStream) inputStream;
+            this.inputStream = inputStream;
         } else {
-            this.dataInputStream = new DataInputStream(new BufferedInputStream(inputStream, BUFSIZE));
+            this.inputStream = new BufferedInputStream(inputStream, BUFSIZE);
         }
     }
 
-    public ClassParser(String fileName) {
-        isZip = false;
-        this.fileName = fileName;
-        fileOwned = true;
+    public ClassParser(String fileName) throws IOException {
+        this.isZip = true;
+        this.zip = null;
+        this.inputStream = new BufferedInputStream(new FileInputStream(fileName), BUFSIZE);
     }
 
-    public ClassParser(String zipFile, String fileName) {
-        isZip = true;
-        fileOwned = true;
-        this.zipFile = zipFile;
-        this.fileName = fileName;
+    public ClassParser(String zipFile, String fileName) throws IOException {
+        this.isZip = true;
+        this.zip = new ZipFile(zipFile);
+        ZipEntry entry = zip.getEntry(fileName);
+        if (entry == null) {
+            throw new IOException("File " + fileName + " not found");
+        }
+        inputStream = new BufferedInputStream(zip.getInputStream(entry), BUFSIZE);
+    }
+
+    public ClassAccessFlagsList getAccessFlags() {
+        return accessFlags;
+    }
+
+    public Attribute[] getAttributes() {
+        return attributes;
+    }
+
+    public int getClassNameIndex() {
+        return classNameIndex;
+    }
+
+    public ConstantPool getConstantPool() {
+        return constantPool;
+    }
+
+    public Field[] getFields() {
+        return fields;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public InputStream getInputStream() {
+        return inputStream;
+    }
+
+    public int[] getInterfaces() {
+        return interfaces;
+    }
+
+    public Method[] getMethods() {
+        return methods;
+    }
+
+    public int getSuperclassNameIndex() {
+        return superclassNameIndex;
+    }
+
+    public Version getVersion() {
+        return version;
+    }
+
+    public ZipFile getZip() {
+        return zip;
+    }
+
+    public boolean isZip() {
+        return isZip;
     }
 
     public JavaClass parse() throws IOException, ClassFormatException {
-        ZipFile zip = null;
-        try {
-            if (fileOwned) {
-                if (isZip) {
-                    zip = new ZipFile(zipFile);
-                    ZipEntry entry = zip.getEntry(fileName);
-                    if (entry == null) {
-                        throw new IOException("File " + fileName + " not found");
-                    }
-                    dataInputStream = new DataInputStream(new BufferedInputStream(zip.getInputStream(entry), BUFSIZE));
-                } else {
-                    dataInputStream = new DataInputStream(new BufferedInputStream(new FileInputStream(fileName), BUFSIZE));
-                }
-            }
-            readID();
-            readVersion();
-            readConstantPool();
-            readClassInfo();
-            readInterfaces();
-            readFields();
-            readMethods();
-            readAttributes();
+        try (DataInputStream dataInputStream = new DataInputStream(inputStream)) {
+            readID(dataInputStream);
+            readVersion(dataInputStream);
+            readConstantPool(dataInputStream);
+            readClassInfo(dataInputStream);
+            readInterfaces(dataInputStream);
+            readFields(dataInputStream);
+            readMethods(dataInputStream);
+            readAttributes(dataInputStream);
         } finally {
-            if (fileOwned) {
-                try {
-                    if (dataInputStream != null) {
-                        dataInputStream.close();
-                    }
-                } catch (IOException ioe) {
-                    ioe.printStackTrace();
-                }
-            }
             try {
                 if (zip != null) {
                     zip.close();
@@ -101,61 +133,61 @@ public class ClassParser {
         return new JavaClass(classNameIndex, superclassNameIndex, fileName, version, accessFlags, constantPool, interfaces, fields, methods, attributes);
     }
 
-    private void readAttributes() throws IOException, ClassFormatException {
-        int attributes_count = dataInputStream.readUnsignedShort();
+    private void readAttributes(DataInputStream inputStream) throws IOException, ClassFormatException {
+        int attributes_count = inputStream.readUnsignedShort();
         attributes = new Attribute[attributes_count];
         for (int i = 0; i < attributes_count; i++) {
-            attributes[i] = Attribute.readAttribute(dataInputStream, constantPool);
+            attributes[i] = Attribute.readAttribute(inputStream, constantPool);
         }
     }
 
-    private void readClassInfo() throws IOException, ClassFormatException {
-        accessFlags = new ClassAccessFlagsList(dataInputStream);
+    private void readClassInfo(DataInputStream inputStream) throws IOException, ClassFormatException {
+        accessFlags = new ClassAccessFlagsList(inputStream);
         if (accessFlags.isInterface()) {
             accessFlags.addFlag(ClassAccessFlags.ACC_ABSTRACT);
         }
         if (accessFlags.isFinalAndAbstract()) {
             throw new ClassFormatException("Class " + fileName + " can't be both final and abstract");
         }
-        classNameIndex = dataInputStream.readUnsignedShort();
-        superclassNameIndex = dataInputStream.readUnsignedShort();
+        classNameIndex = inputStream.readUnsignedShort();
+        superclassNameIndex = inputStream.readUnsignedShort();
     }
 
-    private void readConstantPool() throws IOException, ClassFormatException {
-        constantPool = new ConstantPool(dataInputStream);
+    private void readConstantPool(DataInputStream inputStream) throws IOException, ClassFormatException {
+        constantPool = new ConstantPool(inputStream);
     }
 
-    private void readFields() throws IOException, ClassFormatException {
-        int fields_count = dataInputStream.readUnsignedShort();
+    private void readFields(DataInputStream inputStream) throws IOException, ClassFormatException {
+        int fields_count = inputStream.readUnsignedShort();
         fields = new Field[fields_count];
         for (int i = 0; i < fields_count; i++) {
-            fields[i] = new Field(dataInputStream, constantPool);
+            fields[i] = new Field(inputStream, constantPool);
         }
     }
 
-    private void readID() throws IOException, ClassFormatException {
-        if (dataInputStream.readInt() != Const.JVM_CLASSFILE_MAGIC) {
+    private void readID(DataInputStream inputStream) throws IOException, ClassFormatException {
+        if (inputStream.readInt() != Const.JVM_CLASSFILE_MAGIC) {
             throw new ClassFormatException(fileName + " is not a Java .class file");
         }
     }
 
-    private void readInterfaces() throws IOException, ClassFormatException {
-        int interfaces_count = dataInputStream.readUnsignedShort();
+    private void readInterfaces(DataInputStream inputStream) throws IOException, ClassFormatException {
+        int interfaces_count = inputStream.readUnsignedShort();
         interfaces = new int[interfaces_count];
         for (int i = 0; i < interfaces_count; i++) {
-            interfaces[i] = dataInputStream.readUnsignedShort();
+            interfaces[i] = inputStream.readUnsignedShort();
         }
     }
 
-    private void readMethods() throws IOException, ClassFormatException {
-        int methods_count = dataInputStream.readUnsignedShort();
+    private void readMethods(DataInputStream inputStream) throws IOException, ClassFormatException {
+        int methods_count = inputStream.readUnsignedShort();
         methods = new Method[methods_count];
         for (int i = 0; i < methods_count; i++) {
-            methods[i] = new Method(dataInputStream, constantPool);
+            methods[i] = new Method(inputStream, constantPool);
         }
     }
 
-    private void readVersion() throws IOException, ClassFormatException {
-        version = Version.read(dataInputStream.readUnsignedShort(), dataInputStream.readUnsignedShort());
+    private void readVersion(DataInputStream inputStream) throws IOException, ClassFormatException {
+        version = Version.read(inputStream.readUnsignedShort(), inputStream.readUnsignedShort());
     }
 }

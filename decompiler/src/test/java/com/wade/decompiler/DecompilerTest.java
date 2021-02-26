@@ -16,7 +16,7 @@ import com.wade.decompiler.enums.Version;
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Decompiler JUnit 5 test")
 class DecompilerTest {
-    @Test
+//    @Test
     void test1() throws Exception {
         Class<Decompiler> c = Decompiler.class;
         Decompiler decompiler = new Decompiler();

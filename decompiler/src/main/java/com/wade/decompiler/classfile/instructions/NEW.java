@@ -8,14 +8,18 @@ import com.wade.decompiler.classfile.instructions.base.LoadClass;
 import com.wade.decompiler.classfile.instructions.base.StackProducer;
 import com.wade.decompiler.classfile.instructions.type.ObjectType;
 import com.wade.decompiler.constants.ExceptionConst;
+import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
 public class NEW extends CPInstruction implements LoadClass, AllocationInstruction, ExceptionThrower, StackProducer {
-    public NEW() {
-    }
-
     public NEW(int index, ConstantPool cp) {
         super(InstructionOpCodes.NEW, cp, index);
+    }
+
+    @Override
+    public String decompile(ExpressionStack stack) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
     @Override

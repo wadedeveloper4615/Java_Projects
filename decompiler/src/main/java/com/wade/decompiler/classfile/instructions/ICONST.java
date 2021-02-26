@@ -5,13 +5,11 @@ import com.wade.decompiler.classfile.instructions.base.ClassGenException;
 import com.wade.decompiler.classfile.instructions.base.ConstantPushInstruction;
 import com.wade.decompiler.classfile.instructions.base.Instruction;
 import com.wade.decompiler.classfile.instructions.type.Type;
+import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
 public class ICONST extends Instruction implements ConstantPushInstruction {
     private int value;
-
-    public ICONST() {
-    }
 
     public ICONST(int i, ConstantPool cp) {
         super(InstructionOpCodes.ICONST_0, 1, cp);
@@ -21,6 +19,12 @@ public class ICONST extends Instruction implements ConstantPushInstruction {
             throw new ClassGenException("ICONST can be used only for value between -1 and 5: " + i);
         }
         value = i;
+    }
+
+    @Override
+    public String decompile(ExpressionStack stack) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
     @Override

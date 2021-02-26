@@ -6,11 +6,18 @@ import com.wade.decompiler.classfile.instructions.base.StackConsumer;
 import com.wade.decompiler.classfile.instructions.base.StackProducer;
 import com.wade.decompiler.classfile.instructions.base.TypedInstruction;
 import com.wade.decompiler.classfile.instructions.type.Type;
+import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
 public class LCMP extends Instruction implements TypedInstruction, StackProducer, StackConsumer {
     public LCMP(ConstantPool cp) {
         super(InstructionOpCodes.LCMP, 1, cp);
+    }
+
+    @Override
+    public String decompile(ExpressionStack stack) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
     @Override

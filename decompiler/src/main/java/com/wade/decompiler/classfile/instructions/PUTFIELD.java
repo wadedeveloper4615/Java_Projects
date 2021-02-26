@@ -5,6 +5,8 @@ import com.wade.decompiler.classfile.instructions.base.ExceptionThrower;
 import com.wade.decompiler.classfile.instructions.base.FieldInstruction;
 import com.wade.decompiler.classfile.instructions.base.PopInstruction;
 import com.wade.decompiler.constants.ExceptionConst;
+import com.wade.decompiler.decompiler.Expression;
+import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.util.Utility;
 
@@ -16,6 +18,14 @@ public class PUTFIELD extends FieldInstruction implements PopInstruction, Except
     @Override
     public int consumeStack() {
         return getFieldSize() + 1;
+    }
+
+    @Override
+    public String decompile(ExpressionStack stack) {
+        Expression exp1 = stack.pop();
+        Expression exp2 = stack.pop();
+        String result = exp2 + "." + getMethodName() + " = " + exp1 + ";";
+        return result;
     }
 
     @Override

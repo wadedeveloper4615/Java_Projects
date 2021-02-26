@@ -6,11 +6,18 @@ import com.wade.decompiler.classfile.instructions.base.FieldInstruction;
 import com.wade.decompiler.classfile.instructions.base.StackConsumer;
 import com.wade.decompiler.classfile.instructions.base.StackProducer;
 import com.wade.decompiler.constants.ExceptionConst;
+import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
 public class GETFIELD extends FieldInstruction implements ExceptionThrower, StackConsumer, StackProducer {
     public GETFIELD(int index, ConstantPool cp) {
         super(InstructionOpCodes.GETFIELD, cp, index);
+    }
+
+    @Override
+    public String decompile(ExpressionStack stack) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
     @Override

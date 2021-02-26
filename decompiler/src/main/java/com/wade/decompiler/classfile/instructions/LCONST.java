@@ -5,13 +5,11 @@ import com.wade.decompiler.classfile.instructions.base.ClassGenException;
 import com.wade.decompiler.classfile.instructions.base.ConstantPushInstruction;
 import com.wade.decompiler.classfile.instructions.base.Instruction;
 import com.wade.decompiler.classfile.instructions.type.Type;
+import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
 public class LCONST extends Instruction implements ConstantPushInstruction {
     private long value;
-
-    public LCONST() {
-    }
 
     public LCONST(long l, ConstantPool cp) {
         super(InstructionOpCodes.LCONST_0, 1, cp);
@@ -23,6 +21,12 @@ public class LCONST extends Instruction implements ConstantPushInstruction {
             throw new ClassGenException("LCONST can be used only for 0 and 1: " + l);
         }
         value = l;
+    }
+
+    @Override
+    public String decompile(ExpressionStack stack) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
     @Override

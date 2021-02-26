@@ -1,9 +1,4 @@
-package com.wade.decompiler.classfile.instructions;
-
-import com.wade.decompiler.classfile.instructions.base.CompoundInstruction;
-import com.wade.decompiler.classfile.instructions.base.InstructionConstants;
-import com.wade.decompiler.classfile.instructions.base.InstructionList;
-import com.wade.decompiler.classfile.instructions.base.VariableLengthInstruction;
+package com.wade.decompiler.classfile.instructions.base;
 
 public class PUSH implements CompoundInstruction, VariableLengthInstruction, InstructionConstants {
     @Override

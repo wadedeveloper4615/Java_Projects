@@ -1,6 +1,7 @@
 package com.wade.decompiler.generate;
 
 import java.io.IOException;
+import java.util.List;
 
 import com.wade.decompiler.classfile.Method;
 import com.wade.decompiler.classfile.constant.ConstantPool;
@@ -13,6 +14,7 @@ public class MethodGen extends FieldOrMethodGen {
     private CodeGen code;
     private LineNumberTableGen lineNumberTable;
     private LocalVariableTableGen localVariableTable;
+    private List<String> instructions;
 
     public MethodGen(Method value, ConstantPool constantPool) throws IOException {
         super(value, constantPool);
@@ -21,6 +23,7 @@ public class MethodGen extends FieldOrMethodGen {
                 code = (CodeGen) attr;
                 lineNumberTable = code.getLineNumberTable();
                 localVariableTable = code.getLocalVariableTable();
+                instructions = code.getDecompiledInstructions();
             }
         }
     }
@@ -54,6 +57,10 @@ public class MethodGen extends FieldOrMethodGen {
 
     public CodeGen getCode() {
         return code;
+    }
+
+    public List<String> getInstructions() {
+        return instructions;
     }
 
     public LineNumberTableGen getLineNumberTable() {

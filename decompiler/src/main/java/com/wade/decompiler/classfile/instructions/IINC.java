@@ -7,15 +7,13 @@ import com.wade.decompiler.classfile.instructions.base.ClassGenException;
 import com.wade.decompiler.classfile.instructions.base.LocalVariableInstruction;
 import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.constants.Const;
+import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.util.ByteSequence;
 
 public class IINC extends LocalVariableInstruction {
     private boolean wide;
     private int c;
-
-    public IINC() {
-    }
 
     public IINC(int n, int c, ConstantPool cp) {
         super();
@@ -24,6 +22,12 @@ public class IINC extends LocalVariableInstruction {
         super.setLength((short) 3);
         setIndex(n);
         setIncrement(c);
+    }
+
+    @Override
+    public String decompile(ExpressionStack stack) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
     public int getIncrement() {

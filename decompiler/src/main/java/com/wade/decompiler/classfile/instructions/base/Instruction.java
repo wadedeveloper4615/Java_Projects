@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.instructions.*;
+import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generate.attribute.LocalVariableTableGen;
 import com.wade.decompiler.util.ByteSequence;
@@ -37,8 +38,7 @@ public abstract class Instruction implements InstructionInit {
         return consumeStack;
     }
 
-    public void dispose() {
-    }
+    public abstract String decompile(ExpressionStack stack);
 
     @Override
     public boolean equals(Object obj) {

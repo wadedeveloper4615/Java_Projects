@@ -12,14 +12,12 @@ import com.wade.decompiler.classfile.instructions.type.ArrayType;
 import com.wade.decompiler.classfile.instructions.type.ObjectType;
 import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.constants.ExceptionConst;
+import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.util.ByteSequence;
 
 public class MULTIANEWARRAY extends CPInstruction implements LoadClass, AllocationInstruction, ExceptionThrower {
     private short dimensions;
-
-    public MULTIANEWARRAY() {
-    }
 
     public MULTIANEWARRAY(int index, short dimensions, ConstantPool cp) {
         super(InstructionOpCodes.MULTIANEWARRAY, cp, index);
@@ -33,6 +31,12 @@ public class MULTIANEWARRAY extends CPInstruction implements LoadClass, Allocati
     @Override
     public int consumeStack() {
         return dimensions;
+    }
+
+    @Override
+    public String decompile(ExpressionStack stack) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
     public short getDimensions() {

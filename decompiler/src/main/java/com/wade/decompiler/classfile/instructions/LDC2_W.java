@@ -7,14 +7,20 @@ import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.instructions.base.CPInstruction;
 import com.wade.decompiler.classfile.instructions.base.PushInstruction;
 import com.wade.decompiler.classfile.instructions.type.Type;
+import com.wade.decompiler.decompiler.Expression;
+import com.wade.decompiler.decompiler.ExpressionStack;
+import com.wade.decompiler.decompiler.ExpressionType;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
 public class LDC2_W extends CPInstruction implements PushInstruction {
-    public LDC2_W() {
-    }
-
     public LDC2_W(int index, ConstantPool cp) {
         super(InstructionOpCodes.LDC2_W, cp, index);
+    }
+
+    @Override
+    public String decompile(ExpressionStack stack) {
+        stack.push(new Expression(ExpressionType.CONSTANT_NUMBER, this.getValue().longValue()));
+        return null;
     }
 
     @Override
@@ -30,8 +36,8 @@ public class LDC2_W extends CPInstruction implements PushInstruction {
         }
     }
 
-    public Number getValue(ConstantPool cpg) {
-        Constant c = cpg.getConstant(super.getIndex());
+    public Number getValue() {
+        Constant c = constantPool.getConstant(super.getIndex());
         switch (c.getTag()) {
             case CONSTANT_Long:
                 return Long.valueOf(((ConstantLong) c).getBytes());

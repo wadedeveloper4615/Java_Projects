@@ -6,18 +6,24 @@ import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.instructions.base.ConstantPushInstruction;
 import com.wade.decompiler.classfile.instructions.base.Instruction;
 import com.wade.decompiler.classfile.instructions.type.Type;
+import com.wade.decompiler.decompiler.Expression;
+import com.wade.decompiler.decompiler.ExpressionStack;
+import com.wade.decompiler.decompiler.ExpressionType;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.util.ByteSequence;
 
 public class BIPUSH extends Instruction implements ConstantPushInstruction {
     private byte b;
 
-    public BIPUSH() {
-    }
-
     public BIPUSH(byte b, ConstantPool cp) {
         super(InstructionOpCodes.BIPUSH, 2, cp);
         this.b = b;
+    }
+
+    @Override
+    public String decompile(ExpressionStack stack) {
+        stack.push(new Expression(ExpressionType.CONSTANT_NUMBER, b));
+        return null;
     }
 
     @Override

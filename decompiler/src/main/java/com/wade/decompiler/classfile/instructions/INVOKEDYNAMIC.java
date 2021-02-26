@@ -9,6 +9,7 @@ import com.wade.decompiler.classfile.instructions.base.InvokeInstruction;
 import com.wade.decompiler.classfile.instructions.type.ObjectType;
 import com.wade.decompiler.classfile.instructions.type.ReferenceType;
 import com.wade.decompiler.constants.ExceptionConst;
+import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.util.ByteSequence;
@@ -16,6 +17,12 @@ import com.wade.decompiler.util.ByteSequence;
 public class INVOKEDYNAMIC extends InvokeInstruction {
     public INVOKEDYNAMIC(int index, ConstantPool cp) {
         super(InstructionOpCodes.INVOKEDYNAMIC, index, cp);
+    }
+
+    @Override
+    public String decompile(ExpressionStack stack) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
     @Override

@@ -5,6 +5,7 @@ import com.wade.decompiler.classfile.instructions.base.ExceptionThrower;
 import com.wade.decompiler.classfile.instructions.base.FieldInstruction;
 import com.wade.decompiler.classfile.instructions.base.PopInstruction;
 import com.wade.decompiler.constants.ExceptionConst;
+import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
 public class PUTSTATIC extends FieldInstruction implements ExceptionThrower, PopInstruction {
@@ -15,6 +16,12 @@ public class PUTSTATIC extends FieldInstruction implements ExceptionThrower, Pop
     @Override
     public int consumeStack() {
         return getFieldSize();
+    }
+
+    @Override
+    public String decompile(ExpressionStack stack) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
     @Override

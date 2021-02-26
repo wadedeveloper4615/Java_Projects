@@ -23,13 +23,4 @@ public class Test1 implements Serializable {
     public Test1() {
         super();
     }
-
-    public void assignInt() {
-        var2 = 99;
-        var3 = 99;
-        var4 = 99;
-        var9 = new short[6];
-        var10 = new int[7];
-        var11 = new long[8];
-    }
 }

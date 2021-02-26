@@ -18,7 +18,7 @@ import com.wade.decompiler.util.ByteSequence;
 public abstract class CPInstruction extends Instruction implements TypedInstruction, IndexedInstruction {
     private int index;
     private String superName;
-    private String methodName;
+    protected String methodName;
     protected String signature;
     private Object constantValue;
     private String constantString;

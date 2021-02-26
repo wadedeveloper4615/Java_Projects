@@ -13,7 +13,10 @@ public class INVOKESPECIAL extends InvokeInstruction {
 
     @Override
     public String decompile(ExpressionStack stack) {
-        // TODO Auto-generated method stub
+        stack.pop();
+        if (methodName.equals("<init>")) {
+            return "super()";
+        }
         return null;
     }
 

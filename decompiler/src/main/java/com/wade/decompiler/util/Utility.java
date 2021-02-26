@@ -3,6 +3,7 @@ package com.wade.decompiler.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.wade.decompiler.classfile.JavaClass;
 import com.wade.decompiler.classfile.exceptions.ClassFormatException;
 import com.wade.decompiler.constants.Const;
 import com.wade.decompiler.enums.ClassAccessFlags;
@@ -10,6 +11,7 @@ import com.wade.decompiler.enums.ClassAccessFlagsList;
 import com.wade.decompiler.enums.TypeEnum;
 import com.wade.decompiler.generate.attribute.LocalVariableGen;
 import com.wade.decompiler.generate.attribute.LocalVariableTableGen;
+import com.wade.decompiler.repository.SyntheticRepository;
 
 public abstract class Utility {
     private static ConsumedChars consumed_chars = new ConsumedChars();
@@ -99,6 +101,10 @@ public abstract class Utility {
         String name = Utility.compactClassName(className, b);
         int index = name.lastIndexOf(".") + 1;
         return name.substring(index);
+    }
+
+    public static JavaClass getTestClass(String name) throws ClassNotFoundException {
+        return SyntheticRepository.getInstance().loadClass(name);
     }
 
     public static String[] methodSignatureArgumentTypes(String signature) throws ClassFormatException {

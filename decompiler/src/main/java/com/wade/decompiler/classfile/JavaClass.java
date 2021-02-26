@@ -5,7 +5,10 @@ import java.util.Arrays;
 import com.wade.decompiler.classfile.attribute.Attribute;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.ClassAccessFlagsList;
+import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.enums.Version;
+import com.wade.decompiler.repository.Repository;
+import com.wade.decompiler.repository.SyntheticRepository;
 import com.wade.decompiler.util.Utility;
 
 public class JavaClass {
@@ -19,6 +22,7 @@ public class JavaClass {
     private Field[] fields;
     private Method[] methods;
     private Attribute[] attributes;
+    private transient Repository repository = SyntheticRepository.getInstance();
 
     public JavaClass(int classNameIndex, int superclassNameIndex, String fileName, Version version, ClassAccessFlagsList accessFlags, ConstantPool constantPool, int[] interfaces, Field[] fields, Method[] methods, Attribute[] attributes) {
         this.classNameIndex = classNameIndex;
@@ -80,6 +84,10 @@ public class JavaClass {
 
     public Attribute[] getAttributes() {
         return attributes;
+    }
+
+    public String getClassName() {
+        return constantPool.constantToString(getClassNameIndex(), ClassFileConstants.CONSTANT_Class);
     }
 
     public int getClassNameIndex() {
@@ -161,6 +169,10 @@ public class JavaClass {
 
     public void setMethods(Method[] methods) {
         this.methods = methods;
+    }
+
+    public void setRepository(Repository repository) {
+        this.repository = repository;
     }
 
     public void setSuperclassNameIndex(int superclassNameIndex) {

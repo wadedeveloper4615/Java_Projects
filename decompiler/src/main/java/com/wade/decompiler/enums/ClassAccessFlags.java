@@ -35,14 +35,20 @@ public enum ClassAccessFlags {
     private String[] ACCESS_NAMES = { "public", "private", "protected", "static", "", "synchronized", "volatile", "transient", "native", "interface", "abstract", "strictfp", "synthetic", "annotation", "enum", "module", "max flag", "max_flag 2", "DUMMY" };
     private int flag;
     private String name;
+    private int index;
 
     ClassAccessFlags(int flag, int index) {
         this.flag = flag;
         this.name = ACCESS_NAMES[index];
+        this.index = index;
     }
 
     public int getFlag() {
         return flag;
+    }
+
+    public int getIndex() {
+        return index;
     }
 
     public String getName() {

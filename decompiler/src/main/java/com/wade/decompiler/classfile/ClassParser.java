@@ -63,8 +63,7 @@ public class ClassParser {
     }
 
     public JavaClass parse() throws IOException, ClassFormatException {
-        DataInput dataInputStream = new DataInputStream(inputStream);
-        try {
+        try (DataInputStream dataInputStream = new DataInputStream(inputStream)) {
             readID(dataInputStream);
             readVersion(dataInputStream);
             readConstantPool(dataInputStream);
@@ -75,9 +74,6 @@ public class ClassParser {
             readAttributes(dataInputStream);
         } finally {
             try {
-                if (dataInputStream != null) {
-                    ((DataInputStream) dataInputStream).close();
-                }
                 if (zip != null) {
                     zip.close();
                 }

@@ -121,6 +121,16 @@ public class AnnotationDefaultTest {
         assertFalse(annotation1.equals(""));
     }
 
+    @SuppressWarnings("unlikely-arg-type")
+    @Test
+    void testEqualsObject8() throws Exception {
+        when(mockInputStream.read()).thenReturn((int) ElementValue.PRIMITIVE_LONG).thenReturn(0).thenReturn(1);
+        dataInput = new DataInputStream(mockInputStream);
+        AnnotationDefault annotation1 = new AnnotationDefault(1, 1, dataInput, new ConstantPool());
+        assertNotNull(annotation1.getDefaultValue());
+        assertFalse(annotation1.equals(""));
+    }
+
     @Test
     void testGetDefaultValue() throws Exception {
         when(mockInputStream.read()).thenReturn((int) ElementValue.PRIMITIVE_LONG).thenReturn(0).thenReturn(1);
@@ -146,6 +156,7 @@ public class AnnotationDefaultTest {
         assertNotNull(annotation1.getDefaultValue());
         annotation1.setDefaultValue(null);
         assertNull(annotation1.getDefaultValue());
+        assertNotNull(annotation1.hashCode());
     }
 
 }

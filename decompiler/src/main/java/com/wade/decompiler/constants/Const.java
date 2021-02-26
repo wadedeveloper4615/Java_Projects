@@ -20,8 +20,7 @@ public final class Const {
     public static final int MAX_SHORT = 65535; // 2^16 - 1
     public static final int MAX_BYTE  = 255; // 2^8 - 1
 
-    @Deprecated
-    public static final short MAX_ACC_FLAG     = (short) ClassAccessFlags.ACC_ENUM.getFlag();
+    public static final short MAX_ACC_FLAG     = (short) ClassAccessFlags.ACC_ENUM.getIndex();
     public static final int MAX_ACC_FLAG_I = 0x8000; // ACC_MODULE is negative as a short
 
     public static final String STATIC_INITIALIZER_NAME = "<clinit>";

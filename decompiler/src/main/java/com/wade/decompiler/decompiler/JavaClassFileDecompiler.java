@@ -78,6 +78,7 @@ public class JavaClassFileDecompiler {
     private void deompileMethods(MethodGen[] methods, boolean isAbstract, boolean isAnnotation) {
         for (MethodGen mg : methods) {
             ClassAccessFlagsList flags = mg.getAccessFlags();
+            boolean isNative = flags.isNative();
             if (isAbstract || isAnnotation) {
                 flags.remove(ClassAccessFlags.ACC_ABSTRACT);
             }
@@ -87,7 +88,7 @@ public class JavaClassFileDecompiler {
                 name = Utility.extractClassName(jgen.getClassName(), false);
             }
             String signature = Utility.methodSignatureToString(mg.getSignature(), name, access, true, mg.getLocalVariableTable());
-            if (!(isAbstract || isAnnotation)) {
+            if (!(isAbstract || isAnnotation || isNative)) {
                 System.out.println("\t" + signature + "{");
                 decompileInstructions(mg.getCode(), mg.getLocalVariableTable());
                 System.out.println("\t}");

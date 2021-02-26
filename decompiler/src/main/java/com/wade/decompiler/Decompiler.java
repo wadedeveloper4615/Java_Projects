@@ -28,6 +28,7 @@ public class Decompiler {
             // String resource = "/com/wade/decompiler/test/Test2.class";
             String resource = "/com/wade/decompiler/test/Test1.class";
             // String resource = "/java/lang/Object.class";
+            // JavaClass javaClass = new ClassParser(argv[0]).parse();
             JavaClass javaClass = decompiler.process(c, resource);
             decompiler.decompile(javaClass);
         } catch (Exception e) {

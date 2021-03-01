@@ -10,6 +10,7 @@ import com.wade.decompiler.classfile.constant.ConstantMethodref;
 import com.wade.decompiler.classfile.constant.ConstantNameAndType;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.constant.ConstantUtf8;
+import com.wade.decompiler.classfile.exceptions.ClassGenException;
 import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.constants.Const;
 import com.wade.decompiler.enums.ClassFileConstants;
@@ -18,6 +19,15 @@ import com.wade.decompiler.generate.attribute.LocalVariableGen;
 import com.wade.decompiler.generate.attribute.LocalVariableTableGen;
 import com.wade.decompiler.util.ByteSequence;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode(callSuper = false)
 public abstract class LocalVariableInstruction extends Instruction implements TypedInstruction, IndexedInstruction {
     protected int index = -1;
     private InstructionOpCodes cTag = null;
@@ -85,45 +95,9 @@ public abstract class LocalVariableInstruction extends Instruction implements Ty
         }
     }
 
-    public InstructionOpCodes getCanonicalTag() {
-        return canonTag;
-    }
-
-    public InstructionOpCodes getCanonTag() {
-        return canonTag;
-    }
-
-    public String getConstantString() {
-        return constantString;
-    }
-
-    public Object getConstantValue() {
-        return constantValue;
-    }
-
-    public InstructionOpCodes getcTag() {
-        return cTag;
-    }
-
     @Override
     public int getIndex() {
         return index;
-    }
-
-    public LocalVariableGen getLocalVariable() {
-        return localVariable;
-    }
-
-    public String getMethodName() {
-        return methodName;
-    }
-
-    public String getSignature() {
-        return signature;
-    }
-
-    public String getSuperName() {
-        return superName;
     }
 
     @Override
@@ -202,11 +176,6 @@ public abstract class LocalVariableInstruction extends Instruction implements Ty
 
     public void setIndexOnly(int index) {
         this.index = index;
-    }
-
-    @Override
-    public String toString() {
-        return super.toString() + "[localVariable=" + localVariable + "index=" + index + ", superName=" + superName + ", methodName=" + methodName + ", signature=" + signature + ", constantValue=" + constantValue + ", constantString=" + constantString + "]";
     }
 
     private boolean wide() {

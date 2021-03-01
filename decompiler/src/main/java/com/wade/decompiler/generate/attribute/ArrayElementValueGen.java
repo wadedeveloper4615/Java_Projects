@@ -11,7 +11,7 @@ public class ArrayElementValueGen extends ElementValueGen {
 
     public ArrayElementValueGen(byte type, ArrayElementValue element, ConstantPool constantPool) {
         super(type);
-        ElementValue[] value = element.getElementValuesArray();
+        ElementValue[] value = element.getElementValues();
         this.value = new ElementValueGen[value.length];
         for (int i = 0; i < value.length; i++) {
             this.value[i] = ElementValueGen.readElementValue(value[i], constantPool);

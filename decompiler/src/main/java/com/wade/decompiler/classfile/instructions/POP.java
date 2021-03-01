@@ -6,6 +6,15 @@ import com.wade.decompiler.classfile.instructions.base.StackInstruction;
 import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode(callSuper = false)
 public class POP extends StackInstruction implements PopInstruction {
     public POP(ConstantPool cp) {
         super(InstructionOpCodes.POP, cp);

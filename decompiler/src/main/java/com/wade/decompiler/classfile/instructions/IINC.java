@@ -3,7 +3,7 @@ package com.wade.decompiler.classfile.instructions;
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.classfile.instructions.base.ClassGenException;
+import com.wade.decompiler.classfile.exceptions.ClassGenException;
 import com.wade.decompiler.classfile.instructions.base.LocalVariableInstruction;
 import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.constants.Const;
@@ -11,6 +11,15 @@ import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.util.ByteSequence;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode(callSuper = false)
 public class IINC extends LocalVariableInstruction {
     private boolean wide;
     private int c;
@@ -79,10 +88,5 @@ public class IINC extends LocalVariableInstruction {
         } else {
             super.setLength(3);
         }
-    }
-
-    @Override
-    public String toString() {
-        return super.toString() + " " + c;
     }
 }

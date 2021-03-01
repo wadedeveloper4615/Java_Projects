@@ -13,6 +13,15 @@ import com.wade.decompiler.constants.ExceptionConst;
 import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode(callSuper = false)
 public class CHECKCAST extends CPInstruction implements LoadClass, ExceptionThrower, StackProducer, StackConsumer {
     public CHECKCAST(int index, ConstantPool cp) {
         super(InstructionOpCodes.CHECKCAST, cp, index);

@@ -12,6 +12,15 @@ import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.decompiler.ExpressionType;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode(callSuper = false)
 public class LDC2_W extends CPInstruction implements PushInstruction {
     public LDC2_W(int index, ConstantPool cp) {
         super(InstructionOpCodes.LDC2_W, cp, index);

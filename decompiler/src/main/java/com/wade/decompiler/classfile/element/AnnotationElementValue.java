@@ -3,8 +3,14 @@ package com.wade.decompiler.classfile.element;
 import com.wade.decompiler.classfile.attribute.AnnotationEntry;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
+@EqualsAndHashCode(callSuper = false)
 public class AnnotationElementValue extends ElementValue {
-    // For annotation element values, this is the annotation
     private AnnotationEntry annotationEntry;
 
     public AnnotationElementValue(int type, AnnotationEntry annotationEntry, ConstantPool cpool) {
@@ -13,10 +19,6 @@ public class AnnotationElementValue extends ElementValue {
             throw new IllegalArgumentException("Only element values of type annotation can be built with this ctor - type specified: " + type);
         }
         this.annotationEntry = annotationEntry;
-    }
-
-    public AnnotationEntry getAnnotationEntry() {
-        return annotationEntry;
     }
 
     @Override

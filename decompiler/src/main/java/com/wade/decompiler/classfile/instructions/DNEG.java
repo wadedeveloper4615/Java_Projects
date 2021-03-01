@@ -5,6 +5,15 @@ import com.wade.decompiler.classfile.instructions.base.ArithmeticInstruction;
 import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode(callSuper = false)
 public class DNEG extends ArithmeticInstruction {
     public DNEG(ConstantPool cp) {
         super(InstructionOpCodes.DNEG, cp);

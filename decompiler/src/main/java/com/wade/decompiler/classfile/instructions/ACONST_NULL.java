@@ -8,6 +8,15 @@ import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode(callSuper = false)
 public class ACONST_NULL extends Instruction implements PushInstruction, TypedInstruction {
     public ACONST_NULL(ConstantPool cp) {
         super(InstructionOpCodes.ACONST_NULL, 1, cp);

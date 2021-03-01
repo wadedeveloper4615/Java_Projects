@@ -3,7 +3,7 @@ package com.wade.decompiler.classfile.instructions;
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.classfile.instructions.base.ClassGenException;
+import com.wade.decompiler.classfile.exceptions.ClassGenException;
 import com.wade.decompiler.classfile.instructions.base.InvokeInstruction;
 import com.wade.decompiler.constants.ExceptionConst;
 import com.wade.decompiler.decompiler.ExpressionStack;

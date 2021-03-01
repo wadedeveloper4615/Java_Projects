@@ -5,8 +5,16 @@ import com.wade.decompiler.classfile.instructions.base.Select;
 import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
-public class LOOKUPSWITCH extends Select {
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode(callSuper = false)
+public class LOOKUPSWITCH extends Select {
     public LOOKUPSWITCH(InstructionOpCodes opcode, int[] match, ConstantPool cp) {
         super(opcode, match, cp);
     }

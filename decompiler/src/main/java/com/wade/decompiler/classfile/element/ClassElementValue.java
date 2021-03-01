@@ -4,10 +4,16 @@ import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.constant.ConstantUtf8;
 import com.wade.decompiler.enums.ClassFileConstants;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode(callSuper = false)
 public class ClassElementValue extends ElementValue {
-    // For primitive types and string type, this points to the value entry in
-    // the cpool
-    // For 'class' this points to the class entry in the cpool
     private int idx;
 
     public ClassElementValue(int type, int idx, ConstantPool cpool) {
@@ -18,10 +24,6 @@ public class ClassElementValue extends ElementValue {
     public String getClassString() {
         ConstantUtf8 c = (ConstantUtf8) super.getConstantPool().getConstant(idx, ClassFileConstants.CONSTANT_Utf8);
         return c.getBytes();
-    }
-
-    public int getIndex() {
-        return idx;
     }
 
     @Override

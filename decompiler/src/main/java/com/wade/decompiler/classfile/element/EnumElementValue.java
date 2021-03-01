@@ -4,8 +4,16 @@ import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.constant.ConstantUtf8;
 import com.wade.decompiler.enums.ClassFileConstants;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode(callSuper = false)
 public class EnumElementValue extends ElementValue {
-    // For enum types, these two indices point to the type and value
     private int typeIdx;
     private int valueIdx;
 
@@ -26,14 +34,6 @@ public class EnumElementValue extends ElementValue {
     public String getEnumValueString() {
         ConstantUtf8 cu8 = (ConstantUtf8) super.getConstantPool().getConstant(valueIdx, ClassFileConstants.CONSTANT_Utf8);
         return cu8.getBytes();
-    }
-
-    public int getTypeIndex() {
-        return typeIdx;
-    }
-
-    public int getValueIndex() {
-        return valueIdx;
     }
 
     @Override

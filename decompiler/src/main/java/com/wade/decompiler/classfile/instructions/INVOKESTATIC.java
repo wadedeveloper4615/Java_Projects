@@ -6,6 +6,15 @@ import com.wade.decompiler.constants.ExceptionConst;
 import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode(callSuper = false)
 public class INVOKESTATIC extends InvokeInstruction {
     public INVOKESTATIC(int index, ConstantPool cp) {
         super(InstructionOpCodes.INVOKESTATIC, index, cp);

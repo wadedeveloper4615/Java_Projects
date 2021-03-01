@@ -99,6 +99,7 @@ public class ClassPath implements Closeable {
             };
         }
 
+        @SuppressWarnings("unused")
         @Override
         URL getResource(final String name) {
             final ZipEntry entry = zipFile.getEntry(name);
@@ -109,6 +110,7 @@ public class ClassPath implements Closeable {
             }
         }
 
+        @SuppressWarnings("unused")
         @Override
         InputStream getResourceAsStream(final String name) {
             final ZipEntry entry = zipFile.getEntry(name);
@@ -189,6 +191,7 @@ public class ClassPath implements Closeable {
                     return new FileInputStream(file);
                 }
 
+                @SuppressWarnings("unused")
                 @Override
                 public String getPath() {
                     try {
@@ -210,6 +213,7 @@ public class ClassPath implements Closeable {
             } : null;
         }
 
+        @SuppressWarnings("unused")
         @Override
         URL getResource(final String name) {
             // Resource specification uses '/' whatever the platform
@@ -221,6 +225,7 @@ public class ClassPath implements Closeable {
             }
         }
 
+        @SuppressWarnings("unused")
         @Override
         InputStream getResourceAsStream(final String name) {
             // Resource specification uses '/' whatever the platform
@@ -290,6 +295,7 @@ public class ClassPath implements Closeable {
                         return resolved.toString();
                     }
 
+                    @SuppressWarnings("unused")
                     @Override
                     public long getSize() {
                         try {
@@ -299,6 +305,7 @@ public class ClassPath implements Closeable {
                         }
                     }
 
+                    @SuppressWarnings("unused")
                     @Override
                     public long getTime() {
                         try {
@@ -312,6 +319,7 @@ public class ClassPath implements Closeable {
             return null;
         }
 
+        @SuppressWarnings("unused")
         @Override
         URL getResource(final String name) {
             final Path resovled = modulePath.resolve(name);
@@ -322,6 +330,7 @@ public class ClassPath implements Closeable {
             }
         }
 
+        @SuppressWarnings("unused")
         @Override
         InputStream getResourceAsStream(final String name) {
             try {
@@ -446,12 +455,6 @@ public class ClassPath implements Closeable {
         this.parent = parent;
     }
 
-    /**
-     * Search for classes in given path.
-     *
-     * @param classPath
-     */
-    @SuppressWarnings("resource")
     public ClassPath(final String classPath) {
         this.classPath = classPath;
         final List<AbstractPathEntry> list = new ArrayList<>();
@@ -589,6 +592,7 @@ public class ClassPath implements Closeable {
      * @param suffix file name ends with suff, e.g. .java
      * @return input stream for file on class path
      */
+    @SuppressWarnings("unused")
     public InputStream getInputStream(final String name, final String suffix) throws IOException {
         InputStream inputStream = null;
         try {

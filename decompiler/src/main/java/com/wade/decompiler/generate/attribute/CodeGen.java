@@ -10,7 +10,6 @@ import com.wade.decompiler.classfile.attribute.CodeException;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.instructions.base.Instruction;
 import com.wade.decompiler.classfile.instructions.base.InstructionList;
-import com.wade.decompiler.decompiler.DecompiledInstructions;
 
 public class CodeGen extends AttributeGen {
     private int maxStack;
@@ -39,7 +38,8 @@ public class CodeGen extends AttributeGen {
             }
         }
         this.instructions = new InstructionList(attribute.getByteCode(), localVariableTable, constantPool).getInstructions();
-        this.decompiledInstructions = new DecompiledInstructions(instructions).getInstructions();
+        // this.decompiledInstructions = new
+        // DecompiledInstructions(instructions).getInstructions();
     }
 
     @Override

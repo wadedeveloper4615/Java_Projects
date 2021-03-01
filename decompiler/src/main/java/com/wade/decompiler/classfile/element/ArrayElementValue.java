@@ -2,8 +2,14 @@ package com.wade.decompiler.classfile.element;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
+@EqualsAndHashCode(callSuper = false)
 public class ArrayElementValue extends ElementValue {
-    // For array types, this is the array
     private ElementValue[] elementValues;
 
     public ArrayElementValue(int type, ElementValue[] datums, ConstantPool cpool) {
@@ -12,14 +18,6 @@ public class ArrayElementValue extends ElementValue {
             throw new IllegalArgumentException("Only element values of type array can be built with this ctor - type specified: " + type);
         }
         this.elementValues = datums;
-    }
-
-    public ElementValue[] getElementValuesArray() {
-        return elementValues;
-    }
-
-    public int getElementValuesArraySize() {
-        return elementValues.length;
     }
 
     @Override

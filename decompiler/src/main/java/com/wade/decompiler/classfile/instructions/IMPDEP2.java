@@ -5,6 +5,15 @@ import com.wade.decompiler.classfile.instructions.base.Instruction;
 import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode(callSuper = false)
 public class IMPDEP2 extends Instruction {
     public IMPDEP2(ConstantPool cp) {
         super(InstructionOpCodes.IMPDEP2, 1, cp);

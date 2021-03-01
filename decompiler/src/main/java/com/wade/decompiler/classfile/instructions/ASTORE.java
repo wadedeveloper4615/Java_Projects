@@ -6,6 +6,15 @@ import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generate.attribute.LocalVariableTableGen;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode(callSuper = false)
 public class ASTORE extends StoreInstruction {
     public ASTORE(ConstantPool cp) {
         super(InstructionOpCodes.ASTORE, InstructionOpCodes.ASTORE_0, cp);

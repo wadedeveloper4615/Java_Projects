@@ -8,6 +8,15 @@ import com.wade.decompiler.constants.ExceptionConst;
 import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode(callSuper = false)
 public class ATHROW extends Instruction implements UnconditionalBranch, ExceptionThrower {
     public ATHROW(ConstantPool cp) {
         super(InstructionOpCodes.ATHROW, 1, cp);

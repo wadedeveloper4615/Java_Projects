@@ -1,9 +1,18 @@
 package com.wade.decompiler.classfile.instructions.type;
 
-import com.wade.decompiler.classfile.instructions.base.ClassGenException;
+import com.wade.decompiler.classfile.exceptions.ClassGenException;
 import com.wade.decompiler.constants.Const;
 import com.wade.decompiler.enums.TypeEnum;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode(callSuper = false)
 public class ArrayType extends ReferenceType {
     private int dimensions;
     private Type basicType;
@@ -41,35 +50,4 @@ public class ArrayType extends ReferenceType {
         super.setSignature(buf.toString());
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (!super.equals(obj))
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        ArrayType other = (ArrayType) obj;
-        if (basicType == null) {
-            if (other.basicType != null)
-                return false;
-        } else if (!basicType.equals(other.basicType))
-            return false;
-        if (dimensions != other.dimensions)
-            return false;
-        return true;
-    }
-
-    public Type getBasicType() {
-        return this.basicType;
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = super.hashCode();
-        result = prime * result + ((basicType == null) ? 0 : basicType.hashCode());
-        result = prime * result + dimensions;
-        return result;
-    }
 }

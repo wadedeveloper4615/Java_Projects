@@ -6,6 +6,15 @@ import com.wade.decompiler.classfile.instructions.base.VariableLengthInstruction
 import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode(callSuper = false)
 public class JSR extends JsrInstruction implements VariableLengthInstruction {
     public JSR(ConstantPool cp) {
         super(InstructionOpCodes.JSR, cp);

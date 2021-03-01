@@ -18,6 +18,15 @@ import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.enums.TypeEnum;
 import com.wade.decompiler.util.ByteSequence;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode(callSuper = false)
 public class NEWARRAY extends Instruction implements AllocationInstruction, ExceptionThrower, StackProducer {
     private TypeEnum type;
 
@@ -59,10 +68,5 @@ public class NEWARRAY extends Instruction implements AllocationInstruction, Exce
     public void initFromFile(ByteSequence bytes, boolean wide) throws IOException {
         type = TypeEnum.read(bytes.readByte());
         super.setLength(2);
-    }
-
-    @Override
-    public String toString() {
-        return super.toString() + " " + type.getTypeName();
     }
 }

@@ -8,6 +8,15 @@ import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.generate.attribute.LocalVariableTableGen;
 import com.wade.decompiler.util.ByteSequence;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode(callSuper = false)
 public class InstructionList {
     private List<Instruction> instructions = new ArrayList<>();
 

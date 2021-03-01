@@ -8,6 +8,15 @@ import com.wade.decompiler.decompiler.ExpressionType;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generate.attribute.LocalVariableTableGen;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode(callSuper = false)
 public class ALOAD extends LoadInstruction {
     public ALOAD(ConstantPool cp) {
         super(InstructionOpCodes.ALOAD, InstructionOpCodes.ALOAD_0, cp);

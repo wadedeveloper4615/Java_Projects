@@ -14,6 +14,15 @@ import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.util.ByteSequence;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode(callSuper = false)
 public class INVOKEDYNAMIC extends InvokeInstruction {
     public INVOKEDYNAMIC(int index, ConstantPool cp) {
         super(InstructionOpCodes.INVOKEDYNAMIC, index, cp);
@@ -47,10 +56,5 @@ public class INVOKEDYNAMIC extends InvokeInstruction {
         super.setLength(5);
         bytes.readByte();
         bytes.readByte();
-    }
-
-    @Override
-    public String toString() {
-        return super.toString();
     }
 }

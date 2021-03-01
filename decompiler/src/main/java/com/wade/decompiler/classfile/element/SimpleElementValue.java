@@ -8,16 +8,19 @@ import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.constant.ConstantUtf8;
 import com.wade.decompiler.enums.ClassFileConstants;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
+@EqualsAndHashCode(callSuper = false)
 public class SimpleElementValue extends ElementValue {
     private int index;
 
     public SimpleElementValue(int type, int index, ConstantPool cpool) {
         super(type, cpool);
         this.index = index;
-    }
-
-    public int getIndex() {
-        return index;
     }
 
     public boolean getValueBoolean() {
@@ -92,11 +95,6 @@ public class SimpleElementValue extends ElementValue {
         return c.getBytes();
     }
 
-    public void setIndex(int index) {
-        this.index = index;
-    }
-
-    // Whatever kind of value it is, return it as a string
     @Override
     public String stringifyValue() {
         ConstantPool cpool = super.getConstantPool();

@@ -16,6 +16,7 @@ public abstract class AbstractClassPathRepository implements Repository {
     @Override
     public abstract JavaClass findClass(final String className);
 
+    @SuppressWarnings("unused")
     @Override
     public JavaClass loadClass(Class<?> clazz) throws ClassNotFoundException {
         final String className = clazz.getName();
@@ -36,6 +37,7 @@ public abstract class AbstractClassPathRepository implements Repository {
         }
     }
 
+    @SuppressWarnings("unused")
     private JavaClass loadClass(final InputStream inputStream, final String className) throws ClassNotFoundException {
         try {
             if (inputStream != null) {

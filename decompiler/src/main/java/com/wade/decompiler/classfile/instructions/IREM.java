@@ -7,6 +7,15 @@ import com.wade.decompiler.constants.ExceptionConst;
 import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode(callSuper = false)
 public class IREM extends ArithmeticInstruction implements ExceptionThrower {
     public IREM(ConstantPool cp) {
         super(InstructionOpCodes.IREM, cp);

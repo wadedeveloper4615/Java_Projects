@@ -8,6 +8,15 @@ import com.wade.decompiler.constants.ExceptionConst;
 import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode(callSuper = false)
 public class MONITORENTER extends Instruction implements ExceptionThrower, StackConsumer {
     public MONITORENTER(ConstantPool cp) {
         super(InstructionOpCodes.MONITORENTER, 1, cp);

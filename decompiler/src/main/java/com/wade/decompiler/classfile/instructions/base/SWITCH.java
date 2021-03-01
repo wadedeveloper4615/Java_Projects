@@ -1,5 +1,14 @@
 package com.wade.decompiler.classfile.instructions.base;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode(callSuper = false)
 public class SWITCH implements CompoundInstruction {
     @Override
     public InstructionList getInstructionList() {

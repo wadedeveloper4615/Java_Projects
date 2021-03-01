@@ -3,9 +3,9 @@ package com.wade.decompiler.classfile.instructions;
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
+import com.wade.decompiler.classfile.exceptions.ClassGenException;
 import com.wade.decompiler.classfile.instructions.base.AllocationInstruction;
 import com.wade.decompiler.classfile.instructions.base.CPInstruction;
-import com.wade.decompiler.classfile.instructions.base.ClassGenException;
 import com.wade.decompiler.classfile.instructions.base.ExceptionThrower;
 import com.wade.decompiler.classfile.instructions.base.LoadClass;
 import com.wade.decompiler.classfile.instructions.type.ArrayType;
@@ -16,6 +16,15 @@ import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.util.ByteSequence;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode(callSuper = false)
 public class MULTIANEWARRAY extends CPInstruction implements LoadClass, AllocationInstruction, ExceptionThrower {
     private short dimensions;
 
@@ -62,10 +71,5 @@ public class MULTIANEWARRAY extends CPInstruction implements LoadClass, Allocati
         super.initFromFile(bytes, wide);
         dimensions = bytes.readByte();
         super.setLength(4);
-    }
-
-    @Override
-    public String toString() {
-        return super.toString() + " " + super.getIndex() + " " + dimensions;
     }
 }

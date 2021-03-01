@@ -1,7 +1,5 @@
 package com.wade.decompiler.classfile.instructions.base;
 
-import java.io.IOException;
-
 import com.wade.decompiler.classfile.constant.Constant;
 import com.wade.decompiler.classfile.constant.ConstantClass;
 import com.wade.decompiler.classfile.constant.ConstantFieldRef;
@@ -13,8 +11,16 @@ import com.wade.decompiler.classfile.constant.ConstantUtf8;
 import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.enums.InstructionOpCodes;
-import com.wade.decompiler.util.ByteSequence;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode(callSuper = false)
 public abstract class CPInstruction extends Instruction implements TypedInstruction, IndexedInstruction {
     private int index;
     private String superName;
@@ -31,7 +37,7 @@ public abstract class CPInstruction extends Instruction implements TypedInstruct
         setIndex(index);
     }
 
-    private void extractConstantPoolInfo(Constant c) {
+    public void extractConstantPoolInfo(Constant c) {
         if (c instanceof ConstantMethodref) {
             int classIndex = ((ConstantMethodref) c).getClassIndex();
             int nameAndTypeIndex = ((ConstantMethodref) c).getNameAndTypeIndex();
@@ -66,68 +72,17 @@ public abstract class CPInstruction extends Instruction implements TypedInstruct
         }
     }
 
-    public Object getConstantValue() {
-        return constantValue;
-    }
-
     @Override
     public int getIndex() {
         return index;
     }
 
-    public String getMethodName() {
-        return methodName;
-    }
-
-    public String getSignature() {
-        return signature;
-    }
-
-    public String getSuperName() {
-        return superName;
-    }
-
     @Override
     public Type getType() {
-        String name = this.constantPool.getConstantString(index, ClassFileConstants.CONSTANT_Class);
+        String name = constantPool.getConstantString(index, ClassFileConstants.CONSTANT_Class);
         if (!name.startsWith("[")) {
             name = "L" + name + ";";
         }
         return Type.getType(name);
-    }
-
-    @Override
-    public void initFromFile(ByteSequence bytes, boolean wide) throws IOException {
-        setIndex(bytes.readUnsignedShort());
-        if (index > 0) {
-            Constant c = constantPool.getConstant(index);
-            extractConstantPoolInfo(c);
-        }
-        super.setLength(3);
-    }
-
-    @Override
-    public void setIndex(int index) {
-//        if (index < 0) {
-//            throw new ClassGenException("Negative index value: " + index);
-//        }
-        this.index = index;
-    }
-
-    public void setMethodName(String methodName) {
-        this.methodName = methodName;
-    }
-
-    public void setSignature(String signature) {
-        this.signature = signature;
-    }
-
-    public void setSuperName(String superName) {
-        this.superName = superName;
-    }
-
-    @Override
-    public String toString() {
-        return super.toString() + "[index=" + index + ", superName=" + superName + ", methodName=" + methodName + ", signature=" + signature + ", constantValue=" + constantValue + ", constantString=" + constantString + "]";
     }
 }

@@ -1,30 +1,23 @@
 package com.wade.decompiler.classfile.instructions.type;
 
-import com.wade.decompiler.classfile.instructions.base.ClassGenException;
+import com.wade.decompiler.classfile.exceptions.ClassGenException;
 import com.wade.decompiler.enums.TypeEnum;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode(callSuper = false)
 public class BasicType extends Type {
     public BasicType(TypeEnum type) {
         super(type, type.getShortTypeName());
         if ((type.getTag() < TypeEnum.T_BOOLEAN.getTag()) || (type.getTag() > TypeEnum.T_VOID.getTag())) {
             throw new ClassGenException("Invalid type: " + type);
         }
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (!super.equals(obj))
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode();
     }
 
     public static BasicType getType(int type) {

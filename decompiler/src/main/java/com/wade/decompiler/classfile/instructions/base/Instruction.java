@@ -3,12 +3,22 @@ package com.wade.decompiler.classfile.instructions.base;
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
+import com.wade.decompiler.classfile.exceptions.ClassGenException;
 import com.wade.decompiler.classfile.instructions.*;
 import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generate.attribute.LocalVariableTableGen;
 import com.wade.decompiler.util.ByteSequence;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode(callSuper = false)
 public abstract class Instruction implements InstructionInit {
     protected int length;
     protected InstructionOpCodes opcode;
@@ -35,107 +45,17 @@ public abstract class Instruction implements InstructionInit {
     }
 
     public int consumeStack() {
-        return consumeStack;
+        return opcode.getConsumeStack();
     }
 
     public abstract String decompile(ExpressionStack stack);
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Instruction other = (Instruction) obj;
-        if (consumeStack != other.consumeStack)
-            return false;
-        if (length != other.length)
-            return false;
-        if (name == null) {
-            if (other.name != null)
-                return false;
-        } else if (!name.equals(other.name))
-            return false;
-        if (opcode != other.opcode)
-            return false;
-        if (produceStack != other.produceStack)
-            return false;
-        return true;
-    }
-
-    public ConstantPool getConstantPool() {
-        return constantPool;
-    }
-
-    public int getConsumeStack() {
-        return consumeStack;
-    }
-
-    public int getLength() {
-        return length;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public InstructionOpCodes getOpcode() {
-        return opcode;
-    }
-
-    public int getProduceStack() {
-        return produceStack;
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + consumeStack;
-        result = prime * result + length;
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + ((opcode == null) ? 0 : opcode.hashCode());
-        result = prime * result + produceStack;
-        return result;
-    }
 
     @Override
     public void initFromFile(ByteSequence bytes, boolean wide) throws IOException {
     }
 
     public int produceStack() {
-        return produceStack;
-    }
-
-    public void setConstantPool(ConstantPool constantPool) {
-        this.constantPool = constantPool;
-    }
-
-    public void setConsumeStack(int consumeStack) {
-        this.consumeStack = consumeStack;
-    }
-
-    public void setLength(int length) {
-        this.length = (short) length;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setOpcode(InstructionOpCodes opcode) {
-        this.opcode = opcode;
-    }
-
-    public void setProduceStack(int produceStack) {
-        this.produceStack = produceStack;
-    }
-
-    @Override
-    public String toString() {
-        return "Instruction [opcode=" + opcode + "]";
+        return opcode.getProduceStack();
     }
 
     public static Instruction getInstructions(InstructionOpCodes opcode, LocalVariableTableGen localVariableTable, ConstantPool cp) {

@@ -6,6 +6,15 @@ import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode(callSuper = false)
 public abstract class InvokeInstruction extends FieldOrMethodInstruction implements ExceptionThrower, StackConsumer, StackProducer {
     public InvokeInstruction(InstructionOpCodes opcode, int index, ConstantPool cp) {
         super(opcode, cp, index);

@@ -6,6 +6,13 @@ import java.io.IOException;
 import com.wade.decompiler.classfile.attribute.AnnotationEntry;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
+@EqualsAndHashCode(callSuper = false)
 public abstract class ElementValue {
     public static final byte STRING = 's';
     public static final byte ENUM_CONSTANT = 'e';
@@ -21,51 +28,11 @@ public abstract class ElementValue {
     public static final byte PRIMITIVE_SHORT = 'S';
     public static final byte PRIMITIVE_BOOLEAN = 'Z';
     protected int type;
-    protected ConstantPool cpool;
+    protected ConstantPool constantPool;
 
-    protected ElementValue(int type, ConstantPool cpool) {
+    protected ElementValue(int type, ConstantPool constantPool) {
         this.type = type;
-        this.cpool = cpool;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        ElementValue other = (ElementValue) obj;
-        if (cpool == null) {
-            if (other.cpool != null)
-                return false;
-        } else if (!cpool.equals(other.cpool))
-            return false;
-        if (type != other.type)
-            return false;
-        return true;
-    }
-
-    public ConstantPool getConstantPool() {
-        return cpool;
-    }
-
-    public int getElementValueType() {
-        return type;
-    }
-
-    public int getType() {
-        return type;
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((cpool == null) ? 0 : cpool.hashCode());
-        result = prime * result + type;
-        return result;
+        this.constantPool = constantPool;
     }
 
     public abstract String stringifyValue();

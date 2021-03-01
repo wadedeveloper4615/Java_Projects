@@ -9,6 +9,15 @@ import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode(callSuper = false)
 public class FCMPL extends Instruction implements TypedInstruction, StackProducer, StackConsumer {
     public FCMPL(ConstantPool cp) {
         super(InstructionOpCodes.FCMPL, 1, cp);

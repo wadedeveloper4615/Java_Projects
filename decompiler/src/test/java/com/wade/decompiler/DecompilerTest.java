@@ -14,7 +14,6 @@ import com.wade.decompiler.classfile.JavaClass;
 import com.wade.decompiler.classfile.Method;
 import com.wade.decompiler.classfile.constant.Constant;
 import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.enums.ClassAccessFlagsList;
 import com.wade.decompiler.generate.FieldGen;
 import com.wade.decompiler.generate.JavaClassGen;
 import com.wade.decompiler.generate.MethodGen;
@@ -53,7 +52,6 @@ class DecompilerTest extends AbstractTest {
         assertTrue(gen1.equals(gen2));
     }
 
-    @SuppressWarnings("unused")
     @Test
     void testObjectClass() throws Exception {
         JavaClass clazz = getTestClass("java.lang.Object");
@@ -71,7 +69,7 @@ class DecompilerTest extends AbstractTest {
         JavaClassGen gen = new JavaClassGen(clazz);
         MethodGen[] methods = gen.getMethods();
         ConstantPool constantPool = gen.getConstantPool();
-        ClassAccessFlagsList flags = gen.getAccessFlags();
+        // ClassAccessFlagsList flags = gen.getAccessFlags();
         Constant[] constantPoolArray = constantPool.getConstantPool();
 
         assertNotNull(clazz.toString());

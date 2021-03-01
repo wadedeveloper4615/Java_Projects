@@ -8,8 +8,16 @@ import com.wade.decompiler.constants.ExceptionConst;
 import com.wade.decompiler.decompiler.Expression;
 import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.InstructionOpCodes;
-import com.wade.decompiler.util.Utility;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode(callSuper = false)
 public class PUTFIELD extends FieldInstruction implements PopInstruction, ExceptionThrower {
     public PUTFIELD(int index, ConstantPool cp) {
         super(InstructionOpCodes.PUTFIELD, cp, index);
@@ -31,10 +39,5 @@ public class PUTFIELD extends FieldInstruction implements PopInstruction, Except
     @Override
     public Class<?>[] getExceptions() {
         return ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_FIELD_AND_METHOD_RESOLUTION, ExceptionConst.NULL_POINTER_EXCEPTION, ExceptionConst.INCOMPATIBLE_CLASS_CHANGE_ERROR);
-    }
-
-    @Override
-    public String toString() {
-        return "Instruction [opcode=" + opcode + "][put value in field = " + Utility.compactClassName(getSuperName()) + "." + getMethodName() + "]";
     }
 }

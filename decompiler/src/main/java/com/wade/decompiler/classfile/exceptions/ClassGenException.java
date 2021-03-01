@@ -1,4 +1,4 @@
-package com.wade.decompiler.classfile.instructions.base;
+package com.wade.decompiler.classfile.exceptions;
 
 public class ClassGenException extends RuntimeException {
     private static final long serialVersionUID = 3023347252327295834L;

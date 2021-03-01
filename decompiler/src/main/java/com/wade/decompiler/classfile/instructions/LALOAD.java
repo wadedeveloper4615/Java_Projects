@@ -6,6 +6,15 @@ import com.wade.decompiler.classfile.instructions.base.StackProducer;
 import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode(callSuper = false)
 public class LALOAD extends ArrayInstruction implements StackProducer {
     public LALOAD(ConstantPool cp) {
         super(InstructionOpCodes.LALOAD, cp);

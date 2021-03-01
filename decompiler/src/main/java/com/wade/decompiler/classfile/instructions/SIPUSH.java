@@ -10,6 +10,15 @@ import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.util.ByteSequence;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode(callSuper = false)
 public class SIPUSH extends Instruction implements ConstantPushInstruction {
     private short b;
 
@@ -38,10 +47,5 @@ public class SIPUSH extends Instruction implements ConstantPushInstruction {
     public void initFromFile(ByteSequence bytes, boolean wide) throws IOException {
         super.setLength(3);
         b = bytes.readShort();
-    }
-
-    @Override
-    public String toString() {
-        return super.toString() + " " + b;
     }
 }

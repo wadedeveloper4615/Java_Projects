@@ -7,6 +7,15 @@ import com.wade.decompiler.classfile.exceptions.ClassFormatException;
 import com.wade.decompiler.enums.TypeEnum;
 import com.wade.decompiler.util.Utility;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode(callSuper = false)
 public abstract class Type {
     public static BasicType VOID = new BasicType(TypeEnum.T_VOID);
     public static BasicType BOOLEAN = new BasicType(TypeEnum.T_BOOLEAN);
@@ -41,29 +50,6 @@ public abstract class Type {
         signature = s;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Type other = (Type) obj;
-        if (signature == null) {
-            if (other.signature != null)
-                return false;
-        } else if (!signature.equals(other.signature))
-            return false;
-        if (type != other.type)
-            return false;
-        return true;
-    }
-
-    public String getSignature() {
-        return signature;
-    }
-
     public int getSize() {
         switch (type) {
             case T_DOUBLE:
@@ -80,15 +66,6 @@ public abstract class Type {
         return type;
     }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((signature == null) ? 0 : signature.hashCode());
-        result = prime * result + ((type == null) ? 0 : type.hashCode());
-        return result;
-    }
-
     public Type normalizeForStackOrLocal() {
         if (this == Type.BOOLEAN || this == Type.BYTE || this == Type.SHORT || this == Type.CHAR) {
             return Type.INT;
@@ -98,11 +75,6 @@ public abstract class Type {
 
     public void setSignature(String signature) {
         this.signature = signature;
-    }
-
-    @Override
-    public String toString() {
-        return "Type [type=" + type + ", signature=" + signature + "]";
     }
 
     static int consumed(int coded) {

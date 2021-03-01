@@ -1,5 +1,14 @@
 package com.wade.decompiler.classfile.instructions.base;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode(callSuper = false)
 public class PUSH implements CompoundInstruction, VariableLengthInstruction, InstructionConstants {
     @Override
     public InstructionList getInstructionList() {

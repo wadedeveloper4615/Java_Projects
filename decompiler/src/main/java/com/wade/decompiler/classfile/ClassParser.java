@@ -22,7 +22,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@SuppressWarnings("unused")
 @Setter
 @Getter
 @ToString

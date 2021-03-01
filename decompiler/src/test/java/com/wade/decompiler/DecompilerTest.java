@@ -11,291 +11,156 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.wade.decompiler.classfile.JavaClass;
-import com.wade.decompiler.enums.Version;
+import com.wade.decompiler.classfile.Method;
+import com.wade.decompiler.classfile.constant.Constant;
+import com.wade.decompiler.classfile.constant.ConstantPool;
+import com.wade.decompiler.enums.ClassAccessFlagsList;
+import com.wade.decompiler.generate.FieldGen;
+import com.wade.decompiler.generate.JavaClassGen;
+import com.wade.decompiler.generate.MethodGen;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Decompiler JUnit 5 test")
-class DecompilerTest {
-//    @Test
-    void test1() throws Exception {
-        Class<Decompiler> c = Decompiler.class;
-        Decompiler decompiler = new Decompiler();
-        String resource = "/com/wade/decompiler/test/Test1.class";
-        JavaClass javaClass = decompiler.process(c, resource);
-        assertNotNull(javaClass);
-        assertNotNull(javaClass.getClassNameIndex());
-        assertNotNull(javaClass.getSuperclassNameIndex());
-        assertNotNull(javaClass.getFileName());
-        assertEquals(Version.Version_14, javaClass.getVersion());
-        assertEquals(33, javaClass.getAccessFlags().getFlags());
-        assertEquals(50, javaClass.getConstantPool().getConstantPool().length);
-        assertEquals(1, javaClass.getInterfaces().length);
-        assertEquals(15, javaClass.getFields().length);
-        assertEquals(1, javaClass.getMethods().length);
-        assertEquals(1, javaClass.getAttributes().length);
-        assertTrue(javaClass.equals(javaClass));
-        assertNotNull(javaClass.hashCode());
-        assertNotNull(javaClass.toString());
+class DecompilerTest extends AbstractTest {
+    @Test
+    void testEqual1() throws Exception {
+        JavaClass clazz1 = getTestClass(PACKAGE_BASE_NAME + ".data.test.SimpleClass");
+        JavaClassGen gen1 = new JavaClassGen(clazz1);
+        assertTrue(gen1.equals(gen1));
     }
 
     @Test
-    void testEquals1() throws Exception {
-        Class<Decompiler> c = Decompiler.class;
-        Decompiler decompiler = new Decompiler();
-        String resource = "/com/wade/decompiler/test/Test1.class";
-        JavaClass javaClass1 = decompiler.process(c, resource);
-        JavaClass javaClass2 = decompiler.process(c, resource);
-        javaClass1.setAttributes(null);
-        javaClass2.setAttributes(null);
-        assertTrue(javaClass1.equals(javaClass2));
-    }
-
-    @Test
-    void testEquals10() throws Exception {
-        Class<Decompiler> c = Decompiler.class;
-        Decompiler decompiler = new Decompiler();
-        String resource = "/com/wade/decompiler/test/Test1.class";
-        JavaClass javaClass1 = decompiler.process(c, resource);
-        JavaClass javaClass2 = decompiler.process(c, resource);
-        javaClass1.setAttributes(null);
-        assertFalse(javaClass1.equals(javaClass2));
-    }
-
-    @Test
-    void testEquals11() throws Exception {
-        Class<Decompiler> c = Decompiler.class;
-        Decompiler decompiler = new Decompiler();
-        String resource = "/com/wade/decompiler/test/Test1.class";
-        JavaClass javaClass1 = decompiler.process(c, resource);
-        JavaClass javaClass2 = decompiler.process(c, resource);
-        javaClass1.setFields(null);
-        assertFalse(javaClass1.equals(javaClass2));
-    }
-
-    @Test
-    void testEquals12() throws Exception {
-        Class<Decompiler> c = Decompiler.class;
-        Decompiler decompiler = new Decompiler();
-        String resource = "/com/wade/decompiler/test/Test1.class";
-        JavaClass javaClass1 = decompiler.process(c, resource);
-        JavaClass javaClass2 = decompiler.process(c, resource);
-        javaClass1.setFileName(null);
-        assertFalse(javaClass1.equals(javaClass2));
-        assertNotNull(javaClass1.hashCode());
-    }
-
-    @Test
-    void testEquals13() throws Exception {
-        Class<Decompiler> c = Decompiler.class;
-        Decompiler decompiler = new Decompiler();
-        String resource = "/com/wade/decompiler/test/Test1.class";
-        JavaClass javaClass1 = decompiler.process(c, resource);
-        JavaClass javaClass2 = decompiler.process(c, resource);
-        javaClass2.setFileName(null);
-        assertFalse(javaClass1.equals(javaClass2));
-    }
-
-    @Test
-    void testEquals14() throws Exception {
-        Class<Decompiler> c = Decompiler.class;
-        Decompiler decompiler = new Decompiler();
-        String resource = "/com/wade/decompiler/test/Test1.class";
-        JavaClass javaClass1 = decompiler.process(c, resource);
-        JavaClass javaClass2 = decompiler.process(c, resource);
-        javaClass1.setFileName(null);
-        javaClass2.setFileName(null);
-        assertTrue(javaClass1.equals(javaClass2));
-    }
-
-    @Test
-    void testEquals15() throws Exception {
-        Class<Decompiler> c = Decompiler.class;
-        Decompiler decompiler = new Decompiler();
-        String resource = "/com/wade/decompiler/test/Test1.class";
-        JavaClass javaClass1 = decompiler.process(c, resource);
-        JavaClass javaClass2 = decompiler.process(c, resource);
-        javaClass1.setInterfaces(null);
-        assertFalse(javaClass1.equals(javaClass2));
-    }
-
-    @Test
-    void testEquals16() throws Exception {
-        Class<Decompiler> c = Decompiler.class;
-        Decompiler decompiler = new Decompiler();
-        String resource = "/com/wade/decompiler/test/Test1.class";
-        JavaClass javaClass1 = decompiler.process(c, resource);
-        JavaClass javaClass2 = decompiler.process(c, resource);
-        javaClass2.setInterfaces(null);
-        assertFalse(javaClass1.equals(javaClass2));
-    }
-
-    @Test
-    void testEquals17() throws Exception {
-        Class<Decompiler> c = Decompiler.class;
-        Decompiler decompiler = new Decompiler();
-        String resource = "/com/wade/decompiler/test/Test1.class";
-        JavaClass javaClass1 = decompiler.process(c, resource);
-        JavaClass javaClass2 = decompiler.process(c, resource);
-        javaClass1.setInterfaces(null);
-        javaClass2.setInterfaces(null);
-        assertTrue(javaClass1.equals(javaClass2));
-    }
-
-    @Test
-    void testEquals18() throws Exception {
-        Class<Decompiler> c = Decompiler.class;
-        Decompiler decompiler = new Decompiler();
-        String resource = "/com/wade/decompiler/test/Test1.class";
-        JavaClass javaClass1 = decompiler.process(c, resource);
-        JavaClass javaClass2 = decompiler.process(c, resource);
-        javaClass1.setMethods(null);
-        assertFalse(javaClass1.equals(javaClass2));
-    }
-
-    @Test
-    void testEquals19() throws Exception {
-        Class<Decompiler> c = Decompiler.class;
-        Decompiler decompiler = new Decompiler();
-        String resource = "/com/wade/decompiler/test/Test1.class";
-        JavaClass javaClass1 = decompiler.process(c, resource);
-        JavaClass javaClass2 = decompiler.process(c, resource);
-        javaClass2.setMethods(null);
-        assertFalse(javaClass1.equals(javaClass2));
-    }
-
-    @Test
-    void testEquals2() throws Exception {
-        Class<Decompiler> c = Decompiler.class;
-        Decompiler decompiler = new Decompiler();
-        String resource = "/com/wade/decompiler/test/Test1.class";
-        JavaClass javaClass1 = decompiler.process(c, resource);
-        JavaClass javaClass2 = decompiler.process(c, resource);
-        javaClass1.setClassNameIndex(99);
-        assertFalse(javaClass1.equals(javaClass2));
-    }
-
-    @Test
-    void testEquals20() throws Exception {
-        Class<Decompiler> c = Decompiler.class;
-        Decompiler decompiler = new Decompiler();
-        String resource = "/com/wade/decompiler/test/Test1.class";
-        JavaClass javaClass1 = decompiler.process(c, resource);
-        JavaClass javaClass2 = decompiler.process(c, resource);
-        javaClass1.setMethods(null);
-        javaClass2.setMethods(null);
-        assertTrue(javaClass1.equals(javaClass2));
-    }
-
-    @Test
-    void testEquals21() throws Exception {
-        Class<Decompiler> c = Decompiler.class;
-        Decompiler decompiler = new Decompiler();
-        String resource = "/com/wade/decompiler/test/Test1.class";
-        JavaClass javaClass1 = decompiler.process(c, resource);
-        JavaClass javaClass2 = decompiler.process(c, resource);
-        javaClass1.setSuperclassNameIndex(-1);
-        assertFalse(javaClass1.equals(javaClass2));
-    }
-
-    @Test
-    void testEquals22() throws Exception {
-        Class<Decompiler> c = Decompiler.class;
-        Decompiler decompiler = new Decompiler();
-        String resource = "/com/wade/decompiler/test/Test1.class";
-        JavaClass javaClass1 = decompiler.process(c, resource);
-        JavaClass javaClass2 = decompiler.process(c, resource);
-        javaClass1.setVersion(null);
-        assertFalse(javaClass1.equals(javaClass2));
-        assertNotNull(javaClass1.hashCode());
+    void testEqual2() throws Exception {
+        JavaClass clazz1 = getTestClass(PACKAGE_BASE_NAME + ".data.test.SimpleClass");
+        JavaClassGen gen1 = new JavaClassGen(clazz1);
+        assertFalse(gen1.equals(null));
     }
 
     @SuppressWarnings("unlikely-arg-type")
     @Test
-    void testEquals23() throws Exception {
-        Class<Decompiler> c = Decompiler.class;
-        Decompiler decompiler = new Decompiler();
-        String resource = "/com/wade/decompiler/test/Test1.class";
-        JavaClass javaClass1 = decompiler.process(c, resource);
-        javaClass1.setVersion(null);
-        assertFalse(javaClass1.equals(""));
+    void testEqual3() throws Exception {
+        JavaClass clazz1 = getTestClass(PACKAGE_BASE_NAME + ".data.test.SimpleClass");
+        JavaClassGen gen1 = new JavaClassGen(clazz1);
+        assertFalse(gen1.equals(""));
     }
 
     @Test
-    void testEquals3() throws Exception {
-        Class<Decompiler> c = Decompiler.class;
-        Decompiler decompiler = new Decompiler();
-        String resource = "/com/wade/decompiler/test/Test1.class";
-        JavaClass javaClass1 = decompiler.process(c, resource);
-        JavaClass javaClass2 = decompiler.process(c, resource);
-        javaClass1.setConstantPool(null);
-        assertFalse(javaClass1.equals(javaClass2));
-        assertNotNull(javaClass1.hashCode());
+    void testEqual4() throws Exception {
+        JavaClass clazz1 = getTestClass(PACKAGE_BASE_NAME + ".data.test.SimpleClass");
+        JavaClassGen gen1 = new JavaClassGen(clazz1);
+        JavaClass clazz2 = getTestClass(PACKAGE_BASE_NAME + ".data.test.SimpleClass");
+        JavaClassGen gen2 = new JavaClassGen(clazz2);
+        assertTrue(gen1.equals(gen2));
+    }
+
+    @SuppressWarnings("unused")
+    @Test
+    void testObjectClass() throws Exception {
+        JavaClass clazz = getTestClass("java.lang.Object");
+        Method[] methods = clazz.getMethods();
+        ConstantPool constantPool = clazz.getConstantPool();
+        Constant[] constantPoolArray = constantPool.getConstantPool();
+        assertEquals(12, methods.length);
+        assertEquals(92, constantPoolArray.length);
+        assertNotNull(clazz);
     }
 
     @Test
-    void testEquals4() throws Exception {
-        Class<Decompiler> c = Decompiler.class;
-        Decompiler decompiler = new Decompiler();
-        String resource = "/com/wade/decompiler/test/Test1.class";
-        JavaClass javaClass1 = decompiler.process(c, resource);
-        JavaClass javaClass2 = decompiler.process(c, resource);
-        javaClass2.setConstantPool(null);
-        assertFalse(javaClass1.equals(javaClass2));
+    void testSimpleClass() throws Exception {
+        JavaClass clazz = getTestClass(PACKAGE_BASE_NAME + ".data.test.SimpleClass");
+        JavaClassGen gen = new JavaClassGen(clazz);
+        MethodGen[] methods = gen.getMethods();
+        ConstantPool constantPool = gen.getConstantPool();
+        ClassAccessFlagsList flags = gen.getAccessFlags();
+        Constant[] constantPoolArray = constantPool.getConstantPool();
+
+        assertNotNull(clazz.toString());
+        assertNotNull(clazz.hashCode());
+        assertNotNull(gen.toString());
+        assertNotNull(gen.hashCode());
+        assertNotNull(methods);
+        assertEquals(2, methods.length);
+        assertNotNull(methods[0]);
+        assertNotNull(methods[0].toString());
+        assertNotNull(methods[0].hashCode());
+        assertNotNull(methods[1]);
+        assertNotNull(methods[1].toString());
+        assertNotNull(methods[1].hashCode());
+        assertTrue(methods[1].getAccessFlags().isStatic());
+        assertEquals(20, constantPoolArray.length);
     }
 
     @Test
-    void testEquals5() throws Exception {
-        Class<Decompiler> c = Decompiler.class;
-        Decompiler decompiler = new Decompiler();
-        String resource = "/com/wade/decompiler/test/Test1.class";
-        JavaClass javaClass1 = decompiler.process(c, resource);
-        JavaClass javaClass2 = decompiler.process(c, resource);
-        javaClass1.setConstantPool(null);
-        javaClass2.setConstantPool(null);
-        assertTrue(javaClass1.equals(javaClass2));
+    void testSimpleClassWithDefaultConstructor() throws Exception {
+        JavaClass clazz = getTestClass(PACKAGE_BASE_NAME + ".data.test.SimpleClassWithDefaultConstructor");
+        JavaClassGen gen = new JavaClassGen(clazz);
+        MethodGen[] methods = gen.getMethods();
+        ConstantPool constantPool = gen.getConstantPool();
+        Constant[] constantPoolArray = constantPool.getConstantPool();
+
+        assertNotNull(clazz.toString());
+        assertNotNull(clazz.hashCode());
+        assertNotNull(gen.toString());
+        assertNotNull(gen.hashCode());
+        assertNotNull(methods);
+        assertEquals(1, methods.length);
+        assertNotNull(methods[0]);
+        assertNotNull(methods[0].toString());
+        assertNotNull(methods[0].hashCode());
+        assertEquals(16, constantPoolArray.length);
     }
 
     @Test
-    void testEquals6() throws Exception {
-        Class<Decompiler> c = Decompiler.class;
-        Decompiler decompiler = new Decompiler();
-        String resource = "/com/wade/decompiler/test/Test1.class";
-        JavaClass javaClass1 = decompiler.process(c, resource);
-        assertFalse(javaClass1.equals(null));
+    void testSimpleClassWithFields() throws Exception {
+        JavaClass clazz = getTestClass(PACKAGE_BASE_NAME + ".data.test.SimpleClassWithFields");
+        JavaClassGen gen = new JavaClassGen(clazz);
+        MethodGen[] methods = gen.getMethods();
+        FieldGen[] fields = gen.getFields();
+        ConstantPool constantPool = gen.getConstantPool();
+        Constant[] constantPoolArray = constantPool.getConstantPool();
+
+        assertNotNull(clazz.toString());
+        assertNotNull(clazz.hashCode());
+        assertNotNull(gen.toString());
+        assertNotNull(gen.hashCode());
+        assertNotNull(methods);
+        assertEquals(2, methods.length);
+        assertEquals(15, fields.length);
+        assertNotNull(methods[0]);
+        assertNotNull(methods[0].toString());
+        assertNotNull(methods[0].hashCode());
+        assertNotNull(methods[1]);
+        assertNotNull(methods[1].toString());
+        assertNotNull(methods[1].hashCode());
+        assertTrue(methods[1].getAccessFlags().isStatic());
+        assertEquals(52, constantPoolArray.length);
     }
 
     @Test
-    void testEquals7() throws Exception {
-        Class<Decompiler> c = Decompiler.class;
-        Decompiler decompiler = new Decompiler();
-        String resource = "/com/wade/decompiler/test/Test1.class";
-        JavaClass javaClass1 = decompiler.process(c, resource);
-        JavaClass javaClass2 = decompiler.process(c, resource);
-        javaClass1.setAccessFlags(null);
-        assertFalse(javaClass1.equals(javaClass2));
-        assertNotNull(javaClass1.hashCode());
-    }
+    void testSimpleClassWithInterfaces() throws Exception {
+        JavaClass clazz = getTestClass(PACKAGE_BASE_NAME + ".data.test.SimpleClassWithInterfaces");
+        JavaClassGen gen = new JavaClassGen(clazz);
+        MethodGen[] methods = gen.getMethods();
+        FieldGen[] fields = gen.getFields();
+        String[] interfaces = gen.getInterfaceNames();
+        ConstantPool constantPool = gen.getConstantPool();
+        Constant[] constantPoolArray = constantPool.getConstantPool();
 
-    @Test
-    void testEquals8() throws Exception {
-        Class<Decompiler> c = Decompiler.class;
-        Decompiler decompiler = new Decompiler();
-        String resource = "/com/wade/decompiler/test/Test1.class";
-        JavaClass javaClass1 = decompiler.process(c, resource);
-        JavaClass javaClass2 = decompiler.process(c, resource);
-        javaClass2.setAccessFlags(null);
-        assertFalse(javaClass1.equals(javaClass2));
-    }
-
-    @Test
-    void testEquals9() throws Exception {
-        Class<Decompiler> c = Decompiler.class;
-        Decompiler decompiler = new Decompiler();
-        String resource = "/com/wade/decompiler/test/Test1.class";
-        JavaClass javaClass1 = decompiler.process(c, resource);
-        JavaClass javaClass2 = decompiler.process(c, resource);
-        javaClass1.setAccessFlags(null);
-        javaClass2.setAccessFlags(null);
-        assertTrue(javaClass1.equals(javaClass2));
+        assertNotNull(clazz.toString());
+        assertNotNull(clazz.hashCode());
+        assertNotNull(gen.toString());
+        assertNotNull(gen.hashCode());
+        assertNotNull(methods);
+        assertEquals(2, methods.length);
+        assertEquals(15, fields.length);
+        assertEquals(1, interfaces.length);
+        assertNotNull(methods[0]);
+        assertNotNull(methods[0].toString());
+        assertNotNull(methods[0].hashCode());
+        assertNotNull(methods[1]);
+        assertNotNull(methods[1].toString());
+        assertNotNull(methods[1].hashCode());
+        assertTrue(methods[1].getAccessFlags().isStatic());
+        assertEquals(54, constantPoolArray.length);
     }
 }

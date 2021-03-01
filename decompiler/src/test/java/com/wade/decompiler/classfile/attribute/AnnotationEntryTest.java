@@ -38,7 +38,7 @@ class AnnotationEntryTest {
     void testAnnotationEntry() {
         AnnotationEntry ae = new AnnotationEntry(1, new ConstantPool(), false);
         assertNotNull(ae.getElementValuePairs());
-        assertEquals(0, ae.getNumElementValuePairs());
+        assertEquals(0, ae.getElementValuePairs().size());
     }
 
     @Test
@@ -88,7 +88,7 @@ class AnnotationEntryTest {
     @Test
     void testGetAnnotationTypeIndex() {
         AnnotationEntry ae1 = new AnnotationEntry(1, new ConstantPool(), false);
-        assertNotNull(ae1.getAnnotationTypeIndex());
+        assertNotNull(ae1.getTypeIndex());
     }
 
     @Test

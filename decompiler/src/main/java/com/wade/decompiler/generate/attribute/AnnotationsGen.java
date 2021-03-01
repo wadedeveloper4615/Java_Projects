@@ -13,7 +13,7 @@ public class AnnotationsGen extends AttributeGen {
     public AnnotationsGen(Annotations attribute, ConstantPool constantPool) {
         super(attribute, constantPool);
         this.isRuntimeVisible = attribute.isRuntimeVisible();
-        AnnotationEntry[] annotationEntries = attribute.getAnnotationEntries();
+        AnnotationEntry[] annotationEntries = attribute.getAnnotationTable();
         this.annotationTable = new AnnotationEntryGen[annotationEntries.length];
         for (int i = 0; i < annotationEntries.length; i++) {
             this.annotationTable[i] = AnnotationEntryGen.read(annotationEntries[i], constantPool);

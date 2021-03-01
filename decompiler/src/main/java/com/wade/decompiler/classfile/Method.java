@@ -6,8 +6,16 @@ import java.io.IOException;
 import com.wade.decompiler.classfile.attribute.Attribute;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.exceptions.ClassFormatException;
-import com.wade.decompiler.util.Utility;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode(callSuper = false)
 public class Method extends FieldOrMethod {
     public Method(DataInput file, ConstantPool constantPool) throws IOException, ClassFormatException {
         super(file, constantPool);
@@ -15,20 +23,5 @@ public class Method extends FieldOrMethod {
 
     public Method(int accessFlags, int nameIndex, int signatureIndex, Attribute[] attributes, ConstantPool constantPool) {
         super(accessFlags, nameIndex, signatureIndex, attributes, constantPool);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
-    }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
-
-    @Override
-    public String toString() {
-        return "\n\tMethod [nameIndex=" + nameIndex + ", signatureIndex=" + signatureIndex + ", accessFlags=" + accessFlags + " attributes=" + Utility.toString(attributes) + "]";
     }
 }

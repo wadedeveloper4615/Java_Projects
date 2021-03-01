@@ -17,7 +17,16 @@ import com.wade.decompiler.enums.ClassAccessFlags;
 import com.wade.decompiler.enums.ClassAccessFlagsList;
 import com.wade.decompiler.enums.Version;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 @SuppressWarnings("unused")
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode
 public class ClassParser {
     private static int BUFSIZE = 8192;
     private InputStream inputStream;

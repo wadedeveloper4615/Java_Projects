@@ -7,6 +7,15 @@ import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.element.ElementValue;
 import com.wade.decompiler.enums.ClassFileAttributes;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode(callSuper = false)
 public class AnnotationDefault extends Attribute {
     private ElementValue defaultValue;
 
@@ -16,39 +25,6 @@ public class AnnotationDefault extends Attribute {
 
     public AnnotationDefault(int nameIndex, int length, ElementValue defaultValue, ConstantPool constantPool) {
         super(ClassFileAttributes.ATTR_ANNOTATION_DEFAULT, nameIndex, length, constantPool);
-        this.defaultValue = defaultValue;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        AnnotationDefault other = (AnnotationDefault) obj;
-        if (defaultValue == null) {
-            if (other.defaultValue != null)
-                return false;
-        } else if (!defaultValue.equals(other.defaultValue))
-            return false;
-        return true;
-    }
-
-    public ElementValue getDefaultValue() {
-        return defaultValue;
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = super.hashCode();
-        result = prime * result + ((defaultValue == null) ? 0 : defaultValue.hashCode());
-        return result;
-    }
-
-    public void setDefaultValue(ElementValue defaultValue) {
         this.defaultValue = defaultValue;
     }
 }

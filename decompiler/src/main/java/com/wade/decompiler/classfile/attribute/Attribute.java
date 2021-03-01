@@ -9,6 +9,15 @@ import com.wade.decompiler.classfile.exceptions.ClassFormatException;
 import com.wade.decompiler.enums.ClassFileAttributes;
 import com.wade.decompiler.enums.ClassFileConstants;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode(callSuper = false)
 public abstract class Attribute {
     protected int nameIndex;
     protected int length;
@@ -20,71 +29,6 @@ public abstract class Attribute {
         this.nameIndex = nameIndex;
         this.length = length;
         this.constantPool = constantPool;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Attribute other = (Attribute) obj;
-        if (length != other.length)
-            return false;
-        if (nameIndex != other.nameIndex)
-            return false;
-        if (tag != other.tag)
-            return false;
-        return true;
-    }
-
-    public ConstantPool getConstantPool() {
-        return constantPool;
-    }
-
-    public int getLength() {
-        return length;
-    }
-
-    public int getNameIndex() {
-        return nameIndex;
-    }
-
-    public ClassFileAttributes getTag() {
-        return tag;
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + length;
-        result = prime * result + nameIndex;
-        result = prime * result + ((tag == null) ? 0 : tag.hashCode());
-        return result;
-    }
-
-    public void setConstantPool(ConstantPool constantPool) {
-        this.constantPool = constantPool;
-    }
-
-    public void setLength(int length) {
-        this.length = length;
-    }
-
-    public void setNameIndex(int nameIndex) {
-        this.nameIndex = nameIndex;
-    }
-
-    public void setTag(ClassFileAttributes tag) {
-        this.tag = tag;
-    }
-
-    @Override
-    public String toString() {
-        return tag.getName();
     }
 
     public static Attribute readAttribute(DataInput file, ConstantPool constantPool) throws IOException, ClassFormatException {

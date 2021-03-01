@@ -72,7 +72,7 @@ public class AnnotationEntryGen {
         int num_element_value_pairs = annotationEntry.elementValuePairs.size();
         annotationEntry.elementValuePairs = new ArrayList<ElementValuePairGen>();
         for (int i = 0; i < num_element_value_pairs; i++) {
-            annotationEntry.elementValuePairs.add(new ElementValuePairGen(ae.getElementValuePairs()[i], ElementValueGen.readElementValue(ae.getElementValuePairs()[i].getElementValue(), constantPool), constantPool));
+            annotationEntry.elementValuePairs.add(new ElementValuePairGen(ae.getElementValuePairs().get(i), ElementValueGen.readElementValue(ae.getElementValuePairs().get(i).getElementValue(), constantPool), constantPool));
         }
         return annotationEntry;
     }

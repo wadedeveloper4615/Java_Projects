@@ -1,7 +1,6 @@
 package com.wade.decompiler.generate;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 import com.wade.decompiler.classfile.Field;
 import com.wade.decompiler.classfile.JavaClass;
@@ -12,8 +11,16 @@ import com.wade.decompiler.enums.ClassAccessFlagsList;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.enums.Version;
 import com.wade.decompiler.generate.attribute.AttributeGen;
-import com.wade.decompiler.util.Utility;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode
 public class JavaClassGen {
     private String className;
     private String superClassName;
@@ -61,108 +68,5 @@ public class JavaClassGen {
         for (int i = 0; i < attributes.length; i++) {
             this.attributes[i] = new AttributeGen(attributes[i], constantPool);
         }
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        JavaClassGen other = (JavaClassGen) obj;
-        if (accessFlags == null) {
-            if (other.accessFlags != null)
-                return false;
-        } else if (!accessFlags.equals(other.accessFlags))
-            return false;
-        if (!Arrays.equals(attributes, other.attributes))
-            return false;
-        if (className == null) {
-            if (other.className != null)
-                return false;
-        } else if (!className.equals(other.className))
-            return false;
-        if (!Arrays.equals(fields, other.fields))
-            return false;
-        if (filename == null) {
-            if (other.filename != null)
-                return false;
-        } else if (!filename.equals(other.filename))
-            return false;
-        if (!Arrays.equals(interfaceNames, other.interfaceNames))
-            return false;
-        if (!Arrays.equals(methods, other.methods))
-            return false;
-        if (superClassName == null) {
-            if (other.superClassName != null)
-                return false;
-        } else if (!superClassName.equals(other.superClassName))
-            return false;
-        if (version != other.version)
-            return false;
-        return true;
-    }
-
-    public ClassAccessFlagsList getAccessFlags() {
-        return accessFlags;
-    }
-
-    public AttributeGen[] getAttributes() {
-        return attributes;
-    }
-
-    public String getClassName() {
-        return className;
-    }
-
-    public ConstantPool getConstantPool() {
-        return constantPool;
-    }
-
-    public FieldGen[] getFields() {
-        return fields;
-    }
-
-    public String getFilename() {
-        return filename;
-    }
-
-    public String[] getInterfaceNames() {
-        return interfaceNames;
-    }
-
-    public MethodGen[] getMethods() {
-        return methods;
-    }
-
-    public String getSuperClassName() {
-        return superClassName;
-    }
-
-    public Version getVersion() {
-        return version;
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((accessFlags == null) ? 0 : accessFlags.hashCode());
-        result = prime * result + Arrays.hashCode(attributes);
-        result = prime * result + ((className == null) ? 0 : className.hashCode());
-        result = prime * result + Arrays.hashCode(fields);
-        result = prime * result + ((filename == null) ? 0 : filename.hashCode());
-        result = prime * result + Arrays.hashCode(interfaceNames);
-        result = prime * result + Arrays.hashCode(methods);
-        result = prime * result + ((superClassName == null) ? 0 : superClassName.hashCode());
-        result = prime * result + ((version == null) ? 0 : version.hashCode());
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "JavaClassGen [\n\tclassName=" + className + ",\n\tsuperClassName=" + superClassName + ",\n\tfilename=" + filename + ",\n\tversion=" + version + ",\n\taccessFlags=" + accessFlags + ",\n\tinterfaceNames=" + Utility.toString(interfaceNames) + ",\n\tfields=" + Utility.toString(fields) + ",\n\tmethods=" + Utility.toString(methods) + ",\n\tattributes=" + Utility.toString(attributes) + "\n]";
     }
 }

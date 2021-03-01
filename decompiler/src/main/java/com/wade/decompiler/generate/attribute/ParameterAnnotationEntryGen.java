@@ -13,7 +13,7 @@ public class ParameterAnnotationEntryGen {
     private AnnotationEntryGen[] annotationTable;
 
     public ParameterAnnotationEntryGen(ParameterAnnotationEntry parameterAnnotationEntry, ConstantPool constantPool) {
-        AnnotationEntry[] ae = parameterAnnotationEntry.getAnnotationEntries();
+        AnnotationEntry[] ae = parameterAnnotationEntry.getAnnotationTable();
         int annotation_table_length = ae.length;
         this.annotationTable = new AnnotationEntryGen[annotation_table_length];
         for (int i = 0; i < annotation_table_length; i++) {

@@ -1,5 +1,6 @@
 package com.wade.decompiler.data.test;
 
+@SuppressWarnings("unused")
 public class SimpleClassWithFields {
     private static final long serialVersionUID = -5103281989426867172L;
     private char var1;

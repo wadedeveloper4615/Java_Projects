@@ -5,6 +5,15 @@ import java.io.IOException;
 
 import com.wade.decompiler.enums.ClassFileConstants;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode(callSuper = false)
 public class ConstantNameAndType extends Constant {
     private final int nameIndex;
     private final int signatureIndex;
@@ -23,20 +32,7 @@ public class ConstantNameAndType extends Constant {
         return cp.constantToString(getNameIndex(), ClassFileConstants.CONSTANT_Utf8);
     }
 
-    public int getNameIndex() {
-        return nameIndex;
-    }
-
     public String getSignature(ConstantPool cp) {
         return cp.constantToString(getSignatureIndex(), ClassFileConstants.CONSTANT_Utf8);
-    }
-
-    public int getSignatureIndex() {
-        return signatureIndex;
-    }
-
-    @Override
-    public String toString() {
-        return super.toString() + "(nameIndex = " + nameIndex + ", signatureIndex = " + signatureIndex + ")";
     }
 }

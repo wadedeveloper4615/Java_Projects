@@ -5,6 +5,15 @@ import java.io.IOException;
 
 import com.wade.decompiler.enums.ClassFileConstants;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode(callSuper = false)
 public class ConstantMethodType extends Constant {
     private final int descriptorIndex;
 
@@ -15,14 +24,5 @@ public class ConstantMethodType extends Constant {
     public ConstantMethodType(int descriptor_index) {
         super(ClassFileConstants.CONSTANT_MethodType);
         this.descriptorIndex = descriptor_index;
-    }
-
-    public int getDescriptorIndex() {
-        return descriptorIndex;
-    }
-
-    @Override
-    public String toString() {
-        return super.toString() + "(descriptorIndex = " + descriptorIndex + ")";
     }
 }

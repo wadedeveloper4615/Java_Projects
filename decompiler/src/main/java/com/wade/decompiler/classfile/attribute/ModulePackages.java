@@ -2,11 +2,19 @@ package com.wade.decompiler.classfile.attribute;
 
 import java.io.DataInput;
 import java.io.IOException;
-import java.util.Arrays;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.ClassFileAttributes;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode(callSuper = false)
 public class ModulePackages extends Attribute {
     private int[] packageIndexTable;
 
@@ -22,36 +30,5 @@ public class ModulePackages extends Attribute {
     public ModulePackages(int nameIndex, int length, int[] packageIndexTable, ConstantPool constantPool) {
         super(ClassFileAttributes.ATTR_MODULE_PACKAGES, nameIndex, length, constantPool);
         this.packageIndexTable = packageIndexTable != null ? packageIndexTable : new int[0];
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (!super.equals(obj))
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        ModulePackages other = (ModulePackages) obj;
-        if (!Arrays.equals(packageIndexTable, other.packageIndexTable))
-            return false;
-        return true;
-    }
-
-    public int[] getPackageIndexTable() {
-        return packageIndexTable;
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = super.hashCode();
-        result = prime * result + Arrays.hashCode(packageIndexTable);
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "ModulePackages [packageIndexTable=" + Arrays.toString(packageIndexTable) + "]";
     }
 }

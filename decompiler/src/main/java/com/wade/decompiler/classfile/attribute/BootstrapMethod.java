@@ -15,7 +15,7 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode
 public class BootstrapMethod {
     private int bootstrapMethodRef;
     private int[] bootstrapArguments;

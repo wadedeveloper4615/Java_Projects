@@ -17,7 +17,7 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode
 public class AnnotationEntry {
     private int typeIndex;
     private ConstantPool constantPool;

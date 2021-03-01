@@ -2,12 +2,19 @@ package com.wade.decompiler.classfile.attribute;
 
 import java.io.DataInput;
 import java.io.IOException;
-import java.util.Arrays;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.ClassFileAttributes;
-import com.wade.decompiler.util.Utility;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode(callSuper = false)
 public class LineNumberTable extends Attribute {
     private LineNumber[] lineNumberTable;
 
@@ -23,40 +30,5 @@ public class LineNumberTable extends Attribute {
     public LineNumberTable(int nameIndex, int length, LineNumber[] line_number_table, ConstantPool constantPool) {
         super(ClassFileAttributes.ATTR_LINE_NUMBER_TABLE, nameIndex, length, constantPool);
         this.lineNumberTable = line_number_table;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (!super.equals(obj))
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        LineNumberTable other = (LineNumberTable) obj;
-        if (!Arrays.equals(lineNumberTable, other.lineNumberTable))
-            return false;
-        return true;
-    }
-
-    public LineNumber[] getLineNumberTable() {
-        return lineNumberTable;
-    }
-
-    public int getTableLength() {
-        return lineNumberTable == null ? 0 : lineNumberTable.length;
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = super.hashCode();
-        result = prime * result + Arrays.hashCode(lineNumberTable);
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "LineNumberTable [" + Utility.toString(lineNumberTable) + "]";
     }
 }

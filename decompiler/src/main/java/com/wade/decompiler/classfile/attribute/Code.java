@@ -2,11 +2,19 @@ package com.wade.decompiler.classfile.attribute;
 
 import java.io.DataInput;
 import java.io.IOException;
-import java.util.Arrays;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.ClassFileAttributes;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode(callSuper = false)
 public class Code extends Attribute {
     private int maxStack;
     private int maxLocals;
@@ -62,90 +70,7 @@ public class Code extends Attribute {
         return len + getInternalLength();
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (!super.equals(obj))
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Code other = (Code) obj;
-        if (!Arrays.equals(attributes, other.attributes))
-            return false;
-        if (!Arrays.equals(byteCode, other.byteCode))
-            return false;
-        if (!Arrays.equals(exceptionTable, other.exceptionTable))
-            return false;
-        if (lineNumberTable == null) {
-            if (other.lineNumberTable != null)
-                return false;
-        } else if (!lineNumberTable.equals(other.lineNumberTable))
-            return false;
-        if (localVariableTable == null) {
-            if (other.localVariableTable != null)
-                return false;
-        } else if (!localVariableTable.equals(other.localVariableTable))
-            return false;
-        if (maxLocals != other.maxLocals)
-            return false;
-        if (maxStack != other.maxStack)
-            return false;
-        return true;
-    }
-
-    public Attribute[] getAttributes() {
-        return attributes;
-    }
-
-    public byte[] getByteCode() {
-        return byteCode;
-    }
-
-    public byte[] getCode() {
-        return byteCode;
-    }
-
-    public CodeException[] getExceptionTable() {
-        return exceptionTable;
-    }
-
     private int getInternalLength() {
         return 2 + 2 + 4 + byteCode.length + 2 + 8 * (exceptionTable == null ? 0 : exceptionTable.length) + 2;
-    }
-
-    public LineNumberTable getLineNumberTable() {
-        return lineNumberTable;
-    }
-
-    public LocalVariableTable getLocalVariableTable() {
-        return localVariableTable;
-    }
-
-    public int getMaxLocals() {
-        return maxLocals;
-    }
-
-    public int getMaxStack() {
-        return maxStack;
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = super.hashCode();
-        result = prime * result + Arrays.hashCode(attributes);
-        result = prime * result + Arrays.hashCode(byteCode);
-        result = prime * result + Arrays.hashCode(exceptionTable);
-        result = prime * result + ((lineNumberTable == null) ? 0 : lineNumberTable.hashCode());
-        result = prime * result + ((localVariableTable == null) ? 0 : localVariableTable.hashCode());
-        result = prime * result + maxLocals;
-        result = prime * result + maxStack;
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "Code [maxStack=" + maxStack + ", maxLocals=" + maxLocals + ", exceptionTable=" + Arrays.toString(exceptionTable) + ", attributes=" + Arrays.toString(attributes) + "]";
     }
 }

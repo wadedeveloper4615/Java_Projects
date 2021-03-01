@@ -5,6 +5,15 @@ import java.io.IOException;
 
 import com.wade.decompiler.enums.ClassFileConstants;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode(callSuper = false)
 public class ConstantModule extends Constant implements ConstantObject {
     private final int nameIndex;
 
@@ -25,14 +34,5 @@ public class ConstantModule extends Constant implements ConstantObject {
     public Object getConstantValue(ConstantPool cp) {
         Constant c = cp.getConstant(nameIndex, ClassFileConstants.CONSTANT_Utf8);
         return ((ConstantUtf8) c).getBytes();
-    }
-
-    public int getNameIndex() {
-        return nameIndex;
-    }
-
-    @Override
-    public String toString() {
-        return super.toString() + "(nameIndex = " + nameIndex + ")";
     }
 }

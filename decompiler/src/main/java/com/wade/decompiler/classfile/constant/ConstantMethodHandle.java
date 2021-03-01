@@ -5,6 +5,15 @@ import java.io.IOException;
 
 import com.wade.decompiler.enums.ClassFileConstants;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode(callSuper = false)
 public class ConstantMethodHandle extends Constant {
     private final int referenceKind;
     private final int referenceIndex;
@@ -17,18 +26,5 @@ public class ConstantMethodHandle extends Constant {
         super(ClassFileConstants.CONSTANT_MethodHandle);
         this.referenceKind = reference_kind;
         this.referenceIndex = reference_index;
-    }
-
-    public int getReferenceIndex() {
-        return referenceIndex;
-    }
-
-    public int getReferenceKind() {
-        return referenceKind;
-    }
-
-    @Override
-    public String toString() {
-        return super.toString() + "(referenceKind = " + referenceKind + ", referenceIndex = " + referenceIndex + ")";
     }
 }

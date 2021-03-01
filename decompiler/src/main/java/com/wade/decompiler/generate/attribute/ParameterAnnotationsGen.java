@@ -11,7 +11,7 @@ public class ParameterAnnotationsGen extends AttributeGen {
 
     public ParameterAnnotationsGen(ParameterAnnotations attribute, ConstantPool constantPool) {
         super(attribute, constantPool);
-        ParameterAnnotationEntry[] parameterAnnotationTable = attribute.getParameterAnnotationEntries();
+        ParameterAnnotationEntry[] parameterAnnotationTable = attribute.getParameterAnnotationTable();
         int num_parameters = parameterAnnotationTable.length;
         this.parameterAnnotationTable = new ParameterAnnotationEntryGen[num_parameters];
         for (int i = 0; i < num_parameters; i++) {

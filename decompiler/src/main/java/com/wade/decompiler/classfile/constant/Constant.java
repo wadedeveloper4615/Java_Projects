@@ -6,6 +6,15 @@ import java.io.IOException;
 import com.wade.decompiler.classfile.exceptions.ClassFormatException;
 import com.wade.decompiler.enums.ClassFileConstants;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode(callSuper = false)
 public abstract class Constant {
     protected ClassFileConstants tag;
 
@@ -13,39 +22,13 @@ public abstract class Constant {
         this.tag = tag;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Constant other = (Constant) obj;
-        if (tag != other.tag)
-            return false;
-        return true;
-    }
-
-    public ClassFileConstants getTag() {
-        return tag;
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((tag == null) ? 0 : tag.hashCode());
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return tag.getName();
-    }
-
     public static Constant readConstant(DataInput dataInput) throws IOException, ClassFormatException {
-        ClassFileConstants constant = ClassFileConstants.read(dataInput.readByte());
+        byte tag = dataInput.readByte();
+        return readConstant(dataInput, tag);
+    }
+
+    public static Constant readConstant(DataInput dataInput, byte tag) throws IOException {
+        ClassFileConstants constant = ClassFileConstants.read(tag);
         switch (constant) {
             case CONSTANT_Class:
                 return new ConstantClass(dataInput);

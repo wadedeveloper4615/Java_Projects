@@ -2,11 +2,19 @@ package com.wade.decompiler.classfile.attribute;
 
 import java.io.DataInput;
 import java.io.IOException;
-import java.util.Arrays;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.ClassFileAttributes;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode(callSuper = false)
 public abstract class ParameterAnnotations extends Attribute {
     private ParameterAnnotationEntry[] parameterAnnotationTable;
 
@@ -22,35 +30,5 @@ public abstract class ParameterAnnotations extends Attribute {
     public ParameterAnnotations(ClassFileAttributes parameterAnnotationType, int nameIndex, int length, ParameterAnnotationEntry[] parameterAnnotationTable, ConstantPool constantPool) {
         super(parameterAnnotationType, nameIndex, length, constantPool);
         this.parameterAnnotationTable = parameterAnnotationTable;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (!super.equals(obj))
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        ParameterAnnotations other = (ParameterAnnotations) obj;
-        if (!Arrays.equals(parameterAnnotationTable, other.parameterAnnotationTable))
-            return false;
-        return true;
-    }
-
-    public ParameterAnnotationEntry[] getParameterAnnotationEntries() {
-        return parameterAnnotationTable;
-    }
-
-    public ParameterAnnotationEntry[] getParameterAnnotationTable() {
-        return parameterAnnotationTable;
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = super.hashCode();
-        result = prime * result + Arrays.hashCode(parameterAnnotationTable);
-        return result;
     }
 }

@@ -3,12 +3,20 @@ package com.wade.decompiler.classfile.attribute;
 import java.io.DataInput;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode
 public class ParameterAnnotationEntry {
     private AnnotationEntry[] annotationTable;
 
@@ -20,38 +28,12 @@ public class ParameterAnnotationEntry {
         }
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        ParameterAnnotationEntry other = (ParameterAnnotationEntry) obj;
-        if (!Arrays.equals(annotationTable, other.annotationTable))
-            return false;
-        return true;
-    }
-
-    public AnnotationEntry[] getAnnotationEntries() {
-        return annotationTable;
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + Arrays.hashCode(annotationTable);
-        return result;
-    }
-
     public static ParameterAnnotationEntry[] createParameterAnnotationEntries(Attribute[] attrs) {
         List<ParameterAnnotationEntry> accumulatedAnnotations = new ArrayList<>(attrs.length);
         for (Attribute attribute : attrs) {
             if (attribute instanceof ParameterAnnotations) {
                 ParameterAnnotations runtimeAnnotations = (ParameterAnnotations) attribute;
-                Collections.addAll(accumulatedAnnotations, runtimeAnnotations.getParameterAnnotationEntries());
+                Collections.addAll(accumulatedAnnotations, runtimeAnnotations.getParameterAnnotationTable());
             }
         }
         return accumulatedAnnotations.toArray(new ParameterAnnotationEntry[accumulatedAnnotations.size()]);

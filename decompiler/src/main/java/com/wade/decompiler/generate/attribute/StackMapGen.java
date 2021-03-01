@@ -11,7 +11,7 @@ public class StackMapGen extends AttributeGen {
 
     public StackMapGen(StackMap attribute, ConstantPool constantPool) {
         super(attribute, constantPool);
-        StackMapEntry[] map = attribute.getStackMap();
+        StackMapEntry[] map = attribute.getMap();
         int map_length = map.length;
         this.map = new StackMapEntryGen[map_length];
         for (int i = 0; i < map_length; i++) {

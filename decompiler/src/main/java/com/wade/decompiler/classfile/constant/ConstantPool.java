@@ -65,7 +65,7 @@ public class ConstantPool {
             }
             case CONSTANT_InvokeDynamic -> {
                 ConstantInvokeDynamic cid = (ConstantInvokeDynamic) c;
-                yield cid.getBootstrapMethodAttrIndex() + ":" + constantToString(cid.getNameAndTypeIndex(), ClassFileConstants.CONSTANT_NameAndType);
+                yield cid.getClassIndex() + ":" + constantToString(cid.getNameAndTypeIndex(), ClassFileConstants.CONSTANT_NameAndType);
             }
             case CONSTANT_Module -> {
                 i = ((ConstantModule) c).getNameIndex();

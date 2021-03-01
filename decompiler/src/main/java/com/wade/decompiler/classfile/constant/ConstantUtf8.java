@@ -4,8 +4,16 @@ import java.io.DataInput;
 import java.io.IOException;
 
 import com.wade.decompiler.enums.ClassFileConstants;
-import com.wade.decompiler.util.Utility;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode(callSuper = false)
 public class ConstantUtf8 extends Constant {
     private final String value;
 
@@ -24,10 +32,5 @@ public class ConstantUtf8 extends Constant {
 
     public String getBytes() {
         return value;
-    }
-
-    @Override
-    public String toString() {
-        return super.toString() + "(\"" + Utility.replace(value, "\n", "\\n") + "\")";
     }
 }

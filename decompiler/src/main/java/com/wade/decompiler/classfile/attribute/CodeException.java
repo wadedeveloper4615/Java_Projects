@@ -7,6 +7,15 @@ import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.util.Utility;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode
 public class CodeException {
     private int startPc;
     private int endPc;
@@ -22,62 +31,6 @@ public class CodeException {
         this.endPc = endPc;
         this.handlerPc = handlerPc;
         this.catchType = catchType;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        CodeException other = (CodeException) obj;
-        if (catchType != other.catchType)
-            return false;
-        if (endPc != other.endPc)
-            return false;
-        if (handlerPc != other.handlerPc)
-            return false;
-        if (startPc != other.startPc)
-            return false;
-        return true;
-    }
-
-    public int getCatchType() {
-        return catchType;
-    }
-
-    public int getEndPC() {
-        return endPc;
-    }
-
-    public int getHandlerPC() {
-        return handlerPc;
-    }
-
-    public int getStartPC() {
-        return startPc;
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + catchType;
-        result = prime * result + endPc;
-        result = prime * result + handlerPc;
-        result = prime * result + startPc;
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "CodeException(startPc = " + startPc + ", endPc = " + endPc + ", handlerPc = " + handlerPc + ", catchType = " + catchType + ")";
-    }
-
-    public String toString(ConstantPool cp) {
-        return toString(cp, true);
     }
 
     public String toString(ConstantPool cp, boolean verbose) {

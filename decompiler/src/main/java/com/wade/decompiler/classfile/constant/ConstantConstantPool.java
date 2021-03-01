@@ -5,6 +5,15 @@ import java.io.IOException;
 
 import com.wade.decompiler.enums.ClassFileConstants;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode(callSuper = false)
 public abstract class ConstantConstantPool extends Constant {
     protected final int classIndex;
     protected final int nameAndTypeIndex;
@@ -21,18 +30,5 @@ public abstract class ConstantConstantPool extends Constant {
 
     public String getClass(ConstantPool cp) {
         return cp.constantToString(classIndex, ClassFileConstants.CONSTANT_Class);
-    }
-
-    public int getClassIndex() {
-        return classIndex;
-    }
-
-    public int getNameAndTypeIndex() {
-        return nameAndTypeIndex;
-    }
-
-    @Override
-    public String toString() {
-        return super.toString() + "(class_index = " + classIndex + ", name_and_type_index = " + nameAndTypeIndex + ")";
     }
 }

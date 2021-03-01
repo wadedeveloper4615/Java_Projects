@@ -5,6 +5,15 @@ import java.io.IOException;
 
 import com.wade.decompiler.enums.ClassFileConstants;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode(callSuper = false)
 public class ConstantInteger extends Constant implements ConstantObject {
     private final int bytes;
 
@@ -17,17 +26,8 @@ public class ConstantInteger extends Constant implements ConstantObject {
         this.bytes = bytes;
     }
 
-    public int getBytes() {
-        return bytes;
-    }
-
     @Override
     public Object getConstantValue(ConstantPool cp) {
         return Integer.valueOf(bytes);
-    }
-
-    @Override
-    public String toString() {
-        return super.toString() + "(bytes = " + bytes + ")";
     }
 }

@@ -30,6 +30,9 @@ public class JavaClass {
     private Attribute[] attributes;
     private transient Repository repository = SyntheticRepository.getInstance();
 
+    public JavaClass() {
+    }
+
     public JavaClass(int classNameIndex, int superclassNameIndex, String fileName, Version version, ClassAccessFlagsList accessFlags, ConstantPool constantPool, int[] interfaces, Field[] fields, Method[] methods, Attribute[] attributes) {
         this.classNameIndex = classNameIndex;
         this.superclassNameIndex = superclassNameIndex;

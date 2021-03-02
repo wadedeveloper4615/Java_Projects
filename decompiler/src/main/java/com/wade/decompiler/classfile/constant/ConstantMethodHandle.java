@@ -13,7 +13,7 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString(callSuper = true, includeFieldNames = true)
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = true)
 public class ConstantMethodHandle extends Constant {
     private final int referenceKind;
     private final int referenceIndex;

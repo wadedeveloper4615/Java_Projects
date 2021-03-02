@@ -13,7 +13,7 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString(callSuper = true, includeFieldNames = true)
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = true)
 public abstract class ConstantConstantPool extends Constant {
     protected final int classIndex;
     protected final int nameAndTypeIndex;

@@ -13,7 +13,7 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString(callSuper = true, includeFieldNames = true)
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = true)
 public class ConstantInterfaceMethodRef extends ConstantConstantPool {
     public ConstantInterfaceMethodRef(DataInput input) throws IOException {
         super(ClassFileConstants.CONSTANT_InterfaceMethodref, input);

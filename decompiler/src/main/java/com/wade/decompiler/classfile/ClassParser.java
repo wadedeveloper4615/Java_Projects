@@ -42,6 +42,9 @@ public class ClassParser {
     private Version version;
     private ZipFile zip;
 
+    public ClassParser() {
+    }
+
     public ClassParser(InputStream inputStream, String fileName) {
         this.fileName = fileName;
         String clazz = inputStream.getClass().getName();
@@ -124,7 +127,7 @@ public class ClassParser {
         }
     }
 
-    private void readID(DataInput inputStream) throws IOException, ClassFormatException {
+    protected void readID(DataInput inputStream) throws IOException, ClassFormatException {
         if (inputStream.readInt() != Const.JVM_CLASSFILE_MAGIC) {
             throw new ClassFormatException(fileName + " is not a Java .class file");
         }
@@ -146,7 +149,7 @@ public class ClassParser {
         }
     }
 
-    private void readVersion(DataInput inputStream) throws IOException, ClassFormatException {
+    protected void readVersion(DataInput inputStream) throws IOException, ClassFormatException {
         version = Version.read(inputStream.readUnsignedShort(), inputStream.readUnsignedShort());
     }
 }

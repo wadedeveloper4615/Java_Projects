@@ -13,7 +13,7 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString(callSuper = true, includeFieldNames = true)
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = true)
 public class ConstantInvokeDynamic extends ConstantConstantPool {
     public ConstantInvokeDynamic(DataInput file) throws IOException {
         this(file.readShort(), file.readShort());

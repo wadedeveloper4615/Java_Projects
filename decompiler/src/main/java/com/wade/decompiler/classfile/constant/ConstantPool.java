@@ -2,7 +2,6 @@ package com.wade.decompiler.classfile.constant;
 
 import java.io.DataInput;
 import java.io.IOException;
-import java.util.Arrays;
 
 import com.wade.decompiler.classfile.exceptions.ClassFormatException;
 import com.wade.decompiler.constants.Const;
@@ -17,7 +16,7 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString(callSuper = true, includeFieldNames = true)
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 public class ConstantPool {
     private Constant[] constantPool;
 
@@ -100,20 +99,6 @@ public class ConstantPool {
 //        Constant c = getConstant(index, tag);
 //        return constantToString(c);
 //    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        ConstantPool other = (ConstantPool) obj;
-        if (!Arrays.equals(constantPool, other.constantPool))
-            return false;
-        return true;
-    }
 
     public Constant getConstant(int index) {
         if (index >= constantPool.length || index < 0) {

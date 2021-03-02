@@ -12,7 +12,7 @@ import lombok.ToString;
 
 @Setter
 @Getter
-@ToString
+@ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
 public class I2S extends ConversionInstruction {
     public I2S(ConstantPool cp) {

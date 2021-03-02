@@ -17,7 +17,7 @@ import lombok.ToString;
 
 @Setter
 @Getter
-@ToString
+@ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
 public abstract class Instruction implements InstructionInit {
     protected int length;
@@ -25,6 +25,7 @@ public abstract class Instruction implements InstructionInit {
     private String name;
     private int consumeStack;
     private int produceStack;
+    @ToString.Exclude
     protected ConstantPool constantPool;
 
     public Instruction() {

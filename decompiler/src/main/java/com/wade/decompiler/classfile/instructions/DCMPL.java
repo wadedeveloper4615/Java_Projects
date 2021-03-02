@@ -16,7 +16,7 @@ import lombok.ToString;
 
 @Setter
 @Getter
-@ToString
+@ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
 public class DCMPL extends Instruction implements TypedInstruction, StackProducer, StackConsumer {
     public DCMPL(ConstantPool cp) {

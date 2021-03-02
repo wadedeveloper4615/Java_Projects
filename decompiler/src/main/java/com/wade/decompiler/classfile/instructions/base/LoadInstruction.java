@@ -11,7 +11,7 @@ import lombok.ToString;
 
 @Setter
 @Getter
-@ToString
+@ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
 public abstract class LoadInstruction extends LocalVariableInstruction implements PushInstruction {
     public LoadInstruction(InstructionOpCodes opcode, InstructionOpCodes c_tag, ConstantPool cp) {

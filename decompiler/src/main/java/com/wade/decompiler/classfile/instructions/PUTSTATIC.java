@@ -15,7 +15,7 @@ import lombok.ToString;
 
 @Setter
 @Getter
-@ToString
+@ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
 public class PUTSTATIC extends FieldInstruction implements ExceptionThrower, PopInstruction {
     public PUTSTATIC(int index, ConstantPool cp) {

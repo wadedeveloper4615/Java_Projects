@@ -2,6 +2,15 @@ package com.wade.decompiler.decompiler;
 
 import java.util.Stack;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString(callSuper = true, includeFieldNames = true)
+@EqualsAndHashCode(callSuper = false)
 public class ExpressionStack extends Stack<Expression> {
     private static final long serialVersionUID = -8692184386330343421L;
 

@@ -9,7 +9,7 @@ import lombok.ToString;
 
 @Setter
 @Getter
-@ToString
+@ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
 public class ReturnaddressType extends Type {
     public static ReturnaddressType NO_TARGET = new ReturnaddressType();

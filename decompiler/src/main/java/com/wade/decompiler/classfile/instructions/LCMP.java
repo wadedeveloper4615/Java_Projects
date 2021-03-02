@@ -16,7 +16,7 @@ import lombok.ToString;
 
 @Setter
 @Getter
-@ToString
+@ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
 public class LCMP extends Instruction implements TypedInstruction, StackProducer, StackConsumer {
     public LCMP(ConstantPool cp) {

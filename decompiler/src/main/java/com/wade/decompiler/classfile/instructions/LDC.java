@@ -27,7 +27,7 @@ import lombok.ToString;
 
 @Setter
 @Getter
-@ToString
+@ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
 public class LDC extends CPInstruction implements PushInstruction, ExceptionThrower {
     public LDC(int index, ConstantPool cp) {

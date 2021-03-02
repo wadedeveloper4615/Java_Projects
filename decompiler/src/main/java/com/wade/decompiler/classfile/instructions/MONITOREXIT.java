@@ -15,7 +15,7 @@ import lombok.ToString;
 
 @Setter
 @Getter
-@ToString
+@ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
 public class MONITOREXIT extends Instruction implements ExceptionThrower, StackConsumer {
     public MONITOREXIT(ConstantPool cp) {

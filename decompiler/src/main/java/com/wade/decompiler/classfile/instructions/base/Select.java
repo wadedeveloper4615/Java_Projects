@@ -10,7 +10,7 @@ import lombok.ToString;
 
 @Setter
 @Getter
-@ToString
+@ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
 public abstract class Select extends BranchInstruction implements VariableLengthInstruction, StackConsumer, StackProducer {
     protected int[] match;

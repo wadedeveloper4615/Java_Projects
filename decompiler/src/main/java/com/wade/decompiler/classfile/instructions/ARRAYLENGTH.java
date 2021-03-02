@@ -16,7 +16,7 @@ import lombok.ToString;
 
 @Setter
 @Getter
-@ToString
+@ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
 public class ARRAYLENGTH extends Instruction implements ExceptionThrower, StackProducer, StackConsumer {
     public ARRAYLENGTH(ConstantPool cp) {

@@ -15,7 +15,7 @@ import lombok.ToString;
 
 @Setter
 @Getter
-@ToString
+@ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
 public class GETSTATIC extends FieldInstruction implements PushInstruction, ExceptionThrower {
     public GETSTATIC(int index, ConstantPool cp) {

@@ -13,7 +13,7 @@ import lombok.ToString;
 
 @Setter
 @Getter
-@ToString
+@ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
 public abstract class FieldOrMethod {
     protected Attribute[] attributes;
@@ -21,6 +21,10 @@ public abstract class FieldOrMethod {
     protected int signatureIndex;
     protected ConstantPool constantPool;
     protected int accessFlags;
+
+    public FieldOrMethod() {
+        super();
+    }
 
     protected FieldOrMethod(DataInput file, ConstantPool constantPool) throws IOException {
         this(file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort(), null, constantPool);

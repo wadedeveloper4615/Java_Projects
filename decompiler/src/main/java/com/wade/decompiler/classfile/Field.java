@@ -14,9 +14,13 @@ import lombok.ToString;
 
 @Setter
 @Getter
-@ToString
+@ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
 public class Field extends FieldOrMethod {
+    public Field() {
+        super();
+    }
+
     public Field(DataInput file, ConstantPool constantPool) throws IOException, ClassFormatException {
         super(file, constantPool);
     }

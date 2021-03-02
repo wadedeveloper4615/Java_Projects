@@ -14,7 +14,7 @@ import lombok.ToString;
 
 @Setter
 @Getter
-@ToString
+@ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
 public class IREM extends ArithmeticInstruction implements ExceptionThrower {
     public IREM(ConstantPool cp) {

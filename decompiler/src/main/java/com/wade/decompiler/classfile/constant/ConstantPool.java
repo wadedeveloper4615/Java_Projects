@@ -9,6 +9,15 @@ import com.wade.decompiler.constants.Const;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.util.Utility;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString(callSuper = true, includeFieldNames = true)
+@EqualsAndHashCode
 public class ConstantPool {
     private Constant[] constantPool;
 
@@ -157,29 +166,8 @@ public class ConstantPool {
         return constantPool == null ? 0 : constantPool.length;
     }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + Arrays.hashCode(constantPool);
-        return result;
-    }
-
     public void setConstant(int index, Constant constant) {
         constantPool[index] = constant;
-    }
-
-    @Override
-    public String toString() {
-        return this.toString("");
-    }
-
-    public String toString(String indent) {
-        StringBuilder buf = new StringBuilder();
-        for (int i = 1; i < constantPool.length; i++) {
-            buf.append(indent).append(i).append(")").append(constantPool[i]).append("\n");
-        }
-        return buf.toString();
     }
 
     private static String escape(String str) {

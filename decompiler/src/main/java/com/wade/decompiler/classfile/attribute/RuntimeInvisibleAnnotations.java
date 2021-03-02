@@ -13,7 +13,7 @@ import lombok.ToString;
 
 @Setter
 @Getter
-@ToString
+@ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
 public class RuntimeInvisibleAnnotations extends Annotations {
     public RuntimeInvisibleAnnotations(int nameIndex, int length, DataInput input, ConstantPool constantPool) throws IOException {

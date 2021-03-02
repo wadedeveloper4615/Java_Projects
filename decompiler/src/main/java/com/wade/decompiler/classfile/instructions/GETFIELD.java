@@ -16,7 +16,7 @@ import lombok.ToString;
 
 @Setter
 @Getter
-@ToString
+@ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
 public class GETFIELD extends FieldInstruction implements ExceptionThrower, StackConsumer, StackProducer {
     public GETFIELD(int index, ConstantPool cp) {

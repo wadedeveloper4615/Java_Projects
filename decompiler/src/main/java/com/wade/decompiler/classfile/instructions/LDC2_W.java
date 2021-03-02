@@ -19,7 +19,7 @@ import lombok.ToString;
 
 @Setter
 @Getter
-@ToString
+@ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
 public class LDC2_W extends CPInstruction implements PushInstruction {
     public LDC2_W(int index, ConstantPool cp) {

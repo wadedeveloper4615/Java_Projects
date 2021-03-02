@@ -1,5 +1,14 @@
 package com.wade.decompiler.decompiler;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString(callSuper = true, includeFieldNames = true)
+@EqualsAndHashCode(callSuper = false)
 public class Expression {
     private String variable;
     private long value;
@@ -18,30 +27,5 @@ public class Expression {
     public Expression(ExpressionType type, String variable) {
         this.type = type;
         this.variable = variable;
-    }
-
-    public ExpressionType getType() {
-        return type;
-    }
-
-    public long getValue() {
-        return value;
-    }
-
-    public String getVariable() {
-        return variable;
-    }
-
-    @Override
-    public String toString() {
-        if (type == ExpressionType.VARIABLE) {
-            return variable;
-        } else if (type == ExpressionType.EXPRESSION) {
-            return variable;
-        } else if (type == ExpressionType.CONSTANT_NUMBER) {
-            return Long.toString(value);
-        } else {
-            return null;
-        }
     }
 }

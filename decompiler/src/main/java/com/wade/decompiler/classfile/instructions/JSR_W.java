@@ -15,7 +15,7 @@ import lombok.ToString;
 
 @Setter
 @Getter
-@ToString
+@ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
 public class JSR_W extends JsrInstruction {
     public JSR_W(ConstantPool cp) {

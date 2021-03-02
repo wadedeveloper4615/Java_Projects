@@ -12,7 +12,7 @@ import lombok.ToString;
 
 @Setter
 @Getter
-@ToString
+@ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
 public class LOOKUPSWITCH extends Select {
     public LOOKUPSWITCH(InstructionOpCodes opcode, int[] match, ConstantPool cp) {

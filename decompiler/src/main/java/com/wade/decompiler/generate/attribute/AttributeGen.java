@@ -33,6 +33,15 @@ import com.wade.decompiler.classfile.exceptions.ClassFormatException;
 import com.wade.decompiler.enums.ClassFileAttributes;
 import com.wade.decompiler.enums.ClassFileConstants;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString(callSuper = true, includeFieldNames = true)
+@EqualsAndHashCode
 public class AttributeGen {
     private ClassFileAttributes tag;
     private int nameIndex;
@@ -46,61 +55,6 @@ public class AttributeGen {
         this.length = attribute.getLength();
         this.name = ((ConstantUtf8) constantPool.getConstant(nameIndex, ClassFileConstants.CONSTANT_Utf8)).getBytes();
         this.constantPool = constantPool;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        AttributeGen other = (AttributeGen) obj;
-        if (length != other.length)
-            return false;
-        if (name == null) {
-            if (other.name != null)
-                return false;
-        } else if (!name.equals(other.name))
-            return false;
-        if (nameIndex != other.nameIndex)
-            return false;
-        if (tag != other.tag)
-            return false;
-        return true;
-    }
-
-    public int getLength() {
-        return length;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getNameIndex() {
-        return nameIndex;
-    }
-
-    public ClassFileAttributes getTag() {
-        return tag;
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + length;
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + nameIndex;
-        result = prime * result + ((tag == null) ? 0 : tag.hashCode());
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "AttributeGen [tag=" + tag + ", name=" + name + ", length=" + length + ", nameIndex=" + nameIndex + "]";
     }
 
     public static AttributeGen readAttribute(Attribute attribute, ConstantPool constantPool) throws IOException, ClassFormatException {

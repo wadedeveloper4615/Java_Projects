@@ -10,7 +10,7 @@ import lombok.ToString;
 
 @Setter
 @Getter
-@ToString
+@ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode
 public class ModuleOpens {
     private int opensIndex;

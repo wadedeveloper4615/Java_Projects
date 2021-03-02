@@ -15,7 +15,7 @@ import lombok.ToString;
 
 @Setter
 @Getter
-@ToString
+@ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
 public class ACONST_NULL extends Instruction implements PushInstruction, TypedInstruction {
     public ACONST_NULL(ConstantPool cp) {

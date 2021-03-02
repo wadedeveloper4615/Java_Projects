@@ -13,7 +13,7 @@ import lombok.ToString;
 
 @Setter
 @Getter
-@ToString
+@ToString(includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
 public abstract class Constant {
     protected ClassFileConstants tag;

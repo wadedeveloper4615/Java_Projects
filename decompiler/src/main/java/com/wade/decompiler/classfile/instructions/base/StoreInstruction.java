@@ -11,7 +11,7 @@ import lombok.ToString;
 
 @Setter
 @Getter
-@ToString
+@ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
 public abstract class StoreInstruction extends LocalVariableInstruction implements PopInstruction {
     public StoreInstruction(InstructionOpCodes canon_tag, InstructionOpCodes c_tag, ConstantPool cp) {

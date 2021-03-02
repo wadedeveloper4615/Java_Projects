@@ -19,7 +19,7 @@ import lombok.ToString;
 
 @Setter
 @Getter
-@ToString
+@ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
 public class BIPUSH extends Instruction implements ConstantPushInstruction {
     private byte b;

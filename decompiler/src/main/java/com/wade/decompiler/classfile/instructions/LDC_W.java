@@ -14,7 +14,7 @@ import lombok.ToString;
 
 @Setter
 @Getter
-@ToString
+@ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
 public class LDC_W extends LDC {
     public LDC_W(int index, ConstantPool cp) {

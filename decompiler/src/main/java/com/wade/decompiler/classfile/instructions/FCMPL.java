@@ -16,7 +16,7 @@ import lombok.ToString;
 
 @Setter
 @Getter
-@ToString
+@ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
 public class FCMPL extends Instruction implements TypedInstruction, StackProducer, StackConsumer {
     public FCMPL(ConstantPool cp) {

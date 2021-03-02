@@ -11,6 +11,15 @@ import com.wade.decompiler.generate.attribute.LocalVariableGen;
 import com.wade.decompiler.generate.attribute.LocalVariableTableGen;
 import com.wade.decompiler.util.Utility;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString(callSuper = true, includeFieldNames = true)
+@EqualsAndHashCode(callSuper = false)
 public class JavaClassFileDecompiler {
     private JavaClassGen jgen;
 
@@ -35,7 +44,7 @@ public class JavaClassFileDecompiler {
         }
         System.out.println("/*");
         System.out.println("\tVersion=" + jgen.getVersion());
-        System.out.println(jgen.getConstantPool().toString("\t"));
+        System.out.println(jgen.getConstantPool().toString());
         System.out.println("*/");
         System.out.println(fileBase + " {");
         deompileFields(jgen.getFields());

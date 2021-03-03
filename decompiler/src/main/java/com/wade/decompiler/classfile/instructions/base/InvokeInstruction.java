@@ -13,7 +13,7 @@ import lombok.ToString;
 
 @Setter
 @Getter
-@ToString
+@ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
 public abstract class InvokeInstruction extends FieldOrMethodInstruction implements ExceptionThrower, StackConsumer, StackProducer {
     public InvokeInstruction(InstructionOpCodes opcode, int index, ConstantPool cp) {
@@ -40,11 +40,6 @@ public abstract class InvokeInstruction extends FieldOrMethodInstruction impleme
         ConstantConstantPool cmr = (ConstantConstantPool) cp.getConstant(super.getIndex());
         String className = cp.getConstantString(cmr.getClassIndex(), ClassFileConstants.CONSTANT_Class);
         return className.replace('/', '.');
-    }
-
-    @Override
-    public String getMethodName() {
-        return this.getMethodName();
     }
 
     public Type getReturnType() {

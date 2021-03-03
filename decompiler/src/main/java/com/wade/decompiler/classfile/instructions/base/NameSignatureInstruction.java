@@ -16,10 +16,6 @@ import lombok.ToString;
 @ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
 public abstract class NameSignatureInstruction extends CPInstruction {
-    public NameSignatureInstruction() {
-        super();
-    }
-
     public NameSignatureInstruction(InstructionOpCodes opcode, ConstantPool constantPool, int index) {
         super(opcode, constantPool, index);
     }

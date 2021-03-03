@@ -10,7 +10,6 @@ import com.wade.decompiler.classfile.instructions.base.TypedInstruction;
 import com.wade.decompiler.classfile.instructions.type.ReturnaddressType;
 import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.constants.Const;
-import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.util.ByteSequence;
 
@@ -21,12 +20,6 @@ public class RET extends Instruction implements IndexedInstruction, TypedInstruc
     public RET(int index, ConstantPool cp) {
         super(InstructionOpCodes.RET, 2, cp);
         setIndex(index);
-    }
-
-    @Override
-    public String decompile(ExpressionStack stack) {
-        // TODO Auto-generated method stub
-        return null;
     }
 
     @Override

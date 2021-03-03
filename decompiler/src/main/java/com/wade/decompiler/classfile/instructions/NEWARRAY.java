@@ -11,9 +11,6 @@ import com.wade.decompiler.classfile.instructions.type.ArrayType;
 import com.wade.decompiler.classfile.instructions.type.BasicType;
 import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.constants.ExceptionConst;
-import com.wade.decompiler.decompiler.Expression;
-import com.wade.decompiler.decompiler.ExpressionStack;
-import com.wade.decompiler.decompiler.ExpressionType;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.enums.TypeEnum;
 import com.wade.decompiler.util.ByteSequence;
@@ -42,13 +39,6 @@ public class NEWARRAY extends Instruction implements AllocationInstruction, Exce
     public NEWARRAY(TypeEnum type, ConstantPool cp) {
         super(InstructionOpCodes.NEWARRAY, 2, cp);
         this.type = type;
-    }
-
-    @Override
-    public String decompile(ExpressionStack stack) {
-        Expression exp1 = stack.pop();
-        stack.push(new Expression(ExpressionType.EXPRESSION, "new " + type.getTypeName() + "[" + exp1.toString() + "]"));
-        return null;
     }
 
     @Override

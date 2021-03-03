@@ -29,15 +29,12 @@ public abstract class CPInstruction extends Instruction implements TypedInstruct
     private Object constantValue;
     private String constantString;
 
-    public CPInstruction() {
-    }
-
     public CPInstruction(InstructionOpCodes opcode, ConstantPool constantPool, int index) {
         super(opcode, 3, constantPool);
         setIndex(index);
     }
 
-    public void extractConstantPoolInfo(Constant c) {
+    public void extractConstantPoolInfo2(Constant c) {
         if (c instanceof ConstantMethodref) {
             int classIndex = ((ConstantMethodref) c).getClassIndex();
             int nameAndTypeIndex = ((ConstantMethodref) c).getNameAndTypeIndex();

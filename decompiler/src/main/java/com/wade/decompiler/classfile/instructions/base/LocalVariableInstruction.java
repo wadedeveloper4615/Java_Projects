@@ -39,12 +39,9 @@ public abstract class LocalVariableInstruction extends Instruction implements Ty
     private String constantString;
     protected LocalVariableGen localVariable;
 
-    public LocalVariableInstruction() {
-    }
-
-    public LocalVariableInstruction(InstructionOpCodes canonTag, InstructionOpCodes c_tag, ConstantPool cp) {
-        this.setConstantPool(cp);
-        this.canonTag = canonTag;
+    public LocalVariableInstruction(InstructionOpCodes opcode, InstructionOpCodes c_tag, ConstantPool constantPool) {
+        super(opcode, 2, constantPool);
+        this.canonTag = opcode;
         this.cTag = c_tag;
     }
 

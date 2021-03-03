@@ -14,9 +14,6 @@ import lombok.ToString;
 @ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
 public abstract class StackInstruction extends Instruction {
-    public StackInstruction() {
-    }
-
     public StackInstruction(InstructionOpCodes opcode, ConstantPool constantPool) {
         super(opcode, 1, constantPool);
     }

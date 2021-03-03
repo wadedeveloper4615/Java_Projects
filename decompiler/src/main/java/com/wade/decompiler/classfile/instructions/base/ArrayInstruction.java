@@ -16,9 +16,6 @@ import lombok.ToString;
 @ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
 public abstract class ArrayInstruction extends Instruction implements ExceptionThrower, TypedInstruction {
-    public ArrayInstruction() {
-    }
-
     public ArrayInstruction(InstructionOpCodes opcode, ConstantPool constantPool) {
         super(opcode, 1, constantPool);
     }

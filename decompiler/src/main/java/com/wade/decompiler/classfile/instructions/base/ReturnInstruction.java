@@ -16,9 +16,6 @@ import lombok.ToString;
 @ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
 public abstract class ReturnInstruction extends Instruction implements ExceptionThrower, TypedInstruction, StackConsumer {
-    public ReturnInstruction() {
-    }
-
     public ReturnInstruction(InstructionOpCodes opcode, ConstantPool cp) {
         super(opcode, 1, cp);
     }

@@ -6,7 +6,6 @@ import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.exceptions.ClassGenException;
 import com.wade.decompiler.classfile.instructions.base.InvokeInstruction;
 import com.wade.decompiler.constants.ExceptionConst;
-import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.util.ByteSequence;
 
@@ -25,12 +24,6 @@ public class INVOKEINTERFACE extends InvokeInstruction {
     @Override
     public int consumeStack() { // nargs is given in byte-code
         return nargs; // nargs includes this reference
-    }
-
-    @Override
-    public String decompile(ExpressionStack stack) {
-        // TODO Auto-generated method stub
-        return null;
     }
 
     public int getCount() {

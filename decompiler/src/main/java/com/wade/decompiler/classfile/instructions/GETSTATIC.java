@@ -5,7 +5,6 @@ import com.wade.decompiler.classfile.instructions.base.ExceptionThrower;
 import com.wade.decompiler.classfile.instructions.base.FieldInstruction;
 import com.wade.decompiler.classfile.instructions.base.PushInstruction;
 import com.wade.decompiler.constants.ExceptionConst;
-import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
 import lombok.EqualsAndHashCode;
@@ -20,12 +19,6 @@ import lombok.ToString;
 public class GETSTATIC extends FieldInstruction implements PushInstruction, ExceptionThrower {
     public GETSTATIC(int index, ConstantPool cp) {
         super(InstructionOpCodes.GETSTATIC, cp, index);
-    }
-
-    @Override
-    public String decompile(ExpressionStack stack) {
-        // TODO Auto-generated method stub
-        return null;
     }
 
     @Override

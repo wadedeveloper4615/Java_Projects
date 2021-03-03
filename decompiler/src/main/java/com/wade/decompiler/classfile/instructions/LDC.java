@@ -16,7 +16,6 @@ import com.wade.decompiler.classfile.instructions.type.ObjectType;
 import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.constants.Const;
 import com.wade.decompiler.constants.ExceptionConst;
-import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.util.ByteSequence;
 
@@ -33,12 +32,6 @@ public class LDC extends CPInstruction implements PushInstruction, ExceptionThro
     public LDC(int index, ConstantPool cp) {
         super(InstructionOpCodes.LDC_W, cp, index);
         setSize();
-    }
-
-    @Override
-    public String decompile(ExpressionStack stack) {
-        // TODO Auto-generated method stub
-        return null;
     }
 
     @Override

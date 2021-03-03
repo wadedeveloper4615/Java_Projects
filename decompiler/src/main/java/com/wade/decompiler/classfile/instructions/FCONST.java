@@ -5,7 +5,6 @@ import com.wade.decompiler.classfile.exceptions.ClassGenException;
 import com.wade.decompiler.classfile.instructions.base.ConstantPushInstruction;
 import com.wade.decompiler.classfile.instructions.base.Instruction;
 import com.wade.decompiler.classfile.instructions.type.Type;
-import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
 import lombok.EqualsAndHashCode;
@@ -32,12 +31,6 @@ public class FCONST extends Instruction implements ConstantPushInstruction {
             throw new ClassGenException("FCONST can be used only for 0.0, 1.0 and 2.0: " + f);
         }
         value = f;
-    }
-
-    @Override
-    public String decompile(ExpressionStack stack) {
-        // TODO Auto-generated method stub
-        return null;
     }
 
     @Override

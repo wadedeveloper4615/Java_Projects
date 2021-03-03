@@ -5,7 +5,6 @@ import java.io.IOException;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.exceptions.ClassGenException;
 import com.wade.decompiler.classfile.instructions.*;
-import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generate.attribute.LocalVariableTableGen;
 import com.wade.decompiler.util.ByteSequence;
@@ -28,14 +27,6 @@ public abstract class Instruction implements InstructionInit {
     @ToString.Exclude
     protected ConstantPool constantPool;
 
-    public Instruction() {
-        length = 1;
-        opcode = null;
-        name = "";
-        consumeStack = -1;
-        produceStack = -1;
-    }
-
     public Instruction(InstructionOpCodes opcode, int length, ConstantPool constantPool) {
         this.length = (short) length;
         this.opcode = opcode;
@@ -48,8 +39,6 @@ public abstract class Instruction implements InstructionInit {
     public int consumeStack() {
         return opcode.getConsumeStack();
     }
-
-    public abstract String decompile(ExpressionStack stack);
 
     @Override
     public void initFromFile(ByteSequence bytes, boolean wide) throws IOException {

@@ -77,7 +77,6 @@ class JavaClassTest extends AbstractTest {
         assertNotNull(clazz2.getRepository());
     }
 
-    @SuppressWarnings("unlikely-arg-type")
     @Test
     void test3() throws Exception {
         JavaClass clazz = new JavaClass();

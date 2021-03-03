@@ -26,9 +26,13 @@ public class ConstantClass extends Constant implements ConstantObject {
         this.nameIndex = nameIndex;
     }
 
+    public String getBytes(final ConstantPool cp) {
+        return (String) getConstantValue(cp);
+    }
+
     @Override
-    public Object getConstantValue(ConstantPool cp) {
-        String name = ((ConstantUtf8) cp.getConstant(nameIndex, ClassFileConstants.CONSTANT_Utf8)).getBytes();
-        return name;
+    public Object getConstantValue(final ConstantPool cp) {
+        final Constant c = cp.getConstant(nameIndex, ClassFileConstants.CONSTANT_Utf8);
+        return ((ConstantUtf8) c).getBytes();
     }
 }

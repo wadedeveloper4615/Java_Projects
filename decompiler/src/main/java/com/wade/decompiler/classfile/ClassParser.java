@@ -115,7 +115,7 @@ public class ClassParser {
         superclassNameIndex = inputStream.readUnsignedShort();
     }
 
-    private void readConstantPool(DataInput inputStream) throws IOException, ClassFormatException {
+    protected void readConstantPool(DataInput inputStream) throws IOException, ClassFormatException {
         constantPool = new ConstantPool(inputStream);
     }
 

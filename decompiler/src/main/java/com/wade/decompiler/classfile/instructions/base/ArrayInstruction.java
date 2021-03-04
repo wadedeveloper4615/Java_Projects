@@ -2,6 +2,8 @@ package com.wade.decompiler.classfile.instructions.base;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.exceptions.ClassGenException;
+import com.wade.decompiler.classfile.instructions.base.inter.ExceptionThrower;
+import com.wade.decompiler.classfile.instructions.base.inter.TypedInstruction;
 import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.constants.ExceptionConst;
 import com.wade.decompiler.enums.InstructionOpCodes;

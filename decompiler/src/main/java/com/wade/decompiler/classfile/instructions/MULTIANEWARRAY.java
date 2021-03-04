@@ -4,10 +4,10 @@ import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.exceptions.ClassGenException;
-import com.wade.decompiler.classfile.instructions.base.AllocationInstruction;
 import com.wade.decompiler.classfile.instructions.base.CPInstruction;
-import com.wade.decompiler.classfile.instructions.base.ExceptionThrower;
-import com.wade.decompiler.classfile.instructions.base.LoadClass;
+import com.wade.decompiler.classfile.instructions.base.inter.AllocationInstruction;
+import com.wade.decompiler.classfile.instructions.base.inter.ExceptionThrower;
+import com.wade.decompiler.classfile.instructions.base.inter.LoadClass;
 import com.wade.decompiler.classfile.instructions.type.ArrayType;
 import com.wade.decompiler.classfile.instructions.type.ObjectType;
 import com.wade.decompiler.classfile.instructions.type.Type;

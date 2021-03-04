@@ -5,7 +5,7 @@ import com.wade.decompiler.classfile.constant.ConstantDouble;
 import com.wade.decompiler.classfile.constant.ConstantLong;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.instructions.base.CPInstruction;
-import com.wade.decompiler.classfile.instructions.base.PushInstruction;
+import com.wade.decompiler.classfile.instructions.base.inter.PushInstruction;
 import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.enums.InstructionOpCodes;
 

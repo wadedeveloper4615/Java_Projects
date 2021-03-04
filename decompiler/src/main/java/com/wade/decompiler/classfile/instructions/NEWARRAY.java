@@ -3,10 +3,10 @@ package com.wade.decompiler.classfile.instructions;
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.classfile.instructions.base.AllocationInstruction;
-import com.wade.decompiler.classfile.instructions.base.ExceptionThrower;
 import com.wade.decompiler.classfile.instructions.base.Instruction;
-import com.wade.decompiler.classfile.instructions.base.StackProducer;
+import com.wade.decompiler.classfile.instructions.base.inter.AllocationInstruction;
+import com.wade.decompiler.classfile.instructions.base.inter.ExceptionThrower;
+import com.wade.decompiler.classfile.instructions.base.inter.StackProducer;
 import com.wade.decompiler.classfile.instructions.type.ArrayType;
 import com.wade.decompiler.classfile.instructions.type.BasicType;
 import com.wade.decompiler.classfile.instructions.type.Type;

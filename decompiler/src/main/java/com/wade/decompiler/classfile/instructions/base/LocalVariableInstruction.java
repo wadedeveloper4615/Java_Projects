@@ -11,6 +11,8 @@ import com.wade.decompiler.classfile.constant.ConstantNameAndType;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.constant.ConstantUtf8;
 import com.wade.decompiler.classfile.exceptions.ClassGenException;
+import com.wade.decompiler.classfile.instructions.base.inter.IndexedInstruction;
+import com.wade.decompiler.classfile.instructions.base.inter.TypedInstruction;
 import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.constants.Const;
 import com.wade.decompiler.enums.ClassFileConstants;

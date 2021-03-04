@@ -8,6 +8,8 @@ import com.wade.decompiler.classfile.constant.ConstantMethodref;
 import com.wade.decompiler.classfile.constant.ConstantNameAndType;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.constant.ConstantUtf8;
+import com.wade.decompiler.classfile.instructions.base.inter.IndexedInstruction;
+import com.wade.decompiler.classfile.instructions.base.inter.TypedInstruction;
 import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.enums.InstructionOpCodes;

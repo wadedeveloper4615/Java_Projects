@@ -1,6 +1,9 @@
 package com.wade.decompiler.classfile.instructions.base;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
+import com.wade.decompiler.classfile.instructions.base.inter.StackConsumer;
+import com.wade.decompiler.classfile.instructions.base.inter.StackProducer;
+import com.wade.decompiler.classfile.instructions.base.inter.VariableLengthInstruction;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
 import lombok.EqualsAndHashCode;

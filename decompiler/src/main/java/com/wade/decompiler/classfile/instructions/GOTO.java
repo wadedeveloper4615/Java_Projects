@@ -2,7 +2,7 @@ package com.wade.decompiler.classfile.instructions;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.instructions.base.GotoInstruction;
-import com.wade.decompiler.classfile.instructions.base.VariableLengthInstruction;
+import com.wade.decompiler.classfile.instructions.base.inter.VariableLengthInstruction;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
 import lombok.EqualsAndHashCode;

@@ -4,9 +4,9 @@ import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.exceptions.ClassGenException;
-import com.wade.decompiler.classfile.instructions.base.IndexedInstruction;
 import com.wade.decompiler.classfile.instructions.base.Instruction;
-import com.wade.decompiler.classfile.instructions.base.TypedInstruction;
+import com.wade.decompiler.classfile.instructions.base.inter.IndexedInstruction;
+import com.wade.decompiler.classfile.instructions.base.inter.TypedInstruction;
 import com.wade.decompiler.classfile.instructions.type.ReturnaddressType;
 import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.constants.Const;

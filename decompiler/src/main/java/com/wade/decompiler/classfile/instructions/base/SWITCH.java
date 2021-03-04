@@ -1,5 +1,7 @@
 package com.wade.decompiler.classfile.instructions.base;
 
+import com.wade.decompiler.classfile.instructions.base.inter.CompoundInstruction;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

@@ -1,8 +1,8 @@
 package com.wade.decompiler.classfile.instructions;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.classfile.instructions.base.PopInstruction;
 import com.wade.decompiler.classfile.instructions.base.StackInstruction;
+import com.wade.decompiler.classfile.instructions.base.inter.PopInstruction;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
 import lombok.EqualsAndHashCode;

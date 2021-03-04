@@ -1,6 +1,7 @@
 package com.wade.decompiler.classfile.instructions.base;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
+import com.wade.decompiler.classfile.instructions.base.inter.UnconditionalBranch;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
 import lombok.EqualsAndHashCode;

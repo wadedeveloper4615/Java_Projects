@@ -1,4 +1,4 @@
-package com.wade.decompiler.classfile.instructions.base;
+package com.wade.decompiler.classfile.instructions.base.inter;
 
 import com.wade.decompiler.classfile.instructions.type.ObjectType;
 import com.wade.decompiler.classfile.instructions.type.Type;

@@ -3,11 +3,10 @@ package com.wade.decompiler.classfile.instructions;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.exceptions.ClassGenException;
 import com.wade.decompiler.classfile.instructions.base.Instruction;
-import com.wade.decompiler.classfile.instructions.base.inter.ConstantPushInstruction;
 import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
-public class DCONST extends Instruction implements ConstantPushInstruction {
+public class DCONST extends Instruction {
     private double value;
 
     public DCONST(double f, ConstantPool cp) {
@@ -22,18 +21,11 @@ public class DCONST extends Instruction implements ConstantPushInstruction {
         value = f;
     }
 
-    @Override
     public Type getType() {
         return Type.DOUBLE;
     }
 
-    @Override
     public Number getValue() {
         return Double.valueOf(value);
-    }
-
-    @Override
-    public int produceStack() {
-        return opcode.getProduceStack();
     }
 }

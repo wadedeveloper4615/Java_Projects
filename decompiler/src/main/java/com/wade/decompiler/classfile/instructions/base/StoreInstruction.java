@@ -1,7 +1,6 @@
 package com.wade.decompiler.classfile.instructions.base;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.classfile.instructions.base.inter.PopInstruction;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generate.attribute.LocalVariableTableGen;
 
@@ -14,7 +13,7 @@ import lombok.ToString;
 @Getter
 @ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
-public abstract class StoreInstruction extends LocalVariableInstruction implements PopInstruction {
+public abstract class StoreInstruction extends LocalVariableInstruction {
     public StoreInstruction(InstructionOpCodes canon_tag, InstructionOpCodes c_tag, ConstantPool cp) {
         super(canon_tag, c_tag, cp);
     }

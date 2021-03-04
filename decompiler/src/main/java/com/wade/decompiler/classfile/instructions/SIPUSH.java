@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.instructions.base.Instruction;
-import com.wade.decompiler.classfile.instructions.base.inter.ConstantPushInstruction;
 import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.util.ByteSequence;
@@ -18,7 +17,7 @@ import lombok.ToString;
 @Getter
 @ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
-public class SIPUSH extends Instruction implements ConstantPushInstruction {
+public class SIPUSH extends Instruction {
     private short b;
 
     public SIPUSH(short b, ConstantPool cp) {
@@ -26,12 +25,10 @@ public class SIPUSH extends Instruction implements ConstantPushInstruction {
         this.b = b;
     }
 
-    @Override
     public Type getType() {
         return Type.SHORT;
     }
 
-    @Override
     public Number getValue() {
         return Integer.valueOf(b);
     }
@@ -40,10 +37,5 @@ public class SIPUSH extends Instruction implements ConstantPushInstruction {
     public void initFromFile(ByteSequence bytes, boolean wide) throws IOException {
         super.setLength(3);
         b = bytes.readShort();
-    }
-
-    @Override
-    public int produceStack() {
-        return opcode.getProduceStack();
     }
 }

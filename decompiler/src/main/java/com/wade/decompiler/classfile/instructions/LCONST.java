@@ -3,7 +3,6 @@ package com.wade.decompiler.classfile.instructions;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.exceptions.ClassGenException;
 import com.wade.decompiler.classfile.instructions.base.Instruction;
-import com.wade.decompiler.classfile.instructions.base.inter.ConstantPushInstruction;
 import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
@@ -16,7 +15,7 @@ import lombok.ToString;
 @Getter
 @ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
-public class LCONST extends Instruction implements ConstantPushInstruction {
+public class LCONST extends Instruction {
     private long value;
 
     public LCONST(long l, ConstantPool cp) {
@@ -31,19 +30,11 @@ public class LCONST extends Instruction implements ConstantPushInstruction {
         value = l;
     }
 
-    @Override
     public Type getType() {
         return Type.LONG;
     }
 
-    @Override
     public Number getValue() {
         return Long.valueOf(value);
     }
-
-    @Override
-    public int produceStack() {
-        return opcode.getProduceStack();
-    }
-
 }

@@ -3,7 +3,6 @@ package com.wade.decompiler.classfile.instructions;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.exceptions.ClassGenException;
 import com.wade.decompiler.classfile.instructions.base.Instruction;
-import com.wade.decompiler.classfile.instructions.base.inter.ConstantPushInstruction;
 import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
@@ -16,7 +15,7 @@ import lombok.ToString;
 @Getter
 @ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
-public class FCONST extends Instruction implements ConstantPushInstruction {
+public class FCONST extends Instruction {
     private float value;
 
     public FCONST(float f, ConstantPool cp) {
@@ -33,18 +32,11 @@ public class FCONST extends Instruction implements ConstantPushInstruction {
         value = f;
     }
 
-    @Override
     public Type getType() {
         return Type.FLOAT;
     }
 
-    @Override
     public Number getValue() {
         return Float.valueOf(value);
-    }
-
-    @Override
-    public int produceStack() {
-        return opcode.getProduceStack();
     }
 }

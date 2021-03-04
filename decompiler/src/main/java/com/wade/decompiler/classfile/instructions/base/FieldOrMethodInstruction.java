@@ -3,7 +3,6 @@ package com.wade.decompiler.classfile.instructions.base;
 import com.wade.decompiler.classfile.constant.ConstantConstantPool;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.exceptions.ClassGenException;
-import com.wade.decompiler.classfile.instructions.base.inter.LoadClass;
 import com.wade.decompiler.classfile.instructions.type.ArrayType;
 import com.wade.decompiler.classfile.instructions.type.ObjectType;
 import com.wade.decompiler.classfile.instructions.type.ReferenceType;
@@ -20,12 +19,11 @@ import lombok.ToString;
 @Getter
 @ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
-public abstract class FieldOrMethodInstruction extends CPInstruction implements LoadClass {
+public abstract class FieldOrMethodInstruction extends CPInstruction {
     protected FieldOrMethodInstruction(InstructionOpCodes opcode, ConstantPool cp, int index) {
         super(opcode, cp, index);
     }
 
-    @Override
     public ObjectType getLoadClassType() {
         final ReferenceType rt = getReferenceType(this.constantPool);
         if (rt instanceof ObjectType) {

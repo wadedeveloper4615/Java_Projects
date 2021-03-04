@@ -19,7 +19,6 @@ public class INVOKESTATIC extends InvokeInstruction {
         super(InstructionOpCodes.INVOKESTATIC, index, cp);
     }
 
-    @Override
     public Class<?>[] getExceptions() {
         return ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_FIELD_AND_METHOD_RESOLUTION, ExceptionConst.UNSATISFIED_LINK_ERROR, ExceptionConst.INCOMPATIBLE_CLASS_CHANGE_ERROR);
     }

@@ -5,15 +5,13 @@ import java.io.IOException;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.exceptions.ClassGenException;
 import com.wade.decompiler.classfile.instructions.base.Instruction;
-import com.wade.decompiler.classfile.instructions.base.inter.IndexedInstruction;
-import com.wade.decompiler.classfile.instructions.base.inter.TypedInstruction;
 import com.wade.decompiler.classfile.instructions.type.ReturnaddressType;
 import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.constants.Const;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.util.ByteSequence;
 
-public class RET extends Instruction implements IndexedInstruction, TypedInstruction {
+public class RET extends Instruction {
     private boolean wide;
     private int index;
 
@@ -22,12 +20,10 @@ public class RET extends Instruction implements IndexedInstruction, TypedInstruc
         setIndex(index);
     }
 
-    @Override
     public int getIndex() {
         return index;
     }
 
-    @Override
     public Type getType() {
         return ReturnaddressType.NO_TARGET;
     }
@@ -44,7 +40,6 @@ public class RET extends Instruction implements IndexedInstruction, TypedInstruc
         }
     }
 
-    @Override
     public void setIndex(int n) {
         if (n < 0) {
             throw new ClassGenException("Negative index value: " + n);

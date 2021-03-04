@@ -5,7 +5,6 @@ import com.wade.decompiler.classfile.constant.ConstantDouble;
 import com.wade.decompiler.classfile.constant.ConstantLong;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.instructions.base.CPInstruction;
-import com.wade.decompiler.classfile.instructions.base.inter.PushInstruction;
 import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
@@ -18,7 +17,7 @@ import lombok.ToString;
 @Getter
 @ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
-public class LDC2_W extends CPInstruction implements PushInstruction {
+public class LDC2_W extends CPInstruction {
     public LDC2_W(int index, ConstantPool cp) {
         super(InstructionOpCodes.LDC2_W, cp, index);
     }
@@ -48,10 +47,5 @@ public class LDC2_W extends CPInstruction implements PushInstruction {
             default:
                 throw new IllegalArgumentException("Unknown or invalid constant type at " + super.getIndex());
         }
-    }
-
-    @Override
-    public int produceStack() {
-        return opcode.getProduceStack();
     }
 }

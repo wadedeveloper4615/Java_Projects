@@ -2,9 +2,6 @@ package com.wade.decompiler.classfile.instructions.base;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.exceptions.ClassGenException;
-import com.wade.decompiler.classfile.instructions.base.inter.StackConsumer;
-import com.wade.decompiler.classfile.instructions.base.inter.StackProducer;
-import com.wade.decompiler.classfile.instructions.base.inter.TypedInstruction;
 import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
@@ -17,12 +14,11 @@ import lombok.ToString;
 @Getter
 @ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
-public abstract class ConversionInstruction extends Instruction implements TypedInstruction, StackProducer, StackConsumer {
+public abstract class ConversionInstruction extends Instruction {
     public ConversionInstruction(InstructionOpCodes opcode, ConstantPool constantPool) {
         super(opcode, 1, constantPool);
     }
 
-    @Override
     public Type getType() {
         InstructionOpCodes _opcode = super.getOpcode();
         switch (_opcode) {
@@ -51,10 +47,5 @@ public abstract class ConversionInstruction extends Instruction implements Typed
             default: // Never reached
                 throw new ClassGenException("Unknown type " + _opcode);
         }
-    }
-
-    @Override
-    public int produceStack() {
-        return opcode.getProduceStack();
     }
 }

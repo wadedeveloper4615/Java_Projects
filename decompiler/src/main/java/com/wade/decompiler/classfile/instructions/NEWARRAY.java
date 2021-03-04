@@ -4,9 +4,6 @@ import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.instructions.base.Instruction;
-import com.wade.decompiler.classfile.instructions.base.inter.AllocationInstruction;
-import com.wade.decompiler.classfile.instructions.base.inter.ExceptionThrower;
-import com.wade.decompiler.classfile.instructions.base.inter.StackProducer;
 import com.wade.decompiler.classfile.instructions.type.ArrayType;
 import com.wade.decompiler.classfile.instructions.type.BasicType;
 import com.wade.decompiler.classfile.instructions.type.Type;
@@ -24,7 +21,7 @@ import lombok.ToString;
 @Getter
 @ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
-public class NEWARRAY extends Instruction implements AllocationInstruction, ExceptionThrower, StackProducer {
+public class NEWARRAY extends Instruction {
     private TypeEnum type;
 
     public NEWARRAY(BasicType type, ConstantPool cp) {
@@ -41,7 +38,6 @@ public class NEWARRAY extends Instruction implements AllocationInstruction, Exce
         this.type = type;
     }
 
-    @Override
     public Class<?>[] getExceptions() {
         return new Class[] { ExceptionConst.NEGATIVE_ARRAY_SIZE_EXCEPTION };
     }
@@ -58,10 +54,5 @@ public class NEWARRAY extends Instruction implements AllocationInstruction, Exce
     public void initFromFile(ByteSequence bytes, boolean wide) throws IOException {
         type = TypeEnum.read(bytes.readByte());
         super.setLength(2);
-    }
-
-    @Override
-    public int produceStack() {
-        return opcode.getProduceStack();
     }
 }

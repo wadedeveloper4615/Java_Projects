@@ -2,9 +2,6 @@ package com.wade.decompiler.classfile.instructions.base;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.exceptions.ClassGenException;
-import com.wade.decompiler.classfile.instructions.base.inter.ExceptionThrower;
-import com.wade.decompiler.classfile.instructions.base.inter.StackConsumer;
-import com.wade.decompiler.classfile.instructions.base.inter.TypedInstruction;
 import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.constants.ExceptionConst;
 import com.wade.decompiler.enums.InstructionOpCodes;
@@ -18,17 +15,15 @@ import lombok.ToString;
 @Getter
 @ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
-public abstract class ReturnInstruction extends Instruction implements ExceptionThrower, TypedInstruction, StackConsumer {
+public abstract class ReturnInstruction extends Instruction {
     public ReturnInstruction(InstructionOpCodes opcode, ConstantPool cp) {
         super(opcode, 1, cp);
     }
 
-    @Override
     public Class<?>[] getExceptions() {
         return new Class[] { ExceptionConst.ILLEGAL_MONITOR_STATE };
     }
 
-    @Override
     public Type getType() {
         InstructionOpCodes _opcode = super.getOpcode();
         switch (_opcode) {

@@ -27,13 +27,11 @@ public class INVOKEDYNAMIC extends InvokeInstruction {
         super(InstructionOpCodes.INVOKEDYNAMIC, index, cp);
     }
 
-    @Override
     public String getClassName(ConstantPool cp) {
         ConstantInvokeDynamic cid = (ConstantInvokeDynamic) cp.getConstant(super.getIndex(), ClassFileConstants.CONSTANT_InvokeDynamic);
         return ((ConstantNameAndType) cp.getConstant(cid.getNameAndTypeIndex())).getName(cp);
     }
 
-    @Override
     public Class<?>[] getExceptions() {
         return ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_INTERFACE_METHOD_RESOLUTION, ExceptionConst.UNSATISFIED_LINK_ERROR, ExceptionConst.ABSTRACT_METHOD_ERROR, ExceptionConst.ILLEGAL_ACCESS_ERROR, ExceptionConst.INCOMPATIBLE_CLASS_CHANGE_ERROR);
     }

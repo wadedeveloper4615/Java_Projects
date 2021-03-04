@@ -2,10 +2,6 @@ package com.wade.decompiler.classfile.instructions;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.instructions.base.CPInstruction;
-import com.wade.decompiler.classfile.instructions.base.inter.ExceptionThrower;
-import com.wade.decompiler.classfile.instructions.base.inter.LoadClass;
-import com.wade.decompiler.classfile.instructions.base.inter.StackConsumer;
-import com.wade.decompiler.classfile.instructions.base.inter.StackProducer;
 import com.wade.decompiler.classfile.instructions.type.ArrayType;
 import com.wade.decompiler.classfile.instructions.type.ObjectType;
 import com.wade.decompiler.classfile.instructions.type.Type;
@@ -21,27 +17,20 @@ import lombok.ToString;
 @Getter
 @ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
-public class CHECKCAST extends CPInstruction implements LoadClass, ExceptionThrower, StackProducer, StackConsumer {
+public class CHECKCAST extends CPInstruction {
     public CHECKCAST(int index, ConstantPool cp) {
         super(InstructionOpCodes.CHECKCAST, cp, index);
     }
 
-    @Override
     public Class<?>[] getExceptions() {
         return ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_CLASS_AND_INTERFACE_RESOLUTION, ExceptionConst.CLASS_CAST_EXCEPTION);
     }
 
-    @Override
     public ObjectType getLoadClassType() {
         Type t = getType();
         if (t instanceof ArrayType) {
             t = ((ArrayType) t).getBasicType();
         }
         return (t instanceof ObjectType) ? (ObjectType) t : null;
-    }
-
-    @Override
-    public int produceStack() {
-        return opcode.getProduceStack();
     }
 }

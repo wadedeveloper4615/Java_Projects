@@ -2,8 +2,6 @@ package com.wade.decompiler.classfile.instructions.base;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.exceptions.ClassGenException;
-import com.wade.decompiler.classfile.instructions.base.inter.ExceptionThrower;
-import com.wade.decompiler.classfile.instructions.base.inter.TypedInstruction;
 import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.constants.ExceptionConst;
 import com.wade.decompiler.enums.InstructionOpCodes;
@@ -17,17 +15,15 @@ import lombok.ToString;
 @Getter
 @ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
-public abstract class ArrayInstruction extends Instruction implements ExceptionThrower, TypedInstruction {
+public abstract class ArrayInstruction extends Instruction {
     public ArrayInstruction(InstructionOpCodes opcode, ConstantPool constantPool) {
         super(opcode, 1, constantPool);
     }
 
-    @Override
     public Class<?>[] getExceptions() {
         return ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_ARRAY_EXCEPTION);
     }
 
-    @Override
     public Type getType() {
         InstructionOpCodes _opcode = super.getOpcode();
         switch (_opcode) {

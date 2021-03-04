@@ -10,8 +10,6 @@ import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.constant.ConstantString;
 import com.wade.decompiler.classfile.constant.ConstantUtf8;
 import com.wade.decompiler.classfile.instructions.base.CPInstruction;
-import com.wade.decompiler.classfile.instructions.base.inter.ExceptionThrower;
-import com.wade.decompiler.classfile.instructions.base.inter.PushInstruction;
 import com.wade.decompiler.classfile.instructions.type.ObjectType;
 import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.constants.Const;
@@ -28,13 +26,12 @@ import lombok.ToString;
 @Getter
 @ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
-public class LDC extends CPInstruction implements PushInstruction, ExceptionThrower {
+public class LDC extends CPInstruction {
     public LDC(int index, ConstantPool cp) {
         super(InstructionOpCodes.LDC_W, cp, index);
         setSize();
     }
 
-    @Override
     public Class<?>[] getExceptions() {
         return ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_STRING_RESOLUTION);
     }
@@ -79,11 +76,6 @@ public class LDC extends CPInstruction implements PushInstruction, ExceptionThro
     public void initFromFile(ByteSequence bytes, boolean wide) throws IOException {
         super.setLength(2);
         super.setIndex(bytes.readUnsignedByte());
-    }
-
-    @Override
-    public int produceStack() {
-        return opcode.getProduceStack();
     }
 
     @Override

@@ -2,9 +2,6 @@ package com.wade.decompiler.classfile.instructions;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.instructions.base.Instruction;
-import com.wade.decompiler.classfile.instructions.base.inter.StackConsumer;
-import com.wade.decompiler.classfile.instructions.base.inter.StackProducer;
-import com.wade.decompiler.classfile.instructions.base.inter.TypedInstruction;
 import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
@@ -17,18 +14,12 @@ import lombok.ToString;
 @Getter
 @ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
-public class DCMPL extends Instruction implements TypedInstruction, StackProducer, StackConsumer {
+public class DCMPL extends Instruction {
     public DCMPL(ConstantPool cp) {
         super(InstructionOpCodes.DCMPL, 1, cp);
     }
 
-    @Override
     public Type getType() {
         return Type.DOUBLE;
-    }
-
-    @Override
-    public int produceStack() {
-        return opcode.getProduceStack();
     }
 }

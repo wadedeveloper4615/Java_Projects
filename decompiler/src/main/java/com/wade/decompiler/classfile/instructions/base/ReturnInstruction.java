@@ -1,9 +1,6 @@
 package com.wade.decompiler.classfile.instructions.base;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.classfile.exceptions.ClassGenException;
-import com.wade.decompiler.classfile.instructions.type.Type;
-import com.wade.decompiler.constants.ExceptionConst;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
 import lombok.EqualsAndHashCode;
@@ -19,28 +16,28 @@ public abstract class ReturnInstruction extends Instruction {
     public ReturnInstruction(InstructionOpCodes opcode, ConstantPool cp) {
         super(opcode, 1, cp);
     }
-
-    public Class<?>[] getExceptions() {
-        return new Class[] { ExceptionConst.ILLEGAL_MONITOR_STATE };
-    }
-
-    public Type getType() {
-        InstructionOpCodes _opcode = super.getOpcode();
-        switch (_opcode) {
-            case IRETURN:
-                return Type.INT;
-            case LRETURN:
-                return Type.LONG;
-            case FRETURN:
-                return Type.FLOAT;
-            case DRETURN:
-                return Type.DOUBLE;
-            case ARETURN:
-                return Type.OBJECT;
-            case RETURN:
-                return Type.VOID;
-            default:
-                throw new ClassGenException("Unknown type " + _opcode);
-        }
-    }
+//
+//    public Class<?>[] getExceptions() {
+//        return new Class[] { ExceptionConst.ILLEGAL_MONITOR_STATE };
+//    }
+//
+//    public Type getType() {
+//        InstructionOpCodes _opcode = super.getOpcode();
+//        switch (_opcode) {
+//            case IRETURN:
+//                return Type.INT;
+//            case LRETURN:
+//                return Type.LONG;
+//            case FRETURN:
+//                return Type.FLOAT;
+//            case DRETURN:
+//                return Type.DOUBLE;
+//            case ARETURN:
+//                return Type.OBJECT;
+//            case RETURN:
+//                return Type.VOID;
+//            default:
+//                throw new ClassGenException("Unknown type " + _opcode);
+//        }
+//    }
 }

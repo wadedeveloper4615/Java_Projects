@@ -14,7 +14,7 @@ import lombok.ToString;
 
 @Setter
 @Getter
-@ToString(callSuper = true, includeFieldNames = true)
+@ToString(callSuper = false, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
 public abstract class Type {
     public static BasicType VOID = new BasicType(TypeEnum.T_VOID);

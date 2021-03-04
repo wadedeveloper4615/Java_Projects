@@ -9,6 +9,7 @@ import com.wade.decompiler.generate.attribute.AttributeGen;
 import com.wade.decompiler.generate.attribute.CodeGen;
 import com.wade.decompiler.generate.attribute.LineNumberTableGen;
 import com.wade.decompiler.generate.attribute.LocalVariableTableGen;
+import com.wade.decompiler.generate.instructions.InstructionGen;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -23,7 +24,7 @@ public class MethodGen extends FieldOrMethodGen {
     private CodeGen code;
     private LineNumberTableGen lineNumberTable;
     private LocalVariableTableGen localVariableTable;
-    private List<String> instructions;
+    private List<InstructionGen> instructions;
 
     public MethodGen(Method value, ConstantPool constantPool) throws IOException {
         super(value, constantPool);

@@ -9,6 +9,7 @@ import com.wade.decompiler.generate.MethodGen;
 import com.wade.decompiler.generate.attribute.CodeGen;
 import com.wade.decompiler.generate.attribute.LocalVariableGen;
 import com.wade.decompiler.generate.attribute.LocalVariableTableGen;
+import com.wade.decompiler.generate.instructions.InstructionGen;
 import com.wade.decompiler.util.Utility;
 
 import lombok.EqualsAndHashCode;
@@ -69,8 +70,9 @@ public class JavaClassFileDecompiler {
         }
         System.out.println("\t\t*/");
         System.out.println();
-        for (String instr : codeGen.getDecompiledInstructions()) {
-            System.out.println("\t\t" + instr.toString());
+        for (InstructionGen instr : codeGen.getDecompiledInstructions()) {
+            if (instr != null)
+                System.out.println("\t\t" + instr.toString());
         }
     }
 

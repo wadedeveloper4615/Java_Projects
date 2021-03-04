@@ -8,6 +8,7 @@ import com.wade.decompiler.classfile.exceptions.ClassGenException;
 import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.constants.Const;
 import com.wade.decompiler.enums.InstructionOpCodes;
+import com.wade.decompiler.generate.attribute.LocalVariableGen;
 import com.wade.decompiler.generate.attribute.LocalVariableTableGen;
 import com.wade.decompiler.util.ByteSequence;
 
@@ -23,30 +24,29 @@ import lombok.ToString;
 public abstract class LocalVariableInstruction extends Instruction {
     protected int index = -1;
     private InstructionOpCodes cTag = null;
-    private InstructionOpCodes canonTag = null;
+//    private InstructionOpCodes canonTag = null;
 //    private String superName;
 //    private String methodName;
 //    private String signature;
 //    private Object constantValue;
 //    private String constantString;
-//    protected LocalVariableGen localVariable;
+    protected LocalVariableGen localVariable;
 
     public LocalVariableInstruction(InstructionOpCodes opcode, InstructionOpCodes c_tag, ConstantPool constantPool) {
         super(opcode, 2, constantPool);
-        this.canonTag = opcode;
+        // this.canonTag = opcode;
         this.cTag = c_tag;
     }
 
-    @SuppressWarnings("unused")
     protected LocalVariableInstruction(InstructionOpCodes opcode, InstructionOpCodes cTag, int n, LocalVariableTableGen localVariableTable, ConstantPool constantPool) {
         super(opcode, 2, constantPool);
         this.cTag = cTag;
-        this.canonTag = opcode;
+        // this.canonTag = opcode;
         setIndex(n);
-//        LocalVariableGen[] localVariableTableEntries = localVariableTable.getLocalVariableTable();
-//        if (localVariableTableEntries != null && localVariableTableEntries.length > n) {
-//            localVariable = localVariableTableEntries[n];
-//        }
+        LocalVariableGen[] localVariableTableEntries = localVariableTable.getLocalVariableTable();
+        if (localVariableTableEntries != null && localVariableTableEntries.length > n) {
+            localVariable = localVariableTableEntries[n];
+        }
     }
 
     @SuppressWarnings("unused")
@@ -91,7 +91,7 @@ public abstract class LocalVariableInstruction extends Instruction {
     }
 
     public Type getType() {
-        switch (canonTag) {
+        switch (opcode) {
             case ILOAD:
             case ISTORE:
                 return Type.INT;
@@ -108,7 +108,7 @@ public abstract class LocalVariableInstruction extends Instruction {
             case ASTORE:
                 return Type.OBJECT;
             default:
-                throw new ClassGenException("Unknown case in switch" + canonTag);
+                throw new ClassGenException("Unknown case in switch" + opcode);
         }
     }
 
@@ -136,14 +136,6 @@ public abstract class LocalVariableInstruction extends Instruction {
         }
     }
 
-    public void setCanonTag(InstructionOpCodes canonTag) {
-        this.canonTag = canonTag;
-    }
-
-    public void setcTag(InstructionOpCodes cTag) {
-        this.cTag = cTag;
-    }
-
     public void setIndex(int index) {
         if ((index < 0) || (index > Const.MAX_SHORT)) {
             throw new ClassGenException("Illegal value: " + index);
@@ -153,17 +145,13 @@ public abstract class LocalVariableInstruction extends Instruction {
             super.setOpcode(InstructionOpCodes.read((short) (cTag.getOpcode() + index)));
             super.setLength(1);
         } else {
-            super.setOpcode(canonTag);
+            super.setOpcode(opcode);
             if (wide()) {
                 super.setLength(4);
             } else {
                 super.setLength(2);
             }
         }
-    }
-
-    public void setIndexOnly(int index) {
-        this.index = index;
     }
 
     private boolean wide() {

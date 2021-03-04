@@ -11,11 +11,9 @@ import com.wade.decompiler.util.Utility;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 @Setter
 @Getter
-@ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
 public class ConstantPool {
     private Constant[] constantPool;
@@ -153,6 +151,15 @@ public class ConstantPool {
 
     public void setConstant(int index, Constant constant) {
         constantPool[index] = constant;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder buf = new StringBuilder();
+        for (int i = 1; i < constantPool.length; i++) {
+            buf.append(i).append(") ").append(constantPool[i]).append("\n");
+        }
+        return buf.toString();
     }
 
     private static String escape(String str) {

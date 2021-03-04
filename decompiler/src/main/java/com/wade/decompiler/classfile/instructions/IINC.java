@@ -60,7 +60,7 @@ public class IINC extends LocalVariableInstruction {
         if (n < 0) {
             throw new ClassGenException("Negative index value: " + n);
         }
-        super.setIndexOnly(n);
+        super.index = n;
         setWide();
     }
 

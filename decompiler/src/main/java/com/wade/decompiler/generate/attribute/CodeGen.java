@@ -11,6 +11,7 @@ import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.instructions.base.Instruction;
 import com.wade.decompiler.classfile.instructions.base.InstructionList;
 import com.wade.decompiler.decompiler.DecompiledInstructions;
+import com.wade.decompiler.generate.instructions.InstructionGen;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -29,7 +30,7 @@ public class CodeGen extends AttributeGen {
     private CodeException[] codeException;
     private LineNumberTableGen lineNumberTable;
     private LocalVariableTableGen localVariableTable;
-    private List<String> decompiledInstructions = new ArrayList<>();;
+    private List<InstructionGen> decompiledInstructions = new ArrayList<>();
 
     public CodeGen(Code attribute, ConstantPool constantPool) throws IOException {
         super(attribute, constantPool);

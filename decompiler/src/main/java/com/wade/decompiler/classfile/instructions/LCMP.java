@@ -26,4 +26,9 @@ public class LCMP extends Instruction implements TypedInstruction, StackProducer
     public Type getType() {
         return Type.LONG;
     }
+
+    @Override
+    public int produceStack() {
+        return opcode.getProduceStack();
+    }
 }

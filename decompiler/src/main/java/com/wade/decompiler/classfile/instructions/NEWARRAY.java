@@ -59,4 +59,9 @@ public class NEWARRAY extends Instruction implements AllocationInstruction, Exce
         type = TypeEnum.read(bytes.readByte());
         super.setLength(2);
     }
+
+    @Override
+    public int produceStack() {
+        return opcode.getProduceStack();
+    }
 }

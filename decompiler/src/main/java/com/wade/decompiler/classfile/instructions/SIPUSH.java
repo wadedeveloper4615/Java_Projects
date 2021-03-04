@@ -41,4 +41,9 @@ public class SIPUSH extends Instruction implements ConstantPushInstruction {
         super.setLength(3);
         b = bytes.readShort();
     }
+
+    @Override
+    public int produceStack() {
+        return opcode.getProduceStack();
+    }
 }

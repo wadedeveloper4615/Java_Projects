@@ -41,4 +41,9 @@ public class BIPUSH extends Instruction implements ConstantPushInstruction {
         super.setLength(2);
         b = bytes.readByte();
     }
+
+    @Override
+    public int produceStack() {
+        return opcode.getProduceStack();
+    }
 }

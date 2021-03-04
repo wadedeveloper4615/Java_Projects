@@ -40,4 +40,9 @@ public class ANEWARRAY extends CPInstruction implements LoadClass, AllocationIns
         }
         return (t instanceof ObjectType) ? (ObjectType) t : null;
     }
+
+    @Override
+    public int produceStack() {
+        return opcode.getProduceStack();
+    }
 }

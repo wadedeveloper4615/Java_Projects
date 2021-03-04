@@ -42,4 +42,9 @@ public class FCONST extends Instruction implements ConstantPushInstruction {
     public Number getValue() {
         return Float.valueOf(value);
     }
+
+    @Override
+    public int produceStack() {
+        return opcode.getProduceStack();
+    }
 }

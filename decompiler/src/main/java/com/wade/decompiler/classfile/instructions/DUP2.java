@@ -18,4 +18,9 @@ public class DUP2 extends StackInstruction implements PushInstruction {
     public DUP2(ConstantPool cp) {
         super(InstructionOpCodes.DUP2, cp);
     }
+
+    @Override
+    public int produceStack() {
+        return opcode.getProduceStack();
+    }
 }

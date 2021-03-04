@@ -82,6 +82,11 @@ public class LDC extends CPInstruction implements PushInstruction, ExceptionThro
     }
 
     @Override
+    public int produceStack() {
+        return opcode.getProduceStack();
+    }
+
+    @Override
     public void setIndex(int index) {
         super.setIndex(index);
         setSize();

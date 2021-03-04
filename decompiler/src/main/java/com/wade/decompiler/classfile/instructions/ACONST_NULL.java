@@ -25,4 +25,9 @@ public class ACONST_NULL extends Instruction implements PushInstruction, TypedIn
     public Type getType() {
         return Type.NULL;
     }
+
+    @Override
+    public int produceStack() {
+        return opcode.getProduceStack();
+    }
 }

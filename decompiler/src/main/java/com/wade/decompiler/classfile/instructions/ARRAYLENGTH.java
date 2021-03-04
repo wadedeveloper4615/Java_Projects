@@ -26,4 +26,9 @@ public class ARRAYLENGTH extends Instruction implements ExceptionThrower, StackP
     public Class<?>[] getExceptions() {
         return new Class[] { ExceptionConst.NULL_POINTER_EXCEPTION };
     }
+
+    @Override
+    public int produceStack() {
+        return opcode.getProduceStack();
+    }
 }

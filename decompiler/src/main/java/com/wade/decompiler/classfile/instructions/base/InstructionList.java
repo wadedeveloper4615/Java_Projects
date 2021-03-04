@@ -23,7 +23,7 @@ public class InstructionList {
     public InstructionList(byte[] code, LocalVariableTableGen localVariableTable, ConstantPool constantPool) throws IOException {
         try (ByteSequence bytes = new ByteSequence(code)) {
             while (bytes.available() > 0) {
-                Instruction instruction = Instruction.readInstruction(bytes, localVariableTable, constantPool);
+                Instruction instruction = InstructionFactory.readInstruction(bytes, localVariableTable, constantPool);
                 // System.out.println(instruction.toString());
                 instructions.add(instruction);
             }

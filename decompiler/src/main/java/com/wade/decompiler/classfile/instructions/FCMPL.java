@@ -26,4 +26,9 @@ public class FCMPL extends Instruction implements TypedInstruction, StackProduce
     public Type getType() {
         return Type.FLOAT;
     }
+
+    @Override
+    public int produceStack() {
+        return opcode.getProduceStack();
+    }
 }

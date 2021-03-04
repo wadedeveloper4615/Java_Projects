@@ -23,4 +23,9 @@ public abstract class Select extends BranchInstruction implements VariableLength
         super(opcode, cp);
         this.match = match;
     }
+
+    @Override
+    public int produceStack() {
+        return opcode.getProduceStack();
+    }
 }

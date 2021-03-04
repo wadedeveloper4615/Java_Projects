@@ -31,4 +31,9 @@ public class DCONST extends Instruction implements ConstantPushInstruction {
     public Number getValue() {
         return Double.valueOf(value);
     }
+
+    @Override
+    public int produceStack() {
+        return opcode.getProduceStack();
+    }
 }

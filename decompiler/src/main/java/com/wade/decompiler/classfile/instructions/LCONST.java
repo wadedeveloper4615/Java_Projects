@@ -41,4 +41,9 @@ public class LCONST extends Instruction implements ConstantPushInstruction {
         return Long.valueOf(value);
     }
 
+    @Override
+    public int produceStack() {
+        return opcode.getProduceStack();
+    }
+
 }

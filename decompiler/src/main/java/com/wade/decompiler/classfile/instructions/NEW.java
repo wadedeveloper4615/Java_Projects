@@ -33,4 +33,9 @@ public class NEW extends CPInstruction implements LoadClass, AllocationInstructi
     public ObjectType getLoadClassType() {
         return (ObjectType) getType();
     }
+
+    @Override
+    public int produceStack() {
+        return opcode.getProduceStack();
+    }
 }

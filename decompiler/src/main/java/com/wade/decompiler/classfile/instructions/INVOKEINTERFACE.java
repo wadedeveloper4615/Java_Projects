@@ -9,6 +9,15 @@ import com.wade.decompiler.constants.ExceptionConst;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.util.ByteSequence;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString(callSuper = true, includeFieldNames = true)
+@EqualsAndHashCode(callSuper = false)
 public class INVOKEINTERFACE extends InvokeInstruction {
     private int nargs;
 
@@ -41,10 +50,5 @@ public class INVOKEINTERFACE extends InvokeInstruction {
         super.setLength(5);
         nargs = bytes.readUnsignedByte();
         bytes.readByte(); // Skip 0 byte
-    }
-
-    @Override
-    public String toString() {
-        return super.toString() + " " + nargs;
     }
 }

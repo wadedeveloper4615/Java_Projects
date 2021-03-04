@@ -19,4 +19,9 @@ public class SWAP extends StackInstruction implements StackConsumer, StackProduc
     public SWAP(ConstantPool cp) {
         super(InstructionOpCodes.SWAP, cp);
     }
+
+    @Override
+    public int produceStack() {
+        return opcode.getProduceStack();
+    }
 }

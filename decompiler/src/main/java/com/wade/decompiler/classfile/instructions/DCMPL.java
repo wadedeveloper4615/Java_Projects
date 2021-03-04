@@ -26,4 +26,9 @@ public class DCMPL extends Instruction implements TypedInstruction, StackProduce
     public Type getType() {
         return Type.DOUBLE;
     }
+
+    @Override
+    public int produceStack() {
+        return opcode.getProduceStack();
+    }
 }

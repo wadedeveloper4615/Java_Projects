@@ -17,6 +17,7 @@ import lombok.ToString;
 public class DecompiledInstructions {
     private List<String> instructions = new ArrayList<>();
 
+    @SuppressWarnings("unused")
     public DecompiledInstructions(Instruction[] instructions) {
     }
 

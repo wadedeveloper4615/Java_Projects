@@ -39,4 +39,9 @@ public class INSTANCEOF extends CPInstruction implements LoadClass, ExceptionThr
         }
         return (t instanceof ObjectType) ? (ObjectType) t : null;
     }
+
+    @Override
+    public int produceStack() {
+        return opcode.getProduceStack();
+    }
 }

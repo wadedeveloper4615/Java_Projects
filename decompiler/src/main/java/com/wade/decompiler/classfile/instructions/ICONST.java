@@ -7,6 +7,15 @@ import com.wade.decompiler.classfile.instructions.base.Instruction;
 import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString(callSuper = true, includeFieldNames = true)
+@EqualsAndHashCode(callSuper = false)
 public class ICONST extends Instruction implements ConstantPushInstruction {
     private int value;
 
@@ -21,20 +30,6 @@ public class ICONST extends Instruction implements ConstantPushInstruction {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (!super.equals(obj))
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        ICONST other = (ICONST) obj;
-        if (value != other.value)
-            return false;
-        return true;
-    }
-
-    @Override
     public Type getType() {
         return Type.INT;
     }
@@ -45,15 +40,7 @@ public class ICONST extends Instruction implements ConstantPushInstruction {
     }
 
     @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = super.hashCode();
-        result = prime * result + value;
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return super.toString() + "[put constant value=" + value + " on stack]";
+    public int produceStack() {
+        return opcode.getProduceStack();
     }
 }

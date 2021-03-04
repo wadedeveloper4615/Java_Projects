@@ -49,4 +49,9 @@ public abstract class ConversionInstruction extends Instruction implements Typed
                 throw new ClassGenException("Unknown type " + _opcode);
         }
     }
+
+    @Override
+    public int produceStack() {
+        return opcode.getProduceStack();
+    }
 }

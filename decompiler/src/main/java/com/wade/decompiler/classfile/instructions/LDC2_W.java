@@ -49,4 +49,9 @@ public class LDC2_W extends CPInstruction implements PushInstruction {
                 throw new IllegalArgumentException("Unknown or invalid constant type at " + super.getIndex());
         }
     }
+
+    @Override
+    public int produceStack() {
+        return opcode.getProduceStack();
+    }
 }

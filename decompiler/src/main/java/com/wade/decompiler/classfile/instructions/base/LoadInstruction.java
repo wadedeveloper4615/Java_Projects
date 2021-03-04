@@ -21,4 +21,9 @@ public abstract class LoadInstruction extends LocalVariableInstruction implement
     public LoadInstruction(InstructionOpCodes opcode, InstructionOpCodes c_tag, int n, LocalVariableTableGen localVariableTable, ConstantPool constantPool) {
         super(opcode, c_tag, n, localVariableTable, constantPool);
     }
+
+    @Override
+    public int produceStack() {
+        return opcode.getProduceStack();
+    }
 }

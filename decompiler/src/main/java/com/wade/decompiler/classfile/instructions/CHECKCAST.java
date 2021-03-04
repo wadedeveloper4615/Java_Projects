@@ -39,4 +39,9 @@ public class CHECKCAST extends CPInstruction implements LoadClass, ExceptionThro
         }
         return (t instanceof ObjectType) ? (ObjectType) t : null;
     }
+
+    @Override
+    public int produceStack() {
+        return opcode.getProduceStack();
+    }
 }

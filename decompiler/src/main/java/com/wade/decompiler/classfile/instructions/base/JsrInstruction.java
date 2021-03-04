@@ -22,4 +22,9 @@ public abstract class JsrInstruction extends BranchInstruction implements Uncond
     public Type getType() {
         return null;
     }
+
+    @Override
+    public int produceStack() {
+        return opcode.getProduceStack();
+    }
 }

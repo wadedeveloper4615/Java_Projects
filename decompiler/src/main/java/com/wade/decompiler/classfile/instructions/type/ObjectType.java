@@ -22,4 +22,8 @@ public class ObjectType extends ReferenceType {
     public String getClassName() {
         return className;
     }
+
+    public static ObjectType getInstance(final String className) {
+        return new ObjectType(className);
+    }
 }

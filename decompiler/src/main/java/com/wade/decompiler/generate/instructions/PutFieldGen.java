@@ -10,6 +10,7 @@ import com.wade.decompiler.classfile.constant.ConstantNameAndType;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.constant.ConstantUtf8;
 import com.wade.decompiler.classfile.instructions.PUTFIELD;
+import com.wade.decompiler.classfile.instructions.PUTSTATIC;
 import com.wade.decompiler.constants.ExceptionConst;
 import com.wade.decompiler.enums.ClassFileConstants;
 
@@ -32,6 +33,12 @@ public class PutFieldGen extends InstructionGen {
     private String constantString;
 
     public PutFieldGen(PUTFIELD instr) {
+        constantPool = instr.getConstantPool();
+        ConstantConstantPool c = (ConstantConstantPool) constantPool.getConstant(instr.getIndex());
+        extractConstantPoolInfo(c);
+    }
+
+    public PutFieldGen(PUTSTATIC instr) {
         constantPool = instr.getConstantPool();
         ConstantConstantPool c = (ConstantConstantPool) constantPool.getConstant(instr.getIndex());
         extractConstantPoolInfo(c);

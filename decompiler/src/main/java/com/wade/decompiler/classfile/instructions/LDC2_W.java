@@ -9,7 +9,6 @@ import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.instructions.base.Instruction;
 import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.enums.InstructionOpCodes;
-import com.wade.decompiler.generate.attribute.LocalVariableGen;
 import com.wade.decompiler.generate.attribute.LocalVariableTableGen;
 import com.wade.decompiler.util.ByteSequence;
 
@@ -26,7 +25,6 @@ public class LDC2_W extends Instruction {
     private int index;
     @ToString.Exclude
     private LocalVariableTableGen localVariableTable;
-    private LocalVariableGen localVariable;
 
     public LDC2_W(LocalVariableTableGen localVariableTable, ConstantPool cp) {
         super(InstructionOpCodes.LDC2_W, 1, cp);

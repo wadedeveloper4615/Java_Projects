@@ -1,8 +1,8 @@
 package com.wade.decompiler.generate.instructions;
 
-import com.wade.decompiler.classfile.instructions.ICONST;
-import com.wade.decompiler.classfile.instructions.type.BasicType;
+import com.wade.decompiler.classfile.instructions.DUP;
 import com.wade.decompiler.classfile.instructions.type.Type;
+import com.wade.decompiler.enums.InstructionOpCodes;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -13,12 +13,12 @@ import lombok.ToString;
 @Getter
 @ToString(callSuper = false, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
-public class IConstGen extends InstructionGen {
-    private Number value;
-    private BasicType type;
+public class Duplicate extends InstructionGen {
+    private InstructionOpCodes opcode;
+    private Type type;
 
-    public IConstGen(ICONST instr) {
-        value = instr.getValue();
-        type = Type.INT;
+    public Duplicate(DUP instr) {
+        opcode = instr.getOpcode();
+        type = instr.getType();
     }
 }

@@ -52,7 +52,8 @@ public class LDC extends Instruction {
         }
     }
 
-    public Object getValue(ConstantPool cpg) {
+    public Object getValue() {
+        ConstantPool cpg = this.constantPool;
         Constant c = cpg.getConstant(index);
         switch (c.getTag()) {
             case CONSTANT_String:

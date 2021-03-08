@@ -1,10 +1,10 @@
 package com.wade.decompiler.generate.instructions;
 
-import com.wade.decompiler.classfile.instructions.ALOAD;
-import com.wade.decompiler.classfile.instructions.DLOAD;
-import com.wade.decompiler.classfile.instructions.FLOAD;
-import com.wade.decompiler.classfile.instructions.ILOAD;
-import com.wade.decompiler.classfile.instructions.LLOAD;
+import com.wade.decompiler.classfile.instructions.ASTORE;
+import com.wade.decompiler.classfile.instructions.DSTORE;
+import com.wade.decompiler.classfile.instructions.FSTORE;
+import com.wade.decompiler.classfile.instructions.ISTORE;
+import com.wade.decompiler.classfile.instructions.LSTORE;
 import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generate.attribute.LocalVariableGen;
@@ -18,12 +18,12 @@ import lombok.ToString;
 @Getter
 @ToString(callSuper = false, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
-public class LoadGen extends InstructionGen {
+public class StoreGen extends InstructionGen {
     private LocalVariableGen localVariableReference;
     private InstructionOpCodes opcode;
     private Type type;
 
-    public LoadGen(ALOAD instr) {
+    public StoreGen(ASTORE instr) {
         opcode = instr.getOpcode();
         int index = instr.getIndex();
         if (index > 0 && index < instr.getLocalVariableTable().getLocalVariableTable().length) {
@@ -32,19 +32,19 @@ public class LoadGen extends InstructionGen {
         type = Type.OBJECT;
     }
 
-    public LoadGen(DLOAD instr) {
+    public StoreGen(DSTORE instr) {
         opcode = instr.getOpcode();
         localVariableReference = instr.getLocalVariableTable().getLocalVariableTable()[instr.getIndex() - 1];
         type = Type.DOUBLE;
     }
 
-    public LoadGen(FLOAD instr) {
+    public StoreGen(FSTORE instr) {
         opcode = instr.getOpcode();
         localVariableReference = instr.getLocalVariableTable().getLocalVariableTable()[instr.getIndex()];
         type = Type.FLOAT;
     }
 
-    public LoadGen(ILOAD instr) {
+    public StoreGen(ISTORE instr) {
         opcode = instr.getOpcode();
         int index = instr.getIndex();
         if (index > 0 && index < instr.getLocalVariableTable().getLocalVariableTable().length) {
@@ -53,7 +53,7 @@ public class LoadGen extends InstructionGen {
         type = Type.INT;
     }
 
-    public LoadGen(LLOAD instr) {
+    public StoreGen(LSTORE instr) {
         opcode = instr.getOpcode();
         localVariableReference = instr.getLocalVariableTable().getLocalVariableTable()[instr.getIndex() - 1];
         type = Type.LONG;

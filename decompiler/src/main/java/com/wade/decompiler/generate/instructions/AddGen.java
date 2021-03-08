@@ -1,7 +1,10 @@
 package com.wade.decompiler.generate.instructions;
 
 import com.wade.decompiler.classfile.exceptions.ClassGenException;
+import com.wade.decompiler.classfile.instructions.DADD;
+import com.wade.decompiler.classfile.instructions.FADD;
 import com.wade.decompiler.classfile.instructions.IADD;
+import com.wade.decompiler.classfile.instructions.LADD;
 import com.wade.decompiler.classfile.instructions.type.Type;
 
 import lombok.EqualsAndHashCode;
@@ -13,10 +16,18 @@ import lombok.ToString;
 @Getter
 @ToString(callSuper = false, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
-public class IAddGen extends InstructionGen {
+public class AddGen extends InstructionGen {
     private Type type;
 
-    public IAddGen(IADD instr) {
+    public AddGen(DADD instr) {
+        type = Type.DOUBLE;
+    }
+
+    public AddGen(FADD instr) {
+        type = Type.FLOAT;
+    }
+
+    public AddGen(IADD instr) {
         type = switch (instr.getOpcode()) {
             case DADD, DDIV, DMUL, DNEG, DREM, DSUB -> Type.DOUBLE;
             case FADD, FDIV, FMUL, FNEG, FREM, FSUB -> Type.FLOAT;
@@ -26,5 +37,9 @@ public class IAddGen extends InstructionGen {
                 throw new ClassGenException("Unknown type " + instr.getOpcode());
             }
         };
+    }
+
+    public AddGen(LADD instr) {
+        type = Type.LONG;
     }
 }

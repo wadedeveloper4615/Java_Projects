@@ -10,6 +10,7 @@ import com.wade.decompiler.classfile.constant.ConstantNameAndType;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.constant.ConstantUtf8;
 import com.wade.decompiler.classfile.instructions.INVOKESPECIAL;
+import com.wade.decompiler.classfile.instructions.INVOKESTATIC;
 import com.wade.decompiler.constants.ExceptionConst;
 import com.wade.decompiler.enums.ClassFileConstants;
 
@@ -22,7 +23,7 @@ import lombok.ToString;
 @Getter
 @ToString(callSuper = false, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
-public class InvokeSpecialGen extends InstructionGen {
+public class InvokeGen extends InstructionGen {
     @ToString.Exclude
     private ConstantPool constantPool;
     private String superName;
@@ -31,7 +32,13 @@ public class InvokeSpecialGen extends InstructionGen {
     private Object constantValue;
     private String constantString;
 
-    public InvokeSpecialGen(INVOKESPECIAL instr) {
+    public InvokeGen(INVOKESPECIAL instr) {
+        constantPool = instr.getConstantPool();
+        ConstantConstantPool c = (ConstantConstantPool) constantPool.getConstant(instr.getIndex());
+        extractConstantPoolInfo(c);
+    }
+
+    public InvokeGen(INVOKESTATIC instr) {
         constantPool = instr.getConstantPool();
         ConstantConstantPool c = (ConstantConstantPool) constantPool.getConstant(instr.getIndex());
         extractConstantPoolInfo(c);

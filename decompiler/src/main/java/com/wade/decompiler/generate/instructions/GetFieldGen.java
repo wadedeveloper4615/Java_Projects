@@ -10,6 +10,7 @@ import com.wade.decompiler.classfile.constant.ConstantNameAndType;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.constant.ConstantUtf8;
 import com.wade.decompiler.classfile.instructions.GETFIELD;
+import com.wade.decompiler.classfile.instructions.GETSTATIC;
 import com.wade.decompiler.constants.ExceptionConst;
 import com.wade.decompiler.enums.ClassFileConstants;
 
@@ -32,6 +33,12 @@ public class GetFieldGen extends InstructionGen {
     private String constantString;
 
     public GetFieldGen(GETFIELD instr) {
+        constantPool = instr.getConstantPool();
+        ConstantConstantPool c = (ConstantConstantPool) constantPool.getConstant(instr.getIndex());
+        extractConstantPoolInfo(c);
+    }
+
+    public GetFieldGen(GETSTATIC instr) {
         constantPool = instr.getConstantPool();
         ConstantConstantPool c = (ConstantConstantPool) constantPool.getConstant(instr.getIndex());
         extractConstantPoolInfo(c);

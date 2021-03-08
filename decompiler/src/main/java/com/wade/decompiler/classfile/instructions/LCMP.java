@@ -15,11 +15,10 @@ import lombok.ToString;
 @ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
 public class LCMP extends Instruction {
+    private Type type;
+
     public LCMP(ConstantPool cp) {
         super(InstructionOpCodes.LCMP, 1, cp);
-    }
-
-    public Type getType() {
-        return Type.LONG;
+        type = Type.LONG;
     }
 }

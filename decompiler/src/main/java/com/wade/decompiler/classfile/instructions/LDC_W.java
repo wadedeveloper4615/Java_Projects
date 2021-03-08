@@ -16,8 +16,8 @@ import lombok.ToString;
 @ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
 public class LDC_W extends LDC {
-    public LDC_W(int index, ConstantPool cp) {
-        super(index, cp);
+    public LDC_W(ConstantPool cp) {
+        super(cp);
     }
 
     @Override

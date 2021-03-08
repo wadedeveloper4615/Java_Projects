@@ -9,7 +9,7 @@ import com.wade.decompiler.classfile.constant.ConstantMethodref;
 import com.wade.decompiler.classfile.constant.ConstantNameAndType;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.constant.ConstantUtf8;
-import com.wade.decompiler.classfile.instructions.PUTFIELD;
+import com.wade.decompiler.classfile.instructions.GETFIELD;
 import com.wade.decompiler.constants.ExceptionConst;
 import com.wade.decompiler.enums.ClassFileConstants;
 
@@ -22,7 +22,7 @@ import lombok.ToString;
 @Getter
 @ToString(callSuper = false, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
-public class PutFielldGen extends InstructionGen {
+public class GetFieldGen extends InstructionGen {
     @ToString.Exclude
     private ConstantPool constantPool;
     private String superName;
@@ -31,7 +31,7 @@ public class PutFielldGen extends InstructionGen {
     private Object constantValue;
     private String constantString;
 
-    public PutFielldGen(PUTFIELD instr) {
+    public GetFieldGen(GETFIELD instr) {
         constantPool = instr.getConstantPool();
         ConstantConstantPool c = (ConstantConstantPool) constantPool.getConstant(instr.getIndex());
         extractConstantPoolInfo(c);

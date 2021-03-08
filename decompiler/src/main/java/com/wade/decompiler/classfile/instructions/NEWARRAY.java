@@ -28,9 +28,8 @@ public class NEWARRAY extends Instruction {
         this(type.getType(), cp);
     }
 
-    public NEWARRAY(int type, ConstantPool cp) {
+    public NEWARRAY(ConstantPool cp) {
         super(InstructionOpCodes.NEWARRAY, 2, cp);
-        this.type = TypeEnum.read(type);
     }
 
     public NEWARRAY(TypeEnum type, ConstantPool cp) {

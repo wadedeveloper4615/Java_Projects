@@ -5,9 +5,9 @@ import java.io.IOException;
 import com.wade.decompiler.classfile.constant.ConstantInvokeDynamic;
 import com.wade.decompiler.classfile.constant.ConstantNameAndType;
 import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.classfile.instructions.base.InvokeInstruction;
+import com.wade.decompiler.classfile.instructions.base.Instruction;
 import com.wade.decompiler.classfile.instructions.type.ObjectType;
-import com.wade.decompiler.classfile.instructions.type.ReferenceType;
+import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.constants.ExceptionConst;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.enums.InstructionOpCodes;
@@ -22,13 +22,17 @@ import lombok.ToString;
 @Getter
 @ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
-public class INVOKEDYNAMIC extends InvokeInstruction {
-    public INVOKEDYNAMIC(int index, ConstantPool cp) {
-        super(InstructionOpCodes.INVOKEDYNAMIC, index, cp);
+public class INVOKEDYNAMIC extends Instruction {
+    private int index;
+    private Type type;
+
+    public INVOKEDYNAMIC(ConstantPool cp) {
+        super(InstructionOpCodes.INVOKEDYNAMIC, 3, cp);
+        type = new ObjectType(Object.class.getName());
     }
 
     public String getClassName(ConstantPool cp) {
-        ConstantInvokeDynamic cid = (ConstantInvokeDynamic) cp.getConstant(super.getIndex(), ClassFileConstants.CONSTANT_InvokeDynamic);
+        ConstantInvokeDynamic cid = (ConstantInvokeDynamic) cp.getConstant(index, ClassFileConstants.CONSTANT_InvokeDynamic);
         return ((ConstantNameAndType) cp.getConstant(cid.getNameAndTypeIndex())).getName(cp);
     }
 
@@ -37,13 +41,8 @@ public class INVOKEDYNAMIC extends InvokeInstruction {
     }
 
     @Override
-    public ReferenceType getReferenceType(ConstantPool cpg) {
-        return new ObjectType(Object.class.getName());
-    }
-
-    @Override
     public void initFromFile(ByteSequence bytes, boolean wide) throws IOException {
-        super.initFromFile(bytes, wide);
+        setIndex(bytes.readUnsignedShort());
         super.setLength(5);
         bytes.readByte();
         bytes.readByte();

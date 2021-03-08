@@ -1,7 +1,7 @@
 package com.wade.decompiler.classfile.instructions;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.classfile.instructions.base.IfInstruction;
+import com.wade.decompiler.classfile.instructions.base.Instruction;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
 import lombok.EqualsAndHashCode;
@@ -13,13 +13,12 @@ import lombok.ToString;
 @Getter
 @ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
-public class IFNULL extends IfInstruction {
+public class IFNULL extends Instruction {
     public IFNULL(ConstantPool cp) {
-        super(InstructionOpCodes.IFNULL, cp);
+        super(InstructionOpCodes.IFNULL, 3, cp);
     }
 
-    @Override
-    public IfInstruction negate() {
+    public Instruction negate() {
         return new IFNONNULL(constantPool);
     }
 }

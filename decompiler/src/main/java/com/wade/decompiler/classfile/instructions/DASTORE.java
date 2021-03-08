@@ -1,7 +1,9 @@
 package com.wade.decompiler.classfile.instructions;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.classfile.instructions.base.ArrayInstruction;
+import com.wade.decompiler.classfile.instructions.base.Instruction;
+import com.wade.decompiler.classfile.instructions.type.Type;
+import com.wade.decompiler.constants.ExceptionConst;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
 import lombok.EqualsAndHashCode;
@@ -13,8 +15,15 @@ import lombok.ToString;
 @Getter
 @ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
-public class DASTORE extends ArrayInstruction {
+public class DASTORE extends Instruction {
+    private Type type;
+
     public DASTORE(ConstantPool cp) {
-        super(InstructionOpCodes.DASTORE, cp);
+        super(InstructionOpCodes.DASTORE, 1, cp);
+        type = Type.DOUBLE;
+    }
+
+    public Class<?>[] getExceptions() {
+        return ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_ARRAY_EXCEPTION);
     }
 }

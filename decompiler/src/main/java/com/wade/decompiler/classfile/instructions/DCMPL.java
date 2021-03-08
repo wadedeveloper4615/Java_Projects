@@ -15,11 +15,10 @@ import lombok.ToString;
 @ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
 public class DCMPL extends Instruction {
+    private Type type;
+
     public DCMPL(ConstantPool cp) {
         super(InstructionOpCodes.DCMPL, 1, cp);
-    }
-
-    public Type getType() {
-        return Type.DOUBLE;
+        type = Type.DOUBLE;
     }
 }

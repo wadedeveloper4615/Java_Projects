@@ -1,7 +1,8 @@
 package com.wade.decompiler.classfile.instructions;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.classfile.instructions.base.StackInstruction;
+import com.wade.decompiler.classfile.instructions.base.Instruction;
+import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
 import lombok.EqualsAndHashCode;
@@ -13,8 +14,11 @@ import lombok.ToString;
 @Getter
 @ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
-public class SWAP extends StackInstruction {
+public class SWAP extends Instruction {
+    private Type type;
+
     public SWAP(ConstantPool cp) {
-        super(InstructionOpCodes.SWAP, cp);
+        super(InstructionOpCodes.SWAP, 1, cp);
+        type = Type.UNKNOWN;
     }
 }

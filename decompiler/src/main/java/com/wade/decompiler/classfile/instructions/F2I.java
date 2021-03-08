@@ -1,7 +1,8 @@
 package com.wade.decompiler.classfile.instructions;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.classfile.instructions.base.ConversionInstruction;
+import com.wade.decompiler.classfile.instructions.base.Instruction;
+import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
 import lombok.EqualsAndHashCode;
@@ -13,8 +14,11 @@ import lombok.ToString;
 @Getter
 @ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
-public class F2I extends ConversionInstruction {
+public class F2I extends Instruction {
+    private Type type;
+
     public F2I(ConstantPool cp) {
-        super(InstructionOpCodes.F2I, cp);
+        super(InstructionOpCodes.F2I, 1, cp);
+        type = Type.INT;
     }
 }

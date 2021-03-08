@@ -17,6 +17,7 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = false)
 public class LCONST extends Instruction {
     private long value;
+    private Type type;
 
     public LCONST(long l, ConstantPool cp) {
         super(InstructionOpCodes.LCONST_0, 1, cp);
@@ -28,10 +29,7 @@ public class LCONST extends Instruction {
             throw new ClassGenException("LCONST can be used only for 0 and 1: " + l);
         }
         value = l;
-    }
-
-    public Type getType() {
-        return Type.LONG;
+        type = Type.LONG;
     }
 
     public Number getValue() {

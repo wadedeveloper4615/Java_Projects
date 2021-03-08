@@ -3,8 +3,7 @@ package com.wade.decompiler.classfile.instructions;
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.classfile.exceptions.ClassGenException;
-import com.wade.decompiler.classfile.instructions.base.InvokeInstruction;
+import com.wade.decompiler.classfile.instructions.base.Instruction;
 import com.wade.decompiler.constants.ExceptionConst;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.util.ByteSequence;
@@ -18,21 +17,18 @@ import lombok.ToString;
 @Getter
 @ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
-public class INVOKEINTERFACE extends InvokeInstruction {
+public class INVOKEINTERFACE extends Instruction {
+    private int index;
     private int nargs;
 
-    public INVOKEINTERFACE(int index, int nargs, ConstantPool cp) {
-        super(InstructionOpCodes.INVOKEINTERFACE, index, cp);
+    public INVOKEINTERFACE(ConstantPool cp) {
+        super(InstructionOpCodes.INVOKEINTERFACE, 5, cp);
         super.setLength(5);
-        if (nargs < 1) {
-            throw new ClassGenException("Number of arguments must be > 0 " + nargs);
-        }
-        this.nargs = nargs;
     }
 
     @Override
-    public int consumeStack() { // nargs is given in byte-code
-        return nargs; // nargs includes this reference
+    public int consumeStack() {
+        return nargs;
     }
 
     public int getCount() {
@@ -45,9 +41,9 @@ public class INVOKEINTERFACE extends InvokeInstruction {
 
     @Override
     public void initFromFile(ByteSequence bytes, boolean wide) throws IOException {
-        super.initFromFile(bytes, wide);
         super.setLength(5);
-        nargs = bytes.readUnsignedByte();
-        bytes.readByte(); // Skip 0 byte
+        setIndex(bytes.readUnsignedShort());
+        setNargs(bytes.readUnsignedByte());
+        bytes.readByte();
     }
 }

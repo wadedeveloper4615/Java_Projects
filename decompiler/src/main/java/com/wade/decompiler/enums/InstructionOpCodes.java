@@ -531,6 +531,10 @@ public enum InstructionOpCodes {
         this.typeOfOperands = TYPE_OF_OPERANDS[tag];
     }
 
+    public InstructionOpCodes add(int n) {
+        return read(opcode + n);
+    }
+
     public int getConsumeStack() {
         return consumeStack;
     }

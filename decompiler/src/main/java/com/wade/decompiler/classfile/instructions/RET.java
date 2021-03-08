@@ -11,13 +11,21 @@ import com.wade.decompiler.constants.Const;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.util.ByteSequence;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString(callSuper = true, includeFieldNames = true)
+@EqualsAndHashCode(callSuper = false)
 public class RET extends Instruction {
     private boolean wide;
     private int index;
 
-    public RET(int index, ConstantPool cp) {
+    public RET(ConstantPool cp) {
         super(InstructionOpCodes.RET, 2, cp);
-        setIndex(index);
     }
 
     public int getIndex() {
@@ -55,10 +63,5 @@ public class RET extends Instruction {
         } else {
             super.setLength(2);
         }
-    }
-
-    @Override
-    public String toString() {
-        return super.toString() + " " + index;
     }
 }

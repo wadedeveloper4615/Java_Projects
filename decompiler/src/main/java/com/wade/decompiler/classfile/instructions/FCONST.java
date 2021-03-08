@@ -3,6 +3,7 @@ package com.wade.decompiler.classfile.instructions;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.exceptions.ClassGenException;
 import com.wade.decompiler.classfile.instructions.base.Instruction;
+import com.wade.decompiler.classfile.instructions.type.BasicType;
 import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
@@ -17,6 +18,7 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = false)
 public class FCONST extends Instruction {
     private float value;
+    private BasicType type;
 
     public FCONST(float f, ConstantPool cp) {
         super(InstructionOpCodes.FCONST_0, 1, cp);
@@ -30,10 +32,7 @@ public class FCONST extends Instruction {
             throw new ClassGenException("FCONST can be used only for 0.0, 1.0 and 2.0: " + f);
         }
         value = f;
-    }
-
-    public Type getType() {
-        return Type.FLOAT;
+        this.type = Type.FLOAT;
     }
 
     public Number getValue() {

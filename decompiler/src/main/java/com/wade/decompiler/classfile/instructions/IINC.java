@@ -3,8 +3,7 @@ package com.wade.decompiler.classfile.instructions;
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.classfile.exceptions.ClassGenException;
-import com.wade.decompiler.classfile.instructions.base.LocalVariableInstruction;
+import com.wade.decompiler.classfile.instructions.base.Instruction;
 import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.constants.Const;
 import com.wade.decompiler.enums.InstructionOpCodes;
@@ -19,21 +18,15 @@ import lombok.ToString;
 @Getter
 @ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
-public class IINC extends LocalVariableInstruction {
+public class IINC extends Instruction {
     private boolean wide;
     private int increment;
+    private int index;
+    private Type type;
 
-    public IINC(int n, int c, ConstantPool cp) {
-        super(InstructionOpCodes.IINC, InstructionOpCodes.IINC, cp);
-        super.setConstantPool(cp);
-        super.setLength((short) 3);
-        setIndex(n);
-        setIncrement(c);
-    }
-
-    @Override
-    public Type getType() {
-        return Type.INT;
+    public IINC(ConstantPool cp) {
+        super(InstructionOpCodes.IINC, 3, cp);
+        type = Type.INT;
     }
 
     @Override
@@ -48,33 +41,17 @@ public class IINC extends LocalVariableInstruction {
             index = bytes.readUnsignedByte();
             increment = bytes.readByte();
         }
-    }
-
-    public void setIncrement(int c) {
-        this.increment = c;
-        setWide();
-    }
-
-    @Override
-    public void setIndex(int n) {
-        if (n < 0) {
-            throw new ClassGenException("Negative index value: " + n);
-        }
-        super.index = n;
-        setWide();
-    }
-
-    private void setWide() {
-        wide = super.getIndex() > Const.MAX_BYTE;
+        wide = index > Const.MAX_BYTE;
         if (increment > 0) {
             wide = wide || (increment > Byte.MAX_VALUE);
         } else {
             wide = wide || (increment < Byte.MIN_VALUE);
         }
         if (wide) {
-            super.setLength(6); // wide byte included
+            super.setLength(6);
         } else {
             super.setLength(3);
         }
     }
+
 }

@@ -19,14 +19,11 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = false)
 public class SIPUSH extends Instruction {
     private short b;
+    private Type type;
 
-    public SIPUSH(short b, ConstantPool cp) {
+    public SIPUSH(ConstantPool cp) {
         super(InstructionOpCodes.SIPUSH, 3, cp);
-        this.b = b;
-    }
-
-    public Type getType() {
-        return Type.SHORT;
+        type = Type.SHORT;
     }
 
     public Number getValue() {

@@ -1,7 +1,9 @@
 package com.wade.decompiler.classfile.instructions;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.classfile.instructions.base.ArithmeticInstruction;
+import com.wade.decompiler.classfile.instructions.base.Instruction;
+import com.wade.decompiler.classfile.instructions.type.Type;
+import com.wade.decompiler.constants.ExceptionConst;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
 import lombok.EqualsAndHashCode;
@@ -13,8 +15,16 @@ import lombok.ToString;
 @Getter
 @ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
-public class ISHL extends ArithmeticInstruction {
+public class ISHL extends Instruction {
+    private Type type;
+
     public ISHL(ConstantPool cp) {
-        super(InstructionOpCodes.ISHL, cp);
+        super(InstructionOpCodes.ISHL, 1, cp);
+        type = Type.INT;
     }
+
+    public Class<?>[] getExceptions() {
+        return new Class[] { ExceptionConst.ILLEGAL_MONITOR_STATE };
+    }
+
 }

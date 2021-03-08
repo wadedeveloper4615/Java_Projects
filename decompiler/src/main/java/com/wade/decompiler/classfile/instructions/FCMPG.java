@@ -15,11 +15,10 @@ import lombok.ToString;
 @ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
 public class FCMPG extends Instruction {
+    private Type type;
+
     public FCMPG(ConstantPool cp) {
         super(InstructionOpCodes.FCMPG, 1, cp);
-    }
-
-    public Type getType() {
-        return Type.FLOAT;
+        type = Type.FLOAT;
     }
 }

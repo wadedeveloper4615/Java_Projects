@@ -18,24 +18,21 @@ import lombok.ToString;
 @ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
 public class BIPUSH extends Instruction {
-    private byte b;
+    private byte value;
+    private Type type;
 
-    public BIPUSH(byte b, ConstantPool cp) {
+    public BIPUSH(ConstantPool cp) {
         super(InstructionOpCodes.BIPUSH, 2, cp);
-        this.b = b;
-    }
-
-    public Type getType() {
-        return Type.BYTE;
+        type = Type.BYTE;
     }
 
     public Number getValue() {
-        return Integer.valueOf(b);
+        return Integer.valueOf(value);
     }
 
     @Override
     public void initFromFile(ByteSequence bytes, boolean wide) throws IOException {
         super.setLength(2);
-        b = bytes.readByte();
+        this.value = bytes.readByte();
     }
 }

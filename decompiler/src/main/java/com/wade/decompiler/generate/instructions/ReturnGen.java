@@ -1,6 +1,6 @@
 package com.wade.decompiler.generate.instructions;
 
-import com.wade.decompiler.classfile.instructions.base.ReturnInstruction;
+import com.wade.decompiler.classfile.instructions.base.Instruction;
 import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.constants.ExceptionConst;
 
@@ -16,7 +16,7 @@ import lombok.ToString;
 public class ReturnGen extends InstructionGen {
     private Type type;
 
-    public ReturnGen(ReturnInstruction instr) {
+    public ReturnGen(Instruction instr) {
         type = switch (instr.getOpcode()) {
             case IRETURN -> Type.INT;
             case LRETURN -> Type.LONG;

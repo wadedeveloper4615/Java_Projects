@@ -4,11 +4,12 @@ import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.exceptions.ClassGenException;
-import com.wade.decompiler.classfile.instructions.base.CPInstruction;
+import com.wade.decompiler.classfile.instructions.base.Instruction;
 import com.wade.decompiler.classfile.instructions.type.ArrayType;
 import com.wade.decompiler.classfile.instructions.type.ObjectType;
 import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.constants.ExceptionConst;
+import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.util.ByteSequence;
 
@@ -21,16 +22,16 @@ import lombok.ToString;
 @Getter
 @ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
-public class MULTIANEWARRAY extends CPInstruction {
+public class MULTIANEWARRAY extends Instruction {
     private short dimensions;
+    private int index;
 
-    public MULTIANEWARRAY(int index, short dimensions, ConstantPool cp) {
-        super(InstructionOpCodes.MULTIANEWARRAY, cp, index);
+    public MULTIANEWARRAY(ConstantPool constantPool) {
+        super(InstructionOpCodes.MULTIANEWARRAY, 3, constantPool);
         if (dimensions < 1) {
             throw new ClassGenException("Invalid dimensions value: " + dimensions);
         }
-        this.dimensions = dimensions;
-        super.setLength(4);
+        setLength(4);
     }
 
     @Override
@@ -54,10 +55,18 @@ public class MULTIANEWARRAY extends CPInstruction {
         return (t instanceof ObjectType) ? (ObjectType) t : null;
     }
 
+    public Type getType() {
+        String name = constantPool.getConstantString(index, ClassFileConstants.CONSTANT_Class);
+        if (!name.startsWith("[")) {
+            name = "L" + name + ";";
+        }
+        return Type.getType(name);
+    }
+
     @Override
     public void initFromFile(ByteSequence bytes, boolean wide) throws IOException {
-        super.initFromFile(bytes, wide);
+        setIndex(bytes.readUnsignedShort());
         dimensions = bytes.readByte();
-        super.setLength(4);
+        setLength(4);
     }
 }

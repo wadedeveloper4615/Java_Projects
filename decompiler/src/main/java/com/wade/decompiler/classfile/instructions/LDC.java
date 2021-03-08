@@ -9,7 +9,7 @@ import com.wade.decompiler.classfile.constant.ConstantInteger;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.constant.ConstantString;
 import com.wade.decompiler.classfile.constant.ConstantUtf8;
-import com.wade.decompiler.classfile.instructions.base.CPInstruction;
+import com.wade.decompiler.classfile.instructions.base.Instruction;
 import com.wade.decompiler.classfile.instructions.type.ObjectType;
 import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.constants.Const;
@@ -26,19 +26,19 @@ import lombok.ToString;
 @Getter
 @ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
-public class LDC extends CPInstruction {
-    public LDC(int index, ConstantPool cp) {
-        super(InstructionOpCodes.LDC_W, cp, index);
-        setSize();
+public class LDC extends Instruction {
+    private int index;
+
+    public LDC(ConstantPool cp) {
+        super(InstructionOpCodes.LDC, 3, cp);
     }
 
     public Class<?>[] getExceptions() {
         return ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_STRING_RESOLUTION);
     }
 
-    @Override
     public Type getType() {
-        switch (this.constantPool.getConstant(super.getIndex()).getTag()) {
+        switch (this.constantPool.getConstant(index).getTag()) {
             case CONSTANT_String:
                 return Type.STRING;
             case CONSTANT_Float:
@@ -48,12 +48,12 @@ public class LDC extends CPInstruction {
             case CONSTANT_Class:
                 return Type.CLASS;
             default: // Never reached
-                throw new IllegalArgumentException("Unknown or invalid constant type at " + super.getIndex());
+                throw new IllegalArgumentException("Unknown or invalid constant type at " + index);
         }
     }
 
     public Object getValue(ConstantPool cpg) {
-        Constant c = cpg.getConstant(super.getIndex());
+        Constant c = cpg.getConstant(index);
         switch (c.getTag()) {
             case CONSTANT_String:
                 int i = ((ConstantString) c).getStringIndex();
@@ -68,25 +68,19 @@ public class LDC extends CPInstruction {
                 c = cpg.getConstant(nameIndex);
                 return new ObjectType(((ConstantUtf8) c).getBytes());
             default: // Never reached
-                throw new IllegalArgumentException("Unknown or invalid constant type at " + super.getIndex());
+                throw new IllegalArgumentException("Unknown or invalid constant type at " + index);
         }
     }
 
     @Override
     public void initFromFile(ByteSequence bytes, boolean wide) throws IOException {
-        super.setLength(2);
-        super.setIndex(bytes.readUnsignedByte());
-    }
-
-    @Override
-    public void setIndex(int index) {
-        super.setIndex(index);
+        setLength(2);
+        setIndex(bytes.readUnsignedByte());
         setSize();
     }
 
-    // Adjust to proper size
     protected void setSize() {
-        if (super.getIndex() <= Const.MAX_BYTE) { // Fits in one byte?
+        if (index <= Const.MAX_BYTE) {
             super.setOpcode(InstructionOpCodes.LDC);
             super.setLength(2);
         } else {

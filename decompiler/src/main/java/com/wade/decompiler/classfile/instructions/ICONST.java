@@ -3,7 +3,6 @@ package com.wade.decompiler.classfile.instructions;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.exceptions.ClassGenException;
 import com.wade.decompiler.classfile.instructions.base.Instruction;
-import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
 import lombok.EqualsAndHashCode;
@@ -19,20 +18,10 @@ public class ICONST extends Instruction {
     private int value;
 
     public ICONST(int i, ConstantPool cp) {
-        super(InstructionOpCodes.ICONST_0, 1, cp);
-        if ((i >= -1) && (i <= 5)) {
-            super.setOpcode(InstructionOpCodes.read((short) (InstructionOpCodes.ICONST_0.getOpcode() + i))); // Even works for i == -1
-        } else {
+        super(InstructionOpCodes.ICONST_0.add(i), 1, cp);
+        if (!(i >= -1 && i <= 5)) {
             throw new ClassGenException("ICONST can be used only for value between -1 and 5: " + i);
         }
         value = i;
-    }
-
-    public Type getType() {
-        return Type.INT;
-    }
-
-    public Number getValue() {
-        return Integer.valueOf(value);
     }
 }

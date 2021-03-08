@@ -3,7 +3,7 @@ package com.wade.decompiler.classfile.instructions;
 import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.classfile.instructions.base.GotoInstruction;
+import com.wade.decompiler.classfile.instructions.base.Instruction;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.util.ByteSequence;
 
@@ -16,15 +16,15 @@ import lombok.ToString;
 @Getter
 @ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
-public class GOTO_W extends GotoInstruction {
+public class GOTO_W extends Instruction {
+    private int index;
+
     public GOTO_W(ConstantPool cp) {
-        super(InstructionOpCodes.GOTO_W, cp);
-        super.setLength(5);
+        super(InstructionOpCodes.GOTO_W, 5, cp);
     }
 
     @Override
     public void initFromFile(ByteSequence bytes, boolean wide) throws IOException {
-        super.setIndex(bytes.readInt());
-        super.setLength(5);
+        setIndex(bytes.readInt());
     }
 }

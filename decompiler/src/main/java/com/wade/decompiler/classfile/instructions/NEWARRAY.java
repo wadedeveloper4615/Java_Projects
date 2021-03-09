@@ -45,10 +45,6 @@ public class NEWARRAY extends Instruction {
         return new ArrayType(BasicType.getType(type), 1);
     }
 
-    public TypeEnum getTypecode() {
-        return type;
-    }
-
     @Override
     public void initFromFile(ByteSequence bytes, boolean wide) throws IOException {
         type = TypeEnum.read(bytes.readByte());

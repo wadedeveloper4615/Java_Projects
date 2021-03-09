@@ -4,11 +4,6 @@ import java.io.IOException;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.instructions.base.Instruction;
-import com.wade.decompiler.classfile.instructions.type.ArrayType;
-import com.wade.decompiler.classfile.instructions.type.ObjectType;
-import com.wade.decompiler.classfile.instructions.type.Type;
-import com.wade.decompiler.constants.ExceptionConst;
-import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.util.ByteSequence;
 
@@ -27,26 +22,6 @@ public class CHECKCAST extends Instruction {
     public CHECKCAST(int index, ConstantPool cp) {
         super(InstructionOpCodes.CHECKCAST, 3, cp);
         this.index = index;
-    }
-
-    public Class<?>[] getExceptions() {
-        return ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_CLASS_AND_INTERFACE_RESOLUTION, ExceptionConst.CLASS_CAST_EXCEPTION);
-    }
-
-    public ObjectType getLoadClassType() {
-        Type t = getType();
-        if (t instanceof ArrayType) {
-            t = ((ArrayType) t).getBasicType();
-        }
-        return (t instanceof ObjectType) ? (ObjectType) t : null;
-    }
-
-    public Type getType() {
-        String name = constantPool.getConstantString(index, ClassFileConstants.CONSTANT_Class);
-        if (!name.startsWith("[")) {
-            name = "L" + name + ";";
-        }
-        return Type.getType(name);
     }
 
     @Override

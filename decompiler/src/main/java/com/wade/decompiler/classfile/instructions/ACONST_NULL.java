@@ -15,11 +15,10 @@ import lombok.ToString;
 @ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
 public class ACONST_NULL extends Instruction {
+    private Type type;
+
     public ACONST_NULL(ConstantPool cp) {
         super(InstructionOpCodes.ACONST_NULL, 1, cp);
-    }
-
-    public Type getType() {
-        return Type.NULL;
+        type = Type.NULL;
     }
 }

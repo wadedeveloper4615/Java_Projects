@@ -5,11 +5,6 @@ import java.io.IOException;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.exceptions.ClassGenException;
 import com.wade.decompiler.classfile.instructions.base.Instruction;
-import com.wade.decompiler.classfile.instructions.type.ArrayType;
-import com.wade.decompiler.classfile.instructions.type.ObjectType;
-import com.wade.decompiler.classfile.instructions.type.Type;
-import com.wade.decompiler.constants.ExceptionConst;
-import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.util.ByteSequence;
 
@@ -37,30 +32,6 @@ public class MULTIANEWARRAY extends Instruction {
     @Override
     public int consumeStack() {
         return dimensions;
-    }
-
-    public short getDimensions() {
-        return dimensions;
-    }
-
-    public Class<?>[] getExceptions() {
-        return ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_CLASS_AND_INTERFACE_RESOLUTION, ExceptionConst.ILLEGAL_ACCESS_ERROR, ExceptionConst.NEGATIVE_ARRAY_SIZE_EXCEPTION);
-    }
-
-    public ObjectType getLoadClassType() {
-        Type t = getType();
-        if (t instanceof ArrayType) {
-            t = ((ArrayType) t).getBasicType();
-        }
-        return (t instanceof ObjectType) ? (ObjectType) t : null;
-    }
-
-    public Type getType() {
-        String name = constantPool.getConstantString(index, ClassFileConstants.CONSTANT_Class);
-        if (!name.startsWith("[")) {
-            name = "L" + name + ";";
-        }
-        return Type.getType(name);
     }
 
     @Override

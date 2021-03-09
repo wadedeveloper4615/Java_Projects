@@ -11,6 +11,7 @@ import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.constant.ConstantUtf8;
 import com.wade.decompiler.classfile.instructions.GETFIELD;
 import com.wade.decompiler.classfile.instructions.GETSTATIC;
+import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.constants.ExceptionConst;
 import com.wade.decompiler.enums.ClassFileConstants;
 
@@ -31,17 +32,23 @@ public class GetFieldGen extends InstructionGen {
     private String signature;
     private Object constantValue;
     private String constantString;
+    private Class<?>[] exceptions;
+    private Type type;
 
     public GetFieldGen(GETFIELD instr) {
         constantPool = instr.getConstantPool();
         ConstantConstantPool c = (ConstantConstantPool) constantPool.getConstant(instr.getIndex());
         extractConstantPoolInfo(c);
+        exceptions = ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_FIELD_AND_METHOD_RESOLUTION, ExceptionConst.NULL_POINTER_EXCEPTION, ExceptionConst.INCOMPATIBLE_CLASS_CHANGE_ERROR);
+        type = instr.getType();
     }
 
     public GetFieldGen(GETSTATIC instr) {
         constantPool = instr.getConstantPool();
         ConstantConstantPool c = (ConstantConstantPool) constantPool.getConstant(instr.getIndex());
         extractConstantPoolInfo(c);
+        exceptions = ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_FIELD_AND_METHOD_RESOLUTION, ExceptionConst.NULL_POINTER_EXCEPTION, ExceptionConst.INCOMPATIBLE_CLASS_CHANGE_ERROR);
+        type = instr.getType();
     }
 
     private void extractConstantPoolInfo(Constant c) {
@@ -77,9 +84,5 @@ public class GetFieldGen extends InstructionGen {
         } else {
             System.out.println(c.getClass().getName());
         }
-    }
-
-    public Class<?>[] getExceptions() {
-        return ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_FIELD_AND_METHOD_RESOLUTION, ExceptionConst.NULL_POINTER_EXCEPTION, ExceptionConst.INCOMPATIBLE_CLASS_CHANGE_ERROR);
     }
 }

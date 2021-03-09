@@ -4,14 +4,21 @@ import com.wade.decompiler.classfile.instructions.ARRAYLENGTH;
 import com.wade.decompiler.constants.ExceptionConst;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString(callSuper = true, includeFieldNames = true)
+@EqualsAndHashCode(callSuper = false)
 public class ArrayLengthGen extends InstructionGen {
     private InstructionOpCodes opcode;
+    private Class<?>[] exceptions;
 
     public ArrayLengthGen(ARRAYLENGTH instr) {
         opcode = instr.getOpcode();
-    }
-
-    public Class<?>[] getExceptions() {
-        return new Class[] { ExceptionConst.NULL_POINTER_EXCEPTION };
+        exceptions = new Class[] { ExceptionConst.NULL_POINTER_EXCEPTION };
     }
 }

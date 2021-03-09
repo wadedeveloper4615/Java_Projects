@@ -1,6 +1,7 @@
 package com.wade.decompiler.generate.instructions;
 
 import com.wade.decompiler.classfile.instructions.AASTORE;
+import com.wade.decompiler.classfile.instructions.BASTORE;
 import com.wade.decompiler.classfile.instructions.CASTORE;
 import com.wade.decompiler.classfile.instructions.DASTORE;
 import com.wade.decompiler.classfile.instructions.FASTORE;
@@ -8,6 +9,7 @@ import com.wade.decompiler.classfile.instructions.IASTORE;
 import com.wade.decompiler.classfile.instructions.LASTORE;
 import com.wade.decompiler.classfile.instructions.SASTORE;
 import com.wade.decompiler.classfile.instructions.type.Type;
+import com.wade.decompiler.constants.ExceptionConst;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
 import lombok.EqualsAndHashCode;
@@ -22,39 +24,53 @@ import lombok.ToString;
 public class ArrayStoreGen extends InstructionGen {
     private InstructionOpCodes opcode;
     private Type type;
+    private Class<?>[] exceptions;
 
     public ArrayStoreGen(AASTORE instr) {
         opcode = instr.getOpcode();
         type = Type.OBJECT;
+        exceptions = ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_ARRAY_EXCEPTION);
+    }
+
+    public ArrayStoreGen(BASTORE instr) {
+        opcode = instr.getOpcode();
+        type = Type.OBJECT;
+        exceptions = ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_ARRAY_EXCEPTION);
     }
 
     public ArrayStoreGen(CASTORE instr) {
         opcode = instr.getOpcode();
         type = Type.CHAR;
+        exceptions = ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_ARRAY_EXCEPTION);
     }
 
     public ArrayStoreGen(DASTORE instr) {
         opcode = instr.getOpcode();
         type = Type.DOUBLE;
+        exceptions = ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_ARRAY_EXCEPTION);
     }
 
     public ArrayStoreGen(FASTORE instr) {
         opcode = instr.getOpcode();
         type = Type.FLOAT;
+        exceptions = ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_ARRAY_EXCEPTION);
     }
 
     public ArrayStoreGen(IASTORE instr) {
         opcode = instr.getOpcode();
         type = Type.INT;
+        exceptions = ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_ARRAY_EXCEPTION);
     }
 
     public ArrayStoreGen(LASTORE instr) {
         opcode = instr.getOpcode();
         type = Type.LONG;
+        exceptions = ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_ARRAY_EXCEPTION);
     }
 
     public ArrayStoreGen(SASTORE instr) {
         opcode = instr.getOpcode();
         type = Type.SHORT;
+        exceptions = ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_ARRAY_EXCEPTION);
     }
 }

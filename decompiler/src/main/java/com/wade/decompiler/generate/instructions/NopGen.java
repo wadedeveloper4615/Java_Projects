@@ -1,7 +1,6 @@
 package com.wade.decompiler.generate.instructions;
 
-import com.wade.decompiler.classfile.instructions.DUP;
-import com.wade.decompiler.classfile.instructions.type.Type;
+import com.wade.decompiler.classfile.instructions.NOP;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
 import lombok.EqualsAndHashCode;
@@ -13,12 +12,10 @@ import lombok.ToString;
 @Getter
 @ToString(callSuper = false, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
-public class Duplicate extends InstructionGen {
+public class NopGen extends InstructionGen {
     private InstructionOpCodes opcode;
-    private Type type;
 
-    public Duplicate(DUP instr) {
+    public NopGen(NOP instr) {
         opcode = instr.getOpcode();
-        type = instr.getType();
     }
 }

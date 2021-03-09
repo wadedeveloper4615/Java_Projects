@@ -16,9 +16,11 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = false)
 public class DCMPL extends Instruction {
     private Type type;
+    private Instruction negate;
 
     public DCMPL(ConstantPool cp) {
         super(InstructionOpCodes.DCMPL, 1, cp);
         type = Type.DOUBLE;
+        negate = new DCMPG(cp);
     }
 }

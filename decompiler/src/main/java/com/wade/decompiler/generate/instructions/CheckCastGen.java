@@ -19,31 +19,31 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = false)
 public class CheckCastGen extends InstructionGen {
     private int index;
+    private Type type;
+    private Class<?>[] exceptions;
     @ToString.Exclude
     private ConstantPool constantPool;
 
     public CheckCastGen(CHECKCAST instr) {
         this.index = instr.getIndex();
         this.constantPool = instr.getConstantPool();
+        this.type = getLoadClassType();
+        exceptions = ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_CLASS_AND_INTERFACE_RESOLUTION, ExceptionConst.CLASS_CAST_EXCEPTION);
     }
 
-    public Class<?>[] getExceptions() {
-        return ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_CLASS_AND_INTERFACE_RESOLUTION, ExceptionConst.CLASS_CAST_EXCEPTION);
-    }
-
-    public ObjectType getLoadClassType() {
-        Type t = getType();
-        if (t instanceof ArrayType) {
-            t = ((ArrayType) t).getBasicType();
-        }
-        return (t instanceof ObjectType) ? (ObjectType) t : null;
-    }
-
-    public Type getType() {
+    public Type getBaseType() {
         String name = constantPool.getConstantString(index, ClassFileConstants.CONSTANT_Class);
         if (!name.startsWith("[")) {
             name = "L" + name + ";";
         }
         return Type.getType(name);
+    }
+
+    public ObjectType getLoadClassType() {
+        Type t = getBaseType();
+        if (t instanceof ArrayType) {
+            t = ((ArrayType) t).getBasicType();
+        }
+        return (t instanceof ObjectType) ? (ObjectType) t : null;
     }
 }

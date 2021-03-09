@@ -2,7 +2,10 @@ package com.wade.decompiler.generate.instructions;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.instructions.ANEWARRAY;
+import com.wade.decompiler.classfile.instructions.MULTIANEWARRAY;
 import com.wade.decompiler.classfile.instructions.NEW;
+import com.wade.decompiler.classfile.instructions.NEWARRAY;
+import com.wade.decompiler.classfile.instructions.type.ArrayType;
 import com.wade.decompiler.classfile.instructions.type.ObjectType;
 import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.constants.ExceptionConst;
@@ -17,30 +20,51 @@ import lombok.ToString;
 @Getter
 @ToString(callSuper = false, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
+@SuppressWarnings("unused")
 public class NewGen extends InstructionGen {
     private int index;
     @ToString.Exclude
     private ConstantPool constantPool;
     private Type type;
+    private Short dimension;
+
+    private Class<?>[] exceptions;
 
     public NewGen(ANEWARRAY instr) {
         this.index = instr.getIndex();
+        this.dimension = null;
         constantPool = instr.getConstantPool();
         type = this.getType();
+        exceptions = ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_CLASS_AND_INTERFACE_RESOLUTION, ExceptionConst.ILLEGAL_ACCESS_ERROR, ExceptionConst.INSTANTIATION_ERROR);
+    }
+
+    public NewGen(MULTIANEWARRAY instr) {
+        this.index = instr.getIndex();
+        this.dimension = instr.getDimensions();
+        constantPool = instr.getConstantPool();
+        type = this.getType();
+        exceptions = ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_CLASS_AND_INTERFACE_RESOLUTION, ExceptionConst.ILLEGAL_ACCESS_ERROR, ExceptionConst.INSTANTIATION_ERROR);
     }
 
     public NewGen(NEW instr) {
         this.index = instr.getIndex();
+        this.dimension = null;
         constantPool = instr.getConstantPool();
         type = this.getType();
+        exceptions = ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_CLASS_AND_INTERFACE_RESOLUTION, ExceptionConst.ILLEGAL_ACCESS_ERROR, ExceptionConst.INSTANTIATION_ERROR);
     }
 
-    public Class<?>[] getExceptions() {
-        return ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_CLASS_AND_INTERFACE_RESOLUTION, ExceptionConst.ILLEGAL_ACCESS_ERROR, ExceptionConst.INSTANTIATION_ERROR);
+    public NewGen(NEWARRAY instr) {
+        type = this.getType();
+        exceptions = new Class[] { ExceptionConst.NEGATIVE_ARRAY_SIZE_EXCEPTION };
     }
 
     public ObjectType getLoadClassType() {
-        return (ObjectType) getType();
+        Type t = getType();
+        if (t instanceof ArrayType) {
+            t = ((ArrayType) t).getBasicType();
+        }
+        return (t instanceof ObjectType) ? (ObjectType) t : null;
     }
 
     public Type getType() {

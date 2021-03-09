@@ -14,11 +14,10 @@ import lombok.ToString;
 @ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
 public class IF_ACMPEQ extends Instruction {
+    private IF_ACMPNE negate;
+
     public IF_ACMPEQ(ConstantPool cp) {
         super(InstructionOpCodes.IF_ACMPEQ, 3, cp);
-    }
-
-    public Instruction negate() {
-        return new IF_ACMPNE(constantPool);
+        negate = new IF_ACMPNE(cp);
     }
 }

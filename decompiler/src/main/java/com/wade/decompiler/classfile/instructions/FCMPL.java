@@ -16,9 +16,11 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = false)
 public class FCMPL extends Instruction {
     private Type type;
+    private Instruction negate;
 
     public FCMPL(ConstantPool cp) {
         super(InstructionOpCodes.FCMPL, 1, cp);
         type = Type.FLOAT;
+        negate = new FCMPG(cp);
     }
 }

@@ -19,7 +19,7 @@ public class ModuleOpensGen {
         int opensToCount = opensToIndex.length;
         this.opensToIndex = new String[opensToCount];
         for (int i = 0; i < opensToCount; i++) {
-            this.opensToIndex[i] = constantPool.getConstantString(opensToIndex[i], ClassFileConstants.CONSTANT_Module);
+            this.opensToIndex[i] = constantPool.constantToString(opensToIndex[i], ClassFileConstants.CONSTANT_Module);
         }
     }
 

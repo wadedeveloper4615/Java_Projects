@@ -25,9 +25,10 @@ public class Decompiler {
             Class<Decompiler> c = Decompiler.class;
             Decompiler decompiler = new Decompiler();
             // String resource = "/com/wade/decompiler/test/MyCustomAnnotation.class";
-            String resource = "/com/wade/decompiler/test/Test1.class";
+            // String resource = "/com/wade/decompiler/test/Test1.class";
             // String resource = "/com/wade/decompiler/test/Test2.class";
             // String resource = "/com/wade/decompiler/test/Test3.class";
+            String resource = "/com/wade/decompiler/test/Test4.class";
             // String resource = "/java/lang/Object.class";
             // JavaClass javaClass = new ClassParser(argv[0]).parse();
             JavaClass javaClass = decompiler.process(c, resource);

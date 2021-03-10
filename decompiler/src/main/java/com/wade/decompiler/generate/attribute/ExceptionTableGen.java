@@ -14,7 +14,7 @@ public class ExceptionTableGen extends AttributeGen {
         int[] exceptionIndexTable = attribute.getExceptionIndexTable();
         this.names = new String[exceptionIndexTable.length];
         for (int i = 0; i < exceptionIndexTable.length; i++) {
-            this.names[i] = constantPool.getConstantString(exceptionIndexTable[i], ClassFileConstants.CONSTANT_Class);
+            this.names[i] = constantPool.constantToString(exceptionIndexTable[i], ClassFileConstants.CONSTANT_Class);
         }
     }
 

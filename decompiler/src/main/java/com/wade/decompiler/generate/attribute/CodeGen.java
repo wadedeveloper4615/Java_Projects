@@ -25,6 +25,7 @@ import lombok.ToString;
 public class CodeGen extends AttributeGen {
     private int maxStack;
     private int maxLocals;
+    private int codeSize;
     private Instruction[] instructions;
     private AttributeGen[] attributes;
     private CodeException[] codeException;
@@ -37,6 +38,7 @@ public class CodeGen extends AttributeGen {
         this.maxStack = attribute.getMaxStack();
         this.maxLocals = attribute.getMaxLocals();
         this.codeException = attribute.getExceptionTable();
+        this.codeSize = attribute.getByteCode().length;
         Attribute[] attributes = attribute.getAttributes();
         this.attributes = new AttributeGen[attributes.length];
         for (int i = 0; i < attributes.length; i++) {

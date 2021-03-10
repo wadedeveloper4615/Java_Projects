@@ -108,7 +108,6 @@ public class AnnotationDefaultTest {
         EqualsVerifier.simple().forClasses(annotation1.getClass(), annotation2.getClass()).verify();
     }
 
-    @SuppressWarnings("unlikely-arg-type")
     @Test
     void testEqualsObject7() throws Exception {
         when(mockInputStream.read()).thenReturn((int) ElementValue.PRIMITIVE_LONG).thenReturn(0).thenReturn(1);

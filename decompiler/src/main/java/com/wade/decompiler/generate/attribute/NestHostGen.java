@@ -9,7 +9,7 @@ public class NestHostGen extends AttributeGen {
 
     public NestHostGen(NestHost attribute, ConstantPool constantPool) {
         super(attribute, constantPool);
-        this.hostClassName = constantPool.getConstantString(attribute.getHostClassIndex(), ClassFileConstants.CONSTANT_Class);
+        this.hostClassName = constantPool.constantToString(attribute.getHostClassIndex(), ClassFileConstants.CONSTANT_Class);
     }
 
     @Override

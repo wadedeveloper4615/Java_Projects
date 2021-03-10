@@ -72,7 +72,7 @@ public class NewGen extends InstructionGen {
     }
 
     public Type getType() {
-        String name = constantPool.getConstantString(index, ClassFileConstants.CONSTANT_Class);
+        String name = constantPool.constantToString(index, ClassFileConstants.CONSTANT_Class);
         if (!name.startsWith("[")) {
             name = "L" + name + ";";
         }

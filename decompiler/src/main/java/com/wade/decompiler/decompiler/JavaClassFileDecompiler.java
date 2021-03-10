@@ -60,6 +60,7 @@ public class JavaClassFileDecompiler {
             System.out.println("\t\t\tlength     = " + codeGen.getLength());
             System.out.println("\t\t\tmax locals = " + codeGen.getMaxLocals());
             System.out.println("\t\t\tmax stack  = " + codeGen.getMaxStack());
+            System.out.println("\t\t\tcode size  = " + codeGen.getCodeSize());
             for (LocalVariableGen lv : localVariables.getLocalVariableTable()) {
                 System.out.println("\t\t\t" + lv.toString());
             }

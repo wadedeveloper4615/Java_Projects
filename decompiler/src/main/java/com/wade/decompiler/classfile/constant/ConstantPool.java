@@ -116,26 +116,26 @@ public class ConstantPool {
         return constantPool;
     }
 
-    public String getConstantString(int index, ClassFileConstants tag) throws ClassFormatException {
-        Constant c = getConstant(index, tag);
-        int i = switch (tag) {
-            case CONSTANT_Class -> ((ConstantClass) c).getNameIndex();
-            case CONSTANT_String -> ((ConstantString) c).getStringIndex();
-            case CONSTANT_Module -> ((ConstantModule) c).getNameIndex();
-            case CONSTANT_Package -> ((ConstantPackage) c).getNameIndex();
-            default -> throw new IllegalArgumentException("getConstantString called with illegal tag " + tag);
-        };
-        c = getConstant(i, ClassFileConstants.CONSTANT_Utf8);
-        return ((ConstantUtf8) c).getBytes();
-    }
-
-    public int getLength() {
-        return constantPool == null ? 0 : constantPool.length;
-    }
-
-    public void setConstant(int index, Constant constant) {
-        constantPool[index] = constant;
-    }
+//    public String getConstantString(int index, ClassFileConstants tag) throws ClassFormatException {
+//        Constant c = getConstant(index, tag);
+//        int i = switch (tag) {
+//            case CONSTANT_Class -> ((ConstantClass) c).getNameIndex();
+//            case CONSTANT_String -> ((ConstantString) c).getStringIndex();
+//            case CONSTANT_Module -> ((ConstantModule) c).getNameIndex();
+//            case CONSTANT_Package -> ((ConstantPackage) c).getNameIndex();
+//            default -> throw new IllegalArgumentException("getConstantString called with illegal tag " + tag);
+//        };
+//        c = getConstant(i, ClassFileConstants.CONSTANT_Utf8);
+//        return ((ConstantUtf8) c).getBytes();
+//    }
+//
+//    public int getLength() {
+//        return constantPool == null ? 0 : constantPool.length;
+//    }
+//
+//    public void setConstant(int index, Constant constant) {
+//        constantPool[index] = constant;
+//    }
 
     @Override
     public String toString() {

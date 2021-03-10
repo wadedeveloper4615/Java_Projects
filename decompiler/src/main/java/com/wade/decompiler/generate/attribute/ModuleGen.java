@@ -23,8 +23,8 @@ public class ModuleGen extends AttributeGen {
 
     public ModuleGen(Module attribute, ConstantPool constantPool) {
         super(attribute, constantPool);
-        this.moduleName = constantPool.getConstantString(attribute.getModuleNameIndex(), ClassFileConstants.CONSTANT_Module);
-        this.moduleVersion = constantPool.getConstantString(attribute.getModuleVersionIndex(), ClassFileConstants.CONSTANT_Utf8);
+        this.moduleName = constantPool.constantToString(attribute.getModuleNameIndex(), ClassFileConstants.CONSTANT_Module);
+        this.moduleVersion = constantPool.constantToString(attribute.getModuleVersionIndex(), ClassFileConstants.CONSTANT_Utf8);
         this.moduleFlags = new ClassAccessFlagsList(attribute.getModuleFlags());
 
         ModuleRequires[] requiresTable = attribute.getRequiresTable();
@@ -52,7 +52,7 @@ public class ModuleGen extends AttributeGen {
         int usesCount = usesIndex.length;
         this.usesIndex = new String[usesCount];
         for (int i = 0; i < usesCount; i++) {
-            this.usesIndex[i] = constantPool.getConstantString(usesIndex[i], ClassFileConstants.CONSTANT_Module);
+            this.usesIndex[i] = constantPool.constantToString(usesIndex[i], ClassFileConstants.CONSTANT_Module);
         }
 
         ModuleProvides[] providesTable = attribute.getProvidesTable();

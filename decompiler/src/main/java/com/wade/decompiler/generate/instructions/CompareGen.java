@@ -36,6 +36,7 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = false)
 public class CompareGen extends InstructionGen {
     private InstructionOpCodes opcode;
+    private int index;
     private Type type;
     private Instruction negate;
 
@@ -44,6 +45,7 @@ public class CompareGen extends InstructionGen {
         opcode = instr.getOpcode();
         type = Type.DOUBLE;
         negate = instr.getNegate();
+        index = -1;
     }
 
     public CompareGen(int offset, DCMPL instr) {
@@ -51,6 +53,7 @@ public class CompareGen extends InstructionGen {
         opcode = instr.getOpcode();
         type = Type.DOUBLE;
         negate = instr.getNegate();
+        index = -1;
     }
 
     public CompareGen(int offset, FCMPG instr) {
@@ -58,6 +61,7 @@ public class CompareGen extends InstructionGen {
         opcode = instr.getOpcode();
         type = Type.DOUBLE;
         negate = instr.getNegate();
+        index = -1;
     }
 
     public CompareGen(int offset, FCMPL instr) {
@@ -65,6 +69,7 @@ public class CompareGen extends InstructionGen {
         opcode = instr.getOpcode();
         type = Type.DOUBLE;
         negate = instr.getNegate();
+        index = -1;
     }
 
     public CompareGen(int offset, IF_ACMPEQ instr) {
@@ -72,6 +77,7 @@ public class CompareGen extends InstructionGen {
         opcode = instr.getOpcode();
         type = Type.DOUBLE;
         negate = instr.getNegate();
+        index = instr.getIndex();
     }
 
     public CompareGen(int offset, IF_ACMPNE instr) {
@@ -79,6 +85,7 @@ public class CompareGen extends InstructionGen {
         opcode = instr.getOpcode();
         type = Type.DOUBLE;
         negate = instr.negate();
+        index = instr.getIndex();
     }
 
     public CompareGen(int offset, IF_ICMPEQ instr) {
@@ -86,6 +93,7 @@ public class CompareGen extends InstructionGen {
         opcode = instr.getOpcode();
         type = Type.DOUBLE;
         negate = instr.negate();
+        index = instr.getIndex();
     }
 
     public CompareGen(int offset, IF_ICMPGE instr) {
@@ -93,6 +101,7 @@ public class CompareGen extends InstructionGen {
         opcode = instr.getOpcode();
         type = Type.DOUBLE;
         negate = instr.negate();
+        index = instr.getIndex();
     }
 
     public CompareGen(int offset, IF_ICMPGT instr) {
@@ -100,6 +109,7 @@ public class CompareGen extends InstructionGen {
         opcode = instr.getOpcode();
         type = Type.DOUBLE;
         negate = instr.negate();
+        index = instr.getIndex();
     }
 
     public CompareGen(int offset, IF_ICMPLE instr) {
@@ -107,6 +117,7 @@ public class CompareGen extends InstructionGen {
         opcode = instr.getOpcode();
         type = Type.DOUBLE;
         negate = instr.negate();
+        index = instr.getIndex();
     }
 
     public CompareGen(int offset, IF_ICMPLT instr) {
@@ -114,6 +125,7 @@ public class CompareGen extends InstructionGen {
         opcode = instr.getOpcode();
         type = Type.DOUBLE;
         negate = instr.negate();
+        index = instr.getIndex();
     }
 
     public CompareGen(int offset, IF_ICMPNE instr) {
@@ -121,6 +133,7 @@ public class CompareGen extends InstructionGen {
         opcode = instr.getOpcode();
         type = Type.DOUBLE;
         negate = instr.negate();
+        index = instr.getIndex();
     }
 
     public CompareGen(int offset, IFEQ instr) {
@@ -128,6 +141,7 @@ public class CompareGen extends InstructionGen {
         opcode = instr.getOpcode();
         type = Type.DOUBLE;
         negate = instr.negate();
+        index = instr.getIndex();
     }
 
     public CompareGen(int offset, IFGE instr) {
@@ -135,6 +149,7 @@ public class CompareGen extends InstructionGen {
         opcode = instr.getOpcode();
         type = Type.DOUBLE;
         negate = instr.negate();
+        index = instr.getIndex();
     }
 
     public CompareGen(int offset, IFGT instr) {
@@ -142,6 +157,7 @@ public class CompareGen extends InstructionGen {
         opcode = instr.getOpcode();
         type = Type.DOUBLE;
         negate = instr.negate();
+        index = instr.getIndex();
     }
 
     public CompareGen(int offset, IFLE instr) {
@@ -149,6 +165,7 @@ public class CompareGen extends InstructionGen {
         opcode = instr.getOpcode();
         type = Type.DOUBLE;
         negate = instr.negate();
+        index = instr.getIndex();
     }
 
     public CompareGen(int offset, IFLT instr) {
@@ -156,6 +173,7 @@ public class CompareGen extends InstructionGen {
         opcode = instr.getOpcode();
         type = Type.DOUBLE;
         negate = instr.negate();
+        index = instr.getIndex();
     }
 
     public CompareGen(int offset, IFNE instr) {
@@ -163,6 +181,7 @@ public class CompareGen extends InstructionGen {
         opcode = instr.getOpcode();
         type = Type.DOUBLE;
         negate = instr.negate();
+        index = instr.getIndex();
     }
 
     public CompareGen(int offset, IFNONNULL instr) {
@@ -170,6 +189,7 @@ public class CompareGen extends InstructionGen {
         opcode = instr.getOpcode();
         type = Type.DOUBLE;
         negate = instr.negate();
+        index = instr.getIndex();
     }
 
     public CompareGen(int offset, IFNULL instr) {
@@ -177,6 +197,7 @@ public class CompareGen extends InstructionGen {
         opcode = instr.getOpcode();
         type = Type.DOUBLE;
         negate = instr.negate();
+        index = instr.getIndex();
     }
 
     public CompareGen(int offset, LCMP instr) {
@@ -184,5 +205,6 @@ public class CompareGen extends InstructionGen {
         opcode = instr.getOpcode();
         type = Type.LONG;
         negate = instr;
+        index = -1;
     }
 }

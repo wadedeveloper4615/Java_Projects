@@ -12,9 +12,9 @@ public class InnerClassGen {
     private ClassAccessFlagsList accessFlags;
 
     public InnerClassGen(InnerClass attribute, ConstantPool constantPool) {
-        this.innerClass = constantPool.getConstantString(attribute.getInnerClassIndex(), ClassFileConstants.CONSTANT_Class);
-        this.outerClass = constantPool.getConstantString(attribute.getOuterClassIndex(), ClassFileConstants.CONSTANT_Class);
-        this.innerName = constantPool.getConstantString(attribute.getInnerNameIndex(), ClassFileConstants.CONSTANT_Class);
+        this.innerClass = constantPool.constantToString(attribute.getInnerClassIndex(), ClassFileConstants.CONSTANT_Class);
+        this.outerClass = constantPool.constantToString(attribute.getOuterClassIndex(), ClassFileConstants.CONSTANT_Class);
+        this.innerName = constantPool.constantToString(attribute.getInnerNameIndex(), ClassFileConstants.CONSTANT_Class);
         this.accessFlags = attribute.getInnerAccessFlags();
     }
 

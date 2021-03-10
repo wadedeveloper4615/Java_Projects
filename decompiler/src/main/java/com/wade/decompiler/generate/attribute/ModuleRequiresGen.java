@@ -13,7 +13,7 @@ public class ModuleRequiresGen {
     public ModuleRequiresGen(ModuleRequires attribute, ConstantPool constantPool) {
         this.moduleName = constantPool.constantToString(attribute.getRequiresIndex(), ClassFileConstants.CONSTANT_Module);
         this.requiresFlags = new ClassAccessFlagsList(attribute.getRequiresFlags());
-        this.requiresVersion = constantPool.getConstantString(attribute.getRequiresVersionIndex(), ClassFileConstants.CONSTANT_Utf8);
+        this.requiresVersion = constantPool.constantToString(attribute.getRequiresVersionIndex(), ClassFileConstants.CONSTANT_Utf8);
     }
 
     @Override

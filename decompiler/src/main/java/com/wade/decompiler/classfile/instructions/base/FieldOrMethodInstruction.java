@@ -34,7 +34,7 @@ public abstract class FieldOrMethodInstruction extends CPInstruction {
 
     public ReferenceType getReferenceType(ConstantPool cp) {
         final ConstantCP cmr = (ConstantCP) cp.getConstant(super.getIndex());
-        String className = cp.getConstantString(cmr.getClassIndex(), ClassFileConstants.CONSTANT_Class);
+        String className = cp.constantToString(cmr.getClassIndex(), ClassFileConstants.CONSTANT_Class);
         if (className.startsWith("[")) {
             return (ArrayType) Type.getType(className);
         }

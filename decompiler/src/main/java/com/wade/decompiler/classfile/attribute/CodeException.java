@@ -38,7 +38,7 @@ public class CodeException {
         if (catchType == 0) {
             str = "<Any exception>(0)";
         } else {
-            str = Utility.compactClassName(cp.getConstantString(catchType, ClassFileConstants.CONSTANT_Class), false) + (verbose ? "(" + catchType + ")" : "");
+            str = Utility.compactClassName(cp.constantToString(catchType, ClassFileConstants.CONSTANT_Class), false) + (verbose ? "(" + catchType + ")" : "");
         }
         return startPc + "\t" + endPc + "\t" + handlerPc + "\t" + str;
     }

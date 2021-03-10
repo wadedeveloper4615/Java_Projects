@@ -9,7 +9,7 @@ public class ModuleMainClassGen extends AttributeGen {
 
     public ModuleMainClassGen(ModuleMainClass attribute, ConstantPool constantPool) {
         super(attribute, constantPool);
-        this.className = constantPool.getConstantString(attribute.getMainClassIndex(), ClassFileConstants.CONSTANT_Class);
+        this.className = constantPool.constantToString(attribute.getMainClassIndex(), ClassFileConstants.CONSTANT_Class);
     }
 
     @Override

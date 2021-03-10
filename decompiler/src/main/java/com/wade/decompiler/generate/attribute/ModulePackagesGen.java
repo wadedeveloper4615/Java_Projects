@@ -14,7 +14,7 @@ public class ModulePackagesGen extends AttributeGen {
         int[] packageIndexTable = attribute.getPackageIndexTable();
         this.packageIndexNames = new String[packageIndexTable.length];
         for (int i = 0; i < packageIndexTable.length; i++) {
-            this.packageIndexNames[i] = constantPool.getConstantString(packageIndexTable[i], ClassFileConstants.CONSTANT_Package);
+            this.packageIndexNames[i] = constantPool.constantToString(packageIndexTable[i], ClassFileConstants.CONSTANT_Package);
         }
     }
 

@@ -16,7 +16,7 @@ public class ModuleProvidesGen {
         int providesWithCount = providesIndex.length;
         this.providesIndex = new String[providesWithCount];
         for (int i = 0; i < providesWithCount; i++) {
-            this.providesIndex[i] = constantPool.getConstantString(providesIndex[i], ClassFileConstants.CONSTANT_Module);
+            this.providesIndex[i] = constantPool.constantToString(providesIndex[i], ClassFileConstants.CONSTANT_Module);
         }
     }
 

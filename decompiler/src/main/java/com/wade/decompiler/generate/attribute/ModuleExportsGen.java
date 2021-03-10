@@ -19,7 +19,7 @@ public class ModuleExportsGen {
         int requires_count = exports.length;
         this.exports = new String[requires_count];
         for (int i = 0; i < requires_count; i++) {
-            this.exports[i] = constantPool.getConstantString(exports[i], ClassFileConstants.CONSTANT_Module);
+            this.exports[i] = constantPool.constantToString(exports[i], ClassFileConstants.CONSTANT_Module);
         }
     }
 

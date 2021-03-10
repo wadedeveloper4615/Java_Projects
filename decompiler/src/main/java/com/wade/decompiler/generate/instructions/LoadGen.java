@@ -58,7 +58,7 @@ public class LoadGen extends InstructionGen {
         opcode = instr.getOpcode();
         int index = instr.getIndex();
         if (index > 0 && index < instr.getLocalVariableTable().getLocalVariableTable().length) {
-            localVariableReference = instr.getLocalVariableTable().getLocalVariableTable()[index - 1];
+            localVariableReference = instr.getLocalVariableTable().getLocalVariableTable()[index];
         }
         type = Type.INTEGER;
     }

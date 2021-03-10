@@ -46,7 +46,7 @@ public class InstanceOfGen extends InstructionGen {
     }
 
     public Type getType() {
-        name = constantPool.getConstantString(index, ClassFileConstants.CONSTANT_Class);
+        name = constantPool.constantToString(index, ClassFileConstants.CONSTANT_Class);
         if (!name.startsWith("[")) {
             name = "L" + name + ";";
         }

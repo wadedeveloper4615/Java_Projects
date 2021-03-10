@@ -29,7 +29,7 @@ public abstract class ArrayInstruction extends Instruction {
         switch (_opcode) {
             case IALOAD:
             case IASTORE:
-                return Type.INT;
+                return Type.INTEGER;
             case CALOAD:
             case CASTORE:
                 return Type.CHAR;

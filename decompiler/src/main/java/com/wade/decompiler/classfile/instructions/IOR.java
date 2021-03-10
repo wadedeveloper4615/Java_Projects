@@ -19,6 +19,6 @@ public class IOR extends Instruction {
 
     public IOR(ConstantPool cp) {
         super(InstructionOpCodes.IOR, 1, cp);
-        type = Type.INT;
+        type = Type.INTEGER;
     }
 }

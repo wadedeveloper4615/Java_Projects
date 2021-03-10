@@ -19,6 +19,6 @@ public class ISHL extends Instruction {
 
     public ISHL(ConstantPool cp) {
         super(InstructionOpCodes.ISHL, 1, cp);
-        type = Type.INT;
+        type = Type.INTEGER;
     }
 }

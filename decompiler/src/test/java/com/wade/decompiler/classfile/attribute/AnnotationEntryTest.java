@@ -1,7 +1,6 @@
 package com.wade.decompiler.classfile.attribute;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
@@ -20,6 +19,8 @@ import com.wade.decompiler.classfile.constant.ConstantFloat;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.element.ElementValue;
 
+import nl.jqno.equalsverifier.EqualsVerifier;
+
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Decompiler JUnit 5 AnnotationEntry test")
 class AnnotationEntryTest {
@@ -32,6 +33,7 @@ class AnnotationEntryTest {
         AnnotationEntry ae = new AnnotationEntry(1, new ConstantPool(), false);
         assertNotNull(ae.getElementValuePairs());
         ae.addElementNameValuePair(null);
+        EqualsVerifier.simple().forClass(ae.getClass()).verify();
     }
 
     @Test
@@ -39,25 +41,27 @@ class AnnotationEntryTest {
         AnnotationEntry ae = new AnnotationEntry(1, new ConstantPool(), false);
         assertNotNull(ae.getElementValuePairs());
         assertEquals(0, ae.getElementValuePairs().size());
+        EqualsVerifier.simple().forClass(ae.getClass()).verify();
     }
 
     @Test
     void testEqualsObject1() {
         AnnotationEntry ae1 = new AnnotationEntry(1, new ConstantPool(), false);
         AnnotationEntry ae2 = new AnnotationEntry(1, new ConstantPool(), false);
-        assertTrue(ae1.equals(ae2));
+        EqualsVerifier.simple().forClasses(ae1.getClass(), ae2.getClass()).verify();
     }
 
     @Test
     void testEqualsObject2() {
         AnnotationEntry ae1 = new AnnotationEntry(1, new ConstantPool(), false);
         assertTrue(ae1.equals(ae1));
+        EqualsVerifier.simple().forClass(ae1.getClass()).verify();
     }
 
     @Test
     void testEqualsObject3() {
         AnnotationEntry ae1 = new AnnotationEntry(1, new ConstantPool(), false);
-        assertFalse(ae1.equals(null));
+        EqualsVerifier.simple().forClass(ae1.getClass()).verify();
     }
 
     @Test
@@ -65,7 +69,7 @@ class AnnotationEntryTest {
         AnnotationEntry ae1 = new AnnotationEntry(1, new ConstantPool(), false);
         AnnotationEntry ae2 = new AnnotationEntry(1, new ConstantPool(), false);
         ae1.setConstantPool(null);
-        assertFalse(ae1.equals(ae2));
+        EqualsVerifier.simple().forClasses(ae1.getClass(), ae2.getClass()).verify();
     }
 
     @Test
@@ -73,7 +77,7 @@ class AnnotationEntryTest {
         AnnotationEntry ae1 = new AnnotationEntry(1, new ConstantPool(), false);
         AnnotationEntry ae2 = new AnnotationEntry(1, new ConstantPool(), false);
         ae2.setConstantPool(null);
-        assertFalse(ae1.equals(ae2));
+        EqualsVerifier.simple().forClasses(ae1.getClass(), ae2.getClass()).verify();
     }
 
     @Test
@@ -82,49 +86,56 @@ class AnnotationEntryTest {
         AnnotationEntry ae2 = new AnnotationEntry(1, new ConstantPool(), false);
         ae1.setConstantPool(null);
         ae2.setConstantPool(null);
-        assertTrue(ae1.equals(ae2));
+        EqualsVerifier.simple().forClasses(ae1.getClass(), ae2.getClass()).verify();
     }
 
     @Test
     void testGetAnnotationTypeIndex() {
         AnnotationEntry ae1 = new AnnotationEntry(1, new ConstantPool(), false);
         assertNotNull(ae1.getTypeIndex());
+        EqualsVerifier.simple().forClass(ae1.getClass()).verify();
     }
 
     @Test
     void testGetConstantPool() {
         AnnotationEntry ae1 = new AnnotationEntry(1, new ConstantPool(), false);
         assertNotNull(ae1.getConstantPool());
+        EqualsVerifier.simple().forClass(ae1.getClass()).verify();
     }
 
     @Test
     void testGetElementValuePairs() {
         AnnotationEntry ae1 = new AnnotationEntry(1, new ConstantPool(), false);
         assertNotNull(ae1.getElementValuePairs());
+        EqualsVerifier.simple().forClass(ae1.getClass()).verify();
     }
 
     @Test
     void testGetNumElementValuePairs() {
         AnnotationEntry ae1 = new AnnotationEntry(1, new ConstantPool(), false);
         assertNotNull(ae1.getElementValuePairs());
+        EqualsVerifier.simple().forClass(ae1.getClass()).verify();
     }
 
     @Test
     void testGetTypeIndex() {
         AnnotationEntry ae1 = new AnnotationEntry(1, new ConstantPool(), false);
         assertNotNull(ae1.getTypeIndex());
+        EqualsVerifier.simple().forClass(ae1.getClass()).verify();
     }
 
     @Test
     void testHashCode() {
         AnnotationEntry ae1 = new AnnotationEntry(1, new ConstantPool(), false);
         assertNotNull(ae1.hashCode());
+        EqualsVerifier.simple().forClass(ae1.getClass()).verify();
     }
 
     @Test
     void testIsRuntimeVisible() {
         AnnotationEntry ae1 = new AnnotationEntry(1, new ConstantPool(), false);
         assertNotNull(ae1.isRuntimeVisible());
+        EqualsVerifier.simple().forClass(ae1.getClass()).verify();
     }
 
     @Test

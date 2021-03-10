@@ -20,7 +20,7 @@ public class ISHR extends Instruction {
 
     public ISHR(ConstantPool cp) {
         super(InstructionOpCodes.ISHR, 1, cp);
-        type = Type.INT;
+        type = Type.INTEGER;
     }
 
     public Class<?>[] getExceptions() {

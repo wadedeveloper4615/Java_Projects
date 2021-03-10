@@ -19,6 +19,6 @@ public class F2I extends Instruction {
 
     public F2I(ConstantPool cp) {
         super(InstructionOpCodes.F2I, 1, cp);
-        type = Type.INT;
+        type = Type.INTEGER;
     }
 }

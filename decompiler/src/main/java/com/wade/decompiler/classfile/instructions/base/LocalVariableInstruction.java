@@ -94,7 +94,7 @@ public abstract class LocalVariableInstruction extends Instruction {
         switch (opcode) {
             case ILOAD:
             case ISTORE:
-                return Type.INT;
+                return Type.INTEGER;
             case LLOAD:
             case LSTORE:
                 return Type.LONG;

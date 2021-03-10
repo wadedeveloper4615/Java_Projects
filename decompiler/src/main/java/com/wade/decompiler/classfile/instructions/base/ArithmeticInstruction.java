@@ -48,7 +48,7 @@ public abstract class ArithmeticInstruction extends Instruction {
             case ISUB:
             case IUSHR:
             case IXOR:
-                return Type.INT;
+                return Type.INTEGER;
             case LADD:
             case LAND:
             case LDIV:

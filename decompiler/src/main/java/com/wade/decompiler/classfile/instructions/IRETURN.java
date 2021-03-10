@@ -20,7 +20,7 @@ public class IRETURN extends Instruction {
 
     public IRETURN(ConstantPool cp) {
         super(InstructionOpCodes.IRETURN, 1, cp);
-        type = Type.INT;
+        type = Type.INTEGER;
     }
 
     public Class<?>[] getExceptions() {

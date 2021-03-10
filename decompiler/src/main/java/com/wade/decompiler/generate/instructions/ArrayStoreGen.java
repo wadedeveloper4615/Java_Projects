@@ -64,7 +64,7 @@ public class ArrayStoreGen extends InstructionGen {
     public ArrayStoreGen(int offset, IASTORE instr) {
         super(offset, instr.getLength());
         opcode = instr.getOpcode();
-        type = Type.INT;
+        type = Type.INTEGER;
         exceptions = ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_ARRAY_EXCEPTION);
     }
 

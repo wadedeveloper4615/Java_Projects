@@ -119,7 +119,7 @@ public class ClassParser {
         constantPool = new ConstantPool(inputStream);
     }
 
-    private void readFields(DataInput inputStream) throws IOException, ClassFormatException {
+    protected void readFields(DataInput inputStream) throws IOException, ClassFormatException {
         int fields_count = inputStream.readUnsignedShort();
         fields = new Field[fields_count];
         for (int i = 0; i < fields_count; i++) {
@@ -133,7 +133,7 @@ public class ClassParser {
         }
     }
 
-    private void readInterfaces(DataInput inputStream) throws IOException, ClassFormatException {
+    protected void readInterfaces(DataInput inputStream) throws IOException, ClassFormatException {
         int interfaces_count = inputStream.readUnsignedShort();
         interfaces = new int[interfaces_count];
         for (int i = 0; i < interfaces_count; i++) {
@@ -141,7 +141,7 @@ public class ClassParser {
         }
     }
 
-    private void readMethods(DataInput inputStream) throws IOException, ClassFormatException {
+    protected void readMethods(DataInput inputStream) throws IOException, ClassFormatException {
         int methods_count = inputStream.readUnsignedShort();
         methods = new Method[methods_count];
         for (int i = 0; i < methods_count; i++) {

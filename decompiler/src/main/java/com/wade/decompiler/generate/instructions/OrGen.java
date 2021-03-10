@@ -18,7 +18,7 @@ public class OrGen extends InstructionGen {
 
     public OrGen(int offset, IOR instr) {
         super(offset, instr.getLength());
-        type = Type.INT;
+        type = Type.INTEGER;
     }
 
     public OrGen(int offset, LOR instr) {

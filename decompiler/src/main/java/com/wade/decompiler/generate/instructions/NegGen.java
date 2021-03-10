@@ -30,7 +30,7 @@ public class NegGen extends InstructionGen {
 
     public NegGen(int offset, INEG instr) {
         super(offset, instr.getLength());
-        type = Type.INT;
+        type = Type.INTEGER;
     }
 
     public NegGen(int offset, LNEG instr) {

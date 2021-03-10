@@ -26,7 +26,7 @@ public class IINC extends Instruction {
 
     public IINC(ConstantPool cp) {
         super(InstructionOpCodes.IINC, 3, cp);
-        type = Type.INT;
+        type = Type.INTEGER;
     }
 
     @Override

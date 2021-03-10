@@ -18,6 +18,10 @@ import lombok.ToString;
 public class Unknown extends Attribute {
     private byte[] bytes;
 
+    public Unknown() {
+        super();
+    }
+
     public Unknown(int nameIndex, int length, byte[] bytes, ConstantPool constantPool) {
         super(ClassFileAttributes.ATTR_UNKNOWN, nameIndex, length, constantPool);
         this.bytes = bytes;

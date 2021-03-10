@@ -54,7 +54,7 @@ public class StoreGen extends InstructionGen {
         if (index > 0 && index < instr.getLocalVariableTable().getLocalVariableTable().length) {
             localVariableReference = instr.getLocalVariableTable().getLocalVariableTable()[index - 1];
         }
-        type = Type.INT;
+        type = Type.INTEGER;
     }
 
     public StoreGen(int offset, LSTORE instr) {

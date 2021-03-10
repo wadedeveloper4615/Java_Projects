@@ -19,6 +19,6 @@ public class IADD extends Instruction {
 
     public IADD(ConstantPool cp) {
         super(InstructionOpCodes.IADD, 1, cp);
-        type = Type.INT;
+        type = Type.INTEGER;
     }
 }

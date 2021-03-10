@@ -19,6 +19,6 @@ public class IMUL extends Instruction {
 
     public IMUL(ConstantPool cp) {
         super(InstructionOpCodes.IMUL, 1, cp);
-        type = Type.INT;
+        type = Type.INTEGER;
     }
 }

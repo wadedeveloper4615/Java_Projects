@@ -30,7 +30,7 @@ public class DivGen extends InstructionGen {
 
     public DivGen(int offset, IDIV instr) {
         super(offset, instr.getLength());
-        type = Type.INT;
+        type = Type.INTEGER;
     }
 
     public DivGen(int offset, LDIV instr) {

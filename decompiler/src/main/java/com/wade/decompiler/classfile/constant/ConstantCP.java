@@ -27,8 +27,4 @@ public abstract class ConstantCP extends Constant {
         this.classIndex = classIndex;
         this.nameAndTypeIndex = nameAndTypeIndex;
     }
-
-    public String getClass(ConstantPool cp) {
-        return cp.constantToString(classIndex, ClassFileConstants.CONSTANT_Class);
-    }
 }

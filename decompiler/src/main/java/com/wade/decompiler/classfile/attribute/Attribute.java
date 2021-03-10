@@ -24,6 +24,10 @@ public abstract class Attribute {
     protected ClassFileAttributes tag;
     protected ConstantPool constantPool;
 
+    public Attribute() {
+        super();
+    }
+
     protected Attribute(ClassFileAttributes tag, int nameIndex, int length, ConstantPool constantPool) {
         this.tag = tag;
         this.nameIndex = nameIndex;

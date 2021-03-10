@@ -17,6 +17,6 @@ public class IncGen extends InstructionGen {
 
     public IncGen(int offset, IINC instr) {
         super(offset, instr.getLength());
-        type = Type.INT;
+        type = Type.INTEGER;
     }
 }

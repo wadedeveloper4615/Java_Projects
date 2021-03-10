@@ -21,7 +21,7 @@ public class AndGen extends InstructionGen {
     public AndGen(int offset, IAND instr) {
         super(offset, instr.getLength());
         opcode = instr.getOpcode();
-        type = Type.INT;
+        type = Type.INTEGER;
     }
 
     public AndGen(int offset, LAND instr) {

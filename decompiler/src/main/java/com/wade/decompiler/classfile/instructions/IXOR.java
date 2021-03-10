@@ -19,6 +19,6 @@ public class IXOR extends Instruction {
 
     public IXOR(ConstantPool cp) {
         super(InstructionOpCodes.IXOR, 1, cp);
-        type = Type.INT;
+        type = Type.INTEGER;
     }
 }

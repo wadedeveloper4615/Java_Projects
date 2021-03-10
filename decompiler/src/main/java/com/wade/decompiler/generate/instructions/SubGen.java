@@ -30,7 +30,7 @@ public class SubGen extends InstructionGen {
 
     public SubGen(int offset, ISUB instr) {
         super(offset, instr.getLength());
-        type = Type.INT;
+        type = Type.INTEGER;
     }
 
     public SubGen(int offset, LSUB instr) {

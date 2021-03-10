@@ -74,7 +74,7 @@ public class ReturnGen extends InstructionGen {
 
     public Type getType() {
         return switch (opcode) {
-            case IRETURN -> Type.INT;
+            case IRETURN -> Type.INTEGER;
             case LRETURN -> Type.LONG;
             case FRETURN -> Type.FLOAT;
             case DRETURN -> Type.DOUBLE;

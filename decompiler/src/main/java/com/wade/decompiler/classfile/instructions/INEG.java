@@ -19,6 +19,6 @@ public class INEG extends Instruction {
 
     public INEG(ConstantPool cp) {
         super(InstructionOpCodes.INEG, 1, cp);
-        type = Type.INT;
+        type = Type.INTEGER;
     }
 }

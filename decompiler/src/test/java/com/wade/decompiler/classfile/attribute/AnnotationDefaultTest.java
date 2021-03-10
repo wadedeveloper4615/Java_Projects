@@ -1,9 +1,7 @@
 package com.wade.decompiler.classfile.attribute;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 import java.io.DataInputStream;
@@ -18,6 +16,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.element.ElementValue;
 
+import nl.jqno.equalsverifier.EqualsVerifier;
+
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Decompiler JUnit 5 AnnotationDefault test")
 public class AnnotationDefaultTest {
@@ -31,6 +31,7 @@ public class AnnotationDefaultTest {
         dataInput = new DataInputStream(mockInputStream);
         AnnotationDefault annotation = new AnnotationDefault(1, 1, dataInput, new ConstantPool());
         assertNotNull(annotation.getDefaultValue());
+        EqualsVerifier.simple().forClass(annotation.getClass()).verify();
     }
 
     @Test
@@ -43,7 +44,7 @@ public class AnnotationDefaultTest {
         AnnotationDefault annotation2 = new AnnotationDefault(1, 1, dataInput, new ConstantPool());
         assertNotNull(annotation1.getDefaultValue());
         assertNotNull(annotation2.getDefaultValue());
-        assertTrue(annotation1.equals(annotation2));
+        EqualsVerifier.simple().forClasses(annotation1.getClass(), annotation2.getClass()).verify();
     }
 
     @Test
@@ -52,7 +53,7 @@ public class AnnotationDefaultTest {
         dataInput = new DataInputStream(mockInputStream);
         AnnotationDefault annotation1 = new AnnotationDefault(1, 1, dataInput, new ConstantPool());
         assertNotNull(annotation1.getDefaultValue());
-        assertTrue(annotation1.equals(annotation1));
+        EqualsVerifier.simple().forClass(annotation1.getClass()).verify();
     }
 
     @Test
@@ -61,7 +62,7 @@ public class AnnotationDefaultTest {
         dataInput = new DataInputStream(mockInputStream);
         AnnotationDefault annotation1 = new AnnotationDefault(1, 1, dataInput, new ConstantPool());
         assertNotNull(annotation1.getDefaultValue());
-        assertFalse(annotation1.equals(null));
+        EqualsVerifier.simple().forClass(annotation1.getClass()).verify();
     }
 
     @Test
@@ -75,7 +76,7 @@ public class AnnotationDefaultTest {
         assertNotNull(annotation1.getDefaultValue());
         assertNotNull(annotation2.getDefaultValue());
         annotation2.setDefaultValue(null);
-        assertFalse(annotation1.equals(annotation2));
+        EqualsVerifier.simple().forClasses(annotation1.getClass(), annotation2.getClass()).verify();
     }
 
     @Test
@@ -89,7 +90,7 @@ public class AnnotationDefaultTest {
         assertNotNull(annotation1.getDefaultValue());
         assertNotNull(annotation2.getDefaultValue());
         annotation1.setDefaultValue(null);
-        assertFalse(annotation1.equals(annotation2));
+        EqualsVerifier.simple().forClasses(annotation1.getClass(), annotation2.getClass()).verify();
     }
 
     @Test
@@ -104,7 +105,7 @@ public class AnnotationDefaultTest {
         assertNotNull(annotation2.getDefaultValue());
         annotation1.setDefaultValue(null);
         annotation2.setDefaultValue(null);
-        assertTrue(annotation1.equals(annotation2));
+        EqualsVerifier.simple().forClasses(annotation1.getClass(), annotation2.getClass()).verify();
     }
 
     @SuppressWarnings("unlikely-arg-type")
@@ -118,17 +119,16 @@ public class AnnotationDefaultTest {
         AnnotationDefault annotation2 = new AnnotationDefault(1, 1, dataInput, new ConstantPool());
         assertNotNull(annotation1.getDefaultValue());
         assertNotNull(annotation2.getDefaultValue());
-        assertFalse(annotation1.equals(""));
+        EqualsVerifier.simple().forClasses(annotation1.getClass(), annotation2.getClass()).verify();
     }
 
-    @SuppressWarnings("unlikely-arg-type")
     @Test
     void testEqualsObject8() throws Exception {
         when(mockInputStream.read()).thenReturn((int) ElementValue.PRIMITIVE_LONG).thenReturn(0).thenReturn(1);
         dataInput = new DataInputStream(mockInputStream);
         AnnotationDefault annotation1 = new AnnotationDefault(1, 1, dataInput, new ConstantPool());
         assertNotNull(annotation1.getDefaultValue());
-        assertFalse(annotation1.equals(""));
+        EqualsVerifier.simple().forClass(annotation1.getClass()).verify();
     }
 
     @Test
@@ -136,7 +136,7 @@ public class AnnotationDefaultTest {
         when(mockInputStream.read()).thenReturn((int) ElementValue.PRIMITIVE_LONG).thenReturn(0).thenReturn(1);
         dataInput = new DataInputStream(mockInputStream);
         AnnotationDefault annotation1 = new AnnotationDefault(1, 1, dataInput, new ConstantPool());
-        assertNotNull(annotation1.getDefaultValue());
+        EqualsVerifier.simple().forClass(annotation1.getClass()).verify();
     }
 
     @Test
@@ -146,6 +146,7 @@ public class AnnotationDefaultTest {
         AnnotationDefault annotation1 = new AnnotationDefault(1, 1, dataInput, new ConstantPool());
         assertNotNull(annotation1.getDefaultValue());
         assertNotNull(annotation1.hashCode());
+        EqualsVerifier.simple().forClass(annotation1.getClass()).verify();
     }
 
     @Test
@@ -157,6 +158,7 @@ public class AnnotationDefaultTest {
         annotation1.setDefaultValue(null);
         assertNull(annotation1.getDefaultValue());
         assertNotNull(annotation1.hashCode());
+        EqualsVerifier.simple().forClass(annotation1.getClass()).verify();
     }
 
 }

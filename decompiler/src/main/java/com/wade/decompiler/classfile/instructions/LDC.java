@@ -39,7 +39,7 @@ public class LDC extends Instruction {
             case CONSTANT_Float:
                 return Type.FLOAT;
             case CONSTANT_Integer:
-                return Type.INT;
+                return Type.INTEGER;
             case CONSTANT_Class:
                 return Type.CLASS;
             default: // Never reached

@@ -19,6 +19,6 @@ public class LASTORE extends Instruction {
 
     public LASTORE(ConstantPool cp) {
         super(InstructionOpCodes.LASTORE, 1, cp);
-        type = Type.INT;
+        type = Type.INTEGER;
     }
 }

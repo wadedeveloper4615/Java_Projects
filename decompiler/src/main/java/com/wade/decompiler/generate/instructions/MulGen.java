@@ -30,7 +30,7 @@ public class MulGen extends InstructionGen {
 
     public MulGen(int offset, IMUL instr) {
         super(offset, instr.getLength());
-        type = Type.INT;
+        type = Type.INTEGER;
     }
 
     public MulGen(int offset, LMUL instr) {

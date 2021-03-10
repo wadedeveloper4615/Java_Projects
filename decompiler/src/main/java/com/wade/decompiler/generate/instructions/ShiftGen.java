@@ -26,19 +26,19 @@ public class ShiftGen extends InstructionGen {
     public ShiftGen(int offset, ISHL instr) {
         super(offset, instr.getLength());
         opcode = instr.getOpcode();
-        type = Type.INT;
+        type = Type.INTEGER;
     }
 
     public ShiftGen(int offset, ISHR instr) {
         super(offset, instr.getLength());
         opcode = instr.getOpcode();
-        type = Type.INT;
+        type = Type.INTEGER;
     }
 
     public ShiftGen(int offset, IUSHR instr) {
         super(offset, instr.getLength());
         opcode = instr.getOpcode();
-        type = Type.INT;
+        type = Type.INTEGER;
     }
 
     public ShiftGen(int offset, LSHL instr) {

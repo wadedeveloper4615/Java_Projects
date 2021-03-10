@@ -30,7 +30,7 @@ public class RemGen extends InstructionGen {
 
     public RemGen(int offset, IREM instr) {
         super(offset, instr.getLength());
-        type = Type.INT;
+        type = Type.INTEGER;
     }
 
     public RemGen(int offset, LREM instr) {

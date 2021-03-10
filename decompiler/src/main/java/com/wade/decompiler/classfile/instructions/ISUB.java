@@ -19,6 +19,6 @@ public class ISUB extends Instruction {
 
     public ISUB(ConstantPool cp) {
         super(InstructionOpCodes.ISUB, 1, cp);
-        type = Type.INT;
+        type = Type.INTEGER;
     }
 }

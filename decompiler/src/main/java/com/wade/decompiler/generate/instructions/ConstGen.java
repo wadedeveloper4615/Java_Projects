@@ -53,13 +53,13 @@ public class ConstGen extends InstructionGen {
     public ConstGen(int offset, ICONST instr) {
         super(offset, instr.getLength());
         value = instr.getValue();
-        type = Type.INT;
+        type = Type.INTEGER;
     }
 
     public ConstGen(int offset, LCONST instr) {
         super(offset, instr.getLength());
         value = instr.getValue();
-        type = Type.INT;
+        type = Type.INTEGER;
     }
 
     public ConstGen(int offset, LDC instr) {

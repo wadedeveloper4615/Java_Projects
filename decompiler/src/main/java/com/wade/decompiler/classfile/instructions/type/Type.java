@@ -19,7 +19,7 @@ import lombok.ToString;
 public abstract class Type {
     public static final BasicType VOID = new BasicType(TypeEnum.T_VOID);
     public static final BasicType BOOLEAN = new BasicType(TypeEnum.T_BOOLEAN);
-    public static final BasicType INT = new BasicType(TypeEnum.T_INTEGER);
+    public static final BasicType INTEGER = new BasicType(TypeEnum.T_INTEGER);
     public static final BasicType SHORT = new BasicType(TypeEnum.T_SHORT);
     public static final BasicType BYTE = new BasicType(TypeEnum.T_BYTE);
     public static final BasicType LONG = new BasicType(TypeEnum.T_LONG);
@@ -67,25 +67,17 @@ public abstract class Type {
         }
     }
 
-    /**
-     * @return type as defined in Constants
-     */
     public TypeEnum getType() {
         return type;
     }
 
     public Type normalizeForStackOrLocal() {
         if (this == Type.BOOLEAN || this == Type.BYTE || this == Type.SHORT || this == Type.CHAR) {
-            return Type.INT;
+            return Type.INTEGER;
         }
         return this;
     }
 
-    /*
-     * Currently only used by the ArrayType constructor. The signature has a
-     * complicated dependency on other parameter so it's tricky to do it in a call
-     * to the super ctor.
-     */
     void setSignature(final String signature) {
         this.signature = signature;
     }
@@ -98,12 +90,6 @@ public abstract class Type {
         return consumed << 2 | size;
     }
 
-    /**
-     * Convert arguments of a method (signature) to an array of Type objects.
-     *
-     * @param signature signature string such as (Ljava/lang/String;)V
-     * @return array of argument types
-     */
     public static Type[] getArgumentTypes(final String signature) {
         final List<Type> vec = new ArrayList<>();
         int index;
@@ -147,14 +133,6 @@ public abstract class Type {
         return res;
     }
 
-    /**
-     * Convert type to Java method signature, e.g. int[] f(java.lang.String x)
-     * becomes (Ljava/lang/String;)[I
-     *
-     * @param return_type what the method returns
-     * @param arg_types   what are the argument types
-     * @return method signature for given type(s).
-     */
     public static String getMethodSignature(final Type return_type, final Type[] arg_types) {
         final StringBuilder buf = new StringBuilder("(");
         if (arg_types != null) {
@@ -167,12 +145,6 @@ public abstract class Type {
         return buf.toString();
     }
 
-    /**
-     * Convert return value of a method (signature) to a Type object.
-     *
-     * @param signature signature string such as (Ljava/lang/String;)V
-     * @return return type
-     */
     public static Type getReturnType(final String signature) {
         try {
             // Read return type after `)'
@@ -199,25 +171,15 @@ public abstract class Type {
         return sb.toString();
     }
 
-    /**
-     * Convert runtime java.lang.Class to BCEL Type object.
-     *
-     * @param cl Java class
-     * @return corresponding Type object
-     */
     public static Type getType(final java.lang.Class<?> cl) {
         if (cl == null) {
             throw new IllegalArgumentException("Class must not be null");
         }
-        /*
-         * That's an amzingly easy case, because getName() returns the signature. That's
-         * what we would have liked anyway.
-         */
         if (cl.isArray()) {
             return getType(cl.getName());
         } else if (cl.isPrimitive()) {
             if (cl == Integer.TYPE) {
-                return INT;
+                return INTEGER;
             } else if (cl == Void.TYPE) {
                 return VOID;
             } else if (cl == Double.TYPE) {

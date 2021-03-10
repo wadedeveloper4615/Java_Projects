@@ -19,6 +19,6 @@ public class IASTORE extends Instruction {
 
     public IASTORE(ConstantPool cp) {
         super(InstructionOpCodes.IASTORE, 1, cp);
-        type = Type.INT;
+        type = Type.INTEGER;
     }
 }

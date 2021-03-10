@@ -33,7 +33,7 @@ public class BasicType extends Type {
             case T_CHAR:
                 return CHAR;
             case T_INTEGER:
-                return INT;
+                return INTEGER;
             case T_LONG:
                 return LONG;
             case T_DOUBLE:
@@ -58,7 +58,7 @@ public class BasicType extends Type {
             case T_CHAR:
                 return CHAR;
             case T_INTEGER:
-                return INT;
+                return INTEGER;
             case T_LONG:
                 return LONG;
             case T_DOUBLE:

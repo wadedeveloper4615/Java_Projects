@@ -25,7 +25,7 @@ public abstract class ConversionInstruction extends Instruction {
             case D2I:
             case F2I:
             case L2I:
-                return Type.INT;
+                return Type.INTEGER;
             case D2F:
             case I2F:
             case L2F:

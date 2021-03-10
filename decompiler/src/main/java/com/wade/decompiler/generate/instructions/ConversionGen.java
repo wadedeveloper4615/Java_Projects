@@ -50,55 +50,55 @@ public class ConversionGen extends InstructionGen {
 
     public ConversionGen(int offset, F2D instr) {
         super(offset, instr.getLength());
-        fromType = Type.INT;
+        fromType = Type.INTEGER;
         toType = instr.getType();
     }
 
     public ConversionGen(int offset, F2I instr) {
         super(offset, instr.getLength());
-        fromType = Type.INT;
+        fromType = Type.INTEGER;
         toType = instr.getType();
     }
 
     public ConversionGen(int offset, F2L instr) {
         super(offset, instr.getLength());
-        fromType = Type.INT;
+        fromType = Type.INTEGER;
         toType = instr.getType();
     }
 
     public ConversionGen(int offset, I2B instr) {
         super(offset, instr.getLength());
-        fromType = Type.INT;
+        fromType = Type.INTEGER;
         toType = instr.getType();
     }
 
     public ConversionGen(int offset, I2C instr) {
         super(offset, instr.getLength());
-        fromType = Type.INT;
+        fromType = Type.INTEGER;
         toType = instr.getType();
     }
 
     public ConversionGen(int offset, I2D instr) {
         super(offset, instr.getLength());
-        fromType = Type.INT;
+        fromType = Type.INTEGER;
         toType = instr.getType();
     }
 
     public ConversionGen(int offset, I2F instr) {
         super(offset, instr.getLength());
-        fromType = Type.INT;
+        fromType = Type.INTEGER;
         toType = instr.getType();
     }
 
     public ConversionGen(int offset, I2L instr) {
         super(offset, instr.getLength());
-        fromType = Type.INT;
+        fromType = Type.INTEGER;
         toType = instr.getType();
     }
 
     public ConversionGen(int offset, I2S instr) {
         super(offset, instr.getLength());
-        fromType = Type.INT;
+        fromType = Type.INTEGER;
         toType = instr.getType();
     }
 

@@ -19,6 +19,6 @@ public class D2I extends Instruction {
 
     public D2I(ConstantPool cp) {
         super(InstructionOpCodes.D2I, 1, cp);
-        type = Type.INT;
+        type = Type.INTEGER;
     }
 }

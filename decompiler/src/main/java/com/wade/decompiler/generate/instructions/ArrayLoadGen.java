@@ -64,7 +64,7 @@ public class ArrayLoadGen extends InstructionGen {
     public ArrayLoadGen(int offset, IALOAD instr) {
         super(offset, instr.getLength());
         opcode = instr.getOpcode();
-        type = Type.INT;
+        type = Type.INTEGER;
         exceptions = ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_ARRAY_EXCEPTION);
     }
 

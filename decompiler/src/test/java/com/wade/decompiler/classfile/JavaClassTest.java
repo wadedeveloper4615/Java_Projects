@@ -1,25 +1,25 @@
 package com.wade.decompiler.classfile;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
 import com.wade.decompiler.AbstractTest;
+import com.wade.decompiler.classfile.attribute.Attribute;
+import com.wade.decompiler.classfile.attribute.Unknown;
+import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.ClassAccessFlagsList;
 import com.wade.decompiler.enums.Version;
 
+import nl.jqno.equalsverifier.EqualsVerifier;
+
 class JavaClassTest extends AbstractTest {
-    @SuppressWarnings("unlikely-arg-type")
     @Test
     void test1() throws Exception {
         JavaClass clazz = getTestClass(PACKAGE_BASE_NAME + ".data.test.SimpleClass");
         assertNotNull(clazz.hashCode());
         assertNotNull(clazz.toString());
-        assertTrue(clazz.equals(clazz));
-        assertFalse(clazz.equals(""));
-        assertFalse(clazz.equals(null));
+        EqualsVerifier.simple().forClass(clazz.getClass()).verify();
 
         assertNotNull(clazz.getClassNameIndex());
         assertNotNull(clazz.getSuperclassNameIndex());
@@ -34,15 +34,55 @@ class JavaClassTest extends AbstractTest {
         assertNotNull(clazz.getRepository());
     }
 
-    @SuppressWarnings("unlikely-arg-type")
+    @Test
+    void test10() throws Exception {
+        JavaClass clazz1 = new JavaClass(1, 2, "", Version.Version_1_1, new ClassAccessFlagsList(0x0001), null, new int[0], new Field[0], new Method[0], new Attribute[0]);
+        JavaClass clazz2 = new JavaClass(1, 2, "", Version.Version_1_1, new ClassAccessFlagsList(0x0001), new ConstantPool(), new int[0], new Field[0], new Method[0], new Attribute[0]);
+        EqualsVerifier.simple().forClasses(clazz1.getClass(), clazz2.getClass()).verify();
+    }
+
+    @Test
+    void test11() throws Exception {
+        JavaClass clazz1 = new JavaClass(1, 2, "", Version.Version_1_1, new ClassAccessFlagsList(0x0001), null, new int[0], new Field[0], new Method[0], new Attribute[0]);
+        int[] interfaces = new int[1];
+        interfaces[0] = 1;
+        JavaClass clazz2 = new JavaClass(1, 2, "", Version.Version_1_1, new ClassAccessFlagsList(0x0001), null, interfaces, new Field[0], new Method[0], new Attribute[0]);
+        EqualsVerifier.simple().forClasses(clazz1.getClass(), clazz2.getClass()).verify();
+    }
+
+    @Test
+    void test12() throws Exception {
+        JavaClass clazz1 = new JavaClass(1, 2, "", Version.Version_1_1, new ClassAccessFlagsList(0x0001), null, new int[0], new Field[0], new Method[0], new Attribute[0]);
+        Field[] field = new Field[1];
+        field[0] = new Field();
+        JavaClass clazz2 = new JavaClass(1, 2, "", Version.Version_1_1, new ClassAccessFlagsList(0x0001), null, new int[0], field, new Method[0], new Attribute[0]);
+        EqualsVerifier.simple().forClasses(clazz1.getClass(), clazz2.getClass()).verify();
+    }
+
+    @Test
+    void test13() throws Exception {
+        JavaClass clazz1 = new JavaClass(1, 2, "", Version.Version_1_1, new ClassAccessFlagsList(0x0001), null, new int[0], new Field[0], new Method[0], new Attribute[0]);
+        Method[] method = new Method[1];
+        method[0] = new Method();
+        JavaClass clazz2 = new JavaClass(1, 2, "", Version.Version_1_1, new ClassAccessFlagsList(0x0001), null, new int[0], new Field[0], method, new Attribute[0]);
+        EqualsVerifier.simple().forClasses(clazz1.getClass(), clazz2.getClass()).verify();
+    }
+
+    @Test
+    void test14() throws Exception {
+        JavaClass clazz1 = new JavaClass(1, 2, "", Version.Version_1_1, new ClassAccessFlagsList(0x0001), null, new int[0], new Field[0], new Method[0], new Attribute[0]);
+        Attribute[] attribute = new Attribute[1];
+        attribute[0] = new Unknown();
+        JavaClass clazz2 = new JavaClass(1, 2, "", Version.Version_1_1, new ClassAccessFlagsList(0x0001), null, new int[0], new Field[0], new Method[0], attribute);
+        EqualsVerifier.simple().forClasses(clazz1.getClass(), clazz2.getClass()).verify();
+    }
+
     @Test
     void test2() throws Exception {
         JavaClass clazz = getTestClass(PACKAGE_BASE_NAME + ".data.test.SimpleClass");
         assertNotNull(clazz.hashCode());
         assertNotNull(clazz.toString());
-        assertTrue(clazz.equals(clazz));
-        assertFalse(clazz.equals(""));
-        assertFalse(clazz.equals(null));
+        EqualsVerifier.simple().forClass(clazz.getClass()).verify();
 
         assertNotNull(clazz.getClassNameIndex());
         assertNotNull(clazz.getSuperclassNameIndex());
@@ -59,10 +99,7 @@ class JavaClassTest extends AbstractTest {
         JavaClass clazz2 = getTestClass(PACKAGE_BASE_NAME + ".data.test.SimpleClass");
         assertNotNull(clazz2.hashCode());
         assertNotNull(clazz2.toString());
-        assertTrue(clazz2.equals(clazz2));
-        assertTrue(clazz.equals(clazz2));
-        assertFalse(clazz2.equals(""));
-        assertFalse(clazz2.equals(null));
+        EqualsVerifier.simple().forClass(clazz2.getClass()).verify();
 
         assertNotNull(clazz2.getClassNameIndex());
         assertNotNull(clazz2.getSuperclassNameIndex());
@@ -92,5 +129,47 @@ class JavaClassTest extends AbstractTest {
         clazz.setMethods(null);
         clazz.setAttributes(null);
         clazz.setRepository(null);
+    }
+
+    @Test
+    void test4() throws Exception {
+        JavaClass clazz1 = new JavaClass(1, 2, "", Version.Version_1_1, new ClassAccessFlagsList(0x0001), null, new int[0], new Field[0], new Method[0], new Attribute[0]);
+        JavaClass clazz2 = new JavaClass(1, 2, "", Version.Version_1_1, new ClassAccessFlagsList(0x0001), null, new int[0], new Field[0], new Method[0], new Attribute[0]);
+        EqualsVerifier.simple().forClasses(clazz1.getClass(), clazz2.getClass()).verify();
+    }
+
+    @Test
+    void test5() throws Exception {
+        JavaClass clazz1 = new JavaClass(1, 2, "", Version.Version_1_1, new ClassAccessFlagsList(0x0001), null, new int[0], new Field[0], new Method[0], new Attribute[0]);
+        JavaClass clazz2 = new JavaClass(2, 2, "", Version.Version_1_1, new ClassAccessFlagsList(0x0001), null, new int[0], new Field[0], new Method[0], new Attribute[0]);
+        EqualsVerifier.simple().forClasses(clazz1.getClass(), clazz2.getClass()).verify();
+    }
+
+    @Test
+    void test6() throws Exception {
+        JavaClass clazz1 = new JavaClass(1, 2, "", Version.Version_1_1, new ClassAccessFlagsList(0x0001), null, new int[0], new Field[0], new Method[0], new Attribute[0]);
+        JavaClass clazz2 = new JavaClass(1, 3, "", Version.Version_1_1, new ClassAccessFlagsList(0x0001), null, new int[0], new Field[0], new Method[0], new Attribute[0]);
+        EqualsVerifier.simple().forClasses(clazz1.getClass(), clazz2.getClass()).verify();
+    }
+
+    @Test
+    void test7() throws Exception {
+        JavaClass clazz1 = new JavaClass(1, 2, "", Version.Version_1_1, new ClassAccessFlagsList(0x0001), null, new int[0], new Field[0], new Method[0], new Attribute[0]);
+        JavaClass clazz2 = new JavaClass(1, 2, "ff", Version.Version_1_1, new ClassAccessFlagsList(0x0001), null, new int[0], new Field[0], new Method[0], new Attribute[0]);
+        EqualsVerifier.simple().forClasses(clazz1.getClass(), clazz2.getClass()).verify();
+    }
+
+    @Test
+    void test8() throws Exception {
+        JavaClass clazz1 = new JavaClass(1, 2, "", Version.Version_1_1, new ClassAccessFlagsList(0x0001), null, new int[0], new Field[0], new Method[0], new Attribute[0]);
+        JavaClass clazz2 = new JavaClass(1, 2, "", Version.Version_1_2, new ClassAccessFlagsList(0x0001), null, new int[0], new Field[0], new Method[0], new Attribute[0]);
+        EqualsVerifier.simple().forClasses(clazz1.getClass(), clazz2.getClass()).verify();
+    }
+
+    @Test
+    void test9() throws Exception {
+        JavaClass clazz1 = new JavaClass(1, 2, "", Version.Version_1_1, new ClassAccessFlagsList(0x0001), null, new int[0], new Field[0], new Method[0], new Attribute[0]);
+        JavaClass clazz2 = new JavaClass(1, 2, "", Version.Version_1_1, new ClassAccessFlagsList(0x0002), null, new int[0], new Field[0], new Method[0], new Attribute[0]);
+        EqualsVerifier.simple().forClasses(clazz1.getClass(), clazz2.getClass()).verify();
     }
 }

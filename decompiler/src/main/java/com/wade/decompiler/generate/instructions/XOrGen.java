@@ -18,7 +18,7 @@ public class XOrGen extends InstructionGen {
 
     public XOrGen(int offset, IXOR instr) {
         super(offset, instr.getLength());
-        type = Type.INT;
+        type = Type.INTEGER;
     }
 
     public XOrGen(int offset, LXOR instr) {

@@ -35,7 +35,7 @@ public class AddGen extends InstructionGen {
     public AddGen(int offset, IADD instr) {
         super(offset, instr.getLength());
         opcode = instr.getOpcode();
-        type = Type.INT;
+        type = Type.INTEGER;
     }
 
     public AddGen(int offset, LADD instr) {

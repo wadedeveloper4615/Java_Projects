@@ -19,6 +19,6 @@ public class IREM extends Instruction {
 
     public IREM(ConstantPool cp) {
         super(InstructionOpCodes.IREM, 1, cp);
-        type = Type.INT;
+        type = Type.INTEGER;
     }
 }

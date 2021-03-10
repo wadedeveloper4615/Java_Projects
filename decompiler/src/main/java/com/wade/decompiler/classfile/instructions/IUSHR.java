@@ -19,6 +19,6 @@ public class IUSHR extends Instruction {
 
     public IUSHR(ConstantPool cp) {
         super(InstructionOpCodes.IUSHR, 1, cp);
-        type = Type.INT;
+        type = Type.INTEGER;
     }
 }

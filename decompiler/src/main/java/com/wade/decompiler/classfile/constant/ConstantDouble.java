@@ -14,7 +14,7 @@ import lombok.ToString;
 @Getter
 @ToString(callSuper = false, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = true)
-public class ConstantDouble extends Constant implements ConstantObject {
+public class ConstantDouble extends Constant {
     private final double bytes;
 
     public ConstantDouble(DataInput file) throws IOException {
@@ -24,10 +24,5 @@ public class ConstantDouble extends Constant implements ConstantObject {
     public ConstantDouble(double bytes) {
         super(ClassFileConstants.CONSTANT_Double);
         this.bytes = bytes;
-    }
-
-    @Override
-    public Object getConstantValue(ConstantPool cp) {
-        return Double.valueOf(bytes);
     }
 }

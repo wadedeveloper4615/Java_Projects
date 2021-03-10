@@ -105,7 +105,6 @@ class ClassParserTest {
         assertEquals(ClassFileConstants.CONSTANT_Float, constantPool[1].getTag());
         ConstantFloat constantFieldRef = (ConstantFloat) constantPool[1];
         assertEquals(5.0f, constantFieldRef.getBytes());
-        assertEquals(5.0f, constantFieldRef.getConstantValue(null));
     }
 
     @Test
@@ -210,6 +209,23 @@ class ClassParserTest {
         assertEquals(3, constantFieldRef.getStringIndex());
     }
 
+    @Test
+    void testReadField() throws Exception {
+        //@formatter:off
+        when(inputStream.readUnsignedShort())
+        .thenReturn(1) //fields counts
+        .thenReturn(2) //field access flags
+        .thenReturn(3) //field name index
+        .thenReturn(4) //field name signature index
+        .thenReturn(0) //field name attribute count
+        ;
+        //@formatter:on
+        ClassParser parser = new ClassParser();
+        parser.readFields(inputStream);
+        assertNotNull(parser.getFields());
+        assertEquals(1, parser.getFields().length);
+    }
+
     @SuppressWarnings("unused")
     @Test
     void testReadId1() throws IOException {
@@ -232,6 +248,37 @@ class ClassParserTest {
         //@formatter:on
         ClassParser parser = new ClassParser();
         parser.readID(inputStream);
+    }
+
+    @Test
+    void testReadInterfaces() throws Exception {
+        //@formatter:off
+        when(inputStream.readUnsignedShort())
+        .thenReturn(1) //interfaces counts
+        .thenReturn(2) //interfaces name index
+        ;
+        //@formatter:on
+        ClassParser parser = new ClassParser();
+        parser.readInterfaces(inputStream);
+        assertNotNull(parser.getInterfaces());
+        assertEquals(1, parser.getInterfaces().length);
+    }
+
+    @Test
+    void testReadMethod() throws Exception {
+        //@formatter:off
+        when(inputStream.readUnsignedShort())
+        .thenReturn(1) //methods counts
+        .thenReturn(2) //methods access flags
+        .thenReturn(3) //methods name index
+        .thenReturn(4) //methods name signature index
+        .thenReturn(0) //methods name attribute count
+        ;
+        //@formatter:on
+        ClassParser parser = new ClassParser();
+        parser.readMethods(inputStream);
+        assertNotNull(parser.getMethods());
+        assertEquals(1, parser.getMethods().length);
     }
 
     @Test

@@ -16,35 +16,45 @@ import lombok.ToString;
 
 @Setter
 @Getter
-@ToString(callSuper = false, includeFieldNames = true)
+@ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
 public class LoadGen extends InstructionGen {
     private LocalVariableGen localVariableReference;
     private InstructionOpCodes opcode;
     private Type type;
 
-    public LoadGen(ALOAD instr) {
+    public LoadGen(int offset, ALOAD instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         int index = instr.getIndex();
-        if (index > 0 && index < instr.getLocalVariableTable().getLocalVariableTable().length) {
-            localVariableReference = instr.getLocalVariableTable().getLocalVariableTable()[index - 1];
+        if (index >= 0 && index < instr.getLocalVariableTable().getLocalVariableTable().length) {
+            localVariableReference = instr.getLocalVariableTable().getLocalVariableTable()[index];
         }
         type = Type.OBJECT;
     }
 
-    public LoadGen(DLOAD instr) {
+    public LoadGen(int offset, DLOAD instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
-        localVariableReference = instr.getLocalVariableTable().getLocalVariableTable()[instr.getIndex() - 1];
+        int index = instr.getIndex();
+        if (index > 0 && index < instr.getLocalVariableTable().getLocalVariableTable().length) {
+            localVariableReference = instr.getLocalVariableTable().getLocalVariableTable()[index];
+        }
+        if (index >= instr.getLocalVariableTable().getLocalVariableTable().length) {
+            localVariableReference = instr.getLocalVariableTable().getLocalVariableTable()[index - 1];
+        }
         type = Type.DOUBLE;
     }
 
-    public LoadGen(FLOAD instr) {
+    public LoadGen(int offset, FLOAD instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         localVariableReference = instr.getLocalVariableTable().getLocalVariableTable()[instr.getIndex()];
         type = Type.FLOAT;
     }
 
-    public LoadGen(ILOAD instr) {
+    public LoadGen(int offset, ILOAD instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         int index = instr.getIndex();
         if (index > 0 && index < instr.getLocalVariableTable().getLocalVariableTable().length) {
@@ -53,9 +63,13 @@ public class LoadGen extends InstructionGen {
         type = Type.INT;
     }
 
-    public LoadGen(LLOAD instr) {
+    public LoadGen(int offset, LLOAD instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
-        localVariableReference = instr.getLocalVariableTable().getLocalVariableTable()[instr.getIndex() - 1];
+        int index = instr.getIndex();
+        if (index > 0 && index < instr.getLocalVariableTable().getLocalVariableTable().length) {
+            localVariableReference = instr.getLocalVariableTable().getLocalVariableTable()[index - 1];
+        }
         type = Type.LONG;
     }
 }

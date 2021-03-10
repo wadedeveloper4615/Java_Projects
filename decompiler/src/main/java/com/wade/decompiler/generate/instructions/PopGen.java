@@ -18,12 +18,14 @@ public class PopGen extends InstructionGen {
     private InstructionOpCodes opcode;
     private Type type;
 
-    public PopGen(POP instr) {
+    public PopGen(int offset, POP instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = Type.UNKNOWN;
     }
 
-    public PopGen(POP2 instr) {
+    public PopGen(int offset, POP2 instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = Type.UNKNOWN;
     }

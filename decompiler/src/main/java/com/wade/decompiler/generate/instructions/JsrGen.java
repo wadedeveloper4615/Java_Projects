@@ -19,13 +19,15 @@ public class JsrGen extends InstructionGen {
     private int index;
     private Type type;
 
-    public JsrGen(JSR instr) {
+    public JsrGen(int offset, JSR instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         index = -1;
         type = null;
     }
 
-    public JsrGen(JSR_W instr) {
+    public JsrGen(int offset, JSR_W instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         index = instr.getIndex();
         type = null;

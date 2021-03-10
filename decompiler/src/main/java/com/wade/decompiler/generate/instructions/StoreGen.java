@@ -23,7 +23,8 @@ public class StoreGen extends InstructionGen {
     private InstructionOpCodes opcode;
     private Type type;
 
-    public StoreGen(ASTORE instr) {
+    public StoreGen(int offset, ASTORE instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         int index = instr.getIndex();
         if (index > 0 && index < instr.getLocalVariableTable().getLocalVariableTable().length) {
@@ -32,19 +33,22 @@ public class StoreGen extends InstructionGen {
         type = Type.OBJECT;
     }
 
-    public StoreGen(DSTORE instr) {
+    public StoreGen(int offset, DSTORE instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         localVariableReference = instr.getLocalVariableTable().getLocalVariableTable()[instr.getIndex() - 1];
         type = Type.DOUBLE;
     }
 
-    public StoreGen(FSTORE instr) {
+    public StoreGen(int offset, FSTORE instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         localVariableReference = instr.getLocalVariableTable().getLocalVariableTable()[instr.getIndex()];
         type = Type.FLOAT;
     }
 
-    public StoreGen(ISTORE instr) {
+    public StoreGen(int offset, ISTORE instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         int index = instr.getIndex();
         if (index > 0 && index < instr.getLocalVariableTable().getLocalVariableTable().length) {
@@ -53,7 +57,8 @@ public class StoreGen extends InstructionGen {
         type = Type.INT;
     }
 
-    public StoreGen(LSTORE instr) {
+    public StoreGen(int offset, LSTORE instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         localVariableReference = instr.getLocalVariableTable().getLocalVariableTable()[instr.getIndex() - 1];
         type = Type.LONG;

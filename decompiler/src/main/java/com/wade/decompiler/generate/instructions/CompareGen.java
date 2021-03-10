@@ -39,127 +39,148 @@ public class CompareGen extends InstructionGen {
     private Type type;
     private Instruction negate;
 
-    public CompareGen(DCMPG instr) {
+    public CompareGen(int offset, DCMPG instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = Type.DOUBLE;
         negate = instr.getNegate();
     }
 
-    public CompareGen(DCMPL instr) {
+    public CompareGen(int offset, DCMPL instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = Type.DOUBLE;
         negate = instr.getNegate();
     }
 
-    public CompareGen(FCMPG instr) {
+    public CompareGen(int offset, FCMPG instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = Type.DOUBLE;
         negate = instr.getNegate();
     }
 
-    public CompareGen(FCMPL instr) {
+    public CompareGen(int offset, FCMPL instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = Type.DOUBLE;
         negate = instr.getNegate();
     }
 
-    public CompareGen(IF_ACMPEQ instr) {
+    public CompareGen(int offset, IF_ACMPEQ instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = Type.DOUBLE;
         negate = instr.getNegate();
     }
 
-    public CompareGen(IF_ACMPNE instr) {
+    public CompareGen(int offset, IF_ACMPNE instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = Type.DOUBLE;
         negate = instr.negate();
     }
 
-    public CompareGen(IF_ICMPEQ instr) {
+    public CompareGen(int offset, IF_ICMPEQ instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = Type.DOUBLE;
         negate = instr.negate();
     }
 
-    public CompareGen(IF_ICMPGE instr) {
+    public CompareGen(int offset, IF_ICMPGE instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = Type.DOUBLE;
         negate = instr.negate();
     }
 
-    public CompareGen(IF_ICMPGT instr) {
+    public CompareGen(int offset, IF_ICMPGT instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = Type.DOUBLE;
         negate = instr.negate();
     }
 
-    public CompareGen(IF_ICMPLE instr) {
+    public CompareGen(int offset, IF_ICMPLE instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = Type.DOUBLE;
         negate = instr.negate();
     }
 
-    public CompareGen(IF_ICMPLT instr) {
+    public CompareGen(int offset, IF_ICMPLT instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = Type.DOUBLE;
         negate = instr.negate();
     }
 
-    public CompareGen(IF_ICMPNE instr) {
+    public CompareGen(int offset, IF_ICMPNE instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = Type.DOUBLE;
         negate = instr.negate();
     }
 
-    public CompareGen(IFEQ instr) {
+    public CompareGen(int offset, IFEQ instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = Type.DOUBLE;
         negate = instr.negate();
     }
 
-    public CompareGen(IFGE instr) {
+    public CompareGen(int offset, IFGE instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = Type.DOUBLE;
         negate = instr.negate();
     }
 
-    public CompareGen(IFGT instr) {
+    public CompareGen(int offset, IFGT instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = Type.DOUBLE;
         negate = instr.negate();
     }
 
-    public CompareGen(IFLE instr) {
+    public CompareGen(int offset, IFLE instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = Type.DOUBLE;
         negate = instr.negate();
     }
 
-    public CompareGen(IFLT instr) {
+    public CompareGen(int offset, IFLT instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = Type.DOUBLE;
         negate = instr.negate();
     }
 
-    public CompareGen(IFNE instr) {
+    public CompareGen(int offset, IFNE instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = Type.DOUBLE;
         negate = instr.negate();
     }
 
-    public CompareGen(IFNONNULL instr) {
+    public CompareGen(int offset, IFNONNULL instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = Type.DOUBLE;
         negate = instr.negate();
     }
 
-    public CompareGen(IFNULL instr) {
+    public CompareGen(int offset, IFNULL instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = Type.DOUBLE;
         negate = instr.negate();
     }
 
-    public CompareGen(LCMP instr) {
+    public CompareGen(int offset, LCMP instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = Type.LONG;
         negate = instr;

@@ -28,7 +28,8 @@ public class InstanceOfGen extends InstructionGen {
     @ToString.Exclude
     private ConstantPool constantPool;
 
-    public InstanceOfGen(INSTANCEOF instr) {
+    public InstanceOfGen(int offset, INSTANCEOF instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         index = instr.getIndex();
         constantPool = instr.getConstantPool();

@@ -1,6 +1,5 @@
 package com.wade.decompiler.generate.instructions;
 
-import com.wade.decompiler.classfile.exceptions.ClassGenException;
 import com.wade.decompiler.classfile.instructions.DSUB;
 import com.wade.decompiler.classfile.instructions.FSUB;
 import com.wade.decompiler.classfile.instructions.ISUB;
@@ -16,31 +15,26 @@ import lombok.ToString;
 @Getter
 @ToString(callSuper = false, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
-@SuppressWarnings("unused")
 public class SubGen extends InstructionGen {
     private Type type;
 
-    public SubGen(DSUB instr) {
+    public SubGen(int offset, DSUB instr) {
+        super(offset, instr.getLength());
         type = Type.DOUBLE;
     }
 
-    public SubGen(FSUB instr) {
+    public SubGen(int offset, FSUB instr) {
+        super(offset, instr.getLength());
         type = Type.FLOAT;
     }
 
-    public SubGen(ISUB instr) {
-        type = switch (instr.getOpcode()) {
-            case DADD, DDIV, DMUL, DNEG, DREM, DSUB -> Type.DOUBLE;
-            case FADD, FDIV, FMUL, FNEG, FREM, FSUB -> Type.FLOAT;
-            case IADD, IAND, IDIV, IMUL, INEG, IOR, IREM, ISHL, ISHR, ISUB, IUSHR, IXOR -> Type.INT;
-            case LADD, LAND, LDIV, LMUL, LNEG, LOR, LREM, LSHL, LSHR, LSUB, LUSHR, LXOR -> Type.LONG;
-            default -> {
-                throw new ClassGenException("Unknown type " + instr.getOpcode());
-            }
-        };
+    public SubGen(int offset, ISUB instr) {
+        super(offset, instr.getLength());
+        type = Type.INT;
     }
 
-    public SubGen(LSUB instr) {
+    public SubGen(int offset, LSUB instr) {
+        super(offset, instr.getLength());
         type = Type.LONG;
     }
 }

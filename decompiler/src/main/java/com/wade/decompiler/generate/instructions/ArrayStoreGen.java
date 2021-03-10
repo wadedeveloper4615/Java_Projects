@@ -26,49 +26,57 @@ public class ArrayStoreGen extends InstructionGen {
     private Type type;
     private Class<?>[] exceptions;
 
-    public ArrayStoreGen(AASTORE instr) {
+    public ArrayStoreGen(int offset, AASTORE instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = Type.OBJECT;
         exceptions = ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_ARRAY_EXCEPTION);
     }
 
-    public ArrayStoreGen(BASTORE instr) {
+    public ArrayStoreGen(int offset, BASTORE instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = Type.OBJECT;
         exceptions = ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_ARRAY_EXCEPTION);
     }
 
-    public ArrayStoreGen(CASTORE instr) {
+    public ArrayStoreGen(int offset, CASTORE instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = Type.CHAR;
         exceptions = ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_ARRAY_EXCEPTION);
     }
 
-    public ArrayStoreGen(DASTORE instr) {
+    public ArrayStoreGen(int offset, DASTORE instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = Type.DOUBLE;
         exceptions = ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_ARRAY_EXCEPTION);
     }
 
-    public ArrayStoreGen(FASTORE instr) {
+    public ArrayStoreGen(int offset, FASTORE instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = Type.FLOAT;
         exceptions = ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_ARRAY_EXCEPTION);
     }
 
-    public ArrayStoreGen(IASTORE instr) {
+    public ArrayStoreGen(int offset, IASTORE instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = Type.INT;
         exceptions = ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_ARRAY_EXCEPTION);
     }
 
-    public ArrayStoreGen(LASTORE instr) {
+    public ArrayStoreGen(int offset, LASTORE instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = Type.LONG;
         exceptions = ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_ARRAY_EXCEPTION);
     }
 
-    public ArrayStoreGen(SASTORE instr) {
+    public ArrayStoreGen(int offset, SASTORE instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = Type.SHORT;
         exceptions = ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_ARRAY_EXCEPTION);

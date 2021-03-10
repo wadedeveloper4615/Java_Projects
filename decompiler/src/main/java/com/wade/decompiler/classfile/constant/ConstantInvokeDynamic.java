@@ -12,9 +12,9 @@ import lombok.ToString;
 
 @Setter
 @Getter
-@ToString(callSuper = true, includeFieldNames = true)
+@ToString(callSuper = false, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = true)
-public class ConstantInvokeDynamic extends ConstantConstantPool {
+public class ConstantInvokeDynamic extends ConstantCP {
     public ConstantInvokeDynamic(DataInput file) throws IOException {
         this(file.readShort(), file.readShort());
     }

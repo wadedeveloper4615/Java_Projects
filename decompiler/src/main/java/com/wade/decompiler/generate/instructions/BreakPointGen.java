@@ -15,7 +15,8 @@ import lombok.ToString;
 public class BreakPointGen extends InstructionGen {
     private InstructionOpCodes opcode;
 
-    public BreakPointGen(BREAKPOINT instr) {
+    public BreakPointGen(int offset, BREAKPOINT instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
     }
 }

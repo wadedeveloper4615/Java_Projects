@@ -1,6 +1,5 @@
 package com.wade.decompiler.generate.instructions;
 
-import com.wade.decompiler.classfile.exceptions.ClassGenException;
 import com.wade.decompiler.classfile.instructions.IXOR;
 import com.wade.decompiler.classfile.instructions.LXOR;
 import com.wade.decompiler.classfile.instructions.type.Type;
@@ -14,23 +13,16 @@ import lombok.ToString;
 @Getter
 @ToString(callSuper = false, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
-@SuppressWarnings("unused")
 public class XOrGen extends InstructionGen {
     private Type type;
 
-    public XOrGen(IXOR instr) {
-        type = switch (instr.getOpcode()) {
-            case DADD, DDIV, DMUL, DNEG, DREM, DSUB -> Type.DOUBLE;
-            case FADD, FDIV, FMUL, FNEG, FREM, FSUB -> Type.FLOAT;
-            case IADD, IAND, IDIV, IMUL, INEG, IOR, IREM, ISHL, ISHR, ISUB, IUSHR, IXOR -> Type.INT;
-            case LADD, LAND, LDIV, LMUL, LNEG, LOR, LREM, LSHL, LSHR, LSUB, LUSHR, LXOR -> Type.LONG;
-            default -> {
-                throw new ClassGenException("Unknown type " + instr.getOpcode());
-            }
-        };
+    public XOrGen(int offset, IXOR instr) {
+        super(offset, instr.getLength());
+        type = Type.INT;
     }
 
-    public XOrGen(LXOR instr) {
+    public XOrGen(int offset, LXOR instr) {
+        super(offset, instr.getLength());
         type = Type.LONG;
     }
 }

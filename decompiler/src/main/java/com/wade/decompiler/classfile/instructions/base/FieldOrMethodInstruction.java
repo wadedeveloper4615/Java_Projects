@@ -1,6 +1,6 @@
 package com.wade.decompiler.classfile.instructions.base;
 
-import com.wade.decompiler.classfile.constant.ConstantConstantPool;
+import com.wade.decompiler.classfile.constant.ConstantCP;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.exceptions.ClassGenException;
 import com.wade.decompiler.classfile.instructions.type.ArrayType;
@@ -33,7 +33,7 @@ public abstract class FieldOrMethodInstruction extends CPInstruction {
     }
 
     public ReferenceType getReferenceType(ConstantPool cp) {
-        final ConstantConstantPool cmr = (ConstantConstantPool) cp.getConstant(super.getIndex());
+        final ConstantCP cmr = (ConstantCP) cp.getConstant(super.getIndex());
         String className = cp.getConstantString(cmr.getClassIndex(), ClassFileConstants.CONSTANT_Class);
         if (className.startsWith("[")) {
             return (ArrayType) Type.getType(className);

@@ -19,7 +19,7 @@ import lombok.ToString;
 public abstract class Type {
     public static final BasicType VOID = new BasicType(TypeEnum.T_VOID);
     public static final BasicType BOOLEAN = new BasicType(TypeEnum.T_BOOLEAN);
-    public static final BasicType INT = new BasicType(TypeEnum.T_INT);
+    public static final BasicType INT = new BasicType(TypeEnum.T_INTEGER);
     public static final BasicType SHORT = new BasicType(TypeEnum.T_SHORT);
     public static final BasicType BYTE = new BasicType(TypeEnum.T_BYTE);
     public static final BasicType LONG = new BasicType(TypeEnum.T_LONG);

@@ -18,10 +18,9 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = false)
 public class LOOKUPSWITCH extends Instruction {
     protected int[] match;
-    protected int[] indices;
-    protected int fixed_length;
-    protected int match_length;
-    protected int padding = 0;
+    protected int[] offset;
+    protected int padding;
+    protected int defaultOffset;
 
     public LOOKUPSWITCH(int[] match, ConstantPool cp) {
         super(InstructionOpCodes.LOOKUPSWITCH, 3, cp);
@@ -30,5 +29,21 @@ public class LOOKUPSWITCH extends Instruction {
 
     @Override
     protected void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
+        padding = (4 - (bytes.getIndex() % 4)) % 4; // Compute number of pad bytes
+        for (int i = 0; i < padding; i++) {
+            bytes.readByte();
+        }
+        setDefaultOffset(bytes.readInt() + 1);
+
+        int matchlength = bytes.readInt();
+        int fixedlength = (short) (9 + matchlength * 8);
+        int length = fixedlength + 1;// (short) (matchlength + getPadding());
+        setLength(length);
+        setMatch(new int[matchlength]);
+        setOffset(new int[matchlength]);
+        for (int i = 0; i < matchlength; i++) {
+            match[i] = bytes.readInt();
+            offset[i] = bytes.readInt();
+        }
     }
 }

@@ -8,7 +8,7 @@ public enum TypeEnum {
     T_DOUBLE(7),
     T_BYTE(8),
     T_SHORT(9),
-    T_INT(10),
+    T_INTEGER(10),
     T_LONG(11),
     T_VOID(12),
     T_ARRAY(13),

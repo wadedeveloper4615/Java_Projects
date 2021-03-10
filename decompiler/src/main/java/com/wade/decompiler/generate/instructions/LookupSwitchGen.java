@@ -11,8 +11,17 @@ import lombok.ToString;
 @Getter
 @ToString(callSuper = false, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
-@SuppressWarnings("unused")
 public class LookupSwitchGen extends InstructionGen {
-    public LookupSwitchGen(LOOKUPSWITCH instr) {
+    private int padding;
+    private int defaultOffset;
+    private int[] offsets;
+    private int[] match;
+
+    public LookupSwitchGen(int offset, LOOKUPSWITCH instr) {
+        super(offset, instr.getLength());
+        match = instr.getMatch();
+        offsets = instr.getOffset();
+        padding = instr.getPadding();
+        defaultOffset = instr.getDefaultOffset();
     }
 }

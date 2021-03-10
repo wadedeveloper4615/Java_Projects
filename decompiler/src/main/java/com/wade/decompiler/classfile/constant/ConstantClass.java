@@ -12,7 +12,7 @@ import lombok.ToString;
 
 @Setter
 @Getter
-@ToString(callSuper = true, includeFieldNames = true)
+@ToString(callSuper = false, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = true)
 public class ConstantClass extends Constant implements ConstantObject {
     private final int nameIndex;

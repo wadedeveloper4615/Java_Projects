@@ -17,11 +17,13 @@ import lombok.ToString;
 public class MonitorGen extends InstructionGen {
     private InstructionOpCodes opcode;
 
-    public MonitorGen(MONITORENTER instr) {
+    public MonitorGen(int offset, MONITORENTER instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
     }
 
-    public MonitorGen(MONITOREXIT instr) {
+    public MonitorGen(int offset, MONITOREXIT instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
     }
 

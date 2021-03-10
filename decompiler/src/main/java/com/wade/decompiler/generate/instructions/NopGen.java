@@ -15,7 +15,8 @@ import lombok.ToString;
 public class NopGen extends InstructionGen {
     private InstructionOpCodes opcode;
 
-    public NopGen(NOP instr) {
+    public NopGen(int offset, NOP instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
     }
 }

@@ -15,23 +15,26 @@ import lombok.ToString;
 @Getter
 @ToString(callSuper = false, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
-@SuppressWarnings("unused")
 public class DivGen extends InstructionGen {
     private Type type;
 
-    public DivGen(DDIV instr) {
+    public DivGen(int offset, DDIV instr) {
+        super(offset, instr.getLength());
         type = Type.DOUBLE;
     }
 
-    public DivGen(FDIV instr) {
+    public DivGen(int offset, FDIV instr) {
+        super(offset, instr.getLength());
         type = Type.FLOAT;
     }
 
-    public DivGen(IDIV instr) {
+    public DivGen(int offset, IDIV instr) {
+        super(offset, instr.getLength());
         type = Type.INT;
     }
 
-    public DivGen(LDIV instr) {
+    public DivGen(int offset, LDIV instr) {
+        super(offset, instr.getLength());
         type = Type.LONG;
     }
 }

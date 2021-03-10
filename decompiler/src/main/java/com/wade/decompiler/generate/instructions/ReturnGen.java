@@ -26,37 +26,44 @@ public class ReturnGen extends InstructionGen {
     private Type type;
     private InstructionOpCodes opcode;
 
-    public ReturnGen(ARETURN instr) {
+    public ReturnGen(int offset, ARETURN instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = getType();
     }
 
-    public ReturnGen(DRETURN instr) {
+    public ReturnGen(int offset, DRETURN instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = getType();
     }
 
-    public ReturnGen(FRETURN instr) {
+    public ReturnGen(int offset, FRETURN instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = getType();
     }
 
-    public ReturnGen(IRETURN instr) {
+    public ReturnGen(int offset, IRETURN instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = getType();
     }
 
-    public ReturnGen(LRETURN instr) {
+    public ReturnGen(int offset, LRETURN instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = getType();
     }
 
-    public ReturnGen(RET instr) {
+    public ReturnGen(int offset, RET instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = ReturnaddressType.NO_TARGET;
     }
 
-    public ReturnGen(RETURN instr) {
+    public ReturnGen(int offset, RETURN instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = getType();
     }

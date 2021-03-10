@@ -12,17 +12,17 @@ import lombok.ToString;
 
 @Setter
 @Getter
-@ToString(callSuper = true, includeFieldNames = true)
+@ToString(callSuper = false, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = true)
-public abstract class ConstantConstantPool extends Constant {
+public abstract class ConstantCP extends Constant {
     protected final int classIndex;
     protected final int nameAndTypeIndex;
 
-    public ConstantConstantPool(ClassFileConstants tag, DataInput file) throws IOException {
+    public ConstantCP(ClassFileConstants tag, DataInput file) throws IOException {
         this(tag, file.readUnsignedShort(), file.readUnsignedShort());
     }
 
-    protected ConstantConstantPool(ClassFileConstants tag, int classIndex, int nameAndTypeIndex) {
+    protected ConstantCP(ClassFileConstants tag, int classIndex, int nameAndTypeIndex) {
         super(tag);
         this.classIndex = classIndex;
         this.nameAndTypeIndex = nameAndTypeIndex;

@@ -17,7 +17,8 @@ public class AThrowGen extends InstructionGen {
     private Class<?>[] exceptions;
     private InstructionOpCodes opcode;
 
-    public AThrowGen(ATHROW instr) {
+    public AThrowGen(int offset, ATHROW instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         exceptions = new Class<?>[] { ExceptionConst.THROWABLE };
     }

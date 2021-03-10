@@ -23,32 +23,38 @@ public class ShiftGen extends InstructionGen {
     private InstructionOpCodes opcode;
     private Type type;
 
-    public ShiftGen(ISHL instr) {
+    public ShiftGen(int offset, ISHL instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = Type.INT;
     }
 
-    public ShiftGen(ISHR instr) {
+    public ShiftGen(int offset, ISHR instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = Type.INT;
     }
 
-    public ShiftGen(IUSHR instr) {
+    public ShiftGen(int offset, IUSHR instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = Type.INT;
     }
 
-    public ShiftGen(LSHL instr) {
+    public ShiftGen(int offset, LSHL instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = Type.LONG;
     }
 
-    public ShiftGen(LSHR instr) {
+    public ShiftGen(int offset, LSHR instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = Type.LONG;
     }
 
-    public ShiftGen(LUSHR instr) {
+    public ShiftGen(int offset, LUSHR instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = Type.LONG;
     }

@@ -26,49 +26,57 @@ public class ArrayLoadGen extends InstructionGen {
     private Type type;
     private Class<?>[] exceptions;
 
-    public ArrayLoadGen(AALOAD instr) {
+    public ArrayLoadGen(int offset, AALOAD instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = Type.OBJECT;
         exceptions = ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_ARRAY_EXCEPTION);
     }
 
-    public ArrayLoadGen(BALOAD instr) {
+    public ArrayLoadGen(int offset, BALOAD instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = Type.BYTE;
         exceptions = ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_ARRAY_EXCEPTION);
     }
 
-    public ArrayLoadGen(CALOAD instr) {
+    public ArrayLoadGen(int offset, CALOAD instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = Type.CHAR;
         exceptions = ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_ARRAY_EXCEPTION);
     }
 
-    public ArrayLoadGen(DALOAD instr) {
+    public ArrayLoadGen(int offset, DALOAD instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = Type.DOUBLE;
         exceptions = ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_ARRAY_EXCEPTION);
     }
 
-    public ArrayLoadGen(FALOAD instr) {
+    public ArrayLoadGen(int offset, FALOAD instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = Type.FLOAT;
         exceptions = ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_ARRAY_EXCEPTION);
     }
 
-    public ArrayLoadGen(IALOAD instr) {
+    public ArrayLoadGen(int offset, IALOAD instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = Type.INT;
         exceptions = ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_ARRAY_EXCEPTION);
     }
 
-    public ArrayLoadGen(LALOAD instr) {
+    public ArrayLoadGen(int offset, LALOAD instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = Type.LONG;
         exceptions = ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_ARRAY_EXCEPTION);
     }
 
-    public ArrayLoadGen(SALOAD instr) {
+    public ArrayLoadGen(int offset, SALOAD instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = Type.SHORT;
         exceptions = ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_ARRAY_EXCEPTION);

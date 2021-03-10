@@ -24,7 +24,8 @@ public class CheckCastGen extends InstructionGen {
     @ToString.Exclude
     private ConstantPool constantPool;
 
-    public CheckCastGen(CHECKCAST instr) {
+    public CheckCastGen(int offset, CHECKCAST instr) {
+        super(offset, instr.getLength());
         this.index = instr.getIndex();
         this.constantPool = instr.getConstantPool();
         this.type = getLoadClassType();

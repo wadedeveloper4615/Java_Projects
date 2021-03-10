@@ -19,8 +19,11 @@ public class DecompiledInstructions {
     private List<InstructionGen> instructions = new ArrayList<>();
 
     public DecompiledInstructions(Instruction[] instructions) {
+        int offset = 0;
         for (Instruction instr : instructions) {
-            this.instructions.add(InstructionGen.read(instr));
+            InstructionGen instruction = InstructionGen.read(offset, instr);
+            this.instructions.add(instruction);
+            offset += instr.getLength();
         }
     }
 

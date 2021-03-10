@@ -292,7 +292,7 @@ public enum InstructionOpCodes {
       {TypeEnum.T_SHORT}, {TypeEnum.T_SHORT},
       {}, {}, {TypeEnum.T_BYTE},
       {TypeEnum.T_SHORT, TypeEnum.T_BYTE}, {TypeEnum.T_SHORT},
-      {TypeEnum.T_SHORT}, {TypeEnum.T_INT}, {TypeEnum.T_INT},
+      {TypeEnum.T_SHORT}, {TypeEnum.T_INTEGER}, {TypeEnum.T_INTEGER},
       {}, {}, {}, {}, {}, {}, {}, {},
       {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {},
       {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {},

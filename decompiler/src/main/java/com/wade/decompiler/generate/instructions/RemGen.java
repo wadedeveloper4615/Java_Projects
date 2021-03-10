@@ -1,6 +1,5 @@
 package com.wade.decompiler.generate.instructions;
 
-import com.wade.decompiler.classfile.exceptions.ClassGenException;
 import com.wade.decompiler.classfile.instructions.DREM;
 import com.wade.decompiler.classfile.instructions.FREM;
 import com.wade.decompiler.classfile.instructions.IREM;
@@ -16,31 +15,26 @@ import lombok.ToString;
 @Getter
 @ToString(callSuper = false, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
-@SuppressWarnings("unused")
 public class RemGen extends InstructionGen {
     private Type type;
 
-    public RemGen(DREM instr) {
+    public RemGen(int offset, DREM instr) {
+        super(offset, instr.getLength());
         type = Type.DOUBLE;
     }
 
-    public RemGen(FREM instr) {
+    public RemGen(int offset, FREM instr) {
+        super(offset, instr.getLength());
         type = Type.FLOAT;
     }
 
-    public RemGen(IREM instr) {
-        type = switch (instr.getOpcode()) {
-            case DADD, DDIV, DMUL, DNEG, DREM, DSUB -> Type.DOUBLE;
-            case FADD, FDIV, FMUL, FNEG, FREM, FSUB -> Type.FLOAT;
-            case IADD, IAND, IDIV, IMUL, INEG, IOR, IREM, ISHL, ISHR, ISUB, IUSHR, IXOR -> Type.INT;
-            case LADD, LAND, LDIV, LMUL, LNEG, LOR, LREM, LSHL, LSHR, LSUB, LUSHR, LXOR -> Type.LONG;
-            default -> {
-                throw new ClassGenException("Unknown type " + instr.getOpcode());
-            }
-        };
+    public RemGen(int offset, IREM instr) {
+        super(offset, instr.getLength());
+        type = Type.INT;
     }
 
-    public RemGen(LREM instr) {
+    public RemGen(int offset, LREM instr) {
+        super(offset, instr.getLength());
         type = Type.LONG;
     }
 }

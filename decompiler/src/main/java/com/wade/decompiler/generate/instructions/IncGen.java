@@ -12,11 +12,11 @@ import lombok.ToString;
 @Getter
 @ToString(callSuper = false, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
-@SuppressWarnings("unused")
 public class IncGen extends InstructionGen {
     private Type type;
 
-    public IncGen(IINC instr) {
+    public IncGen(int offset, IINC instr) {
+        super(offset, instr.getLength());
         type = Type.INT;
     }
 }

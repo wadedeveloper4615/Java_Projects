@@ -30,7 +30,8 @@ public class NewGen extends InstructionGen {
 
     private Class<?>[] exceptions;
 
-    public NewGen(ANEWARRAY instr) {
+    public NewGen(int offset, ANEWARRAY instr) {
+        super(offset, instr.getLength());
         this.index = instr.getIndex();
         this.dimension = null;
         constantPool = instr.getConstantPool();
@@ -38,7 +39,8 @@ public class NewGen extends InstructionGen {
         exceptions = ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_CLASS_AND_INTERFACE_RESOLUTION, ExceptionConst.ILLEGAL_ACCESS_ERROR, ExceptionConst.INSTANTIATION_ERROR);
     }
 
-    public NewGen(MULTIANEWARRAY instr) {
+    public NewGen(int offset, MULTIANEWARRAY instr) {
+        super(offset, instr.getLength());
         this.index = instr.getIndex();
         this.dimension = instr.getDimensions();
         constantPool = instr.getConstantPool();
@@ -46,7 +48,8 @@ public class NewGen extends InstructionGen {
         exceptions = ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_CLASS_AND_INTERFACE_RESOLUTION, ExceptionConst.ILLEGAL_ACCESS_ERROR, ExceptionConst.INSTANTIATION_ERROR);
     }
 
-    public NewGen(NEW instr) {
+    public NewGen(int offset, NEW instr) {
+        super(offset, instr.getLength());
         this.index = instr.getIndex();
         this.dimension = null;
         constantPool = instr.getConstantPool();
@@ -54,7 +57,8 @@ public class NewGen extends InstructionGen {
         exceptions = ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_CLASS_AND_INTERFACE_RESOLUTION, ExceptionConst.ILLEGAL_ACCESS_ERROR, ExceptionConst.INSTANTIATION_ERROR);
     }
 
-    public NewGen(NEWARRAY instr) {
+    public NewGen(int offset, NEWARRAY instr) {
+        super(offset, instr.getLength());
         type = this.getType();
         exceptions = new Class[] { ExceptionConst.NEGATIVE_ARRAY_SIZE_EXCEPTION };
     }

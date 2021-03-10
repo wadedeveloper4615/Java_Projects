@@ -21,54 +21,62 @@ import lombok.ToString;
 @Getter
 @ToString(callSuper = false, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
-@SuppressWarnings("unused")
 public class ConstGen extends InstructionGen {
     private Object value;
     private Type type;
     private Class<?>[] exceptions;
 
-    public ConstGen(ACONST_NULL instr) {
+    public ConstGen(int offset, ACONST_NULL instr) {
+        super(offset, instr.getLength());
         value = Type.NULL;
         type = Type.NULL;
     }
 
-    public ConstGen(BIPUSH instr) {
+    public ConstGen(int offset, BIPUSH instr) {
+        super(offset, instr.getLength());
         value = instr.getValue();
         type = instr.getType();
     }
 
-    public ConstGen(DCONST instr) {
+    public ConstGen(int offset, DCONST instr) {
+        super(offset, instr.getLength());
         value = instr.getValue();
         type = Type.DOUBLE;
     }
 
-    public ConstGen(FCONST instr) {
+    public ConstGen(int offset, FCONST instr) {
+        super(offset, instr.getLength());
         value = instr.getValue();
         type = Type.FLOAT;
     }
 
-    public ConstGen(ICONST instr) {
+    public ConstGen(int offset, ICONST instr) {
+        super(offset, instr.getLength());
         value = instr.getValue();
         type = Type.INT;
     }
 
-    public ConstGen(LCONST instr) {
+    public ConstGen(int offset, LCONST instr) {
+        super(offset, instr.getLength());
         value = instr.getValue();
         type = Type.INT;
     }
 
-    public ConstGen(LDC instr) {
+    public ConstGen(int offset, LDC instr) {
+        super(offset, instr.getLength());
         value = instr.getValue();
         type = instr.getType();
         exceptions = ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_STRING_RESOLUTION);
     }
 
-    public ConstGen(LDC2_W instr) {
+    public ConstGen(int offset, LDC2_W instr) {
+        super(offset, instr.getLength());
         value = instr.getValue();
         type = instr.getType();
     }
 
-    public ConstGen(SIPUSH instr) {
+    public ConstGen(int offset, SIPUSH instr) {
+        super(offset, instr.getLength());
         value = instr.getValue();
         type = instr.getType();
     }

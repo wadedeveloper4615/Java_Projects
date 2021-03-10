@@ -1,8 +1,8 @@
 package com.wade.decompiler.generate.instructions;
 
 import com.wade.decompiler.classfile.constant.Constant;
+import com.wade.decompiler.classfile.constant.ConstantCP;
 import com.wade.decompiler.classfile.constant.ConstantClass;
-import com.wade.decompiler.classfile.constant.ConstantConstantPool;
 import com.wade.decompiler.classfile.constant.ConstantFieldRef;
 import com.wade.decompiler.classfile.constant.ConstantLong;
 import com.wade.decompiler.classfile.constant.ConstantMethodref;
@@ -32,15 +32,17 @@ public class PutFieldGen extends InstructionGen {
     private Object constantValue;
     private String constantString;
 
-    public PutFieldGen(PUTFIELD instr) {
+    public PutFieldGen(int offset, PUTFIELD instr) {
+        super(offset, instr.getLength());
         constantPool = instr.getConstantPool();
-        ConstantConstantPool c = (ConstantConstantPool) constantPool.getConstant(instr.getIndex());
+        ConstantCP c = (ConstantCP) constantPool.getConstant(instr.getIndex());
         extractConstantPoolInfo(c);
     }
 
-    public PutFieldGen(PUTSTATIC instr) {
+    public PutFieldGen(int offset, PUTSTATIC instr) {
+        super(offset, instr.getLength());
         constantPool = instr.getConstantPool();
-        ConstantConstantPool c = (ConstantConstantPool) constantPool.getConstant(instr.getIndex());
+        ConstantCP c = (ConstantCP) constantPool.getConstant(instr.getIndex());
         extractConstantPoolInfo(c);
     }
 

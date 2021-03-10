@@ -5,6 +5,7 @@ import com.wade.decompiler.classfile.instructions.FADD;
 import com.wade.decompiler.classfile.instructions.IADD;
 import com.wade.decompiler.classfile.instructions.LADD;
 import com.wade.decompiler.classfile.instructions.type.Type;
+import com.wade.decompiler.enums.InstructionOpCodes;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -15,23 +16,31 @@ import lombok.ToString;
 @Getter
 @ToString(callSuper = false, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
-@SuppressWarnings("unused")
 public class AddGen extends InstructionGen {
+    private InstructionOpCodes opcode;
     private Type type;
 
-    public AddGen(DADD instr) {
+    public AddGen(int offset, DADD instr) {
+        super(offset, instr.getLength());
+        opcode = instr.getOpcode();
         type = Type.DOUBLE;
     }
 
-    public AddGen(FADD instr) {
+    public AddGen(int offset, FADD instr) {
+        super(offset, instr.getLength());
+        opcode = instr.getOpcode();
         type = Type.FLOAT;
     }
 
-    public AddGen(IADD instr) {
+    public AddGen(int offset, IADD instr) {
+        super(offset, instr.getLength());
+        opcode = instr.getOpcode();
         type = Type.INT;
     }
 
-    public AddGen(LADD instr) {
+    public AddGen(int offset, LADD instr) {
+        super(offset, instr.getLength());
+        opcode = instr.getOpcode();
         type = Type.LONG;
     }
 }

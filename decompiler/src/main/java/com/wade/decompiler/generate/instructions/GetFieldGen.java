@@ -1,8 +1,8 @@
 package com.wade.decompiler.generate.instructions;
 
 import com.wade.decompiler.classfile.constant.Constant;
+import com.wade.decompiler.classfile.constant.ConstantCP;
 import com.wade.decompiler.classfile.constant.ConstantClass;
-import com.wade.decompiler.classfile.constant.ConstantConstantPool;
 import com.wade.decompiler.classfile.constant.ConstantFieldRef;
 import com.wade.decompiler.classfile.constant.ConstantLong;
 import com.wade.decompiler.classfile.constant.ConstantMethodref;
@@ -35,17 +35,19 @@ public class GetFieldGen extends InstructionGen {
     private Class<?>[] exceptions;
     private Type type;
 
-    public GetFieldGen(GETFIELD instr) {
+    public GetFieldGen(int offset, GETFIELD instr) {
+        super(offset, instr.getLength());
         constantPool = instr.getConstantPool();
-        ConstantConstantPool c = (ConstantConstantPool) constantPool.getConstant(instr.getIndex());
+        ConstantCP c = (ConstantCP) constantPool.getConstant(instr.getIndex());
         extractConstantPoolInfo(c);
         exceptions = ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_FIELD_AND_METHOD_RESOLUTION, ExceptionConst.NULL_POINTER_EXCEPTION, ExceptionConst.INCOMPATIBLE_CLASS_CHANGE_ERROR);
         type = instr.getType();
     }
 
-    public GetFieldGen(GETSTATIC instr) {
+    public GetFieldGen(int offset, GETSTATIC instr) {
+        super(offset, instr.getLength());
         constantPool = instr.getConstantPool();
-        ConstantConstantPool c = (ConstantConstantPool) constantPool.getConstant(instr.getIndex());
+        ConstantCP c = (ConstantCP) constantPool.getConstant(instr.getIndex());
         extractConstantPoolInfo(c);
         exceptions = ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_FIELD_AND_METHOD_RESOLUTION, ExceptionConst.NULL_POINTER_EXCEPTION, ExceptionConst.INCOMPATIBLE_CLASS_CHANGE_ERROR);
         type = instr.getType();

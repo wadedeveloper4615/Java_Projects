@@ -1,6 +1,5 @@
 package com.wade.decompiler.generate.instructions;
 
-import com.wade.decompiler.classfile.exceptions.ClassGenException;
 import com.wade.decompiler.classfile.instructions.DNEG;
 import com.wade.decompiler.classfile.instructions.FNEG;
 import com.wade.decompiler.classfile.instructions.INEG;
@@ -16,31 +15,26 @@ import lombok.ToString;
 @Getter
 @ToString(callSuper = false, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
-@SuppressWarnings("unused")
 public class NegGen extends InstructionGen {
     private Type type;
 
-    public NegGen(DNEG instr) {
+    public NegGen(int offset, DNEG instr) {
+        super(offset, instr.getLength());
         type = Type.DOUBLE;
     }
 
-    public NegGen(FNEG instr) {
+    public NegGen(int offset, FNEG instr) {
+        super(offset, instr.getLength());
         type = Type.FLOAT;
     }
 
-    public NegGen(INEG instr) {
-        type = switch (instr.getOpcode()) {
-            case DADD, DDIV, DMUL, DNEG, DREM, DSUB -> Type.DOUBLE;
-            case FADD, FDIV, FMUL, FNEG, FREM, FSUB -> Type.FLOAT;
-            case IADD, IAND, IDIV, IMUL, INEG, IOR, IREM, ISHL, ISHR, ISUB, IUSHR, IXOR -> Type.INT;
-            case LADD, LAND, LDIV, LMUL, LNEG, LOR, LREM, LSHL, LSHR, LSUB, LUSHR, LXOR -> Type.LONG;
-            default -> {
-                throw new ClassGenException("Unknown type " + instr.getOpcode());
-            }
-        };
+    public NegGen(int offset, INEG instr) {
+        super(offset, instr.getLength());
+        type = Type.INT;
     }
 
-    public NegGen(LNEG instr) {
+    public NegGen(int offset, LNEG instr) {
+        super(offset, instr.getLength());
         type = Type.LONG;
     }
 }

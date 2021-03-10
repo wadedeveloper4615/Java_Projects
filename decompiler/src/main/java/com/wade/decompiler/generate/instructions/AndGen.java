@@ -3,6 +3,7 @@ package com.wade.decompiler.generate.instructions;
 import com.wade.decompiler.classfile.instructions.IAND;
 import com.wade.decompiler.classfile.instructions.LAND;
 import com.wade.decompiler.classfile.instructions.type.Type;
+import com.wade.decompiler.enums.InstructionOpCodes;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -13,15 +14,19 @@ import lombok.ToString;
 @Getter
 @ToString(callSuper = false, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
-@SuppressWarnings("unused")
 public class AndGen extends InstructionGen {
+    private InstructionOpCodes opcode;
     private Type type;
 
-    public AndGen(IAND instr) {
+    public AndGen(int offset, IAND instr) {
+        super(offset, instr.getLength());
+        opcode = instr.getOpcode();
         type = Type.INT;
     }
 
-    public AndGen(LAND instr) {
+    public AndGen(int offset, LAND instr) {
+        super(offset, instr.getLength());
+        opcode = instr.getOpcode();
         type = Type.LONG;
     }
 }

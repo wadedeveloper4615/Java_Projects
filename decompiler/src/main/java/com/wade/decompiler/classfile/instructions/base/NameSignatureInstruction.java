@@ -1,6 +1,6 @@
 package com.wade.decompiler.classfile.instructions.base;
 
-import com.wade.decompiler.classfile.constant.ConstantConstantPool;
+import com.wade.decompiler.classfile.constant.ConstantCP;
 import com.wade.decompiler.classfile.constant.ConstantNameAndType;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.constant.ConstantUtf8;
@@ -26,7 +26,7 @@ public abstract class NameSignatureInstruction extends CPInstruction {
     }
 
     public ConstantNameAndType getNameAndType(ConstantPool cp) {
-        ConstantConstantPool cmr = (ConstantConstantPool) cp.getConstant(super.getIndex());
+        ConstantCP cmr = (ConstantCP) cp.getConstant(super.getIndex());
         return (ConstantNameAndType) cp.getConstant(cmr.getNameAndTypeIndex());
     }
 

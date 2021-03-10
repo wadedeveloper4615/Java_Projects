@@ -2,10 +2,10 @@ package com.wade.decompiler.classfile.instructions;
 
 import java.io.IOException;
 
+import com.wade.decompiler.classfile.constant.Constant;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.instructions.base.Instruction;
 import com.wade.decompiler.classfile.instructions.type.Type;
-import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.util.ByteSequence;
 
@@ -26,7 +26,8 @@ public class GETFIELD extends Instruction {
     }
 
     public Type getType() {
-        String name = constantPool.getConstantString(index, ClassFileConstants.CONSTANT_Class);
+        Constant c = constantPool.getConstant(index);
+        String name = constantPool.constantToString(c);
         if (!name.startsWith("[")) {
             name = "L" + name + ";";
         }

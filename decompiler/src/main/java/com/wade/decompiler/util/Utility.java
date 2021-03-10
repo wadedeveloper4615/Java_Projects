@@ -258,7 +258,7 @@ public abstract class Utility {
                 case 'F':
                     return TypeEnum.T_FLOAT;
                 case 'I':
-                    return TypeEnum.T_INT;
+                    return TypeEnum.T_INTEGER;
                 case 'J':
                     return TypeEnum.T_LONG;
                 case 'L':

@@ -1,8 +1,8 @@
 package com.wade.decompiler.generate.instructions;
 
 import com.wade.decompiler.classfile.constant.Constant;
+import com.wade.decompiler.classfile.constant.ConstantCP;
 import com.wade.decompiler.classfile.constant.ConstantClass;
-import com.wade.decompiler.classfile.constant.ConstantConstantPool;
 import com.wade.decompiler.classfile.constant.ConstantFieldRef;
 import com.wade.decompiler.classfile.constant.ConstantInvokeDynamic;
 import com.wade.decompiler.classfile.constant.ConstantLong;
@@ -31,19 +31,20 @@ import lombok.ToString;
 public class InvokeGen extends InstructionGen {
     @ToString.Exclude
     private ConstantPool constantPool;
+    private Integer index;
+    private Integer nargs;
+    private Type type;
     private String superName;
     private String methodName;
     private String signature;
     private Object constantValue;
     private String constantString;
     private Class<?>[] exceptions;
-    private Integer index;
-    private Integer nargs;
-    private Type type;
 
-    public InvokeGen(INVOKEDYNAMIC instr) {
+    public InvokeGen(int offset, INVOKEDYNAMIC instr) {
+        super(offset, instr.getLength());
         constantPool = instr.getConstantPool();
-        ConstantConstantPool c = (ConstantConstantPool) constantPool.getConstant(instr.getIndex());
+        ConstantCP c = (ConstantCP) constantPool.getConstant(instr.getIndex());
         extractConstantPoolInfo(c);
         exceptions = ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_INTERFACE_METHOD_RESOLUTION, ExceptionConst.UNSATISFIED_LINK_ERROR, ExceptionConst.ABSTRACT_METHOD_ERROR, ExceptionConst.ILLEGAL_ACCESS_ERROR, ExceptionConst.INCOMPATIBLE_CLASS_CHANGE_ERROR);
         index = instr.getIndex();
@@ -51,37 +52,45 @@ public class InvokeGen extends InstructionGen {
         type = instr.getType();
     }
 
-    public InvokeGen(INVOKEINTERFACE instr) {
+    public InvokeGen(int offset, INVOKEINTERFACE instr) {
+        super(offset, instr.getLength());
         constantPool = instr.getConstantPool();
-        ConstantConstantPool c = (ConstantConstantPool) constantPool.getConstant(instr.getIndex());
+        ConstantCP c = (ConstantCP) constantPool.getConstant(instr.getIndex());
         extractConstantPoolInfo(c);
+        exceptions = null;
         index = instr.getIndex();
         nargs = instr.getNargs();
         type = Type.NULL;
     }
 
-    public InvokeGen(INVOKESPECIAL instr) {
+    public InvokeGen(int offset, INVOKESPECIAL instr) {
+        super(offset, instr.getLength());
         constantPool = instr.getConstantPool();
-        ConstantConstantPool c = (ConstantConstantPool) constantPool.getConstant(instr.getIndex());
+        ConstantCP c = (ConstantCP) constantPool.getConstant(instr.getIndex());
         extractConstantPoolInfo(c);
+        exceptions = null;
         index = instr.getIndex();
         nargs = null;
         type = Type.NULL;
     }
 
-    public InvokeGen(INVOKESTATIC instr) {
+    public InvokeGen(int offset, INVOKESTATIC instr) {
+        super(offset, instr.getLength());
         constantPool = instr.getConstantPool();
-        ConstantConstantPool c = (ConstantConstantPool) constantPool.getConstant(instr.getIndex());
+        ConstantCP c = (ConstantCP) constantPool.getConstant(instr.getIndex());
         extractConstantPoolInfo(c);
+        exceptions = null;
         index = instr.getIndex();
         nargs = null;
         type = Type.NULL;
     }
 
-    public InvokeGen(INVOKEVIRTUAL instr) {
+    public InvokeGen(int offset, INVOKEVIRTUAL instr) {
+        super(offset, instr.getLength());
         constantPool = instr.getConstantPool();
-        ConstantConstantPool c = (ConstantConstantPool) constantPool.getConstant(instr.getIndex());
+        ConstantCP c = (ConstantCP) constantPool.getConstant(instr.getIndex());
         extractConstantPoolInfo(c);
+        exceptions = null;
         index = instr.getIndex();
         nargs = null;
         type = Type.NULL;
@@ -130,9 +139,5 @@ public class InvokeGen extends InstructionGen {
         } else {
             System.out.println(c.getClass().getName());
         }
-    }
-
-    public Class<?>[] getExceptions() {
-        return ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_FIELD_AND_METHOD_RESOLUTION, ExceptionConst.NULL_POINTER_EXCEPTION, ExceptionConst.INCOMPATIBLE_CLASS_CHANGE_ERROR, ExceptionConst.ABSTRACT_METHOD_ERROR, ExceptionConst.UNSATISFIED_LINK_ERROR);
     }
 }

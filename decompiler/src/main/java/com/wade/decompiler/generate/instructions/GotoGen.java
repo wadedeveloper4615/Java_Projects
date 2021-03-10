@@ -17,12 +17,14 @@ public class GotoGen extends InstructionGen {
     private InstructionOpCodes opcode;
     private int index;
 
-    public GotoGen(GOTO instr) {
+    public GotoGen(int offset, GOTO instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         index = -1;
     }
 
-    public GotoGen(GOTO_W instr) {
+    public GotoGen(int offset, GOTO_W instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         index = instr.getIndex();
     }

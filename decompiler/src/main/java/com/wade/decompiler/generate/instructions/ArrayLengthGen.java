@@ -17,7 +17,8 @@ public class ArrayLengthGen extends InstructionGen {
     private InstructionOpCodes opcode;
     private Class<?>[] exceptions;
 
-    public ArrayLengthGen(ARRAYLENGTH instr) {
+    public ArrayLengthGen(int offset, ARRAYLENGTH instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         exceptions = new Class[] { ExceptionConst.NULL_POINTER_EXCEPTION };
     }

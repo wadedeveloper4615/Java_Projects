@@ -12,11 +12,11 @@ import lombok.ToString;
 @Getter
 @ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
-@SuppressWarnings("unused")
 public class SwapGen extends InstructionGen {
     private Type type;
 
-    public SwapGen(SWAP instr) {
+    public SwapGen(int offset, SWAP instr) {
+        super(offset, instr.getLength());
         type = Type.UNKNOWN;
     }
 }

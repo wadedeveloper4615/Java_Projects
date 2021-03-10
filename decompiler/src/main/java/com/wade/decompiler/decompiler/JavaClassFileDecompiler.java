@@ -64,8 +64,10 @@ public class JavaClassFileDecompiler {
                 System.out.println("\t\t\t" + lv.toString());
             }
             System.out.println();
+            int offset = 0;
             for (Instruction instr : codeGen.getInstructions()) {
-                System.out.println("\t\t\t" + instr.toString());
+                System.out.println("\t\t\t " + offset + ") " + instr.toString());
+                offset += instr.getLength();
             }
         }
         System.out.println("\t\t*/");

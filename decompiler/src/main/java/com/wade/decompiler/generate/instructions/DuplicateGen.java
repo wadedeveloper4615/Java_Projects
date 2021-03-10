@@ -22,32 +22,38 @@ public class DuplicateGen extends InstructionGen {
     private InstructionOpCodes opcode;
     private Type type;
 
-    public DuplicateGen(DUP instr) {
+    public DuplicateGen(int offset, DUP instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = instr.getType();
     }
 
-    public DuplicateGen(DUP_X1 instr) {
+    public DuplicateGen(int offset, DUP_X1 instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = instr.getType();
     }
 
-    public DuplicateGen(DUP_X2 instr) {
+    public DuplicateGen(int offset, DUP_X2 instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = instr.getType();
     }
 
-    public DuplicateGen(DUP2 instr) {
+    public DuplicateGen(int offset, DUP2 instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = instr.getType();
     }
 
-    public DuplicateGen(DUP2_X1 instr) {
+    public DuplicateGen(int offset, DUP2_X1 instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = instr.getType();
     }
 
-    public DuplicateGen(DUP2_X2 instr) {
+    public DuplicateGen(int offset, DUP2_X2 instr) {
+        super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = instr.getType();
     }

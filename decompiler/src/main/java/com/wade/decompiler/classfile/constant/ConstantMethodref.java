@@ -12,9 +12,9 @@ import lombok.ToString;
 
 @Setter
 @Getter
-@ToString(callSuper = true, includeFieldNames = true)
+@ToString(callSuper = false, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = true)
-public class ConstantMethodref extends ConstantConstantPool {
+public class ConstantMethodref extends ConstantCP {
     public ConstantMethodref(DataInput input) throws IOException {
         super(ClassFileConstants.CONSTANT_Methodref, input);
     }

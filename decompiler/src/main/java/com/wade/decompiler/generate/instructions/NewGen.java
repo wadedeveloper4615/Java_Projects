@@ -18,7 +18,7 @@ import lombok.ToString;
 
 @Setter
 @Getter
-@ToString(callSuper = false, includeFieldNames = true)
+@ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
 @SuppressWarnings("unused")
 public class NewGen extends InstructionGen {

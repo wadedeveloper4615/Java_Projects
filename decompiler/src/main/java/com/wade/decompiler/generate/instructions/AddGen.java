@@ -14,7 +14,7 @@ import lombok.ToString;
 
 @Setter
 @Getter
-@ToString(callSuper = false, includeFieldNames = true)
+@ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
 public class AddGen extends InstructionGen {
     private InstructionOpCodes opcode;

@@ -26,7 +26,7 @@ import lombok.ToString;
 
 @Setter
 @Getter
-@ToString(callSuper = false, includeFieldNames = true)
+@ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
 public class InvokeGen extends InstructionGen {
     @ToString.Exclude

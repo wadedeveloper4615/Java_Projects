@@ -11,7 +11,7 @@ import lombok.ToString;
 
 @Setter
 @Getter
-@ToString(callSuper = false, includeFieldNames = true)
+@ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
 public class AThrowGen extends InstructionGen {
     private Class<?>[] exceptions;

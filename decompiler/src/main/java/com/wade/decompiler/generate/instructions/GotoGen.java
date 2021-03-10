@@ -15,17 +15,17 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = false)
 public class GotoGen extends InstructionGen {
     private InstructionOpCodes opcode;
-    private int index;
+    private int offsets;
 
     public GotoGen(int offset, GOTO instr) {
         super(offset, instr.getLength());
         opcode = instr.getOpcode();
-        index = -1;
+        offsets = instr.getIndex();
     }
 
     public GotoGen(int offset, GOTO_W instr) {
         super(offset, instr.getLength());
         opcode = instr.getOpcode();
-        index = instr.getIndex();
+        offsets = instr.getIndex();
     }
 }

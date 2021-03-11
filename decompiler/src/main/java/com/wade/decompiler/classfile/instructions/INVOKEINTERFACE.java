@@ -25,11 +25,6 @@ public class INVOKEINTERFACE extends Instruction {
         super.setLength(5);
     }
 
-    @Override
-    public int consumeStack() {
-        return nargs;
-    }
-
     public int getCount() {
         return nargs;
     }

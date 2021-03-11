@@ -36,11 +36,6 @@ public class PUTSTATIC extends Instruction {
         super(InstructionOpCodes.PUTSTATIC, 3, cp);
     }
 
-    @Override
-    public int consumeStack() {
-        return getFieldSize() + 1;
-    }
-
     public Class<?>[] getExceptions() {
         return ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_FIELD_AND_METHOD_RESOLUTION, ExceptionConst.INCOMPATIBLE_CLASS_CHANGE_ERROR);
     }

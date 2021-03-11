@@ -12,6 +12,7 @@ import com.wade.decompiler.classfile.JavaClass;
 import com.wade.decompiler.enums.ClassFileConstants;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
 
 class ConstantPoolTest extends AbstractTest {
     private Constant searchConstantPool(Constant[] constantPool, ClassFileConstants constant) {
@@ -42,9 +43,7 @@ class ConstantPoolTest extends AbstractTest {
         assertTrue(constant instanceof ConstantDouble);
         ConstantDouble c = (ConstantDouble) constant;
         assertEquals("6.0", constantPool.constantToString(constant));
-        assertFalse(c.canEqual(null));
-        assertTrue(c.canEqual(c));
-        EqualsVerifier.simple().forClass(c.getClass()).verify();
+        EqualsVerifier.forClass(c.getClass()).suppress(Warning.NONFINAL_FIELDS).suppress(Warning.STRICT_INHERITANCE).verify();
     }
 
     @Test
@@ -63,9 +62,7 @@ class ConstantPoolTest extends AbstractTest {
         assertTrue(constant instanceof ConstantFloat);
         ConstantFloat c = (ConstantFloat) constant;
         assertEquals("8.0", constantPool.constantToString(constant));
-        assertFalse(c.canEqual(null));
-        assertTrue(c.canEqual(c));
-        EqualsVerifier.simple().forClass(c.getClass()).verify();
+        EqualsVerifier.forClass(c.getClass()).suppress(Warning.NONFINAL_FIELDS).suppress(Warning.STRICT_INHERITANCE).verify();
     }
 
     @Test
@@ -84,9 +81,7 @@ class ConstantPoolTest extends AbstractTest {
         assertTrue(constant instanceof ConstantInteger);
         ConstantInteger c = (ConstantInteger) constant;
         assertEquals("250000", constantPool.constantToString(constant));
-        assertFalse(c.canEqual(null));
-        assertTrue(c.canEqual(c));
-        EqualsVerifier.simple().forClass(c.getClass()).verify();
+        EqualsVerifier.forClass(c.getClass()).suppress(Warning.NONFINAL_FIELDS).suppress(Warning.STRICT_INHERITANCE).verify();
     }
 
     @Test
@@ -105,9 +100,47 @@ class ConstantPoolTest extends AbstractTest {
         assertTrue(constant instanceof ConstantInterfaceMethodRef);
         ConstantInterfaceMethodRef c = (ConstantInterfaceMethodRef) constant;
         assertNotNull(constantPool.constantToString(constant));
-        assertFalse(c.canEqual(null));
-        assertTrue(c.canEqual(c));
-        EqualsVerifier.simple().forClass(c.getClass()).verify();
+        EqualsVerifier.forClass(c.getClass()).suppress(Warning.NONFINAL_FIELDS).suppress(Warning.STRICT_INHERITANCE).verify();
+    }
+
+    @Test
+    void testInvokeDynamic() throws Exception {
+        JavaClass clazz = getTestClass(PACKAGE_BASE_NAME + ".data.test.SimpleClassWithConstantPool");
+        assertNotNull(clazz);
+        ConstantPool constantPool = clazz.getConstantPool();
+        System.out.println(constantPool.toString());
+        assertNotNull(constantPool);
+        assertNotNull(constantPool.getConstantPool());
+        assertNotNull(constantPool.hashCode());
+        assertFalse(constantPool.canEqual(null));
+        assertTrue(constantPool.canEqual(constantPool));
+        Constant constant = searchConstantPool(constantPool.getConstantPool(), ClassFileConstants.CONSTANT_InvokeDynamic);
+        assertNotNull(constant);
+        assertTrue(constant instanceof ConstantInvokeDynamic);
+        ConstantInvokeDynamic c = (ConstantInvokeDynamic) constant;
+        assertNotNull(constantPool.constantToString(c));
+        assertNotNull(c.getNameAndTypeIndex());
+        EqualsVerifier.forClass(c.getClass()).suppress(Warning.NONFINAL_FIELDS).suppress(Warning.STRICT_INHERITANCE).verify();
+    }
+
+    @Test
+    void testInvokeMethodType() throws Exception {
+        JavaClass clazz = getTestClass(PACKAGE_BASE_NAME + ".data.test.SimpleClassWithConstantPool");
+        assertNotNull(clazz);
+        ConstantPool constantPool = clazz.getConstantPool();
+        System.out.println(constantPool.toString());
+        assertNotNull(constantPool);
+        assertNotNull(constantPool.getConstantPool());
+        assertNotNull(constantPool.hashCode());
+        assertFalse(constantPool.canEqual(null));
+        assertTrue(constantPool.canEqual(constantPool));
+        Constant constant = searchConstantPool(constantPool.getConstantPool(), ClassFileConstants.CONSTANT_MethodType);
+        assertNotNull(constant);
+        assertTrue(constant instanceof ConstantMethodType);
+        ConstantMethodType c = (ConstantMethodType) constant;
+        assertNotNull(constantPool.constantToString(c));
+        assertNotNull(c.getDescriptorIndex());
+        EqualsVerifier.forClass(c.getClass()).suppress(Warning.NONFINAL_FIELDS).suppress(Warning.STRICT_INHERITANCE).verify();
     }
 
     @Test
@@ -126,9 +159,7 @@ class ConstantPoolTest extends AbstractTest {
         assertTrue(constant instanceof ConstantLong);
         ConstantLong c = (ConstantLong) constant;
         assertEquals("7", constantPool.constantToString(constant));
-        assertFalse(c.canEqual(null));
-        assertTrue(c.canEqual(c));
-        EqualsVerifier.simple().forClass(c.getClass()).verify();
+        EqualsVerifier.forClass(c.getClass()).suppress(Warning.NONFINAL_FIELDS).suppress(Warning.STRICT_INHERITANCE).verify();
     }
 
     @Test
@@ -147,9 +178,7 @@ class ConstantPoolTest extends AbstractTest {
         assertTrue(constant instanceof ConstantMethodref);
         ConstantMethodref c = (ConstantMethodref) constant;
         assertNotNull(constantPool.constantToString(constant));
-        assertFalse(c.canEqual(null));
-        assertTrue(c.canEqual(c));
-        EqualsVerifier.simple().forClass(c.getClass()).verify();
+        EqualsVerifier.forClass(c.getClass()).suppress(Warning.NONFINAL_FIELDS).suppress(Warning.STRICT_INHERITANCE).verify();
     }
 
     @Test
@@ -170,9 +199,7 @@ class ConstantPoolTest extends AbstractTest {
         assertNotNull(constantPool.constantToString(c));
         assertNotNull(c.getNameIndex());
         assertNotNull(c.getSignatureIndex());
-        assertFalse(c.canEqual(null));
-        assertTrue(c.canEqual(c));
-        EqualsVerifier.simple().forClass(c.getClass()).verify();
+        EqualsVerifier.forClass(c.getClass()).suppress(Warning.NONFINAL_FIELDS).suppress(Warning.STRICT_INHERITANCE).verify();
     }
 
     @Test
@@ -192,9 +219,7 @@ class ConstantPoolTest extends AbstractTest {
         ConstantString c = (ConstantString) constant;
         assertNotNull(constantPool.constantToString(c));
         assertNotNull(c.getStringIndex());
-        assertFalse(c.canEqual(null));
-        assertTrue(c.canEqual(c));
-        EqualsVerifier.simple().forClass(c.getClass()).verify();
+        EqualsVerifier.forClass(c.getClass()).suppress(Warning.NONFINAL_FIELDS).suppress(Warning.STRICT_INHERITANCE).verify();
     }
 
     @Test
@@ -213,8 +238,6 @@ class ConstantPoolTest extends AbstractTest {
         assertTrue(constant instanceof ConstantUtf8);
         ConstantUtf8 c = (ConstantUtf8) constant;
         assertNotNull(constantPool.constantToString(constant));
-        assertFalse(c.canEqual(null));
-        assertTrue(c.canEqual(c));
-        EqualsVerifier.simple().forClass(c.getClass()).verify();
+        EqualsVerifier.forClass(c.getClass()).suppress(Warning.NONFINAL_FIELDS).suppress(Warning.STRICT_INHERITANCE).verify();
     }
 }

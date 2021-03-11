@@ -5,7 +5,6 @@ import java.io.IOException;
 
 import com.wade.decompiler.enums.ClassFileConstants;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -13,13 +12,24 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString(callSuper = true, includeFieldNames = true)
-@EqualsAndHashCode(callSuper = true)
 public class ConstantInterfaceMethodRef extends ConstantCP {
     public ConstantInterfaceMethodRef(DataInput input) throws IOException {
         super(ClassFileConstants.CONSTANT_InterfaceMethodref, input);
     }
 
-    public ConstantInterfaceMethodRef(int class_index, int name_and_type_index) {
-        super(ClassFileConstants.CONSTANT_InterfaceMethodref, class_index, name_and_type_index);
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!super.equals(obj)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 }

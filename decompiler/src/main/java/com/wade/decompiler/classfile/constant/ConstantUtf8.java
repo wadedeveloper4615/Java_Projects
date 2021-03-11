@@ -2,10 +2,10 @@ package com.wade.decompiler.classfile.constant;
 
 import java.io.DataInput;
 import java.io.IOException;
+import java.util.Objects;
 
 import com.wade.decompiler.enums.ClassFileConstants;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -13,24 +13,31 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString(callSuper = false, includeFieldNames = true)
-@EqualsAndHashCode(callSuper = true)
 public class ConstantUtf8 extends Constant {
-    private final String value;
+    private final String bytes;
 
     public ConstantUtf8(DataInput dataInput) throws IOException {
         super(ClassFileConstants.CONSTANT_Utf8);
-        this.value = dataInput.readUTF();
+        this.bytes = dataInput.readUTF();
     }
 
-    public ConstantUtf8(final String value) {
-        super(ClassFileConstants.CONSTANT_Utf8);
-        if (value == null) {
-            throw new IllegalArgumentException("Value must not be null.");
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
         }
-        this.value = value;
+        if (!super.equals(obj)) {
+            return false;
+        }
+        ConstantUtf8 other = (ConstantUtf8) obj;
+        return Objects.equals(bytes, other.bytes);
     }
 
-    public String getBytes() {
-        return value;
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + Objects.hash(bytes);
+        return result;
     }
 }

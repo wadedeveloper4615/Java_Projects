@@ -14,7 +14,7 @@ import lombok.ToString;
 @Getter
 @ToString(callSuper = false, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = true)
-public class ConstantClass extends Constant implements ConstantObject {
+public class ConstantClass extends Constant {
     private final int nameIndex;
 
     public ConstantClass(DataInput dataInput) throws IOException {
@@ -24,15 +24,5 @@ public class ConstantClass extends Constant implements ConstantObject {
     public ConstantClass(int nameIndex) {
         super(ClassFileConstants.CONSTANT_Class);
         this.nameIndex = nameIndex;
-    }
-
-    public String getBytes(final ConstantPool cp) {
-        return (String) getConstantValue(cp);
-    }
-
-    @Override
-    public Object getConstantValue(final ConstantPool cp) {
-        final Constant c = cp.getConstant(nameIndex, ClassFileConstants.CONSTANT_Utf8);
-        return ((ConstantUtf8) c).getBytes();
     }
 }

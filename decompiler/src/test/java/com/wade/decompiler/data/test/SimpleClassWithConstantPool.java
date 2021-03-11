@@ -2,6 +2,7 @@ package com.wade.decompiler.data.test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 @SuppressWarnings({ "unused" })
 public class SimpleClassWithConstantPool {
@@ -20,5 +21,11 @@ public class SimpleClassWithConstantPool {
         v8 = new ArrayList<>();
         v8.add("");
         this.toString();
+    }
+
+    public void fuction1() {
+        List<String> value = List.of("Red", "Green", "Blue");
+        Stream<String> stream = value.stream();
+        long lengthyColors = stream.filter(c -> c.length() > 3).count();
     }
 }

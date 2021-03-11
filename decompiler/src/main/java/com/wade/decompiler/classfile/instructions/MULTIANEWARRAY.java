@@ -30,11 +30,6 @@ public class MULTIANEWARRAY extends Instruction {
     }
 
     @Override
-    public int consumeStack() {
-        return dimensions;
-    }
-
-    @Override
     public void initFromFile(ByteSequence bytes, boolean wide) throws IOException {
         setIndex(bytes.readUnsignedShort());
         dimensions = bytes.readByte();

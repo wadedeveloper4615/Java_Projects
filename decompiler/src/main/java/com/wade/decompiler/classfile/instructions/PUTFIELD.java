@@ -35,11 +35,6 @@ public class PUTFIELD extends Instruction {
         super(InstructionOpCodes.PUTFIELD, 3, cp);
     }
 
-    @Override
-    public int consumeStack() {
-        return getFieldSize() + 1;
-    }
-
     public int getFieldSize() {
         return Type.size(Type.getTypeSize(getSignature()));
     }

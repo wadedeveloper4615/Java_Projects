@@ -18,7 +18,7 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = false)
 public class LOOKUPSWITCH extends Instruction {
     protected int[] match;
-    protected int[] offset;
+    protected int[] offsets;
     protected int padding;
     protected int defaultOffset;
 
@@ -40,10 +40,10 @@ public class LOOKUPSWITCH extends Instruction {
         int length = fixedlength + 1;// (short) (matchlength + getPadding());
         setLength(length);
         setMatch(new int[matchlength]);
-        setOffset(new int[matchlength]);
+        setOffsets(new int[matchlength]);
         for (int i = 0; i < matchlength; i++) {
             match[i] = bytes.readInt();
-            offset[i] = bytes.readInt();
+            offsets[i] = bytes.readInt();
         }
     }
 }

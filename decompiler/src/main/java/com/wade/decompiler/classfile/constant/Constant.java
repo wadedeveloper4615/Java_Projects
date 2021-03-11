@@ -2,11 +2,11 @@ package com.wade.decompiler.classfile.constant;
 
 import java.io.DataInput;
 import java.io.IOException;
+import java.util.Objects;
 
 import com.wade.decompiler.classfile.exceptions.ClassFormatException;
 import com.wade.decompiler.enums.ClassFileConstants;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -14,12 +14,31 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString(callSuper = false, includeFieldNames = true)
-@EqualsAndHashCode(callSuper = false)
 public abstract class Constant {
     protected ClassFileConstants tag;
 
     public Constant(ClassFileConstants tag) {
         this.tag = tag;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Constant other = (Constant) obj;
+        return tag == other.tag;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(tag);
     }
 
     public static Constant readConstant(DataInput dataInput) throws IOException, ClassFormatException {

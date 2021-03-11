@@ -16,32 +16,20 @@ import lombok.ToString;
 @ToString(callSuper = false, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
 public abstract class Instruction {
+    protected int offset;
     protected int length;
+    @ToString.Exclude
     protected InstructionOpCodes opcode;
-    private String name;
-    private int consumeStack;
-    private int produceStack;
     @ToString.Exclude
     protected ConstantPool constantPool;
 
     public Instruction(InstructionOpCodes opcode, int length, ConstantPool constantPool) {
         this.length = length;
         this.opcode = opcode;
-        this.name = opcode.getName();
-        this.consumeStack = opcode.getConsumeStack();
-        this.produceStack = opcode.getProduceStack();
         this.constantPool = constantPool;
-    }
-
-    public int consumeStack() {
-        return opcode.getConsumeStack();
     }
 
     @SuppressWarnings("unused")
     protected void initFromFile(ByteSequence bytes, boolean wide) throws IOException {
-    }
-
-    public int produceStack() {
-        return opcode.getProduceStack();
     }
 }

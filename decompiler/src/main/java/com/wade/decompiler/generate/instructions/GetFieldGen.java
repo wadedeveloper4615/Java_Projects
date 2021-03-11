@@ -75,16 +75,17 @@ public class GetFieldGen extends InstructionGen {
             methodName = ((ConstantUtf8) constantPool.getConstant(cnt.getNameIndex(), ClassFileConstants.CONSTANT_Utf8)).getBytes();
             signature = ((ConstantUtf8) constantPool.getConstant(cnt.getSignatureIndex(), ClassFileConstants.CONSTANT_Utf8)).getBytes();
         } else if (c instanceof ConstantClass) {
-            constantValue = ((ConstantClass) c).getConstantValue(constantPool);
+            ConstantClass constantClass = (ConstantClass) c;
+            constantValue = ((ConstantUtf8) constantPool.getConstant(constantClass.getNameIndex(), ClassFileConstants.CONSTANT_Utf8)).getBytes();
         } else if (c instanceof ConstantUtf8) {
             constantString = ((ConstantUtf8) c).getBytes();
         } else if (c instanceof ConstantNameAndType) {
-            methodName = ((ConstantNameAndType) c).getName(constantPool);
-            signature = ((ConstantNameAndType) c).getSignature(constantPool);
+            methodName = constantPool.constantToString(((ConstantNameAndType) c).getNameIndex(), ClassFileConstants.CONSTANT_Utf8);
+            signature = constantPool.constantToString(((ConstantNameAndType) c).getSignatureIndex(), ClassFileConstants.CONSTANT_Utf8);
         } else if (c instanceof ConstantLong) {
-            constantValue = ((ConstantLong) c).getConstantValue(constantPool);
+            constantValue = Long.valueOf(((ConstantLong) c).getBytes());
         } else {
-            System.out.println(c.getClass().getName());
+            System.out.println("Unknow class in getfileldgen " + c.getClass().getName());
         }
     }
 }

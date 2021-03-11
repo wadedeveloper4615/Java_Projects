@@ -20,7 +20,7 @@ public class LookupSwitchGen extends InstructionGen {
     public LookupSwitchGen(int offset, LOOKUPSWITCH instr) {
         super(offset, instr.getLength());
         match = instr.getMatch();
-        offsets = instr.getOffset();
+        offsets = instr.getOffsets();
         padding = instr.getPadding();
         defaultOffset = instr.getDefaultOffset();
     }

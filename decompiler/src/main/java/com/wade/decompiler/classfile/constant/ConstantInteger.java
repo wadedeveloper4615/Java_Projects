@@ -2,10 +2,10 @@ package com.wade.decompiler.classfile.constant;
 
 import java.io.DataInput;
 import java.io.IOException;
+import java.util.Objects;
 
 import com.wade.decompiler.enums.ClassFileConstants;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -13,8 +13,7 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString(callSuper = false, includeFieldNames = true)
-@EqualsAndHashCode(callSuper = true)
-public class ConstantInteger extends Constant implements ConstantObject {
+public class ConstantInteger extends Constant {
     private final int bytes;
 
     public ConstantInteger(DataInput file) throws IOException {
@@ -27,7 +26,22 @@ public class ConstantInteger extends Constant implements ConstantObject {
     }
 
     @Override
-    public Object getConstantValue(ConstantPool cp) {
-        return Integer.valueOf(bytes);
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!super.equals(obj)) {
+            return false;
+        }
+        ConstantInteger other = (ConstantInteger) obj;
+        return bytes == other.bytes;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + Objects.hash(bytes);
+        return result;
     }
 }

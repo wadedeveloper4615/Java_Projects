@@ -230,7 +230,7 @@ public class InstructionFactory {
         return obj;
     }
 
-    public static Instruction readInstruction(ByteSequence bytes, LocalVariableTableGen localVariableTable, ConstantPool cp) throws IOException {
+    public static Instruction readInstruction(ByteSequence bytes, LocalVariableTableGen localVariableTable, ConstantPool cp, int offset) throws IOException {
         boolean wide = false;
         InstructionOpCodes opcode = InstructionOpCodes.read(bytes.readUnsignedByte());
         if (opcode == InstructionOpCodes.WIDE) {
@@ -243,6 +243,7 @@ public class InstructionFactory {
         }
         obj.setOpcode(opcode);
         obj.initFromFile(bytes, wide);
+        obj.setOffset(offset);
         return obj;
     }
 }

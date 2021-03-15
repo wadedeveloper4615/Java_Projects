@@ -10,6 +10,7 @@ import com.wade.decompiler.generate.attribute.CodeGen;
 import com.wade.decompiler.generate.attribute.LocalVariableGen;
 import com.wade.decompiler.generate.attribute.LocalVariableTableGen;
 import com.wade.decompiler.generate.instructions.InstructionGen;
+import com.wade.decompiler.util.MethodSignature;
 import com.wade.decompiler.util.Utility;
 
 import lombok.EqualsAndHashCode;
@@ -66,15 +67,15 @@ public class JavaClassFileDecompiler {
             }
             System.out.println();
             for (Instruction instr : codeGen.getInstructions()) {
-                System.out.println("\t\t\t " + instr.toString());
+                System.out.println("\t\t\t" + instr.toString());
+            }
+            System.out.println();
+            for (InstructionGen instr : codeGen.getInstructionExtracted()) {
+                if (instr != null)
+                    System.out.println("\t\t\t" + instr.toString());
             }
         }
         System.out.println("\t\t*/");
-        System.out.println();
-        for (InstructionGen instr : codeGen.getInstructionExtracted()) {
-            if (instr != null)
-                System.out.println("\t\t" + instr.toString());
-        }
         System.out.println();
         for (String instr : codeGen.getInstructionDecompiled()) {
             if (instr != null)
@@ -105,10 +106,14 @@ public class JavaClassFileDecompiler {
             }
             String access = Utility.accessToString(flags, true);
             String name = mg.getName();
+            boolean constructor = false;
             if (name.equals("<init>")) {
                 name = Utility.extractClassName(jgen.getClassName(), false);
+                constructor = true;
             }
-            String signature = Utility.methodSignatureToString(mg.getSignature(), name, access, true, mg.getLocalVariableTable());
+            String signature = new MethodSignature(mg.getSignature(), name, access, jgen.getClassName(), true, mg.getLocalVariableTable(), constructor).signaturetoString();
+            // String signature = Utility.methodSignatureToString(mg.getSignature(), name,
+            // access, true, mg.getLocalVariableTable());
             if (!(isAbstract || isAnnotation || isNative)) {
                 System.out.println("\t" + signature + "{");
                 decompileInstructions(mg.getCode(), mg.getLocalVariableTable());

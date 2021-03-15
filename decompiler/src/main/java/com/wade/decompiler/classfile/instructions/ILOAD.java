@@ -38,9 +38,17 @@ public class ILOAD extends Instruction {
         if (wide) {
             index = bytes.readUnsignedShort();
             super.setLength(4);
-        } else if (opcode == InstructionOpCodes.LLOAD) {
-            index = bytes.readUnsignedByte();
-            super.setLength(2);
+        } else {
+            if (((opcode.getOpcode() >= InstructionOpCodes.ILOAD.getOpcode()) && (opcode.getOpcode() <= InstructionOpCodes.ALOAD.getOpcode())) || ((opcode.getOpcode() >= InstructionOpCodes.ISTORE.getOpcode()) && (opcode.getOpcode() <= InstructionOpCodes.ASTORE.getOpcode()))) {
+                index = bytes.readUnsignedByte();
+                super.setLength(2);
+            } else if (opcode.getOpcode() <= InstructionOpCodes.ALOAD_3.getOpcode()) {
+                index = (opcode.getOpcode() - InstructionOpCodes.ILOAD_0.getOpcode()) % 4;
+                super.setLength(1);
+            } else {
+                index = (opcode.getOpcode() - InstructionOpCodes.ISTORE_0.getOpcode()) % 4;
+                super.setLength(1);
+            }
         }
     }
 }

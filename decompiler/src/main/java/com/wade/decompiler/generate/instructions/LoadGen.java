@@ -30,9 +30,7 @@ public class LoadGen extends InstructionGen {
         super(offset, instr.getLength());
         opcode = instr.getOpcode();
         int index = instr.getIndex();
-        if (index >= 0 && index < instr.getLocalVariableTable().getLocalVariableTable().length) {
-            localVariableReference = instr.getLocalVariableTable().getLocalVariableTable()[index];
-        }
+        localVariableReference = findLocalVariable(instr.getLocalVariableTable().getLocalVariableTable(), index);
         type = Type.OBJECT;
     }
 
@@ -40,12 +38,7 @@ public class LoadGen extends InstructionGen {
         super(offset, instr.getLength());
         opcode = instr.getOpcode();
         int index = instr.getIndex();
-        if (index > 0 && index < instr.getLocalVariableTable().getLocalVariableTable().length) {
-            localVariableReference = instr.getLocalVariableTable().getLocalVariableTable()[index];
-        }
-        if (index >= instr.getLocalVariableTable().getLocalVariableTable().length) {
-            localVariableReference = instr.getLocalVariableTable().getLocalVariableTable()[index - 1];
-        }
+        localVariableReference = findLocalVariable(instr.getLocalVariableTable().getLocalVariableTable(), index);
         type = Type.DOUBLE;
     }
 
@@ -60,9 +53,7 @@ public class LoadGen extends InstructionGen {
         super(offset, instr.getLength());
         opcode = instr.getOpcode();
         int index = instr.getIndex();
-        if (index > 0 && index < instr.getLocalVariableTable().getLocalVariableTable().length) {
-            localVariableReference = instr.getLocalVariableTable().getLocalVariableTable()[index];
-        }
+        localVariableReference = findLocalVariable(instr.getLocalVariableTable().getLocalVariableTable(), index);
         type = Type.INTEGER;
     }
 
@@ -70,16 +61,26 @@ public class LoadGen extends InstructionGen {
         super(offset, instr.getLength());
         opcode = instr.getOpcode();
         int index = instr.getIndex();
-        if (index > 0 && index < instr.getLocalVariableTable().getLocalVariableTable().length) {
-            localVariableReference = instr.getLocalVariableTable().getLocalVariableTable()[index];
-        }
+        localVariableReference = findLocalVariable(instr.getLocalVariableTable().getLocalVariableTable(), index);
         type = Type.LONG;
     }
 
     @Override
     public String decompile(ExpressionStack stack) {
-        String name = this.localVariableReference.getName();
+        String name = "";
+        if (localVariableReference != null) {
+            name = this.localVariableReference.getName();
+        }
         stack.push(new Expression(ExpressionType.VARIABLE, name));
+        return null;
+    }
+
+    private LocalVariableGen findLocalVariable(LocalVariableGen[] localVars, int index) {
+        for (LocalVariableGen lv : localVars) {
+            if (lv.getIndex() == index) {
+                return lv;
+            }
+        }
         return null;
     }
 }

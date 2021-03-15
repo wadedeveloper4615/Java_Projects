@@ -10,7 +10,7 @@ import com.wade.decompiler.enums.TypeEnum;
 class MethodSignatureTest {
     @Test
     void testMethodSignatureArrayPrimitives() {
-        MethodSignature ms = new MethodSignature("([B[C[D[F[I[J[V[Z[S)I", "name", "public", false, null);
+        MethodSignature ms = new MethodSignature("([B[C[D[F[I[J[V[Z[S)I", "name", "public", "cname", false, null, false);
         assertNotNull(ms.getReturnType());
         assertNotNull(ms.getParameterTypes());
         assertEquals(TypeEnum.T_INTEGER, ms.getReturnType().getBaseType());
@@ -40,7 +40,7 @@ class MethodSignatureTest {
 
     @Test
     void testMethodSignaturePrimitives() {
-        MethodSignature ms = new MethodSignature("(BCDFIJVZS)I", "name", "public", false, null);
+        MethodSignature ms = new MethodSignature("(BCDFIJVZS)I", "name", "public", "cname", false, null, false);
         assertNotNull(ms.getReturnType());
         assertNotNull(ms.getParameterTypes());
         assertEquals(TypeEnum.T_INTEGER, ms.getReturnType().getBaseType());
@@ -60,7 +60,7 @@ class MethodSignatureTest {
 
     @Test
     void testMethodSignatureReferences() {
-        MethodSignature ms = new MethodSignature("(ILjava/lang/Object;J)V", "name", "public", false, null);
+        MethodSignature ms = new MethodSignature("(ILjava/lang/Object;J)V", "name", "public", "cname", false, null, false);
         assertNotNull(ms.getReturnType());
         assertNotNull(ms.getParameterTypes());
         assertEquals(TypeEnum.T_VOID, ms.getReturnType().getBaseType());

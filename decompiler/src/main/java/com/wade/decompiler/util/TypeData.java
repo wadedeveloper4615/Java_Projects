@@ -15,15 +15,17 @@ public class TypeData {
     TypeEnum baseType;
     TypeEnum indexType;
     private String reference;
+    private String name;
 
     public TypeData(TypeEnum baseType, TypeEnum indexType) {
         this.baseType = baseType;
         this.indexType = indexType;
     }
 
-    public TypeData(TypeEnum baseType, TypeEnum indexType, String reference) {
+    public TypeData(TypeEnum baseType, TypeEnum indexType, String reference, String name) {
         this.baseType = baseType;
         this.indexType = indexType;
         this.reference = reference;
+        this.name = name;
     }
 }

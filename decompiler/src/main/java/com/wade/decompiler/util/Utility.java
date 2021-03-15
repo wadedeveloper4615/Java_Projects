@@ -97,6 +97,11 @@ public abstract class Utility {
         return buf.toString();
     }
 
+    public static Object extractClassName(String path) {
+        int index = path.lastIndexOf('.');
+        return path.substring(index + 1);
+    }
+
     public static String extractClassName(String className, boolean b) {
         String name = Utility.compactClassName(className, b);
         int index = name.lastIndexOf(".") + 1;

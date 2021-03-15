@@ -2,6 +2,7 @@ package com.wade.decompiler.test;
 
 import java.io.Serializable;
 
+@SuppressWarnings("unused")
 public class Test5 implements Serializable {
     private static final long serialVersionUID = -5103281989426867172L;
     private char var1;
@@ -12,6 +13,22 @@ public class Test5 implements Serializable {
     private float var6;
     private double var7;
     private String var8;
+
+    public Test5() {
+        super();
+    }
+
+    public Test5(char var1, byte var2, short var3, int var4, long var5, float var6, double var7, String var8) {
+        super();
+        this.var1 = var1;
+        this.var2 = var2;
+        this.var3 = var3;
+        this.var4 = var4;
+        this.var5 = var5;
+        this.var6 = var6;
+        this.var7 = var7;
+        this.var8 = var8;
+    }
 
     public char getVar1() {
         return var1;

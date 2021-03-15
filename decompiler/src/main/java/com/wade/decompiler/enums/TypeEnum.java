@@ -15,12 +15,13 @@ public enum TypeEnum {
     T_OBJECT(14),
     T_REFERENCE(14),
     T_UNKNOWN(15),
-    T_ADDRESS(16);
+    T_ADDRESS(16),
+    T_NONE(17);
     public String ILLEGAL_TYPE   = "<illegal type>";
     private String[] TYPE_NAMES = {
             ILLEGAL_TYPE, ILLEGAL_TYPE,  ILLEGAL_TYPE, ILLEGAL_TYPE,
             "boolean", "char", "float", "double", "byte", "short", "int", "long",
-            "void", "array", "object", "unknown", "address"
+            "void", "array", "object", "unknown", "address", ILLEGAL_TYPE
     };
 
     private String[] CLASS_TYPE_NAMES = {
@@ -28,13 +29,15 @@ public enum TypeEnum {
             "java.lang.Boolean", "java.lang.Character", "java.lang.Float",
             "java.lang.Double", "java.lang.Byte", "java.lang.Short",
             "java.lang.Integer", "java.lang.Long", "java.lang.Void",
-            ILLEGAL_TYPE, ILLEGAL_TYPE,  ILLEGAL_TYPE,  ILLEGAL_TYPE
+            ILLEGAL_TYPE, ILLEGAL_TYPE,  ILLEGAL_TYPE,  ILLEGAL_TYPE,
+            ILLEGAL_TYPE
     };
 
     private  String[] SHORT_TYPE_NAMES = {
             ILLEGAL_TYPE, ILLEGAL_TYPE,  ILLEGAL_TYPE, ILLEGAL_TYPE,
             "Z", "C", "F", "D", "B", "S", "I", "J",
-            "V", ILLEGAL_TYPE, ILLEGAL_TYPE, ILLEGAL_TYPE, ILLEGAL_TYPE
+            "V", ILLEGAL_TYPE, ILLEGAL_TYPE, ILLEGAL_TYPE, ILLEGAL_TYPE,
+            ILLEGAL_TYPE
     };
     //@formatter:off
     private int tag;

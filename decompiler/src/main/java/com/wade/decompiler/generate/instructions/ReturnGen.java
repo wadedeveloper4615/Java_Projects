@@ -72,11 +72,9 @@ public class ReturnGen extends InstructionGen {
 
     @Override
     public String decompile(ExpressionStack stack) {
-        // Expression item1 = new Expression(ExpressionType.CONSTANT_NUMBER, "");
-        Expression item1;
         boolean isEmpty = stack.isEmpty();
         if (!isEmpty) {
-            item1 = stack.pop();
+            Expression item1 = stack.pop();
             return "return " + item1.getValue();
         }
         return null;

@@ -16,6 +16,7 @@ import com.wade.decompiler.classfile.instructions.L2D;
 import com.wade.decompiler.classfile.instructions.L2F;
 import com.wade.decompiler.classfile.instructions.L2I;
 import com.wade.decompiler.classfile.instructions.type.Type;
+import com.wade.decompiler.decompiler.ExpressionStack;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -118,5 +119,10 @@ public class ConversionGen extends InstructionGen {
         super(offset, instr.getLength());
         fromType = Type.LONG;
         toType = instr.getType();
+    }
+
+    @Override
+    public String decompile(ExpressionStack stack) {
+        return null;
     }
 }

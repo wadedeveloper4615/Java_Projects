@@ -11,6 +11,9 @@ import com.wade.decompiler.classfile.instructions.LDC2_W;
 import com.wade.decompiler.classfile.instructions.SIPUSH;
 import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.constants.ExceptionConst;
+import com.wade.decompiler.decompiler.Expression;
+import com.wade.decompiler.decompiler.ExpressionStack;
+import com.wade.decompiler.decompiler.ExpressionType;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -79,5 +82,12 @@ public class ConstGen extends InstructionGen {
         super(offset, instr.getLength());
         value = instr.getValue();
         type = instr.getType();
+    }
+
+    @Override
+    public String decompile(ExpressionStack stack) {
+        String name = this.value.toString();
+        stack.push(new Expression(ExpressionType.CONSTANT_NUMBER, name));
+        return null;// "push " + name;
     }
 }

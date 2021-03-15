@@ -1,6 +1,7 @@
 package com.wade.decompiler.generate.instructions;
 
 import com.wade.decompiler.classfile.instructions.NOP;
+import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
 import lombok.EqualsAndHashCode;
@@ -18,5 +19,10 @@ public class NopGen extends InstructionGen {
     public NopGen(int offset, NOP instr) {
         super(offset, instr.getLength());
         opcode = instr.getOpcode();
+    }
+
+    @Override
+    public String decompile(ExpressionStack stack) {
+        return null;
     }
 }

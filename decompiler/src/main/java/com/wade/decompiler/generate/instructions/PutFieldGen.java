@@ -12,6 +12,8 @@ import com.wade.decompiler.classfile.constant.ConstantUtf8;
 import com.wade.decompiler.classfile.instructions.PUTFIELD;
 import com.wade.decompiler.classfile.instructions.PUTSTATIC;
 import com.wade.decompiler.constants.ExceptionConst;
+import com.wade.decompiler.decompiler.Expression;
+import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.ClassFileConstants;
 
 import lombok.EqualsAndHashCode;
@@ -44,6 +46,15 @@ public class PutFieldGen extends InstructionGen {
         constantPool = instr.getConstantPool();
         ConstantCP c = (ConstantCP) constantPool.getConstant(instr.getIndex());
         extractConstantPoolInfo(c);
+    }
+
+    @Override
+    public String decompile(ExpressionStack stack) {
+        Expression item1 = stack.pop();
+        Expression item2 = stack.pop();
+        String name = this.methodName;
+        String result = item2.getValue() + "." + item1.getValue() + " = " + name;
+        return result;
     }
 
     private void extractConstantPoolInfo(Constant c) {

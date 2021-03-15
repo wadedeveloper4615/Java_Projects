@@ -15,19 +15,15 @@ import lombok.ToString;
 @Getter
 @ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
-public class DecompiledInstructions {
-    private List<InstructionGen> instructions = new ArrayList<>();
+public class InstructionInfoExtract {
+    private List<InstructionGen> instructionsExtracted = new ArrayList<>();
 
-    public DecompiledInstructions(Instruction[] instructions) {
+    public InstructionInfoExtract(Instruction[] instructions) {
         int offset = 0;
         for (Instruction instr : instructions) {
             InstructionGen instruction = InstructionGen.read(offset, instr);
-            this.instructions.add(instruction);
+            this.instructionsExtracted.add(instruction);
             offset += instr.getLength();
         }
-    }
-
-    public List<InstructionGen> getInstructions() {
-        return instructions;
     }
 }

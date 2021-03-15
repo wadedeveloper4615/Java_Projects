@@ -3,6 +3,7 @@ package com.wade.decompiler.generate.instructions;
 import com.wade.decompiler.classfile.instructions.MONITORENTER;
 import com.wade.decompiler.classfile.instructions.MONITOREXIT;
 import com.wade.decompiler.constants.ExceptionConst;
+import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
 import lombok.EqualsAndHashCode;
@@ -25,6 +26,11 @@ public class MonitorGen extends InstructionGen {
     public MonitorGen(int offset, MONITOREXIT instr) {
         super(offset, instr.getLength());
         opcode = instr.getOpcode();
+    }
+
+    @Override
+    public String decompile(ExpressionStack stack) {
+        return null;
     }
 
     public Class<?>[] getExceptions() {

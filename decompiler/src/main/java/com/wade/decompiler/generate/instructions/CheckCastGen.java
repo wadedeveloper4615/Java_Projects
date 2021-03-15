@@ -6,6 +6,7 @@ import com.wade.decompiler.classfile.instructions.type.ArrayType;
 import com.wade.decompiler.classfile.instructions.type.ObjectType;
 import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.constants.ExceptionConst;
+import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.ClassFileConstants;
 
 import lombok.EqualsAndHashCode;
@@ -30,6 +31,11 @@ public class CheckCastGen extends InstructionGen {
         this.constantPool = instr.getConstantPool();
         this.type = getLoadClassType();
         exceptions = ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_CLASS_AND_INTERFACE_RESOLUTION, ExceptionConst.CLASS_CAST_EXCEPTION);
+    }
+
+    @Override
+    public String decompile(ExpressionStack stack) {
+        return null;
     }
 
     public Type getBaseType() {

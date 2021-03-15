@@ -3,6 +3,7 @@ package com.wade.decompiler.generate.instructions;
 import com.wade.decompiler.classfile.instructions.POP;
 import com.wade.decompiler.classfile.instructions.POP2;
 import com.wade.decompiler.classfile.instructions.type.Type;
+import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
 import lombok.EqualsAndHashCode;
@@ -28,5 +29,10 @@ public class PopGen extends InstructionGen {
         super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = Type.UNKNOWN;
+    }
+
+    @Override
+    public String decompile(ExpressionStack stack) {
+        return null;
     }
 }

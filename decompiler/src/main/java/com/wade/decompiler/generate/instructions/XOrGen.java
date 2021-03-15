@@ -3,6 +3,7 @@ package com.wade.decompiler.generate.instructions;
 import com.wade.decompiler.classfile.instructions.IXOR;
 import com.wade.decompiler.classfile.instructions.LXOR;
 import com.wade.decompiler.classfile.instructions.type.Type;
+import com.wade.decompiler.decompiler.ExpressionStack;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -24,5 +25,10 @@ public class XOrGen extends InstructionGen {
     public XOrGen(int offset, LXOR instr) {
         super(offset, instr.getLength());
         type = Type.LONG;
+    }
+
+    @Override
+    public String decompile(ExpressionStack stack) {
+        return null;
     }
 }

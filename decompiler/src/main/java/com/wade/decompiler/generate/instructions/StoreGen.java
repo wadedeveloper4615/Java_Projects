@@ -6,6 +6,7 @@ import com.wade.decompiler.classfile.instructions.FSTORE;
 import com.wade.decompiler.classfile.instructions.ISTORE;
 import com.wade.decompiler.classfile.instructions.LSTORE;
 import com.wade.decompiler.classfile.instructions.type.Type;
+import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generate.attribute.LocalVariableGen;
 
@@ -62,5 +63,10 @@ public class StoreGen extends InstructionGen {
         opcode = instr.getOpcode();
         localVariableReference = instr.getLocalVariableTable().getLocalVariableTable()[instr.getIndex() - 1];
         type = Type.LONG;
+    }
+
+    @Override
+    public String decompile(ExpressionStack stack) {
+        return null;
     }
 }

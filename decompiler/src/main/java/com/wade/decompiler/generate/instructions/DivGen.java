@@ -5,6 +5,7 @@ import com.wade.decompiler.classfile.instructions.FDIV;
 import com.wade.decompiler.classfile.instructions.IDIV;
 import com.wade.decompiler.classfile.instructions.LDIV;
 import com.wade.decompiler.classfile.instructions.type.Type;
+import com.wade.decompiler.decompiler.ExpressionStack;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -36,5 +37,10 @@ public class DivGen extends InstructionGen {
     public DivGen(int offset, LDIV instr) {
         super(offset, instr.getLength());
         type = Type.LONG;
+    }
+
+    @Override
+    public String decompile(ExpressionStack stack) {
+        return null;
     }
 }

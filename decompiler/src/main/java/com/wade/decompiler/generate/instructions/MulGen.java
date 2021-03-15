@@ -5,6 +5,7 @@ import com.wade.decompiler.classfile.instructions.FMUL;
 import com.wade.decompiler.classfile.instructions.IMUL;
 import com.wade.decompiler.classfile.instructions.LMUL;
 import com.wade.decompiler.classfile.instructions.type.Type;
+import com.wade.decompiler.decompiler.ExpressionStack;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -36,5 +37,10 @@ public class MulGen extends InstructionGen {
     public MulGen(int offset, LMUL instr) {
         super(offset, instr.getLength());
         type = Type.LONG;
+    }
+
+    @Override
+    public String decompile(ExpressionStack stack) {
+        return null;
     }
 }

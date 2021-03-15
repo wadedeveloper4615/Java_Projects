@@ -10,6 +10,8 @@ import com.wade.decompiler.classfile.instructions.RETURN;
 import com.wade.decompiler.classfile.instructions.type.ReturnaddressType;
 import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.constants.ExceptionConst;
+import com.wade.decompiler.decompiler.Expression;
+import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
 import lombok.EqualsAndHashCode;
@@ -66,6 +68,18 @@ public class ReturnGen extends InstructionGen {
         super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = getType();
+    }
+
+    @Override
+    public String decompile(ExpressionStack stack) {
+        // Expression item1 = new Expression(ExpressionType.CONSTANT_NUMBER, "");
+        Expression item1;
+        boolean isEmpty = stack.isEmpty();
+        if (!isEmpty) {
+            item1 = stack.pop();
+            return "return " + item1.getValue();
+        }
+        return null;
     }
 
     public Class<?>[] getExceptions() {

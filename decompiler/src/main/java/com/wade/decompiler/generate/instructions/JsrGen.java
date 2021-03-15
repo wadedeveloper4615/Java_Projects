@@ -3,6 +3,7 @@ package com.wade.decompiler.generate.instructions;
 import com.wade.decompiler.classfile.instructions.JSR;
 import com.wade.decompiler.classfile.instructions.JSR_W;
 import com.wade.decompiler.classfile.instructions.type.Type;
+import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
 import lombok.EqualsAndHashCode;
@@ -31,5 +32,10 @@ public class JsrGen extends InstructionGen {
         opcode = instr.getOpcode();
         index = instr.getIndex();
         type = null;
+    }
+
+    @Override
+    public String decompile(ExpressionStack stack) {
+        return null;
     }
 }

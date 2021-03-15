@@ -10,6 +10,7 @@ import com.wade.decompiler.classfile.instructions.LALOAD;
 import com.wade.decompiler.classfile.instructions.SALOAD;
 import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.constants.ExceptionConst;
+import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
 import lombok.EqualsAndHashCode;
@@ -80,5 +81,10 @@ public class ArrayLoadGen extends InstructionGen {
         opcode = instr.getOpcode();
         type = Type.SHORT;
         exceptions = ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_ARRAY_EXCEPTION);
+    }
+
+    @Override
+    public String decompile(ExpressionStack stack) {
+        return null;
     }
 }

@@ -71,7 +71,12 @@ public class JavaClassFileDecompiler {
         }
         System.out.println("\t\t*/");
         System.out.println();
-        for (InstructionGen instr : codeGen.getDecompiledInstructions()) {
+        for (InstructionGen instr : codeGen.getInstructionExtracted()) {
+            if (instr != null)
+                System.out.println("\t\t" + instr.toString());
+        }
+        System.out.println();
+        for (String instr : codeGen.getInstructionDecompiled()) {
             if (instr != null)
                 System.out.println("\t\t" + instr.toString());
         }

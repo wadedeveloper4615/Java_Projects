@@ -1,6 +1,7 @@
 package com.wade.decompiler.generate.instructions;
 
 import com.wade.decompiler.classfile.instructions.TABLESWITCH;
+import com.wade.decompiler.decompiler.ExpressionStack;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -23,5 +24,10 @@ public class TableSwitchGen extends InstructionGen {
         offsets = instr.getOffsets();
         padding = instr.getPadding();
         defaultOffset = instr.getDefaultOffset();
+    }
+
+    @Override
+    public String decompile(ExpressionStack stack) {
+        return null;
     }
 }

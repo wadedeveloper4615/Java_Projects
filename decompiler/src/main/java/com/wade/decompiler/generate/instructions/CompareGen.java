@@ -23,6 +23,7 @@ import com.wade.decompiler.classfile.instructions.IF_ICMPNE;
 import com.wade.decompiler.classfile.instructions.LCMP;
 import com.wade.decompiler.classfile.instructions.base.Instruction;
 import com.wade.decompiler.classfile.instructions.type.Type;
+import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
 import lombok.EqualsAndHashCode;
@@ -206,5 +207,10 @@ public class CompareGen extends InstructionGen {
         type = Type.LONG;
         negate = instr;
         index = -1;
+    }
+
+    @Override
+    public String decompile(ExpressionStack stack) {
+        return null;
     }
 }

@@ -5,6 +5,7 @@ import com.wade.decompiler.classfile.instructions.FSUB;
 import com.wade.decompiler.classfile.instructions.ISUB;
 import com.wade.decompiler.classfile.instructions.LSUB;
 import com.wade.decompiler.classfile.instructions.type.Type;
+import com.wade.decompiler.decompiler.ExpressionStack;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -36,5 +37,10 @@ public class SubGen extends InstructionGen {
     public SubGen(int offset, LSUB instr) {
         super(offset, instr.getLength());
         type = Type.LONG;
+    }
+
+    @Override
+    public String decompile(ExpressionStack stack) {
+        return null;
     }
 }

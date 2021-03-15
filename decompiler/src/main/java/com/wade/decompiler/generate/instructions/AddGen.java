@@ -5,6 +5,7 @@ import com.wade.decompiler.classfile.instructions.FADD;
 import com.wade.decompiler.classfile.instructions.IADD;
 import com.wade.decompiler.classfile.instructions.LADD;
 import com.wade.decompiler.classfile.instructions.type.Type;
+import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
 import lombok.EqualsAndHashCode;
@@ -42,5 +43,10 @@ public class AddGen extends InstructionGen {
         super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = Type.LONG;
+    }
+
+    @Override
+    public String decompile(ExpressionStack stack) {
+        return null;
     }
 }

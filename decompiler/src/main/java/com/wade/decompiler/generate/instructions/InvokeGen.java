@@ -17,6 +17,7 @@ import com.wade.decompiler.classfile.instructions.INVOKESTATIC;
 import com.wade.decompiler.classfile.instructions.INVOKEVIRTUAL;
 import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.constants.ExceptionConst;
+import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
@@ -101,6 +102,11 @@ public class InvokeGen extends InstructionGen {
         index = instr.getIndex();
         nargs = null;
         type = Type.NULL;
+    }
+
+    @Override
+    public String decompile(ExpressionStack stack) {
+        return null;
     }
 
     private void extractConstantPoolInfo(Constant c) {

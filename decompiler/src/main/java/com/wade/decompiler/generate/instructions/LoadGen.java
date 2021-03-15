@@ -6,6 +6,9 @@ import com.wade.decompiler.classfile.instructions.FLOAD;
 import com.wade.decompiler.classfile.instructions.ILOAD;
 import com.wade.decompiler.classfile.instructions.LLOAD;
 import com.wade.decompiler.classfile.instructions.type.Type;
+import com.wade.decompiler.decompiler.Expression;
+import com.wade.decompiler.decompiler.ExpressionStack;
+import com.wade.decompiler.decompiler.ExpressionType;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generate.attribute.LocalVariableGen;
 
@@ -68,8 +71,15 @@ public class LoadGen extends InstructionGen {
         opcode = instr.getOpcode();
         int index = instr.getIndex();
         if (index > 0 && index < instr.getLocalVariableTable().getLocalVariableTable().length) {
-            localVariableReference = instr.getLocalVariableTable().getLocalVariableTable()[index - 1];
+            localVariableReference = instr.getLocalVariableTable().getLocalVariableTable()[index];
         }
         type = Type.LONG;
+    }
+
+    @Override
+    public String decompile(ExpressionStack stack) {
+        String name = this.localVariableReference.getName();
+        stack.push(new Expression(ExpressionType.VARIABLE, name));
+        return null;
     }
 }

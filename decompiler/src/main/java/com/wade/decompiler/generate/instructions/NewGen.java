@@ -9,6 +9,7 @@ import com.wade.decompiler.classfile.instructions.type.ArrayType;
 import com.wade.decompiler.classfile.instructions.type.ObjectType;
 import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.constants.ExceptionConst;
+import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.ClassFileConstants;
 
 import lombok.EqualsAndHashCode;
@@ -61,6 +62,11 @@ public class NewGen extends InstructionGen {
         super(offset, instr.getLength());
         type = this.getType();
         exceptions = new Class[] { ExceptionConst.NEGATIVE_ARRAY_SIZE_EXCEPTION };
+    }
+
+    @Override
+    public String decompile(ExpressionStack stack) {
+        return null;
     }
 
     public ObjectType getLoadClassType() {

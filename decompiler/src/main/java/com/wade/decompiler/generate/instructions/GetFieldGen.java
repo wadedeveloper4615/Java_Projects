@@ -13,6 +13,9 @@ import com.wade.decompiler.classfile.instructions.GETFIELD;
 import com.wade.decompiler.classfile.instructions.GETSTATIC;
 import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.constants.ExceptionConst;
+import com.wade.decompiler.decompiler.Expression;
+import com.wade.decompiler.decompiler.ExpressionStack;
+import com.wade.decompiler.decompiler.ExpressionType;
 import com.wade.decompiler.enums.ClassFileConstants;
 
 import lombok.EqualsAndHashCode;
@@ -51,6 +54,14 @@ public class GetFieldGen extends InstructionGen {
         extractConstantPoolInfo(c);
         exceptions = ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_FIELD_AND_METHOD_RESOLUTION, ExceptionConst.NULL_POINTER_EXCEPTION, ExceptionConst.INCOMPATIBLE_CLASS_CHANGE_ERROR);
         type = instr.getType();
+    }
+
+    @Override
+    public String decompile(ExpressionStack stack) {
+        Expression item1 = stack.pop();
+        String name = methodName;
+        stack.push(new Expression(ExpressionType.VARIABLE, item1.getValue() + "." + name));
+        return null;
     }
 
     private void extractConstantPoolInfo(Constant c) {

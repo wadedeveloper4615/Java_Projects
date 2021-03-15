@@ -7,6 +7,7 @@ import com.wade.decompiler.classfile.instructions.DUP2_X2;
 import com.wade.decompiler.classfile.instructions.DUP_X1;
 import com.wade.decompiler.classfile.instructions.DUP_X2;
 import com.wade.decompiler.classfile.instructions.type.Type;
+import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
 import lombok.EqualsAndHashCode;
@@ -56,5 +57,10 @@ public class DuplicateGen extends InstructionGen {
         super(offset, instr.getLength());
         opcode = instr.getOpcode();
         type = instr.getType();
+    }
+
+    @Override
+    public String decompile(ExpressionStack stack) {
+        return null;
     }
 }

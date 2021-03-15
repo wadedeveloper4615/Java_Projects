@@ -5,6 +5,7 @@ import com.wade.decompiler.classfile.instructions.FREM;
 import com.wade.decompiler.classfile.instructions.IREM;
 import com.wade.decompiler.classfile.instructions.LREM;
 import com.wade.decompiler.classfile.instructions.type.Type;
+import com.wade.decompiler.decompiler.ExpressionStack;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -36,5 +37,10 @@ public class RemGen extends InstructionGen {
     public RemGen(int offset, LREM instr) {
         super(offset, instr.getLength());
         type = Type.LONG;
+    }
+
+    @Override
+    public String decompile(ExpressionStack stack) {
+        return null;
     }
 }

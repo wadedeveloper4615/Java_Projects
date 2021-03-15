@@ -2,6 +2,7 @@ package com.wade.decompiler.generate.instructions;
 
 import com.wade.decompiler.classfile.instructions.SWAP;
 import com.wade.decompiler.classfile.instructions.type.Type;
+import com.wade.decompiler.decompiler.ExpressionStack;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -18,5 +19,10 @@ public class SwapGen extends InstructionGen {
     public SwapGen(int offset, SWAP instr) {
         super(offset, instr.getLength());
         type = Type.UNKNOWN;
+    }
+
+    @Override
+    public String decompile(ExpressionStack stack) {
+        return null;
     }
 }

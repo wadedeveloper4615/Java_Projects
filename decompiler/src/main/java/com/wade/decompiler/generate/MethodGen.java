@@ -33,7 +33,7 @@ public class MethodGen extends FieldOrMethodGen {
                 code = (CodeGen) attr;
                 lineNumberTable = code.getLineNumberTable();
                 localVariableTable = code.getLocalVariableTable();
-                instructions = code.getDecompiledInstructions();
+                instructions = code.getInstructionExtracted();
             }
         }
     }

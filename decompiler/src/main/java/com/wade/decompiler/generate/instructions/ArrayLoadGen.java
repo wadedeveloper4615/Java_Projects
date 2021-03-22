@@ -10,7 +10,9 @@ import com.wade.decompiler.classfile.instructions.LALOAD;
 import com.wade.decompiler.classfile.instructions.SALOAD;
 import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.constants.ExceptionConst;
+import com.wade.decompiler.decompiler.Expression;
 import com.wade.decompiler.decompiler.ExpressionStack;
+import com.wade.decompiler.decompiler.ExpressionType;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
 import lombok.EqualsAndHashCode;
@@ -85,6 +87,9 @@ public class ArrayLoadGen extends InstructionGen {
 
     @Override
     public String decompile(ExpressionStack stack) {
+        Expression index = stack.pop();
+        Expression var = stack.pop();
+        stack.push(new Expression(ExpressionType.EXPRESSION, var.getValue() + "[" + index.getValue() + "]"));
         return null;
     }
 }

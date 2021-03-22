@@ -10,6 +10,7 @@ import com.wade.decompiler.classfile.instructions.LASTORE;
 import com.wade.decompiler.classfile.instructions.SASTORE;
 import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.constants.ExceptionConst;
+import com.wade.decompiler.decompiler.Expression;
 import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.InstructionOpCodes;
 
@@ -85,6 +86,9 @@ public class ArrayStoreGen extends InstructionGen {
 
     @Override
     public String decompile(ExpressionStack stack) {
-        return null;
+        Expression resultVar = stack.pop();
+        Expression resultIndex = stack.pop();
+        Expression var2 = stack.pop();
+        return var2.getValue() + "[" + resultIndex.getValue() + "] = " + resultVar.getValue();
     }
 }

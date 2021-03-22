@@ -1,6 +1,7 @@
 package com.wade.decompiler.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.wade.decompiler.classfile.exceptions.ClassFormatException;
@@ -31,7 +32,7 @@ public class MethodSignature {
         this.name = name;
         this.chopit = chopit;
         this.access = access;
-//        System.out.println(" original signature = " + signature);
+        System.out.println(" original signature = " + signature);
         int start = signature.indexOf('(') + 1;
         if (start <= 0) {
             throw new ClassFormatException("Invalid method signature: " + signature);
@@ -40,8 +41,8 @@ public class MethodSignature {
         extractReturnType(signature, end);
 
         extractParameters(signature, access, constructor, start, end, localVariableTable);
-//        System.out.println(" parameterTypes = " + Arrays.toString(parameterTypes));
-//        System.out.println(" returnType = " + returnType);
+        System.out.println(" parameterTypes = " + Arrays.toString(parameterTypes));
+        System.out.println(" returnType = " + returnType);
     }
 
     private TypeEnum convertToType(String signature) {
@@ -90,7 +91,7 @@ public class MethodSignature {
                 i++;
                 indexType = convertToType(parameterString.substring(i));
             }
-            if (baseType == TypeEnum.T_REFERENCE) {
+            if (baseType == TypeEnum.T_REFERENCE || indexType == TypeEnum.T_REFERENCE) {
                 while (parameterString.charAt(i) != ';') {
                     ref += parameterString.charAt(i);
                     i++;
@@ -126,6 +127,7 @@ public class MethodSignature {
     }
 
     private String getType(TypeEnum type, TypeData td) {
+        String reference;
         switch (type) {
             case T_BYTE:
                 return "byte";
@@ -140,13 +142,21 @@ public class MethodSignature {
             case T_LONG:
                 return "long";
             case T_REFERENCE:
-                String reference = td.getReference();
+                reference = td.getReference();
                 if (reference != null) {
                     int index = reference.indexOf(';');
                     return Utility.compactClassName(reference.substring(1, index), chopit);
                 }
                 return "???";
             case T_ARRAY:
+                if (td.getIndexType() == TypeEnum.T_UNKNOWN) {
+                    reference = td.getReference();
+                    if (reference != null) {
+                        int index = reference.indexOf(';');
+                        return Utility.compactClassName(reference.substring(1, index), chopit) + "[]";
+                    }
+                    return "???";
+                }
                 return getType(td.getIndexType(), td) + "[]";
             case T_VOID:
                 return "void";
@@ -185,7 +195,7 @@ public class MethodSignature {
         if (constructor) {
             buffer.append(Utility.extractClassName(this.className));
         } else {
-            buffer.append(getType(this.returnType.baseType, this.returnType));
+            buffer.append(getType(returnType.baseType, returnType));
             buffer.append(" ");
             buffer.append(this.name);
         }

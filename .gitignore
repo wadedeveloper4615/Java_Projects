@@ -40,3 +40,5 @@ decompiler/backup/
 decompiler/backup2/
 hellocucumber/bin/
 hellocucumber/build/
+decompiler/build/
+decompiler/.gradle/

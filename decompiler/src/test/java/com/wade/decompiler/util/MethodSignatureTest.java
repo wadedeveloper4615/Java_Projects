@@ -1,11 +1,10 @@
 package com.wade.decompiler.util;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
+import com.wade.decompiler.enums.TypeEnum;
 import org.junit.jupiter.api.Test;
 
-import com.wade.decompiler.enums.TypeEnum;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class MethodSignatureTest {
     @Test

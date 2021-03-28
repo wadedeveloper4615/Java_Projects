@@ -1,9 +1,9 @@
 package com.wade.decompiler.generate.attribute;
 
-import java.util.Arrays;
-
 import com.wade.decompiler.classfile.attribute.Synthetic;
 import com.wade.decompiler.classfile.constant.ConstantPool;
+
+import java.util.Arrays;
 
 public class SyntheticGen extends AttributeGen {
     private byte[] bytes;
@@ -15,15 +15,11 @@ public class SyntheticGen extends AttributeGen {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         SyntheticGen other = (SyntheticGen) obj;
-        if (!Arrays.equals(bytes, other.bytes))
-            return false;
+        if (!Arrays.equals(bytes, other.bytes)) return false;
         return true;
     }
 

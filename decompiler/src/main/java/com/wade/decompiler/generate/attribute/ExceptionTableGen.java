@@ -1,10 +1,10 @@
 package com.wade.decompiler.generate.attribute;
 
-import java.util.Arrays;
-
 import com.wade.decompiler.classfile.attribute.ExceptionTable;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.ClassFileConstants;
+
+import java.util.Arrays;
 
 public class ExceptionTableGen extends AttributeGen {
     private String[] names;
@@ -20,15 +20,11 @@ public class ExceptionTableGen extends AttributeGen {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         ExceptionTableGen other = (ExceptionTableGen) obj;
-        if (!Arrays.equals(names, other.names))
-            return false;
+        if (!Arrays.equals(names, other.names)) return false;
         return true;
     }
 

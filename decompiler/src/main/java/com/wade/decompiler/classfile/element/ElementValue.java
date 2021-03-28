@@ -1,14 +1,13 @@
 package com.wade.decompiler.classfile.element;
 
-import java.io.DataInput;
-import java.io.IOException;
-
 import com.wade.decompiler.classfile.attribute.AnnotationEntry;
 import com.wade.decompiler.classfile.constant.ConstantPool;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.io.DataInput;
+import java.io.IOException;
 
 @Setter
 @Getter
@@ -33,17 +32,6 @@ public abstract class ElementValue {
     protected ElementValue(int type, ConstantPool constantPool) {
         this.type = type;
         this.constantPool = constantPool;
-    }
-
-    public abstract String stringifyValue();
-
-    public String toShortString() {
-        return stringifyValue();
-    }
-
-    @Override
-    public String toString() {
-        return stringifyValue();
     }
 
     public static ElementValue readElementValue(DataInput input, ConstantPool cpool) throws IOException {
@@ -75,5 +63,16 @@ public abstract class ElementValue {
             default:
                 throw new IllegalArgumentException("Unexpected element value kind in annotation: " + type);
         }
+    }
+
+    public abstract String stringifyValue();
+
+    public String toShortString() {
+        return stringifyValue();
+    }
+
+    @Override
+    public String toString() {
+        return stringifyValue();
     }
 }

@@ -1,10 +1,10 @@
 package com.wade.decompiler.repository;
 
+import com.wade.decompiler.classfile.JavaClass;
+
 import java.lang.ref.SoftReference;
 import java.util.HashMap;
 import java.util.Map;
-
-import com.wade.decompiler.classfile.JavaClass;
 
 public class MemorySensitiveClassPathRepository extends AbstractClassPathRepository {
     private final Map<String, SoftReference<JavaClass>> loadedClasses = new HashMap<>(); // CLASSNAME X JAVACLASS

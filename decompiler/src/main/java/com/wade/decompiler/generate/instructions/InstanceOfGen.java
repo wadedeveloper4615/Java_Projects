@@ -5,11 +5,9 @@ import com.wade.decompiler.classfile.instructions.INSTANCEOF;
 import com.wade.decompiler.classfile.instructions.type.ArrayType;
 import com.wade.decompiler.classfile.instructions.type.ObjectType;
 import com.wade.decompiler.classfile.instructions.type.Type;
-import com.wade.decompiler.constants.ExceptionConst;
 import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.enums.InstructionOpCodes;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,7 +23,6 @@ public class InstanceOfGen extends InstructionGen {
     private int index;
     private Type type;
     private String name;
-    private Class<?>[] exceptions;
     @ToString.Exclude
     private ConstantPool constantPool;
 
@@ -35,7 +32,6 @@ public class InstanceOfGen extends InstructionGen {
         index = instr.getIndex();
         constantPool = instr.getConstantPool();
         type = getLoadClassType();
-        exceptions = ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_CLASS_AND_INTERFACE_RESOLUTION);
     }
 
     @Override

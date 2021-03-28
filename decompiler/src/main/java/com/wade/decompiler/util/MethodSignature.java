@@ -1,30 +1,27 @@
 package com.wade.decompiler.util;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import com.wade.decompiler.classfile.exceptions.ClassFormatException;
 import com.wade.decompiler.enums.TypeEnum;
 import com.wade.decompiler.generate.attribute.LocalVariableGen;
 import com.wade.decompiler.generate.attribute.LocalVariableTableGen;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
-@SuppressWarnings("unused")
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @ToString(callSuper = false, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
 public class MethodSignature {
+    private final boolean constructor;
+    private final String className;
+    private final String name;
+    private final boolean chopit;
+    private final String access;
     private TypeData[] parameterTypes;
     private TypeData returnType;
-    private boolean constructor;
-    private String className;
-    private String name;
-    private boolean chopit;
-    private String access;
 
     public MethodSignature(String signature, String name, String access, String className, boolean chopit, LocalVariableTableGen localVariableTable, boolean constructor) {
         this.constructor = constructor;
@@ -32,7 +29,7 @@ public class MethodSignature {
         this.name = name;
         this.chopit = chopit;
         this.access = access;
-        System.out.println(" original signature = " + signature);
+        // System.out.println(" original signature = " + signature);
         int start = signature.indexOf('(') + 1;
         if (start <= 0) {
             throw new ClassFormatException("Invalid method signature: " + signature);
@@ -41,8 +38,8 @@ public class MethodSignature {
         extractReturnType(signature, end);
 
         extractParameters(signature, access, constructor, start, end, localVariableTable);
-        System.out.println(" parameterTypes = " + Arrays.toString(parameterTypes));
-        System.out.println(" returnType = " + returnType);
+        // System.out.println(" parameterTypes = " + Arrays.toString(parameterTypes));
+        // System.out.println(" returnType = " + returnType);
     }
 
     private TypeEnum convertToType(String signature) {
@@ -123,7 +120,17 @@ public class MethodSignature {
 
     public void extractReturnType(String signature, int end) {
         String returnString = signature.substring(end + 1);
-        returnType = new TypeData(convertToType(returnString), TypeEnum.T_UNKNOWN);
+        TypeEnum type = convertToType(returnString);
+        String ref = " ";
+        if (type == TypeEnum.T_REFERENCE) {
+            int i = 1;
+            while (returnString.charAt(i) != ';') {
+                ref += returnString.charAt(i);
+                i++;
+            }
+            ref += returnString.charAt(i);
+        }
+        returnType = new TypeData(type, TypeEnum.T_UNKNOWN, ref, null);
     }
 
     private String getType(TypeEnum type, TypeData td) {

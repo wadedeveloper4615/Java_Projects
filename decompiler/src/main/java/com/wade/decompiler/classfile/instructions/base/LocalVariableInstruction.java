@@ -1,7 +1,5 @@
 package com.wade.decompiler.classfile.instructions.base;
 
-import java.io.IOException;
-
 import com.wade.decompiler.classfile.constant.Constant;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.exceptions.ClassGenException;
@@ -11,11 +9,12 @@ import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generate.attribute.LocalVariableGen;
 import com.wade.decompiler.generate.attribute.LocalVariableTableGen;
 import com.wade.decompiler.util.ByteSequence;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.io.IOException;
 
 @Setter
 @Getter
@@ -23,14 +22,14 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = false)
 public abstract class LocalVariableInstruction extends Instruction {
     protected int index = -1;
-    private InstructionOpCodes cTag = null;
-//    private InstructionOpCodes canonTag = null;
+    //    private InstructionOpCodes canonTag = null;
 //    private String superName;
 //    private String methodName;
 //    private String signature;
 //    private Object constantValue;
 //    private String constantString;
     protected LocalVariableGen localVariable;
+    private InstructionOpCodes cTag = null;
 
     public LocalVariableInstruction(InstructionOpCodes opcode, InstructionOpCodes c_tag, ConstantPool constantPool) {
         super(opcode, 2, constantPool);
@@ -90,6 +89,24 @@ public abstract class LocalVariableInstruction extends Instruction {
         return index;
     }
 
+    public void setIndex(int index) {
+        if ((index < 0) || (index > Const.MAX_SHORT)) {
+            throw new ClassGenException("Illegal value: " + index);
+        }
+        this.index = index;
+        if (index <= 3) {
+            super.setOpcode(InstructionOpCodes.read((short) (cTag.getOpcode() + index)));
+            super.setLength(1);
+        } else {
+            super.setOpcode(opcode);
+            if (wide()) {
+                super.setLength(4);
+            } else {
+                super.setLength(2);
+            }
+        }
+    }
+
     public Type getType() {
         switch (opcode) {
             case ILOAD:
@@ -133,24 +150,6 @@ public abstract class LocalVariableInstruction extends Instruction {
         if (index > 0) {
             Constant c = constantPool.getConstant(index);
             extractConstantPoolInfo(c);
-        }
-    }
-
-    public void setIndex(int index) {
-        if ((index < 0) || (index > Const.MAX_SHORT)) {
-            throw new ClassGenException("Illegal value: " + index);
-        }
-        this.index = index;
-        if (index <= 3) {
-            super.setOpcode(InstructionOpCodes.read((short) (cTag.getOpcode() + index)));
-            super.setLength(1);
-        } else {
-            super.setOpcode(opcode);
-            if (wide()) {
-                super.setLength(4);
-            } else {
-                super.setLength(2);
-            }
         }
     }
 

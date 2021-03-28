@@ -1,15 +1,14 @@
 package com.wade.decompiler.classfile.constant;
 
-import java.io.DataInput;
-import java.io.IOException;
-import java.util.Objects;
-
 import com.wade.decompiler.classfile.exceptions.ClassFormatException;
 import com.wade.decompiler.enums.ClassFileConstants;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.io.DataInput;
+import java.io.IOException;
+import java.util.Objects;
 
 @Setter
 @Getter
@@ -19,26 +18,6 @@ public abstract class Constant {
 
     public Constant(ClassFileConstants tag) {
         this.tag = tag;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        Constant other = (Constant) obj;
-        return tag == other.tag;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(tag);
     }
 
     public static Constant readConstant(DataInput dataInput) throws IOException, ClassFormatException {
@@ -86,5 +65,25 @@ public abstract class Constant {
             default:
                 throw new ClassFormatException("Invalid byte tag in constant pool: " + constant);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Constant other = (Constant) obj;
+        return tag == other.tag;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(tag);
     }
 }

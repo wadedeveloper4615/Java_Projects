@@ -14,18 +14,13 @@ public class NestHostGen extends AttributeGen {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         NestHostGen other = (NestHostGen) obj;
         if (hostClassName == null) {
-            if (other.hostClassName != null)
-                return false;
-        } else if (!hostClassName.equals(other.hostClassName))
-            return false;
+            if (other.hostClassName != null) return false;
+        } else if (!hostClassName.equals(other.hostClassName)) return false;
         return true;
     }
 

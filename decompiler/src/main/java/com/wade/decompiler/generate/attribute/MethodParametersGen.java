@@ -1,10 +1,10 @@
 package com.wade.decompiler.generate.attribute;
 
-import java.util.Arrays;
-
 import com.wade.decompiler.classfile.attribute.MethodParameter;
 import com.wade.decompiler.classfile.attribute.MethodParameters;
 import com.wade.decompiler.classfile.constant.ConstantPool;
+
+import java.util.Arrays;
 
 public class MethodParametersGen extends AttributeGen {
     private MethodParameterGen[] parameters;
@@ -21,15 +21,11 @@ public class MethodParametersGen extends AttributeGen {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         MethodParametersGen other = (MethodParametersGen) obj;
-        if (!Arrays.equals(parameters, other.parameters))
-            return false;
+        if (!Arrays.equals(parameters, other.parameters)) return false;
         return true;
     }
 

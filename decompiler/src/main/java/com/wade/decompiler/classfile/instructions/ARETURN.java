@@ -3,9 +3,7 @@ package com.wade.decompiler.classfile.instructions;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.instructions.base.Instruction;
 import com.wade.decompiler.classfile.instructions.type.Type;
-import com.wade.decompiler.constants.ExceptionConst;
 import com.wade.decompiler.enums.InstructionOpCodes;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,9 +19,5 @@ public class ARETURN extends Instruction {
     public ARETURN(ConstantPool cp) {
         super(InstructionOpCodes.ARETURN, 1, cp);
         type = Type.OBJECT;
-    }
-
-    public Class<?>[] getExceptions() {
-        return new Class[] { ExceptionConst.ILLEGAL_MONITOR_STATE };
     }
 }

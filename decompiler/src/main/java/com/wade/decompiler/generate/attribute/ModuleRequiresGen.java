@@ -18,28 +18,19 @@ public class ModuleRequiresGen {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         ModuleRequiresGen other = (ModuleRequiresGen) obj;
         if (moduleName == null) {
-            if (other.moduleName != null)
-                return false;
-        } else if (!moduleName.equals(other.moduleName))
-            return false;
+            if (other.moduleName != null) return false;
+        } else if (!moduleName.equals(other.moduleName)) return false;
         if (requiresFlags == null) {
-            if (other.requiresFlags != null)
-                return false;
-        } else if (!requiresFlags.equals(other.requiresFlags))
-            return false;
+            if (other.requiresFlags != null) return false;
+        } else if (!requiresFlags.equals(other.requiresFlags)) return false;
         if (requiresVersion == null) {
-            if (other.requiresVersion != null)
-                return false;
-        } else if (!requiresVersion.equals(other.requiresVersion))
-            return false;
+            if (other.requiresVersion != null) return false;
+        } else if (!requiresVersion.equals(other.requiresVersion)) return false;
         return true;
     }
 

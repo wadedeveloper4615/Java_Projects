@@ -1,13 +1,13 @@
 package com.wade.decompiler.generate.attribute;
 
+import com.wade.decompiler.classfile.attribute.AnnotationEntry;
+import com.wade.decompiler.classfile.attribute.ParameterAnnotationEntry;
+import com.wade.decompiler.classfile.constant.ConstantPool;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
-import com.wade.decompiler.classfile.attribute.AnnotationEntry;
-import com.wade.decompiler.classfile.attribute.ParameterAnnotationEntry;
-import com.wade.decompiler.classfile.constant.ConstantPool;
 
 public class ParameterAnnotationEntryGen {
     private AnnotationEntryGen[] annotationTable;
@@ -21,17 +21,24 @@ public class ParameterAnnotationEntryGen {
         }
     }
 
+    public static ParameterAnnotationEntryGen[] createParameterAnnotationEntries(AttributeGen[] attrs) {
+        List<ParameterAnnotationEntryGen> accumulatedAnnotations = new ArrayList<>(attrs.length);
+        for (AttributeGen attribute : attrs) {
+            if (attribute instanceof ParameterAnnotationsGen) {
+                ParameterAnnotationsGen runtimeAnnotations = (ParameterAnnotationsGen) attribute;
+                Collections.addAll(accumulatedAnnotations, runtimeAnnotations.getParameterAnnotationEntries());
+            }
+        }
+        return accumulatedAnnotations.toArray(new ParameterAnnotationEntryGen[accumulatedAnnotations.size()]);
+    }
+
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         ParameterAnnotationEntryGen other = (ParameterAnnotationEntryGen) obj;
-        if (!Arrays.equals(annotationTable, other.annotationTable))
-            return false;
+        if (!Arrays.equals(annotationTable, other.annotationTable)) return false;
         return true;
     }
 
@@ -50,16 +57,5 @@ public class ParameterAnnotationEntryGen {
     @Override
     public String toString() {
         return "ParameterAnnotationEntryGen [annotationTable=" + Arrays.toString(annotationTable) + "]";
-    }
-
-    public static ParameterAnnotationEntryGen[] createParameterAnnotationEntries(AttributeGen[] attrs) {
-        List<ParameterAnnotationEntryGen> accumulatedAnnotations = new ArrayList<>(attrs.length);
-        for (AttributeGen attribute : attrs) {
-            if (attribute instanceof ParameterAnnotationsGen) {
-                ParameterAnnotationsGen runtimeAnnotations = (ParameterAnnotationsGen) attribute;
-                Collections.addAll(accumulatedAnnotations, runtimeAnnotations.getParameterAnnotationEntries());
-            }
-        }
-        return accumulatedAnnotations.toArray(new ParameterAnnotationEntryGen[accumulatedAnnotations.size()]);
     }
 }

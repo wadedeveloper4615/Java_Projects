@@ -1,10 +1,10 @@
 package com.wade.decompiler.generate.attribute;
 
-import java.util.Arrays;
-
 import com.wade.decompiler.classfile.attribute.InnerClass;
 import com.wade.decompiler.classfile.attribute.InnerClasses;
 import com.wade.decompiler.classfile.constant.ConstantPool;
+
+import java.util.Arrays;
 
 public class InnerClassesGen extends AttributeGen {
     private InnerClassGen[] innerClasses;
@@ -20,15 +20,11 @@ public class InnerClassesGen extends AttributeGen {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         InnerClassesGen other = (InnerClassesGen) obj;
-        if (!Arrays.equals(innerClasses, other.innerClasses))
-            return false;
+        if (!Arrays.equals(innerClasses, other.innerClasses)) return false;
         return true;
     }
 

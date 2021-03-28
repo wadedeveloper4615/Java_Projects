@@ -1,10 +1,10 @@
 package com.wade.decompiler.generate.attribute;
 
-import java.util.Arrays;
-
 import com.wade.decompiler.classfile.attribute.ModulePackages;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.ClassFileConstants;
+
+import java.util.Arrays;
 
 public class ModulePackagesGen extends AttributeGen {
     private String[] packageIndexNames;
@@ -20,15 +20,11 @@ public class ModulePackagesGen extends AttributeGen {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         ModulePackagesGen other = (ModulePackagesGen) obj;
-        if (!Arrays.equals(packageIndexNames, other.packageIndexNames))
-            return false;
+        if (!Arrays.equals(packageIndexNames, other.packageIndexNames)) return false;
         return true;
     }
 

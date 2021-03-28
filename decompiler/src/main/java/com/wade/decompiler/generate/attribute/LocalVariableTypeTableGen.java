@@ -1,10 +1,10 @@
 package com.wade.decompiler.generate.attribute;
 
-import java.util.Arrays;
-
 import com.wade.decompiler.classfile.attribute.LocalVariable;
 import com.wade.decompiler.classfile.attribute.LocalVariableTypeTable;
 import com.wade.decompiler.classfile.constant.ConstantPool;
+
+import java.util.Arrays;
 
 public class LocalVariableTypeTableGen extends AttributeGen {
     private LocalVariableGen[] localVariableTypeTable;
@@ -21,15 +21,11 @@ public class LocalVariableTypeTableGen extends AttributeGen {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         LocalVariableTypeTableGen other = (LocalVariableTypeTableGen) obj;
-        if (!Arrays.equals(localVariableTypeTable, other.localVariableTypeTable))
-            return false;
+        if (!Arrays.equals(localVariableTypeTable, other.localVariableTypeTable)) return false;
         return true;
     }
 

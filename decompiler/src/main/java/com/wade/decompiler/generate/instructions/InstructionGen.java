@@ -3,7 +3,6 @@ package com.wade.decompiler.generate.instructions;
 import com.wade.decompiler.classfile.instructions.*;
 import com.wade.decompiler.classfile.instructions.base.Instruction;
 import com.wade.decompiler.decompiler.ExpressionStack;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,8 +20,6 @@ public abstract class InstructionGen {
         this.offset = offset;
         this.length = length;
     }
-
-    public abstract String decompile(ExpressionStack stack);
 
     public static InstructionGen read(int offset, Instruction instr) {
         InstructionGen instrgen = switch (instr.getOpcode()) {
@@ -237,4 +234,6 @@ public abstract class InstructionGen {
         };
         return instrgen;
     }
+
+    public abstract String decompile(ExpressionStack stack);
 }

@@ -2,7 +2,6 @@ package com.wade.decompiler.classfile.element;
 
 import com.wade.decompiler.classfile.attribute.AnnotationEntry;
 import com.wade.decompiler.classfile.constant.ConstantPool;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

@@ -1,7 +1,6 @@
 package com.wade.decompiler.classfile.instructions.type;
 
 import com.wade.decompiler.enums.TypeEnum;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,11 +18,11 @@ public class ObjectType extends ReferenceType {
         this.className = className.replace('/', '.');
     }
 
-    public String getClassName() {
-        return className;
-    }
-
     public static ObjectType getInstance(final String className) {
         return new ObjectType(className);
+    }
+
+    public String getClassName() {
+        return className;
     }
 }

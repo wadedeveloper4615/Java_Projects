@@ -1,24 +1,23 @@
 package com.wade.decompiler.classfile;
 
-import java.io.DataInput;
-import java.io.IOException;
-import java.util.Arrays;
-
 import com.wade.decompiler.classfile.attribute.Attribute;
 import com.wade.decompiler.classfile.constant.ConstantPool;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.io.DataInput;
+import java.io.IOException;
+import java.util.Arrays;
 
 @Setter
 @Getter
 @ToString(callSuper = false, includeFieldNames = true)
 public abstract class FieldOrMethod {
-    Attribute[] attributes;
     protected int nameIndex;
     protected int signatureIndex;
     protected int accessFlags;
+    Attribute[] attributes;
 
     public FieldOrMethod() {
         super();
@@ -42,21 +41,14 @@ public abstract class FieldOrMethod {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         FieldOrMethod other = (FieldOrMethod) obj;
-        if (accessFlags != other.accessFlags)
-            return false;
-        if (!Arrays.equals(attributes, other.attributes))
-            return false;
-        if (nameIndex != other.nameIndex)
-            return false;
-        if (signatureIndex != other.signatureIndex)
-            return false;
+        if (accessFlags != other.accessFlags) return false;
+        if (!Arrays.equals(attributes, other.attributes)) return false;
+        if (nameIndex != other.nameIndex) return false;
+        if (signatureIndex != other.signatureIndex) return false;
         return true;
     }
 

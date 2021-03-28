@@ -1,15 +1,12 @@
 package com.wade.decompiler.generate.attribute;
 
-import java.util.Arrays;
-
 import com.wade.decompiler.classfile.attribute.Module;
-import com.wade.decompiler.classfile.attribute.ModuleExports;
-import com.wade.decompiler.classfile.attribute.ModuleOpens;
-import com.wade.decompiler.classfile.attribute.ModuleProvides;
-import com.wade.decompiler.classfile.attribute.ModuleRequires;
+import com.wade.decompiler.classfile.attribute.*;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.ClassAccessFlagsList;
 import com.wade.decompiler.enums.ClassFileConstants;
+
+import java.util.Arrays;
 
 public class ModuleGen extends AttributeGen {
     private String moduleName;
@@ -65,38 +62,24 @@ public class ModuleGen extends AttributeGen {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         ModuleGen other = (ModuleGen) obj;
-        if (!Arrays.equals(exportsTable, other.exportsTable))
-            return false;
+        if (!Arrays.equals(exportsTable, other.exportsTable)) return false;
         if (moduleFlags == null) {
-            if (other.moduleFlags != null)
-                return false;
-        } else if (!moduleFlags.equals(other.moduleFlags))
-            return false;
+            if (other.moduleFlags != null) return false;
+        } else if (!moduleFlags.equals(other.moduleFlags)) return false;
         if (moduleName == null) {
-            if (other.moduleName != null)
-                return false;
-        } else if (!moduleName.equals(other.moduleName))
-            return false;
+            if (other.moduleName != null) return false;
+        } else if (!moduleName.equals(other.moduleName)) return false;
         if (moduleVersion == null) {
-            if (other.moduleVersion != null)
-                return false;
-        } else if (!moduleVersion.equals(other.moduleVersion))
-            return false;
-        if (!Arrays.equals(opensTable, other.opensTable))
-            return false;
-        if (!Arrays.equals(providesTable, other.providesTable))
-            return false;
-        if (!Arrays.equals(requiresTable, other.requiresTable))
-            return false;
-        if (!Arrays.equals(usesIndex, other.usesIndex))
-            return false;
+            if (other.moduleVersion != null) return false;
+        } else if (!moduleVersion.equals(other.moduleVersion)) return false;
+        if (!Arrays.equals(opensTable, other.opensTable)) return false;
+        if (!Arrays.equals(providesTable, other.providesTable)) return false;
+        if (!Arrays.equals(requiresTable, other.requiresTable)) return false;
+        if (!Arrays.equals(usesIndex, other.usesIndex)) return false;
         return true;
     }
 

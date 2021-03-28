@@ -14,18 +14,13 @@ public class ModuleMainClassGen extends AttributeGen {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         ModuleMainClassGen other = (ModuleMainClassGen) obj;
         if (className == null) {
-            if (other.className != null)
-                return false;
-        } else if (!className.equals(other.className))
-            return false;
+            if (other.className != null) return false;
+        } else if (!className.equals(other.className)) return false;
         return true;
     }
 

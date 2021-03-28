@@ -1,21 +1,19 @@
 package com.wade.decompiler.classfile.instructions;
 
-import java.io.IOException;
-
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.instructions.base.Instruction;
 import com.wade.decompiler.classfile.instructions.type.ArrayType;
 import com.wade.decompiler.classfile.instructions.type.ObjectType;
 import com.wade.decompiler.classfile.instructions.type.Type;
-import com.wade.decompiler.constants.ExceptionConst;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.util.ByteSequence;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.io.IOException;
 
 @Setter
 @Getter
@@ -26,10 +24,6 @@ public class ANEWARRAY extends Instruction {
 
     public ANEWARRAY(ConstantPool cp) {
         super(InstructionOpCodes.ANEWARRAY, 3, cp);
-    }
-
-    public Class<?>[] getExceptions() {
-        return ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_CLASS_AND_INTERFACE_RESOLUTION, ExceptionConst.NEGATIVE_ARRAY_SIZE_EXCEPTION);
     }
 
     public ObjectType getLoadClassType() {

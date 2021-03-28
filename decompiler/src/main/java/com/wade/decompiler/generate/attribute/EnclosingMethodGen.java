@@ -27,28 +27,19 @@ public class EnclosingMethodGen extends AttributeGen {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         EnclosingMethodGen other = (EnclosingMethodGen) obj;
         if (methodName == null) {
-            if (other.methodName != null)
-                return false;
-        } else if (!methodName.equals(other.methodName))
-            return false;
+            if (other.methodName != null) return false;
+        } else if (!methodName.equals(other.methodName)) return false;
         if (signature == null) {
-            if (other.signature != null)
-                return false;
-        } else if (!signature.equals(other.signature))
-            return false;
+            if (other.signature != null) return false;
+        } else if (!signature.equals(other.signature)) return false;
         if (superName == null) {
-            if (other.superName != null)
-                return false;
-        } else if (!superName.equals(other.superName))
-            return false;
+            if (other.superName != null) return false;
+        } else if (!superName.equals(other.superName)) return false;
         return true;
     }
 

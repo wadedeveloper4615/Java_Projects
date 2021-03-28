@@ -1,12 +1,7 @@
 package com.wade.decompiler.generate.attribute;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.classfile.element.AnnotationElementValue;
-import com.wade.decompiler.classfile.element.ArrayElementValue;
-import com.wade.decompiler.classfile.element.ClassElementValue;
-import com.wade.decompiler.classfile.element.ElementValue;
-import com.wade.decompiler.classfile.element.EnumElementValue;
-import com.wade.decompiler.classfile.element.SimpleElementValue;
+import com.wade.decompiler.classfile.element.*;
 
 public class ElementValueGen {
     public static final byte STRING = 's';
@@ -26,37 +21,6 @@ public class ElementValueGen {
 
     protected ElementValueGen(int type) {
         this.type = type;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        ElementValueGen other = (ElementValueGen) obj;
-        if (type != other.type)
-            return false;
-        return true;
-    }
-
-    public int getType() {
-        return type;
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + type;
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "ElementValueGen [type=" + type + "]";
     }
 
     public static ElementValueGen readElementValue(ElementValue value, ConstantPool constantPool) {
@@ -82,5 +46,32 @@ public class ElementValueGen {
             default:
                 throw new IllegalArgumentException("Unexpected element value kind in annotation: " + value.getType());
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
+        ElementValueGen other = (ElementValueGen) obj;
+        if (type != other.type) return false;
+        return true;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + type;
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "ElementValueGen [type=" + type + "]";
     }
 }

@@ -1,37 +1,32 @@
 package com.wade.decompiler.classfile.attribute;
 
-import java.io.DataInput;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.element.ElementValue;
 import com.wade.decompiler.classfile.element.ElementValuePair;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.io.DataInput;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @Getter
 @ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode
 public class AnnotationEntry {
-    private int typeIndex;
-    private ConstantPool constantPool;
-    private boolean isRuntimeVisible;
+    private final int typeIndex;
+    private final ConstantPool constantPool;
+    private final boolean isRuntimeVisible;
     private List<ElementValuePair> elementValuePairs = new ArrayList<>();
 
     public AnnotationEntry(int type_index, ConstantPool constantPool, boolean isRuntimeVisible) {
         this.typeIndex = type_index;
         this.constantPool = constantPool;
         this.isRuntimeVisible = isRuntimeVisible;
-    }
-
-    public void addElementNameValuePair(ElementValuePair e) {
-        elementValuePairs.add(e);
     }
 
     public static AnnotationEntry read(DataInput input, ConstantPool constantPool, boolean isRuntimeVisible) throws IOException {
@@ -45,5 +40,9 @@ public class AnnotationEntry {
             annotationEntry.elementValuePairs.add(new ElementValuePair(index, element));
         }
         return annotationEntry;
+    }
+
+    public void addElementNameValuePair(ElementValuePair e) {
+        elementValuePairs.add(e);
     }
 }

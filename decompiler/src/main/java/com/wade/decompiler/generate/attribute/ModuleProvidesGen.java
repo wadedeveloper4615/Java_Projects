@@ -1,10 +1,10 @@
 package com.wade.decompiler.generate.attribute;
 
-import java.util.Arrays;
-
 import com.wade.decompiler.classfile.attribute.ModuleProvides;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.ClassFileConstants;
+
+import java.util.Arrays;
 
 public class ModuleProvidesGen {
     private String[] providesIndex;
@@ -22,20 +22,14 @@ public class ModuleProvidesGen {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         ModuleProvidesGen other = (ModuleProvidesGen) obj;
         if (interface_name == null) {
-            if (other.interface_name != null)
-                return false;
-        } else if (!interface_name.equals(other.interface_name))
-            return false;
-        if (!Arrays.equals(providesIndex, other.providesIndex))
-            return false;
+            if (other.interface_name != null) return false;
+        } else if (!interface_name.equals(other.interface_name)) return false;
+        if (!Arrays.equals(providesIndex, other.providesIndex)) return false;
         return true;
     }
 

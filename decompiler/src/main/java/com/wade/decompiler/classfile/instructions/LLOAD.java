@@ -1,17 +1,16 @@
 package com.wade.decompiler.classfile.instructions;
 
-import java.io.IOException;
-
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.instructions.base.Instruction;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generate.attribute.LocalVariableTableGen;
 import com.wade.decompiler.util.ByteSequence;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.io.IOException;
 
 @Setter
 @Getter
@@ -20,7 +19,7 @@ import lombok.ToString;
 public class LLOAD extends Instruction {
     private int index;
     @ToString.Exclude
-    private LocalVariableTableGen localVariableTable;
+    private final LocalVariableTableGen localVariableTable;
 
     public LLOAD(int n, LocalVariableTableGen localVariableTable, ConstantPool cp) {
         super(InstructionOpCodes.LLOAD_0.add(n), 1, cp);

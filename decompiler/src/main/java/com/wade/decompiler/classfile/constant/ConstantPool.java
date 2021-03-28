@@ -1,16 +1,15 @@
 package com.wade.decompiler.classfile.constant;
 
-import java.io.DataInput;
-import java.io.IOException;
-
 import com.wade.decompiler.classfile.exceptions.ClassFormatException;
 import com.wade.decompiler.constants.Const;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.util.Utility;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.io.DataInput;
+import java.io.IOException;
 
 @Setter
 @Getter
@@ -36,6 +35,34 @@ public class ConstantPool {
                 i++;
             }
         }
+    }
+
+    private static String escape(String str) {
+        int len = str.length();
+        StringBuilder buf = new StringBuilder(len + 5);
+        char[] ch = str.toCharArray();
+        for (int i = 0; i < len; i++) {
+            switch (ch[i]) {
+                case '\n':
+                    buf.append("\\n");
+                    break;
+                case '\r':
+                    buf.append("\\r");
+                    break;
+                case '\t':
+                    buf.append("\\t");
+                    break;
+                case '\b':
+                    buf.append("\\b");
+                    break;
+                case '"':
+                    buf.append("\\\"");
+                    break;
+                default:
+                    buf.append(ch[i]);
+            }
+        }
+        return buf.toString();
     }
 
     public String constantToString(Constant c) throws ClassFormatException {
@@ -121,34 +148,6 @@ public class ConstantPool {
         final StringBuilder buf = new StringBuilder();
         for (int i = 1; i < constantPool.length; i++) {
             buf.append(i).append(") ").append(constantPool[i]).append("\n");
-        }
-        return buf.toString();
-    }
-
-    private static String escape(String str) {
-        int len = str.length();
-        StringBuilder buf = new StringBuilder(len + 5);
-        char[] ch = str.toCharArray();
-        for (int i = 0; i < len; i++) {
-            switch (ch[i]) {
-                case '\n':
-                    buf.append("\\n");
-                    break;
-                case '\r':
-                    buf.append("\\r");
-                    break;
-                case '\t':
-                    buf.append("\\t");
-                    break;
-                case '\b':
-                    buf.append("\\b");
-                    break;
-                case '"':
-                    buf.append("\\\"");
-                    break;
-                default:
-                    buf.append(ch[i]);
-            }
         }
         return buf.toString();
     }

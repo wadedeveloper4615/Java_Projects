@@ -1,10 +1,10 @@
 package com.wade.decompiler.generate.attribute;
 
-import java.util.Arrays;
-
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.element.ArrayElementValue;
 import com.wade.decompiler.classfile.element.ElementValue;
+
+import java.util.Arrays;
 
 public class ArrayElementValueGen extends ElementValueGen {
     private ElementValueGen[] value;
@@ -20,15 +20,11 @@ public class ArrayElementValueGen extends ElementValueGen {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         ArrayElementValueGen other = (ArrayElementValueGen) obj;
-        if (!Arrays.equals(value, other.value))
-            return false;
+        if (!Arrays.equals(value, other.value)) return false;
         return true;
     }
 

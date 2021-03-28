@@ -1,14 +1,7 @@
 package com.wade.decompiler.generate.attribute;
 
 import com.wade.decompiler.classfile.attribute.ConstantValue;
-import com.wade.decompiler.classfile.constant.Constant;
-import com.wade.decompiler.classfile.constant.ConstantDouble;
-import com.wade.decompiler.classfile.constant.ConstantFloat;
-import com.wade.decompiler.classfile.constant.ConstantInteger;
-import com.wade.decompiler.classfile.constant.ConstantLong;
-import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.classfile.constant.ConstantString;
-import com.wade.decompiler.classfile.constant.ConstantUtf8;
+import com.wade.decompiler.classfile.constant.*;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.util.Utility;
 
@@ -22,18 +15,13 @@ public class ConstantValueGen extends AttributeGen {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         ConstantValueGen other = (ConstantValueGen) obj;
         if (value == null) {
-            if (other.value != null)
-                return false;
-        } else if (!value.equals(other.value))
-            return false;
+            if (other.value != null) return false;
+        } else if (!value.equals(other.value)) return false;
         return true;
     }
 

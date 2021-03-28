@@ -1,10 +1,10 @@
 package com.wade.decompiler.generate.attribute;
 
-import java.util.Arrays;
-
 import com.wade.decompiler.classfile.attribute.BootstrapMethod;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.ClassFileConstants;
+
+import java.util.Arrays;
 
 public class BootstrapMethodGen {
     private String bootstrap_method_name;
@@ -17,20 +17,14 @@ public class BootstrapMethodGen {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         BootstrapMethodGen other = (BootstrapMethodGen) obj;
-        if (!Arrays.equals(bootstrapArguments, other.bootstrapArguments))
-            return false;
+        if (!Arrays.equals(bootstrapArguments, other.bootstrapArguments)) return false;
         if (bootstrap_method_name == null) {
-            if (other.bootstrap_method_name != null)
-                return false;
-        } else if (!bootstrap_method_name.equals(other.bootstrap_method_name))
-            return false;
+            if (other.bootstrap_method_name != null) return false;
+        } else if (!bootstrap_method_name.equals(other.bootstrap_method_name)) return false;
         return true;
     }
 

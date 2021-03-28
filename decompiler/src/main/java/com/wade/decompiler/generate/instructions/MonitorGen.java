@@ -2,10 +2,8 @@ package com.wade.decompiler.generate.instructions;
 
 import com.wade.decompiler.classfile.instructions.MONITORENTER;
 import com.wade.decompiler.classfile.instructions.MONITOREXIT;
-import com.wade.decompiler.constants.ExceptionConst;
 import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.InstructionOpCodes;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -31,9 +29,5 @@ public class MonitorGen extends InstructionGen {
     @Override
     public String decompile(ExpressionStack stack) {
         return null;
-    }
-
-    public Class<?>[] getExceptions() {
-        return new Class[] { ExceptionConst.NULL_POINTER_EXCEPTION };
     }
 }

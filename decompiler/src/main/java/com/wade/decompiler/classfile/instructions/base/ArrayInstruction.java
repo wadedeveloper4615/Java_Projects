@@ -3,9 +3,7 @@ package com.wade.decompiler.classfile.instructions.base;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.exceptions.ClassGenException;
 import com.wade.decompiler.classfile.instructions.type.Type;
-import com.wade.decompiler.constants.ExceptionConst;
 import com.wade.decompiler.enums.InstructionOpCodes;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,10 +16,6 @@ import lombok.ToString;
 public abstract class ArrayInstruction extends Instruction {
     public ArrayInstruction(InstructionOpCodes opcode, ConstantPool constantPool) {
         super(opcode, 1, constantPool);
-    }
-
-    public Class<?>[] getExceptions() {
-        return ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_ARRAY_EXCEPTION);
     }
 
     public Type getType() {

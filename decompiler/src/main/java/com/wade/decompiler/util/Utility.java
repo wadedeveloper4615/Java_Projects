@@ -1,8 +1,5 @@
 package com.wade.decompiler.util;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.wade.decompiler.classfile.JavaClass;
 import com.wade.decompiler.classfile.exceptions.ClassFormatException;
 import com.wade.decompiler.constants.Const;
@@ -13,8 +10,11 @@ import com.wade.decompiler.generate.attribute.LocalVariableGen;
 import com.wade.decompiler.generate.attribute.LocalVariableTableGen;
 import com.wade.decompiler.repository.SyntheticRepository;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class Utility {
-    private static ConsumedChars consumed_chars = new ConsumedChars();
+    private static final ConsumedChars consumed_chars = new ConsumedChars();
 
     public static String accessToString(ClassAccessFlagsList access_flags) {
         return accessToString(access_flags, false);
@@ -44,10 +44,8 @@ public abstract class Utility {
             flags.remove(ClassAccessFlags.ACC_ABSTRACT);
             flags.remove(ClassAccessFlags.ACC_ANNOTATION);
             return "@interface";
-        } else if (isInterface)
-            return "interface";
-        else
-            return "class";
+        } else if (isInterface) return "interface";
+        else return "class";
     }
 
     public static String compactClassName(String str) {
@@ -202,7 +200,7 @@ public abstract class Utility {
                 old_index = 0; // String start offset
                 // While we have something to replace
                 while ((index = str.indexOf(old, old_index)) != -1) {
-                    buf.append(str.substring(old_index, index)); // append prefix
+                    buf.append(str, old_index, index); // append prefix
                     buf.append(new_); // append replacement
                     old_index = index + old.length(); // Skip `old'.length chars
                 }
@@ -216,36 +214,30 @@ public abstract class Utility {
     }
 
     public static String toString(int[] a) {
-        if (a == null)
-            return "null";
+        if (a == null) return "null";
         int iMax = a.length - 1;
-        if (iMax == -1)
-            return "[]";
+        if (iMax == -1) return "[]";
 
         StringBuilder b = new StringBuilder();
         b.append('[');
-        for (int i = 0;; i++) {
+        for (int i = 0; ; i++) {
             b.append(a[i]);
-            if (i == iMax)
-                return b.append(']').toString();
+            if (i == iMax) return b.append(']').toString();
             b.append(", ");
         }
     }
 
     public static String toString(Object[] a) {
-        if (a == null)
-            return "null";
+        if (a == null) return "null";
 
         int iMax = a.length - 1;
-        if (iMax == -1)
-            return "[]";
+        if (iMax == -1) return "[]";
 
         StringBuilder b = new StringBuilder();
         b.append('[');
-        for (int i = 0;; i++) {
-            b.append(String.valueOf(a[i]));
-            if (i == iMax)
-                return b.append(']').toString();
+        for (int i = 0; ; i++) {
+            b.append(a[i]);
+            if (i == iMax) return b.append(']').toString();
             b.append(", ");
         }
     }

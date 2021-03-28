@@ -1,30 +1,21 @@
 package com.wade.decompiler.generate.instructions;
 
-import com.wade.decompiler.classfile.constant.Constant;
-import com.wade.decompiler.classfile.constant.ConstantCP;
-import com.wade.decompiler.classfile.constant.ConstantClass;
-import com.wade.decompiler.classfile.constant.ConstantFieldRef;
-import com.wade.decompiler.classfile.constant.ConstantInvokeDynamic;
-import com.wade.decompiler.classfile.constant.ConstantLong;
-import com.wade.decompiler.classfile.constant.ConstantMethodref;
-import com.wade.decompiler.classfile.constant.ConstantNameAndType;
-import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.classfile.constant.ConstantUtf8;
-import com.wade.decompiler.classfile.instructions.INVOKEDYNAMIC;
-import com.wade.decompiler.classfile.instructions.INVOKEINTERFACE;
-import com.wade.decompiler.classfile.instructions.INVOKESPECIAL;
-import com.wade.decompiler.classfile.instructions.INVOKESTATIC;
-import com.wade.decompiler.classfile.instructions.INVOKEVIRTUAL;
+import com.wade.decompiler.classfile.constant.*;
+import com.wade.decompiler.classfile.instructions.*;
+import com.wade.decompiler.classfile.instructions.type.ObjectType;
 import com.wade.decompiler.classfile.instructions.type.Type;
-import com.wade.decompiler.constants.ExceptionConst;
+import com.wade.decompiler.decompiler.Expression;
 import com.wade.decompiler.decompiler.ExpressionStack;
+import com.wade.decompiler.decompiler.ExpressionType;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.enums.InstructionOpCodes;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @Getter
@@ -32,17 +23,17 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = false)
 public class InvokeGen extends InstructionGen {
     private InstructionOpCodes opcode;
+    private Type type;
+    private Type[] parameterTypes;
     @ToString.Exclude
     private ConstantPool constantPool;
     private Integer index;
     private Integer nargs;
-    private Type type;
     private String superName;
     private String methodName;
     private String signature;
     private Object constantValue;
     private String constantString;
-    private Class<?>[] exceptions;
 
     public InvokeGen(int offset, INVOKEDYNAMIC instr) {
         super(offset, instr.getLength());
@@ -50,10 +41,10 @@ public class InvokeGen extends InstructionGen {
         constantPool = instr.getConstantPool();
         ConstantCP c = (ConstantCP) constantPool.getConstant(instr.getIndex());
         extractConstantPoolInfo(c);
-        exceptions = ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_INTERFACE_METHOD_RESOLUTION, ExceptionConst.UNSATISFIED_LINK_ERROR, ExceptionConst.ABSTRACT_METHOD_ERROR, ExceptionConst.ILLEGAL_ACCESS_ERROR, ExceptionConst.INCOMPATIBLE_CLASS_CHANGE_ERROR);
         index = instr.getIndex();
         nargs = null;
-        type = instr.getType();
+        type = Type.getReturnType(getSignature());
+        parameterTypes = Type.getArgumentTypes(this.getSignature());
     }
 
     public InvokeGen(int offset, INVOKEINTERFACE instr) {
@@ -62,10 +53,10 @@ public class InvokeGen extends InstructionGen {
         constantPool = instr.getConstantPool();
         ConstantCP c = (ConstantCP) constantPool.getConstant(instr.getIndex());
         extractConstantPoolInfo(c);
-        exceptions = null;
         index = instr.getIndex();
         nargs = instr.getNargs();
-        type = Type.NULL;
+        type = Type.getReturnType(getSignature());
+        parameterTypes = Type.getArgumentTypes(this.getSignature());
     }
 
     public InvokeGen(int offset, INVOKESPECIAL instr) {
@@ -74,10 +65,10 @@ public class InvokeGen extends InstructionGen {
         constantPool = instr.getConstantPool();
         ConstantCP c = (ConstantCP) constantPool.getConstant(instr.getIndex());
         extractConstantPoolInfo(c);
-        exceptions = null;
         index = instr.getIndex();
         nargs = null;
-        type = Type.NULL;
+        type = Type.getReturnType(getSignature());
+        parameterTypes = Type.getArgumentTypes(this.getSignature());
     }
 
     public InvokeGen(int offset, INVOKESTATIC instr) {
@@ -86,10 +77,10 @@ public class InvokeGen extends InstructionGen {
         constantPool = instr.getConstantPool();
         ConstantCP c = (ConstantCP) constantPool.getConstant(instr.getIndex());
         extractConstantPoolInfo(c);
-        exceptions = null;
         index = instr.getIndex();
         nargs = null;
-        type = Type.NULL;
+        type = Type.getReturnType(getSignature());
+        parameterTypes = Type.getArgumentTypes(this.getSignature());
     }
 
     public InvokeGen(int offset, INVOKEVIRTUAL instr) {
@@ -98,14 +89,58 @@ public class InvokeGen extends InstructionGen {
         constantPool = instr.getConstantPool();
         ConstantCP c = (ConstantCP) constantPool.getConstant(instr.getIndex());
         extractConstantPoolInfo(c);
-        exceptions = null;
         index = instr.getIndex();
         nargs = null;
-        type = Type.NULL;
+        type = Type.getReturnType(getSignature());
+        parameterTypes = Type.getArgumentTypes(this.getSignature());
     }
 
     @Override
     public String decompile(ExpressionStack stack) {
+        int numberOfParameters = this.parameterTypes.length;
+        List<Expression> listOfParameters = new ArrayList<>();
+        for (int i = 1; i <= numberOfParameters; i++) {
+            if (!stack.empty()) {
+                listOfParameters.add(0, stack.pop());
+            }
+        }
+        if (opcode == InstructionOpCodes.INVOKEVIRTUAL) {
+            if (!stack.empty()) {
+                Expression item2 = stack.pop();
+                return item2.getValue() + "." + this.methodName + "(" + listToListOfStrings(listOfParameters) + ")";
+            }
+        } else if (opcode == InstructionOpCodes.INVOKESPECIAL) {
+            if (!stack.empty()) {
+                Expression item2 = stack.pop();
+                if (this.methodName.equals("<init>") && item2.getValue().equals("this")) {
+                    return "super(" + listToListOfStrings(listOfParameters) + ")";
+                }
+                return item2.getValue() + "." + this.methodName + "(" + listToListOfStrings(listOfParameters) + ")";
+            }
+        } else if (opcode == InstructionOpCodes.INVOKEINTERFACE) {
+            if (!stack.empty()) {
+                Expression item2 = stack.pop();
+                if (this.methodName.equals("<init>") && item2.getValue().equals("this")) {
+                    return "super(" + listToListOfStrings(listOfParameters) + ")";
+                }
+                String str = item2.getValue() + "." + this.methodName + "(" + listToListOfStrings(listOfParameters) + ")";
+                Expression item = new Expression(ExpressionType.EXPRESSION, str);
+                stack.push(item);
+                return "pushed " + item.toString();
+            }
+        } else if (opcode == InstructionOpCodes.INVOKEDYNAMIC) {
+            String item2 = ((ObjectType) type).getClassName();
+            String str = item2 + "." + this.methodName + "(" + listToListOfStrings(listOfParameters) + ")";
+            Expression item = new Expression(ExpressionType.EXPRESSION, str);
+            stack.push(item);
+            return "pushed " + item.toString();
+        } else if (opcode == InstructionOpCodes.INVOKESTATIC) {
+            String item2 = ((ObjectType) type).getClassName();
+            String str = item2 + "." + this.methodName + "(" + listToListOfStrings(listOfParameters) + ")";
+            Expression item = new Expression(ExpressionType.EXPRESSION, str);
+            stack.push(item);
+            return "pushed " + item.toString();
+        }
         return null;
     }
 
@@ -113,6 +148,16 @@ public class InvokeGen extends InstructionGen {
         if (c instanceof ConstantMethodref) {
             int classIndex = ((ConstantMethodref) c).getClassIndex();
             int nameAndTypeIndex = ((ConstantMethodref) c).getNameAndTypeIndex();
+
+            ConstantClass cc = (ConstantClass) constantPool.getConstant(classIndex, ClassFileConstants.CONSTANT_Class);
+            ConstantNameAndType cnt = (ConstantNameAndType) constantPool.getConstant(nameAndTypeIndex, ClassFileConstants.CONSTANT_NameAndType);
+
+            superName = ((ConstantUtf8) constantPool.getConstant(cc.getNameIndex(), ClassFileConstants.CONSTANT_Utf8)).getBytes();
+            methodName = ((ConstantUtf8) constantPool.getConstant(cnt.getNameIndex(), ClassFileConstants.CONSTANT_Utf8)).getBytes();
+            signature = ((ConstantUtf8) constantPool.getConstant(cnt.getSignatureIndex(), ClassFileConstants.CONSTANT_Utf8)).getBytes();
+        } else if (c instanceof ConstantInterfaceMethodRef) {
+            int classIndex = ((ConstantInterfaceMethodRef) c).getClassIndex();
+            int nameAndTypeIndex = ((ConstantInterfaceMethodRef) c).getNameAndTypeIndex();
 
             ConstantClass cc = (ConstantClass) constantPool.getConstant(classIndex, ClassFileConstants.CONSTANT_Class);
             ConstantNameAndType cnt = (ConstantNameAndType) constantPool.getConstant(nameAndTypeIndex, ClassFileConstants.CONSTANT_NameAndType);
@@ -155,5 +200,17 @@ public class InvokeGen extends InstructionGen {
         } else {
             System.out.println(c.getClass().getName());
         }
+    }
+
+    private String listToListOfStrings(List<Expression> list) {
+        StringBuffer buffer = new StringBuffer();
+        for (Expression e : list) {
+            buffer.append(e.getValue() + ",");
+        }
+        String string = buffer.toString();
+        if (list.size() >= 1) {
+            return string.substring(0, string.length() - 1);
+        }
+        return string;
     }
 }

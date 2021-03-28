@@ -1,23 +1,8 @@
 package com.wade.decompiler.generate.instructions;
 
-import com.wade.decompiler.classfile.instructions.D2F;
-import com.wade.decompiler.classfile.instructions.D2I;
-import com.wade.decompiler.classfile.instructions.D2L;
-import com.wade.decompiler.classfile.instructions.F2D;
-import com.wade.decompiler.classfile.instructions.F2I;
-import com.wade.decompiler.classfile.instructions.F2L;
-import com.wade.decompiler.classfile.instructions.I2B;
-import com.wade.decompiler.classfile.instructions.I2C;
-import com.wade.decompiler.classfile.instructions.I2D;
-import com.wade.decompiler.classfile.instructions.I2F;
-import com.wade.decompiler.classfile.instructions.I2L;
-import com.wade.decompiler.classfile.instructions.I2S;
-import com.wade.decompiler.classfile.instructions.L2D;
-import com.wade.decompiler.classfile.instructions.L2F;
-import com.wade.decompiler.classfile.instructions.L2I;
+import com.wade.decompiler.classfile.instructions.*;
 import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.decompiler.ExpressionStack;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

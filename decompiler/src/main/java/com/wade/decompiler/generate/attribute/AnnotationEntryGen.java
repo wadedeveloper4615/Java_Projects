@@ -1,10 +1,10 @@
 package com.wade.decompiler.generate.attribute;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.wade.decompiler.classfile.attribute.AnnotationEntry;
 import com.wade.decompiler.classfile.constant.ConstantPool;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AnnotationEntryGen {
     private List<ElementValuePairGen> elementValuePairs;
@@ -16,24 +16,30 @@ public class AnnotationEntryGen {
         this.isRuntimeVisible = annotationEntry.isRuntimeVisible();
     }
 
+    public static AnnotationEntryGen read(AnnotationEntry ae, ConstantPool constantPool) {
+        AnnotationEntryGen annotationEntry = new AnnotationEntryGen(ae);
+        if (annotationEntry.elementValuePairs == null) {
+            annotationEntry.elementValuePairs = new ArrayList<>();
+        }
+        int num_element_value_pairs = annotationEntry.elementValuePairs.size();
+        annotationEntry.elementValuePairs = new ArrayList<ElementValuePairGen>();
+        for (int i = 0; i < num_element_value_pairs; i++) {
+            annotationEntry.elementValuePairs.add(new ElementValuePairGen(ae.getElementValuePairs().get(i), ElementValueGen.readElementValue(ae.getElementValuePairs().get(i).getElementValue(), constantPool), constantPool));
+        }
+        return annotationEntry;
+    }
+
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         AnnotationEntryGen other = (AnnotationEntryGen) obj;
         if (elementValuePairs == null) {
-            if (other.elementValuePairs != null)
-                return false;
-        } else if (!elementValuePairs.equals(other.elementValuePairs))
-            return false;
-        if (isRuntimeVisible != other.isRuntimeVisible)
-            return false;
-        if (typeIndex != other.typeIndex)
-            return false;
+            if (other.elementValuePairs != null) return false;
+        } else if (!elementValuePairs.equals(other.elementValuePairs)) return false;
+        if (isRuntimeVisible != other.isRuntimeVisible) return false;
+        if (typeIndex != other.typeIndex) return false;
         return true;
     }
 
@@ -62,18 +68,5 @@ public class AnnotationEntryGen {
     @Override
     public String toString() {
         return "AnnotationEntryGen [elementValuePairs=" + elementValuePairs + ", typeIndex=" + typeIndex + ", isRuntimeVisible=" + isRuntimeVisible + "]";
-    }
-
-    public static AnnotationEntryGen read(AnnotationEntry ae, ConstantPool constantPool) {
-        AnnotationEntryGen annotationEntry = new AnnotationEntryGen(ae);
-        if (annotationEntry.elementValuePairs == null) {
-            annotationEntry.elementValuePairs = new ArrayList<>();
-        }
-        int num_element_value_pairs = annotationEntry.elementValuePairs.size();
-        annotationEntry.elementValuePairs = new ArrayList<ElementValuePairGen>();
-        for (int i = 0; i < num_element_value_pairs; i++) {
-            annotationEntry.elementValuePairs.add(new ElementValuePairGen(ae.getElementValuePairs().get(i), ElementValueGen.readElementValue(ae.getElementValuePairs().get(i).getElementValue(), constantPool), constantPool));
-        }
-        return annotationEntry;
     }
 }

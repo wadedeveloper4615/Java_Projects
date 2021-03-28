@@ -1,17 +1,12 @@
 package com.wade.decompiler.generate.instructions;
 
-import com.wade.decompiler.classfile.instructions.ALOAD;
-import com.wade.decompiler.classfile.instructions.DLOAD;
-import com.wade.decompiler.classfile.instructions.FLOAD;
-import com.wade.decompiler.classfile.instructions.ILOAD;
-import com.wade.decompiler.classfile.instructions.LLOAD;
+import com.wade.decompiler.classfile.instructions.*;
 import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.decompiler.Expression;
 import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.decompiler.ExpressionType;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generate.attribute.LocalVariableGen;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -71,8 +66,9 @@ public class LoadGen extends InstructionGen {
         if (localVariableReference != null) {
             name = this.localVariableReference.getName();
         }
-        stack.push(new Expression(ExpressionType.VARIABLE, name));
-        return null;
+        Expression item = new Expression(ExpressionType.VARIABLE, name);
+        stack.push(item);
+        return "pushed " + item.toString();
     }
 
     private LocalVariableGen findLocalVariable(LocalVariableGen[] localVars, int index) {

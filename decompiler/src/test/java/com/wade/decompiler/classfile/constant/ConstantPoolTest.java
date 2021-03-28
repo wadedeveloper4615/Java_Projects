@@ -1,18 +1,13 @@
 package com.wade.decompiler.classfile.constant;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import org.junit.jupiter.api.Test;
-
 import com.wade.decompiler.AbstractTest;
 import com.wade.decompiler.classfile.JavaClass;
 import com.wade.decompiler.enums.ClassFileConstants;
-
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class ConstantPoolTest extends AbstractTest {
     private Constant searchConstantPool(Constant[] constantPool, ClassFileConstants constant) {

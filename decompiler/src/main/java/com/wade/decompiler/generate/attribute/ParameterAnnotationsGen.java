@@ -1,10 +1,10 @@
 package com.wade.decompiler.generate.attribute;
 
-import java.util.Arrays;
-
 import com.wade.decompiler.classfile.attribute.ParameterAnnotationEntry;
 import com.wade.decompiler.classfile.attribute.ParameterAnnotations;
 import com.wade.decompiler.classfile.constant.ConstantPool;
+
+import java.util.Arrays;
 
 public class ParameterAnnotationsGen extends AttributeGen {
     private ParameterAnnotationEntryGen[] parameterAnnotationTable;
@@ -21,15 +21,11 @@ public class ParameterAnnotationsGen extends AttributeGen {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         ParameterAnnotationsGen other = (ParameterAnnotationsGen) obj;
-        if (!Arrays.equals(parameterAnnotationTable, other.parameterAnnotationTable))
-            return false;
+        if (!Arrays.equals(parameterAnnotationTable, other.parameterAnnotationTable)) return false;
         return true;
     }
 

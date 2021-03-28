@@ -2,7 +2,6 @@ package com.wade.decompiler.generate.instructions;
 
 import com.wade.decompiler.classfile.instructions.TABLESWITCH;
 import com.wade.decompiler.decompiler.ExpressionStack;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

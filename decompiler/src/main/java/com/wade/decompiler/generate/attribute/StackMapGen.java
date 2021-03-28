@@ -1,10 +1,10 @@
 package com.wade.decompiler.generate.attribute;
 
-import java.util.Arrays;
-
 import com.wade.decompiler.classfile.attribute.StackMap;
 import com.wade.decompiler.classfile.attribute.StackMapEntry;
 import com.wade.decompiler.classfile.constant.ConstantPool;
+
+import java.util.Arrays;
 
 public class StackMapGen extends AttributeGen {
     private StackMapEntryGen[] map;
@@ -21,15 +21,11 @@ public class StackMapGen extends AttributeGen {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         StackMapGen other = (StackMapGen) obj;
-        if (!Arrays.equals(map, other.map))
-            return false;
+        if (!Arrays.equals(map, other.map)) return false;
         return true;
     }
 

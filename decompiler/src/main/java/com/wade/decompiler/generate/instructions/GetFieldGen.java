@@ -1,23 +1,13 @@
 package com.wade.decompiler.generate.instructions;
 
-import com.wade.decompiler.classfile.constant.Constant;
-import com.wade.decompiler.classfile.constant.ConstantCP;
-import com.wade.decompiler.classfile.constant.ConstantClass;
-import com.wade.decompiler.classfile.constant.ConstantFieldRef;
-import com.wade.decompiler.classfile.constant.ConstantLong;
-import com.wade.decompiler.classfile.constant.ConstantMethodref;
-import com.wade.decompiler.classfile.constant.ConstantNameAndType;
-import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.classfile.constant.ConstantUtf8;
+import com.wade.decompiler.classfile.constant.*;
 import com.wade.decompiler.classfile.instructions.GETFIELD;
 import com.wade.decompiler.classfile.instructions.GETSTATIC;
 import com.wade.decompiler.classfile.instructions.type.Type;
-import com.wade.decompiler.constants.ExceptionConst;
 import com.wade.decompiler.decompiler.Expression;
 import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.decompiler.ExpressionType;
 import com.wade.decompiler.enums.ClassFileConstants;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -35,7 +25,6 @@ public class GetFieldGen extends InstructionGen {
     private String signature;
     private Object constantValue;
     private String constantString;
-    private Class<?>[] exceptions;
     private Type type;
 
     public GetFieldGen(int offset, GETFIELD instr) {
@@ -43,7 +32,6 @@ public class GetFieldGen extends InstructionGen {
         constantPool = instr.getConstantPool();
         ConstantCP c = (ConstantCP) constantPool.getConstant(instr.getIndex());
         extractConstantPoolInfo(c);
-        exceptions = ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_FIELD_AND_METHOD_RESOLUTION, ExceptionConst.NULL_POINTER_EXCEPTION, ExceptionConst.INCOMPATIBLE_CLASS_CHANGE_ERROR);
         type = instr.getType();
     }
 
@@ -52,7 +40,6 @@ public class GetFieldGen extends InstructionGen {
         constantPool = instr.getConstantPool();
         ConstantCP c = (ConstantCP) constantPool.getConstant(instr.getIndex());
         extractConstantPoolInfo(c);
-        exceptions = ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_FIELD_AND_METHOD_RESOLUTION, ExceptionConst.NULL_POINTER_EXCEPTION, ExceptionConst.INCOMPATIBLE_CLASS_CHANGE_ERROR);
         type = instr.getType();
     }
 

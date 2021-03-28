@@ -1,10 +1,10 @@
 package com.wade.decompiler.repository;
 
-import java.io.IOException;
-import java.io.InputStream;
-
 import com.wade.decompiler.classfile.ClassParser;
 import com.wade.decompiler.classfile.JavaClass;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 public abstract class AbstractClassPathRepository implements Repository {
     private final ClassPath _path;

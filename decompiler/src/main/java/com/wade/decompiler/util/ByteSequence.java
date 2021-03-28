@@ -4,6 +4,21 @@ import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 
 public class ByteSequence extends DataInputStream {
+    private final ByteArrayStream byteStream;
+
+    public ByteSequence(byte[] bytes) {
+        super(new ByteArrayStream(bytes));
+        byteStream = (ByteArrayStream) in;
+    }
+
+    public int getIndex() {
+        return byteStream.getPosition();
+    }
+
+    void unreadByte() {
+        byteStream.unreadByte();
+    }
+
     private static class ByteArrayStream extends ByteArrayInputStream {
         ByteArrayStream(byte[] bytes) {
             super(bytes);
@@ -19,20 +34,5 @@ public class ByteSequence extends DataInputStream {
                 pos--;
             }
         }
-    }
-
-    private ByteArrayStream byteStream;
-
-    public ByteSequence(byte[] bytes) {
-        super(new ByteArrayStream(bytes));
-        byteStream = (ByteArrayStream) in;
-    }
-
-    public int getIndex() {
-        return byteStream.getPosition();
-    }
-
-    void unreadByte() {
-        byteStream.unreadByte();
     }
 }

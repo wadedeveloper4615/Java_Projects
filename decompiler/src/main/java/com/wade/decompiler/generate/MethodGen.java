@@ -1,8 +1,5 @@
 package com.wade.decompiler.generate;
 
-import java.io.IOException;
-import java.util.List;
-
 import com.wade.decompiler.classfile.Method;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.generate.attribute.AttributeGen;
@@ -10,11 +7,13 @@ import com.wade.decompiler.generate.attribute.CodeGen;
 import com.wade.decompiler.generate.attribute.LineNumberTableGen;
 import com.wade.decompiler.generate.attribute.LocalVariableTableGen;
 import com.wade.decompiler.generate.instructions.InstructionGen;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.io.IOException;
+import java.util.List;
 
 @Setter
 @Getter

@@ -1,11 +1,11 @@
 package com.wade.decompiler.generate.attribute;
 
-import java.util.Arrays;
-
 import com.wade.decompiler.classfile.attribute.ModuleExports;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.ClassAccessFlagsList;
 import com.wade.decompiler.enums.ClassFileConstants;
+
+import java.util.Arrays;
 
 public class ModuleExportsGen {
     private String[] exports;
@@ -25,25 +25,17 @@ public class ModuleExportsGen {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         ModuleExportsGen other = (ModuleExportsGen) obj;
         if (exportFlags == null) {
-            if (other.exportFlags != null)
-                return false;
-        } else if (!exportFlags.equals(other.exportFlags))
-            return false;
-        if (!Arrays.equals(exports, other.exports))
-            return false;
+            if (other.exportFlags != null) return false;
+        } else if (!exportFlags.equals(other.exportFlags)) return false;
+        if (!Arrays.equals(exports, other.exports)) return false;
         if (package_name == null) {
-            if (other.package_name != null)
-                return false;
-        } else if (!package_name.equals(other.package_name))
-            return false;
+            if (other.package_name != null) return false;
+        } else if (!package_name.equals(other.package_name)) return false;
         return true;
     }
 

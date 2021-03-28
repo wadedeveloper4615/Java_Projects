@@ -16,23 +16,16 @@ public class ElementValuePairGen {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         ElementValuePairGen other = (ElementValuePairGen) obj;
         if (elementName == null) {
-            if (other.elementName != null)
-                return false;
-        } else if (!elementName.equals(other.elementName))
-            return false;
+            if (other.elementName != null) return false;
+        } else if (!elementName.equals(other.elementName)) return false;
         if (elementValue == null) {
-            if (other.elementValue != null)
-                return false;
-        } else if (!elementValue.equals(other.elementValue))
-            return false;
+            if (other.elementValue != null) return false;
+        } else if (!elementValue.equals(other.elementValue)) return false;
         return true;
     }
 

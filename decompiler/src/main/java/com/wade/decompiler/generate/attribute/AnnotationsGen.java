@@ -1,10 +1,10 @@
 package com.wade.decompiler.generate.attribute;
 
-import java.util.Arrays;
-
 import com.wade.decompiler.classfile.attribute.AnnotationEntry;
 import com.wade.decompiler.classfile.attribute.Annotations;
 import com.wade.decompiler.classfile.constant.ConstantPool;
+
+import java.util.Arrays;
 
 public class AnnotationsGen extends AttributeGen {
     private boolean isRuntimeVisible;
@@ -22,17 +22,12 @@ public class AnnotationsGen extends AttributeGen {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         AnnotationsGen other = (AnnotationsGen) obj;
-        if (!Arrays.equals(annotationTable, other.annotationTable))
-            return false;
-        if (isRuntimeVisible != other.isRuntimeVisible)
-            return false;
+        if (!Arrays.equals(annotationTable, other.annotationTable)) return false;
+        if (isRuntimeVisible != other.isRuntimeVisible) return false;
         return true;
     }
 

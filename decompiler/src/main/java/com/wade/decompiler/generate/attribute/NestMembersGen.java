@@ -1,10 +1,10 @@
 package com.wade.decompiler.generate.attribute;
 
-import java.util.Arrays;
-
 import com.wade.decompiler.classfile.attribute.NestMembers;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.ClassFileConstants;
+
+import java.util.Arrays;
 
 public class NestMembersGen extends AttributeGen {
     private String[] names;
@@ -20,15 +20,11 @@ public class NestMembersGen extends AttributeGen {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         NestMembersGen other = (NestMembersGen) obj;
-        if (!Arrays.equals(names, other.names))
-            return false;
+        if (!Arrays.equals(names, other.names)) return false;
         return true;
     }
 

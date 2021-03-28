@@ -1,11 +1,11 @@
 package com.wade.decompiler.decompiler;
 
-import java.util.Stack;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.util.Stack;
 
 @Setter
 @Getter

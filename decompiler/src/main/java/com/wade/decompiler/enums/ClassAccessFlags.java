@@ -4,35 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public enum ClassAccessFlags {
-  //@formatter:off
-    ACC_PUBLIC(0x0001, 0),
-    ACC_PRIVATE(0x0002, 1),
-    ACC_PROTECTED(0x0004, 2),
-    ACC_STATIC(0x0008, 3),
-    ACC_FINAL(0x0010, 4),
-    ACC_OPEN(0x0020, 5),
-    ACC_SUPER(0x0020, 5),
-    ACC_SYNCHRONIZED(0x0020, 5),
-    ACC_TRANSITIVE(0x0020, 6),
-    ACC_BRIDGE(0x0040, 6),
-    ACC_STATIC_PHASE(0x0040, 6),
-    ACC_VOLATILE(0x0040, 6),
-    ACC_TRANSIENT(0x0080, 7),
-    ACC_VARARGS(0x0080, 7),
-    ACC_NATIVE(0x0100, 8),
-    ACC_INTERFACE(0x0200, 9),
-    ACC_ABSTRACT(0x0400, 10),
-    ACC_STRICT(0x0800, 11),
-    ACC_SYNTHETIC(0x1000, 12),
-    ACC_ANNOTATION(0x2000, 13),
-    ACC_ENUM(0x4000, 14),
-    ACC_MANDATED(0x8000, 15),
-    ACC_MODULE(0x8000, 15),
-    MAX_ACC_FLAG(0x4000, 16),
-    MAX_ACC_FLAG_I(0x8000, 17),
-    ACC_DUMMY(0, 18);
-  //@formatter:on
-    private String[] ACCESS_NAMES = { "public", "private", "protected", "static", "", "synchronized", "volatile", "transient", "native", "interface", "abstract", "strictfp", "synthetic", "annotation", "enum", "module", "max flag", "max_flag 2", "DUMMY" };
+    //@formatter:off
+    ACC_PUBLIC(0x0001, 0), ACC_PRIVATE(0x0002, 1), ACC_PROTECTED(0x0004, 2), ACC_STATIC(0x0008, 3), ACC_FINAL(0x0010, 4), ACC_OPEN(0x0020, 5), ACC_SUPER(0x0020, 5), ACC_SYNCHRONIZED(0x0020, 5), ACC_TRANSITIVE(0x0020, 6), ACC_BRIDGE(0x0040, 6), ACC_STATIC_PHASE(0x0040, 6), ACC_VOLATILE(0x0040, 6), ACC_TRANSIENT(0x0080, 7), ACC_VARARGS(0x0080, 7), ACC_NATIVE(0x0100, 8), ACC_INTERFACE(0x0200, 9), ACC_ABSTRACT(0x0400, 10), ACC_STRICT(0x0800, 11), ACC_SYNTHETIC(0x1000, 12), ACC_ANNOTATION(0x2000, 13), ACC_ENUM(0x4000, 14), ACC_MANDATED(0x8000, 15), ACC_MODULE(0x8000, 15), MAX_ACC_FLAG(0x4000, 16), MAX_ACC_FLAG_I(0x8000, 17), ACC_DUMMY(0, 18);
+    //@formatter:on
+    private String[] ACCESS_NAMES = {"public", "private", "protected", "static", "", "synchronized", "volatile", "transient", "native", "interface", "abstract", "strictfp", "synthetic", "annotation", "enum", "module", "max flag", "max_flag 2", "DUMMY"};
     private int flag;
     private String name;
     private int index;
@@ -43,8 +18,33 @@ public enum ClassAccessFlags {
         this.index = index;
     }
 
+    public static boolean isSet(int flag, ClassAccessFlags p) {
+        return (flag & p.getFlag()) != 0;
+    }
+
+    public static ClassAccessFlags read(int flags) {
+        ClassAccessFlags flag = ClassAccessFlags.ACC_DUMMY.setFlag(flags);
+        return flag;
+    }
+
+    public static List<ClassAccessFlags> readList(int accessFlags) {
+        List<ClassAccessFlags> list = new ArrayList<>();
+        for (ClassAccessFlags v : ClassAccessFlags.values()) {
+            if (ClassAccessFlags.isSet(accessFlags, v)) {
+                list.add(v);
+            }
+        }
+        return list;
+    }
+
     public int getFlag() {
         return flag;
+    }
+
+    public ClassAccessFlags setFlag(int flag) {
+        this.flag = flag;
+        this.name = ACCESS_NAMES[flag];
+        return this;
     }
 
     public int getIndex() {
@@ -129,30 +129,5 @@ public enum ClassAccessFlags {
 
     public boolean isVolatile() {
         return (flag & ACC_VOLATILE.getFlag()) != 0;
-    }
-
-    public ClassAccessFlags setFlag(int flag) {
-        this.flag = flag;
-        this.name = ACCESS_NAMES[flag];
-        return this;
-    }
-
-    public static boolean isSet(int flag, ClassAccessFlags p) {
-        return (flag & p.getFlag()) != 0;
-    }
-
-    public static ClassAccessFlags read(int flags) {
-        ClassAccessFlags flag = ClassAccessFlags.ACC_DUMMY.setFlag(flags);
-        return flag;
-    }
-
-    public static List<ClassAccessFlags> readList(int accessFlags) {
-        List<ClassAccessFlags> list = new ArrayList<>();
-        for (ClassAccessFlags v : ClassAccessFlags.values()) {
-            if (ClassAccessFlags.isSet(accessFlags, v)) {
-                list.add(v);
-            }
-        }
-        return list;
     }
 }

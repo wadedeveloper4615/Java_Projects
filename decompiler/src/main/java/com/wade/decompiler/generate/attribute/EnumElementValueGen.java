@@ -17,23 +17,16 @@ public class EnumElementValueGen extends ElementValueGen {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         EnumElementValueGen other = (EnumElementValueGen) obj;
         if (typeName == null) {
-            if (other.typeName != null)
-                return false;
-        } else if (!typeName.equals(other.typeName))
-            return false;
+            if (other.typeName != null) return false;
+        } else if (!typeName.equals(other.typeName)) return false;
         if (valueName == null) {
-            if (other.valueName != null)
-                return false;
-        } else if (!valueName.equals(other.valueName))
-            return false;
+            if (other.valueName != null) return false;
+        } else if (!valueName.equals(other.valueName)) return false;
         return true;
     }
 

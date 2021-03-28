@@ -1,53 +1,30 @@
 package com.wade.decompiler.generate.attribute;
 
-import java.io.IOException;
-
-import com.wade.decompiler.classfile.attribute.AnnotationDefault;
-import com.wade.decompiler.classfile.attribute.Attribute;
-import com.wade.decompiler.classfile.attribute.BootstrapMethods;
-import com.wade.decompiler.classfile.attribute.Code;
-import com.wade.decompiler.classfile.attribute.ConstantValue;
-import com.wade.decompiler.classfile.attribute.EnclosingMethod;
-import com.wade.decompiler.classfile.attribute.ExceptionTable;
-import com.wade.decompiler.classfile.attribute.InnerClasses;
-import com.wade.decompiler.classfile.attribute.LineNumberTable;
-import com.wade.decompiler.classfile.attribute.LocalVariableTable;
-import com.wade.decompiler.classfile.attribute.LocalVariableTypeTable;
-import com.wade.decompiler.classfile.attribute.MethodParameters;
 import com.wade.decompiler.classfile.attribute.Module;
-import com.wade.decompiler.classfile.attribute.ModuleMainClass;
-import com.wade.decompiler.classfile.attribute.ModulePackages;
-import com.wade.decompiler.classfile.attribute.NestHost;
-import com.wade.decompiler.classfile.attribute.NestMembers;
-import com.wade.decompiler.classfile.attribute.PMGClass;
-import com.wade.decompiler.classfile.attribute.RuntimeInvisibleParameterAnnotations;
-import com.wade.decompiler.classfile.attribute.RuntimeVisibleAnnotations;
-import com.wade.decompiler.classfile.attribute.RuntimeVisibleParameterAnnotations;
-import com.wade.decompiler.classfile.attribute.Signature;
-import com.wade.decompiler.classfile.attribute.SourceFile;
-import com.wade.decompiler.classfile.attribute.StackMap;
-import com.wade.decompiler.classfile.attribute.Synthetic;
+import com.wade.decompiler.classfile.attribute.*;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.constant.ConstantUtf8;
 import com.wade.decompiler.classfile.exceptions.ClassFormatException;
 import com.wade.decompiler.enums.ClassFileAttributes;
 import com.wade.decompiler.enums.ClassFileConstants;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.io.IOException;
 
 @Setter
 @Getter
 @ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode
 public class AttributeGen {
+    @ToString.Exclude
+    protected ConstantPool constantPool;
     private ClassFileAttributes tag;
     private int nameIndex;
     private int length;
     private String name;
-    protected ConstantPool constantPool;
 
     public AttributeGen(Attribute attribute, ConstantPool constantPool) {
         this.tag = attribute.getTag();

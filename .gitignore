@@ -32,6 +32,7 @@ Spring-Examples/build/
 Spring-Examples/SpringJPAMVC/target/
 spring-boot-hibernate-thymeleaf/
 decompiler/.settings/
+decompiler/.idea/
 bcel-6.5.0-src/
 decompiler - Copy/
 decompiler/bin/

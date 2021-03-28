@@ -15,18 +15,13 @@ public class AnnotationElementValueGen extends ElementValueGen {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         AnnotationElementValueGen other = (AnnotationElementValueGen) obj;
         if (annotationEntry == null) {
-            if (other.annotationEntry != null)
-                return false;
-        } else if (!annotationEntry.equals(other.annotationEntry))
-            return false;
+            if (other.annotationEntry != null) return false;
+        } else if (!annotationEntry.equals(other.annotationEntry)) return false;
         return true;
     }
 

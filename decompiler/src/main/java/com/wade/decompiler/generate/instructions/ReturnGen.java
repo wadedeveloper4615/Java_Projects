@@ -1,19 +1,12 @@
 package com.wade.decompiler.generate.instructions;
 
-import com.wade.decompiler.classfile.instructions.ARETURN;
-import com.wade.decompiler.classfile.instructions.DRETURN;
-import com.wade.decompiler.classfile.instructions.FRETURN;
-import com.wade.decompiler.classfile.instructions.IRETURN;
-import com.wade.decompiler.classfile.instructions.LRETURN;
-import com.wade.decompiler.classfile.instructions.RET;
-import com.wade.decompiler.classfile.instructions.RETURN;
+import com.wade.decompiler.classfile.instructions.*;
 import com.wade.decompiler.classfile.instructions.type.ReturnaddressType;
 import com.wade.decompiler.classfile.instructions.type.Type;
-import com.wade.decompiler.constants.ExceptionConst;
 import com.wade.decompiler.decompiler.Expression;
 import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.InstructionOpCodes;
-
+import com.wade.decompiler.enums.TypeEnum;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,7 +16,6 @@ import lombok.ToString;
 @Getter
 @ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
-@SuppressWarnings("unused")
 public class ReturnGen extends InstructionGen {
     private Type type;
     private InstructionOpCodes opcode;
@@ -72,16 +64,14 @@ public class ReturnGen extends InstructionGen {
 
     @Override
     public String decompile(ExpressionStack stack) {
-        boolean isEmpty = stack.isEmpty();
-        if (!isEmpty) {
-            Expression item1 = stack.pop();
-            return "return " + item1.getValue();
+        if (type.getType() != TypeEnum.T_VOID) {
+            boolean isEmpty = stack.isEmpty();
+            if (!isEmpty) {
+                Expression item1 = stack.pop();
+                return "return " + item1.getValue();
+            }
         }
         return null;
-    }
-
-    public Class<?>[] getExceptions() {
-        return new Class[] { ExceptionConst.ILLEGAL_MONITOR_STATE };
     }
 
     public Type getType() {

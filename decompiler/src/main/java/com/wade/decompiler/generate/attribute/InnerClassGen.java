@@ -20,33 +20,22 @@ public class InnerClassGen {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         InnerClassGen other = (InnerClassGen) obj;
         if (accessFlags == null) {
-            if (other.accessFlags != null)
-                return false;
-        } else if (!accessFlags.equals(other.accessFlags))
-            return false;
+            if (other.accessFlags != null) return false;
+        } else if (!accessFlags.equals(other.accessFlags)) return false;
         if (innerClass == null) {
-            if (other.innerClass != null)
-                return false;
-        } else if (!innerClass.equals(other.innerClass))
-            return false;
+            if (other.innerClass != null) return false;
+        } else if (!innerClass.equals(other.innerClass)) return false;
         if (innerName == null) {
-            if (other.innerName != null)
-                return false;
-        } else if (!innerName.equals(other.innerName))
-            return false;
+            if (other.innerName != null) return false;
+        } else if (!innerName.equals(other.innerName)) return false;
         if (outerClass == null) {
-            if (other.outerClass != null)
-                return false;
-        } else if (!outerClass.equals(other.outerClass))
-            return false;
+            if (other.outerClass != null) return false;
+        } else if (!outerClass.equals(other.outerClass)) return false;
         return true;
     }
 

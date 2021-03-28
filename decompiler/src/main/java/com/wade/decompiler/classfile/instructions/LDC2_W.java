@@ -1,7 +1,5 @@
 package com.wade.decompiler.classfile.instructions;
 
-import java.io.IOException;
-
 import com.wade.decompiler.classfile.constant.Constant;
 import com.wade.decompiler.classfile.constant.ConstantDouble;
 import com.wade.decompiler.classfile.constant.ConstantLong;
@@ -11,11 +9,12 @@ import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generate.attribute.LocalVariableTableGen;
 import com.wade.decompiler.util.ByteSequence;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.io.IOException;
 
 @Setter
 @Getter
@@ -45,8 +44,7 @@ public class LDC2_W extends Instruction {
 
     public Number getValue() {
         Constant c = constantPool.getConstant(index);
-        if (c == null)
-            return null;
+        if (c == null) return null;
         switch (c.getTag()) {
             case CONSTANT_Long:
                 return Long.valueOf(((ConstantLong) c).getBytes());

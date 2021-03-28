@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-@SuppressWarnings({ "unused" })
+@SuppressWarnings({"unused"})
 public class SimpleClassWithConstantPool {
     private char var1;
     private short var2;

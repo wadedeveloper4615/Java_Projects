@@ -1,30 +1,29 @@
 package com.wade.decompiler.classfile.instructions.base;
 
-import java.io.IOException;
-
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.util.ByteSequence;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.io.IOException;
 
 @Setter
 @Getter
 @ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
 public abstract class CPInstruction extends Instruction {
-    private int index;
-    @ToString.Exclude
-    private String superName;
     @ToString.Exclude
     protected String methodName;
     @ToString.Exclude
     protected String signature;
+    private int index;
+    @ToString.Exclude
+    private String superName;
     @ToString.Exclude
     private Object constantValue;
     @ToString.Exclude

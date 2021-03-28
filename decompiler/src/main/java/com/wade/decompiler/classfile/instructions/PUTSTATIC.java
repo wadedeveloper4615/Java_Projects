@@ -1,32 +1,30 @@
 package com.wade.decompiler.classfile.instructions;
 
-import java.io.IOException;
-
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.instructions.base.Instruction;
 import com.wade.decompiler.classfile.instructions.type.Type;
-import com.wade.decompiler.constants.ExceptionConst;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.util.ByteSequence;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.io.IOException;
 
 @Setter
 @Getter
 @ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
 public class PUTSTATIC extends Instruction {
-    private int index;
-    @ToString.Exclude
-    private String superName;
     @ToString.Exclude
     protected String methodName;
     @ToString.Exclude
     protected String signature;
+    private int index;
+    @ToString.Exclude
+    private String superName;
     @ToString.Exclude
     private Object constantValue;
     @ToString.Exclude
@@ -34,10 +32,6 @@ public class PUTSTATIC extends Instruction {
 
     public PUTSTATIC(ConstantPool cp) {
         super(InstructionOpCodes.PUTSTATIC, 3, cp);
-    }
-
-    public Class<?>[] getExceptions() {
-        return ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_FIELD_AND_METHOD_RESOLUTION, ExceptionConst.INCOMPATIBLE_CLASS_CHANGE_ERROR);
     }
 
     public int getFieldSize() {

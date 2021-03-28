@@ -1,10 +1,10 @@
 package com.wade.decompiler.generate.attribute;
 
-import java.util.Arrays;
-
 import com.wade.decompiler.classfile.attribute.StackMapEntry;
 import com.wade.decompiler.classfile.attribute.StackMapType;
 import com.wade.decompiler.classfile.constant.ConstantPool;
+
+import java.util.Arrays;
 
 public class StackMapEntryGen {
     private int frameType;
@@ -31,21 +31,14 @@ public class StackMapEntryGen {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         StackMapEntryGen other = (StackMapEntryGen) obj;
-        if (byteCodeOffset != other.byteCodeOffset)
-            return false;
-        if (frameType != other.frameType)
-            return false;
-        if (!Arrays.equals(typesOfLocals, other.typesOfLocals))
-            return false;
-        if (!Arrays.equals(typesOfStackItems, other.typesOfStackItems))
-            return false;
+        if (byteCodeOffset != other.byteCodeOffset) return false;
+        if (frameType != other.frameType) return false;
+        if (!Arrays.equals(typesOfLocals, other.typesOfLocals)) return false;
+        if (!Arrays.equals(typesOfStackItems, other.typesOfStackItems)) return false;
         return true;
     }
 

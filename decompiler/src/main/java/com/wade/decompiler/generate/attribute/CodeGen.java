@@ -1,9 +1,5 @@
 package com.wade.decompiler.generate.attribute;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.wade.decompiler.classfile.attribute.Attribute;
 import com.wade.decompiler.classfile.attribute.Code;
 import com.wade.decompiler.classfile.attribute.CodeException;
@@ -13,11 +9,14 @@ import com.wade.decompiler.classfile.instructions.base.InstructionList;
 import com.wade.decompiler.decompiler.DecompileInstructions;
 import com.wade.decompiler.decompiler.InstructionInfoExtract;
 import com.wade.decompiler.generate.instructions.InstructionGen;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @Getter

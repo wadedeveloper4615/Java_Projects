@@ -30,20 +30,14 @@ public class ClassAccessFlagsList {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         ClassAccessFlagsList other = (ClassAccessFlagsList) obj;
-        if (flags != other.flags)
-            return false;
+        if (flags != other.flags) return false;
         if (flagsList == null) {
-            if (other.flagsList != null)
-                return false;
-        } else if (!flagsList.equals(other.flagsList))
-            return false;
+            if (other.flagsList != null) return false;
+        } else if (!flagsList.equals(other.flagsList)) return false;
         return true;
     }
 
@@ -53,6 +47,11 @@ public class ClassAccessFlagsList {
 
     public List<ClassAccessFlags> getFlagsList() {
         return flagsList;
+    }
+
+    public void setFlagsList(List<ClassAccessFlags> flagsList) {
+        this.flagsList = flagsList;
+        this.setFlags();
     }
 
     public boolean hasFlag(ClassAccessFlags flags) {
@@ -155,11 +154,6 @@ public class ClassAccessFlagsList {
         for (ClassAccessFlags v : flagsList) {
             flags |= v.getFlag();
         }
-    }
-
-    public void setFlagsList(List<ClassAccessFlags> flagsList) {
-        this.flagsList = flagsList;
-        this.setFlags();
     }
 
     @Override

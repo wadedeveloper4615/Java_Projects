@@ -36,7 +36,6 @@ public class Test1 implements Serializable {
                 var1 = 10;
                 break;
         }
-        ;
     }
 
     public void switch4(int choice) {
@@ -51,6 +50,5 @@ public class Test1 implements Serializable {
                 var1 = 10;
                 break;
         }
-        ;
     }
 }

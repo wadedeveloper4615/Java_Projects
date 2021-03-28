@@ -12,7 +12,6 @@ import com.wade.decompiler.generate.attribute.LocalVariableTableGen;
 import com.wade.decompiler.generate.instructions.InstructionGen;
 import com.wade.decompiler.util.MethodSignature;
 import com.wade.decompiler.util.Utility;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -71,15 +70,13 @@ public class JavaClassFileDecompiler {
             }
             System.out.println();
             for (InstructionGen instr : codeGen.getInstructionExtracted()) {
-                if (instr != null)
-                    System.out.println("\t\t\t" + instr.toString());
+                if (instr != null) System.out.println("\t\t\t" + instr.toString());
             }
         }
         System.out.println("\t\t*/");
         System.out.println();
         for (String instr : codeGen.getInstructionDecompiled()) {
-            if (instr != null)
-                System.out.println("\t\t" + instr.toString());
+            if (instr != null) System.out.println("\t\t" + instr.toString());
         }
     }
 

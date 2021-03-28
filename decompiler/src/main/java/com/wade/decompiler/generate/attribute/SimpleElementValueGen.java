@@ -1,12 +1,6 @@
 package com.wade.decompiler.generate.attribute;
 
-import com.wade.decompiler.classfile.constant.Constant;
-import com.wade.decompiler.classfile.constant.ConstantDouble;
-import com.wade.decompiler.classfile.constant.ConstantFloat;
-import com.wade.decompiler.classfile.constant.ConstantInteger;
-import com.wade.decompiler.classfile.constant.ConstantLong;
-import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.classfile.constant.ConstantUtf8;
+import com.wade.decompiler.classfile.constant.*;
 import com.wade.decompiler.classfile.element.SimpleElementValue;
 
 public class SimpleElementValueGen extends ElementValueGen {
@@ -20,18 +14,13 @@ public class SimpleElementValueGen extends ElementValueGen {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         SimpleElementValueGen other = (SimpleElementValueGen) obj;
         if (indexConstant == null) {
-            if (other.indexConstant != null)
-                return false;
-        } else if (!indexConstant.equals(other.indexConstant))
-            return false;
+            if (other.indexConstant != null) return false;
+        } else if (!indexConstant.equals(other.indexConstant)) return false;
         return true;
     }
 

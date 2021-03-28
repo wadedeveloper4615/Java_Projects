@@ -1,16 +1,15 @@
 package com.wade.decompiler.classfile.instructions.type;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.wade.decompiler.classfile.exceptions.ClassFormatException;
 import com.wade.decompiler.enums.TypeEnum;
 import com.wade.decompiler.util.Utility;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @Getter
@@ -49,37 +48,6 @@ public abstract class Type {
     protected Type(TypeEnum t, final String s) {
         type = t;
         signature = s;
-    }
-
-    public String getSignature() {
-        return signature;
-    }
-
-    public int getSize() {
-        switch (type) {
-            case T_DOUBLE:
-            case T_LONG:
-                return 2;
-            case T_VOID:
-                return 0;
-            default:
-                return 1;
-        }
-    }
-
-    public TypeEnum getType() {
-        return type;
-    }
-
-    public Type normalizeForStackOrLocal() {
-        if (this == Type.BOOLEAN || this == Type.BYTE || this == Type.SHORT || this == Type.CHAR) {
-            return Type.INTEGER;
-        }
-        return this;
-    }
-
-    void setSignature(final String signature) {
-        this.signature = signature;
     }
 
     static int consumed(final int coded) {
@@ -145,9 +113,8 @@ public abstract class Type {
         return buf.toString();
     }
 
-    public static Type getReturnType(final String signature) {
+    public static Type getReturnType(String signature) {
         try {
-            // Read return type after `)'
             final int index = signature.lastIndexOf(')') + 1;
             return getType(signature.substring(index));
         } catch (final StringIndexOutOfBoundsException e) { // Should never occur
@@ -155,7 +122,7 @@ public abstract class Type {
         }
     }
 
-    static int getReturnTypeSize(final String signature) {
+    static int getReturnTypeSize(String signature) {
         final int index = signature.lastIndexOf(')') + 1;
         return Type.size(getTypeSize(signature.substring(index)));
     }
@@ -284,5 +251,36 @@ public abstract class Type {
 
     private static void wrap(final ThreadLocal<Integer> tl, final int value) {
         tl.set(Integer.valueOf(value));
+    }
+
+    public String getSignature() {
+        return signature;
+    }
+
+    void setSignature(final String signature) {
+        this.signature = signature;
+    }
+
+    public int getSize() {
+        switch (type) {
+            case T_DOUBLE:
+            case T_LONG:
+                return 2;
+            case T_VOID:
+                return 0;
+            default:
+                return 1;
+        }
+    }
+
+    public TypeEnum getType() {
+        return type;
+    }
+
+    public Type normalizeForStackOrLocal() {
+        if (this == Type.BOOLEAN || this == Type.BYTE || this == Type.SHORT || this == Type.CHAR) {
+            return Type.INTEGER;
+        }
+        return this;
     }
 }

@@ -8,10 +8,10 @@ import com.wade.decompiler.classfile.instructions.NEWARRAY;
 import com.wade.decompiler.classfile.instructions.type.ArrayType;
 import com.wade.decompiler.classfile.instructions.type.ObjectType;
 import com.wade.decompiler.classfile.instructions.type.Type;
-import com.wade.decompiler.constants.ExceptionConst;
+import com.wade.decompiler.decompiler.Expression;
 import com.wade.decompiler.decompiler.ExpressionStack;
+import com.wade.decompiler.decompiler.ExpressionType;
 import com.wade.decompiler.enums.ClassFileConstants;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,15 +29,12 @@ public class NewGen extends InstructionGen {
     private Type type;
     private Short dimension;
 
-    private Class<?>[] exceptions;
-
     public NewGen(int offset, ANEWARRAY instr) {
         super(offset, instr.getLength());
         this.index = instr.getIndex();
         this.dimension = null;
         constantPool = instr.getConstantPool();
         type = this.getType();
-        exceptions = ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_CLASS_AND_INTERFACE_RESOLUTION, ExceptionConst.ILLEGAL_ACCESS_ERROR, ExceptionConst.INSTANTIATION_ERROR);
     }
 
     public NewGen(int offset, MULTIANEWARRAY instr) {
@@ -46,7 +43,6 @@ public class NewGen extends InstructionGen {
         this.dimension = instr.getDimensions();
         constantPool = instr.getConstantPool();
         type = this.getType();
-        exceptions = ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_CLASS_AND_INTERFACE_RESOLUTION, ExceptionConst.ILLEGAL_ACCESS_ERROR, ExceptionConst.INSTANTIATION_ERROR);
     }
 
     public NewGen(int offset, NEW instr) {
@@ -55,18 +51,21 @@ public class NewGen extends InstructionGen {
         this.dimension = null;
         constantPool = instr.getConstantPool();
         type = this.getType();
-        exceptions = ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_CLASS_AND_INTERFACE_RESOLUTION, ExceptionConst.ILLEGAL_ACCESS_ERROR, ExceptionConst.INSTANTIATION_ERROR);
     }
 
     public NewGen(int offset, NEWARRAY instr) {
         super(offset, instr.getLength());
         type = this.getType();
-        exceptions = new Class[] { ExceptionConst.NEGATIVE_ARRAY_SIZE_EXCEPTION };
     }
 
     @Override
     public String decompile(ExpressionStack stack) {
-        return null;
+        ObjectType objectType = (ObjectType) this.getType();
+        String className = objectType.getClassName();
+        String string = "new " + className + "()";
+        Expression item = new Expression(ExpressionType.EXPRESSION, string);
+        stack.push(item);
+        return "pushed " + string;
     }
 
     public ObjectType getLoadClassType() {

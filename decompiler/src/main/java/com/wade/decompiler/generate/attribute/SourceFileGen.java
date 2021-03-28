@@ -15,18 +15,13 @@ public class SourceFileGen extends AttributeGen {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         SourceFileGen other = (SourceFileGen) obj;
         if (sourceFile == null) {
-            if (other.sourceFile != null)
-                return false;
-        } else if (!sourceFile.equals(other.sourceFile))
-            return false;
+            if (other.sourceFile != null) return false;
+        } else if (!sourceFile.equals(other.sourceFile)) return false;
         return true;
     }
 

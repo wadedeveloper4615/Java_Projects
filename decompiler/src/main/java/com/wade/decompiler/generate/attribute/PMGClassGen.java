@@ -17,23 +17,16 @@ public class PMGClassGen extends AttributeGen {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         PMGClassGen other = (PMGClassGen) obj;
         if (pmg == null) {
-            if (other.pmg != null)
-                return false;
-        } else if (!pmg.equals(other.pmg))
-            return false;
+            if (other.pmg != null) return false;
+        } else if (!pmg.equals(other.pmg)) return false;
         if (pmgClass == null) {
-            if (other.pmgClass != null)
-                return false;
-        } else if (!pmgClass.equals(other.pmgClass))
-            return false;
+            if (other.pmgClass != null) return false;
+        } else if (!pmgClass.equals(other.pmgClass)) return false;
         return true;
     }
 

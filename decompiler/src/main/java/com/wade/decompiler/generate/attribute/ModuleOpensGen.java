@@ -1,11 +1,11 @@
 package com.wade.decompiler.generate.attribute;
 
-import java.util.Arrays;
-
 import com.wade.decompiler.classfile.attribute.ModuleOpens;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.ClassAccessFlagsList;
 import com.wade.decompiler.enums.ClassFileConstants;
+
+import java.util.Arrays;
 
 public class ModuleOpensGen {
     private String package_name;
@@ -25,25 +25,17 @@ public class ModuleOpensGen {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         ModuleOpensGen other = (ModuleOpensGen) obj;
         if (opensFlags == null) {
-            if (other.opensFlags != null)
-                return false;
-        } else if (!opensFlags.equals(other.opensFlags))
-            return false;
-        if (!Arrays.equals(opensToIndex, other.opensToIndex))
-            return false;
+            if (other.opensFlags != null) return false;
+        } else if (!opensFlags.equals(other.opensFlags)) return false;
+        if (!Arrays.equals(opensToIndex, other.opensToIndex)) return false;
         if (package_name == null) {
-            if (other.package_name != null)
-                return false;
-        } else if (!package_name.equals(other.package_name))
-            return false;
+            if (other.package_name != null) return false;
+        } else if (!package_name.equals(other.package_name)) return false;
         return true;
     }
 

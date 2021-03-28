@@ -1,7 +1,5 @@
 package com.wade.decompiler.classfile.instructions;
 
-import java.io.IOException;
-
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.exceptions.ClassGenException;
 import com.wade.decompiler.classfile.instructions.base.Instruction;
@@ -10,11 +8,12 @@ import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.constants.Const;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.util.ByteSequence;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.io.IOException;
 
 @Setter
 @Getter
@@ -32,6 +31,14 @@ public class RET extends Instruction {
         return index;
     }
 
+    public void setIndex(int n) {
+        if (n < 0) {
+            throw new ClassGenException("Negative index value: " + n);
+        }
+        index = n;
+        setWide();
+    }
+
     public Type getType() {
         return ReturnaddressType.NO_TARGET;
     }
@@ -46,14 +53,6 @@ public class RET extends Instruction {
             index = bytes.readUnsignedByte();
             super.setLength(2);
         }
-    }
-
-    public void setIndex(int n) {
-        if (n < 0) {
-            throw new ClassGenException("Negative index value: " + n);
-        }
-        index = n;
-        setWide();
     }
 
     private void setWide() {

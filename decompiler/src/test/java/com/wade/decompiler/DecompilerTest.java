@@ -1,14 +1,5 @@
 package com.wade.decompiler;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
-
 import com.wade.decompiler.classfile.JavaClass;
 import com.wade.decompiler.classfile.Method;
 import com.wade.decompiler.classfile.constant.Constant;
@@ -16,13 +7,16 @@ import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.generate.FieldGen;
 import com.wade.decompiler.generate.JavaClassGen;
 import com.wade.decompiler.generate.MethodGen;
-
-import lombok.extern.slf4j.Slf4j;
 import nl.jqno.equalsverifier.EqualsVerifier;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Decompiler JUnit 5 test")
-@Slf4j
 class DecompilerTest extends AbstractTest {
     @Test
     void testEqual1() throws Exception {

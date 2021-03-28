@@ -65,7 +65,7 @@ public class NewGen extends InstructionGen {
         String string = "new " + className + "()";
         Expression item = new Expression(ExpressionType.EXPRESSION, string);
         stack.push(item);
-        return "pushed " + string;
+        return null;//"pushed " + string;
     }
 
     public ObjectType getLoadClassType() {

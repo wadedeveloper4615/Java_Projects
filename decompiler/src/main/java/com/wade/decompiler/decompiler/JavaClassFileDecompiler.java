@@ -61,8 +61,10 @@ public class JavaClassFileDecompiler {
             System.out.println("\t\t\tmax locals = " + codeGen.getMaxLocals());
             System.out.println("\t\t\tmax stack  = " + codeGen.getMaxStack());
             System.out.println("\t\t\tcode size  = " + codeGen.getCodeSize());
-            for (LocalVariableGen lv : localVariables.getLocalVariableTable()) {
-                System.out.println("\t\t\t" + lv.toString());
+            if (localVariables!=null) {
+                for (LocalVariableGen lv : localVariables.getLocalVariableTable()) {
+                    System.out.println("\t\t\t" + lv.toString());
+                }
             }
             System.out.println();
             for (Instruction instr : codeGen.getInstructions()) {
@@ -108,6 +110,7 @@ public class JavaClassFileDecompiler {
                 name = Utility.extractClassName(jgen.getClassName(), false);
                 constructor = true;
             }
+            System.out.println("\t/* "+mg.getSignature()+" */");
             String signature = new MethodSignature(mg.getSignature(), name, access, jgen.getClassName(), true, mg.getLocalVariableTable(), constructor).signaturetoString();
             // String signature = Utility.methodSignatureToString(mg.getSignature(), name,
             // access, true, mg.getLocalVariableTable());

@@ -45,9 +45,11 @@ public class GetFieldGen extends InstructionGen {
 
     @Override
     public String decompile(ExpressionStack stack) {
-        Expression item1 = stack.pop();
-        String name = methodName;
-        stack.push(new Expression(ExpressionType.VARIABLE, item1.getValue() + "." + name));
+        if (!stack.empty()) {
+            Expression item1 = stack.pop();
+            String name = methodName;
+            stack.push(new Expression(ExpressionType.VARIABLE, item1.getValue() + "." + name));
+        }
         return null;
     }
 

@@ -3,8 +3,7 @@ package com.wade.decompiler.util;
 import com.wade.decompiler.enums.TypeEnum;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 class MethodSignatureTest {
     @Test
@@ -67,6 +66,19 @@ class MethodSignatureTest {
         assertEquals(TypeEnum.T_INTEGER, ms.getParameterTypes()[0].getBaseType());
         assertEquals(TypeEnum.T_REFERENCE, ms.getParameterTypes()[1].getBaseType());
         assertEquals(TypeEnum.T_LONG, ms.getParameterTypes()[2].getBaseType());
+        assertNotNull(ms.toString());
+        assertNotNull(ms.hashCode());
+    }
+
+    @Test
+    void testMethodSignatureReturnValue() {
+        MethodSignature ms = new MethodSignature("()[Lcom/wade/decompiler/test/Test2;", "name", "public", "cname", false, null, false);
+        assertNotNull(ms.getReturnType());
+        assertNotNull(ms.getParameterTypes());
+        assertEquals(0, ms.getParameterTypes().length);
+        assertEquals(TypeEnum.T_ARRAY, ms.getReturnType().getBaseType());
+        assertEquals(TypeEnum.T_REFERENCE, ms.getReturnType().getIndexType());
+        assertEquals("Lcom/wade/decompiler/test/Test2;",ms.getReturnType().getReference());
         assertNotNull(ms.toString());
         assertNotNull(ms.hashCode());
     }

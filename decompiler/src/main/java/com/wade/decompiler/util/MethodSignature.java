@@ -120,17 +120,32 @@ public class MethodSignature {
 
     public void extractReturnType(String signature, int end) {
         String returnString = signature.substring(end + 1);
-        TypeEnum type = convertToType(returnString);
+        TypeEnum baseType = convertToType(returnString);
         String ref = " ";
-        if (type == TypeEnum.T_REFERENCE) {
-            int i = 1;
+        TypeEnum indexType = TypeEnum.T_UNKNOWN;
+        int i;
+        if (baseType == TypeEnum.T_REFERENCE) {
+            i = 1;
             while (returnString.charAt(i) != ';') {
                 ref += returnString.charAt(i);
                 i++;
             }
             ref += returnString.charAt(i);
+        } else if (baseType == TypeEnum.T_ARRAY) {
+            i=1;
+            String substring = returnString.substring(i);
+            indexType = convertToType(substring);
+            if (indexType == TypeEnum.T_REFERENCE) {
+                //i++;
+                while (returnString.charAt(i) != ';') {
+                    ref += returnString.charAt(i);
+                    i++;
+                }
+                ref += returnString.charAt(i);
+            }
         }
-        returnType = new TypeData(type, TypeEnum.T_UNKNOWN, ref, null);
+        returnType = new TypeData(baseType, indexType, ref.trim(), null);
+        //System.out.println(returnType);
     }
 
     private String getType(TypeEnum type, TypeData td) {
@@ -160,9 +175,13 @@ public class MethodSignature {
                     reference = td.getReference();
                     if (reference != null) {
                         int index = reference.indexOf(';');
-                        return Utility.compactClassName(reference.substring(1, index), chopit) + "[]";
+                        if (index>=0) {
+                            return Utility.compactClassName(reference.substring(1, index), chopit) + "[]";
+                        } else{
+                            return "???2 -- "+reference;
+                        }
                     }
-                    return "???";
+                    return "???1";
                 }
                 return getType(td.getIndexType(), td) + "[]";
             case T_VOID:

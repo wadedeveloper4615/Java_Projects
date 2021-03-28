@@ -59,6 +59,6 @@ public class DuplicateGen extends InstructionGen {
         Expression expression = stack.pop();
         stack.push(expression);
         stack.push(expression);
-        return "pushed duplicate onto stack";
+        return null;//"pushed duplicate onto stack";
     }
 }

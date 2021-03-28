@@ -40,11 +40,22 @@ public class PutFieldGen extends InstructionGen {
 
     @Override
     public String decompile(ExpressionStack stack) {
-        Expression item1 = stack.pop();
-        Expression item2 = stack.pop();
-        String name = this.methodName;
-        String result = item2.getValue() + "." + item1.getValue() + " = " + name;
-        return result;
+        if (!stack.empty()) {
+            Expression item1 = stack.pop();
+            if (!stack.empty()) {
+                Expression item2 = stack.pop();
+                String name = this.methodName;
+                String result;
+                String value = (String) item1.getValue();
+                if (value.contains("new")) {
+                    result = name + " = " + item1.getValue();
+                } else {
+                    result = name + " = " + item2.getValue() + "." + item1.getValue();
+                }
+                return result;
+            }
+        }
+        return null;
     }
 
     private void extractConstantPoolInfo(Constant c) {

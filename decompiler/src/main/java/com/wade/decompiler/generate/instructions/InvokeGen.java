@@ -19,7 +19,7 @@ import java.util.List;
 
 @Setter
 @Getter
-@ToString(callSuper = true, includeFieldNames = true)
+@ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 public class InvokeGen extends InstructionGen {
     private InstructionOpCodes opcode;
@@ -115,7 +115,7 @@ public class InvokeGen extends InstructionGen {
                 if (this.methodName.equals("<init>") && item2.getValue().equals("this")) {
                     return "super(" + listToListOfStrings(listOfParameters) + ")";
                 }
-                return item2.getValue() + "." + this.methodName + "(" + listToListOfStrings(listOfParameters) + ")";
+                return null;//item2.getValue() + "." + this.methodName + "(" + listToListOfStrings(listOfParameters) + ")";
             }
         } else if (opcode == InstructionOpCodes.INVOKEINTERFACE) {
             if (!stack.empty()) {
@@ -126,20 +126,23 @@ public class InvokeGen extends InstructionGen {
                 String str = item2.getValue() + "." + this.methodName + "(" + listToListOfStrings(listOfParameters) + ")";
                 Expression item = new Expression(ExpressionType.EXPRESSION, str);
                 stack.push(item);
-                return "pushed " + item.toString();
+                return null;//"pushed " + item.toString();
             }
         } else if (opcode == InstructionOpCodes.INVOKEDYNAMIC) {
             String item2 = ((ObjectType) type).getClassName();
             String str = item2 + "." + this.methodName + "(" + listToListOfStrings(listOfParameters) + ")";
             Expression item = new Expression(ExpressionType.EXPRESSION, str);
             stack.push(item);
-            return "pushed " + item.toString();
+            return null;//"pushed " + item.toString();
         } else if (opcode == InstructionOpCodes.INVOKESTATIC) {
-            String item2 = ((ObjectType) type).getClassName();
-            String str = item2 + "." + this.methodName + "(" + listToListOfStrings(listOfParameters) + ")";
-            Expression item = new Expression(ExpressionType.EXPRESSION, str);
-            stack.push(item);
-            return "pushed " + item.toString();
+            if (type instanceof ObjectType) {
+                String item2 = ((ObjectType) type).getClassName();
+                String str = item2 + "." + this.methodName + "(" + listToListOfStrings(listOfParameters) + ")";
+                Expression item = new Expression(ExpressionType.EXPRESSION, str);
+                stack.push(item);
+            }
+            return null;//"pushed " + item.toString();
+
         }
         return null;
     }

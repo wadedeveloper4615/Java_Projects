@@ -11,7 +11,7 @@ apply plugin: 'java'
 apply plugin: 'com.github.johnrengelman.shadow'
 
 group = 'com.wade.app'
-version = '0.0.1'
+version = '1.0.0'
 sourceCompatibility = '15'
 
 configurations {

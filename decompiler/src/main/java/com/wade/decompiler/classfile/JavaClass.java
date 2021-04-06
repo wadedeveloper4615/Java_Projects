@@ -1,5 +1,7 @@
 package com.wade.decompiler.classfile;
 
+import java.util.List;
+
 import com.wade.decompiler.classfile.attribute.Attribute;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.ClassAccessFlagsList;
@@ -7,6 +9,7 @@ import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.enums.Version;
 import com.wade.decompiler.repository.Repository;
 import com.wade.decompiler.repository.SyntheticRepository;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,15 +27,15 @@ public class JavaClass {
     private ClassAccessFlagsList accessFlags;
     private ConstantPool constantPool;
     private int[] interfaces;
-    private Field[] fields;
-    private Method[] methods;
-    private Attribute[] attributes;
+    private List<Field> fields;
+    private List<Method> methods;
+    private List<Attribute> attributes;
     private transient Repository repository = SyntheticRepository.getInstance();
 
     public JavaClass() {
     }
 
-    public JavaClass(int classNameIndex, int superclassNameIndex, String fileName, Version version, ClassAccessFlagsList accessFlags, ConstantPool constantPool, int[] interfaces, Field[] fields, Method[] methods, Attribute[] attributes) {
+    public JavaClass(int classNameIndex, int superclassNameIndex, String fileName, Version version, ClassAccessFlagsList accessFlags, ConstantPool constantPool, int[] interfaces, List<Field> fields, List<Method> methods, List<Attribute> attributes) {
         this.classNameIndex = classNameIndex;
         this.superclassNameIndex = superclassNameIndex;
         this.fileName = fileName;

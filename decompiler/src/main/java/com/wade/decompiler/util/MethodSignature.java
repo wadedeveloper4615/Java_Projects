@@ -1,15 +1,16 @@
 package com.wade.decompiler.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.wade.decompiler.classfile.exceptions.ClassFormatException;
 import com.wade.decompiler.enums.TypeEnum;
 import com.wade.decompiler.generate.attribute.LocalVariableGen;
 import com.wade.decompiler.generate.attribute.LocalVariableTableGen;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @ToString(callSuper = false, includeFieldNames = true)
@@ -132,11 +133,11 @@ public class MethodSignature {
             }
             ref += returnString.charAt(i);
         } else if (baseType == TypeEnum.T_ARRAY) {
-            i=1;
+            i = 1;
             String substring = returnString.substring(i);
             indexType = convertToType(substring);
             if (indexType == TypeEnum.T_REFERENCE) {
-                //i++;
+                // i++;
                 while (returnString.charAt(i) != ';') {
                     ref += returnString.charAt(i);
                     i++;
@@ -145,7 +146,7 @@ public class MethodSignature {
             }
         }
         returnType = new TypeData(baseType, indexType, ref.trim(), null);
-        //System.out.println(returnType);
+        // System.out.println(returnType);
     }
 
     private String getType(TypeEnum type, TypeData td) {
@@ -175,11 +176,10 @@ public class MethodSignature {
                     reference = td.getReference();
                     if (reference != null) {
                         int index = reference.indexOf(';');
-                        if (index>=0) {
+                        if (index >= 0) {
                             return Utility.compactClassName(reference.substring(1, index), chopit) + "[]";
-                        } else{
-                            return "???2 -- "+reference;
                         }
+                        return "???2 -- " + reference;
                     }
                     return "???1";
                 }

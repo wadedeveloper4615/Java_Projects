@@ -1,5 +1,16 @@
 package com.wade.decompiler;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.List;
+
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
+
 import com.wade.decompiler.classfile.JavaClass;
 import com.wade.decompiler.classfile.Method;
 import com.wade.decompiler.classfile.constant.Constant;
@@ -7,13 +18,8 @@ import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.generate.FieldGen;
 import com.wade.decompiler.generate.JavaClassGen;
 import com.wade.decompiler.generate.MethodGen;
-import nl.jqno.equalsverifier.EqualsVerifier;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
+import nl.jqno.equalsverifier.EqualsVerifier;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Decompiler JUnit 5 test")
@@ -51,10 +57,10 @@ class DecompilerTest extends AbstractTest {
     @Test
     void testObjectClass() throws Exception {
         JavaClass clazz = getTestClass("java.lang.Object");
-        Method[] methods = clazz.getMethods();
+        List<Method> methods = clazz.getMethods();
         ConstantPool constantPool = clazz.getConstantPool();
         Constant[] constantPoolArray = constantPool.getConstantPool();
-        assertEquals(12, methods.length);
+        assertEquals(12, methods.size());
         assertEquals(92, constantPoolArray.length);
         assertNotNull(clazz);
     }
@@ -63,7 +69,7 @@ class DecompilerTest extends AbstractTest {
     void testSimpleClass() throws Exception {
         JavaClass clazz = getTestClass(PACKAGE_BASE_NAME + ".data.test.SimpleClass");
         JavaClassGen gen = new JavaClassGen(clazz);
-        MethodGen[] methods = gen.getMethods();
+        List<MethodGen> methods = gen.getMethods();
         ConstantPool constantPool = gen.getConstantPool();
         // ClassAccessFlagsList flags = gen.getAccessFlags();
         Constant[] constantPoolArray = constantPool.getConstantPool();
@@ -73,14 +79,14 @@ class DecompilerTest extends AbstractTest {
         assertNotNull(gen.toString());
         assertNotNull(gen.hashCode());
         assertNotNull(methods);
-        assertEquals(2, methods.length);
-        assertNotNull(methods[0]);
-        assertNotNull(methods[0].toString());
-        assertNotNull(methods[0].hashCode());
-        assertNotNull(methods[1]);
-        assertNotNull(methods[1].toString());
-        assertNotNull(methods[1].hashCode());
-        assertTrue(methods[1].getAccessFlags().isStatic());
+        assertEquals(2, methods.size());
+        assertNotNull(methods.get(0));
+        assertNotNull(methods.get(0).toString());
+        assertNotNull(methods.get(0).hashCode());
+        assertNotNull(methods.get(1));
+        assertNotNull(methods.get(1).toString());
+        assertNotNull(methods.get(1).hashCode());
+        assertTrue(methods.get(1).getAccessFlags().isStatic());
         assertEquals(20, constantPoolArray.length);
     }
 
@@ -88,7 +94,7 @@ class DecompilerTest extends AbstractTest {
     void testSimpleClassWithDefaultConstructor() throws Exception {
         JavaClass clazz = getTestClass(PACKAGE_BASE_NAME + ".data.test.SimpleClassWithDefaultConstructor");
         JavaClassGen gen = new JavaClassGen(clazz);
-        MethodGen[] methods = gen.getMethods();
+        List<MethodGen> methods = gen.getMethods();
         ConstantPool constantPool = gen.getConstantPool();
         Constant[] constantPoolArray = constantPool.getConstantPool();
 
@@ -97,10 +103,10 @@ class DecompilerTest extends AbstractTest {
         assertNotNull(gen.toString());
         assertNotNull(gen.hashCode());
         assertNotNull(methods);
-        assertEquals(1, methods.length);
-        assertNotNull(methods[0]);
-        assertNotNull(methods[0].toString());
-        assertNotNull(methods[0].hashCode());
+        assertEquals(1, methods.size());
+        assertNotNull(methods.get(0));
+        assertNotNull(methods.get(0).toString());
+        assertNotNull(methods.get(0).hashCode());
         assertEquals(16, constantPoolArray.length);
     }
 
@@ -108,8 +114,8 @@ class DecompilerTest extends AbstractTest {
     void testSimpleClassWithFields() throws Exception {
         JavaClass clazz = getTestClass(PACKAGE_BASE_NAME + ".data.test.SimpleClassWithFields");
         JavaClassGen gen = new JavaClassGen(clazz);
-        MethodGen[] methods = gen.getMethods();
-        FieldGen[] fields = gen.getFields();
+        List<MethodGen> methods = gen.getMethods();
+        List<FieldGen> fields = gen.getFields();
         ConstantPool constantPool = gen.getConstantPool();
         Constant[] constantPoolArray = constantPool.getConstantPool();
 
@@ -118,15 +124,15 @@ class DecompilerTest extends AbstractTest {
         assertNotNull(gen.toString());
         assertNotNull(gen.hashCode());
         assertNotNull(methods);
-        assertEquals(2, methods.length);
-        assertEquals(15, fields.length);
-        assertNotNull(methods[0]);
-        assertNotNull(methods[0].toString());
-        assertNotNull(methods[0].hashCode());
-        assertNotNull(methods[1]);
-        assertNotNull(methods[1].toString());
-        assertNotNull(methods[1].hashCode());
-        assertTrue(methods[1].getAccessFlags().isStatic());
+        assertEquals(2, methods.size());
+        assertEquals(15, fields.size());
+        assertNotNull(methods.get(0));
+        assertNotNull(methods.get(0).toString());
+        assertNotNull(methods.get(0).hashCode());
+        assertNotNull(methods.get(1));
+        assertNotNull(methods.get(1).toString());
+        assertNotNull(methods.get(1).hashCode());
+        assertTrue(methods.get(1).getAccessFlags().isStatic());
         assertEquals(52, constantPoolArray.length);
     }
 
@@ -134,8 +140,8 @@ class DecompilerTest extends AbstractTest {
     void testSimpleClassWithInterfaces() throws Exception {
         JavaClass clazz = getTestClass(PACKAGE_BASE_NAME + ".data.test.SimpleClassWithInterfaces");
         JavaClassGen gen = new JavaClassGen(clazz);
-        MethodGen[] methods = gen.getMethods();
-        FieldGen[] fields = gen.getFields();
+        List<MethodGen> methods = gen.getMethods();
+        List<FieldGen> fields = gen.getFields();
         String[] interfaces = gen.getInterfaceNames();
         ConstantPool constantPool = gen.getConstantPool();
         Constant[] constantPoolArray = constantPool.getConstantPool();
@@ -145,16 +151,16 @@ class DecompilerTest extends AbstractTest {
         assertNotNull(gen.toString());
         assertNotNull(gen.hashCode());
         assertNotNull(methods);
-        assertEquals(2, methods.length);
-        assertEquals(15, fields.length);
+        assertEquals(2, methods.size());
+        assertEquals(15, fields.size());
         assertEquals(1, interfaces.length);
-        assertNotNull(methods[0]);
-        assertNotNull(methods[0].toString());
-        assertNotNull(methods[0].hashCode());
-        assertNotNull(methods[1]);
-        assertNotNull(methods[1].toString());
-        assertNotNull(methods[1].hashCode());
-        assertTrue(methods[1].getAccessFlags().isStatic());
+        assertNotNull(methods.get(0));
+        assertNotNull(methods.get(0).toString());
+        assertNotNull(methods.get(0).hashCode());
+        assertNotNull(methods.get(1));
+        assertNotNull(methods.get(1).toString());
+        assertNotNull(methods.get(1).hashCode());
+        // assertTrue(methods.get(0).getAccessFlags().isStatic());
         assertEquals(54, constantPoolArray.length);
     }
 }

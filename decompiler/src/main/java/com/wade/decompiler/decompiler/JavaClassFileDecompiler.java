@@ -1,5 +1,7 @@
 package com.wade.decompiler.decompiler;
 
+import java.util.List;
+
 import com.wade.decompiler.classfile.instructions.base.Instruction;
 import com.wade.decompiler.enums.ClassAccessFlags;
 import com.wade.decompiler.enums.ClassAccessFlagsList;
@@ -12,6 +14,7 @@ import com.wade.decompiler.generate.attribute.LocalVariableTableGen;
 import com.wade.decompiler.generate.instructions.InstructionGen;
 import com.wade.decompiler.util.MethodSignature;
 import com.wade.decompiler.util.Utility;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -61,7 +64,7 @@ public class JavaClassFileDecompiler {
             System.out.println("\t\t\tmax locals = " + codeGen.getMaxLocals());
             System.out.println("\t\t\tmax stack  = " + codeGen.getMaxStack());
             System.out.println("\t\t\tcode size  = " + codeGen.getCodeSize());
-            if (localVariables!=null) {
+            if (localVariables != null) {
                 for (LocalVariableGen lv : localVariables.getLocalVariableTable()) {
                     System.out.println("\t\t\t" + lv.toString());
                 }
@@ -72,17 +75,19 @@ public class JavaClassFileDecompiler {
             }
             System.out.println();
             for (InstructionGen instr : codeGen.getInstructionExtracted()) {
-                if (instr != null) System.out.println("\t\t\t" + instr.toString());
+                if (instr != null)
+                    System.out.println("\t\t\t" + instr.toString());
             }
         }
         System.out.println("\t\t*/");
         System.out.println();
         for (String instr : codeGen.getInstructionDecompiled()) {
-            if (instr != null) System.out.println("\t\t" + instr.toString());
+            if (instr != null)
+                System.out.println("\t\t" + instr.toString());
         }
     }
 
-    private void deompileFields(FieldGen[] fields) {
+    private void deompileFields(List<FieldGen> fields) {
         for (FieldGen fg : fields) {
             String access = Utility.accessToString(fg.getAccessFlags(), true);
             String signature = Utility.typeSignatureToString(fg.getSignature(), false);
@@ -96,7 +101,7 @@ public class JavaClassFileDecompiler {
         }
     }
 
-    private void deompileMethods(MethodGen[] methods, boolean isAbstract, boolean isAnnotation) {
+    private void deompileMethods(List<MethodGen> methods, boolean isAbstract, boolean isAnnotation) {
         for (MethodGen mg : methods) {
             ClassAccessFlagsList flags = mg.getAccessFlags();
             boolean isNative = flags.isNative();
@@ -110,7 +115,7 @@ public class JavaClassFileDecompiler {
                 name = Utility.extractClassName(jgen.getClassName(), false);
                 constructor = true;
             }
-            System.out.println("\t/* "+mg.getSignature()+" */");
+            System.out.println("\t/* " + mg.getSignature() + " */");
             String signature = new MethodSignature(mg.getSignature(), name, access, jgen.getClassName(), true, mg.getLocalVariableTable(), constructor).signaturetoString();
             // String signature = Utility.methodSignatureToString(mg.getSignature(), name,
             // access, true, mg.getLocalVariableTable());

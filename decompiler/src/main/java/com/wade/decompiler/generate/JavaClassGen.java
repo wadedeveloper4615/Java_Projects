@@ -1,5 +1,9 @@
 package com.wade.decompiler.generate;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.wade.decompiler.classfile.Field;
 import com.wade.decompiler.classfile.JavaClass;
 import com.wade.decompiler.classfile.Method;
@@ -9,12 +13,11 @@ import com.wade.decompiler.enums.ClassAccessFlagsList;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.enums.Version;
 import com.wade.decompiler.generate.attribute.AttributeGen;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.io.IOException;
 
 @Setter
 @Getter
@@ -27,9 +30,9 @@ public class JavaClassGen {
     private Version version;
     private ClassAccessFlagsList accessFlags;
     private String[] interfaceNames;
-    private FieldGen[] fields;
-    private MethodGen[] methods;
-    private AttributeGen[] attributes;
+    private List<FieldGen> fields;
+    private List<MethodGen> methods;
+    private List<AttributeGen> attributes;
     private ConstantPool constantPool;
 
     public JavaClassGen(JavaClass javaClass) throws IOException {
@@ -50,22 +53,19 @@ public class JavaClassGen {
             this.interfaceNames[i] = constantPool.constantToString(interfaces[i], ClassFileConstants.CONSTANT_Class);
         }
 
-        Field[] fields = javaClass.getFields();
-        this.fields = new FieldGen[fields.length];
-        for (int i = 0; i < fields.length; i++) {
-            this.fields[i] = new FieldGen(fields[i], constantPool);
+        this.fields = new ArrayList<>();
+        for (Field entry : javaClass.getFields()) {
+            this.fields.add(new FieldGen(entry, constantPool));
         }
 
-        Method[] methods = javaClass.getMethods();
-        this.methods = new MethodGen[methods.length];
-        for (int i = 0; i < methods.length; i++) {
-            this.methods[i] = new MethodGen(methods[i], constantPool);
+        this.methods = new ArrayList<>();
+        for (Method entry : javaClass.getMethods()) {
+            this.methods.add(new MethodGen(entry, constantPool));
         }
 
-        Attribute[] attributes = javaClass.getAttributes();
-        this.attributes = new AttributeGen[attributes.length];
-        for (int i = 0; i < attributes.length; i++) {
-            this.attributes[i] = new AttributeGen(attributes[i], constantPool);
+        this.attributes = new ArrayList<>();
+        for (Attribute entry : javaClass.getAttributes()) {
+            this.attributes.add(new AttributeGen(entry, constantPool));
         }
     }
 }

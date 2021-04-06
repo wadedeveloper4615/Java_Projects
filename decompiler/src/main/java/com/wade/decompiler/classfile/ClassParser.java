@@ -1,5 +1,16 @@
 package com.wade.decompiler.classfile;
 
+import java.io.BufferedInputStream;
+import java.io.DataInput;
+import java.io.DataInputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+
 import com.wade.decompiler.classfile.attribute.Attribute;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.exceptions.ClassFormatException;
@@ -7,14 +18,11 @@ import com.wade.decompiler.constants.Const;
 import com.wade.decompiler.enums.ClassAccessFlags;
 import com.wade.decompiler.enums.ClassAccessFlagsList;
 import com.wade.decompiler.enums.Version;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.io.*;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 
 @Setter
 @Getter
@@ -29,9 +37,9 @@ public class ClassParser {
     private ClassAccessFlagsList accessFlags;
     private int[] interfaces;
     private ConstantPool constantPool;
-    private Field[] fields;
-    private Method[] methods;
-    private Attribute[] attributes;
+    private List<Field> fields;
+    private List<Method> methods;
+    private List<Attribute> attributes;
     private boolean isZip;
     private Version version;
     private ZipFile zip;
@@ -91,9 +99,9 @@ public class ClassParser {
 
     private void readAttributes(DataInput inputStream) throws IOException, ClassFormatException {
         int attributes_count = inputStream.readUnsignedShort();
-        attributes = new Attribute[attributes_count];
+        attributes = new ArrayList<>();
         for (int i = 0; i < attributes_count; i++) {
-            attributes[i] = Attribute.readAttribute(inputStream, constantPool);
+            attributes.add(Attribute.readAttribute(inputStream, constantPool));
         }
     }
 
@@ -115,9 +123,9 @@ public class ClassParser {
 
     protected void readFields(DataInput inputStream) throws IOException, ClassFormatException {
         int fields_count = inputStream.readUnsignedShort();
-        fields = new Field[fields_count];
+        fields = new ArrayList<>();
         for (int i = 0; i < fields_count; i++) {
-            fields[i] = new Field(inputStream, constantPool);
+            fields.add(new Field(inputStream, constantPool));
         }
     }
 
@@ -137,9 +145,9 @@ public class ClassParser {
 
     protected void readMethods(DataInput inputStream) throws IOException, ClassFormatException {
         int methods_count = inputStream.readUnsignedShort();
-        methods = new Method[methods_count];
+        methods = new ArrayList<>();
         for (int i = 0; i < methods_count; i++) {
-            methods[i] = new Method(inputStream, constantPool);
+            methods.add(new Method(inputStream, constantPool));
         }
     }
 

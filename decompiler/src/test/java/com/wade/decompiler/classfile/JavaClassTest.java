@@ -1,37 +1,35 @@
 package com.wade.decompiler.classfile;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-import org.junit.jupiter.api.Test;
-
 import com.wade.decompiler.AbstractTest;
 import com.wade.decompiler.classfile.attribute.Attribute;
 import com.wade.decompiler.classfile.attribute.Unknown;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.ClassAccessFlagsList;
 import com.wade.decompiler.enums.Version;
-
 import nl.jqno.equalsverifier.EqualsVerifier;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class JavaClassTest extends AbstractTest {
     @Test
     void test1() throws Exception {
-//        JavaClass clazz = getTestClass(PACKAGE_BASE_NAME + ".data.test.SimpleClass");
-//        assertNotNull(clazz.hashCode());
-//        assertNotNull(clazz.toString());
-//        EqualsVerifier.simple().forClass(clazz.getClass()).verify();
-//
-//        assertNotNull(clazz.getClassNameIndex());
-//        assertNotNull(clazz.getSuperclassNameIndex());
-//        assertNotNull(clazz.getFileName());
-//        assertNotNull(clazz.getVersion());
-//        assertNotNull(clazz.getAccessFlags());
-//        assertNotNull(clazz.getConstantPool());
-//        assertNotNull(clazz.getInterfaces());
-//        assertNotNull(clazz.getFields());
-//        assertNotNull(clazz.getMethods());
-//        assertNotNull(clazz.getAttributes());
-//        assertNotNull(clazz.getRepository());
+        JavaClass clazz = getTestClass(PACKAGE_BASE_NAME + ".data.test.SimpleClass");
+        assertNotNull(clazz.hashCode());
+        assertNotNull(clazz.toString());
+        EqualsVerifier.simple().forClass(clazz.getClass()).verify();
+
+        assertNotNull(clazz.getClassNameIndex());
+        assertNotNull(clazz.getSuperclassNameIndex());
+        assertNotNull(clazz.getFileName());
+        assertNotNull(clazz.getVersion());
+        assertNotNull(clazz.getAccessFlags());
+        assertNotNull(clazz.getConstantPool());
+        assertNotNull(clazz.getInterfaces());
+        assertNotNull(clazz.getFields());
+        assertNotNull(clazz.getMethods());
+        assertNotNull(clazz.getAttributes());
+        assertNotNull(clazz.getRepository());
     }
 
     @Test
@@ -79,39 +77,39 @@ class JavaClassTest extends AbstractTest {
 
     @Test
     void test2() throws Exception {
-//        JavaClass clazz = getTestClass(PACKAGE_BASE_NAME + ".data.test.SimpleClass");
-//        assertNotNull(clazz.hashCode());
-//        assertNotNull(clazz.toString());
-//        EqualsVerifier.simple().forClass(clazz.getClass()).verify();
-//
-//        assertNotNull(clazz.getClassNameIndex());
-//        assertNotNull(clazz.getSuperclassNameIndex());
-//        assertNotNull(clazz.getFileName());
-//        assertNotNull(clazz.getVersion());
-//        assertNotNull(clazz.getAccessFlags());
-//        assertNotNull(clazz.getConstantPool());
-//        assertNotNull(clazz.getInterfaces());
-//        assertNotNull(clazz.getFields());
-//        assertNotNull(clazz.getMethods());
-//        assertNotNull(clazz.getAttributes());
-//        assertNotNull(clazz.getRepository());
-//
-//        JavaClass clazz2 = getTestClass(PACKAGE_BASE_NAME + ".data.test.SimpleClass");
-//        assertNotNull(clazz2.hashCode());
-//        assertNotNull(clazz2.toString());
-//        EqualsVerifier.simple().forClass(clazz2.getClass()).verify();
-//
-//        assertNotNull(clazz2.getClassNameIndex());
-//        assertNotNull(clazz2.getSuperclassNameIndex());
-//        assertNotNull(clazz2.getFileName());
-//        assertNotNull(clazz2.getVersion());
-//        assertNotNull(clazz2.getAccessFlags());
-//        assertNotNull(clazz2.getConstantPool());
-//        assertNotNull(clazz2.getInterfaces());
-//        assertNotNull(clazz2.getFields());
-//        assertNotNull(clazz2.getMethods());
-//        assertNotNull(clazz2.getAttributes());
-//        assertNotNull(clazz2.getRepository());
+        JavaClass clazz = getTestClass(PACKAGE_BASE_NAME + ".data.test.SimpleClass");
+        assertNotNull(clazz.hashCode());
+        assertNotNull(clazz.toString());
+        EqualsVerifier.simple().forClass(clazz.getClass()).verify();
+
+        assertNotNull(clazz.getClassNameIndex());
+        assertNotNull(clazz.getSuperclassNameIndex());
+        assertNotNull(clazz.getFileName());
+        assertNotNull(clazz.getVersion());
+        assertNotNull(clazz.getAccessFlags());
+        assertNotNull(clazz.getConstantPool());
+        assertNotNull(clazz.getInterfaces());
+        assertNotNull(clazz.getFields());
+        assertNotNull(clazz.getMethods());
+        assertNotNull(clazz.getAttributes());
+        assertNotNull(clazz.getRepository());
+
+        JavaClass clazz2 = getTestClass(PACKAGE_BASE_NAME + ".data.test.SimpleClass");
+        assertNotNull(clazz2.hashCode());
+        assertNotNull(clazz2.toString());
+        EqualsVerifier.simple().forClass(clazz2.getClass()).verify();
+
+        assertNotNull(clazz2.getClassNameIndex());
+        assertNotNull(clazz2.getSuperclassNameIndex());
+        assertNotNull(clazz2.getFileName());
+        assertNotNull(clazz2.getVersion());
+        assertNotNull(clazz2.getAccessFlags());
+        assertNotNull(clazz2.getConstantPool());
+        assertNotNull(clazz2.getInterfaces());
+        assertNotNull(clazz2.getFields());
+        assertNotNull(clazz2.getMethods());
+        assertNotNull(clazz2.getAttributes());
+        assertNotNull(clazz2.getRepository());
     }
 
     @Test

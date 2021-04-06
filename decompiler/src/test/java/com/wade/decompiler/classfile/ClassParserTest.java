@@ -1,30 +1,19 @@
 package com.wade.decompiler.classfile;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.fail;
-import static org.mockito.Mockito.when;
-
-import java.io.DataInput;
-import java.io.IOException;
-
+import com.wade.decompiler.classfile.constant.*;
+import com.wade.decompiler.classfile.exceptions.ClassFormatException;
+import com.wade.decompiler.enums.ClassFileConstants;
+import com.wade.decompiler.enums.Version;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.wade.decompiler.classfile.constant.Constant;
-import com.wade.decompiler.classfile.constant.ConstantClass;
-import com.wade.decompiler.classfile.constant.ConstantFieldRef;
-import com.wade.decompiler.classfile.constant.ConstantFloat;
-import com.wade.decompiler.classfile.constant.ConstantInteger;
-import com.wade.decompiler.classfile.constant.ConstantInterfaceMethodRef;
-import com.wade.decompiler.classfile.constant.ConstantMethodref;
-import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.classfile.constant.ConstantString;
-import com.wade.decompiler.classfile.exceptions.ClassFormatException;
-import com.wade.decompiler.enums.ClassFileConstants;
-import com.wade.decompiler.enums.Version;
+import java.io.DataInput;
+import java.io.IOException;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class ClassParserTest {

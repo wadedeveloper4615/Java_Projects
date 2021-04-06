@@ -1,20 +1,11 @@
 package com.wade.decompiler.generate.instructions;
 
-import com.wade.decompiler.classfile.constant.Constant;
-import com.wade.decompiler.classfile.constant.ConstantCP;
-import com.wade.decompiler.classfile.constant.ConstantClass;
-import com.wade.decompiler.classfile.constant.ConstantFieldRef;
-import com.wade.decompiler.classfile.constant.ConstantLong;
-import com.wade.decompiler.classfile.constant.ConstantMethodref;
-import com.wade.decompiler.classfile.constant.ConstantNameAndType;
-import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.classfile.constant.ConstantUtf8;
+import com.wade.decompiler.classfile.constant.*;
 import com.wade.decompiler.classfile.instructions.PUTFIELD;
 import com.wade.decompiler.classfile.instructions.PUTSTATIC;
 import com.wade.decompiler.decompiler.Expression;
 import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.ClassFileConstants;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

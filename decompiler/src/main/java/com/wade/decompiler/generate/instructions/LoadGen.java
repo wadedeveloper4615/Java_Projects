@@ -1,23 +1,16 @@
 package com.wade.decompiler.generate.instructions;
 
-import com.wade.decompiler.classfile.instructions.ALOAD;
-import com.wade.decompiler.classfile.instructions.DLOAD;
-import com.wade.decompiler.classfile.instructions.FLOAD;
-import com.wade.decompiler.classfile.instructions.ILOAD;
-import com.wade.decompiler.classfile.instructions.LLOAD;
+import com.wade.decompiler.classfile.instructions.*;
 import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.decompiler.Expression;
 import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.decompiler.ExpressionType;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generate.attribute.LocalVariableGen;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.util.List;
 
 @Setter
 @Getter
@@ -47,7 +40,7 @@ public class LoadGen extends InstructionGen {
     public LoadGen(int offset, FLOAD instr) {
         super(offset, instr.getLength());
         opcode = instr.getOpcode();
-        localVariableReference = instr.getLocalVariableTable().getLocalVariableTable().get(instr.getIndex());
+        localVariableReference = instr.getLocalVariableTable().getLocalVariableTable()[instr.getIndex()];
         type = Type.FLOAT;
     }
 
@@ -78,7 +71,7 @@ public class LoadGen extends InstructionGen {
         return "pushed " + item.toString();
     }
 
-    private LocalVariableGen findLocalVariable(List<LocalVariableGen> localVars, int index) {
+    private LocalVariableGen findLocalVariable(LocalVariableGen[] localVars, int index) {
         for (LocalVariableGen lv : localVars) {
             if (lv.getIndex() == index) {
                 return lv;

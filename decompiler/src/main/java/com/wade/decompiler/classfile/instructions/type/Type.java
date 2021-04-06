@@ -1,16 +1,15 @@
 package com.wade.decompiler.classfile.instructions.type;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.wade.decompiler.classfile.exceptions.ClassFormatException;
 import com.wade.decompiler.enums.TypeEnum;
 import com.wade.decompiler.util.Utility;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @Getter

@@ -12,7 +12,6 @@ import com.wade.decompiler.decompiler.Expression;
 import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.decompiler.ExpressionType;
 import com.wade.decompiler.enums.ClassFileConstants;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

@@ -1,20 +1,11 @@
 package com.wade.decompiler.generate.instructions;
 
-import com.wade.decompiler.classfile.instructions.ACONST_NULL;
-import com.wade.decompiler.classfile.instructions.BIPUSH;
-import com.wade.decompiler.classfile.instructions.DCONST;
-import com.wade.decompiler.classfile.instructions.FCONST;
-import com.wade.decompiler.classfile.instructions.ICONST;
-import com.wade.decompiler.classfile.instructions.LCONST;
-import com.wade.decompiler.classfile.instructions.LDC;
-import com.wade.decompiler.classfile.instructions.LDC2_W;
-import com.wade.decompiler.classfile.instructions.SIPUSH;
+import com.wade.decompiler.classfile.instructions.*;
 import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.decompiler.Expression;
 import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.decompiler.ExpressionType;
 import com.wade.decompiler.enums.InstructionOpCodes;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

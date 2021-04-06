@@ -1,21 +1,16 @@
 package com.wade.decompiler.classfile.element;
 
-import java.io.DataInput;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.wade.decompiler.classfile.attribute.AnnotationEntry;
 import com.wade.decompiler.classfile.constant.ConstantPool;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
+
+import java.io.DataInput;
+import java.io.IOException;
 
 @Setter
 @Getter
-@ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
 public abstract class ElementValue {
     public static final byte STRING = 's';
@@ -60,9 +55,9 @@ public abstract class ElementValue {
                 return new AnnotationElementValue(ANNOTATION, AnnotationEntry.read(input, cpool, false), cpool);
             case ARRAY:
                 int numArrayVals = input.readUnsignedShort();
-                List<ElementValue> evalues = new ArrayList<>();
+                ElementValue[] evalues = new ElementValue[numArrayVals];
                 for (int j = 0; j < numArrayVals; j++) {
-                    evalues.add(ElementValue.readElementValue(input, cpool));
+                    evalues[j] = ElementValue.readElementValue(input, cpool);
                 }
                 return new ArrayElementValue(ARRAY, evalues, cpool);
             default:
@@ -70,4 +65,14 @@ public abstract class ElementValue {
         }
     }
 
+    public abstract String stringifyValue();
+
+    public String toShortString() {
+        return stringifyValue();
+    }
+
+    @Override
+    public String toString() {
+        return stringifyValue();
+    }
 }

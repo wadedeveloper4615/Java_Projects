@@ -1,14 +1,12 @@
 package com.wade.decompiler.classfile.attribute;
 
-import java.io.DataInput;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.io.DataInput;
+import java.io.IOException;
 
 @Setter
 @Getter
@@ -18,15 +16,15 @@ public class ModuleExports {
     private int exportsIndex;
     private int exportsFlags;
     private int exportsToCount;
-    private List<Integer> exportsToIndex;
+    private int[] exportsToIndex;
 
     public ModuleExports(DataInput file) throws IOException {
         exportsIndex = file.readUnsignedShort();
         exportsFlags = file.readUnsignedShort();
         exportsToCount = file.readUnsignedShort();
-        exportsToIndex = new ArrayList<>();
+        exportsToIndex = new int[exportsToCount];
         for (int i = 0; i < exportsToCount; i++) {
-            exportsToIndex.add(file.readUnsignedShort());
+            exportsToIndex[i] = file.readUnsignedShort();
         }
     }
 }

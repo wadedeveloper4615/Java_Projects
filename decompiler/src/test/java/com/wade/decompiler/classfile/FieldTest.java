@@ -1,20 +1,18 @@
 package com.wade.decompiler.classfile;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.when;
-
-import java.io.DataInput;
-
+import com.wade.decompiler.classfile.attribute.Attribute;
+import com.wade.decompiler.classfile.attribute.ConstantValue;
+import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.wade.decompiler.classfile.attribute.Attribute;
-import com.wade.decompiler.classfile.attribute.ConstantValue;
+import java.io.DataInput;
 
-import nl.jqno.equalsverifier.EqualsVerifier;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.when;
 
 @DisplayName("Decompiler JUnit 5 Field Test")
 @ExtendWith(MockitoExtension.class)

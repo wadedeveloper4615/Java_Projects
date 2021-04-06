@@ -1,24 +1,7 @@
 package com.wade.decompiler.generate.instructions;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.wade.decompiler.classfile.constant.Constant;
-import com.wade.decompiler.classfile.constant.ConstantCP;
-import com.wade.decompiler.classfile.constant.ConstantClass;
-import com.wade.decompiler.classfile.constant.ConstantFieldRef;
-import com.wade.decompiler.classfile.constant.ConstantInterfaceMethodRef;
-import com.wade.decompiler.classfile.constant.ConstantInvokeDynamic;
-import com.wade.decompiler.classfile.constant.ConstantLong;
-import com.wade.decompiler.classfile.constant.ConstantMethodref;
-import com.wade.decompiler.classfile.constant.ConstantNameAndType;
-import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.classfile.constant.ConstantUtf8;
-import com.wade.decompiler.classfile.instructions.INVOKEDYNAMIC;
-import com.wade.decompiler.classfile.instructions.INVOKEINTERFACE;
-import com.wade.decompiler.classfile.instructions.INVOKESPECIAL;
-import com.wade.decompiler.classfile.instructions.INVOKESTATIC;
-import com.wade.decompiler.classfile.instructions.INVOKEVIRTUAL;
+import com.wade.decompiler.classfile.constant.*;
+import com.wade.decompiler.classfile.instructions.*;
 import com.wade.decompiler.classfile.instructions.type.ObjectType;
 import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.decompiler.Expression;
@@ -26,11 +9,13 @@ import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.decompiler.ExpressionType;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.enums.InstructionOpCodes;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @Getter

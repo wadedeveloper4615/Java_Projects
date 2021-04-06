@@ -6,14 +6,12 @@ import com.wade.decompiler.enums.ClassAccessFlagsList;
 import com.wade.decompiler.generate.FieldGen;
 import com.wade.decompiler.generate.JavaClassGen;
 import com.wade.decompiler.generate.MethodGen;
-import com.wade.decompiler.generate.attribute.AttributeGen;
 import com.wade.decompiler.generate.attribute.CodeGen;
 import com.wade.decompiler.generate.attribute.LocalVariableGen;
 import com.wade.decompiler.generate.attribute.LocalVariableTableGen;
 import com.wade.decompiler.generate.instructions.InstructionGen;
 import com.wade.decompiler.util.MethodSignature;
 import com.wade.decompiler.util.Utility;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -54,11 +52,6 @@ public class JavaClassFileDecompiler {
         System.out.println();
         deompileMethods(jgen.getMethods(), isAbstract, isAnnotation);
         System.out.println("}");
-        System.out.println("/*");
-        for (AttributeGen attr : jgen.getAttributes()) {
-            System.out.println(attr);
-        }
-        System.out.println("*/");
     }
 
     private void decompileInstructions(CodeGen codeGen, LocalVariableTableGen localVariables) {
@@ -68,7 +61,7 @@ public class JavaClassFileDecompiler {
             System.out.println("\t\t\tmax locals = " + codeGen.getMaxLocals());
             System.out.println("\t\t\tmax stack  = " + codeGen.getMaxStack());
             System.out.println("\t\t\tcode size  = " + codeGen.getCodeSize());
-            if (localVariables != null) {
+            if (localVariables!=null) {
                 for (LocalVariableGen lv : localVariables.getLocalVariableTable()) {
                     System.out.println("\t\t\t" + lv.toString());
                 }
@@ -84,10 +77,8 @@ public class JavaClassFileDecompiler {
         }
         System.out.println("\t\t*/");
         System.out.println();
-        if (codeGen.getInstructionDecompiled()!=null) {
-            for (String instr : codeGen.getInstructionDecompiled()) {
-                if (instr != null) System.out.println("\t\t" + instr.toString());
-            }
+        for (String instr : codeGen.getInstructionDecompiled()) {
+            if (instr != null) System.out.println("\t\t" + instr.toString());
         }
     }
 
@@ -97,15 +88,10 @@ public class JavaClassFileDecompiler {
             String signature = Utility.typeSignatureToString(fg.getSignature(), false);
             String fieldBase = String.format("\t%s %s %s", access, signature, fg.getName());
             if (fg.getConstant() != null) {
-                fieldBase += " = " + fg.getConstant().toString() + ";";
+                fieldBase += " = " + fg.getConstant().getValueAsString() + ";";
             } else {
                 fieldBase += ";";
             }
-            System.out.println("\t/*");
-            for (AttributeGen attr : fg.getAttributes()) {
-                System.out.println("\t"+attr);
-            }
-            System.out.println("\t*/");
             System.out.println(fieldBase);
         }
     }
@@ -124,7 +110,7 @@ public class JavaClassFileDecompiler {
                 name = Utility.extractClassName(jgen.getClassName(), false);
                 constructor = true;
             }
-            System.out.println("\t/* " + mg.getSignature() + " */");
+            System.out.println("\t/* "+mg.getSignature()+" */");
             String signature = new MethodSignature(mg.getSignature(), name, access, jgen.getClassName(), true, mg.getLocalVariableTable(), constructor).signaturetoString();
             // String signature = Utility.methodSignatureToString(mg.getSignature(), name,
             // access, true, mg.getLocalVariableTable());
@@ -135,11 +121,6 @@ public class JavaClassFileDecompiler {
             } else {
                 System.out.println("\t" + signature);
             }
-            System.out.println("\t/*");
-            for (AttributeGen attr : mg.getAttributes()) {
-                System.out.println("\t"+attr);
-            }
-            System.out.println("\t*/");
             System.out.println();
         }
     }

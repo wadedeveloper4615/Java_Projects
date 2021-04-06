@@ -1,25 +1,21 @@
 package com.wade.decompiler.classfile.attribute;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.when;
-
-import java.io.DataInputStream;
-import java.io.InputStream;
-
+import com.wade.decompiler.classfile.constant.Constant;
+import com.wade.decompiler.classfile.constant.ConstantFloat;
+import com.wade.decompiler.classfile.constant.ConstantPool;
+import com.wade.decompiler.classfile.element.ElementValue;
+import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.wade.decompiler.classfile.constant.Constant;
-import com.wade.decompiler.classfile.constant.ConstantFloat;
-import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.classfile.element.ElementValue;
+import java.io.DataInputStream;
+import java.io.InputStream;
 
-import nl.jqno.equalsverifier.EqualsVerifier;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Decompiler JUnit 5 AnnotationEntry test")

@@ -1,7 +1,6 @@
 package com.wade.decompiler.generate.attribute;
 
 import com.wade.decompiler.classfile.attribute.LineNumber;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

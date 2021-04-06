@@ -3,7 +3,6 @@ package com.wade.decompiler.generate.instructions;
 import com.wade.decompiler.classfile.instructions.IMPDEP1;
 import com.wade.decompiler.classfile.instructions.IMPDEP2;
 import com.wade.decompiler.decompiler.ExpressionStack;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

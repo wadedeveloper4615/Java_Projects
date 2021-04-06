@@ -4,7 +4,6 @@ import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.exceptions.ClassGenException;
 import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.enums.InstructionOpCodes;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

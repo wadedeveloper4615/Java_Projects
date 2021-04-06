@@ -1,8 +1,5 @@
 package com.wade.decompiler.util;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.wade.decompiler.classfile.JavaClass;
 import com.wade.decompiler.classfile.exceptions.ClassFormatException;
 import com.wade.decompiler.constants.Const;
@@ -12,6 +9,9 @@ import com.wade.decompiler.enums.TypeEnum;
 import com.wade.decompiler.generate.attribute.LocalVariableGen;
 import com.wade.decompiler.generate.attribute.LocalVariableTableGen;
 import com.wade.decompiler.repository.SyntheticRepository;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Utility {
     private static final ConsumedChars consumed_chars = new ConsumedChars();

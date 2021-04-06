@@ -1,17 +1,14 @@
 package com.wade.decompiler.classfile.attribute;
 
-import java.io.DataInput;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.ClassFileAttributes;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.io.DataInput;
+import java.io.IOException;
 
 @Setter
 @Getter
@@ -21,47 +18,42 @@ public class Module extends Attribute {
     private int moduleNameIndex;
     private int moduleFlags;
     private int moduleVersionIndex;
-    private List<ModuleRequires> requiresTable;
-    private List<ModuleExports> exportsTable;
-    private List<ModuleOpens> opensTable;
+    private ModuleRequires[] requiresTable;
+    private ModuleExports[] exportsTable;
+    private ModuleOpens[] opensTable;
     private int usesCount;
-    private List<Integer> usesIndex;
-    private List<ModuleProvides> providesTable;
+    private int[] usesIndex;
+    private ModuleProvides[] providesTable;
 
     public Module(int nameIndex, int length, DataInput input, ConstantPool constantPool) throws IOException {
         super(ClassFileAttributes.ATTR_MODULE, nameIndex, length, constantPool);
         moduleNameIndex = input.readUnsignedShort();
         moduleFlags = input.readUnsignedShort();
         moduleVersionIndex = input.readUnsignedShort();
-
         int requires_count = input.readUnsignedShort();
-        requiresTable = new ArrayList<>();
+        requiresTable = new ModuleRequires[requires_count];
         for (int i = 0; i < requires_count; i++) {
-            requiresTable.add(new ModuleRequires(input));
+            requiresTable[i] = new ModuleRequires(input);
         }
-
         int exports_count = input.readUnsignedShort();
-        exportsTable = new ArrayList<>();
+        exportsTable = new ModuleExports[exports_count];
         for (int i = 0; i < exports_count; i++) {
-            exportsTable.add(new ModuleExports(input));
+            exportsTable[i] = new ModuleExports(input);
         }
-
         int opens_count = input.readUnsignedShort();
-        opensTable = new ArrayList<>();
+        opensTable = new ModuleOpens[opens_count];
         for (int i = 0; i < opens_count; i++) {
-            opensTable.add(new ModuleOpens(input));
+            opensTable[i] = new ModuleOpens(input);
         }
-
         usesCount = input.readUnsignedShort();
-        usesIndex = new ArrayList<>();
+        usesIndex = new int[usesCount];
         for (int i = 0; i < usesCount; i++) {
-            usesIndex.add(input.readUnsignedShort());
+            usesIndex[i] = input.readUnsignedShort();
         }
-
         int provides_count = input.readUnsignedShort();
-        providesTable = new ArrayList<>();
+        providesTable = new ModuleProvides[provides_count];
         for (int i = 0; i < provides_count; i++) {
-            providesTable.add(new ModuleProvides(input));
+            providesTable[i] = new ModuleProvides(input);
         }
     }
 }

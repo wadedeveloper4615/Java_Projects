@@ -1,16 +1,15 @@
 package com.wade.decompiler.util;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.wade.decompiler.classfile.exceptions.ClassFormatException;
 import com.wade.decompiler.enums.TypeEnum;
 import com.wade.decompiler.generate.attribute.LocalVariableGen;
 import com.wade.decompiler.generate.attribute.LocalVariableTableGen;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @ToString(callSuper = false, includeFieldNames = true)

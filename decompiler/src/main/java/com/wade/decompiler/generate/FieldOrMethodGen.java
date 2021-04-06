@@ -1,7 +1,9 @@
 package com.wade.decompiler.generate;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.wade.decompiler.classfile.FieldOrMethod;
-import com.wade.decompiler.classfile.attribute.Attribute;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.constant.ConstantUtf8;
 import com.wade.decompiler.enums.ClassAccessFlagsList;
@@ -21,16 +23,14 @@ public class FieldOrMethodGen {
     protected String name;
     protected String signature;
     protected ClassAccessFlagsList accessFlags;
-    protected AttributeGen[] attributes;
+    protected List<AttributeGen> attributes;
 
     public FieldOrMethodGen(FieldOrMethod value, ConstantPool constantPool) {
         this.name = ((ConstantUtf8) constantPool.getConstant(value.getNameIndex(), ClassFileConstants.CONSTANT_Utf8)).getBytes();
         this.signature = ((ConstantUtf8) constantPool.getConstant(value.getSignatureIndex(), ClassFileConstants.CONSTANT_Utf8)).getBytes();
         this.accessFlags = new ClassAccessFlagsList(value.getAccessFlags());
-        Attribute[] attributes = value.getAttributes();
-        this.attributes = new AttributeGen[attributes.length];
-        for (int i = 0; i < attributes.length; i++) {
-            this.attributes[i] = AttributeGen.readAttribute(attributes[i], constantPool);
-        }
+
+        attributes = new ArrayList<>();
+        value.getAttributes().stream().forEach(attribute -> attributes.add(new AttributeGen(attribute, constantPool)));
     }
 }

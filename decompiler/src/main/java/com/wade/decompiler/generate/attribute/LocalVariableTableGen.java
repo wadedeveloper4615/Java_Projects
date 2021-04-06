@@ -1,11 +1,18 @@
 package com.wade.decompiler.generate.attribute;
 
-import java.util.Arrays;
-
 import com.wade.decompiler.classfile.attribute.LocalVariable;
 import com.wade.decompiler.classfile.attribute.LocalVariableTable;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString(callSuper = true, includeFieldNames = true)
+@EqualsAndHashCode(callSuper = false)
 public class LocalVariableTableGen extends AttributeGen {
     private LocalVariableGen[] localVariableTable;
 
@@ -18,18 +25,8 @@ public class LocalVariableTableGen extends AttributeGen {
         }
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-        LocalVariableTableGen other = (LocalVariableTableGen) obj;
-        if (!Arrays.equals(localVariableTable, other.localVariableTable)) return false;
-        return true;
-    }
-
-    public LocalVariableGen getLocalVariable(int index, int pc) {
-        for (LocalVariableGen variable : localVariableTable) {
+    public LocalVariableGen getLocalVariable(final int index, final int pc) {
+        for (final LocalVariableGen variable : localVariableTable) {
             if (variable.getIndex() == index) {
                 final int start_pc = variable.getStartPc();
                 final int end_pc = start_pc + variable.getLength();
@@ -39,22 +36,5 @@ public class LocalVariableTableGen extends AttributeGen {
             }
         }
         return null;
-    }
-
-    public LocalVariableGen[] getLocalVariableTable() {
-        return localVariableTable;
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + Arrays.hashCode(localVariableTable);
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "LocalVariableTableGen [localVariableTable=" + Arrays.toString(localVariableTable) + "]";
     }
 }

@@ -8,6 +8,15 @@ import com.wade.decompiler.classfile.element.ElementValue;
 import com.wade.decompiler.classfile.element.EnumElementValue;
 import com.wade.decompiler.classfile.element.SimpleElementValue;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString(callSuper = true, includeFieldNames = true)
+@EqualsAndHashCode(callSuper = false)
 public class ElementValueGen {
     public static final byte STRING = 's';
     public static final byte ENUM_CONSTANT = 'e';
@@ -51,32 +60,5 @@ public class ElementValueGen {
             default:
                 throw new IllegalArgumentException("Unexpected element value kind in annotation: " + value.getType());
         }
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-        ElementValueGen other = (ElementValueGen) obj;
-        if (type != other.type) return false;
-        return true;
-    }
-
-    public int getType() {
-        return type;
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + type;
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "ElementValueGen [type=" + type + "]";
     }
 }

@@ -81,9 +81,11 @@ public class JavaClassFileDecompiler {
         }
         System.out.println("\t\t*/");
         System.out.println();
-        for (String instr : codeGen.getInstructionDecompiled()) {
-            if (instr != null)
-                System.out.println("\t\t" + instr.toString());
+        if (codeGen != null) {
+            for (String instr : codeGen.getInstructionDecompiled()) {
+                if (instr != null)
+                    System.out.println("\t\t" + instr.toString());
+            }
         }
     }
 
@@ -93,7 +95,7 @@ public class JavaClassFileDecompiler {
             String signature = Utility.typeSignatureToString(fg.getSignature(), false);
             String fieldBase = String.format("\t%s %s %s", access, signature, fg.getName());
             if (fg.getConstant() != null) {
-                fieldBase += " = " + fg.getConstant().getValueAsString() + ";";
+                fieldBase += " = " + fg.getConstant().toString() + ";";
             } else {
                 fieldBase += ";";
             }
@@ -115,7 +117,7 @@ public class JavaClassFileDecompiler {
                 name = Utility.extractClassName(jgen.getClassName(), false);
                 constructor = true;
             }
-            System.out.println("\t/* " + mg.getSignature() + " */");
+            System.out.println("\t/* signature = " + mg.getSignature() + " */");
             String signature = new MethodSignature(mg.getSignature(), name, access, jgen.getClassName(), true, mg.getLocalVariableTable(), constructor).signaturetoString();
             // String signature = Utility.methodSignatureToString(mg.getSignature(), name,
             // access, true, mg.getLocalVariableTable());

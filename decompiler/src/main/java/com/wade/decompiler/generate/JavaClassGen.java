@@ -44,15 +44,15 @@ public class JavaClassGen {
         this.accessFlags = javaClass.getAccessFlags();
 
         this.interfaceNames = new ArrayList<>();
-        javaClass.getInterfaces().stream().forEach(interfaceNameIndex -> this.interfaceNames.add(constantPool.constantToString(interfaceNameIndex, ClassFileConstants.CONSTANT_Class)));
+        javaClass.getInterfaces().stream().forEach(interfaceNameIndex -> interfaceNames.add(constantPool.constantToString(interfaceNameIndex, ClassFileConstants.CONSTANT_Class)));
 
         this.fields = new ArrayList<>();
-        javaClass.getFields().stream().forEach(field -> this.fields.add(new FieldGen(field, constantPool)));
+        javaClass.getFields().stream().forEach(field -> fields.add(new FieldGen(field, constantPool)));
 
         this.methods = new ArrayList<>();
-        javaClass.getMethods().stream().forEach(method -> this.methods.add(new MethodGen(method, constantPool)));
+        javaClass.getMethods().stream().forEach(method -> methods.add(new MethodGen(method, constantPool)));
 
         this.attributes = new ArrayList<>();
-        javaClass.getAttributes().stream().forEach(method -> this.attributes.add(new AttributeGen(method, constantPool)));
+        javaClass.getAttributes().stream().forEach(attribute -> attributes.add(AttributeGen.readAttribute(attribute, constantPool)));
     }
 }

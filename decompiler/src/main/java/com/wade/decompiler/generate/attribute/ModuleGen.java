@@ -1,7 +1,5 @@
 package com.wade.decompiler.generate.attribute;
 
-import java.util.Arrays;
-
 import com.wade.decompiler.classfile.attribute.Module;
 import com.wade.decompiler.classfile.attribute.ModuleExports;
 import com.wade.decompiler.classfile.attribute.ModuleOpens;
@@ -11,6 +9,15 @@ import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.ClassAccessFlagsList;
 import com.wade.decompiler.enums.ClassFileConstants;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString(callSuper = true, includeFieldNames = true)
+@EqualsAndHashCode(callSuper = false)
 public class ModuleGen extends AttributeGen {
     private String moduleName;
     private String moduleVersion;
@@ -61,80 +68,5 @@ public class ModuleGen extends AttributeGen {
         for (int i = 0; i < provides_count; i++) {
             this.providesTable[i] = new ModuleProvidesGen(providesTable[i], constantPool);
         }
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-        ModuleGen other = (ModuleGen) obj;
-        if (!Arrays.equals(exportsTable, other.exportsTable)) return false;
-        if (moduleFlags == null) {
-            if (other.moduleFlags != null) return false;
-        } else if (!moduleFlags.equals(other.moduleFlags)) return false;
-        if (moduleName == null) {
-            if (other.moduleName != null) return false;
-        } else if (!moduleName.equals(other.moduleName)) return false;
-        if (moduleVersion == null) {
-            if (other.moduleVersion != null) return false;
-        } else if (!moduleVersion.equals(other.moduleVersion)) return false;
-        if (!Arrays.equals(opensTable, other.opensTable)) return false;
-        if (!Arrays.equals(providesTable, other.providesTable)) return false;
-        if (!Arrays.equals(requiresTable, other.requiresTable)) return false;
-        if (!Arrays.equals(usesIndex, other.usesIndex)) return false;
-        return true;
-    }
-
-    public ModuleExportsGen[] getExportsTable() {
-        return exportsTable;
-    }
-
-    public ClassAccessFlagsList getModuleFlags() {
-        return moduleFlags;
-    }
-
-    public String getModuleName() {
-        return moduleName;
-    }
-
-    public String getModuleVersion() {
-        return moduleVersion;
-    }
-
-    public ModuleOpensGen[] getOpensTable() {
-        return opensTable;
-    }
-
-    public ModuleProvidesGen[] getProvidesTable() {
-        return providesTable;
-    }
-
-    public ModuleRequiresGen[] getRequiresTable() {
-        return requiresTable;
-    }
-
-    public String[] getUsesIndex() {
-        return usesIndex;
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + Arrays.hashCode(exportsTable);
-        result = prime * result + ((moduleFlags == null) ? 0 : moduleFlags.hashCode());
-        result = prime * result + ((moduleName == null) ? 0 : moduleName.hashCode());
-        result = prime * result + ((moduleVersion == null) ? 0 : moduleVersion.hashCode());
-        result = prime * result + Arrays.hashCode(opensTable);
-        result = prime * result + Arrays.hashCode(providesTable);
-        result = prime * result + Arrays.hashCode(requiresTable);
-        result = prime * result + Arrays.hashCode(usesIndex);
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "ModuleGen [moduleName=" + moduleName + ", moduleVersion=" + moduleVersion + ", moduleFlags=" + moduleFlags + ", requiresTable=" + Arrays.toString(requiresTable) + ", exportsTable=" + Arrays.toString(exportsTable) + ", opensTable=" + Arrays.toString(opensTable) + ", usesIndex=" + Arrays.toString(usesIndex) + ", providesTable=" + Arrays.toString(providesTable) + "]";
     }
 }

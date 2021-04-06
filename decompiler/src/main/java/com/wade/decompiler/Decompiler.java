@@ -1,12 +1,12 @@
 package com.wade.decompiler;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 import com.wade.decompiler.classfile.ClassParser;
 import com.wade.decompiler.classfile.JavaClass;
 import com.wade.decompiler.decompiler.JavaClassFileDecompiler;
 import com.wade.decompiler.generate.JavaClassGen;
-
-import java.io.IOException;
-import java.io.InputStream;
 
 public class Decompiler {
     public static void main(String[] argv) {
@@ -17,9 +17,9 @@ public class Decompiler {
             // String resource = "/com/wade/decompiler/test/Test1.class";
             // String resource = "/com/wade/decompiler/test/Test2.class";
             // String resource = "/com/wade/decompiler/test/Test3.class";
-             String resource = "/com/wade/decompiler/test/Test4.class";
+            // String resource = "/com/wade/decompiler/test/Test4.class";
             // String resource = "/com/wade/decompiler/test/Test5.class";
-            //String resource = "/com/wade/decompiler/test/Test6.class";
+            String resource = "/com/wade/decompiler/test/Test6.class";
             // String resource = "/java/lang/Object.class";
             // JavaClass javaClass = new ClassParser(argv[0]).parse();
             JavaClass javaClass = decompiler.process(c, resource);

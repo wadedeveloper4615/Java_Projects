@@ -1,8 +1,22 @@
 package com.wade.decompiler.generate.attribute;
 
-import com.wade.decompiler.classfile.constant.*;
+import com.wade.decompiler.classfile.constant.Constant;
+import com.wade.decompiler.classfile.constant.ConstantDouble;
+import com.wade.decompiler.classfile.constant.ConstantFloat;
+import com.wade.decompiler.classfile.constant.ConstantInteger;
+import com.wade.decompiler.classfile.constant.ConstantLong;
+import com.wade.decompiler.classfile.constant.ConstantPool;
+import com.wade.decompiler.classfile.constant.ConstantUtf8;
 import com.wade.decompiler.classfile.element.SimpleElementValue;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
+@Setter
+@Getter
+@ToString(callSuper = true, includeFieldNames = true)
+@EqualsAndHashCode(callSuper = false)
 public class SimpleElementValueGen extends ElementValueGen {
     private Constant indexConstant;
 
@@ -11,23 +25,6 @@ public class SimpleElementValueGen extends ElementValueGen {
         this.indexConstant = constantPool.getConstant(element.getIndex());
         this.type = element.getType();
     }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-        SimpleElementValueGen other = (SimpleElementValueGen) obj;
-        if (indexConstant == null) {
-            if (other.indexConstant != null) return false;
-        } else if (!indexConstant.equals(other.indexConstant)) return false;
-        return true;
-    }
-
-    public Constant getIndexConstant() {
-        return indexConstant;
-    }
-
     public boolean getValueBoolean() {
         if (super.getType() != PRIMITIVE_BOOLEAN) {
             throw new IllegalStateException("Dont call getValueBoolean() on a non BOOLEAN ElementValue");
@@ -100,14 +97,6 @@ public class SimpleElementValueGen extends ElementValueGen {
         return c.getBytes();
     }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((indexConstant == null) ? 0 : indexConstant.hashCode());
-        return result;
-    }
-
     public String stringifyValue() {
         switch (type) {
             case PRIMITIVE_INT:
@@ -134,10 +123,5 @@ public class SimpleElementValueGen extends ElementValueGen {
             default:
                 throw new IllegalStateException("SimpleElementValue class does not know how to stringify type " + type);
         }
-    }
-
-    @Override
-    public String toString() {
-        return stringifyValue();
     }
 }

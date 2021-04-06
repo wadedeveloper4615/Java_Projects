@@ -7,6 +7,7 @@ import com.wade.decompiler.classfile.instructions.type.ObjectType;
 import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.ClassFileConstants;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

@@ -1,10 +1,11 @@
 package com.wade.decompiler.util;
 
-import com.wade.decompiler.enums.ClassAccessFlags;
-import com.wade.decompiler.enums.ClassAccessFlagsList;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import com.wade.decompiler.enums.ClassAccessFlags;
+import com.wade.decompiler.enums.ClassAccessFlagsList;
 
 public class UtilityTest {
     @Test

@@ -1,12 +1,14 @@
 package com.wade.decompiler.classfile;
 
-import com.wade.decompiler.classfile.attribute.Attribute;
-import com.wade.decompiler.classfile.attribute.ConstantValue;
-import nl.jqno.equalsverifier.EqualsVerifier;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import com.wade.decompiler.classfile.attribute.Attribute;
+import com.wade.decompiler.classfile.attribute.ConstantValue;
+
+import nl.jqno.equalsverifier.EqualsVerifier;
 
 @DisplayName("Decompiler JUnit 5 Field or Method Test")
 class FieldOrMethodTest {

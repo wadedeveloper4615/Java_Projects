@@ -1,47 +1,29 @@
 package com.wade.decompiler.generate.attribute;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import com.wade.decompiler.classfile.attribute.ModulePackages;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.ClassFileConstants;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-import java.util.Arrays;
-
+@Setter
+@Getter
+@ToString(callSuper = true, includeFieldNames = true)
+@EqualsAndHashCode(callSuper = false)
 public class ModulePackagesGen extends AttributeGen {
-    private String[] packageIndexNames;
+    private List<String> packageIndexNames;
 
     public ModulePackagesGen(ModulePackages attribute, ConstantPool constantPool) {
         super(attribute, constantPool);
-        int[] packageIndexTable = attribute.getPackageIndexTable();
-        this.packageIndexNames = new String[packageIndexTable.length];
-        for (int i = 0; i < packageIndexTable.length; i++) {
-            this.packageIndexNames[i] = constantPool.constantToString(packageIndexTable[i], ClassFileConstants.CONSTANT_Package);
+        packageIndexNames = new ArrayList<>();
+        for (Integer entry : attribute.getPackageIndexTable()) {
+            packageIndexNames.add(constantPool.constantToString(entry, ClassFileConstants.CONSTANT_Package));
         }
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-        ModulePackagesGen other = (ModulePackagesGen) obj;
-        if (!Arrays.equals(packageIndexNames, other.packageIndexNames)) return false;
-        return true;
-    }
-
-    public String[] getPackageIndexNames() {
-        return packageIndexNames;
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + Arrays.hashCode(packageIndexNames);
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "ModulePackagesGen [packageIndexNames=" + Arrays.toString(packageIndexNames) + "]";
     }
 }

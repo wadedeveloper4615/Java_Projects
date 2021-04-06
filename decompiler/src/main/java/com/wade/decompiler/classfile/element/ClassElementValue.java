@@ -3,6 +3,7 @@ package com.wade.decompiler.classfile.element;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.constant.ConstantUtf8;
 import com.wade.decompiler.enums.ClassFileConstants;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,11 +24,5 @@ public class ClassElementValue extends ElementValue {
     public String getClassString() {
         ConstantUtf8 c = (ConstantUtf8) super.getConstantPool().getConstant(idx, ClassFileConstants.CONSTANT_Utf8);
         return c.getBytes();
-    }
-
-    @Override
-    public String stringifyValue() {
-        ConstantUtf8 cu8 = (ConstantUtf8) super.getConstantPool().getConstant(idx, ClassFileConstants.CONSTANT_Utf8);
-        return cu8.getBytes();
     }
 }

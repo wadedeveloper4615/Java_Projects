@@ -1,5 +1,7 @@
 package com.wade.decompiler.generate;
 
+import java.io.IOException;
+
 import com.wade.decompiler.classfile.Field;
 import com.wade.decompiler.classfile.JavaClass;
 import com.wade.decompiler.classfile.Method;
@@ -9,12 +11,11 @@ import com.wade.decompiler.enums.ClassAccessFlagsList;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.enums.Version;
 import com.wade.decompiler.generate.attribute.AttributeGen;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.io.IOException;
 
 @Setter
 @Getter
@@ -65,7 +66,7 @@ public class JavaClassGen {
         Attribute[] attributes = javaClass.getAttributes();
         this.attributes = new AttributeGen[attributes.length];
         for (int i = 0; i < attributes.length; i++) {
-            this.attributes[i] = new AttributeGen(attributes[i], constantPool);
+            this.attributes[i] = AttributeGen.readAttribute(attributes[i], constantPool);
         }
     }
 }

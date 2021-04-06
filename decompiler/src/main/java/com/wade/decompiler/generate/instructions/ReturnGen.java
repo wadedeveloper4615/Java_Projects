@@ -1,12 +1,19 @@
 package com.wade.decompiler.generate.instructions;
 
-import com.wade.decompiler.classfile.instructions.*;
+import com.wade.decompiler.classfile.instructions.ARETURN;
+import com.wade.decompiler.classfile.instructions.DRETURN;
+import com.wade.decompiler.classfile.instructions.FRETURN;
+import com.wade.decompiler.classfile.instructions.IRETURN;
+import com.wade.decompiler.classfile.instructions.LRETURN;
+import com.wade.decompiler.classfile.instructions.RET;
+import com.wade.decompiler.classfile.instructions.RETURN;
 import com.wade.decompiler.classfile.instructions.type.ReturnaddressType;
 import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.decompiler.Expression;
 import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.enums.TypeEnum;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

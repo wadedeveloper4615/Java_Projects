@@ -1,10 +1,31 @@
 package com.wade.decompiler.generate.instructions;
 
-import com.wade.decompiler.classfile.instructions.*;
+import com.wade.decompiler.classfile.instructions.DCMPG;
+import com.wade.decompiler.classfile.instructions.DCMPL;
+import com.wade.decompiler.classfile.instructions.FCMPG;
+import com.wade.decompiler.classfile.instructions.FCMPL;
+import com.wade.decompiler.classfile.instructions.IFEQ;
+import com.wade.decompiler.classfile.instructions.IFGE;
+import com.wade.decompiler.classfile.instructions.IFGT;
+import com.wade.decompiler.classfile.instructions.IFLE;
+import com.wade.decompiler.classfile.instructions.IFLT;
+import com.wade.decompiler.classfile.instructions.IFNE;
+import com.wade.decompiler.classfile.instructions.IFNONNULL;
+import com.wade.decompiler.classfile.instructions.IFNULL;
+import com.wade.decompiler.classfile.instructions.IF_ACMPEQ;
+import com.wade.decompiler.classfile.instructions.IF_ACMPNE;
+import com.wade.decompiler.classfile.instructions.IF_ICMPEQ;
+import com.wade.decompiler.classfile.instructions.IF_ICMPGE;
+import com.wade.decompiler.classfile.instructions.IF_ICMPGT;
+import com.wade.decompiler.classfile.instructions.IF_ICMPLE;
+import com.wade.decompiler.classfile.instructions.IF_ICMPLT;
+import com.wade.decompiler.classfile.instructions.IF_ICMPNE;
+import com.wade.decompiler.classfile.instructions.LCMP;
 import com.wade.decompiler.classfile.instructions.base.Instruction;
 import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.InstructionOpCodes;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

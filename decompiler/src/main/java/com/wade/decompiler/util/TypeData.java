@@ -1,6 +1,7 @@
 package com.wade.decompiler.util;
 
 import com.wade.decompiler.enums.TypeEnum;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

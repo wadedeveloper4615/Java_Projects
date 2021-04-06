@@ -1,11 +1,16 @@
 package com.wade.decompiler.generate.instructions;
 
-import com.wade.decompiler.classfile.instructions.*;
+import com.wade.decompiler.classfile.instructions.ASTORE;
+import com.wade.decompiler.classfile.instructions.DSTORE;
+import com.wade.decompiler.classfile.instructions.FSTORE;
+import com.wade.decompiler.classfile.instructions.ISTORE;
+import com.wade.decompiler.classfile.instructions.LSTORE;
 import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.decompiler.Expression;
 import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generate.attribute.LocalVariableGen;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,21 +29,21 @@ public class StoreGen extends InstructionGen {
         super(offset, instr.getLength());
         opcode = instr.getOpcode();
         int index = instr.getIndex();
-        localVariableReference = instr.getLocalVariableTable().getLocalVariableTable()[index];
+        localVariableReference = instr.getLocalVariableTable().getLocalVariableTable().get(index);
         type = Type.OBJECT;
     }
 
     public StoreGen(int offset, DSTORE instr) {
         super(offset, instr.getLength());
         opcode = instr.getOpcode();
-        localVariableReference = instr.getLocalVariableTable().getLocalVariableTable()[instr.getIndex() - 1];
+        localVariableReference = instr.getLocalVariableTable().getLocalVariableTable().get(instr.getIndex() - 1);
         type = Type.DOUBLE;
     }
 
     public StoreGen(int offset, FSTORE instr) {
         super(offset, instr.getLength());
         opcode = instr.getOpcode();
-        localVariableReference = instr.getLocalVariableTable().getLocalVariableTable()[instr.getIndex()];
+        localVariableReference = instr.getLocalVariableTable().getLocalVariableTable().get(instr.getIndex());
         type = Type.FLOAT;
     }
 
@@ -46,8 +51,8 @@ public class StoreGen extends InstructionGen {
         super(offset, instr.getLength());
         opcode = instr.getOpcode();
         int index = instr.getIndex();
-        if (index > 0 && index < instr.getLocalVariableTable().getLocalVariableTable().length) {
-            localVariableReference = instr.getLocalVariableTable().getLocalVariableTable()[index];
+        if (index > 0 && index < instr.getLocalVariableTable().getLocalVariableTable().size()) {
+            localVariableReference = instr.getLocalVariableTable().getLocalVariableTable().get(index);
         }
         type = Type.INTEGER;
     }
@@ -55,7 +60,7 @@ public class StoreGen extends InstructionGen {
     public StoreGen(int offset, LSTORE instr) {
         super(offset, instr.getLength());
         opcode = instr.getOpcode();
-        localVariableReference = instr.getLocalVariableTable().getLocalVariableTable()[instr.getIndex() - 1];
+        localVariableReference = instr.getLocalVariableTable().getLocalVariableTable().get(instr.getIndex() - 1);
         type = Type.LONG;
     }
 

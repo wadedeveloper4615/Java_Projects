@@ -4,45 +4,26 @@ import com.wade.decompiler.classfile.attribute.BootstrapMethod;
 import com.wade.decompiler.classfile.attribute.BootstrapMethods;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 
-import java.util.Arrays;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
+import java.util.List;
+
+@Setter
+@Getter
+@ToString(callSuper = true, includeFieldNames = true)
+@EqualsAndHashCode(callSuper = false)
 public class BootstrapMethodsGen extends AttributeGen {
-    private BootstrapMethodGen[] bootstrapMethods;
+    private List<BootstrapMethodGen> bootstrapMethods;
 
     public BootstrapMethodsGen(BootstrapMethods attribute, ConstantPool constantPool) {
         super(attribute, constantPool);
-        BootstrapMethod[] bootstrapMethods = attribute.getBootstrapMethods();
-        int num_bootstrap_methods = bootstrapMethods.length;
-        this.bootstrapMethods = new BootstrapMethodGen[num_bootstrap_methods];
-        for (int i = 0; i < num_bootstrap_methods; i++) {
-            this.bootstrapMethods[i] = new BootstrapMethodGen(bootstrapMethods[i], constantPool);
+        List<BootstrapMethod> bootstrapMethodsAttr = attribute.getBootstrapMethods();
+        int num_bootstrap_methods = bootstrapMethodsAttr.size();
+        for (BootstrapMethod entry:bootstrapMethodsAttr) {
+            this.bootstrapMethods.add(new BootstrapMethodGen(entry, constantPool));
         }
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-        BootstrapMethodsGen other = (BootstrapMethodsGen) obj;
-        if (!Arrays.equals(bootstrapMethods, other.bootstrapMethods)) return false;
-        return true;
-    }
-
-    public BootstrapMethodGen[] getBootstrapMethods() {
-        return bootstrapMethods;
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + Arrays.hashCode(bootstrapMethods);
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "BootstrapMethodsGen [bootstrapMethods=" + Arrays.toString(bootstrapMethods) + "]";
     }
 }

@@ -1,13 +1,21 @@
 package com.wade.decompiler.classfile.element;
 
-import com.wade.decompiler.classfile.constant.*;
+import com.wade.decompiler.classfile.constant.ConstantDouble;
+import com.wade.decompiler.classfile.constant.ConstantFloat;
+import com.wade.decompiler.classfile.constant.ConstantInteger;
+import com.wade.decompiler.classfile.constant.ConstantLong;
+import com.wade.decompiler.classfile.constant.ConstantPool;
+import com.wade.decompiler.classfile.constant.ConstantUtf8;
 import com.wade.decompiler.enums.ClassFileConstants;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Setter
 @Getter
+@ToString(callSuper = true, includeFieldNames = true)
 @EqualsAndHashCode(callSuper = false)
 public class SimpleElementValue extends ElementValue {
     private int index;
@@ -89,7 +97,6 @@ public class SimpleElementValue extends ElementValue {
         return c.getBytes();
     }
 
-    @Override
     public String stringifyValue() {
         ConstantPool cpool = super.getConstantPool();
         int _type = super.getType();
@@ -127,10 +134,5 @@ public class SimpleElementValue extends ElementValue {
             default:
                 throw new IllegalStateException("SimpleElementValue class does not know how to stringify type " + _type);
         }
-    }
-
-    @Override
-    public String toString() {
-        return stringifyValue();
     }
 }

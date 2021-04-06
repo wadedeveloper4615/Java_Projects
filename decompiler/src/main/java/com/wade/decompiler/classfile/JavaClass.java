@@ -7,6 +7,7 @@ import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.enums.Version;
 import com.wade.decompiler.repository.Repository;
 import com.wade.decompiler.repository.SyntheticRepository;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

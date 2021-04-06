@@ -1,14 +1,15 @@
 package com.wade.decompiler.decompiler;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.wade.decompiler.classfile.instructions.base.Instruction;
 import com.wade.decompiler.generate.instructions.InstructionGen;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Setter
 @Getter

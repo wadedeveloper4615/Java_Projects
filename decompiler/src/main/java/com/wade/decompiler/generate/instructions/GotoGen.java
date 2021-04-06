@@ -4,6 +4,7 @@ import com.wade.decompiler.classfile.instructions.GOTO;
 import com.wade.decompiler.classfile.instructions.GOTO_W;
 import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.enums.InstructionOpCodes;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

@@ -1,17 +1,18 @@
 package com.wade.decompiler.classfile.instructions;
 
+import java.io.IOException;
+
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.instructions.base.Instruction;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.generate.attribute.LocalVariableGen;
 import com.wade.decompiler.generate.attribute.LocalVariableTableGen;
 import com.wade.decompiler.util.ByteSequence;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.io.IOException;
 
 @Setter
 @Getter
@@ -27,7 +28,7 @@ public class FSTORE extends Instruction {
         super(InstructionOpCodes.FSTORE_0.add(n), 1, cp);
         this.index = n;
         this.localVariableTable = localVariableTable;
-        this.localVariable = localVariableTable.getLocalVariableTable()[index];
+        this.localVariable = localVariableTable.getLocalVariableTable().get(index);
     }
 
     public FSTORE(LocalVariableTableGen localVariableTable, ConstantPool cp) {
@@ -44,6 +45,6 @@ public class FSTORE extends Instruction {
             index = bytes.readUnsignedByte();
             super.setLength(2);
         }
-        this.localVariable = localVariableTable.getLocalVariableTable()[index];
+        this.localVariable = localVariableTable.getLocalVariableTable().get(index);
     }
 }

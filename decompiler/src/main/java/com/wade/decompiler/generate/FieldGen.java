@@ -1,5 +1,7 @@
 package com.wade.decompiler.generate;
 
+import java.io.IOException;
+
 import com.wade.decompiler.classfile.FieldOrMethod;
 import com.wade.decompiler.classfile.attribute.Attribute;
 import com.wade.decompiler.classfile.attribute.ConstantValue;
@@ -7,12 +9,11 @@ import com.wade.decompiler.classfile.attribute.Signature;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.generate.attribute.ConstantValueGen;
 import com.wade.decompiler.generate.attribute.SignatureGen;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.io.IOException;
 
 @Setter
 @Getter

@@ -4,44 +4,26 @@ import com.wade.decompiler.classfile.attribute.InnerClass;
 import com.wade.decompiler.classfile.attribute.InnerClasses;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 
-import java.util.Arrays;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
+import java.util.ArrayList;
+import java.util.List;
+
+@Setter
+@Getter
+@ToString(callSuper = true, includeFieldNames = true)
+@EqualsAndHashCode(callSuper = false)
 public class InnerClassesGen extends AttributeGen {
-    private InnerClassGen[] innerClasses;
+    private List<InnerClassGen> innerClasses;
 
     public InnerClassesGen(InnerClasses attribute, ConstantPool constantPool) {
         super(attribute, constantPool);
-        InnerClass[] innerClasses = attribute.getInnerClasses();
-        this.innerClasses = new InnerClassGen[innerClasses.length];
-        for (int i = 0; i < innerClasses.length; i++) {
-            this.innerClasses[i] = new InnerClassGen(innerClasses[i], constantPool);
+        innerClasses = new ArrayList<>();
+        for (InnerClass entry : attribute.getInnerClasses()) {
+            innerClasses.add(new InnerClassGen(entry, constantPool));
         }
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-        InnerClassesGen other = (InnerClassesGen) obj;
-        if (!Arrays.equals(innerClasses, other.innerClasses)) return false;
-        return true;
-    }
-
-    public InnerClassGen[] getInnerClasses() {
-        return innerClasses;
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + Arrays.hashCode(innerClasses);
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "InnerClassesGen [innerClasses=" + Arrays.toString(innerClasses) + "]";
     }
 }

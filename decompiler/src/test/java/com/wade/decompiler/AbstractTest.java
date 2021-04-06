@@ -2,6 +2,7 @@ package com.wade.decompiler;
 
 import com.wade.decompiler.classfile.JavaClass;
 import com.wade.decompiler.repository.SyntheticRepository;
+
 import nl.jqno.equalsverifier.EqualsVerifier;
 
 public abstract class AbstractTest {

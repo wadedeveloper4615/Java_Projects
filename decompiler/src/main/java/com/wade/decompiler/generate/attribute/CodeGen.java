@@ -6,7 +6,6 @@ import com.wade.decompiler.classfile.attribute.CodeException;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.instructions.base.Instruction;
 import com.wade.decompiler.classfile.instructions.base.InstructionList;
-import com.wade.decompiler.decompiler.DecompileInstructions;
 import com.wade.decompiler.decompiler.InstructionInfoExtract;
 import com.wade.decompiler.generate.instructions.InstructionGen;
 import lombok.EqualsAndHashCode;
@@ -26,34 +25,44 @@ public class CodeGen extends AttributeGen {
     private int maxStack;
     private int maxLocals;
     private int codeSize;
-    private Instruction[] instructions;
-    private AttributeGen[] attributes;
-    private CodeException[] codeException;
+    @ToString.Exclude
+    private StackMapGen stackMap;
+    private List<CodeException> codeException;
+    @ToString.Exclude
     private LineNumberTableGen lineNumberTable;
+    @ToString.Exclude
     private LocalVariableTableGen localVariableTable;
+    @ToString.Exclude
     private List<InstructionGen> instructionExtracted = new ArrayList<>();
+    @ToString.Exclude
+    private Instruction[] instructions;
+    @ToString.Exclude
     private List<String> instructionDecompiled;
+    private List<AttributeGen> attributes;
 
-    public CodeGen(Code attribute, ConstantPool constantPool) throws IOException {
-        super(attribute, constantPool);
-        this.maxStack = attribute.getMaxStack();
-        this.maxLocals = attribute.getMaxLocals();
-        this.codeException = attribute.getExceptionTable();
-        this.codeSize = attribute.getByteCode().length;
-        Attribute[] attributes = attribute.getAttributes();
-        this.attributes = new AttributeGen[attributes.length];
-        for (int i = 0; i < attributes.length; i++) {
-            this.attributes[i] = AttributeGen.readAttribute(attributes[i], constantPool);
-            if (this.attributes[i] instanceof LineNumberTableGen) {
-                lineNumberTable = (LineNumberTableGen) this.attributes[i];
+    public CodeGen(Code code, ConstantPool constantPool) throws IOException {
+        super(code, constantPool);
+        this.maxStack = code.getMaxStack();
+        this.maxLocals = code.getMaxLocals();
+        this.codeException = code.getExceptionTable();
+        this.codeSize = code.getByteCode().length;
+        List<Attribute> attributes = code.getAttributes();
+        this.attributes = new ArrayList<>();
+        for (Attribute entry : attributes) {
+            AttributeGen attribute = AttributeGen.readAttribute(entry, constantPool);
+            if (attribute instanceof LineNumberTableGen) {
+                lineNumberTable = (LineNumberTableGen) attributes;
             }
-            if (this.attributes[i] instanceof LocalVariableTableGen) {
-                localVariableTable = (LocalVariableTableGen) this.attributes[i];
+            if (attribute instanceof LocalVariableTableGen) {
+                localVariableTable = (LocalVariableTableGen) attribute;
+            }
+            if (attributes instanceof StackMapGen) {
+                stackMap = (StackMapGen) attributes;
             }
         }
-        this.instructions = new InstructionList(attribute.getByteCode(), localVariableTable, constantPool).getInstructions();
+        this.instructions = new InstructionList(code.getByteCode(), localVariableTable, constantPool).getInstructions();
         this.instructionExtracted = new InstructionInfoExtract(instructions).getInstructionsExtracted();
-        this.instructionDecompiled = new DecompileInstructions(instructionExtracted).getInstructionDecompiled();
+        this.instructionDecompiled = null;//new DecompileInstructions(instructionExtracted).getInstructionDecompiled();
     }
 
 }

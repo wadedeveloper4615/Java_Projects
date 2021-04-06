@@ -1,47 +1,30 @@
 package com.wade.decompiler.generate.attribute;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import com.wade.decompiler.classfile.attribute.LineNumber;
 import com.wade.decompiler.classfile.attribute.LineNumberTable;
 import com.wade.decompiler.classfile.constant.ConstantPool;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-import java.util.Arrays;
-
+@Setter
+@Getter
+@ToString(callSuper = true, includeFieldNames = true)
+@EqualsAndHashCode(callSuper = false)
 public class LineNumberTableGen extends AttributeGen {
-    private LineNumberGen[] lineNumberTable;
+    private List<LineNumberGen> lineNumberTable;
 
     public LineNumberTableGen(LineNumberTable attribute, ConstantPool constantPool) {
         super(attribute, constantPool);
-        LineNumber[] lineNumberTable = attribute.getLineNumberTable();
-        this.lineNumberTable = new LineNumberGen[lineNumberTable.length];
-        for (int i = 0; i < lineNumberTable.length; i++) {
-            this.lineNumberTable[i] = new LineNumberGen(lineNumberTable[i]);
+        List<LineNumber> lineNumberTable = attribute.getLineNumberTable();
+        this.lineNumberTable = new ArrayList<>();
+        for (LineNumber entry : attribute.getLineNumberTable()) {
+            this.lineNumberTable.add(new LineNumberGen(entry));
         }
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-        LineNumberTableGen other = (LineNumberTableGen) obj;
-        if (!Arrays.equals(lineNumberTable, other.lineNumberTable)) return false;
-        return true;
-    }
-
-    public LineNumberGen[] getLineNumberTable() {
-        return lineNumberTable;
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + Arrays.hashCode(lineNumberTable);
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "LineNumberTableGen [lineNumberTable=" + Arrays.toString(lineNumberTable) + "]";
     }
 }

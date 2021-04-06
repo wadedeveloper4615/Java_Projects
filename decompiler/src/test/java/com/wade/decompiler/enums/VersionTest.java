@@ -1,8 +1,8 @@
 package com.wade.decompiler.enums;
 
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
 
 class VersionTest {
     @Test

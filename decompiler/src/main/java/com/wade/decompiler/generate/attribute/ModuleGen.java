@@ -1,12 +1,15 @@
 package com.wade.decompiler.generate.attribute;
 
+import java.util.Arrays;
+
 import com.wade.decompiler.classfile.attribute.Module;
-import com.wade.decompiler.classfile.attribute.*;
+import com.wade.decompiler.classfile.attribute.ModuleExports;
+import com.wade.decompiler.classfile.attribute.ModuleOpens;
+import com.wade.decompiler.classfile.attribute.ModuleProvides;
+import com.wade.decompiler.classfile.attribute.ModuleRequires;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.ClassAccessFlagsList;
 import com.wade.decompiler.enums.ClassFileConstants;
-
-import java.util.Arrays;
 
 public class ModuleGen extends AttributeGen {
     private String moduleName;

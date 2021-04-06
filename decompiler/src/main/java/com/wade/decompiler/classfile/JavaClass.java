@@ -26,7 +26,7 @@ public class JavaClass {
     private Version version;
     private ClassAccessFlagsList accessFlags;
     private ConstantPool constantPool;
-    private int[] interfaces;
+    private List<Integer> interfaces;
     private List<Field> fields;
     private List<Method> methods;
     private List<Attribute> attributes;
@@ -35,7 +35,7 @@ public class JavaClass {
     public JavaClass() {
     }
 
-    public JavaClass(int classNameIndex, int superclassNameIndex, String fileName, Version version, ClassAccessFlagsList accessFlags, ConstantPool constantPool, int[] interfaces, List<Field> fields, List<Method> methods, List<Attribute> attributes) {
+    public JavaClass(int classNameIndex, int superclassNameIndex, String fileName, Version version, ClassAccessFlagsList accessFlags, ConstantPool constantPool, List<Integer> interfaces, List<Field> fields, List<Method> methods, List<Attribute> attributes) {
         this.classNameIndex = classNameIndex;
         this.superclassNameIndex = superclassNameIndex;
         this.fileName = fileName;

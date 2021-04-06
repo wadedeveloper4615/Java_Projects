@@ -1,13 +1,9 @@
 package com.wade.decompiler.generate;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.wade.decompiler.classfile.Field;
 import com.wade.decompiler.classfile.JavaClass;
-import com.wade.decompiler.classfile.Method;
-import com.wade.decompiler.classfile.attribute.Attribute;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.ClassAccessFlagsList;
 import com.wade.decompiler.enums.ClassFileConstants;
@@ -29,13 +25,13 @@ public class JavaClassGen {
     private String filename;
     private Version version;
     private ClassAccessFlagsList accessFlags;
-    private String[] interfaceNames;
+    private List<String> interfaceNames;
     private List<FieldGen> fields;
     private List<MethodGen> methods;
     private List<AttributeGen> attributes;
     private ConstantPool constantPool;
 
-    public JavaClassGen(JavaClass javaClass) throws IOException {
+    public JavaClassGen(JavaClass javaClass) throws Exception {
         this.constantPool = javaClass.getConstantPool();
         this.className = constantPool.constantToString(javaClass.getClassNameIndex(), ClassFileConstants.CONSTANT_Class);
         if (javaClass.getSuperclassNameIndex() != 0) {
@@ -47,25 +43,16 @@ public class JavaClassGen {
         this.version = javaClass.getVersion();
         this.accessFlags = javaClass.getAccessFlags();
 
-        int[] interfaces = javaClass.getInterfaces();
-        this.interfaceNames = new String[interfaces.length];
-        for (int i = 0; i < interfaces.length; i++) {
-            this.interfaceNames[i] = constantPool.constantToString(interfaces[i], ClassFileConstants.CONSTANT_Class);
-        }
+        this.interfaceNames = new ArrayList<>();
+        javaClass.getInterfaces().stream().forEach(interfaceNameIndex -> this.interfaceNames.add(constantPool.constantToString(interfaceNameIndex, ClassFileConstants.CONSTANT_Class)));
 
         this.fields = new ArrayList<>();
-        for (Field entry : javaClass.getFields()) {
-            this.fields.add(new FieldGen(entry, constantPool));
-        }
+        javaClass.getFields().stream().forEach(field -> this.fields.add(new FieldGen(field, constantPool)));
 
         this.methods = new ArrayList<>();
-        for (Method entry : javaClass.getMethods()) {
-            this.methods.add(new MethodGen(entry, constantPool));
-        }
+        javaClass.getMethods().stream().forEach(method -> this.methods.add(new MethodGen(method, constantPool)));
 
         this.attributes = new ArrayList<>();
-        for (Attribute entry : javaClass.getAttributes()) {
-            this.attributes.add(new AttributeGen(entry, constantPool));
-        }
+        javaClass.getAttributes().stream().forEach(method -> this.attributes.add(new AttributeGen(method, constantPool)));
     }
 }

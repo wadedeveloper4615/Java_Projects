@@ -1,12 +1,12 @@
 package com.wade.decompiler;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 import com.wade.decompiler.classfile.ClassParser;
 import com.wade.decompiler.classfile.JavaClass;
 import com.wade.decompiler.decompiler.JavaClassFileDecompiler;
 import com.wade.decompiler.generate.JavaClassGen;
-
-import java.io.IOException;
-import java.io.InputStream;
 
 public class Decompiler {
     public static void main(String[] argv) {

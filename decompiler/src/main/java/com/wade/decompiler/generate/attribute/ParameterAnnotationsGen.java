@@ -1,10 +1,10 @@
 package com.wade.decompiler.generate.attribute;
 
+import java.util.Arrays;
+
 import com.wade.decompiler.classfile.attribute.ParameterAnnotationEntry;
 import com.wade.decompiler.classfile.attribute.ParameterAnnotations;
 import com.wade.decompiler.classfile.constant.ConstantPool;
-
-import java.util.Arrays;
 
 public class ParameterAnnotationsGen extends AttributeGen {
     private ParameterAnnotationEntryGen[] parameterAnnotationTable;

@@ -1,10 +1,10 @@
 package com.wade.decompiler.generate.attribute;
 
+import java.util.Arrays;
+
 import com.wade.decompiler.classfile.attribute.LocalVariable;
 import com.wade.decompiler.classfile.attribute.LocalVariableTable;
 import com.wade.decompiler.classfile.constant.ConstantPool;
-
-import java.util.Arrays;
 
 public class LocalVariableTableGen extends AttributeGen {
     private LocalVariableGen[] localVariableTable;

@@ -1,10 +1,10 @@
 package com.wade.decompiler.generate.attribute;
 
+import java.util.Arrays;
+
 import com.wade.decompiler.classfile.attribute.NestMembers;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.ClassFileConstants;
-
-import java.util.Arrays;
 
 public class NestMembersGen extends AttributeGen {
     private String[] names;

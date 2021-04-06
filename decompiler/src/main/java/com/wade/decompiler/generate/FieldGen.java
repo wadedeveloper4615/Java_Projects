@@ -7,12 +7,11 @@ import com.wade.decompiler.classfile.attribute.Signature;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.generate.attribute.ConstantValueGen;
 import com.wade.decompiler.generate.attribute.SignatureGen;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.io.IOException;
 
 @Setter
 @Getter
@@ -22,7 +21,7 @@ public class FieldGen extends FieldOrMethodGen {
     private ConstantValueGen constant;
     private SignatureGen typeSignature;
 
-    public FieldGen(FieldOrMethod value, ConstantPool constantPool) throws IOException {
+    public FieldGen(FieldOrMethod value, ConstantPool constantPool)  {
         super(value, constantPool);
         constant = null;
         typeSignature = null;

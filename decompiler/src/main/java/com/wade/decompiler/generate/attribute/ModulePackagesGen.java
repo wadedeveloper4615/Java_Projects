@@ -1,10 +1,10 @@
 package com.wade.decompiler.generate.attribute;
 
+import java.util.Arrays;
+
 import com.wade.decompiler.classfile.attribute.ModulePackages;
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.enums.ClassFileConstants;
-
-import java.util.Arrays;
 
 public class ModulePackagesGen extends AttributeGen {
     private String[] packageIndexNames;

@@ -1,10 +1,10 @@
 package com.wade.decompiler.generate.attribute;
 
+import java.util.Arrays;
+
 import com.wade.decompiler.classfile.constant.ConstantPool;
 import com.wade.decompiler.classfile.element.ArrayElementValue;
 import com.wade.decompiler.classfile.element.ElementValue;
-
-import java.util.Arrays;
 
 public class ArrayElementValueGen extends ElementValueGen {
     private ElementValueGen[] value;

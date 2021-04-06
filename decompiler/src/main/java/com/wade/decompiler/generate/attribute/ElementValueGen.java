@@ -1,7 +1,12 @@
 package com.wade.decompiler.generate.attribute;
 
 import com.wade.decompiler.classfile.constant.ConstantPool;
-import com.wade.decompiler.classfile.element.*;
+import com.wade.decompiler.classfile.element.AnnotationElementValue;
+import com.wade.decompiler.classfile.element.ArrayElementValue;
+import com.wade.decompiler.classfile.element.ClassElementValue;
+import com.wade.decompiler.classfile.element.ElementValue;
+import com.wade.decompiler.classfile.element.EnumElementValue;
+import com.wade.decompiler.classfile.element.SimpleElementValue;
 
 public class ElementValueGen {
     public static final byte STRING = 's';

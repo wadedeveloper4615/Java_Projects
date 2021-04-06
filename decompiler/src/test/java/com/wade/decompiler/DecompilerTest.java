@@ -142,7 +142,7 @@ class DecompilerTest extends AbstractTest {
         JavaClassGen gen = new JavaClassGen(clazz);
         List<MethodGen> methods = gen.getMethods();
         List<FieldGen> fields = gen.getFields();
-        String[] interfaces = gen.getInterfaceNames();
+        List<String> interfaces = gen.getInterfaceNames();
         ConstantPool constantPool = gen.getConstantPool();
         Constant[] constantPoolArray = constantPool.getConstantPool();
 
@@ -153,7 +153,7 @@ class DecompilerTest extends AbstractTest {
         assertNotNull(methods);
         assertEquals(2, methods.size());
         assertEquals(15, fields.size());
-        assertEquals(1, interfaces.length);
+        assertEquals(1, interfaces.size());
         assertNotNull(methods.get(0));
         assertNotNull(methods.get(0).toString());
         assertNotNull(methods.get(0).hashCode());

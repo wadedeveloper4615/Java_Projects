@@ -1,18 +1,20 @@
 package com.wade.decompiler.classfile;
 
+import java.io.DataInput;
+import java.io.IOException;
+
 import com.wade.decompiler.classfile.attribute.Attribute;
 import com.wade.decompiler.classfile.constant.ConstantPool;
+
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.io.DataInput;
-import java.io.IOException;
-import java.util.Arrays;
-
 @Setter
 @Getter
-@ToString(callSuper = false, includeFieldNames = true)
+@ToString(callSuper = true, includeFieldNames = true)
+@EqualsAndHashCode(callSuper = false)
 public abstract class FieldOrMethod {
     protected int nameIndex;
     protected int signatureIndex;
@@ -37,29 +39,5 @@ public abstract class FieldOrMethod {
         this.nameIndex = nameIndex;
         this.signatureIndex = signatureIndex;
         this.attributes = attributes;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-        FieldOrMethod other = (FieldOrMethod) obj;
-        if (accessFlags != other.accessFlags) return false;
-        if (!Arrays.equals(attributes, other.attributes)) return false;
-        if (nameIndex != other.nameIndex) return false;
-        if (signatureIndex != other.signatureIndex) return false;
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + accessFlags;
-        result = prime * result + Arrays.hashCode(attributes);
-        result = prime * result + nameIndex;
-        result = prime * result + signatureIndex;
-        return result;
     }
 }

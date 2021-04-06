@@ -1,10 +1,10 @@
 package com.wade.decompiler.generate.attribute;
 
-import com.wade.decompiler.classfile.attribute.AnnotationEntry;
-import com.wade.decompiler.classfile.constant.ConstantPool;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import com.wade.decompiler.classfile.attribute.AnnotationEntry;
+import com.wade.decompiler.classfile.constant.ConstantPool;
 
 public class AnnotationEntryGen {
     private List<ElementValuePairGen> elementValuePairs;

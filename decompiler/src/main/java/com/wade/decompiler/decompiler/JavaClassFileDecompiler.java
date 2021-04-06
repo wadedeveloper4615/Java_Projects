@@ -35,12 +35,12 @@ public class JavaClassFileDecompiler {
         String type = Utility.classType(accessFlags);
         String access = Utility.accessToString(accessFlags, true);
         String fileBase = String.format("%s %s %s extends %s", access, type, jgen.getClassName(), jgen.getSuperClassName());
-        String[] interfaceNames = jgen.getInterfaceNames();
-        int size = interfaceNames.length;
+        List<String> interfaceNames = jgen.getInterfaceNames();
+        int size = interfaceNames.size();
         if (size > 0) {
             fileBase += " implements ";
             for (int i = 0; i < size; i++) {
-                fileBase += interfaceNames[i];
+                fileBase += interfaceNames.get(i);
                 if (i < size - 1) {
                     fileBase += ", ";
                 }

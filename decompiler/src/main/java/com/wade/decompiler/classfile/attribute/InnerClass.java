@@ -1,13 +1,14 @@
 package com.wade.decompiler.classfile.attribute;
 
+import java.io.DataInput;
+import java.io.IOException;
+
 import com.wade.decompiler.enums.ClassAccessFlagsList;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.io.DataInput;
-import java.io.IOException;
 
 @Setter
 @Getter

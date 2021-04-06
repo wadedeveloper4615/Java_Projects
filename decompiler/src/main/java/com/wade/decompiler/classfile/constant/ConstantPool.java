@@ -1,15 +1,16 @@
 package com.wade.decompiler.classfile.constant;
 
+import java.io.DataInput;
+import java.io.IOException;
+
 import com.wade.decompiler.classfile.exceptions.ClassFormatException;
 import com.wade.decompiler.constants.Const;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.util.Utility;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.io.DataInput;
-import java.io.IOException;
 
 @Setter
 @Getter

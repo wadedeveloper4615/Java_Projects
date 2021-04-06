@@ -1,11 +1,11 @@
 package com.wade.decompiler.constants;
 
+import java.util.Arrays;
+import java.util.Collections;
+
 import com.wade.decompiler.enums.ClassAccessFlags;
 import com.wade.decompiler.enums.InstructionOpCodes;
 import com.wade.decompiler.enums.Version;
-
-import java.util.Arrays;
-import java.util.Collections;
 
 //@formatter:off
 //@formatter:off

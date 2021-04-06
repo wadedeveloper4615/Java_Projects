@@ -1,10 +1,10 @@
 package com.wade.decompiler.generate.attribute;
 
+import java.util.Arrays;
+
 import com.wade.decompiler.classfile.attribute.LineNumber;
 import com.wade.decompiler.classfile.attribute.LineNumberTable;
 import com.wade.decompiler.classfile.constant.ConstantPool;
-
-import java.util.Arrays;
 
 public class LineNumberTableGen extends AttributeGen {
     private LineNumberGen[] lineNumberTable;

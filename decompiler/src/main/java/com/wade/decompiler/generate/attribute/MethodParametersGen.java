@@ -1,10 +1,10 @@
 package com.wade.decompiler.generate.attribute;
 
+import java.util.Arrays;
+
 import com.wade.decompiler.classfile.attribute.MethodParameter;
 import com.wade.decompiler.classfile.attribute.MethodParameters;
 import com.wade.decompiler.classfile.constant.ConstantPool;
-
-import java.util.Arrays;
 
 public class MethodParametersGen extends AttributeGen {
     private MethodParameterGen[] parameters;

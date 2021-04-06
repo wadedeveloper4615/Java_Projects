@@ -3,6 +3,7 @@ package com.wade.decompiler.classfile.instructions.type;
 import com.wade.decompiler.classfile.exceptions.ClassGenException;
 import com.wade.decompiler.constants.Const;
 import com.wade.decompiler.enums.TypeEnum;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

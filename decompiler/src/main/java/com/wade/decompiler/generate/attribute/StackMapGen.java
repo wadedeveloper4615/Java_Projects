@@ -1,10 +1,10 @@
 package com.wade.decompiler.generate.attribute;
 
+import java.util.Arrays;
+
 import com.wade.decompiler.classfile.attribute.StackMap;
 import com.wade.decompiler.classfile.attribute.StackMapEntry;
 import com.wade.decompiler.classfile.constant.ConstantPool;
-
-import java.util.Arrays;
 
 public class StackMapGen extends AttributeGen {
     private StackMapEntryGen[] map;

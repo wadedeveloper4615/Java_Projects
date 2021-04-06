@@ -7,12 +7,11 @@ import com.wade.decompiler.classfile.constant.ConstantUtf8;
 import com.wade.decompiler.enums.ClassAccessFlagsList;
 import com.wade.decompiler.enums.ClassFileConstants;
 import com.wade.decompiler.generate.attribute.AttributeGen;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.io.IOException;
 
 @Setter
 @Getter
@@ -24,7 +23,7 @@ public class FieldOrMethodGen {
     protected ClassAccessFlagsList accessFlags;
     protected AttributeGen[] attributes;
 
-    public FieldOrMethodGen(FieldOrMethod value, ConstantPool constantPool) throws IOException {
+    public FieldOrMethodGen(FieldOrMethod value, ConstantPool constantPool) {
         this.name = ((ConstantUtf8) constantPool.getConstant(value.getNameIndex(), ClassFileConstants.CONSTANT_Utf8)).getBytes();
         this.signature = ((ConstantUtf8) constantPool.getConstant(value.getSignatureIndex(), ClassFileConstants.CONSTANT_Utf8)).getBytes();
         this.accessFlags = new ClassAccessFlagsList(value.getAccessFlags());

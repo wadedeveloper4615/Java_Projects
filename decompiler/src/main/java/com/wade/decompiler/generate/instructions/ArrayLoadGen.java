@@ -1,11 +1,19 @@
 package com.wade.decompiler.generate.instructions;
 
-import com.wade.decompiler.classfile.instructions.*;
+import com.wade.decompiler.classfile.instructions.AALOAD;
+import com.wade.decompiler.classfile.instructions.BALOAD;
+import com.wade.decompiler.classfile.instructions.CALOAD;
+import com.wade.decompiler.classfile.instructions.DALOAD;
+import com.wade.decompiler.classfile.instructions.FALOAD;
+import com.wade.decompiler.classfile.instructions.IALOAD;
+import com.wade.decompiler.classfile.instructions.LALOAD;
+import com.wade.decompiler.classfile.instructions.SALOAD;
 import com.wade.decompiler.classfile.instructions.type.Type;
 import com.wade.decompiler.decompiler.Expression;
 import com.wade.decompiler.decompiler.ExpressionStack;
 import com.wade.decompiler.decompiler.ExpressionType;
 import com.wade.decompiler.enums.InstructionOpCodes;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

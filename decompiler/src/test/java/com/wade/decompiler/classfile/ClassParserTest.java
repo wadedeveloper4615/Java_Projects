@@ -243,7 +243,7 @@ class ClassParserTest {
         ClassParser parser = new ClassParser();
         parser.readInterfaces(inputStream);
         assertNotNull(parser.getInterfaces());
-        assertEquals(1, parser.getInterfaces().length);
+        assertEquals(1, parser.getInterfaces().size());
     }
 
     @Test

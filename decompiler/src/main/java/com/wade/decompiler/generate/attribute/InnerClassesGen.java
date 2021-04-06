@@ -1,10 +1,10 @@
 package com.wade.decompiler.generate.attribute;
 
+import java.util.Arrays;
+
 import com.wade.decompiler.classfile.attribute.InnerClass;
 import com.wade.decompiler.classfile.attribute.InnerClasses;
 import com.wade.decompiler.classfile.constant.ConstantPool;
-
-import java.util.Arrays;
 
 public class InnerClassesGen extends AttributeGen {
     private InnerClassGen[] innerClasses;

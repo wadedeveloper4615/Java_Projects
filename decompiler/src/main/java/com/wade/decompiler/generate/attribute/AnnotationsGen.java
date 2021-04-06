@@ -1,10 +1,10 @@
 package com.wade.decompiler.generate.attribute;
 
+import java.util.Arrays;
+
 import com.wade.decompiler.classfile.attribute.AnnotationEntry;
 import com.wade.decompiler.classfile.attribute.Annotations;
 import com.wade.decompiler.classfile.constant.ConstantPool;
-
-import java.util.Arrays;
 
 public class AnnotationsGen extends AttributeGen {
     private boolean isRuntimeVisible;

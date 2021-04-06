@@ -1,13 +1,14 @@
 package com.wade.decompiler.classfile.element;
 
+import java.io.DataInput;
+import java.io.IOException;
+
 import com.wade.decompiler.classfile.attribute.AnnotationEntry;
 import com.wade.decompiler.classfile.constant.ConstantPool;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.io.DataInput;
-import java.io.IOException;
 
 @Setter
 @Getter

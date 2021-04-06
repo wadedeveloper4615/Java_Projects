@@ -35,7 +35,7 @@ public class ClassParser {
     private int classNameIndex;
     private int superclassNameIndex;
     private ClassAccessFlagsList accessFlags;
-    private int[] interfaces;
+    private List<Integer> interfaces;
     private ConstantPool constantPool;
     private List<Field> fields;
     private List<Method> methods;
@@ -137,9 +137,9 @@ public class ClassParser {
 
     protected void readInterfaces(DataInput inputStream) throws IOException, ClassFormatException {
         int interfaces_count = inputStream.readUnsignedShort();
-        interfaces = new int[interfaces_count];
+        interfaces = new ArrayList<>();
         for (int i = 0; i < interfaces_count; i++) {
-            interfaces[i] = inputStream.readUnsignedShort();
+            interfaces.add(inputStream.readUnsignedShort());
         }
     }
 
